@@ -11,19 +11,39 @@ python3 - <<'PY'
 import io, re, sys
 
 def packages_in(script):
-    """收集脚本里所有 apt-get install 的目标包（含反斜杠续行）。"""
+    """收集脚本里所有会被 apt 安装的目标包（含反斜杠续行）。
+
+    识别两种形态：
+      1. apt-get install [-y] pkg1 pkg2
+      2. install_group "人类可读标签" pkg1 pkg2      <- install-deps.sh 现在用它分组安装
+
+    第 2 种是后加的：把全部包塞进一条 apt-get 时，任一不可解析的依赖会让
+    整次安装失败且什么都不装，因此改为分组安装并逐组报告。
+    但**只更新安装脚本、忘了同步这个解析器**，结果是它报"提供 0 个包"、
+    把所有依赖都判成缺失 —— 检查器本身成了假警报来源。
+    标签一定要先剔除：它含中文、全角括号与斜杠，不是包名，
+    若按 token 一起取进来会污染集合（例如把 clang-format 从标签里认成包名）。
+    """
     text = io.open(script, encoding="utf-8").read()
     # 先把续行拼成单行
     text = re.sub(r"\\\n\s*", " ", text)
     pkgs = set()
     for line in text.split("\n"):
         s = line.strip()
-        if not re.match(r"^apt-get\s+install\b", s):
-            continue
         if s.startswith("#"):
             continue
-        # 去掉 apt-get install -y 前缀与行尾注释
-        body = re.sub(r"^apt-get\s+install\s+(-[a-zA-Z]+\s+)*", "", s)
+        body = ""
+        if re.match(r"^apt-get\s+install\b", s):
+            # 去掉 apt-get install -y 前缀
+            body = re.sub(r"^apt-get\s+install\s+(-[a-zA-Z]+\s+)*", "", s)
+        elif re.match(r"^install_group\b", s):
+            # 去掉 install_group 与它后面的第一个引号参数（标签）
+            body = re.sub(r'^install_group\s+"[^"]*"\s*', "", s)
+            if body == s:
+                # 标签未加引号时退化为去掉首个 token，避免整行被吞
+                body = re.sub(r"^install_group\s+\S+\s*", "", s)
+        else:
+            continue
         body = body.split("#")[0]
         for tok in body.split():
             if re.fullmatch(r"[a-z0-9][a-z0-9.+-]*", tok):
