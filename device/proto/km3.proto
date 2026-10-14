@@ -1,0 +1,191 @@
+syntax = "proto3";
+package km3.protocol;
+
+// 权威协议定义（见 docs/架构设计/通信协议规范.md §2）。
+// 该文件是设备端与前端之间的唯一契约；前端用 protobuf-javalite 生成 Kotlin 代码。
+
+enum MessageType {
+  // proto3 要求枚举首值为零。协议规范 §2.2 未定义该值，此处仅作占位，不上线。
+  UNKNOWN            = 0x0000;
+  HEARTBEAT          = 0x0001;
+  COMMAND            = 0x0100;
+  COMMAND_ACK        = 0x0101;
+  COMMAND_RESULT     = 0x0102;
+  ESTOP              = 0x0103;
+  STATUS_REPORT      = 0x0200;
+  SENSOR_DATA        = 0x0300;
+  CONFIG_GET         = 0x0500;
+  CONFIG_SET         = 0x0501;
+  CONFIG_RESPONSE    = 0x0502;
+  OTA_OFFER          = 0x0600;
+  OTA_PROGRESS       = 0x0601;
+  OTA_REPORT         = 0x0602;
+  OTA_ROLLBACK       = 0x0603;
+  TUNNEL_OPEN        = 0x0700;
+  TUNNEL_DATA        = 0x0701;
+  TUNNEL_CLOSE       = 0x0702;
+  LOG_BATCH          = 0x0800;
+  ERROR              = 0xFFFF;
+}
+
+// 帧头（14 字节，网络字节序），见协议规范 §2.1。
+// Length(4) | Type(2) | SeqNum(2) | CRC16(2) | Payload(N)
+message FrameHeader {
+  uint32 length  = 1;
+  uint32 type    = 2;
+  uint32 seq_num = 3;
+  uint32 crc16   = 4;
+}
+
+message Heartbeat { uint32 sequence = 1; }
+
+enum CommandType {
+  CMD_UNKNOWN        = 0;
+  CMD_CLIMB          = 1;
+  CMD_STOP           = 2;
+  CMD_SET_POSITION   = 3;
+  CMD_SET_THRUSTER   = 4;
+  CMD_SET_LIFT       = 5;
+  CMD_SET_BRUSH      = 6;   // 继电器通断，无调速
+  CMD_CONFIG_UPDATE  = 10;
+  CMD_REBOOT         = 30;
+}
+
+message Command {
+  string      command_id   = 1;   // UUIDv7，发起方生成
+  string      device_id    = 2;
+  CommandType type         = 3;
+  map<string, string> params = 4;
+  uint32      priority     = 5;   // 1..5，1 最高
+  uint32      timeout_ms   = 6;
+  uint64      ts_us        = 7;   // 墙上时钟微秒
+  string      signature    = 8;   // Ed25519 base64
+}
+
+message CommandAck {
+  string command_id = 1;
+  bool   accepted   = 2;
+  string error_code = 3;   // 使用协议规范 §六 枚举名
+}
+
+message CommandResult {
+  string command_id = 1;
+  bool   success    = 2;
+  string error_code = 3;
+  string message    = 4;
+  map<string, string> data = 5;
+}
+
+message StatusReport {
+  string device_id        = 1;
+  string firmware_version = 2;
+  string mode             = 3;
+  float  position_mm      = 4;
+  float  speed_mps        = 5;
+  float  voltage_24v      = 6;
+  float  voltage_48v      = 7;
+  int32  battery_percent  = 8;
+  float  temperature_c    = 9;
+  uint32 uptime_s         = 10;
+}
+
+message ImuData {
+  float roll = 1;  float pitch = 2;  float yaw = 3;
+  float acc_x = 4; float acc_y = 5;  float acc_z = 6;
+  float gyro_x = 7; float gyro_y = 8; float gyro_z = 9;
+}
+
+message ScalarSample {
+  string sensor_id = 1;
+  float  value     = 2;
+  int32  quality   = 3;
+  string unit      = 4;
+}
+
+message SensorData {
+  uint64 ts_us        = 1;
+  ImuData imu         = 2;
+  repeated ScalarSample ultrasonics = 3;  // KS114-V100，front/rear
+  repeated ScalarSample pressures   = 4;  // JC-102-RS485，front/middle/rear
+  repeated ScalarSample analog      = 5;  // 液压/水压变送器
+  float  temperature_c = 6;
+  float  humidity_pct  = 7;
+  uint32 schema_version = 15;
+}
+
+message ConfigGet  { string config_key = 1; }
+message ConfigSet  { string config_key = 1; string value_json = 2; }
+message ConfigResponse {
+  string config_key = 1;
+  bool   success    = 2;
+  string value_json = 3;
+  string error_code = 4;
+}
+
+message OtaOffer {
+  string deployment_id = 1;
+  string kind          = 2;   // "full" | "incremental"
+  string version       = 3;
+  string url           = 4;
+  uint64 size          = 5;
+  string sha256        = 6;
+  string signature     = 7;
+}
+message OtaProgress {
+  string deployment_id = 1;
+  uint32 progress      = 2;
+  string status        = 3;
+}
+message OtaReport {
+  string deployment_id = 1;
+  string status        = 2;
+  string error_code    = 3;
+}
+message OtaRollback { string target_version = 1; }
+
+message TunnelOpen  { uint32 tunnel_id = 1; string target = 2; string protocol_version = 3; }
+message TunnelData  { uint32 tunnel_id = 1; bytes payload = 2; }  // 内层为 JSON，G30 只转发
+message TunnelClose { uint32 tunnel_id = 1; string reason = 2; }
+
+enum LogLevel { LOG_TRACE = 0; LOG_DEBUG = 1; LOG_INFO = 2; LOG_WARN = 3; LOG_ERROR = 4; LOG_FATAL = 5; }
+
+message LogEntry {
+  uint64   ts_us   = 1;
+  LogLevel level   = 2;
+  string   module  = 3;
+  string   message = 4;
+  map<string, string> fields = 5;
+}
+message LogBatch { repeated LogEntry entries = 1; }
+
+message ErrorMessage {
+  string error_code = 1;   // 协议规范 §六 枚举名
+  string message    = 2;
+  map<string, string> context = 3;
+}
+
+message Message {
+  MessageType type      = 1;
+  string      id        = 2;   // 传输标识，UUIDv4
+  uint64      ts_us     = 3;
+  uint32      seq_num   = 4;
+  oneof payload {
+    Heartbeat      heartbeat       = 10;
+    Command        command         = 11;
+    CommandAck     command_ack     = 12;
+    CommandResult  command_result  = 13;
+    StatusReport   status          = 14;
+    SensorData     sensor_data     = 15;
+    ConfigGet      config_get      = 16;
+    ConfigSet      config_set      = 17;
+    ConfigResponse config_response = 18;
+    OtaOffer       ota_offer       = 19;
+    OtaProgress    ota_progress    = 20;
+    OtaReport      ota_report      = 21;
+    TunnelOpen     tunnel_open     = 22;
+    TunnelData     tunnel_data     = 23;
+    TunnelClose    tunnel_close    = 24;
+    LogBatch       log_batch       = 25;
+    ErrorMessage   error           = 26;
+  }
+}

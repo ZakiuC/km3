@@ -1,0 +1,27 @@
+# km3 C++ style — matches docs/架构设计/开发规范.md
+BasedOnStyle: LLVM
+Language: Cpp
+Standard: c++17
+
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+ColumnLimit: 100
+
+# 开发规范: 指针/引用符号靠类型 (int* p, const std::string& s)
+PointerAlignment: Left
+ReferenceAlignment: Pointer
+
+AccessModifierOffset: -4
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: true
+AlwaysBreakTemplateDeclarations: Yes
+BreakBeforeBraces: Attach
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+IncludeBlocks: Preserve
+SortIncludes: CaseSensitive
+NamespaceIndentation: None
+SpaceAfterTemplateKeyword: true
+SpacesBeforeTrailingComments: 2

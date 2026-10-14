@@ -1,0 +1,51 @@
+[Unit]
+Description=km3 CAN interface setup
+# DefaultDependencies=no：CAN 必须在实时控制进程之前就绪，不能等常规启动完成
+DefaultDependencies=no
+Before=km3-rt-controller.service
+After=sysinit.target
+Wants=sysinit.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+
+# 变量来源与优先级（顺序不能颠倒）：
+#   systemd 对同名变量是**后者覆盖前者**。因此默认值必须先写 Environment=，
+#   现场配置 EnvironmentFile= 放在**最后**，才能盖住默认值。
+#   早期版本把 EnvironmentFile 写在前面，结果 /etc/km3/can.env 里的现场速率
+#   被单元里写死的 500000 覆盖 —— 文件存在、改了却毫无效果，
+#   而文档 §5.2 明确要求"速率从配置读取，不要写死 500000"。
+Environment=CAN_BITRATE=500000
+# 值含空格，**必须加引号**：不加时 systemd 报
+# "Invalid environment assignment, ignoring: can1"，CAN_IFACES 只变成 "can0"，
+# 第二个接口静默消失（systemd-analyze verify 实测）。
+Environment="CAN_IFACES=can0 can1"
+
+# 现场参数放最后，优先级最高
+EnvironmentFile=-/etc/km3/can.env
+
+# 早期版本此单元只有 EnvironmentFile 而没有 ExecStart，systemd 会直接报
+# "Service has no ExecStart= setting" 并启动失败——即"配置了但从未生效"。
+#
+# 逐接口设置：接口不存在时只告警不失败。原因是设备树的 SPI-CAN 驱动名
+# 与接口编号需实机确认（文档 §5.2），把整单元搞成 failed 会连累
+# 依赖它的 km3-rt-controller 无法启动；而 CAN 缺失的影响面应被限制在这里。
+#
+# 用 /bin/sh -c 而非直接 ExecStart 多行：systemd 的单元文件不做流程控制，
+# 逐接口循环必须交给 shell。
+ExecStart=/bin/sh -c 'rc=0; for i in $CAN_IFACES; do \
+  if ip link show "$i" >/dev/null 2>&1; then \
+    ip link set "$i" down 2>/dev/null || true; \
+    ip link set "$i" type can bitrate "$CAN_BITRATE" 2>/dev/null \
+      && ip link set "$i" up \
+      && echo "[km3-can] $i up @ ${CAN_BITRATE}bps" \
+      || { echo "[km3-can] $i 配置失败（驱动/速率需确认）" >&2; rc=1; }; \
+  else \
+    echo "[km3-can] 接口 $i 不存在，跳过（设备树未确认时属预期）" >&2; \
+  fi; \
+done; exit $rc'
+ExecStop=/bin/sh -c 'for i in $CAN_IFACES; do ip link set "$i" down 2>/dev/null || true; done'
+
+[Install]
+WantedBy=basic.target

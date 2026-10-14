@@ -1,0 +1,29 @@
+[Unit]
+Description=km3 core (network, config, log, ota, collector)
+After=network-online.target km3-rt-controller.service
+Wants=network-online.target
+# 数据盘未挂载时拒绝启动，而不是悄悄写根分区
+RequiresMountsFor=/data
+
+    # 重启限速。**必须放在 [Unit]**：systemd 229 起这两个键从 [Service]
+    # 迁到 [Unit]，放错节只会打印 "Unknown key name ... ignoring" 并静默忽略，
+    # 表现为故障时被无限快速重启拖住（systemd-analyze verify 实测）。
+    StartLimitIntervalSec=60
+    StartLimitBurst=5
+
+[Service]
+Type=simple
+ExecStart=/opt/km3/current/km3-core
+Restart=on-failure
+RestartSec=3
+
+User=km3
+Group=km3
+CPUAffinity=0-3
+
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/data
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,129 @@
+name: ci
+
+on:
+  push:
+    branches: [develop, main]
+  pull_request:
+    branches: [develop, main]
+
+jobs:
+  device:
+    name: device (${{ matrix.sanitizer }})
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        sanitizer: [address, thread]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build g++-aarch64-linux-gnu \
+            libprotobuf-dev protobuf-compiler libspdlog-dev libfmt-dev \
+            nlohmann-json3-dev libsqlite3-dev libssl-dev libzmq3-dev
+      - name: Configure
+        run: >
+          cmake -S device -B build -G Ninja
+          -DCMAKE_TOOLCHAIN_FILE="$PWD/device/cmake/aarch64-linux-gnu.cmake"
+          -DCMAKE_BUILD_TYPE=Debug
+          -DKM3_SANITIZER=${{ matrix.sanitizer }}
+      - name: Build
+        run: cmake --build build -j
+      - name: Test
+        # TSan 在部分运行器上受 ASLR 影响，失败时用 setarch -R 重试一次
+        run: |
+          ctest --test-dir build --output-on-failure || \
+          (setarch -R ctest --test-dir build --output-on-failure)
+
+  server:
+    name: server (${{ matrix.sanitizer }})
+    runs-on: ubuntu-22.04
+    strategy:
+      fail-fast: false
+      matrix:
+        sanitizer: [address, thread]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build libboost-all-dev libpq-dev \
+            libpqxx-dev libsodium-dev libprotobuf-dev protobuf-compiler \
+            nlohmann-json3-dev libspdlog-dev libfmt-dev libssl-dev
+      - name: Configure
+        run: >
+          cmake -S server -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug
+          -DKM3_SANITIZER=${{ matrix.sanitizer }}
+      - name: Build
+        run: cmake --build build -j
+      - name: Test
+        run: |
+          ctest --test-dir build --output-on-failure || \
+          (setarch -R ctest --test-dir build --output-on-failure)
+
+  android:
+    name: android
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Check wrapper
+        id: wrapper
+        run: |
+          if [ -x android/gradlew ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::gradlew 尚未生成，跳过 Android 构建（见 android/README.md）"
+          fi
+      - name: Unit tests
+        if: steps.wrapper.outputs.present == 'true'
+        run: ./gradlew -p android :app:testDebugUnitTest
+
+  web:
+    name: web
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      # pnpm 版本不能低于 10：构建脚本白名单在 pnpm-workspace.yaml 中以
+      # `allowBuilds`（映射，布尔值）表达，pnpm 9 不识别该键，会以
+      # [ERR_PNPM_IGNORED_BUILDS] **非零退出**，使 install 这一步直接失败。
+      # 版本与本机验证过的一致（见 admin-web/README.md）。
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+      - uses: actions/setup-node@v4
+        with:
+          # Vite 5 要求 Node ≥18；用 20 与本机 24 的差异仅在 toolchain，
+          # 锁文件格式由 pnpm 决定，不受 Node 版本影响。
+          node-version: '20'
+          cache: pnpm
+          cache-dependency-path: admin-web/pnpm-lock.yaml
+      - name: Install
+        run: pnpm install --frozen-lockfile
+        working-directory: admin-web
+      - name: Typecheck
+        run: pnpm run typecheck
+        working-directory: admin-web
+      - name: Unit tests
+        run: pnpm run test:unit
+        working-directory: admin-web
+      - name: Build
+        # 类型检查通过不代表构建通过：.vue 单文件组件的模板编译有自己的错误面。
+        run: pnpm run build
+        working-directory: admin-web
+
+  docs:
+    name: docs
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check docs against the repository
+        # 唯一实现：tools/check-docs.sh。
+        # 校验 (1) markdown 引用可解析 (2) 设备端文档目录树中每个具名文件真实存在。
+        # 本地可执行 `bash tools/check-docs.sh` 得到完全相同的结果。
+        run: bash tools/check-docs.sh

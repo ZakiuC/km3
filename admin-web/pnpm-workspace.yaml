@@ -1,0 +1,16 @@
+# pnpm 10 起，这两项配置在 pnpm-workspace.yaml 中读取；
+# 放在 package.json 的 "pnpm" 字段会被忽略（安装时会打印警告）。
+#
+# 键名与形态经实测确认（pnpm 11.7.0）：
+#   allowBuilds           —— 映射，值为布尔。**这是生效的形式**
+#   onlyBuiltDependencies —— 列表，旧形式；同时存在时不生效
+# 因此这里只保留 allowBuilds。用列表形式会得到
+# [ERR_PNPM_IGNORED_BUILDS] 且安装**退出码非零**，
+# 而 CI 的第一步就是 `pnpm install --frozen-lockfile`，会直接挂掉。
+#
+# 为什么需要放行：pnpm 默认拦截依赖的 postinstall 脚本。esbuild 的 postinstall
+# 负责定位平台二进制，vue-demi 的负责按 vue 版本切换入口。
+# CI 无 TTY，无法执行 `pnpm approve-builds`，必须在此声明。
+allowBuilds:
+  esbuild: true
+  vue-demi: true

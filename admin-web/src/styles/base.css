@@ -1,0 +1,63 @@
+/* 管理后台基础样式。刻意保持极简：组件样式交给 Element Plus，
+   这里只处理布局骨架与"必须显眼"的元素（环境标识）。 */
+
+:root {
+  --km3-side-width: 200px;
+  --km3-env-demo: #409eff;
+  /* 生产环境用高饱和警示色。环境标识是安全相关元素，
+     它的颜色不应与主题色系混同。 */
+  --km3-env-prod: #d03050;
+}
+
+* { box-sizing: border-box; }
+
+html, body, #app { height: 100%; margin: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC',
+    'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  color: #303133;
+  background: #f5f7fa;
+}
+
+.shell { display: flex; flex-direction: column; height: 100%; }
+
+.body { display: flex; flex: 1; min-height: 0; }
+
+.side {
+  width: var(--km3-side-width);
+  flex: 0 0 var(--km3-side-width);
+  background: #fff;
+  border-right: 1px solid #e4e7ed;
+  overflow-y: auto;
+}
+
+.brand { padding: 16px; font-weight: 600; border-bottom: 1px solid #e4e7ed; }
+
+.main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #fff;
+  border-bottom: 1px solid #e4e7ed;
+}
+
+.who { display: inline-flex; align-items: center; gap: 8px; }
+
+.page { padding: 16px; overflow-y: auto; }
+
+.env-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  color: #fff;
+  font-size: 14px;
+}
+.env-banner.demo { background: var(--km3-env-demo); }
+.env-banner.prod { background: var(--km3-env-prod); }
+.env-banner.none { background: #909399; }
+.env-banner .spacer { flex: 1; }

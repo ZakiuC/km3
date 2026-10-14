@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 明文默认关闭。设备直连若走局域网 HTTP/TCP，需在此按域名或 IP 显式放行。 -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+</network-security-config>

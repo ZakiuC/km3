@@ -1,0 +1,41 @@
+{
+  "server": {
+    "listen": "0.0.0.0",
+    "port": 8080,
+    "api_prefix": "/api/v1",
+    "tls": {
+      "enabled": true,
+      "cert_file": "/etc/km3-server/tls/server.crt",
+      "key_file": "/etc/km3-server/tls/server.key"
+    }
+  },
+  "database": {
+    "postgres": {
+      "host": "127.0.0.1",
+      "port": 5432,
+      "user": "km3",
+      "dbname": "km3",
+      "max_connections": 8,
+      "password_env": "KM3_DB_PASSWORD"
+    }
+  },
+  "storage": {
+    "data_root": "/data",
+    "sensor_retention_days": 90,
+    "log_retention_days": 30
+  },
+  "firmware": {
+    "distribution_root": "/data/firmware",
+    "download_base_url": "https://api.example.com/firmware"
+  },
+  "limits": {
+    "max_command_queue": 1000,
+    "command_timeout_ms": 10000,
+    "frontend_wait_timeout_ms": 15000,
+    "rate_limit_per_min": 120
+  },
+  "notice": {
+    "_no_docker": "原生部署：systemd + nginx。不引入 Docker/Redis/InfluxDB/RabbitMQ",
+    "_session": "会话票据存 Postgres，不用 JWT；见服务器端程序架构.md §4.3"
+  }
+}

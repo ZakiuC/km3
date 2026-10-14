@@ -1,0 +1,33 @@
+[Unit]
+Description=km3 real-time controller
+# 需要 CAN 与串口就绪；数据盘不参与实时路径
+After=km3-can.service
+Wants=km3-can.service
+
+    # 重启限速。**必须放在 [Unit]**：systemd 229 起这两个键从 [Service]
+    # 迁到 [Unit]，放错节只会打印 "Unknown key name ... ignoring" 并静默忽略，
+    # 表现为故障时被无限快速重启拖住（systemd-analyze verify 实测）。
+    StartLimitIntervalSec=60
+    StartLimitBurst=5
+
+[Service]
+Type=simple
+ExecStart=/opt/km3/current/km3-rt-controller
+Restart=on-failure
+RestartSec=1
+
+# 实时调度与内存锁定：只授予需要它们的这个单元，而不是把程序变成 root
+User=km3
+Group=km3
+AmbientCapabilities=CAP_SYS_NICE CAP_IPC_LOCK
+LimitMEMLOCK=infinity
+CPUSchedulingPolicy=fifo
+CPUSchedulingPriority=90
+CPUAffinity=4-7
+
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/data
+
+[Install]
+WantedBy=multi-user.target

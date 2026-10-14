@@ -1,0 +1,17 @@
+# 追加到既有内核命令行的实时相关参数。见 device/deploy/platform/README.md。
+#
+# 追加，不是替换。当前命令行包含（实测）：
+#   storagemedia=emmc root=/dev/mmcblk0p6 console=ttyFIQ0
+#   irqchip.gicv3_pseudo_nmi=0 rcupdate.rcu_expedited=1 rcu_nocbs=all
+#
+# 注意：现命令行已有 rcu_nocbs=all，与下面的 rcu_nocbs=4-7 冲突。
+# 二选一：保留 rcu_nocbs=all，或改为 4-7 以缩小范围。未验证前不要两者并存。
+
+isolcpus=4-7
+nohz_full=4-7
+rcu_nocbs=4-7
+
+# 复核清单（重启后逐条确认）
+#   cat /proc/cmdline | tr ' ' '\n' | grep -E 'isolcpus|nohz_full|rcu_nocbs'
+#   cat /sys/devices/system/cpu/isolated          # 期望 4-7
+#   cat /proc/irq/*/smp_affinity_list             # 执行 irq-affinity.sh 后不应含 4-7

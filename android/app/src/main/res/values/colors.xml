@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 与 Compose 侧的深色主题背景一致。存在的唯一理由：
+         冷启动时先画的是**窗口背景**，Compose 尚未绘制；
+         两者不一致会在启动瞬间闪一下，深色界面上尤其明显。 -->
+    <color name="km3_window_background">#FF121212</color>
+</resources>

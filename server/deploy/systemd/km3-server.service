@@ -1,0 +1,23 @@
+[Unit]
+Description=km3 backend
+After=network-online.target postgresql.service
+Wants=network-online.target
+RequiresMountsFor=/data
+
+[Service]
+Type=simple
+ExecStart=/opt/km3-server/current/km3-server -config /etc/km3-server/config.json
+Restart=on-failure
+RestartSec=3
+# 避免无限快速重启掩盖配置错误
+StartLimitIntervalSec=60
+StartLimitBurst=5
+
+User=km3
+Group=km3
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/data
+
+[Install]
+WantedBy=multi-user.target

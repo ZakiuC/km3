@@ -1,0 +1,51 @@
+{
+  "device": {
+    "id": "wcr-REPLACE-001",
+    "name": "km3 robot",
+    "model": "wcr"
+  },
+  "network": {
+    "server_url": "wss://api.example.com/api/v1/device/ws",
+    "g30_ip": "192.168.1.100",
+    "g30_port": 8888,
+    "iface_uplink": "eth0",
+    "iface_g30": "eth1",
+    "heartbeat_interval_ms": 5000,
+    "watchdog_direct_us": 500000,
+    "watchdog_relay_us": 3000000
+  },
+  "storage": {
+    "data_root": "/data",
+    "log_retention_days": 30,
+    "sensor_data_retention_days": 30,
+    "recording_enabled": false,
+    "recording_root": "/data/recordings"
+  },
+  "bus": {
+    "rs485": [
+      { "logical": "rs485-1", "device": "/dev/ttyS3", "baudrate": 115200 },
+      { "logical": "rs485-2", "device": "/dev/ttyS5", "baudrate": 115200 }
+    ],
+    "rs485_usb": [
+      { "logical": "usb-rs485-1", "device": "/dev/ttyUSB0", "baudrate": 9600 },
+      { "logical": "usb-rs485-2", "device": "/dev/ttyUSB1", "baudrate": 9600 },
+      { "logical": "usb-rs485-3", "device": "/dev/ttyUSB2", "baudrate": 9600 },
+      { "logical": "usb-rs485-4", "device": "/dev/ttyUSB3", "baudrate": 9600 }
+    ],
+    "can": [
+      { "logical": "can-1", "iface": "can0", "bitrate": 500000, "protocol": "raw" },
+      { "logical": "can-2", "iface": "can1", "bitrate": 500000, "protocol": "canopen" }
+    ],
+    "usb_can": [
+      { "logical": "usb-can-1", "iface": "can2", "bitrate": 500000, "protocol": "canfd" }
+    ]
+  },
+  "video": {
+    "cameras": [],
+    "_note": "分辨率、帧率、格式、路数均未定案；实测 6 路摄像头当前未接入"
+  },
+  "time": {
+    "ntp_servers": ["ntp.aliyun.com"],
+    "require_sync_before_signed_ops": true
+  }
+}

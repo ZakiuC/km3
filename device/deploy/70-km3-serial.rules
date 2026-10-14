@@ -1,0 +1,8 @@
+# 按设备身份授予串口权限，不用 chmod 666 /dev/ttyS*
+# 映射（待接线后核对）：ttyS3 = RS485-1，ttyS5 = RS485-2，ttyS8/ttyS9 = RS422
+# USB-RS485 模块与 USB-CAN 模块按 VID/PID 匹配，避免枚举顺序变化导致权限错配
+KERNEL=="ttyS3", GROUP="km3", MODE="0660"
+KERNEL=="ttyS5", GROUP="km3", MODE="0660"
+KERNEL=="ttyS8", GROUP="km3", MODE="0660"
+KERNEL=="ttyS9", GROUP="km3", MODE="0660"
+SUBSYSTEM=="tty", KERNEL=="ttyUSB*", ATTRS{idVendor}=="1a86", GROUP="km3", MODE="0660"

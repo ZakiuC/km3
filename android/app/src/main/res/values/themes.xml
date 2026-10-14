@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 应用内主题由 Compose 自己负责（见 ui/theme），这里的 XML 主题
+         只决定**启动窗口**，即 Compose 首次绘制之前那一段。因此只关心两点：
+
+         1. 不要系统 ActionBar：否则会与 Compose 自己的顶栏叠出两条。
+         2. 窗口背景与 Compose 主题一致：否则冷启动会闪白屏。
+
+         为什么不用 Theme.Material3.DayNight：
+         那是 com.google.android.material（View 体系）提供的 XML 主题，
+         而本工程按 系统总体架构.md §4.3 不使用 View 体系，
+         因此没有该依赖，引用它会 AAPT 报 resource not found（实测）。
+         用平台自带的 Material 主题即可，无额外依赖。 -->
+    <style name="Theme.Km3" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/km3_window_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+</resources>

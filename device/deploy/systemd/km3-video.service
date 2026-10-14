@@ -1,0 +1,22 @@
+[Unit]
+Description=km3 video capture and encode
+After=km3-core.service
+RequiresMountsFor=/data
+
+[Service]
+Type=simple
+ExecStart=/opt/km3/current/km3-video
+Restart=on-failure
+RestartSec=3
+
+User=km3
+Group=km3
+# 视频与控制面做资源隔离：不与实时线程争大核
+CPUAffinity=0-3
+
+NoNewPrivileges=true
+ProtectSystem=strict
+ReadWritePaths=/data
+
+[Install]
+WantedBy=multi-user.target
