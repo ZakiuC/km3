@@ -251,4 +251,84 @@ KM3_TEST(cameras_are_absent_by_default_and_params_not_invented) {
     KM3_CHECK_EQ(r.value().cameras.size(), std::size_t{0});
 }
 
+// ===================== 结构与取值边界的加固（2026-10-14）=====================
+// 以下四组用例对应 config.cpp 的四处修复。它们的共同背景是：配置文件里写错的
+// 东西，必须在**加载期**变成一个可报告的错误码，既不能把进程打崩，也不能静默
+// 退化成"看起来正常"的配置——后者会让错误滑到现场，以"电机不动"这种最难反查
+// 的形式暴露。
+
+KM3_TEST(wrong_typed_section_is_reported_not_crashed) {
+  // 段存在但不是对象时，旧实现会让内层 .value() 抛 nlohmann type_error 并
+  // SIGABRT（视频段与总线段都实测过）。这与文件顶部"配置文件的错误应由
+  // ValidateConfig 统一报告，而不是在解析途中崩掉"的承诺直接矛盾。
+  // 现在必须返回一个错误码，而不是终止进程。
+  for (const char* bad : {"null", "[]", "\"x\"", "42", "true"}) {
+    const std::string j = WithField("\"bus\": {", std::string("\"bus\": ") + bad + ", \"bus_unused\": {");
+    auto r = LoadConfigText(j);
+    // 只要求"有结果、不崩"，且不允许它被当成合法配置放行
+    KM3_CHECK(!(r.ok() && ValidateConfig(r.value()).ok()));
+  }
+
+  // video 段在 BaseJson 里不存在，因此注入点选在 time 段之前
+  const std::string v = WithField("\"time\":", "\"video\": [], \"time\":");
+  auto r = LoadConfigText(v);
+  KM3_CHECK(!(r.ok() && ValidateConfig(r.value()).ok()));
+
+  // 正常对象仍通过
+  KM3_CHECK(Valid(BaseJson()));
+}
+
+KM3_TEST(wrong_typed_bus_subarray_is_reported) {
+  // 总线段的子数组类型写错（例如 "can" 写成对象而不是数组），同样必须报错。
+  // 静默退化的后果特别隐蔽：变成"零条总线"，而没有总线的配置能通过校验。
+  // BaseJson 的 bus 段没有 "can" 子数组，注入点选在 rs485 之前
+  const std::string j = WithField(
+      "\"rs485\":", "\"can\": { \"unused\": [] }, \"rs485\":");
+  auto r = LoadConfigText(j);
+  KM3_CHECK(!(r.ok() && ValidateConfig(r.value()).ok()));
+
+  // 子数组类型错写成字符串，同样必须报错
+  const std::string j2 = WithField(
+      "\"rs485\":", "\"can\": \"oops\", \"rs485\":");
+  auto r2 = LoadConfigText(j2);
+  KM3_CHECK(!(r2.ok() && ValidateConfig(r2.value()).ok()));
+}
+
+KM3_TEST(rejects_recording_root_sharing_a_string_prefix_but_not_a_path) {
+  // 规则本意是"录像目录必须位于数据盘之内"，否则会悄悄写到根分区
+  // （实测根分区仅剩 4.2 GiB）。旧实现用裸字符串 rfind 做前缀判断，
+  // 于是 data_root="/data" 时 "/database_evil" 与 "/dataX" 都被放行——
+  // 它们与数据盘只是共享字符串前缀，并不是它的子路径。
+  for (const char* evil : {"/database_evil", "/dataX", "/data2", "/data_old"}) {
+    const std::string j = WithField(
+        "\"recording_enabled\": false",
+        std::string("\"recording_enabled\": true, \"recording_root\": \"") + evil + "\"");
+    KM3_CHECK(!Valid(j));
+  }
+
+  // 真正的子路径仍要通过
+  const std::string ok = WithField(
+      "\"recording_enabled\": false",
+      "\"recording_enabled\": true, \"recording_root\": \"/data/recordings\"");
+  KM3_CHECK(Valid(ok));
+
+  // data_root 本身也允许（等价于"整个数据盘"）
+  const std::string same = WithField(
+      "\"recording_enabled\": false",
+      "\"recording_enabled\": true, \"recording_root\": \"/data\"");
+  KM3_CHECK(Valid(same));
+}
+
+KM3_TEST(rejects_out_of_range_g30_port) {
+  // g30_port 读作 uint32 后直接 static_cast<uint16>，65536 会静默变成 0。
+  // 端口号是配置里最容易被手抖改错的一项，且没有任何运行时读者兜底。
+  KM3_CHECK(!Valid(WithField("\"g30_port\": 8888", "\"g30_port\": 0")));
+  KM3_CHECK(!Valid(WithField("\"g30_port\": 8888", "\"g30_port\": 65536")));
+  KM3_CHECK(!Valid(WithField("\"g30_port\": 8888", "\"g30_port\": 100000")));
+
+  // 边界内的仍要通过
+  KM3_CHECK(Valid(WithField("\"g30_port\": 8888", "\"g30_port\": 1")));
+  KM3_CHECK(Valid(WithField("\"g30_port\": 8888", "\"g30_port\": 65535")));
+}
+
 KM3_TEST_MAIN()

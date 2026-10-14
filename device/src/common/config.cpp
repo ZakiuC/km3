@@ -32,6 +32,40 @@ T Get(const json& obj, const char* key, const T& fallback) {
     }
 }
 
+// 取一个对象段。段存在但不是对象（null/数组/字符串/数字）时返回空对象，
+// 而不是让内层 .value() 抛 type_error 把进程 SIGABRT —— config.cpp 顶部的注释
+// 明确承诺"配置文件的错误应由 ValidateConfig 统一报告，而不是在解析途中崩掉"。
+// 返回空对象意味着该段退化为全默认值，与"段缺失"同义，这是可报告的弱化而非崩溃。
+json SectionOf(const json& root, const char* key) {
+    const auto it = root.find(key);
+    if (it == root.end() || !it->is_object()) {
+        return json::object();
+    }
+    return *it;
+}
+
+// 取一个数组字段。存在但不是数组时返回空数组（同上：可报告的弱化，不崩）。
+json ArrayOf(const json& obj, const char* key) {
+    const auto it = obj.find(key);
+    if (it == obj.end() || !it->is_array()) {
+        return json::array();
+    }
+    return *it;
+}
+
+// 段或字段存在但类型不符时，必须**报错**——既不能崩，也不能静默退化。
+// 崩：内层 .value() 抛 nlohmann type_error 直接 SIGABRT，与文件顶部
+//     "配置文件的错误应由 ValidateConfig 统一报告，而不是在解析途中崩掉" 相矛盾。
+// 静默退化：类型写错的 "bus" 段会变成"零条总线"，而没有总线的配置是能通过
+//     校验的，错误会一路滑到运行时，以"电机不动"这种最难反查的形式暴露。
+bool WrongShape(const json& obj, const char* key, bool want_object) {
+    const auto it = obj.find(key);
+    if (it == obj.end()) {
+        return false;
+    }
+    return want_object ? !it->is_object() : !it->is_array();
+}
+
 // CAN 端点用 "iface"，串口端点用 "device"。两者统一落到 BusEndpoint::device。
 std::vector<BusEndpoint> ParseEndpoints(const json& arr) {
     std::vector<BusEndpoint> out;
@@ -65,17 +99,31 @@ Result<DeviceConfig> LoadConfigText(const std::string& json_text) {
         return Result<DeviceConfig>::Err(ErrorCode::EInvalidConfig);
     }
 
+    // 段形状预检：类型不符直接报错，不进入解析（理由见 WrongShape）。
+    // "motion"/"sensors" 在出厂模板里不存在，缺失不算错。
+    for (const char* s : {"device", "network", "storage", "bus", "video",
+                          "motion", "sensors", "time"}) {
+        if (WrongShape(root, s, true)) {
+            return Result<DeviceConfig>::Err(ErrorCode::EInvalidConfig);
+        }
+    }
+
     DeviceConfig cfg;
 
-    const json dev = root.value("device", json::object());
+    const json dev = SectionOf(root, "device");
     cfg.device_id   = Get<std::string>(dev, "id", "");
     cfg.device_name = Get<std::string>(dev, "name", "");
     cfg.model       = Get<std::string>(dev, "model", "");
 
-    const json net = root.value("network", json::object());
+    const json net = SectionOf(root, "network");
     cfg.server_url   = Get<std::string>(net, "server_url", "");
     cfg.g30_ip       = Get<std::string>(net, "g30_ip", "");
-    cfg.g30_port     = static_cast<std::uint16_t>(Get<std::uint32_t>(net, "g30_port", 8888));
+    const std::uint32_t g30_port_raw = Get<std::uint32_t>(net, "g30_port", 8888);
+    // 先按源类型校验再收窄：65536 静默变成 0 是实测过的缺陷（config.cpp:78）。
+    if (g30_port_raw == 0 || g30_port_raw > 65535) {
+        return Result<DeviceConfig>::Err(ErrorCode::EInvalidConfig);
+    }
+    cfg.g30_port     = static_cast<std::uint16_t>(g30_port_raw);
     cfg.iface_uplink = Get<std::string>(net, "iface_uplink", "");
     cfg.iface_g30    = Get<std::string>(net, "iface_g30", "");
 
@@ -84,17 +132,17 @@ Result<DeviceConfig> LoadConfigText(const std::string& json_text) {
     cfg.rt.watchdog_relay_us    = Get<std::uint64_t>(net, "watchdog_relay_us", 3000000);
 
     // 运动与采样参数（可选段）
-    const json motion = root.value("motion", json::object());
+    const json motion = SectionOf(root, "motion");
     cfg.rt.climb_speed_max_mps   = Get<float>(motion, "climb_speed_max_mps", 1.0F);
     cfg.rt.lift_position_min_mm  = Get<float>(motion, "lift_position_min_mm", 0.0F);
     cfg.rt.lift_position_max_mm  = Get<float>(motion, "lift_position_max_mm", 1000.0F);
 
-    const json sensors = root.value("sensors", json::object());
+    const json sensors = SectionOf(root, "sensors");
     cfg.rt.imu_sample_hz        = Get<std::uint32_t>(sensors, "imu_sample_hz", 100);
     cfg.rt.ultrasonic_sample_hz = Get<std::uint32_t>(sensors, "ultrasonic_sample_hz", 20);
     cfg.rt.pressure_sample_hz   = Get<std::uint32_t>(sensors, "pressure_sample_hz", 10);
 
-    const json st = root.value("storage", json::object());
+    const json st = SectionOf(root, "storage");
     cfg.storage.data_root              = Get<std::string>(st, "data_root", "/data");
     cfg.storage.log_retention_days     = Get<std::uint32_t>(st, "log_retention_days", 30);
     cfg.storage.sensor_retention_days  = Get<std::uint32_t>(st, "sensor_data_retention_days",
@@ -105,14 +153,24 @@ Result<DeviceConfig> LoadConfigText(const std::string& json_text) {
         cfg.storage.recording_root = cfg.storage.data_root + "/recordings";
     }
 
-    const json bus = root.value("bus", json::object());
-    cfg.rs485     = ParseEndpoints(bus.value("rs485", json::array()));
-    cfg.rs485_usb = ParseEndpoints(bus.value("rs485_usb", json::array()));
-    cfg.can       = ParseEndpoints(bus.value("can", json::array()));
-    cfg.usb_can   = ParseEndpoints(bus.value("usb_can", json::array()));
+    const json bus = SectionOf(root, "bus");
+    cfg.rs485     = ParseEndpoints(ArrayOf(bus, "rs485"));
+    cfg.rs485_usb = ParseEndpoints(ArrayOf(bus, "rs485_usb"));
+    cfg.can       = ParseEndpoints(ArrayOf(bus, "can"));
+    cfg.usb_can   = ParseEndpoints(ArrayOf(bus, "usb_can"));
 
-    const json video = root.value("video", json::object());
-    for (const auto& c : video.value("cameras", json::array())) {
+    for (const char* s : {"rs485", "rs485_usb", "can", "usb_can"}) {
+        if (WrongShape(bus, s, false)) {
+            return Result<DeviceConfig>::Err(ErrorCode::EInvalidConfig);
+        }
+    }
+
+    const json video = SectionOf(root, "video");
+    if (WrongShape(video, "cameras", false)) {
+        return Result<DeviceConfig>::Err(ErrorCode::EInvalidConfig);
+    }
+
+    for (const auto& c : ArrayOf(video, "cameras")) {
         if (!c.is_object()) {
             continue;
         }
@@ -136,7 +194,7 @@ Result<DeviceConfig> LoadConfigText(const std::string& json_text) {
         cfg.cameras.push_back(std::move(cam));
     }
 
-    const json time_cfg = root.value("time", json::object());
+    const json time_cfg = SectionOf(root, "time");
     cfg.require_time_sync_before_signed_ops =
         Get<bool>(time_cfg, "require_sync_before_signed_ops", true);
 
@@ -176,7 +234,14 @@ Status ValidateConfig(const DeviceConfig& cfg) {
         cfg.storage.data_root.rfind("/opt/km3", 0) == 0) {
         return Status(ErrorCode::EInvalidConfig);
     }
-    if (cfg.storage.recording_root.rfind(cfg.storage.data_root, 0) != 0) {
+    // 按**路径分量**比较，不是裸字符串前缀：data_root="/data" 时
+    // "/database_evil" 与 "/dataX" 都必须被拒（裸 rfind 会放行）。
+    const std::string data_root = cfg.storage.data_root;
+    const std::string rec_root  = cfg.storage.recording_root;
+    const bool rec_inside_data = rec_root.size() > data_root.size() &&
+                                 rec_root.compare(0, data_root.size(), data_root) == 0 &&
+                                 rec_root[data_root.size()] == '/';
+    if (!rec_inside_data && rec_root != data_root) {
         // 录像目录必须位于数据盘之内，否则会悄悄写到别处
         return Status(ErrorCode::EInvalidConfig);
     }
