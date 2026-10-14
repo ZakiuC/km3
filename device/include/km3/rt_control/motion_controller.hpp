@@ -55,9 +55,12 @@ struct MotionState {
 // 总线绑定。**逻辑名到实际节点的映射由配置与驱动层完成**，本层只认逻辑总线。
 // 任何一处出现 /dev/ttyS3、can0、GPIO 号都算越界（见 hal/device.hpp 的设计意图）。
 struct ControlBuses {
-    ICanDevice* esc_bus = nullptr;       // CAN-2.0B：推进风扇电调 ×2
-    ICanDevice* canopen_bus = nullptr;   // CAN-2.0B：抬降电机 A / 毛刷 / 刮条（CANopen）
-    ICanDevice* fd_bus = nullptr;        // USB-CAN：抬降电机 B（CANfd）
+    // 注释里写明**具体端口**，不写"CAN-2.0B"那种形式：
+    // 那既可能被读成"CAN-2 口"，也是协议名 CAN 2.0B 的误拼，
+    // 而本板 CAN-2 是 can1 —— 下标差一位，驱动就会对错总线。
+    ICanDevice* esc_bus = nullptr;       // 主板 can0（端口 CAN-1，CAN 2.0B）：推进风扇电调 ×2
+    ICanDevice* canopen_bus = nullptr;   // 主板 can1（端口 CAN-2，CAN 2.0B）：抬降电机 A / 毛刷 / 刮条
+    ICanDevice* fd_bus = nullptr;        // USB 转 CAN 模块（接口名 can2，**不是** CAN-2）：抬降电机 B，CANfd
     IRs485Device* servo_bus = nullptr;   // RS485-1：爬绳器伺服 + 吊点电机
     IRs485Device* relay_bus = nullptr;   // USB-RS485-4：继电器（开关量，**无反馈**）
 };

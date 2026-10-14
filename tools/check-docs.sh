@@ -5,6 +5,7 @@
 #   1. 文档里的 `xxx.md` 引用是否可解析（依次按文档同级 -> docs/ -> 仓库根查找）
 #   2. 设备端文档 §4.1 的目录树中，每个具名文件是否真实存在
 #   3. 文档里形如 `tools/foo.sh` 的**仓库内路径引用**是否存在
+#   4. 禁止 "CAN" 加连字符再加数字的写法（会被读成主板 CAN 端口号）
 #
 # 第 3 项的由来：只有第 1 项时，文档里写了一个不存在的 tools/deploy_web.sh，
 # 检查器看不见——它只匹配反引号里的 .md。这类"引用了没写的脚本"
@@ -104,6 +105,33 @@ for path in scan_files:
         print(f"  悬空引用（文件）: {path} -> {ref}")
         fail = 1
 print(f"  仓库内路径引用：检查 {path_refs} 处")
+
+# ---------- 4. CAN 端口写法歧义 ----------
+#
+# 背景：硬件设备清单.xlsx 定义 "CAN-x 指主板 CAN 的第 x 个口"，因此
+# CAN-1 -> can0、CAN-2 -> can1，逻辑名与内核接口名**差一位**。
+# 而协议名 "CAN 2.0B" 若写成带连字符的形式，形如 CAN-数字.数字，
+# 会被读成端口号 —— 差一位的结果是驱动对错总线，现场只表现为"电机不动"。
+# 同理 USB 转 CAN 模块的接口名恰好是 can2，它不是主板端口 CAN-2。
+#
+# 本检查只针对**写法**（形如 CAN 加连字符加数字加句点加数字），
+# 不试图判断语义；语义一致性靠文档里的映射表与代码里的逻辑名约定。
+CAN_AMBIGUOUS = re.compile(r"CAN-[0-9]+\.[0-9]")
+can_files = [os.path.join("docs/架构设计", f)
+             for f in sorted(os.listdir("docs/架构设计")) if f.endswith(".md")]
+can_files += [f for f in ("README.md", "CLAUDE.md") if os.path.isfile(f)]
+can_files += [os.path.join("device", f) for f in ("README.md",) if os.path.isfile(os.path.join("device", f))]
+
+can_hits = 0
+for path in can_files:
+    for i, line in enumerate(io.open(path, encoding="utf-8").read().split("\n"), 1):
+        if CAN_AMBIGUOUS.search(line):
+            print(f"  歧义写法（会被读成 CAN 端口号）: {path}:{i}: {line.strip()[:70]}")
+            can_hits += 1
+if can_hits:
+    print("  正确写法：协议名用 'CAN 2.0B'（空格，无连字符）")
+    fail = 1
+print(f"  CAN 写法歧义：检查 {len(can_files)} 个文件，命中 {can_hits} 处")
 
 # ---------- 2. 目录树（单向） ----------
 tree_doc = "docs/架构设计/设备端程序架构.md"
