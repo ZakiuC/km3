@@ -10,15 +10,19 @@ set -euo pipefail
 HOST=""
 APPLY=0
 DATA_UUID=""
+DEVICE_ID=""
 
 usage() {
   cat <<EOF
-usage: $0 --host <ip> [--data-uuid <uuid>] [--apply]
+usage: $0 --host <ip> --device-id <id> [--data-uuid <uuid>] [--apply]
 
 默认只打印将要执行的动作（dry-run）。加 --apply 才真正改动设备。
 
   --data-uuid   外接数据盘的 UUID。省略时脚本会打印当前块设备 UUID 供选择。
                 必须显式提供，避免把错误的盘当成数据盘格式化/挂载。
+  --device-id   本机的 device_id，写进 /etc/km3/device.json。格式 <model>-<env>-<seq>，
+                如 wcr-test-001。**必须显式提供**：把仓库模板原样装上会让设备带着
+                REPLACE 占位运行，而 rt-controller 加了 --require-config 后会拒绝启动。
 
 前置条件：
   - /etc/km3、/opt/km3 由本脚本创建
@@ -31,12 +35,14 @@ while [ $# -gt 0 ]; do
   case "$1" in
     --host)      HOST="$2"; shift 2 ;;
     --data-uuid) DATA_UUID="$2"; shift 2 ;;
+    --device-id) DEVICE_ID="$2"; shift 2 ;;
     --apply)     APPLY=1; shift ;;
     -h|--help)   usage ;;
     *) echo "unknown arg: $1" >&2; usage ;;
   esac
 done
 [ -n "$HOST" ] || usage
+[ -n "$DEVICE_ID" ] || { echo "缺少 --device-id（见 usage）" >&2; usage; }
 
 SSH_OPTS=(-o ConnectTimeout=8 -o StrictHostKeyChecking=accept-new)
 REMOTE="root@${HOST}"
@@ -83,6 +89,9 @@ fi
 # 但早期版本的第 4 步只 echo 一句「规则文件由部署脚本一并上传」，
 # 而 deploy_device.sh 里并没有上传单元的代码 —— 两个脚本互相指望对方，
 # 实际没人安装。结果是部署脚本重启 km3-core 时单元根本不存在，必然失败。
+CONFIG_SRC="device/config/device.json"
+[ -f "$CONFIG_SRC" ] || { echo "缺少 $CONFIG_SRC" >&2; exit 1; }
+
 UNITS=(km3-can.service km3-core.service km3-rt-controller.service km3-video.service)
 for u in "${UNITS[@]}"; do
   [ -f "device/deploy/systemd/${u}" ] || { echo "缺少 device/deploy/systemd/${u}" >&2; exit 1; }
@@ -96,9 +105,12 @@ if [ "$APPLY" -eq 1 ]; then
       "${REMOTE}:/tmp/km3-deploy/systemd/"
   scp "${SSH_OPTS[@]}" device/deploy/70-km3-serial.rules \
       "${REMOTE}:/tmp/km3-deploy/"
+  # 配置模板也上传：远端再替换 device.id 并校验，不改仓库里的模板本身。
+  scp "${SSH_OPTS[@]}" "$CONFIG_SRC" "${REMOTE}:/tmp/km3-deploy/device.json.template"
 else
   echo "[dry-run] 将上传：device/deploy/systemd/*.service -> ${REMOTE}:/tmp/km3-deploy/systemd/"
   echo "[dry-run] 将上传：device/deploy/70-km3-serial.rules -> ${REMOTE}:/tmp/km3-deploy/"
+  echo "[dry-run] 将上传：${CONFIG_SRC} -> ${REMOTE}:/tmp/km3-deploy/device.json.template"
 fi
 echo
 
@@ -177,6 +189,38 @@ if [ -f /tmp/km3-deploy/70-km3-serial.rules ]; then
   echo "    已安装 70-km3-serial.rules 并重载 udev"
 else
   echo "    !! /tmp/km3-deploy/70-km3-serial.rules 不存在，跳过（用 --apply 才会上传）"
+fi
+
+echo "==> 4.5 设备配置 /etc/km3/device.json"
+# 本步骤是后补的：早期版本建了 /etc/km3 目录、写了 can.env，
+# 却唯独不安装 device.json —— 而它才是控制回路参数的唯一来源。
+# 后果是 device.id 一直停在模板的 REPLACE 占位，只能手工 scp 弥补。
+#
+# 顺序：替换占位 -> **用二进制自己校验** -> 才落到 /etc/km3。
+# 校验必须由二进制做，不能在脚本里复刻规则：规则在 config.cpp 里，
+# 复刻一份就是第二处真相，改了一处必漏另一处。
+if [ -f /tmp/km3-deploy/device.json.template ]; then
+  python3 - <<'PYEOF'
+import json, io, sys
+src = json.load(io.open("/tmp/km3-deploy/device.json.template", encoding="utf-8"))
+src["device"]["id"] = "${DEVICE_ID}"
+io.open("/tmp/km3-deploy/device.json", "w", encoding="utf-8").write(
+    json.dumps(src, ensure_ascii=False, indent=2) + "\n")
+print("    已写入 device.id =", src["device"]["id"])
+PYEOF
+  # 用 rt-controller 的 --require-config 当校验器：它退出 0 就说明这份配置能用。
+  if /opt/km3/current/km3-rt-controller --config /tmp/km3-deploy/device.json \
+       --require-config --duration-s 1 >/tmp/km3-deploy/cfgcheck.log 2>&1; then
+    install -o km3 -g km3 -m 0640 /tmp/km3-deploy/device.json /etc/km3/device.json
+    echo "    /etc/km3/device.json 已安装（0640 km3:km3）"
+  else
+    echo "    !! 配置未通过校验，**不安装**。原因：" >&2
+    sed 's/^/       /' /tmp/km3-deploy/cfgcheck.log >&2
+    echo "    设备保持原配置不变；请修正后重跑。" >&2
+    exit 1
+  fi
+else
+  echo "    !! /tmp/km3-deploy/device.json.template 不存在，跳过（用 --apply 才会上传）"
 fi
 
 echo "==> 5. CAN 环境文件（速率是部署参数）"

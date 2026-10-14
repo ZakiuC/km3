@@ -12,7 +12,13 @@ Wants=km3-can.service
 
 [Service]
 Type=simple
-ExecStart=/opt/km3/current/km3-rt-controller
+# 显式传 --config 与 --require-config：
+#   --config         默认值就是 /etc/km3/device.json，写出来是为了让"读哪份配置"可见
+#   --require-config 配置缺失或校验不过即拒绝启动（退出码 3）。
+#                    不加它时缺配置只是打印一行然后**用默认参数继续**——
+#                    对一个会动的控制回路，"看起来正常地跑起来"比拒绝启动危险得多。
+#                    该能力由 main.cpp 实现，早期单元漏传，等于白实现。
+ExecStart=/opt/km3/current/km3-rt-controller --config /etc/km3/device.json --require-config
 Restart=on-failure
 RestartSec=1
 
