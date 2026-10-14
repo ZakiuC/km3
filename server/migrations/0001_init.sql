@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS environments (
     code VARCHAR(20) UNIQUE NOT NULL,
     name VARCHAR(50) NOT NULL
 );
-INSERT INTO environments (code, name) VALUES ('demo', '演示'), ('prod', '生产')
+INSERT INTO environments (code, name) VALUES ('test', '测试'), ('demo', '演示'), ('prod', '生产')
     ON CONFLICT (code) DO NOTHING;
 
 CREATE TABLE IF NOT EXISTS users (

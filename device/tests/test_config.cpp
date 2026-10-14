@@ -24,7 +24,7 @@ namespace {
 // 一份最小可用配置。各用例在此基础上改一个字段，隔离被测规则。
 std::string BaseJson() {
     return R"({
-      "device":  { "id": "wcr-prod-001", "name": "robot", "model": "wcr" },
+      "device":  { "id": "km3-prod-001", "name": "robot", "model": "km3" },
       "network": {
         "server_url": "wss://api.example.com/api/v1/device/ws",
         "g30_ip": "192.168.1.100", "g30_port": 8888,
@@ -70,8 +70,8 @@ KM3_TEST(loads_a_valid_config) {
     KM3_CHECK(r.ok());
     const DeviceConfig& c = r.value();
 
-    KM3_CHECK_EQ(c.device_id, std::string("wcr-prod-001"));
-    KM3_CHECK_EQ(c.model, std::string("wcr"));
+    KM3_CHECK_EQ(c.device_id, std::string("km3-prod-001"));
+    KM3_CHECK_EQ(c.model, std::string("km3"));
     KM3_CHECK_EQ(c.g30_port, std::uint16_t{8888});
     KM3_CHECK_EQ(c.rt.control_period_us, std::uint64_t{1000});   // 默认 1 kHz
     KM3_CHECK_EQ(c.rt.watchdog_direct_us, std::uint64_t{500000});
@@ -111,12 +111,46 @@ KM3_TEST(accepts_can_iface_alias_and_serial_device) {
 // ===================== 校验规则 =====================
 
 KM3_TEST(rejects_unreplaced_placeholder_device_id) {
-    // 出厂模板用 wcr-REPLACE-001 占位，必须替换后才能通过。
+    // 出厂模板用 km3-REPLACE-001 占位，必须替换后才能通过。
     // 这条规则是"故意让模板校验失败"，防止带着占位 ID 上现场。
-    auto r = LoadConfigText(WithField("\"id\": \"wcr-prod-001\"", "\"id\": \"wcr-REPLACE-001\""));
+    // 注意 REPLACE 不在环境取值域里，所以它同时也被下面的规则 8 拦下。
+    auto r = LoadConfigText(WithField("\"id\": \"km3-prod-001\"", "\"id\": \"km3-REPLACE-001\""));
     KM3_CHECK(r.ok());
     KM3_CHECK(!ValidateConfig(r.value()).ok());
     KM3_CHECK(ValidateConfig(r.value()).code() == ErrorCode::EInvalidConfig);
+}
+
+KM3_TEST(rejects_device_id_whose_env_segment_is_not_a_known_environment) {
+    // 编号规则 <前缀>-<env>-<seq>，其中 env 必须取自 environments.code
+    // （server/migrations/0001_init.sql 的种子：test / demo / prod）。
+    // 写错 env 的表现是"设备出现在后台列表里但谁也连不上"——要跨服务器、
+    // 管理端、前端三端才能反查，因此在加载期就拦下。
+    for (const char* env : {"test", "demo", "prod"}) {
+        const std::string j = WithField("\"id\": \"km3-prod-001\"",
+                                        std::string("\"id\": \"km3-") + env + "-001\"");
+        KM3_CHECK(Valid(j));
+    }
+
+    // 未知环境：大小写也不放过（environments.code 是小写）
+    for (const char* bad : {"staging", "dev", "production", "TEST", "Prod", "replace"}) {
+        const std::string j = WithField("\"id\": \"km3-prod-001\"",
+                                        std::string("\"id\": \"km3-") + bad + "-001\"");
+        KM3_CHECK(!Valid(j));
+    }
+}
+
+KM3_TEST(rejects_device_id_with_a_malformed_prefix_or_seq) {
+    // 少于三段拆不出 env；空前缀 / 空 seq / 字母 seq 都让编号规则失去意义。
+    for (const char* bad : {"km3-001", "km3", "km3-test", "-test-001", "km3--001",
+                            "km3-test-", "km3-test-foo", "km3-test-1a"}) {
+        const std::string j = WithField("\"id\": \"km3-prod-001\"",
+                                        std::string("\"id\": \"") + bad + "\"");
+        KM3_CHECK(!Valid(j));
+    }
+
+    // 多段前缀也接受：<前缀> 取设备型号时可能自带连字符
+    KM3_CHECK(Valid(WithField("\"id\": \"km3-prod-001\"",
+                              "\"id\": \"km3-wcr-prod-007\"")));
 }
 
 KM3_TEST(shipped_template_must_not_validate_as_is) {

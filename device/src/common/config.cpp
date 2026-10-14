@@ -276,6 +276,39 @@ Status ValidateConfig(const DeviceConfig& cfg) {
         }
     }
 
+    // 8) 设备编号必须符合 <前缀>-<env>-<seq>，且 env 取自 environments.code。
+    //    为什么把这条也放进校验：编号是服务器、管理端、前端共同的主键，
+    //    写错的表现是"设备在列表里但谁也连不上"——查起来要跨三端。
+    //    env 的取值域与 server/migrations/0001_init.sql 的种子一致：
+    //    test（测试板）/ demo（演示）/ prod（生产）。新增取值必须同时改那两处。
+    {
+        std::vector<std::string> parts;
+        std::string seg;
+        for (const char ch : cfg.device_id) {
+            if (ch == '-') {
+                parts.push_back(seg);
+                seg.clear();
+            } else {
+                seg.push_back(ch);
+            }
+        }
+        parts.push_back(seg);
+        if (parts.size() < 3 || parts[0].empty() || parts.back().empty()) {
+            return Status(ErrorCode::EInvalidConfig);
+        }
+        // seq 是序号，只允许阿拉伯数字：允许自由文本会让后台的排序与
+        // 「同环境内第几台」失去意义，且没有别的地方能兜底。
+        for (const char ch : parts.back()) {
+            if (ch < '0' || ch > '9') {
+                return Status(ErrorCode::EInvalidConfig);
+            }
+        }
+        const std::string& env = parts[parts.size() - 2];
+        if (env != "test" && env != "demo" && env != "prod") {
+            return Status(ErrorCode::EInvalidConfig);
+        }
+    }
+
     return Status::Ok();
 }
 

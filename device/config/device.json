@@ -1,8 +1,8 @@
 {
   "device": {
-    "id": "wcr-REPLACE-001",
+    "id": "km3-REPLACE-001",
     "name": "km3 robot",
-    "model": "wcr"
+    "model": "km3"
   },
   "network": {
     "server_url": "wss://api.example.com/api/v1/device/ws",
