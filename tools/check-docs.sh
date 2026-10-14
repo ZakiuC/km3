@@ -133,6 +133,26 @@ if can_hits:
     fail = 1
 print(f"  CAN 写法歧义：检查 {len(can_files)} 个文件，命中 {can_hits} 处")
 
+# ---------- 5. tools/README.md 必须列出 tools/ 下的每个脚本 ----------
+# 由来：README 是手维护的表，实测漏列了三个脚本（check-deps / check-docs /
+# provision_device），而它是"有哪些工具"的唯一索引。手维护的表迟早漏，
+# 所以用机检兜住；方向是**单向**的（磁盘有 -> 表里必须有），
+# 反向不检查（表里可以提到将来计划中的脚本）。
+tools_disk = sorted(f for f in os.listdir("tools")
+                    if f.endswith((".sh", ".py")))
+readme_path = "tools/README.md"
+if os.path.isfile(readme_path):
+    rtext = io.open(readme_path, encoding="utf-8").read()
+    listed = set(re.findall(r"`([a-z0-9_-]+\.(?:sh|py))`", rtext))
+    unlisted = [f for f in tools_disk if f not in listed]
+    for f in unlisted:
+        print(f"  tools/README.md 未列出: tools/{f}")
+    if unlisted:
+        fail = 1
+    print(f"  tools 索引：磁盘 {len(tools_disk)} 个脚本，表内 {len(listed)} 个，未列 {len(unlisted)} 个")
+else:
+    print("  !! tools/README.md 不存在")
+
 # ---------- 2. 目录树（单向） ----------
 tree_doc = "docs/架构设计/设备端程序架构.md"
 text = io.open(tree_doc, encoding="utf-8").read()
