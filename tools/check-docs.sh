@@ -6,6 +6,8 @@
 #   2. 设备端文档 §4.1 的目录树中，每个具名文件是否真实存在
 #   3. 文档里形如 `tools/foo.sh` 的**仓库内路径引用**是否存在
 #   4. 禁止 "CAN" 加连字符再加数字的写法（会被读成主板 CAN 端口号）
+#   5. tools/README.md 必须列出 tools/ 下每个脚本
+#   6. systemd 单元语法必须通过 systemd-analyze verify（见下，需区分两类报错）
 #
 # 第 3 项的由来：只有第 1 项时，文档里写了一个不存在的 tools/deploy_web.sh，
 # 检查器看不见——它只匹配反引号里的 .md。这类"引用了没写的脚本"
@@ -17,7 +19,7 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 python3 - <<'PY'
-import io, os, re, sys
+import io, os, re, shutil, subprocess, sys
 
 def expand(tok):
     """展开 {a,b} 形式。用于目录树里的简写。"""
@@ -152,6 +154,53 @@ if os.path.isfile(readme_path):
     print(f"  tools 索引：磁盘 {len(tools_disk)} 个脚本，表内 {len(listed)} 个，未列 {len(unlisted)} 个")
 else:
     print("  !! tools/README.md 不存在")
+
+# ---------- 6. systemd 单元语法 ----------
+#
+# 由来：km3-can.service 早期把 `Environment=CAN_IFACES=can0 can1` 写成不加引号的形式，
+# systemd 只接受第一个值并打印 "Invalid environment assignment, ignoring: can1" ——
+# 第二个 CAN 接口静默消失，而单元文件看起来完全正常。
+# 同类缺陷（键放错节、缺 ExecStart、变量优先级颠倒）都只能由 systemd-analyze 发现，
+# 因此把它纳入机检。
+#
+# **必须区分的两类输出**：
+#   (a) 真正的问题："Unknown key name", "Invalid environment assignment",
+#       "Service has no ExecStart=", 语法错误
+#   (b) 预期噪音："Command /opt/km3/current/... is not executable" ——
+#       开发机上没有部署，ExecStart 自然找不到文件。这不是缺陷。
+# 只把 (a) 计为失败；若把 (b) 也算进去，检查器会在每台开发机上恒红而被忽略。
+#
+# 本机校验对板子是否有效：实测本机 systemd 为 249.11-0ubuntu3.22，
+# 测试板为 249.11-0ubuntu3.21 —— 同为 systemd 249，仅补丁号差一位，
+# 因此本机 verify 的结论可外推到板子。**若将来两者主版本号拉开，
+# 这个前提就失效了**（例如 249 不识别的键在 255 上合法，或反之），
+# 届时需要改为在板子上校验，或固定比对版本。
+UNIT_DIR = "device/deploy/systemd"
+if os.path.isdir(UNIT_DIR) and shutil.which("systemd-analyze"):
+    unit_files = sorted(f for f in os.listdir(UNIT_DIR) if f.endswith(".service"))
+    unit_bad = []
+    for fn in unit_files:
+        path = os.path.join(UNIT_DIR, fn)
+        r = subprocess.run(["systemd-analyze", "verify", path],
+                           capture_output=True, text=True)
+        for line in (r.stdout + r.stderr).split("\n"):
+            if not line.strip():
+                continue
+            low = line.lower()
+            if "is not executable" in low or "no such file or directory" in low:
+                continue  # 预期噪音：本机未部署
+            if fn not in line and UNIT_DIR not in line:
+                continue  # 与本次校验的单元无关（依赖链上的系统单元）
+            unit_bad.append(line.strip())
+    for line in unit_bad:
+        print(f"  systemd 单元问题: {line}")
+    if unit_bad:
+        fail = 1
+    print(f"  systemd 单元：检查 {len(unit_files)} 个，问题 {len(unit_bad)} 处")
+elif not shutil.which("systemd-analyze"):
+    print("  systemd 单元：跳过（无 systemd-analyze）")
+else:
+    print(f"  systemd 单元：跳过（无 {UNIT_DIR}）")
 
 # ---------- 2. 目录树（单向） ----------
 tree_doc = "docs/架构设计/设备端程序架构.md"
