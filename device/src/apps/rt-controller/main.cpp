@@ -129,6 +129,12 @@ int Fail(const char* what, km3::ErrorCode code) {
 }  // namespace
 
 int main(int argc, char** argv) {
+    // systemd 下 stdout 是**块缓冲**（fd 1 是 socket），printf 的内容会滞留在
+    // 缓冲区里，直到进程退出才落盘 —— 表现为"启动信息在 journal 里查不到"，
+    // 而直接前台运行同一个二进制却能看到（实测于 TL3588，2026-10-14）。
+    // 服务进程的启动日志必须立即可见，否则现场排障只能靠猜。
+    std::setvbuf(stdout, nullptr, _IOLBF, 0);
+
     Options opts = ParseArgs(argc, argv);
 
     std::signal(SIGINT, HandleSignal);

@@ -40,7 +40,15 @@ run() {
 
 [ -f "${BUILD_DIR}/km3-server" ] || { echo "缺少 ${BUILD_DIR}/km3-server" >&2; exit 1; }
 
-PREV="$(ssh "${SSH_OPTS[@]}" "$REMOTE" "readlink -f ${TARGET_ROOT}/current 2>/dev/null | xargs -r basename" || true)"
+# 记录当前版本以便回滚。
+# 不能用 `readlink -f ... | basename`：GNU readlink -f 对**不存在的路径**也会
+# 打印规范化结果，首次部署时 PREV 会取到字面量 "current"（并不存在的版本目录），
+# 回滚于是把 current 指向悬空目标，比不回滚更糟（deploy_device.sh 上实测过）。
+PREV="$(ssh "${SSH_OPTS[@]}" "$REMOTE" \
+  "if [ -L ${TARGET_ROOT}/current ]; then \
+     t=\$(readlink ${TARGET_ROOT}/current); b=\$(basename \"\$t\"); \
+     [ -d ${TARGET_ROOT}/releases/\$b ] && echo \"\$b\"; \
+   fi" || true)"
 echo "==> 目标 ${REMOTE}，版本 ${VERSION}，当前 ${PREV:-<无>}"
 
 run "mkdir -p ${TARGET_ROOT}/releases/${VERSION}"
