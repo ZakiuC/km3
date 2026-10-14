@@ -1,0 +1,116 @@
+{
+  "_comment": [
+    "对象字典的唯一手写来源。od_generated.hpp 由本文件生成，不要手改生成物。",
+    "生成命令见 README.md（tools/hwdriver/gen-od.py）。",
+    "每一条都必须带 status 与 cite：",
+    "  status = unverified  cite 必须为 null —— 值来自猜测或惯例，未对照手册",
+    "  status = verified    cite 必须非 null —— cite 写明手册文件与章节",
+    "为什么强制 cite：源码里每一个对象字典索引都必须能追溯到 docs/硬件手册/ 下的某份厂家文件。",
+    "没有 cite 的 verified 条目等于把猜测洗成了事实，而它的现场表现是「电机按错误的方向或距离动」。",
+    "初始状态全部 unverified、cite 全部 null：没有任何硬件手册进入仓库之前，",
+    "这里不该出现任何一个看起来可信的数字。",
+    "CiA 402 的 0x6040 / 0x6041 是惯例值，惯例不是事实，因此同样是 unverified。",
+    "index 以**十六进制字符串**书写：JSON 没有十六进制字面量，而对象字典按惯例写作十六进制；",
+    "存成十进制会让 0x6040 与 24640 两种写法并存，引用时对不上。"
+  ],
+  "model": "_model_",
+  "protocol": "canopen",
+  "entries": [
+    {
+      "name": "control_word",
+      "index": "0x6040",
+      "subindex": 0,
+      "type": "uint16",
+      "access": "rw",
+      "unit": null,
+      "scale": null,
+      "status": "unverified",
+      "cite": null,
+      "note": "CiA 402 惯例值，未经厂家确认。逐位定义同样未确认。"
+    },
+    {
+      "name": "status_word",
+      "index": "0x6041",
+      "subindex": 0,
+      "type": "uint16",
+      "access": "ro",
+      "unit": null,
+      "scale": null,
+      "status": "unverified",
+      "cite": null,
+      "note": "状态机的位定义未确认，因此无法据此判断「已使能」。"
+    },
+    {
+      "name": "modes_of_operation",
+      "index": "0x6060",
+      "subindex": 0,
+      "type": "int8",
+      "access": "rw",
+      "unit": null,
+      "scale": null,
+      "status": "unverified",
+      "cite": null,
+      "note": "取值未确认：位置 / 速度 / 回零三种模式码决定三条驱动路径。"
+    },
+    {
+      "name": "modes_of_operation_display",
+      "index": "0x6061",
+      "subindex": 0,
+      "type": "int8",
+      "access": "ro",
+      "unit": null,
+      "scale": null,
+      "status": "unverified",
+      "cite": null,
+      "note": "回显值。与 0x6060 是否一致（是否支持回读校验）未确认。"
+    },
+    {
+      "name": "target_position",
+      "index": "0x607A",
+      "subindex": 0,
+      "type": "int32",
+      "access": "rw",
+      "unit": null,
+      "scale": null,
+      "status": "unverified",
+      "cite": null,
+      "note": "标度因子与零位偏置均未确认——上层传的是物理量，换算错误即位移错误。"
+    },
+    {
+      "name": "target_velocity",
+      "index": "0x60FF",
+      "subindex": 0,
+      "type": "int32",
+      "access": "rw",
+      "unit": null,
+      "scale": null,
+      "status": "unverified",
+      "cite": null,
+      "note": "同上，标度未确认。"
+    },
+    {
+      "name": "producer_heartbeat_time",
+      "index": "0x1017",
+      "subindex": 0,
+      "type": "uint16",
+      "access": "rw",
+      "unit": "ms",
+      "scale": null,
+      "status": "unverified",
+      "cite": null,
+      "note": "心跳周期与超时行为未确认。断线检测是安全相关，缺它无法设计看门狗。"
+    },
+    {
+      "name": "error_register",
+      "index": "0x1001",
+      "subindex": 0,
+      "type": "uint8",
+      "access": "ro",
+      "unit": null,
+      "scale": null,
+      "status": "unverified",
+      "cite": null,
+      "note": "厂商私有错误码到可读原因的映射表未提供，故障上报无法翻译。"
+    }
+  ]
+}

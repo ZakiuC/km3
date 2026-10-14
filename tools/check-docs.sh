@@ -9,9 +9,18 @@
 #   5. tools/README.md 必须列出 tools/ 下每个脚本
 #   6. systemd 单元语法必须通过 systemd-analyze verify（见下，需区分两类报错）
 #
+# 扫描面：docs/架构设计/*.md、docs/硬件手册/**/*.md（本目录下递归）、README.md、CLAUDE.md。
+# 硬件手册目录是**递归**扫的：一个硬件一个目录，且协议原文在 <型号>/协议/ 下一层。
+#
 # 第 3 项的由来：只有第 1 项时，文档里写了一个不存在的 tools/deploy_web.sh，
 # 检查器看不见——它只匹配反引号里的 .md。这类"引用了没写的脚本"
 # 与悬空的 md 链接是同一类缺陷，因此一并检查。
+#
+# 第 5 项的覆盖范围：**只看 tools/ 直下一层**，不递归子目录。
+# 子目录里的脚本（如 tools/hwdriver/new-driver.sh）不要求出现在 tools/README.md
+# 的脚本索引里——它们的入口是各自子目录的说明，混进顶层索引会让
+# "tools/ 下有哪些主机脚本"这件事变得不可读。若将来要覆盖子目录，
+# 改的是 os.listdir 那一处，改完记得同步 tools/README.md。
 #
 # 方向说明：第 2 项是**单向**的（文档提到 -> 磁盘必须有）。
 # 不检查反向（磁盘有 -> 文档必须提到），因为那会迫使文档追着代码走。
@@ -46,24 +55,90 @@ def expand(tok):
 
 fail = 0
 
+
+def DocumentedMarkdown():
+    """本次机检要看的全部 markdown，返回仓库相对路径列表。
+
+    扫描面（三处，其余目录一概不看）：
+      * docs/架构设计/*.md     —— 设计权威，平的
+      * docs/硬件手册/**/*.md  —— **递归**，因为一个硬件一个目录，
+                                   协议原文还压在 <型号>/协议/ 下一层
+      * 仓库根的 README.md / CLAUDE.md
+
+    为什么把扫描面收在函数里而不是各处 os.listdir：第 1、3、4 项各扫一遍，
+    三处各写一份"扫哪些文件"必然漂移——过去第 4 项就漏了 device/README.md，
+    直到有人单独补一行才对齐。收成一处后，加扫描面只改这里。
+    """
+    out = []
+    d = "docs/架构设计"
+    if os.path.isdir(d):
+        out += [os.path.join(d, f) for f in sorted(os.listdir(d)) if f.endswith(".md")]
+    for root, dirs, files in os.walk("docs/硬件手册"):
+        dirs.sort()
+        out += [os.path.join(root, f) for f in sorted(files) if f.endswith(".md")]
+    out += [f for f in ("README.md", "CLAUDE.md") if os.path.isfile(f)]
+    return out
+
+
+# 手册目录的相对前缀。第 1、3 项对它开**存在性豁免**，见下面两张表各自位置的说明。
+MANUAL_DIR_PREFIX = "docs/硬件手册/"
+
 # ---------- 1. markdown 引用 ----------
+#
+# 存在性豁免（只针对 docs/硬件手册/ 开头的引用）：
+#   本目录的绝大多数文件是"尚未投喂"的占位——写成 docs/硬件手册/<型号>/协议/对象字典.md
+#   这种引用是**正确且必要**的：它告诉人该把哪份厂家文件放哪，正是驱动占位值
+#   将来被逐条替换的清单。手册没到，引用必然解析不到；
+#   强制存在性会立刻把 CI 弄红，而红的原因不是缺陷，是"手册还没给"。
+#   所以这里对 docs/硬件手册/ 开头的引用**跳过存在性检查**，但仍计入 refs_checked，
+#   让"检查了 N 处"这个数字不因豁免而虚高。
+#
+#   别以为这是漏写的：下一个人若不看注释就"补上"这条检查，
+#   CI 会在每次新增手册条目时变红，然后被当成噪音关掉——比不检查更坏。
+#
+#   豁免之外的引用照旧严格检查：手册目录里引用 docs/架构设计/*.md
+#   这类**已存在**的文档，写错了仍然是缺陷。
+#
+# 豁免只关掉"存在性"这一项。第 3 项（仓库内路径引用）与第 4 项（CAN 写法歧义）
+# 对 docs/硬件手册/ 下的文档**照常生效**。
 refs_checked = 0
-for fn in sorted(os.listdir("docs/架构设计")):
-    if not fn.endswith(".md"):
-        continue
-    path = os.path.join("docs/架构设计", fn)
+refs_exempt = 0
+refs_placeholder = 0
+for path in DocumentedMarkdown():
     text = io.open(path, encoding="utf-8").read()
+    # 豁免的判据是**文档本身**在手册目录下，而不是引用串以 docs/硬件手册/ 开头。
+    # 起初写成后者，结果豁免几乎不生效：手册目录里绝大多数引用是
+    # `协议/对象字典.md`、`操作手册.md` 这种**相对**写法——正是那些未投喂文件的
+    # 典型写法，一个都不以前缀开头。判据必须落在"谁在说"上。
+    in_manual = path.startswith(MANUAL_DIR_PREFIX)
     for ref in sorted(set(re.findall(r"`([^`]*\.md)`", text))):
         if ref.startswith("http"):
             continue
+        # 占位写法（含 <型号>、{a,b}、* 等）不是字面路径，硬查必假报。
+        # 第 3 项早就有这条过滤，第 1 项却一直漏着，于是
+        # `docs/硬件手册/<型号>/README.md` 这类**正确**的占位引用常年被判悬空，
+        # 并被写进 docs/架构设计/硬件驱动开发路径.md 当作"检查器的已知假报"记着。
+        # 已知假报是最坏的一种：它教人忽略这个检查器的输出。
+        # 两份过滤口径从此一致，改一处必须改另一处。
+        if any(ch in ref for ch in "*{}<>$| "):
+            refs_checked += 1
+            refs_placeholder += 1
+            continue
         refs_checked += 1
-        if os.path.isfile(os.path.join("docs/架构设计", ref)) \
+        if in_manual:
+            # 手册目录下的引用：是"该放哪份文件"的清单，不是对既有文件的承诺。
+            refs_exempt += 1
+            continue
+        if os.path.isfile(os.path.join(os.path.dirname(path), ref)) \
+           or os.path.isfile(os.path.join("docs/架构设计", ref)) \
            or os.path.isfile(os.path.join("docs", ref)) \
            or os.path.isfile(ref):
             continue
         print(f"  悬空引用: {path} -> {ref}")
         fail = 1
-print(f"  markdown 引用：检查 {refs_checked} 处")
+print(f"  markdown 引用：检查 {refs_checked} 处"
+      f"（其中 {refs_placeholder} 处含占位符、{refs_exempt} 处来自 {MANUAL_DIR_PREFIX}"
+      f" 下的文档，两者均豁免存在性）")
 
 # ---------- 3. 仓库内路径引用 ----------
 # 只覆盖**顶层目录**开头的路径，且不含通配与占位符。
@@ -83,13 +158,52 @@ for line in os.popen(
     if line:
         all_repo_files.add(line[2:] if line.startswith("./") else line)
 
-scan_files = [os.path.join("docs/架构设计", f)
-              for f in sorted(os.listdir("docs/架构设计")) if f.endswith(".md")]
-scan_files += [f for f in ("README.md", "CLAUDE.md") if os.path.isfile(f)]
+scan_files = DocumentedMarkdown()
+
+# docs/硬件手册/ 下的**相对**引用（如 `协议/对象字典.md`）：同样豁免存在性。
+# 理由与第 1 项相同——那些文件按约定是要投喂的，没到不等于写错。
+# 注意这里只豁免"解析不到"的情形：解析得到（相对路径确实存在）就照常通过，
+# 所以豁免不会把一条**写错**的引用洗成通过……除非它指向的正是未投喂的清单项，
+# 而那本来就不是错误。
+# 文档里明确写为**将来才引入**的仓库内路径。
+#
+# 为什么需要这张表：本项的语义是"文档提到 -> 磁盘必须有"，用来抓路径笔误。
+# 但有些路径是文档**故意**写成尚未存在的——它描述的是条件触发后才引入的文件，
+# 而那个条件此刻还没满足。把它判成悬空引用，等于逼文档删掉这条前瞻性约定，
+# 或者逼人提前建一个没人读的空文件（那就是第二份真相，本仓库反复在防的事）。
+#
+# 自净机制：若表里的文件**真的出现了**，说明它已经落地，本表条目就成了
+# 一处永久的豁免漏洞（"写错路径"与"还没建"从此分不清），因此当场判失败。
+# 换句话说，这张表只会随时间变短，不会悄悄变长。
+FUTURE_PATHS = {
+    # 见 docs/架构设计/硬件驱动开发路径.md「什么时候必须去修 deploy 脚本」：
+    # 任何硬件第一次交付常驻 aarch64 二进制时，同一提交内引入本文件，
+    # 并把 deploy_device.sh / provision_device.sh 的四处枚举改成从它读。
+    "device/deploy/binaries.txt",
+}
+
+# 自净：表里每一条都必须**尚不存在**。一旦落地就该从表里删掉，
+# 否则"写错路径"与"还没建"从此分不清——豁免会永久化。
+for _future in sorted(FUTURE_PATHS):
+    if _future in all_repo_files:
+        print(f"  !! {_future} 已落地，请从 FUTURE_PATHS 移除（见该表上方注释）")
+        fail = 1
 
 path_refs = 0
+path_refs_exempt = 0
 for path in scan_files:
     text = io.open(path, encoding="utf-8").read()
+    in_manual = path.startswith(MANUAL_DIR_PREFIX)
+    # 相对引用依次在"文档所在目录 -> 其各级祖先（到仓库根）"下查找。
+    # 手册目录里写 `<型号>/协议/对象字典.md` 这种从本目录起算的相对路径，
+    # 若只查文档同级目录会误报——而误报多了检查器就被忽略了。
+    bases = []
+    d = os.path.dirname(path)
+    while True:
+        bases.append(d)
+        if not d or d == ".":
+            break
+        d = os.path.dirname(d)
     for ref in sorted(set(re.findall(r"`([^`]*)`", text))):
         if "/" not in ref or ref.startswith(("http", "/", "..")):
             continue
@@ -102,11 +216,22 @@ for path in scan_files:
         path_refs += 1
         if ref in all_repo_files:
             continue
-        if os.path.join(os.path.dirname(path), ref) in all_repo_files:
+        if any(os.path.join(b, ref) in all_repo_files for b in bases):
+            continue
+        if ref in FUTURE_PATHS:
+            # 文档明确写为"将来才引入"的路径：此刻不在磁盘上正是**正确**状态。
+            # 能走到这里即已证明它不在仓库里（上面两条 continue 处理了存在的情形），
+            # 所以命中豁免表 = 放行，只计数。
+            path_refs_exempt += 1
+            continue
+        if in_manual:
+            # 手册目录内的未投喂清单项：不计失败，只计数，输出里可见。
+            path_refs_exempt += 1
             continue
         print(f"  悬空引用（文件）: {path} -> {ref}")
         fail = 1
-print(f"  仓库内路径引用：检查 {path_refs} 处")
+print(f"  仓库内路径引用：检查 {path_refs} 处"
+      f"（其中 {path_refs_exempt} 处位于 {MANUAL_DIR_PREFIX} 内，按未投喂资料豁免）")
 
 # ---------- 4. CAN 端口写法歧义 ----------
 #
@@ -119,9 +244,7 @@ print(f"  仓库内路径引用：检查 {path_refs} 处")
 # 本检查只针对**写法**（形如 CAN 加连字符加数字加句点加数字），
 # 不试图判断语义；语义一致性靠文档里的映射表与代码里的逻辑名约定。
 CAN_AMBIGUOUS = re.compile(r"CAN-[0-9]+\.[0-9]")
-can_files = [os.path.join("docs/架构设计", f)
-             for f in sorted(os.listdir("docs/架构设计")) if f.endswith(".md")]
-can_files += [f for f in ("README.md", "CLAUDE.md") if os.path.isfile(f)]
+can_files = DocumentedMarkdown()
 can_files += [os.path.join("device", f) for f in ("README.md",) if os.path.isfile(os.path.join("device", f))]
 
 can_hits = 0

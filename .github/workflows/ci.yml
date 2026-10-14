@@ -117,6 +117,188 @@ jobs:
         run: pnpm run build
         working-directory: admin-web
 
+  deps:
+    name: deps
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check declared dependencies against both CMake projects
+        # 唯一实现：tools/check-deps.sh。
+        # 校验 tools/install-deps.sh 提供的包是否覆盖 device/ 与 server/ 的
+        # 全部 find_package。**本 job 是补挂的**：check-deps.sh 早就在仓库里，
+        # 但一直没进 CI，于是它只在有人想起来时跑——而它防的正是
+        # "加了 find_package、忘了改安装脚本"这类只在干净环境上才炸的缺陷。
+        # 纯文本比对，不需要装任何依赖，秒级完成。
+        run: bash tools/check-deps.sh
+
+  drivers:
+    name: drivers
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        # 与 device job 同一份设备端依赖：这两个检查器要能配置并构建 device/，
+        # 缺一个库就会退化成"预期噪音"，而假噪音会让真缺陷淹在里面。
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build g++-aarch64-linux-gnu \
+            libprotobuf-dev protobuf-compiler libspdlog-dev libfmt-dev \
+            nlohmann-json3-dev libsqlite3-dev libssl-dev libzmq3-dev
+      - name: Decoupling assertions
+        # 唯一实现：tools/check-drivers.sh。
+        # 四条断言：目录五件套齐全 / 驱动之间互不引用 /
+        # 标准层（CANopen 常量与状态机）不在驱动内重复实现 /
+        # 每个 device/drivers/<型号>/ 都能从 device/CMakeLists.txt 到达。
+        # 第 4 条防的是"目录在、没挂进 build、静默不编译"——这类缺陷
+        # 没有任何其它信号：配置通过、编译通过、板上就是没有这个驱动。
+        run: bash tools/check-drivers.sh
+      - name: Manual citations
+        # 唯一实现：tools/check-manual-citations.sh。
+        # 每个对象字典索引与标度常量都必须**在同一行**带可解析引用，
+        # 且引用要解析到 docs/硬件手册/ 下真实存在的文件。
+        # 不接受"文件头一句全局注释"：那会让新增常量天然免检。
+        run: bash tools/check-manual-citations.sh
+      - name: Object-dictionary drift
+        # gen-od.py --check：改了 od.json 却没重新生成 od_generated.hpp
+        # 与 canopen_consts.py 时非零退出。生成物是常量的事实来源，
+        # 漂移会让"代码里的索引"与"被审计的 od.json"分家，
+        # 而手改生成物正是那种能一路过 CI 的改动。
+        #
+        # --model 是**必填**参数（脚本按型号定位 od.json 与两份产物），
+        # 因此这里按 device/drivers/ 下的实际目录逐个跑，而不是写死一个型号：
+        # 写死会让新增型号天然免检，而那正是最需要查的时刻。
+        # 目录名带下划线的前缀（_template）跳过：模板的产物是占位，
+        # 它的占位一致性由 template job 在复制后的副本上验。
+        run: |
+          set -euo pipefail
+          found=0
+          for d in device/drivers/*/; do
+            model="$(basename "$d")"
+            case "$model" in _*) continue ;; esac
+            [ -f "$d/driver/od.json" ] || continue
+            found=$((found + 1))
+            echo "--> $model"
+            python3 tools/hwdriver/gen-od.py --model "$model" --check
+          done
+          if [ "$found" -eq 0 ]; then
+            echo "::error::device/drivers/ 下没有任何驱动，溯源漂移检查没有对象——这本身就是异常"
+            exit 1
+          fi
+
+  template:
+    name: template
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install deps
+        # 与 device job 同一份依赖：副本是在 device/ 工程里配置与构建的，
+        # 只装 g++ 会让可选依赖全部落空——构建通过，但覆盖不到真实代码路径。
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build g++-aarch64-linux-gnu \
+            libprotobuf-dev protobuf-compiler libspdlog-dev libfmt-dev \
+            nlohmann-json3-dev libsqlite3-dev libssl-dev libzmq3-dev
+      - name: Copy the template and substitute the placeholder model
+        # 为什么要构建**复制后的副本**，而不是直接构建 _template：
+        # 一个能被主构建编过的模板，不等于一个复制后能编过的模板。
+        # 占位型号一旦在某处漏改（文件名、CMake 变量、宏名），主构建照样通过，
+        # 而复制出来的驱动是坏的——缺陷要等到半年后有人真去建驱动时才发现。
+        # 因此这里走与人的复制流程完全相同的路径：替换占位 -> 改名 -> 挂进 build。
+        #
+        # 替换顺序不可颠倒：_MODEL_ 是大写变体，先替换会吃掉 _Model_ 的前半段
+        # （两者都以 _ 开头、以 Model 续），结果是残缺的 PascalCase 标识符。
+        # 从最长的模式开始，逐个缩短；改这里之前先读 _template/README.md 的说明。
+        run: |
+          set -euo pipefail
+          MODEL=yz100
+          PASCAL=Yz100
+          UPPER=YZ100
+          BUS=can-2
+          DEST="device/drivers/$MODEL"
+          cp -r device/drivers/_template "$DEST"
+          find "$DEST" -name '__pycache__' -type d -prune -exec rm -rf {} +
+
+          # 替换**一次**占位。为什么不自造一套循环、每个占位词各 grep 一遍：
+          # 那样每个"本模板里已经不存在该占位"的情形都会让 grep 以 1 退出，
+          # 在 set -o pipefail 下把整步判成失败——一个**假**失败。
+          # 这里改用一条 sed 脚本按行内出现顺序逐个替换；顺序即优先级：
+          #   1. _MODEL_ / <大写代号>  最长的大写变体必须先走，否则会被 _Model_ / <代号> 咬掉后缀
+          #   2. _Model_               PascalCase
+          #   3. _model_ / <型号> / <代号> / <总线>   最后走短的
+          # s///g 对"不出现"是恒等操作，因此这一条脚本对两套占位都安全。
+          find "$DEST" -type f \
+            -exec sed -i \
+              -e "s/_MODEL_/${UPPER}_/g" \
+              -e "s/<大写代号>/${UPPER}/g" \
+              -e "s/_Model_/${PASCAL}/g" \
+              -e "s/_model_/${MODEL}/g" \
+              -e "s/<型号>/${MODEL}/g" \
+              -e "s/<代号>/${MODEL}/g" \
+              -e "s/<总线>/${BUS}/g" {} +
+
+          # sed 不改文件名，单独改名。
+          # -print0 + read -d ''：文件名里可能有空格（本仓库没有，但依赖"恰好没有"
+          # 是这类脚本最常见的隐性 bug），空分隔不受 IFS 影响。
+          while IFS= read -r -d '' f; do
+            mv "$f" "$(printf '%s' "$f" | sed "s/<大写代号>/${UPPER}/g; s/<代号>/${MODEL}/g; s/<型号>/${MODEL}/g; s/_MODEL_/${UPPER}_/g; s/_Model_/${PASCAL}/g; s/_model_/${MODEL}/g")"
+          done < <(find "$DEST" \( -name '*_model_*' -o -name '*_Model_*' -o -name '*_MODEL_*' -o -name '*<代号>*' -o -name '*<型号>*' -o -name '*<大写代号>*' \) -print0)
+
+          # 残留即漏改。这是整个 job 的核心断言：占位词带下划线就是为了让
+          # "有没有漏改"变成一次 grep 就能回答的问题。
+          if grep -rn '_model_\|_Model_\|_MODEL_\|<型号>\|<代号>\|<大写代号>\|<总线>' "$DEST"; then
+            echo "::error::占位型号未替换干净，上面的每一行都是漏改处"
+            exit 1
+          fi
+          echo "占位替换完成：$(find "$DEST" -type f | wc -l) 个文件"
+      - name: Wire the copy into the device build
+        # 副本必须能从 device/CMakeLists.txt 到达，否则它根本不会被编译
+        # （同样的静默缺口，check-drivers.sh 第 4 条在真实驱动上抓）。
+        # 这一步**只在 CI 的工作区里**改 CMakeLists，不提交：
+        # 临时驱动不是仓库内容，把它写进构建文件会让 main 上多出一个假型号。
+        #
+        # 路径写 `drivers/<型号>` 而不是 `device/drivers/<型号>`：
+        # add_subdirectory 的相对路径以**当前 CMakeLists 所在目录**为基准，
+        # 也就是 device/。写成仓库相对路径会报
+        # "add_subdirectory given source ... which is not an existing directory"。
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import io
+          begin = "# ---- 硬件驱动（由 tools/hwdriver/new-driver.sh 追加）----"
+          end = "# ---- 硬件驱动结束 ----"
+          line = "add_subdirectory(drivers/yz100)"
+          p = "device/CMakeLists.txt"
+          out, placed = [], False
+          for raw in io.open(p, encoding="utf-8").read().split("\n"):
+              if raw == end and not placed:
+                  out.append(line)
+                  placed = True
+              out.append(raw)
+          if not placed:
+              raise SystemExit(f"未找到标记行 {end!r}，模板 job 的挂载点约定变了")
+          io.open(p, "w", encoding="utf-8").write("\n".join(out))
+          print("已挂载:", line)
+          PY
+      - name: Configure
+        # KM3_ALLOW_UNVERIFIED_OD=1：手册未到，od_generated.hpp 默认 #error 毒化。
+        # 这个开关**只**允许用于 CI 与未接电机的回环验证（见 _template/README.md）。
+        # 若不放开，本 job 永远编不过，而编不过是设计意图，不是缺陷——
+        # 于是 job 会常年红着被人忽略，那比不跑更坏。
+        run: >
+          cmake -S device -B build-tmpl -G Ninja
+          -DCMAKE_BUILD_TYPE=Debug
+          -DKM3_ALLOW_UNVERIFIED_OD=1
+      - name: Build
+        run: cmake --build build-tmpl -j
+      - name: Test the copied driver
+        # 只跑本驱动的测试：其余测试由 device job 覆盖，这里的问题是
+        # "复制出来的驱动能不能自洽地编出来、跑起来"。
+        run: ctest --test-dir build-tmpl -R yz100 --output-on-failure
+      - name: Python tools syntax
+        # 驱动自带工具交付到板上的 /opt/km3/hwtools/，语法错误要在这里拦住，
+        # 而不是等到 scp 上板之后。
+        run: python3 -m py_compile device/drivers/yz100/tools/*.py
+
   docs:
     name: docs
     runs-on: ubuntu-22.04
@@ -124,6 +306,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Check docs against the repository
         # 唯一实现：tools/check-docs.sh。
-        # 校验 (1) markdown 引用可解析 (2) 设备端文档目录树中每个具名文件真实存在。
+        # 校验 (1) markdown 引用可解析 (2) 设备端文档目录树中每个具名文件真实存在，
+        # 外加仓库内路径引用、目录树、CAN 写法歧义、tools 索引、systemd 单元语法。
+        # 扫描面含 docs/硬件手册/ 下的 markdown（递归）；该目录的引用豁免存在性
+        # 检查，理由写在脚本内 —— 那里大量文件是尚未投喂的。
         # 本地可执行 `bash tools/check-docs.sh` 得到完全相同的结果。
         run: bash tools/check-docs.sh

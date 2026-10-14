@@ -122,6 +122,40 @@ add_library(km3_hal
 )
 target_link_libraries(km3_hal PUBLIC km3_core)
 
+# ---- 硬件驱动（由 tools/hwdriver/new-driver.sh 追加）----
+#
+# 这一区由 tools/hwdriver/new-driver.sh 维护：新增型号时它在**结束标记之前**
+# 插一行 add_subdirectory(drivers/<型号>)。手工加驱动也应该写在这里，
+# 不要另找地方——tools/check-drivers.sh 的第 (c) 条断言会逐个检查
+# device/drivers/ 下的目录能否从**本文件**到达，而它认的就是这个标记区。
+#
+# 路径的基准是**本文件所在目录**（device/），因此写 drivers/<型号>，
+# 不是 device/drivers/<型号>。后者会报
+# "add_subdirectory given source ... which is not an existing directory"，
+# 而那里的目录名看起来是对的，反查过的人才会知道基准不是仓库根。
+#
+# 为什么需要这条断言：目录存在但没挂进 build 是**静默**的——配置通过、
+# 编译通过、测试通过，板上就是没有这个驱动。这类缺陷没有任何其它信号。
+#
+# 驱动之间的解耦约束（target_link_libraries 白名单、不得跨型号引用）
+# 见 device/drivers/_template/CMakeLists.txt 的注释。
+#
+# pmp4010 —— 机身抬降电机 A（4 台，CANopen，挂逻辑名 can-2）。
+#
+# 加 if(TARGET ...) 守卫，而不是裸 add_subdirectory：
+# pmp4010 要链 km3_canopen 与 km3_driver_api，而这两个目标尚未实现。
+# 裸挂会让整个设备端工程在依赖落地前配置失败——一个尚未完成的驱动
+# 不该挡住其它模块的构建。
+#
+# 这条守卫与 pmp4010/CMakeLists.txt 自己那段存在性检查是**两层**，
+# 刻意重复：守卫在配置期跳过整个目录，目录内的检查在它被单独配置时
+# 仍然给出可读的提示。谁先落地谁去掉自己那层。
+if(TARGET km3_canopen AND TARGET km3_driver_api)
+  add_subdirectory(drivers/pmp4010)
+endif()
+
+# ---- 硬件驱动结束 ----
+
 # ---- 链路层：帧编解码（不依赖 ZeroMQ，主机上即可测试）----
 add_library(km3_link
   src/middleware/frame.cpp

@@ -1,0 +1,244 @@
+{
+  "_comment": [
+    "PMP4010 对象字典声明。本文件不是 EDS 的替代品，是「哪些条目被用到、置信度如何」的清单。",
+    "纪律：厂家手册未提供前，**每一条** index/sub 都是 null、status 都是 unverified、cite 都是 null。",
+    "绝不凭记忆填一个 CiA 402 惯例值 —— 惯例不是厂家确认，猜错就是按错的距离移动。",
+    "手册到达后只做两件事：填 index/sub/bits/scale，并把 status 改成 verified、cite 指向具体文件与页码。",
+    "status 取值：unverified（无依据）| assumed（有人给了口头依据，仍需书面确认）| verified（有 cite）。",
+    "driver/od_generated.hpp 由本文件派生，但其首行守卫与 #error 必须保留。"
+  ],
+  "device": {
+    "model": "PMP4010",
+    "role": "机身抬降电机 A",
+    "units_on_bus": 4,
+    "logical_bus": "can-2",
+    "protocol": "CANopen",
+    "physical_layer": "CAN 2.0B @ 500000bps",
+    "node_id": {
+      "assignment": null,
+      "notes": "拨码 / SDO 写入 / 出厂固定，未确认。代码里 node_id = 1 是纯占位，不是默认值。",
+      "status": "unverified",
+      "cite": null
+    },
+    "cia_profile": {
+      "profile_number": null,
+      "notes": "是否 CiA 402 未确认，不得预先套用 402 状态机。",
+      "status": "unverified",
+      "cite": null
+    },
+    "power_on_state": {
+      "auto_enable": null,
+      "notes": "上电默认使能还是保持禁用，涉及上电瞬间安全。",
+      "status": "unverified",
+      "cite": null
+    },
+    "termination": {
+      "built_in": null,
+      "notes": "4 台串联拓扑是否需外接 120Ω。",
+      "status": "unverified",
+      "cite": null
+    }
+  },
+  "entries": [
+    {
+      "key": "controlword",
+      "name": "控制字",
+      "purpose": "使能 / 停止 / 故障复位。不发它就无法使能电机。",
+      "index": null, "sub": null, "type": null, "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "statusword",
+      "name": "状态字",
+      "purpose": "读回使能态 / 故障 / 到位。",
+      "index": null, "sub": null, "type": null, "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "controlword_bits",
+      "name": "控制字逐位定义",
+      "purpose": "每个位的含义与置位顺序（使能序列不能错）。",
+      "index": null, "sub": null, "type": "bitfield", "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "statusword_bits",
+      "name": "状态字逐位定义",
+      "purpose": "每个位的含义，尤其故障位与到位位。",
+      "index": null, "sub": null, "type": "bitfield", "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "modes_of_operation",
+      "name": "工作模式设定",
+      "purpose": "决定位置 / 速度 / 回零三条驱动路径各怎么发。",
+      "index": null, "sub": null, "type": "int8", "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "modes_of_operation_display",
+      "name": "工作模式回显",
+      "purpose": "确认从站真的切到了要求的模式（设定值被接受 ≠ 已生效）。",
+      "index": null, "sub": null, "type": "int8", "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "mode_codes",
+      "name": "工作模式码取值表",
+      "purpose": "各模式的数值编码（位置 / 速度 / 回零 / 插补）。",
+      "index": null, "sub": null, "type": "enum", "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "target_position",
+      "name": "目标位置",
+      "purpose": "位置模式下的目标量。标度未知即无法把物理量换算成计数。",
+      "index": null, "sub": null, "type": null, "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "actual_position",
+      "name": "实际位置",
+      "purpose": "位置反馈。上层只收物理量，标度错就是按错的距离移动。",
+      "index": null, "sub": null, "type": null, "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "position_scale",
+      "name": "位置标度与零位偏置",
+      "purpose": "每计数单位对应多少脉冲 / mrad，以及零位偏置。",
+      "index": null, "sub": null, "type": "scaling", "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "target_velocity",
+      "name": "目标速度",
+      "purpose": "速度模式下的目标量。",
+      "index": null, "sub": null, "type": null, "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "actual_velocity",
+      "name": "实际速度",
+      "purpose": "速度反馈。",
+      "index": null, "sub": null, "type": null, "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "velocity_scale",
+      "name": "速度标度",
+      "purpose": "每计数单位对应多少 rpm / mrad/s。",
+      "index": null, "sub": null, "type": "scaling", "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "profile_acceleration",
+      "name": "加速度 / 减速度",
+      "purpose": "抬降带载，加减速限值关系到机械冲击。",
+      "index": null, "sub": null, "type": null, "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "homing_method",
+      "name": "回零方法与回零速度",
+      "purpose": "回零是抬降机构的基准，方式未知则零位无意义。",
+      "index": null, "sub": null, "type": null, "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "heartbeat_time",
+      "name": "心跳生产者时间",
+      "purpose": "断线检测是安全相关，缺它无法设计看门狗。",
+      "index": null, "sub": null, "type": "uint16", "bits": null,
+      "scale": null, "unit": "ms", "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "node_guard",
+      "name": "节点保护（周期 / 超时）",
+      "purpose": "心跳与节点保护二选一，超时行为未知。",
+      "index": null, "sub": null, "type": null, "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "emcy_cob_id",
+      "name": "EMCY 的 COB-ID",
+      "purpose": "紧急报文的标识符，以及是否被改写。",
+      "index": null, "sub": null, "type": "uint32", "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "emcy_vendor_codes",
+      "name": "EMCY 厂商错误码表",
+      "purpose": "厂商码 → 人能看懂的原因。故障上报要能翻译。",
+      "index": null, "sub": null, "type": "table", "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "firmware_version",
+      "name": "固件版本读取索引",
+      "purpose": "OTA 与版本上报要用。",
+      "index": null, "sub": null, "type": "string", "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "pdo_default_mapping",
+      "name": "默认 PDO 映射（TPDO/RPDO 1-4）",
+      "purpose": "决定周期指令走 PDO 还是退化为 SDO —— 性能差一个量级，见 CONTRACT.md 第 1.1 节。",
+      "index": null, "sub": null, "type": "table", "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "pdo_mapping_writable",
+      "name": "PDO 映射是否允许改写",
+      "purpose": "不允许改写时，映射必须原样接受，否则周期路径要重新设计。",
+      "index": null, "sub": null, "type": "bool", "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "sync_period",
+      "name": "SYNC 周期与 SYNC 的 COB-ID",
+      "purpose": "PDO 触发节拍。与 1 ms 控制周期是否同频未确认。",
+      "index": null, "sub": null, "type": null, "bits": null,
+      "scale": null, "unit": "us", "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "sdo_timeout",
+      "name": "SDO 应答超时",
+      "purpose": "边界线程上的 SDO 事务要等多久才算失败，不能拍一个值。",
+      "index": null, "sub": null, "type": null, "bits": null,
+      "scale": null, "unit": "ms", "zero_offset": null,
+      "status": "unverified", "cite": null
+    },
+    {
+      "key": "store_parameters",
+      "name": "参数掉电保存",
+      "purpose": "配置写入是否需要显式保存、保存是否影响寿命（EEPROM 擦写次数）未知。",
+      "index": null, "sub": null, "type": null, "bits": null,
+      "scale": null, "unit": null, "zero_offset": null,
+      "status": "unverified", "cite": null
+    }
+  ]
+}

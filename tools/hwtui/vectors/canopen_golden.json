@@ -1,0 +1,878 @@
+{
+  "format": "km3-canopen-golden-v1",
+  "说明": [
+    "金标语料是**序列级**的：每条记录一段完整对话（请求帧序列 -> 期望应答帧序列），",
+    "而不是单帧断言。原因：SDO 分段传输的正确性只体现在帧与帧之间的关系上",
+    "（toggle 位交替、末段 n 位、长度一致性），单帧比对看不出这些。",
+    "",
+    "帧的记法：id 是十六进制 COB-ID 本体（不含 SocketCAN 标志位），",
+    "data 是空格分隔的十六进制字节。",
+    "",
+    "kind 取值：",
+    "  sdo_expedited_read  -- 加急上传：一次请求一次应答",
+    "  sdo_expedited_write -- 加急下载（含 n 位长度编码）",
+    "  sdo_segmented_read  -- 分段上传：请求 + 交替的段请求",
+    "  sdo_segmented_write -- 分段下载：发起帧 + 数据段 + 确认",
+    "  sdo_abort           -- 中止：含规范码与未知码两种",
+    "  node_scan           -- 静默总线上扫描，必须无假阳性",
+    "  heartbeat_timeout   -- 心跳超时判定",
+    "  emcy                -- 紧急报文收帧",
+    "  pdo_mapping_read    -- 只读地读 PDO 映射",
+    "  pdo_comm_read       -- 只读地读 PDO 通讯参数",
+    "  nmt                 -- NMT 状态机与命令",
+    "",
+    "本语料**不含任何厂家私有索引**。全部索引都是 CiA 301 规范定义的公共对象，",
+    "与 canopen.py 的硬规则一致（厂家索引属于 od.json）。"
+  ],
+  "vectors": [
+    {
+      "name": "expedited_read_uint8",
+      "kind": "sdo_expedited_read",
+      "说明": "读 1 字节对象 0x1001（错误寄存器）。应答命令字 0x4F = 0x43 | (3<<2)，只有 1 字节有效。",
+      "node_id": 1,
+      "index": 4097,
+      "subindex": 0,
+      "object_value": "00",
+      "expected_value": "00",
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "40 01 10 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "4F 01 10 00 00 00 00 00"
+          }
+        }
+      ]
+    },
+    {
+      "name": "expedited_read_uint16",
+      "kind": "sdo_expedited_read",
+      "说明": "读 2 字节对象 0x1017（心跳周期）。应答命令字 0x4B，填充 2 字节。这是最容易被写错的一条：0x4B 不等于常量 0x43。",
+      "node_id": 1,
+      "index": 4119,
+      "subindex": 0,
+      "object_value": "FA 00",
+      "expected_value": "FA 00",
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "40 17 10 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "4B 17 10 00 FA 00 00 00"
+          }
+        }
+      ]
+    },
+    {
+      "name": "expedited_read_uint32",
+      "kind": "sdo_expedited_read",
+      "说明": "读 4 字节对象 0x1000（设备类型）。应答命令字 0x43，n 位为 0，四字节全有效。",
+      "node_id": 1,
+      "index": 4096,
+      "subindex": 0,
+      "object_value": "92 01 02 00",
+      "expected_value": "92 01 02 00",
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "40 00 10 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "43 00 10 00 92 01 02 00"
+          }
+        }
+      ]
+    },
+    {
+      "name": "expedited_read_identity_vendor_id",
+      "kind": "sdo_expedited_read",
+      "说明": "读 0x1018:01（厂家 ID）。子索引非 0，帧里的第四个字节必须是 01。",
+      "node_id": 1,
+      "index": 4120,
+      "subindex": 1,
+      "object_value": "AA BB CC DD",
+      "expected_value": "AA BB CC DD",
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "40 18 10 01 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "43 18 10 01 AA BB CC DD"
+          }
+        }
+      ]
+    },
+    {
+      "name": "expedited_write_uint16",
+      "kind": "sdo_expedited_write",
+      "说明": "写 2 字节对象 0x1017。命令字 0x2B = 0x23 | (2<<2)，确认固定 0x60。写 2 字节时命令字是 0x2B 而不是 0x27 或 0x23 —— 这是本语料的重点之一。",
+      "node_id": 1,
+      "index": 4119,
+      "subindex": 0,
+      "object_value": "00 00",
+      "write_value": "FA 00",
+      "expected_value": "FA 00",
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "2B 17 10 00 FA 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "60 17 10 00 00 00 00 00"
+          }
+        }
+      ]
+    },
+    {
+      "name": "expedited_write_uint8",
+      "kind": "sdo_expedited_write",
+      "说明": "写 1 字节对象。命令字 0x2F = 0x23 | (3<<2)，填充 3 字节。",
+      "node_id": 1,
+      "index": 4112,
+      "subindex": 0,
+      "object_value": "00",
+      "write_value": "01",
+      "expected_value": "01",
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "2F 10 10 00 01 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "60 10 10 00 00 00 00 00"
+          }
+        }
+      ]
+    },
+    {
+      "name": "expedited_write_uint32",
+      "kind": "sdo_expedited_write",
+      "说明": "写 4 字节对象，命令字 0x23，n 位为 0。注意客户端**不得**在这条之后再发数据段。",
+      "node_id": 1,
+      "index": 4102,
+      "subindex": 0,
+      "object_value": "00 00 00 00",
+      "write_value": "40 42 0F 00",
+      "expected_value": "40 42 0F 00",
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "23 06 10 00 40 42 0F 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "60 06 10 00 00 00 00 00"
+          }
+        }
+      ]
+    },
+    {
+      "name": "segmented_write_9_bytes",
+      "kind": "sdo_segmented_write",
+      "说明": "写 9 字节对象：发起帧 0x21（长度 9 小端）+ 两段数据。第一段 toggle=0，第二段 toggle=1 且 c 位置 1、n 位标出 2 个有效字节（7-2=5，故 n 位为 5<<1=0x0A）。",
+      "node_id": 1,
+      "index": 4106,
+      "subindex": 0,
+      "object_value": "000000000000000000",
+      "write_value": "41 42 43 44 45 46 47 48 49",
+      "write_value_ascii": "ABCDEFGHI",
+      "expected_value": "41 42 43 44 45 46 47 48 49",
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "21 0A 10 00 09 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "60 0A 10 00 00 00 00 00"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "00 41 42 43 44 45 46 47"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "20 00 00 00 00 00 00 00"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "1B 48 49 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "30 00 00 00 00 00 00 00"
+          }
+        }
+      ]
+    },
+    {
+      "name": "segmented_write_64_bytes",
+      "kind": "sdo_segmented_write",
+      "说明": "写 64 字节：发起帧 + 10 段（9 段满 7 字节 + 1 段 1 字节）。末段 n 位为 (7-1)<<1 = 0x0C，命令字 toggle=1 且 c=1、n=0x0C，即 0x1D。",
+      "node_id": 1,
+      "index": 4104,
+      "subindex": 0,
+      "object_value": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "write_value_hex_sequence": true,
+      "write_length": 64,
+      "expected_value_hex_sequence": true,
+      "expected_frames_note": "完整 10 段见 test_canopen.py 的 test_segmented_write_64_bytes；此处只固定首末两帧，中间段由测试按 toggle 规则逐帧校验。",
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "21 08 10 00 40 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "60 08 10 00 00 00 00 00"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "10 07 08 09 0A 0B 0C 0D"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "20 00 00 00 00 00 00 00"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "1D 3F 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "30 00 00 00 00 00 00 00"
+          }
+        }
+      ]
+    },
+    {
+      "name": "segmented_read_9_bytes",
+      "kind": "sdo_segmented_read",
+      "说明": "读 9 字节对象。首帧只 4 字节，表示**不带**长度指示（规范用帧长区分：8 字节才带总长度字段）；两段应答，第二段 c=1、n 位 5（命令字 0x1B，2 个有效字节）。",
+      "node_id": 1,
+      "index": 4106,
+      "subindex": 0,
+      "object_value": "41 42 43 44 45 46 47 48 49",
+      "expected_value": "41 42 43 44 45 46 47 48 49",
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "40 0A 10 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "41 0A 10 00"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "60 00 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "40 41 42 43 44 45 46 47"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "70 00 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "5B 48 49 00 00 00 00 00"
+          }
+        }
+      ],
+      "size_indicated": false
+    },
+    {
+      "name": "segmented_read_64_bytes",
+      "kind": "sdo_segmented_read",
+      "说明": "读 64 字节对象。首帧带长度指示（0x41 | 0x01，byte4..7 是总长 64）。段请求 toggle 交替 0x60/0x70；末段命令字 0x1D（c=1、n=0x0C）。",
+      "node_id": 1,
+      "index": 4104,
+      "subindex": 0,
+      "object_value_hex_sequence_zero_to": 64,
+      "expected_value_hex_sequence_zero_to": 64,
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "40 08 10 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "41 08 10 00 40 00 00 00"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "60 00 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "40 00 01 02 03 04 05 06"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "70 00 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "50 07 08 09 0A 0B 0C 0D"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "60 00 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "40 0E 0F 10 11 12 13 14"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "70 00 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "50 15 16 17 18 19 1A 1B"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "60 00 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "40 1C 1D 1E 1F 20 21 22"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "70 00 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "50 23 24 25 26 27 28 29"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "60 00 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "40 2A 2B 2C 2D 2E 2F 30"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "70 00 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "50 31 32 33 34 35 36 37"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "60 00 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "40 38 39 3A 3B 3C 3D 3E"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "70 00 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "5D 3F 00 00 00 00 00 00"
+          }
+        }
+      ]
+    },
+    {
+      "name": "abort_object_not_exist",
+      "kind": "sdo_abort",
+      "说明": "读一个字典里没有的对象 0x1007，节点回 abort 0x06020000。0x1007 是 CiA 301 里保留未用的公共索引，选它而不是厂家私有索引，是为了让语料保持零手册依赖。abort 帧的索引字段回显被拒的索引。",
+      "node_id": 1,
+      "index": 4103,
+      "subindex": 0,
+      "expect_abort_code": 100794368,
+      "expect_abort_description": "object does not exist in the object dictionary",
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "40 07 10 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "80 07 10 00 00 00 02 06"
+          }
+        }
+      ]
+    },
+    {
+      "name": "abort_write_readonly",
+      "kind": "sdo_abort",
+      "说明": "写只读对象 0x1001，节点回 0x06010002。这类竞态在调试中最常见——把只读对象当成可写是配置错误，不是总线故障。",
+      "node_id": 1,
+      "index": 4097,
+      "subindex": 0,
+      "write_value": "01",
+      "expect_abort_code": 100728834,
+      "expect_abort_description": "attempt to write a read only object",
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "2F 01 10 00 01 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "80 01 10 00 02 00 01 06"
+          }
+        }
+      ]
+    },
+    {
+      "name": "abort_unknown_code_preserved",
+      "kind": "sdo_abort",
+      "说明": "节点回一个规范里没有的 abort code（0x0BADF00D 是刻意编的假码）。断言：**不得编造含义**，原样以十六进制呈现，且前缀为 unknown。",
+      "node_id": 1,
+      "index": 4103,
+      "subindex": 2,
+      "inject_abort_code": 195948557,
+      "expect_abort_code": 195948557,
+      "expect_abort_description": "unknown abort code 0x0BADF00D",
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "40 07 10 02 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "80 07 10 02 0D F0 AD 0B"
+          }
+        }
+      ]
+    },
+    {
+      "name": "node_scan_silent_bus",
+      "kind": "node_scan",
+      "说明": "静默总线（无任何节点）上扫描 1..8 号。断言：结果为空，且不得抛异常、不得出现假阳性。每条 SDO 探测都会超时，这是预期行为。",
+      "node_ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "expected_found": [],
+      "expect_probes": 8,
+      "timeout_s": 0.01
+    },
+    {
+      "name": "node_scan_finds_only_live_nodes",
+      "kind": "node_scan",
+      "说明": "总线上只有 3 号和 5 号活着。断言：恰好扫到 [3, 5]，1/2/4/6 不得出现——这是防假阳性的核心用例。",
+      "node_ids": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "live_nodes": [
+        3,
+        5
+      ],
+      "expected_found": [
+        3,
+        5
+      ],
+      "timeout_s": 0.01
+    },
+    {
+      "name": "heartbeat_timeout_detection",
+      "kind": "heartbeat_timeout",
+      "说明": "两个节点各有心跳，超时窗口 1.0s。节点 1 在 t=0.4 与 0.9 各上报一次，节点 2 全程静默。因此：t=0.5 时只有节点 2 超时（它从未上报过）；t=1.5 时节点 1 的最后一次是 0.9，尚在 1.0s 窗口内，仍只有节点 2 超时；t=2.1 时 0.9+1.0=1.9 < 2.1，节点 1 也超时。时间由注入的时钟驱动，不真实 sleep。",
+      "node_ids": [
+        1,
+        2
+      ],
+      "timeout_s": 1.0,
+      "heartbeats": [
+        {
+          "node_id": 1,
+          "state": 127,
+          "at": 0.4
+        },
+        {
+          "node_id": 1,
+          "state": 5,
+          "at": 0.9
+        }
+      ],
+      "expect_states": {
+        "1": 5
+      },
+      "expect_transitions": [
+        {
+          "node_id": 1,
+          "state": 127,
+          "at": 0.4
+        },
+        {
+          "node_id": 1,
+          "state": 5,
+          "at": 0.9
+        }
+      ],
+      "expect_due_at": {
+        "0.5": [
+          2
+        ],
+        "1.5": [
+          2
+        ],
+        "2.1": [
+          1,
+          2
+        ]
+      },
+      "expected_frames": [
+        {
+          "request": null,
+          "response": {
+            "id": "0x701",
+            "data": "7F"
+          }
+        },
+        {
+          "request": null,
+          "response": {
+            "id": "0x701",
+            "data": "05"
+          }
+        }
+      ]
+    },
+    {
+      "name": "emcy_report_and_clear",
+      "kind": "emcy",
+      "说明": "EMCY 收帧：先是错误上报（错误码 0x2310、错误寄存器 0x01），随后是同一节点的清除报文（错误码 0x0000）。断言 has_error 与 is_clear 的区分，以及 8 字节布局的拆解。",
+      "node_id": 2,
+      "expected_frames": [
+        {
+          "request": null,
+          "response": {
+            "id": "0x082",
+            "data": "10 23 01 00 00 00 00 00"
+          }
+        },
+        {
+          "request": null,
+          "response": {
+            "id": "0x082",
+            "data": "00 00 00 00 00 00 00 00"
+          }
+        }
+      ],
+      "expect_parsed": [
+        {
+          "node_id": 2,
+          "error_code": 8976,
+          "error_register": 1,
+          "has_error": true,
+          "is_clear": false,
+          "vendor_data": "00 00 00 00 00"
+        },
+        {
+          "node_id": 2,
+          "error_code": 0,
+          "error_register": 0,
+          "has_error": false,
+          "is_clear": true,
+          "vendor_data": "00 00 00 00 00"
+        }
+      ]
+    },
+    {
+      "name": "pdo_mapping_read_rpdo1",
+      "kind": "pdo_mapping_read",
+      "说明": "只读地读 RPDO1 的映射对象 0x1601（基址 0x1600 + 子索引 1）。子索引 0 是条目数 2；每条 32 位 = 索引 | 子索引<<16 | 位长<<24。这里映射 0x6040:00 共 16 位、0x6060:00 共 8 位 —— 那两个索引是 CiA 402 的惯例值，**仅作为映射内容的样例数据**，不是本层硬编码的厂家索引。",
+      "node_id": 1,
+      "base_index": 5632,
+      "subindex": 1,
+      "object_dump": {
+        "0x1601:00": "02",
+        "0x1601:01": "40 60 00 10",
+        "0x1601:02": "60 60 00 08"
+      },
+      "expect_count": 2,
+      "expect_entries": [
+        [
+          24640,
+          0,
+          16
+        ],
+        [
+          24672,
+          0,
+          8
+        ]
+      ],
+      "expect_total_bits": 24
+    },
+    {
+      "name": "pdo_comm_read_tpdo1",
+      "kind": "pdo_comm_read",
+      "说明": "只读地读 TPDO1 的通讯参数对象 0x1801（基址 0x1800 + 子索引 1）。COB-ID 低 11 位是本体（0x181），bit31 = 0 表示 PDO 有效；传输类型 254 = 事件驱动。",
+      "node_id": 1,
+      "base_index": 6144,
+      "subindex": 1,
+      "object_dump": {
+        "0x1801:00": "02",
+        "0x1801:01": "81 01 00 00",
+        "0x1801:02": "FE"
+      },
+      "expect_cob_id": 385,
+      "expect_valid": true,
+      "expect_transmission_type": 254,
+      "expect_transmission_type_name": "event driven"
+    },
+    {
+      "name": "nmt_start_stop_via_heartbeat",
+      "kind": "nmt",
+      "说明": "NMT 状态机：Pre-operational -> start -> Operational -> stop -> Stopped。命令帧 COB-ID 0x000、数据 [命令, 节点号]。断言心跳随之变化，即命令确实生效。",
+      "node_id": 1,
+      "commands": [
+        {
+          "command": "enter_pre_operational",
+          "expect_state": 127
+        },
+        {
+          "command": "start_remote_node",
+          "expect_state": 5
+        },
+        {
+          "command": "stop_remote_node",
+          "expect_state": 4
+        }
+      ],
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x000",
+            "data": "80 01"
+          },
+          "response": {
+            "id": "0x701",
+            "data": "7F"
+          }
+        },
+        {
+          "request": {
+            "id": "0x000",
+            "data": "01 01"
+          },
+          "response": {
+            "id": "0x701",
+            "data": "05"
+          }
+        },
+        {
+          "request": {
+            "id": "0x000",
+            "data": "02 01"
+          },
+          "response": {
+            "id": "0x701",
+            "data": "04"
+          }
+        }
+      ]
+    },
+    {
+      "name": "nmt_broadcast_reset_node",
+      "kind": "nmt",
+      "说明": "广播 reset_node（节点号 0）。规范要求节点先回 Initialising(0) 再回 Pre-operational(127)，因此一段命令对应两个心跳。断言这个两跳序列。",
+      "node_id": 1,
+      "commands": [
+        {
+          "command": "reset_node",
+          "broadcast": true,
+          "expect_state": 127
+        }
+      ],
+      "expect_heartbeat_sequence": [
+        0,
+        127
+      ],
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x000",
+            "data": "81 00"
+          },
+          "response": {
+            "id": "0x701",
+            "data": "00"
+          }
+        },
+        {
+          "request": null,
+          "response": {
+            "id": "0x701",
+            "data": "7F"
+          }
+        }
+      ]
+    },
+    {
+      "name": "sdo_timeout_no_response",
+      "kind": "sdo_timeout",
+      "说明": "静默总线上单节点 SDO 请求：必须在超时后抛 BusSilenceError，而不是抛 SdoAbort（节点没说话，不是节点说不行）也不返回空数据。区分这两件事决定了现场该查总线还是该查对象字典。",
+      "node_id": 7,
+      "index": 4096,
+      "subindex": 0,
+      "timeout_s": 0.01,
+      "expect_error": "BusSilenceError",
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x607",
+            "data": "40 00 10 00 00 00 00 00"
+          },
+          "response": null
+        }
+      ]
+    },
+    {
+      "name": "cob_id_mapping",
+      "kind": "cob_id",
+      "说明": "COB-ID 计算公式。节点号 1 与 127 两端的边界都要对：SDO 请求 0x600+n、应答 0x580+n、心跳 0x700+n、EMCY 0x080+n、NMT 广播 0x000。注意 EMCY 基址 0x080 比其他都靠前。",
+      "cases": [
+        {
+          "node_id": 1,
+          "sdo_tx": 1537,
+          "sdo_rx": 1409,
+          "heartbeat": 1793,
+          "emcy": 129
+        },
+        {
+          "node_id": 127,
+          "sdo_tx": 1663,
+          "sdo_rx": 1535,
+          "heartbeat": 1919,
+          "emcy": 255
+        }
+      ],
+      "nmt_broadcast": 0
+    },
+    {
+      "name": "segmented_read_0x51_last_segment",
+      "kind": "sdo_segmented_read",
+      "说明": "读一个 16 字节对象，三段应答，命令字依次是 0x40 / 0x50 / 0x41：非末段的**末位 c=0**，并且每段的 toggle 交替 0,1,0。这条语料钉死两点：(1) 分段上传应答必须带 0x40 基值，只写 toggle 位会发出 0x00/0x10（那是下载方向的命令字）；(2) 末段由 c 位判定，与 toggle 取值无关。",
+      "node_id": 1,
+      "index": 4097,
+      "subindex": 0,
+      "object_value_hex_sequence_zero_to": 16,
+      "expected_value_hex_sequence_zero_to": 16,
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "40 01 10 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "41 01 10 00 10 00 00 00"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "60 00 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "40 00 01 02 03 04 05 06"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "70 00 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "50 07 08 09 0A 0B 0C 0D"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "60 00 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "4B 0E 0F 00 00 00 00 00"
+          }
+        }
+      ]
+    }
+  ]
+}
