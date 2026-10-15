@@ -2,7 +2,7 @@
 //
 // 型号：pmp4010（驱动代号 pmp4010，命名空间 km3::pmp4010）
 // 来源：device/drivers/pmp4010/driver/od.json
-// 来源 sha256：76d49f2fb89c6e71974ff22a496784dc4a27a4f8bf0e280ea17d4b9974fbcd15
+// 来源 sha256：d286cc6c0eccefabad1bc7568f48a9aa698118060651a8f1eef35cfb37b9a0c9
 //
 // 手改本文件会在 `python3 tools/hwdriver/gen-od.py --model pmp4010 --check`
 // 下失败，进而让 CI 变红。要改常量请改 od.json 再重新生成。
