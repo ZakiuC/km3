@@ -195,6 +195,12 @@ endif()
 
 if(KM3_BUILD_TESTS)
   enable_testing()
+  # 生产驱动仍依赖完整 OD 与标准层；隔离 mock 契约测试不能被依赖守卫静默跳过。
+  # 目录可移除，保持驱动可选；旁路宏只定义在 tests/ 自己的 mock 目标上。
+  if(NOT TARGET test_pmp4010 AND
+     EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/drivers/pmp4010/tests/CMakeLists.txt")
+    add_subdirectory(drivers/pmp4010/tests)
+  endif()
   add_executable(test_spsc_ring tests/test_spsc_ring.cpp)
   target_include_directories(test_spsc_ring PRIVATE tests)
   target_link_libraries(test_spsc_ring PRIVATE km3_core)

@@ -20,17 +20,32 @@ tput colors=256），不是开发机。三条前提都来自实测，工具的�
    device/config/device.json 的 bus.can 数组。工具从那里读，写死一个名字
    就等于在第二个地方维护同一份事实。
 
-子命令分两类，权限要求不同：
+子命令分三类，准入条件不同：
 
-  只读（任何身份可跑，不受 km3-rt-controller 状态限制）
-    --scan       被动监听总线，看谁在说话
-    --od-dump    打印对象字典声明
-    --bus-stats  接口现状与统计
-    --raw        只监听，抓原始帧
+  离线或无发帧检查（不受 km3-rt-controller 状态限制）
+    --test       严格离线自检（配置 / 声明 / 标准层 MockBus，不开真实套接字）
+    --od-dump    打印对象字典声明与核对状态
+    --bus-stats  接口现状、netlink CAN 专用错误计数、kmod、实时进程状态
+    --raw        只监听，抓原始帧（不发帧）
 
-  发帧（km3-rt-controller 处于 active 时要求 --i-know-rt-is-running）
-    --init       写目标位速率（见下）
+  只读**但发帧**（只发 SDO 上传请求，零写请求；active 时要求 --i-know-rt-is-running）
+    --scan       SDO 扫节点（1..127 或 --node-range），--identity 读身份四项
+
+  写文件（不发帧，因此**不受** OD 闸门与实时进程确认限制）
+    --init       三段式：读现状 -> 写 /etc/km3/can.env -> 打印 root 命令（见下）
+
+  运动类（OD 闸门 + active 时要求 --i-know-rt-is-running）
     --nmt        发 NMT 命令
+    --motion     手工点动（**当前无条件拒绝**，见 cmd_motion）
+
+三条准入规则，顺序固定：
+  1. **对象字典闸门**（refuse_motion）：od.json 里只要还有 status != verified 的条目，
+     运动类子命令打印「N 项对象字典未核对」并拒绝。只警告不拒绝是不够的 ——
+     动错方向的电机不会因为屏幕上有一行黄字就停下来。
+     闸门在**发帧确认之前**开口：否则"点个头就能动"的错误暗示先于真实阻塞出现。
+  2. **标准层**（require_std_layer）：总线操作只走 tools/hwtui，缺失时拒绝。
+  3. **实时进程确认**（require_rt_ack）：km3-rt-controller active 时它正在用这条总线，
+     两条控制流同时持有同一会话，只能由人确认。状态取不到时按更严一侧处理。
 
 --init 是三段式，**顺序不可颠倒**，每段都对应一条实测事实：
   (1) 读 /etc/km3/device.json 取 can-2 的 iface 与 bitrate，再用
@@ -42,13 +57,10 @@ tput colors=256），不是开发机。三条前提都来自实测，工具的�
 """
 
 import argparse
-import errno
 import json
 import os
 import re
-import shutil
-import socket
-import struct
+import math
 import subprocess
 import sys
 
@@ -57,8 +69,16 @@ import sys
 # ---------------------------------------------------------------------------
 
 DEVICE_JSON = "/etc/km3/device.json"
-# 兜底路径：置备前的板子上 /etc/km3/device.json 可能还不存在。
-DEVICE_JSON_FALLBACKS = ["/opt/km3/current/device.json"]
+# 兜底顺序与模板 device/drivers/_template/tools/<代号>.py 的
+# _DEVICE_JSON_CANDIDATES 一致：板端置备路径 -> 板上部署路径 -> 仓库内模板。
+# 仓库内那一份是给未置备的开发机用的；缺了它，本工具在开发机上连 --help
+# 之外的任何只读子命令都跑不了，于是它在被部署到板上之前没人能验证。
+DEVICE_JSON_FALLBACKS = [
+    "/opt/km3/current/device.json",
+    os.path.normpath(os.path.join(
+        os.path.dirname(os.path.abspath(__file__)),
+        "..", "..", "..", "config", "device.json")),
+]
 CAN_ENV = "/etc/km3/can.env"
 CAN_SERVICE = "km3-can.service"
 RT_SERVICE = "km3-rt-controller.service"
@@ -66,16 +86,6 @@ RT_SERVICE = "km3-rt-controller.service"
 # 逻辑名。CAN-2 = 主板第二路 CAN —— 逻辑名与内核接口名"下标差一位"，
 # 正是这一层存在的理由，所以这里只写逻辑名。
 LOGICAL_BUS = "can-2"
-
-# SocketCAN 常量。用字面值而非 python-can：板上不保证有 python-can，
-# 而这些数字是内核 ABI 的一部分（<linux/can.h>），比第三方包更稳定。
-PF_CAN = 29
-CAN_RAW = 1
-CAN_MTU = 16
-CAN_EFF_FLAG = 0x80000000
-CAN_RTR_FLAG = 0x40000000
-CAN_ERR_FLAG = 0x20000000
-CAN_SFF_MASK = 0x000007FF
 
 ANSI = {
     "reset": "\033[0m", "bold": "\033[1m", "dim": "\033[2m",
@@ -94,9 +104,7 @@ ANSI = {
 # 但本工具必须**在没有 hwtui 的机器上也能 --help / --od-dump / --init --verify**，
 # 否则一个还没写完的标准层会把整个工具卡死。因此：
 #   - 顶层不 import hwtui（ImportError 会让 argparse 都跑不起来）；
-#   - 按需导入，失败时退化到本文件内置的最小实现，并在输出里**明说**
-#     "标准层不可用，正在使用内置降级实现" —— 静默降级会让人以为
-#     自己用的是被审计过的那条路径。
+#   - 按需导入；总线操作在标准层缺失时明确拒绝，离线展示继续可用。
 _HWTUI_ERROR = None
 _canbus = None
 _canopen = None
@@ -117,7 +125,7 @@ _STD_CANDIDATES = (
     _REPO_ROOT,
     os.path.join(_REPO_ROOT, "tools"),
     os.path.join(_REPO_ROOT, "tools", "hwtui"),
-    os.path.join(_REPO_ROOT, "current", "hwtui"),
+    os.path.join(_HERE, "..", "..", "hwtui"),
     os.path.join(os.path.dirname(_HERE), "..", "..", "hwtui"),
 )
 for _p in _STD_CANDIDATES:
@@ -129,14 +137,14 @@ for _p in _STD_CANDIDATES:
 def _load_std_layer():
     """按需导入 tools/hwtui 的标准层。返回 True 表示可用。
 
-    两种导入形态都试：先按包（hwtui.canbus），再按扁平模块（canbus）。
-    后者是板上部署后的形态，也是 hwtui 内部互相引用的形态。
+    优先扁平模块（canbus/canopen），与共用库内部导入保持同一模块身份；
+    再兼容 hwtui 包形式。
     """
     global _canbus, _canopen, _HWTUI_ERROR
     if _canbus is not None and _canopen is not None:
         return True
     errors = []
-    for importer in ("package", "flat"):
+    for importer in ("flat", "package"):
         try:
             if importer == "package":
                 from hwtui import canbus as _cb, canopen as _co
@@ -153,6 +161,152 @@ def _load_std_layer():
 
 def std_layer_available():
     return _load_std_layer()
+
+
+# ---------------------------------------------------------------------------
+# 对象字典的核对状态：运动类子命令的闸门
+# ---------------------------------------------------------------------------
+#
+# 单一事实来源是 driver/od.json。**不硬编码条数，也不解析 od_generated.hpp**：
+# 前者会与 od.json 漂移，后者是生成物、字段会随生成器改。
+# 判据与 C++ 侧的 od::kOdVerified 必须同源，否则工具说"可以动"、驱动说
+# "编不过"，两边都以为自己是对的（模板 tools/<代号>.py 的 od_status() 是同一套判据，
+# 那份是蓝本，本文件照它来）。
+#
+# --nmt 受统一闸门限制；--motion 当前无条件拒绝。这不是"留个没用的空壳"：闸门先于功能落地，
+# 是为了让后来加 --motion 的人**必须**先过 refuse_motion() 这一关 ——
+# 移动电机的代码不可能"顺手"绕过一条已经写好的拒绝路径。
+# 规则本身来自 CLAUDE 侧要求（模板文件头）：只警告不拒绝是不够的，
+# 动错方向的电机不会因为屏幕上有一行黄字就停下来。
+
+def od_json_path():
+    """仓库 driver/od.json；部署时工具与 od.json 位于同一型号目录。"""
+    source = os.path.normpath(os.path.join(_HERE, "..", "driver", "od.json"))
+    deployed = os.path.join(_HERE, "od.json")
+    return source if os.path.isfile(source) else deployed
+
+
+def load_od():
+    """读取并校验闸门声明；缺失、空字典与非法核对状态一律失败关闭。"""
+    path = od_json_path()
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            od = json.load(fh)
+    except (OSError, ValueError) as exc:
+        raise ConfigError("无法读取对象字典声明 {}：{}".format(path, exc))
+    if not isinstance(od, dict) or str(od.get("model", "")).lower() != "pmp4010":
+        raise ConfigError("对象字典缺少 PMP4010 型号声明：{}".format(path))
+    entries = od.get("entries")
+    if not isinstance(entries, list) or not entries:
+        raise ConfigError("对象字典缺少非空 entries 数组：{}".format(path))
+    keys = set()
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise ConfigError("对象字典条目必须是对象")
+        key = entry.get("key") or entry.get("name")
+        if not isinstance(key, str) or not key or key in keys:
+            raise ConfigError("对象字典条目名称缺失或重复：{!r}".format(key))
+        keys.add(key)
+        status = entry.get("status")
+        if status not in ("verified", "assumed", "unverified") or "cite" not in entry:
+            raise ConfigError("对象字典 {} 缺少合法 status/cite".format(key))
+        cite = entry["cite"]
+        if status == "verified" and (not isinstance(cite, str) or not cite.strip()):
+            raise ConfigError("对象字典 {} 标为 verified 却没有 cite".format(key))
+        if status == "unverified" and cite is not None:
+            raise ConfigError("对象字典 {} 为 unverified，cite 必须为 null".format(key))
+    return od
+
+
+def od_status():
+    """返回 (全部核对?, 未核对条数, 未核对条目名列表)。
+
+    load_od 先校验非空声明、状态取值与 cite；随后只按 status 判断。
+    结构型条目的 index 可以为 null，不把它误判成未核对。
+    引用路径与章节的可解析性由 CI 的溯源检查负责。
+    """
+    od = load_od()
+    bad = [e for e in od.get("entries", []) if e.get("status") != "verified"]
+    names = [e.get("key") or e.get("name") or "?" for e in bad]
+    return (not bad), len(bad), names
+
+
+def refuse_motion(out, action):
+    """运动类子命令的统一闸门。
+
+    措辞固定（与模板一致）：`--init` 与运维脚本会 grep 「项对象字典未核对」这一行。
+    """
+    verified, count, names = od_status()
+    if verified:
+        return True
+    out.bad("{} 项对象字典未核对，拒绝执行「{}」。".format(count, action))
+    out.info("未核对的条目：{}".format(", ".join(names)))
+    out.info("条目索引的核销走 driver/od.json 的 status/cite 两个字段；")
+    out.info("全部核对并重新生成 od_generated.hpp 后，本命令才会执行。")
+    return False
+
+
+# ---------------------------------------------------------------------------
+# 标准层的取用助手
+#
+# CANopen 的帧组装、SDO 收发、NMT 状态机只在 tools/hwtui/canopen.py 实现一次
+# （docs/架构设计/硬件驱动开发路径.md 第 7 步）。下面这些只是**把标准层的形状
+# 归一化**，不重复实现协议：
+#   _std_open_active   —— 显式关闭本机回灌与自收，避免干扰探测。
+#   require_std_layer  —— 发帧类子命令必须走**被审计过的那条路径**，降级实现不发。
+# ---------------------------------------------------------------------------
+
+def require_std_layer(feature):
+    """发帧类子命令的准入：标准层不可用就拒绝，不悄悄走降级实现。"""
+    if std_layer_available():
+        return True
+    sys.stderr.write(
+        "标准层 tools/hwtui 不可用（{}），拒绝执行「{}」。\n"
+        "  总线操作只使用共用 CANopen/SocketCAN 层，不提供内置协议或传输替代。\n"
+        "  部署命令：tools/deploy_hwtools.sh\n".format(_HWTUI_ERROR, feature))
+    return False
+
+
+# ---------------------------------------------------------------------------
+# 硬件工具发现器（tools/hwtui/discover.py）
+# ---------------------------------------------------------------------------
+#
+# 复用而不是另写一份"本仓库有哪些硬件工具"的清单：discover.py 的约定是
+# **新硬件 = 新目录**，它不持有清单，所以不存在"加了硬件忘了登记"。
+# 本函数只做一件事：告诉使用者用 discover 跑本工具比直接 python3 更稳
+# （discover --run 会把工具自身目录与 tools/hwtui 一起放进 sys.path，
+# 这正是本文件那堆 sys.path 猜测的替代品）。
+
+def discover_tool_path():
+    """本工具在 discover.py 眼里的路径（<型号>/<文件名>）。
+
+    用 discover.py 自己的规则算（DRIVERS_SUBDIR + 型号 + tools + 文件名），
+    不在这里再拼一个相对路径的假设 —— 部署后本文件的层级与仓库里不同。
+    """
+    model_dir = os.path.dirname(_HERE) if os.path.basename(_HERE) == "tools" else _HERE
+    return "{}/{}".format(os.path.basename(model_dir), os.path.basename(__file__))
+
+
+def discover_hint():
+    """使用已找到的共用发现器；无可用发现器时不提供失效建议。"""
+    try:
+        import discover as runner
+    except ImportError:
+        try:
+            from hwtui import discover as runner
+        except ImportError:
+            return None
+    return "python3 {} --run {} --".format(runner.__file__, discover_tool_path())
+
+
+def _std_open_active(iface):
+    """通过标准传输层打开总线，显式关闭本机回灌与本套接字自收。
+
+    CAN_RAW_LOOPBACK 是 SocketCAN 的软件回灌开关，不配置控制器硬件回环。
+    """
+    bus = _canbus.CanBus(iface, loopback=False, receive_own_messages=False)
+    bus.open()
+    return bus
 
 
 # ---------------------------------------------------------------------------
@@ -229,13 +383,29 @@ def load_device_json():
 
 
 def find_can_bus(cfg, logical):
-    """取逻辑名对应的 can 项。返回 (item, 所在数组名)。"""
-    bus = cfg.get("bus", {})
+    """从唯一映射配置解析接口，拒绝缺失、重复或非法配置。"""
+    if not isinstance(cfg, dict) or not isinstance(cfg.get("bus"), dict):
+        raise ConfigError("设备配置缺少 bus 对象")
+    matches = []
     for key in ("can", "usb_can"):
-        for item in bus.get(key, []):
+        items = cfg["bus"].get(key, [])
+        if not isinstance(items, list):
+            raise ConfigError("bus.{} 必须是数组".format(key))
+        for item in items:
+            if not isinstance(item, dict):
+                raise ConfigError("bus.{} 的条目必须是对象".format(key))
             if item.get("logical") == logical:
-                return item, key
-    raise ConfigError("配置里没有逻辑名为 {!r} 的 CAN 总线".format(logical))
+                matches.append((item, key))
+    if len(matches) != 1:
+        raise ConfigError("配置里逻辑总线 {!r} 应恰有一项，实际 {} 项".format(logical, len(matches)))
+    item, key = matches[0]
+    iface = item.get("iface")
+    if not isinstance(iface, str) or not re.fullmatch(r"[A-Za-z0-9_.-]{1,15}", iface):
+        raise ConfigError("逻辑总线 {} 的 iface 缺失或非法".format(logical))
+    rate = item.get("bitrate")
+    if isinstance(rate, bool) or not isinstance(rate, int) or rate <= 0:
+        raise ConfigError("逻辑总线 {} 缺少正整数 bitrate".format(logical))
+    return item, key
 
 
 # ---------------------------------------------------------------------------
@@ -295,208 +465,54 @@ def read_iface_actual(iface):
     if bm:
         bitrate = int(bm.group(1))
 
-    return {"state": state, "bitrate": bitrate, "flags": flags, "raw": out, "error": None}
+    can_state = re.search(r"\bcan state\s+([A-Z-]+)", out)
+    if flags is not None:
+        state = "UP" if "UP" in flags.split(",") else "DOWN"
+    return {"state": state, "can_state": can_state.group(1) if can_state else None,
+            "bitrate": bitrate, "flags": flags, "raw": out, "error": None}
 
 
 def parse_ip_stats(iface):
-    """读接口统计（`ip -s -details link show`）。
-
-    注意：CAN 专用的错误计数（bus-off 次数、错误帧计数）**不在 sysfs**，
-    只能从 netlink 的 IFLA_INFO_XSTATS 取。本工具当前从 `ip -details` 的
-    文本里尽力提取，取不到就明确说取不到 —— 不拿通用的 rx_errors 冒充。
-    """
+    """读取 iproute2 的 netlink 统计，RX/TX 表头后的一行才是数值。"""
     rc, out, err = run_readonly(["ip", "-s", "-details", "link", "show", iface])
     if rc != 0:
         return {"error": err.strip() or "ip 返回 {}".format(rc)}
     stats = {"raw": out}
-    for line in out.splitlines():
-        s = line.strip()
-        if s.startswith("RX:"):
-            for k, v in zip(["rx_bytes", "rx_packets", "rx_errors", "rx_dropped",
-                             "rx_missed"], s.split()[1:]):
-                if v.isdigit():
-                    stats[k] = int(v)
-        elif s.startswith("TX:"):
-            for k, v in zip(["tx_bytes", "tx_packets", "tx_errors", "tx_dropped",
-                             "tx_carrier"], s.split()[1:]):
-                if v.isdigit():
-                    stats[k] = int(v)
-    can_err = {}
-    for line in out.splitlines():
-        for key in ("bus-error", "bus-errors", "arbitration-lost", "error-warn",
-                    "error-pass", "restart-ms", "re-started"):
-            if key in line:
-                m = re.search(re.escape(key) + r"[:\s]+(\d+)", line)
-                if m:
-                    can_err[key] = int(m.group(1))
-    if can_err:
-        stats["can_specific"] = can_err
+    lines = out.splitlines()
+    for pos, line in enumerate(lines[:-1]):
+        kind = line.strip().split(":", 1)[0]
+        if kind not in ("RX", "TX"):
+            continue
+        headers = line.strip().split()[1:]
+        values = lines[pos + 1].split()
+        for key, value in zip(headers, values):
+            if value.isdigit():
+                stats[kind.lower() + "_" + key] = int(value)
     return stats
 
 
-# ---------------------------------------------------------------------------
-# SocketCAN 原始套接字（收发唯一路径）
-# ---------------------------------------------------------------------------
-
-def iface_index(iface):
-    """接口名 → 内核下标。失败返回 None。"""
-    if not iface:
-        return None
-    try:
-        return socket.if_nametoindex(iface)
-    except OSError:
-        return None
-
-
-def open_can_socket(iface, filters=None):
-    """打开并绑定到 iface 的 CAN 原始套接字（内置实现）。
-
-    这是**降级路径**：标准层可用时不会走到这里（见 connect_bus）。
-
-    失败时报错要能指导现场动作，所以按 errno 分情况说明：
-      ENODEV -> 接口不存在（多半是内核接口还没被 km3-can 拉起）
-      EPERM  -> 权限不足（不是"接口不存在"）
-      EINVAL -> 名字不对或内核不支持
-    把三者混成一句"打开失败"，会让现场排查从猜开始。
-    """
-    idx = iface_index(iface)
-    if idx is None:
-        raise ConfigError(
-            "接口 {} 不存在。请先确认 {} 已把它拉起：systemctl status {}".format(
-                iface, CAN_SERVICE, CAN_SERVICE))
-    try:
-        sock = socket.socket(PF_CAN, socket.SOCK_RAW, CAN_RAW)
-    except OSError as exc:
-        raise ConfigError(
-            "无法创建 CAN 套接字：{}。内核可能未编入 CAN 支持"
-            "（CONFIG_CAN / CONFIG_CAN_RAW，见 /etc/modules-load.d/km3.conf）。".format(exc))
-    try:
-        # sockaddr_can { u16 can_family; i32 can_ifindex; u32 rx_id; u32 rx_mask }
-        # 这里只用到前两项，末尾补零即可（内核不读未用部分）。
-        sock.bind((idx, 0))
-    except OSError as exc:
-        sock.close()
-        code = errno.errorcode.get(exc.errno, str(exc.errno))
-        hint = {
-            "EPERM": "权限不足：需要 CAP_NET_RAW",
-            "EACCES": "权限不足：需要 CAP_NET_RAW",
-            "ENODEV": "接口不存在",
-        }.get(code, "未知原因")
-        raise ConfigError("绑定 {} 失败：{}（{}）".format(iface, hint, code))
-    return sock
-
-
-class _RawBus:
-    """内置降级总线的薄包装，暴露与 canbus.CanBus 相同的 send/recv/close。
-
-    为什么要包一层而不是直接用裸套接字：调用点只认 send(frame)/recv(timeout)，
-    两种实现（标准层与降级）必须同形，否则"标准层不可用时行为不同"会变成
-    一个只在板端偶发的问题。
-    """
-
-    def __init__(self, iface):
-        self.interface = iface
-        self._sock = open_can_socket(iface)
-
-    def send(self, frame):
-        """frame 需有 id / data（bytes）/ extended / remote 三个属性。"""
-        data = bytes(frame.data)
-        if len(data) > 8:
-            raise ValueError("经典 CAN 帧载荷上限 8 字节，收到 {} 字节".format(len(data)))
-        flags = 0
-        if getattr(frame, "extended", False):
-            flags |= CAN_EFF_FLAG
-        if getattr(frame, "remote", False):
-            flags |= CAN_RTR_FLAG
-        payload = data + b"\x00" * (8 - len(data))
-        return self._sock.send(
-            struct.pack("=IB3x8s", frame.id | flags, len(data), payload))
-
-    def recv(self, timeout=None):
-        if timeout is not None:
-            self._sock.settimeout(timeout)
-        try:
-            raw = self._sock.recv(CAN_MTU)
-        except socket.timeout:
-            return None
-        except OSError as exc:
-            raise ConfigError(str(exc))
-        can_id, dlc, data = struct.unpack("=IB3x8s", raw[:CAN_MTU])
-        extended = bool(can_id & CAN_EFF_FLAG)
-        return _SimpleFrame(
-            id=can_id & (0x1FFFFFFF if extended else CAN_SFF_MASK),
-            data=data[:min(dlc, 8)],
-            extended=extended,
-            remote=bool(can_id & CAN_RTR_FLAG),
-        )
-
-    def close(self):
-        try:
-            self._sock.close()
-        except OSError:
-            pass
-
-
-class _SimpleFrame:
-    """降级路径的帧对象。字段对齐 canopen.Frame，让上层写法只有一种。"""
-
-    __slots__ = ("id", "data", "extended", "remote")
-
-    def __init__(self, id, data, extended=False, remote=False):
-        self.id = id
-        self.data = data
-        self.extended = extended
-        self.remote = remote
-
-    def __repr__(self):
-        return "Frame(id=0x%X, data=%s)" % (self.id, self.data.hex())
-
-
 def connect_bus(iface, out=None):
-    """连上一条总线。优先走标准层，失败则降级并在屏幕上说明。
-
-    返回对象统一暴露 send(frame) / recv(timeout) / close()。
-    """
-    if _load_std_layer():
-        try:
-            bus = _canbus.CanBus(iface)
-            bus.open()
-            if out is not None:
-                out.info("总线实现：tools/hwtui/canbus.py（标准层）")
-            return bus
-        except Exception as exc:               # noqa: BLE001 - 报错要原样带出去
-            # 标准层存在的意义之一就是把 errno 翻译成人话，因此它的报错
-            # 直接透传；这里只在它自己坏掉（非 CanBusError）时才提降级。
-            if _canbus is not None and isinstance(exc, _canbus.CanBusError):
-                raise ConfigError(str(exc))
-            if out is not None:
-                out.warn("标准层打开失败（{}），退化到内置实现".format(exc))
-    elif out is not None:
-        out.warn("tools/hwtui 不可用（{}），使用内置降级实现".format(_HWTUI_ERROR))
-        out.info("降级实现只做 SocketCAN 收发，不含 CANopen 状态机。")
+    """只使用共用 SocketCAN 传输层；不可用时失败，不另实现收发。"""
+    if not _load_std_layer():
+        raise ConfigError("标准层 tools/hwtui 不可用：{}".format(_HWTUI_ERROR))
     try:
-        return _RawBus(iface)
-    except ConfigError:
-        raise
-    except OSError as exc:
-        raise ConfigError("打开 {} 失败：{}".format(iface, exc))
+        bus = _std_open_active(iface)
+    except _canbus.CanBusError as exc:
+        raise ConfigError(str(exc)) from exc
+    if out is not None:
+        out.info("总线实现：tools/hwtui/canbus.py（标准层）")
+    return bus
 
 
 def frame_can_id(f):
-    """取帧的仲裁 ID（CANopen 里就是 COB-ID）。
-
-    两种帧对象字段名不同，差异收在这一个函数里：
-      - 标准层 canopen.Frame 用 `arbitration_id`（标志位另存，不混进 ID）
-      - 本文件降级用的 _SimpleFrame 用 `id`
-    差异不收在一处的话，每次读 COB-ID 都要在两个名字之间猜一次。
-    """
+    """取共用层帧的仲裁 ID，兼容具有 id 字段的展示数据。"""
     if hasattr(f, "arbitration_id"):
         return f.arbitration_id
     return getattr(f, "id", 0)
 
 
 def format_frame(f):
-    """把帧对象格式化成一行。兼容标准层的 canopen.Frame 与降级的 _SimpleFrame。"""
+    """把标准层帧格式化成一行。"""
     data = bytes(getattr(f, "data", b""))
     hexs = " ".join("{:02X}".format(b) for b in data)
     return "{:>8X}  [{}]  {}".format(frame_can_id(f), len(data), hexs)
@@ -524,7 +540,7 @@ def service_active(name):
     """
     rc, out, _ = run_readonly(["systemctl", "show", "-p", "LoadState",
                                "-p", "ActiveState", name])
-    if rc == 127:
+    if rc != 0:
         return None
     values = {}
     for line in (out or "").splitlines():
@@ -538,7 +554,11 @@ def service_active(name):
         # 单元根本没装（开发机上就是这样）。没有第二个进程在碰这条总线，
         # 因此不要求确认 —— 但这**不是**"确认过安全"，只是事实如此。
         return False
-    return active_state == "active"
+    if active_state in ("inactive", "failed"):
+        return False
+    if active_state in ("active", "activating", "deactivating", "reloading", "refreshing"):
+        return True
+    return None
 
 
 def require_rt_ack(args, out, action):
@@ -600,6 +620,8 @@ def write_can_env_bitrate(bitrate):
     重复的 CAN_BITRATE= 行会被丢弃而不是留着：systemd 是**后者覆盖前者**，
     留着重复行会让人误判生效值 —— 顺手消掉一个坑。
     """
+    if isinstance(bitrate, bool) or not isinstance(bitrate, int) or bitrate <= 0:
+        raise ConfigError("CAN_BITRATE 必须为正整数")
     values, lines, existed = read_can_env()
     target = "CAN_BITRATE={}".format(bitrate)
 
@@ -607,7 +629,7 @@ def write_can_env_bitrate(bitrate):
     out_lines = []
     for line in lines:
         s = line.strip()
-        if s.startswith("CAN_BITRATE=") and not s.startswith("#"):
+        if s.partition("=")[0].strip() == "CAN_BITRATE":
             if not replaced:
                 out_lines.append(target)
                 replaced = True
@@ -618,7 +640,8 @@ def write_can_env_bitrate(bitrate):
 
     text = "\n".join(out_lines) + "\n"
     try:
-        with open(CAN_ENV, "w", encoding="utf-8") as fh:
+        fd = os.open(CAN_ENV, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o640)
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
             fh.write(text)
     except PermissionError:
         raise ConfigError(
@@ -626,141 +649,213 @@ def write_can_env_bitrate(bitrate):
             "（或先由置备脚本调整权限）。".format(CAN_ENV))
     except OSError as exc:
         raise ConfigError("{} 写入失败：{}".format(CAN_ENV, exc))
+    current, _, _ = read_can_env()
+    if current.get("CAN_BITRATE") != str(bitrate):
+        raise ConfigError("{} 写入后读回值不一致".format(CAN_ENV))
     return existed, values.get("CAN_BITRATE")
 
 
 # ---------------------------------------------------------------------------
-# curses TUI
-#
-# 板上的两个实测约束决定了这里的写法：
-#   1. stty size 返回 0 0 —— 所以**不能**用 `stty size` 取窗口尺寸，
-#      一律用 curses 自己的 getmaxyx()，并对其返回 0 做兜底。
-#   2. tput colors=256 —— 颜色够用，但 TUI 不依赖颜色表达状态
-#      （现场可能 ssh 到不支持 256 色的终端）。
+# 面板数据（纯函数：无终端、无 curses、无 I/O 副作用）
 # ---------------------------------------------------------------------------
+#
+# 面板与纯文本共用同一份数据：终端画不了时 panel_lines() 把它们原样打出来。
+# 这样「面板上看到的」与「重定向到文件里读到的」不可能对不上 ——
+# 同一事实两处排版，是这类工具最常见的漂移。
+#
+# 尺寸不在这里处理：板端 `stty size` 返回 0 0（实测），一律交给
+# tools/hwtui/tui.py 的 resolve_size()（ioctl -> LINES/COLUMNS -> 24x80），
+# 本文件不去问终端大小。
 
-class Tui:
-    """curses 界面。离开时一定恢复终端（含异常路径）。
+def panel_rows(iface, cfg_path, actual, declared, rt_state):
+    """面板/纯文本共用的字段表。每行 (key_en, label_zh, value, source)。
 
-    为什么用 context manager：早期脚本在 curses 中途抛异常后没 endwin()，
-    终端留在 raw 模式，现场表现是"ssh 卡死、看不到回显" ——
-    一个调试工具把人困住，比它不工作更糟。
+    字段名给两份，不是冗余：tools/hwtui/tui.py 的字形边界**刻意只到 ASCII
+    与单宽制表符号**（见那个文件的文件头），所以 curses 表格里排不了中文 ——
+    它要用 key_en；纯文本输出没有这个限制，用 label_zh 更贴现场。
+    source 一列是"这个值从哪来"，两种输出都用它，避免有人对着面板猜数字来源。
+    """
+    if actual is None:
+        link, rate = "missing", "n/a"
+    elif actual.get("error"):
+        link, rate = "read failed", "n/a"
+    else:
+        link = actual.get("state") or "unknown"
+        cur = actual.get("bitrate")
+        rate = "{} bps".format(cur) if cur is not None else "unset"
+
+    rt_text = {True: "active (using bus)", False: "inactive",
+               None: "unknown (confirmation needed)"}[rt_state]
+
+    try:
+        env_values, _, env_exists = read_can_env()
+    except ConfigError:
+        env_bitrate = "unreadable"
+    else:
+        env_bitrate = env_values.get("CAN_BITRATE", "unset") if env_exists else "missing file"
+
+    try:
+        verified, count, names = od_status()
+    except ConfigError:
+        od_text = "od.json unavailable/invalid"
+    else:
+        od_text = "verified" if verified else "{} unverified -> motion blocked".format(count)
+
+    return [
+        ("logical bus", "逻辑总线", LOGICAL_BUS,
+         "device.json bus.can[].logical"),
+        ("iface", "内核接口", iface or "(未配置)",
+         "device.json bus.can[].iface"),
+        ("CAN state", "CAN 状态",
+         (actual or {}).get("can_state") or "unknown", "ip -details link show"),
+        ("link state", "链路状态", link, "ip -details link show"),
+        ("link bitrate", "链路位速率", rate, "ip -details link show"),
+        ("declared rate", "配置声明速率",
+         "{} bps".format(declared) if declared else "missing",
+         "device.json bus.can[].bitrate"),
+        ("can.env rate", "can.env 速率", env_bitrate, CAN_ENV),
+        ("rt-controller", "实时控制器", rt_text, "systemctl show -p ActiveState"),
+        ("od gate", "对象字典", od_text, "driver/od.json"),
+        ("config file", "配置文件", cfg_path, "loaded path"),
+    ]
+
+
+def _display_width(text):
+    """终端显示宽度：东亚双宽字符算 2 列，其余算 1 列。
+
+    用 unicodedata.east_asian_width 做判定，返回 W（宽）或 F（全角）时算双宽；
+    Na / N / H / A 算单宽。比手写 Unicode 范围表更准，也不会触发
+    check-manual-citations.sh 的「源码索引字面量」检查（那把 0x1100 这类
+    16 进制值当成 CANopen 对象字典索引要求引用注释）。
+    """
+    import unicodedata as _ud  # noqa: PLC0415  — 延迟 import 保持顶层最小
+    width = 0
+    for ch in text:
+        eaw = _ud.east_asian_width(ch)
+        width += 2 if eaw in ('W', 'F') else 1
+    return width
+
+
+def _pad(text, width):
+    """按显示宽度右补空格到 width 列。"""
+    return text + " " * max(0, width - _display_width(text))
+
+
+def panel_lines(rows, header):
+    """把字段表排成纯文本。宽度按最长字段名的**显示宽度**定，不依赖终端宽度。"""
+    width = max([_display_width(label) for _, label, _, _ in rows] + [0])
+    lines = [header, ""]
+    for _, label, value, source in rows:
+        lines.append("  {}  {}".format(_pad(label, width), value))
+        lines.append("  {}  └ {}".format(" " * width, source))
+    return lines
+
+
+class HwPanel(object):
+    """curses 面板，复用 tools/hwtui/tui.py 的 TuiApp 外壳。
+
+    两条退化路径，都不报错也不画半屏：
+      - hwtui 不可用 / stdout 不是 tty / TERM=dumb -> show() 直接打印纯文本；
+      - 进得了 curses -> 画一屏，按 q/Esc 退出后 TuiApp 自己恢复终端。
+
+    **面板只读**：它不开总线、不发帧、不改任何文件。数据由调用方在进 curses
+    之前读好（curses 里做 I/O 会把一屏画成挤牙膏，且读失败没法降级成文本）。
+
+    rows/cols 只在本文件无法自己拿到终端尺寸时才有意义 —— 板端实测
+    `stty size` 返回 0 0，因此这两个参数是给那种会话兜底用的；
+    解析顺序（ioctl -> LINES/COLUMNS -> 命令行 -> 24x80）由 tui.resolve_size() 决定。
     """
 
-    def __init__(self, enable=True):
-        self.enabled = bool(enable) and sys.stdout.isatty()
-        self.stdscr = None
-        self.curses = None
+    def __init__(self, rows, enable=True, rows_forced=None, cols_forced=None,
+                 box=None):
+        # rows 收「列表」或「无参可调用」两种：调用方在进 curses 前读好的通常
+        # 是一次性的列表，但留一个可调用入口给将来的定时刷新（poll() 里重读）。
+        if callable(rows):
+            self._provider = rows
+        else:
+            _fixed = list(rows)
+            self._provider = lambda: _fixed
+        self.enabled = bool(enable)
+        self._rows = rows_forced
+        self._cols = cols_forced
+        self._box = box
+        self.app = None
 
-    def __enter__(self):
+    def _make_app(self):
+        try:
+            from tui import Table, TuiApp     # 扁平：板上 hwtui/ 在 sys.path 上
+        except ImportError:
+            from hwtui.tui import Table, TuiApp
+        provider = self._provider
+
+        class _App(TuiApp):
+            title = "PMP4010 lift motor A  (read-only panel)"
+
+            def __init__(self):
+                TuiApp.__init__(self, rows=rows_forced, cols=cols_forced, box=box_style)
+                self._table = Table(headers=("field", "value", "source"),
+                                    rows=[], gap="  ")
+
+            def hints(self):
+                return ["q quit", "snapshot: no frames sent"]
+
+            def build(self):
+                grid, lay = self.shell_grid()
+                # 只喂 ASCII 字段名：tui.py 不处理东亚字宽，中文字段名在 curses 里
+                # 会比它声称的窄一半，整列错位（值列被推左）。
+                self._table.set_rows(
+                    [(key_en, value, source)
+                     for key_en, _label, value, source in provider()])
+                if lay.content.valid:
+                    self._table.render(grid, lay.content, self.box)
+                return grid
+
+        rows_forced, cols_forced, box_style = self._rows, self._cols, self._box
+        return _App
+
+    def _enter(self):
         if not self.enabled:
             return self
         try:
-            import curses
+            cls = self._make_app()
         except ImportError:
             self.enabled = False
             return self
-        self.curses = curses
-        try:
-            self.stdscr = curses.initscr()
-            curses.noecho()
-            curses.cbreak()
-            self.stdscr.keypad(True)
-            if curses.has_colors():
-                curses.start_color()
-                curses.use_default_colors()
-        except Exception:
-            # 初始化失败也要还原：initscr() 可能已经改了终端模式。
-            self.__exit__(None, None, None)
+        app = cls()
+        # _curses_usable() 是 TuiApp 的只读判据（tty + TERM）。不成立时直接
+        # 退回纯文本，不用 TuiApp.run() 的"往 stderr 打一帧"那条路。
+        if not app._curses_usable():
             self.enabled = False
+            return self
+        self.app = app
         return self
 
+    def __enter__(self):
+        return self._enter()
+
     def __exit__(self, exc_type, exc, tb):
-        if self.stdscr is not None and self.curses is not None:
-            try:
-                self.stdscr.keypad(False)
-                self.curses.nocbreak()
-                self.curses.echo()
-                self.curses.endwin()
-            finally:
-                self.stdscr = None
         return False
 
-    def size(self):
-        """窗口尺寸。
-
-        不用 `stty size`：板上它返回 0 0（实测）。curses 的 getmaxyx()
-        是唯一可信来源，但它也可能返回 0；那时退到环境变量，最后退到 80x24。
-        """
-        if self.stdscr is not None and self.curses is not None:
-            try:
-                h, w = self.stdscr.getmaxyx()
-                if h > 0 and w > 0:
-                    return h, w
-            except Exception:
-                pass
+    def show(self, fallback_lines):
+        """画一屏；画不了就打印 fallback_lines。返回是否真的用了 curses。"""
+        self._enter()
+        if not self.enabled or self.app is None:
+            for line in fallback_lines:
+                print(line)
+            return False
         try:
-            size = os.get_terminal_size()
-            if size.lines > 0 and size.columns > 0:
-                return size.lines, size.columns
-        except OSError:
+            self.app.run()
+        except KeyboardInterrupt:
             pass
-        return 24, 80
-
-    def render(self, lines):
-        """画一屏概览。调用方随后继续用普通 print 输出详情 ——
-        分工是：curses 负责"扫一眼就懂"，print 负责可复制、可重放的文本。
-        """
-        if not self.enabled or self.stdscr is None:
-            return
-        curses = self.curses
-        h, w = self.size()
-        try:
-            self.stdscr.erase()
-            for i, line in enumerate(lines[:h - 1]):
-                self.stdscr.addnstr(i, 0, line, max(w - 1, 1))
-            self.stdscr.refresh()
-        except curses.error:
-            # 屏幕太小、或写到最后一格右下角：curses 会抛 error。
-            # 这不是故障，忽略即可，但**不能**因此吞掉整个渲染导致空屏。
-            pass
-
-    def wait_key(self, prompt="按任意键继续"):
-        if not self.enabled or self.stdscr is None:
-            return None
-        curses = self.curses
-        h, w = self.size()
-        try:
-            self.stdscr.addnstr(h - 1, 0, prompt, max(w - 1, 1))
-            self.stdscr.refresh()
-            ch = self.stdscr.getch()
-        except curses.error:
-            return None
-        if ch == 3:  # Ctrl-C：在 raw 模式下不会自动变成 KeyboardInterrupt
-            raise KeyboardInterrupt
-        return ch
+        return True
 
 
-def status_lines(iface, cfg_path, actual, declared_bitrate):
-    """构造 TUI 概览行。纯函数，便于无终端时也走同一条路径。"""
-    if actual is None:
-        state_text = "不存在"
-    elif actual.get("error"):
-        state_text = "读取失败 ({})".format(actual["error"])
-    else:
-        rate = actual.get("bitrate")
-        state_text = "state={} bitrate={}".format(
-            actual.get("state"), rate if rate is not None else "(未设置)")
-    return [
-        "PMP4010 机身抬降电机 A  —  逻辑名 {}  配置 {}".format(LOGICAL_BUS, cfg_path),
-        "",
-        "内核接口      : {}".format(iface or "(未配置)"),
-        "接口现状      : {}".format(state_text),
-        "配置声明速率  : {} bps".format(declared_bitrate),
-        "",
-        "本工具不接管接口状态；up/down 与位速率归 {}".format(CAN_SERVICE),
-        "发帧类子命令在 {} active 时需 --i-know-rt-is-running".format(RT_SERVICE),
-    ]
+def status_lines(iface, cfg_path, actual, declared_bitrate, rt_state=None):
+    """概览行（纯函数）。等价于 panel_lines(panel_rows(...))，保留这个名字是因为
+    --init 的调用点与 README 都按它来。"""
+    rows = panel_rows(iface, cfg_path, actual, declared_bitrate,
+                      service_active(RT_SERVICE) if rt_state is None else rt_state)
+    return panel_lines(rows, "PMP4010 机身抬降电机 A  —  逻辑名 {}".format(LOGICAL_BUS))
 
 
 # ---------------------------------------------------------------------------
@@ -840,14 +935,17 @@ def cmd_init(args, out):
               env_bitrate if env_bitrate is not None
               else out.c("yellow", "(未设置)"))
     if bitrate and env_bitrate is not None and str(bitrate) != str(env_bitrate):
-        out.warn("位速率：配置声明 {} != {} 中的 {}（下面第 2 步会改写成声明值）".format(
+        out.warn("位速率：配置声明 {} != {} 中的 {}（写入模式会改成声明值；--verify 不写入）".format(
             bitrate, CAN_ENV, env_bitrate))
 
     if not args.no_tui:
-        with Tui(enable=True) as tui:
-            if tui.enabled:
-                tui.render(status_lines(iface, cfg_path, actual, bitrate))
-                tui.wait_key()
+        # 面板：走 tools/hwtui/tui.py 的外壳（HwPanel）。画不了终端就退化成
+        # 同一份数据的纯文本 —— 两处排版同一个数据源，所以面板上的数字
+        # 与重定向到文件里的数字不可能对不上。
+        rows = panel_rows(iface, cfg_path, actual, bitrate, service_active(RT_SERVICE))
+        HwPanel(rows, enable=True, rows_forced=args.rows, cols_forced=args.cols,
+                box="ascii" if args.ascii else None).show(
+            panel_lines(rows, "PMP4010 接入现状（只读）"))
 
     if args.verify:
         out.title("2/3 跳过写入（--verify 是纯只读）")
@@ -863,7 +961,7 @@ def cmd_init(args, out):
             out.bad(str(exc))
             return 3
         out.ok("{} CAN_BITRATE={}（原值 {}）".format(
-            "已更新" if existed else "已创建", bitrate,
+            "已更新并读回" if existed else "已创建并读回", bitrate,
             old if old is not None else "无"))
         out.info("该文件由 km3 拥有（0640 km3:km3），本次写入无需提权。")
         out.info("文件内其余行（CAN_IFACES 等现场参数）未被改动。")
@@ -872,7 +970,7 @@ def cmd_init(args, out):
     out.info("接口状态归 {} 所有，本工具不接管。".format(CAN_SERVICE))
     out.info("km3 用户 CapEff=0：`ip link set` 报 Operation not permitted，")
     out.info("`systemctl restart` 报 Interactive authentication required。")
-    out.info("因此下面这行请由人执行，逐字可复制：")
+    out.info("仅在现场授权并需要应用新配置时，由人执行下面的命令：")
     out.cmd("sudo systemctl restart {}".format(CAN_SERVICE))
     out.info("执行后可用 `python3 {} --bus-stats` 复查现状。".format(
         os.path.basename(sys.argv[0])))
@@ -880,209 +978,255 @@ def cmd_init(args, out):
 
 
 def cmd_scan(args, out):
-    """--scan：被动监听总线，看谁在说话（只读）。
+    """--scan：SDO 扫节点（只读探测，但**会在总线上发帧**）。
 
-    **不发任何帧。** 真枚举节点要靠 SDO 读取，而那需要已验证的对象字典
-    （od.json 现在全是 null），所以本子命令不假装能枚举 ——
-    它报告"总线上现在有谁在说话"，这在调试接线与波特率时已经够用。
+    「只读」在这里指的是**不发任何写请求**：探节点只发 SDO 上传请求，
+    这是 docs/架构设计/硬件驱动开发路径.md 第 12 步明确允许的
+    （"只读探测本身会发送 SDO 上传请求，这是允许的；不允许的是任何写"）。
+    但它终究是帧，所以 km3-rt-controller active 时同样要人确认。
+
+    **用 SDO 读 0x1000 探，不用心跳探**：心跳可能被 0x1017 关掉（周期 0），
+    也可能周期长于扫描窗口；而一个在 Pre-operational 状态的节点照样回 SDO。
+    这条判据来自标准层 canopen.scan_nodes()，本文件不另写一份。
+
+    为什么身份四项（0x1000/0x1008/0x100A/0x1018）属于**规范公共对象**，
+    与 driver/od.json 的核对状态无关：它们是标准通信对象，
+    定义在 tools/hwtui/canopen.py 里；具体设备是否实现逐项报告。因此本子命令**不受
+    OD 闸门限制** —— 读不出厂家对象不等于不能问"你是什么型号、哪版固件"。
     """
+    out.info("本子命令会发出 SDO 上传请求（读 0x1000/0x1008/0x100A/0x1018）。")
+    out.info("零写请求、零 NMT、零 PDO —— 不会让任何电机进入使能或运动。")
+    if not require_rt_ack(args, out, "SDO 扫节点"):
+        return 4
+    if not require_std_layer("--scan"):
+        return 5
+
     cfg, _ = load_device_json()
     item, _ = find_can_bus(cfg, LOGICAL_BUS)
     iface = item.get("iface", "")
-    out.title("监听 {}（{}）".format(LOGICAL_BUS, iface or "未配置"))
-    out.info("只读子命令：不发任何帧，不要求 --i-know-rt-is-running。")
-
+    out.title("SDO 扫节点 {}（{}）".format(LOGICAL_BUS, iface or "未配置"))
     if not iface:
-        out.bad("配置里 can-2 的 iface 为空，无处可听。")
+        out.bad("配置里 {} 的 iface 为空，无处可扫。".format(LOGICAL_BUS))
         return 2
 
-    # 节点号范围：给出时用配置里的 4 台节点号过滤显示；
-    # 没给就全显示并说明"节点号分配方式未确认"。
-    wanted = None
     if args.node_range:
         lo, hi = parse_node_range(args.node_range)
-        wanted = set(range(lo, hi + 1))
-        out.field("关注范围", "{}-{}".format(lo, hi))
+        nodes = list(range(lo, hi + 1))
+        out.field("扫描范围", "{}-{}".format(lo, hi))
     else:
-        out.info("未给 --node-range，显示所有节点。节点号分配方式未确认")
-        out.info("（docs/硬件手册/PMP4010/README.md 条目 D9），本工具不设默认范围。")
+        # 默认 1..127：手册给了 1~127 这个范围（E06:3.6.2），但**没说这 4 台
+        # 分别是几号**。因此默认全扫，不假装知道范围。
+        nodes = list(range(1, 128))
+        out.info("未给 --node-range，扫 1..127。现场各台设备的节点号尚未确认 ——")
+        out.info("手册只给了取值范围 1~127（E06:3.6.2），没给这 4 台各自的编号。")
+
+    out.field("节点数 × 超时", "{} × {}s ≈ {:.1f}s".format(
+        len(nodes), args.timeout, len(nodes) * args.timeout))
 
     try:
-        bus = connect_bus(iface, out)
+        bus = _std_open_active(iface)
     except ConfigError as exc:
         out.bad(str(exc))
         return 3
+    except Exception as exc:                                # noqa: BLE001
+        out.bad("打开 {} 失败：{}".format(iface, exc))
+        return 3
 
-    seen = {}
     try:
-        out.info("被动监听 {} ms ...".format(args.listen_ms))
-        elapsed = 0.0
-        step = 0.05
-        while elapsed < args.listen_ms / 1000.0:
-            f = bus.recv(timeout=step)
-            elapsed += step
-            if f is None:
-                continue
-            # CANopen 预定义连接集里，COB-ID 携带节点号：
-            #   0x080 SYNC（广播）/ 0x080+node EMCY / 0x180+node TPDO1
-            #   0x200+node RPDO1 / 0x580+node SDO 应答 / 0x700+node 心跳
-            # 用低 7 位取节点号只对这几段成立，广播帧（COB-ID < 0x080）没有节点号。
-            # 节点号 → 范围的换算交给标准层（canopen 里已有 COB-ID 工具函数），
-            # 这里只用"低 7 位"这个公共约定做粗筛，不做协议判断。
-            node = None
-            if frame_can_id(f) >= 0x081:
-                node = frame_can_id(f) & 0x7F
-            if wanted is not None and node is not None and node not in wanted:
-                continue
-            key = node
-            seen.setdefault(key, [0, None])
-            seen[key][0] += 1
-            seen[key][1] = f
-    except KeyboardInterrupt:
-        out.info("中断。")
+        found = _canopen.scan_nodes(bus, nodes=nodes, timeout=args.timeout)
+        print()
+        if not found:
+            out.warn("{} 个节点无一应答。".format(len(nodes)))
+            out.info("无应答不能区分无从站、位速率、接线或通信模式不符；请检查 --bus-stats。")
+            return 1
+        out.field("应答节点", "{} 个：{}".format(len(found), ", ".join(str(n) for n in found)))
+        if args.identity:
+            for node_id in found:
+                client = _canopen.SdoClient(bus, node_id, timeout=args.timeout)
+                _print_identity(out, client, node_id)
+        else:
+            out.info("加 --identity 可额外读取设备类型、名称、软件版本与身份子对象。")
+        return 0
     finally:
         bus.close()
 
-    print()
-    if not seen:
-        out.warn("{} ms 内未收到任何帧。".format(args.listen_ms))
-        out.info("被动监听不等于扫描：从站在无人提问时通常不说话。")
-        out.info("收到帧才说明总线活着；收不到既可能是没人说话，也可能是")
-        out.info("位速率不符或接线问题 —— 这两种原因无法从「静默」区分开。")
-        return 1
 
-    out.field("发现节点数", len([n for n in seen if n is not None]))
-    for key in sorted(seen, key=lambda k: (k is None, k)):
-        count, last = seen[key]
-        label = "节点 {:>3}".format(key) if key is not None else "广播/无节点号"
-        out.ok("{}：{:>5} 帧   末帧 {}".format(label, count, format_frame(last)))
-    return 0
+def _print_identity(out, client, node_id):
+    """读一个节点的身份四项。逐项 try：一项读不到不影响其余项。
+
+    刻意**不**用 read_identity() 那个一次性聚合函数：它任一项抛异常就整体失败，
+    而现场需要的恰恰是"哪几项读到了、哪项没读到"。逐项读才有这个分辨率。
+    """
+    print("  节点 {}:".format(node_id))
+    for label, fn in (
+        ("0x1000 设备类型", lambda: "0x{:08X}".format(client.read_device_type())),
+        ("0x1008 设备名称", client.read_manufacturer_name),
+        ("0x100A 软件版本", client.read_software_version),
+        ("0x1018 身份对象", lambda: _identity_text(client)),
+    ):
+        try:
+            print("    {:<16} {}".format(label, fn()))
+        except _canopen.CanopenError as exc:
+            print("    {:<16} 读取失败：{}".format(label, exc))
+            out.info("    （可选对象缺失或从站拒绝，**不代表节点不在**）")
+
+
+def _identity_text(client):
+    identity = client.read_identity()
+    return " ".join("{}={}".format(key, "0x{:08X}".format(value)
+                                  if key != "count" else value)
+                    for key, value in identity.items())
 
 
 def cmd_nmt(args, out):
-    """--nmt：发 NMT 命令（广播单帧）。"""
+    """--nmt：发 NMT 命令（广播单帧）。
+
+    **NMT 属于运动类**（Start 会让从站进入可运动状态），因此走 OD 闸门：
+    手册已确认 0x6040/0x6041 的含义，但同步周期、上电状态等条目仍未核对，
+    在"上电后从站会怎样"确定之前，让 4 台抬降电机同时 Start 不是这个工具该做的事。
+    闸门在**最前**：OD 未核对时必须先看到「N 项对象字典未核对」，
+    而不是一条"取值非法"的语法错误 —— 后者会把人的注意力引到错误的方向。
+    """
+    if not refuse_motion(out, "nmt"):
+        return 3
+    if not require_rt_ack(args, out, "发送 NMT"):
+        return 4
+    if not require_std_layer("--nmt"):
+        return 5
+
     cfg, _ = load_device_json()
     item, _ = find_can_bus(cfg, LOGICAL_BUS)
     iface = item.get("iface", "")
     out.title("NMT {} -> {}".format(args.nmt_command, args.node if args.node else "广播"))
-
-    # 顺序有讲究：**先**要人确认 rt-controller 的风险，**再**去做别的检查。
-    # 早期版本把接口存在性放在前面，结果在接口缺失的环境里永远是那条
-    # "接口不存在"先返回，准入确认一次都没被执行到 —— 一个看起来装了、
-    # 实际从未生效的闸门。闸门必须在别的失败之前开口。
-    if not require_rt_ack(args, out, "发送 NMT"):
-        return 4
-
     if not iface:
-        out.bad("配置里 can-2 的 iface 为空。")
+        out.bad("配置里 {} 的 iface 为空。".format(LOGICAL_BUS))
         return 2
 
-    commands = {"start": 0x01, "stop": 0x02, "preop": 0x80,
-                "reset-node": 0x81, "reset-comm": 0x82}
-    code = commands.get(args.nmt_command)
+    # 命令名 -> 命令码**从标准层取**，不在本文件抄一份：抄一份就多了一处会漂移的真相。
+    commands = dict(getattr(_canopen, "NMT_COMMANDS", {}))
+    if args.nmt_command in commands:
+        code = commands[args.nmt_command]
+    else:
+        # 别名：模板与文档里用的是 start/stop/preop 这类短名，标准层用
+        # start_remote_node/stop_remote_node/enter_pre_operational 这种规范名。
+        # 只在这里做一次映射，且**必须**映射到标准层确实存在的键。
+        alias = {"start": "start_remote_node", "stop": "stop_remote_node",
+                 "preop": "enter_pre_operational", "reset-node": "reset_node",
+                 "reset-comm": "reset_communication"}
+        key = alias.get(args.nmt_command)
+        code = commands.get(key) if key else None
     if code is None:
-        out.bad("未知 NMT 命令 {!r}".format(args.nmt_command))
+        out.bad("未知 NMT 命令 {!r}；可用：{}".format(
+            args.nmt_command, ", ".join(sorted(commands))))
         return 2
     node = args.node if args.node else 0
     if not 0 <= node <= 127:
         out.bad("节点号必须在 0..127（0 = 广播）")
         return 2
 
-    out.info("注意：NMT 是广播命令，一次影响总线上**所有**匹配的从站。")
-    out.info("上电默认状态未确认（手册条目 D10），Start 之后从站的行为未知。")
+    out.info("NMT 是广播命令：一次影响总线上**所有**匹配的从站。")
+    out.info("节点号 {} 表示 {}".format(node, "全体（广播）" if node == 0 else "仅该节点"))
     try:
-        bus = connect_bus(iface, out)
-    except ConfigError as exc:
-        out.bad(str(exc))
+        bus = _std_open_active(iface)
+    except Exception as exc:                                # noqa: BLE001
+        out.bad("打开 {} 失败：{}".format(iface, exc))
         return 3
     try:
-        # NMT 帧的组装交给标准层（canopen.nmt_command_frame / NmtMaster）。
-        # 本文件不自己拼 COB-ID 与载荷 —— 那是第 7 步「标准层归位」的要求。
-        if std_layer_available():
-            master = _canopen.NmtMaster(bus)
-            frame = master.send_command(code, node)
-            out.ok("已发送（经标准层 NmtMaster）：id=0x{:03X} data={}".format(
-                frame_can_id(frame), bytes(frame.data).hex(" ").upper()))
-        else:
-            frame = _SimpleFrame(id=0x000, data=bytes([code, node]))
-            bus.send(frame)
-            out.ok("已发送（内置降级实现）：id=0x000 data=[{:02X} {:02X}]".format(code, node))
+        master = _canopen.NmtMaster(bus)
+        frame = master.send_command(code, node)
+        out.ok("已发送（标准层 NmtMaster）：COB-ID=0x{:03X} data={}".format(
+            frame_can_id(frame), bytes(frame.data).hex(" ").upper()))
     finally:
         bus.close()
     return 0
 
 
 def cmd_motion(args, out):
-    """--motion：手工点动（发帧）。
+    """--motion 始终拒绝发帧。
 
-    这个子命令的现状是**永远拒绝执行**，且这不是没写完：驱动侧
-    kOdVerified 为 false（od.json 全部 index 为 null），一个字节都发不出去。
-    工具不绕过它自己去拼一帧的原因很直接：
-      - 控制字的索引与位定义未知 —— 拼出来的"使能"可能被从站解读成别的；
-      - 位置与速度标度未知 —— 拼出来的数值没有物理意义；
-      - 节点号分配未知 —— 不知道在跟谁说话。
-    四条里任何一条单独成立，手工点动 4 台抬降电机都是拿硬件做实验。
-    因此这里显式失败，并把阻塞项指出来，而不是留一个"以后补上"的空壳。
+    未核对条目从 od.json 动态读取，先于其他确认显示。
+    即使 OD 全部核对，仍缺本工具的运动/状态机、可靠停机路径与硬件验收，
+    因此也不开放运动。原始计数标度不等于完成机械传动的物理单位换算。
     """
     out.title("手工点动 {} 节点 {}".format(args.motion, args.node))
-    if not require_rt_ack(args, out, "手工点动"):
-        return 4
+    if not refuse_motion(out, "motion"):
+        return 3
 
-    out.bad("拒绝执行：PMP4010 的对象字典未验证（全部 index 为 null）。")
-    out.info("控制字索引与位定义、位置/速度标度、节点号分配均已确认缺失。")
+    # 走到这里只可能是有人把 od.json 全部核对完了。**仍不实现发帧**：
+    # 本文件没有写任何"使能 -> 设目标 -> 等到位 -> 停"的状态机，
+    # 也没有停机路径。宁可返回 5 让人去补，也不要在这里拼一帧看起来能动的报文。
+    out.bad("拒绝执行：本子命令的发帧实现尚未编写（无使能/停机状态机）。")
+    out.info("OD 已核对不等于可以发帧 —— 手工点动需要先写清停机路径。")
+    out.info("驱动的发帧入口与守卫见 driver/pmp4010_driver.hpp。")
     out.info("资料清单与消解方式：docs/硬件手册/PMP4010/README.md")
-    out.info("驱动侧守卫见 device/drivers/pmp4010/driver/pmp4010_driver.hpp")
-    out.info("资料到位后本条子命令才实现，且实现前要先写清停机路径。")
     return 5
 
 
 def cmd_od_dump(args, out):
-    """--od-dump：打印对象字典声明（只读）。"""
+    """--od-dump：打印对象字典声明与核对状态（只读）。
+
+    一条目一行的 key/status/index/sub/cite 就是**闸门的原始依据**：
+    现场看到"N 项未核对"时，第一件事就是来这里看是哪 N 项、缺的是哪份资料。
+    因此表格不隐藏未核对条目，也不给它们填默认值 ——
+    null 就是 null，它表达的是"手册没写"。
+    """
     out.title("对象字典声明（driver/od.json）")
-    path = os.path.normpath(os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "..", "driver", "od.json"))
-    if not os.path.exists(path):
-        out.bad("找不到 {}".format(path))
+    path = od_json_path()
+    try:
+        od = load_od()
+    except ConfigError as exc:
+        out.bad(str(exc))
         out.info("本子命令读的是仓库内的声明文件；板端只部署工具时该文件可能不在。")
         out.info("驱动源码里同一个文件在 device/drivers/pmp4010/driver/od.json。")
         return 2
 
-    with open(path, "r", encoding="utf-8") as fh:
-        od = json.load(fh)
-
     out.info("只读子命令：不发帧，不要求 --i-know-rt-is-running。")
-    out.info("以下内容**全部未验证** —— 厂家手册未提供，index 一律为 null。")
-    out.info("驱动因此在编译期就被挡住，一个字节都不会发到总线上。")
+    try:
+        verified, count, names = od_status()
+    except ConfigError as exc:
+        out.bad(str(exc))
+        return 2
+    if verified:
+        out.ok("全部 {} 条 status=verified —— 运动类子命令的闸门已开。".format(
+            len(od.get("entries", []))))
+    else:
+        out.bad("{} 项对象字典未核对（共 {} 条）—— 运动类子命令被拒绝。".format(
+            count, len(od.get("entries", []))))
+        out.info("未核对：{}".format(", ".join(names)))
+        out.info("一行 cite 对应一处手册出处，消解方式见 docs/硬件手册/PMP4010/README.md。")
     print()
 
-    header = "{:<30} {:<11} {:<8} {:<6} {}".format("key", "status", "index", "sub", "cite")
+    header = "{:<34} {:<11} {:<9} {:<5} {}".format("key", "status", "index", "sub", "cite")
     print("  " + out.c("bold", header))
-    print("  " + out.c("dim", "-" * min(78, max(len(header), 40))))
-    unverified = 0
+    print("  " + out.c("dim", "-" * min(100, max(len(header), 40))))
     for e in od.get("entries", []):
-        if e.get("status") == "unverified":
-            unverified += 1
-        print("  {:<30} {:<11} {:<8} {:<6} {}".format(
-            e.get("key", "?"), e.get("status", "?"),
-            "null" if e.get("index") is None else hex(e["index"]),
-            "null" if e.get("sub") is None else e["sub"],
-            "null" if e.get("cite") is None else e["cite"]))
+        cite = e.get("cite")
+        index = e.get("index")
+        print("  {:<34} {:<11} {:<9} {:<5} {}".format(
+            e.get("key") or e.get("name") or "?",
+            e.get("status", "?"),
+            "null" if index is None else str(index),
+            "null" if e.get("sub") is None else str(e["sub"]),
+            "null" if cite is None else cite))
     print()
     out.field("条目总数", len(od.get("entries", [])))
-    out.field("未验证条目", unverified)
+    out.field("未核对条目", count)
+    out.field("已核对条目", len(od.get("entries", [])) - count)
 
     device = od.get("device", {})
     print()
-    out.field("从站型号", device.get("model", "?"))
-    out.field("台数", device.get("units_on_bus", "?"))
-    out.field("逻辑总线", device.get("logical_bus", "?"))
-    out.field("协议", device.get("protocol", "?"))
-    for key in ("node_id", "cia_profile", "power_on_state", "termination"):
-        entry = device.get(key, {})
-        if entry:
-            out.field("{}".format(key),
-                      "{}  ({})".format(entry.get("status", "?"),
-                                        entry.get("notes", "")))
+    for key in ("model", "role", "units_on_bus", "logical_bus", "protocol",
+                "physical_layer"):
+        if key in device:
+            out.field(key, device[key])
+    # 设备块的子条目：逐个报 status，并且**把出处打在旁边** ——
+    # 这些块里的 node_id / termination 是现场最常问的两条。
+    print()
+    for key, entry in sorted(device.items()):
+        if not isinstance(entry, dict) or "status" not in entry:
+            continue
+        out.field(key, "{}  cite={}".format(
+            entry.get("status"), entry.get("cite") or "—"))
 
     if args.dump_json:
         print()
@@ -1090,39 +1234,106 @@ def cmd_od_dump(args, out):
     return 0
 
 
+# ---------------------------------------------------------------------------
+# CAN 专用错误计数（netlink IFLA_INFO_XSTATS 的文本渲染）
+# ---------------------------------------------------------------------------
+#
+# **不存在于 sysfs。** /sys/class/net/<if>/statistics/ 里只有通用的
+# rx_errors / tx_errors，对 CAN 恒为 0；拿它们冒充会让总线健康的假象成立，
+# 而缺终端电阻的症状恰恰是"错误计数在涨、应用层毫无报错"。
+#
+# iproute2 的 `ip -details -statistics link show <if>` 会把 xstats 渲染成
+# 一行连排的 `key value key value ...`（不是每行一个），键名形如
+# bus-error / bus-errors / error-warn / error-pass / bus-off / restart-ms /
+# arbit-lost / re-started。因此这里按词扫描，遇到已知键就取下一个词当值。
+#
+# **列表只收已知键**：未知键不猜含义（iproute2 版本不同会加键），
+# 但也照原样留下来给 --show-raw 看，不静默丢。
+
+CAN_XSTAT_KEYS = (
+    "restart-ms", "bus-error", "bus-errors", "error-warn", "error-pass",
+    "bus-off", "arbit-lost", "arbitration-lost", "re-started", "receive-error-counter",
+    "transmit-error-counter",
+)
+
+#: 第 12 步完成判据点名要打印的三个。缺任何一个都要明说缺了哪一个。
+CAN_XSTAT_REQUIRED = ("bus-off", "error-warn", "arbitration-lost")
+
+
+def parse_can_xstats(text):
+    """从 `ip -details -statistics` 的文本里抠 CAN 专用计数。
+
+    返回 dict；一个都没抠到就返回空 dict（**不返回假值** ——
+    "读不到"和"全部为 0"是两件事，前者要人去查原因，后者是健康）。
+    """
+    if not text:
+        return {}
+    found = {}
+    lines = text.splitlines()
+    for pos, line in enumerate(lines):
+        tokens = line.split()
+        # iproute2 通常输出表头与下一行计数；也兼容 key value 的输出。
+        if pos + 1 < len(lines) and tokens and all(t in CAN_XSTAT_KEYS for t in tokens):
+            values = lines[pos + 1].split()
+            for key, value in zip(tokens, values):
+                if value.isdigit():
+                    found[key] = int(value)
+        for i, token in enumerate(tokens[:-1]):
+            key = token.rstrip(":")
+            if key in CAN_XSTAT_KEYS and tokens[i + 1].isdigit():
+                found[key] = int(tokens[i + 1])
+    if "arbit-lost" in found:
+        found["arbitration-lost"] = found.pop("arbit-lost")
+    return found
+
+
 def cmd_bus_stats(args, out):
-    """--bus-stats：接口现状与统计（只读）。"""
+    """--bus-stats：接口现状、netlink 错误计数、模块与实时进程状态（只读）。
+
+    只读的含义在这里是**连一帧都不发**：不打开 AF_CAN 套接字，
+    只调 `ip` 与 systemctl、只读 sysfs 的一个 operstate。因此它任何身份可跑，
+    也不受 km3-rt-controller 状态限制。
+    """
     cfg, cfg_path = load_device_json()
     item, _ = find_can_bus(cfg, LOGICAL_BUS)
     iface = item.get("iface", "")
     out.title("总线状态 {}（{}）".format(LOGICAL_BUS, iface or "未配置"))
-    out.info("只读子命令：不发帧，不要求 --i-know-rt-is-running。")
+    out.info("只读子命令：不发帧、不开套接字，不要求 --i-know-rt-is-running。")
     out.field("配置文件", cfg_path)
 
     if not iface:
-        out.bad("配置里 can-2 的 iface 为空。")
+        out.bad("配置里 {} 的 iface 为空。".format(LOGICAL_BUS))
         return 2
 
     actual = read_iface_actual(iface)
     if actual is None:
         out.warn("接口 {} 不存在。".format(iface))
         out.info("可能是 {} 未运行，或 SPI-CAN 驱动未加载。".format(CAN_SERVICE))
-        out.info("驱动模块名以设备树 compatible 为准，尚未实机确认填入。")
+        out.info("驱动模块名以设备树 compatible 为准 —— 可用下面的 kmod 一行核对。")
+        out.field("kmod", probe_kernel_module(iface))
         return 1
     if actual.get("error"):
         out.warn(actual["error"])
         return 1
 
     out.field("state", actual.get("state"))
+    out.field("CAN state", actual.get("can_state") or "unknown")
     out.field("flags", actual.get("flags"))
     cur = actual.get("bitrate")
     out.field("bitrate", "{} bps".format(cur) if cur is not None else "(未设置)")
     declared = item.get("bitrate")
-    out.field("配置声明", "{} bps".format(declared) if declared else "(缺失)")
+    out.field("配置声明", "{} bps".format(declared) if declared else "missing")
     if declared and cur is not None and cur != declared:
         out.warn("位速率与配置不一致：现状 {} != 配置 {}".format(cur, declared))
         out.info("配置是 /etc/km3/device.json；运行时生效值来自 {} 的 CAN_BITRATE=".format(
             CAN_ENV))
+
+    # 内核模块与实时进程：现场排障最常问的两条，一并放这里。
+    out.field("kmod", probe_kernel_module(iface))
+    rt_state = service_active(RT_SERVICE)
+    out.field("{}".format(RT_SERVICE),
+              {True: "active（已在用这条总线）", False: "inactive",
+               None: "未知（systemctl 不可用）"}[rt_state])
 
     stats = parse_ip_stats(iface)
     if "error" in stats:
@@ -1133,19 +1344,54 @@ def cmd_bus_stats(args, out):
                   "tx_packets", "tx_errors", "tx_dropped"):
             if k in stats:
                 out.field(k, stats[k])
-        can_specific = stats.get("can_specific")
-        if can_specific:
-            for k, v in sorted(can_specific.items()):
-                out.field("can/" + k, v)
-        else:
-            out.warn("未取到 CAN 专用错误计数（bus-off 次数等）。")
-            out.info("这些计数**不在 sysfs**，只能从 netlink 的 IFLA_INFO_XSTATS 取。")
-            out.info("本工具当前没有实现 netlink 读取，因此不拿通用 rx_errors 冒充。")
+
+        # CAN 专用计数：这里是本子命令存在的主要理由。
+        xstats = parse_can_xstats(stats.get("raw", ""))
+        got = {k: v for k, v in xstats.items() if k in CAN_XSTAT_REQUIRED}
+        missing = [k for k in CAN_XSTAT_REQUIRED if k not in got]
+        print()
+        if got:
+            for k in CAN_XSTAT_REQUIRED:
+                if k in got:
+                    out.field("can/" + k, got[k])
+            for k in sorted(set(xstats) - set(CAN_XSTAT_REQUIRED)):
+                out.field("can/" + k, xstats[k])
+        if missing:
+            out.warn("未取到 CAN 专用计数：{}".format(", ".join(missing)))
+            out.info("这些计数**不在 sysfs**（sysfs 的 rx_errors 对 CAN 恒为 0），")
+            out.info("只能从 netlink 的 IFLA_INFO_XSTATS 取，由 `ip -details -statistics` 渲染。")
+            out.info("取不到时**不拿通用 rx_errors 冒充** —— 那会让缺终端电阻的")
+            out.info("症状（错误计数增长、应用层无报错）看起来像健康。")
+            out.info("手工核对：ip -details -statistics link show <接口>")
+
+        # 判读提示：ERROR-ACTIVE 是最容易被误判的一条。
+        print()
+        out.info("判读：ERROR-ACTIVE 是**正常活动态**，不是故障 ——")
+        out.info("它只描述控制器错误状态，不能据此判断是否有对端应答。")
+        out.info("要看的是上面三个错误计数是否在**增长**。")
 
     if args.show_raw:
         print()
         print(stats.get("raw", ""))
     return 0
+
+
+def probe_kernel_module(iface):
+    """哪个内核模块提供了这个接口。信息不足时如实说"未知"。
+
+    只读 /sys/class/net/<if>/device/driver/module —— 归 km3-can.service 管的
+    是接口状态，模块是驱动的事，两件事分开报。
+    """
+    if not iface:
+        return "(无接口)"
+    link = "/sys/class/net/{}/device/driver/module".format(iface)
+    try:
+        if os.path.exists(link):
+            return os.path.basename(os.path.realpath(link))
+    except OSError:
+        pass
+    # 没有 device/ 的接口（vcan、回环）走到这里：报"未知"而不是编一个名字。
+    return "(未知：无 device/driver/module)"
 
 
 def cmd_raw(args, out):
@@ -1167,11 +1413,13 @@ def cmd_raw(args, out):
     import time
     count = 0
     start = time.monotonic()
+    duration = args.duration or (args.listen_ms / 1000.0 if not args.count else 0)
     try:
         while True:
-            if args.duration and (time.monotonic() - start) >= args.duration:
+            if duration and (time.monotonic() - start) >= duration:
                 break
-            f = bus.recv(timeout=0.5)
+            remaining = duration - (time.monotonic() - start) if duration else 0.5
+            f = bus.recv(timeout=min(0.5, max(0.0, remaining)))
             if f is None:
                 continue
             print("  {:>12.6f}  {}".format(time.monotonic() - start, format_frame(f)))
@@ -1188,90 +1436,49 @@ def cmd_raw(args, out):
 
 
 def cmd_test(args, out):
-    """--test：不带硬件的自检。
-
-    测的三件事都是"工具自己靠不靠得住"，不是"电机好不好"：
-      1. 配置可读，且能解析出 can-2；
-      2. 对象字典声明确实全部未验证（驱动守卫的前提）；
-      3. 接口能被打开并绑定（km3 用户能开 AF_CAN/SOCK_RAW 是实测事实，
-         值得每次验证 —— 它一旦不成立，所有发帧类子命令都会失败）。
-    """
-    out.title("自检")
+    """严格离线自检：配置、声明、共用协议层模拟节点；不开真实套接字。"""
+    out.title("离线自检（不开真实总线、不发现场帧）")
     failures = 0
-
     try:
-        cfg, cfg_path = load_device_json()
-        out.ok("设备配置可读：{}".format(cfg_path))
-    except ConfigError as exc:
-        out.bad(str(exc))
-        return 1
-
-    item = None
-    try:
-        item, array_name = find_can_bus(cfg, LOGICAL_BUS)
-        out.ok("找到逻辑总线 {}（bus.{}，iface={}）".format(
-            LOGICAL_BUS, array_name, item.get("iface") or "(空)"))
+        cfg, path = load_device_json()
+        item, _ = find_can_bus(cfg, LOGICAL_BUS)
+        out.ok("配置映射可用：{} -> {}（{}）".format(LOGICAL_BUS, item["iface"], path))
     except ConfigError as exc:
         out.bad(str(exc))
         failures += 1
-
-    out.ok("python3 {}.{}".format(sys.version_info.major, sys.version_info.minor))
-
     try:
-        import curses  # noqa: F401
-        out.ok("curses 可导入")
-    except ImportError:
-        out.warn("curses 不可导入；TUI 会退化为纯文本输出（等同 --no-tui）")
-
-    if std_layer_available():
-        out.ok("标准层 tools/hwtui 可用（canbus / canopen）")
-        out.info("CANopen 帧组装与状态机来自标准层，本工具不重复实现。")
+        od = load_od()
+        pending = [e["key"] for e in od["entries"] if e["status"] != "verified"]
+        out.ok("对象字典 {} 条，{} 条未核对；运动闸门{}".format(
+            len(od["entries"]), len(pending), "关闭" if pending else "已核对"))
+        if pending:
+            out.info("未核对：{}".format(", ".join(pending)))
+    except ConfigError as exc:
+        out.bad(str(exc))
+        failures += 1
+    if not require_std_layer("--test 离线协议自检"):
+        failures += 1
     else:
-        out.warn("标准层 tools/hwtui 不可用：{}".format(_HWTUI_ERROR))
-        out.info("发帧路径会退化到内置实现（只做 SocketCAN 收发）。")
-
-    for tool in ("ip", "systemctl"):
-        found = shutil.which(tool)
-        if found:
-            out.ok("{} 可用：{}".format(tool, found))
-        else:
-            out.warn("{} 不在 PATH 上".format(tool))
-
-    # 对象字典守卫：od.json 全部条目必须是 unverified。
-    od_path = os.path.normpath(os.path.join(
-        os.path.dirname(os.path.abspath(__file__)), "..", "driver", "od.json"))
-    if os.path.exists(od_path):
-        with open(od_path, "r", encoding="utf-8") as fh:
-            od = json.load(fh)
-        entries = od.get("entries", [])
-        bad = [e.get("key") for e in entries
-               if e.get("status") != "unverified" or e.get("cite") is not None]
-        if bad:
-            out.bad("od.json 里有条目已标记为已验证：{}".format(", ".join(bad)))
-            out.info("如果没有对应的厂家资料，这就是一条没有依据的索引。")
-            failures += 1
-        else:
-            out.ok("od.json 的 {} 条全部 status=unverified、cite=null".format(len(entries)))
-    else:
-        out.warn("找不到 {}（板端只部署工具时属正常）".format(od_path))
-
-    # 实测事实：km3 用户能开 AF_CAN/SOCK_RAW 并绑定接口。值得每次验证，
-    # 因为它一旦不成立，所有发帧类子命令都会失败，而报错信息不会解释原因。
-    if item and item.get("iface"):
         try:
-            bus = connect_bus(item["iface"], out)
-            bus.close()
-            out.ok("可以打开并绑定 {}".format(item["iface"]))
-        except ConfigError as exc:
-            out.warn("打开 {} 失败：{}".format(item["iface"], exc))
-    else:
-        out.warn("配置里 iface 为空，跳过套接字自检")
-
-    print()
+            import mockbus
+            bus = mockbus.MockBus([mockbus.MockNode(1)], loopback=False)
+            try:
+                if _canopen.scan_nodes(bus, nodes=(1, 2), timeout=0.01) != [1]:
+                    raise ValueError("模拟扫描未区分应答与静默节点")
+                identity = _canopen.SdoClient(bus, 1, timeout=0.01).read_identity()
+                if identity.get("count") != 4 or "serial_number" not in identity:
+                    raise ValueError("模拟身份对象缺少子对象")
+                out.ok("共用协议层 MockBus：节点扫描、静默节点、身份子对象回读通过")
+            finally:
+                bus.close()
+        except (ImportError, ValueError, _canopen.CanopenError) as exc:
+            out.bad("离线协议自检失败：{}".format(exc))
+            failures += 1
+    out.info("该结果是离线检查；物理控制器回环、板端与电机验收仍需另行执行。")
     if failures:
         out.bad("自检未通过（{} 项）".format(failures))
         return 1
-    out.ok("自检通过")
+    out.ok("离线自检通过")
     return 0
 
 
@@ -1280,37 +1487,57 @@ def cmd_test(args, out):
 # ---------------------------------------------------------------------------
 
 def build_parser():
+    epilog = (
+        "物理标识（内核接口名）只在 device/config/device.json 里定义，\n"
+        "本工具按逻辑总线名 {bus} 解析，不接受命令行直接指定。\n"
+        "\n"
+        "示例：\n"
+        "  python3 pmp4010.py --init --verify        # 纯只读，看现状与差异\n"
+        "  python3 pmp4010.py --init                 # 写 CAN_BITRATE 并打印 root 命令\n"
+        "  python3 pmp4010.py --bus-stats            # 接口 + CAN 错误计数 + kmod\n"
+        "  python3 pmp4010.py --od-dump              # 对象字典声明与核对状态\n"
+        "  python3 pmp4010.py --scan --node-range 1-4 --identity   # SDO 扫节点\n"
+        "  python3 pmp4010.py --raw --count 20       # 只监听，抓 20 帧\n"
+        "  python3 pmp4010.py --nmt --nmt-command start --node 1 --i-know-rt-is-running\n"
+        "  python3 pmp4010.py --motion stop --node 1 # 手工点动（当前拒绝执行）\n"
+        "\n"
+        "更稳的运行方式（自动接好共用外壳的 sys.path，与当前目录无关）：\n"
+        "  {run}\n"
+    ).format(bus=LOGICAL_BUS,
+             run=discover_hint() or
+                 "python3 tools/hwtui/discover.py --run {}".format(discover_tool_path()))
+
     p = argparse.ArgumentParser(
         prog="pmp4010.py",
-        description="PMP4010（机身抬降电机 A）板载调试 TUI。只读子命令任何身份可跑；"
-                    "发帧类子命令（--init 写文件、--nmt 发帧）在 km3-rt-controller "
-                    "active 时要求显式确认。",
+        description="PMP4010（机身抬降电机 A）板载调试工具 —— curses TUI 与一次性子命令。\n"
+                    "纯只读子命令任何身份可跑；--scan 发 SDO 上传请求；"
+                    "--nmt/--motion 是运动类，受对象字典闸门限制。",
         formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="示例：\n"
-               "  python3 pmp4010.py --init --verify        # 纯只读，看现状与差异\n"
-               "  python3 pmp4010.py --init                 # 写 CAN_BITRATE 并打印 root 命令\n"
-               "  python3 pmp4010.py --bus-stats            # 接口现状与统计\n"
-               "  python3 pmp4010.py --od-dump              # 打印对象字典声明（全未验证）\n"
-               "  python3 pmp4010.py --motion stop --node 1 # 手工点动（当前始终拒绝）\n"
-               "  python3 pmp4010.py --raw --count 20       # 只监听，抓 20 帧\n"
-               "  python3 pmp4010.py --scan --listen-ms 2000\n"
-               "  python3 pmp4010.py --nmt --nmt-command start --node 1 --i-know-rt-is-running\n")
+        epilog=epilog)
 
-    action = p.add_mutually_exclusive_group(required=True)
+    # required=False：不带子命令时进 TUI 概览面板（与模板 tools/<代号>.py 同一行为）。
+    # 板端现场最常见的用法就是"先 ssh 上去看一眼"，那不该逼人挑一个子命令。
+    action = p.add_mutually_exclusive_group(required=False)
     action.add_argument("--init", action="store_true",
                         help="三段式初始化：读配置与现状、写 {}，打印 root 命令".format(CAN_ENV))
     action.add_argument("--test", action="store_true",
-                        help="自检：配置可读、curses 可用、对象字典守卫有效")
+                        help="严格离线自检：配置、对象字典、共用协议 MockBus；不开真实总线")
     action.add_argument("--scan", action="store_true",
-                        help="被动监听总线，看哪些节点在说话（只读）")
+                        help="主动 SDO 扫节点 1..127（只发上传请求，零写请求；受 RT 确认限制）")
     action.add_argument("--nmt", action="store_true", help="发送 NMT 命令（发帧）")
-    action.add_argument("--od-dump", action="store_true", help="打印对象字典声明（只读）")
+    action.add_argument("--od-dump", action="store_true",
+                        help="打印对象字典声明与核对状态（只读）")
     action.add_argument("--motion", choices=["enable", "disable", "stop", "home"],
-                        help="手工点动（发帧）。当前因对象字典未验证而始终拒绝执行")
-    action.add_argument("--bus-stats", action="store_true", help="接口现状与统计（只读）")
+                        help="手工点动（发帧）。受 OD 闸门限制；闸门开着时也尚未实现发帧")
+    action.add_argument("--bus-stats", action="store_true",
+                        help="接口现状、CAN 专用错误计数、kmod、实时进程（只读）")
     action.add_argument("--raw", action="store_true", help="只监听原始帧（只读）")
 
-    p.add_argument("--verify", action="store_true",
+    p.add_argument("--bus", choices=[LOGICAL_BUS], default=LOGICAL_BUS,
+                   help="逻辑总线；实际接口与位速率仅从 device.json 解析")
+    p.add_argument("--timeout", type=float, default=0.05,
+                   help="--scan 单次 SDO 应答超时秒数（默认 0.05，不是厂家参数）")
+    p.add_argument("--verify", "--read-only", dest="verify", action="store_true",
                    help="只对 --init 有意义：纯只读，不修改任何文件")
     p.add_argument("--no-tui", action="store_true",
                    help="不启用 curses 概览屏")
@@ -1323,9 +1550,17 @@ def build_parser():
     p.add_argument("--node", type=int, default=None,
                    help="目标节点号 0..127；NMT 省略或给 0 则为广播")
     p.add_argument("--node-range", default=None,
-                   help="--scan 关注的节点号范围，如 1-4。默认不限（显示所有节点）")
+                   help="--scan 的节点号范围，如 1-4 或 1。省略则扫 1..127")
+    p.add_argument("--identity", action="store_true",
+                   help="--scan 时额外读设备类型、名称、软件版本、身份对象各子项")
+    p.add_argument("--rows", type=int, default=None,
+                   help="TUI 行数（板端 stty size 返回 0 0 时的兜底，见 tui.resolve_size）")
+    p.add_argument("--cols", type=int, default=None,
+                   help="TUI 列数（同上）")
+    p.add_argument("--ascii", action="store_true",
+                   help="TUI 用纯 ASCII 边框（CJK locale 下制表符号可能被判成双宽）")
     p.add_argument("--listen-ms", type=int, default=2000,
-                   help="--scan 的监听时长（毫秒，默认 2000）")
+                   help="--raw 默认监听时长毫秒数（默认 2000；--count/--duration 优先）")
     p.add_argument("--count", type=int, default=0,
                    help="--raw 收够多少帧后退出（0 = 不限）")
     p.add_argument("--duration", type=int, default=0,
@@ -1335,6 +1570,44 @@ def build_parser():
     p.add_argument("--dump-json", action="store_true",
                    help="--od-dump 时额外打印完整 JSON")
     return p
+
+
+def cmd_panel(args, out):
+    """不带子命令：画一屏概览（纯只读，不开套接字、不发帧）。
+
+    数据在进 curses **之前**读好：curses 里做 I/O 会把画面画成挤牙膏，
+    而且读失败时没法降级成文本。读失败照样显示那一行（值为"读取失败"），
+    不因为一个字段读不到就整屏不画 —— 面板的价值恰恰在于"现在的现状是什么"。
+    """
+    try:
+        cfg, cfg_path = load_device_json()
+    except ConfigError as exc:
+        out.bad(str(exc))
+        return 3
+    try:
+        item, _ = find_can_bus(cfg, LOGICAL_BUS)
+        iface = item.get("iface", "")
+    except ConfigError as exc:
+        out.bad(str(exc))
+        return 3
+
+    actual = read_iface_actual(iface) if iface else None
+    rows = panel_rows(iface, cfg_path, actual, item.get("bitrate"),
+                      service_active(RT_SERVICE))
+    header = "PMP4010 机身抬降电机 A — 逻辑名 {}（只读面板）".format(LOGICAL_BUS)
+    shown = HwPanel(rows, enable=not args.no_tui,
+                    rows_forced=args.rows, cols_forced=args.cols,
+                    box="ascii" if args.ascii else None).show(panel_lines(rows, header))
+    if not shown:
+        # 纯文本路径：面板画不了就退回逐行打印。已经由 panel_lines 排好版。
+        pass
+    print()
+    out.info("面板只读：不开套接字、不发帧、不改文件。")
+    out.info("要扫节点请用 --scan；要看错误计数请用 --bus-stats。")
+    hint = discover_hint()
+    if hint:
+        out.info("运行建议：{} --test".format(hint))
+    return 0
 
 
 def main(argv=None):
@@ -1347,6 +1620,19 @@ def main(argv=None):
 
     parser = build_parser()
     args = parser.parse_args(argv)
+    if args.verify and not args.init:
+        parser.error("--verify/--read-only 仅可与 --init 一起使用")
+    if not math.isfinite(args.timeout) or args.timeout <= 0:
+        parser.error("--timeout 必须为有限正数")
+    if args.listen_ms <= 0 or args.count < 0 or args.duration < 0:
+        parser.error("--listen-ms 必须为正数；--count/--duration 不能为负数")
+    if args.node is not None and not 0 <= args.node <= 127:
+        parser.error("--node 必须在 0..127")
+    if args.node_range:
+        try:
+            parse_node_range(args.node_range)
+        except ValueError as exc:
+            parser.error(str(exc))
     out = Out()
 
     try:
@@ -1366,6 +1652,7 @@ def main(argv=None):
             return cmd_bus_stats(args, out)
         if args.raw:
             return cmd_raw(args, out)
+        return cmd_panel(args, out)
     except ConfigError as exc:
         out.bad(str(exc))
         return 3
@@ -1375,9 +1662,14 @@ def main(argv=None):
     except ValueError as exc:
         out.bad(str(exc))
         return 2
+    except Exception as exc:
+        if ((_canbus is not None and isinstance(exc, _canbus.CanBusError)) or
+                (_canopen is not None and isinstance(exc, _canopen.CanopenError))):
+            out.bad(str(exc))
+            return 3
+        raise
 
-    parser.print_help()
-    return 2
+
 
 
 if __name__ == "__main__":

@@ -22,6 +22,7 @@
 from __future__ import annotations
 
 import struct
+import time
 from dataclasses import dataclass, field
 from typing import Callable, Dict, Iterable, List, Optional, Sequence, Tuple
 
@@ -680,17 +681,24 @@ class SdoClient:
         return frame
 
     def _recv(self, request: Optional[Frame] = None) -> Frame:
-        frame = self.bus.recv(self.timeout)
-        if frame is None:
-            raise BusSilenceError(
-                "node %d: %.3fs 内未收到 SDO 应答（请求 %s）" % (
-                    self.node_id, self.timeout,
-                    str(self.last_request) if self.last_request else "-"))
-        if frame.arbitration_id != self.response_cob_id:
-            raise SdoProtocolError(
-                "node %d: 期望 COB-ID 0x%03X，收到 0x%03X" % (
-                    self.node_id, self.response_cob_id, frame.arbitration_id))
-        return frame
+        deadline = time.monotonic() + self.timeout
+        while True:
+            remaining = deadline - time.monotonic()
+            if remaining <= 0:
+                frame = None
+            else:
+                frame = self.bus.recv(remaining)
+            if frame is None:
+                raise BusSilenceError(
+                    "node %d: %.3fs 内未收到 SDO 应答（请求 %s）" % (
+                        self.node_id, self.timeout,
+                        str(self.last_request) if self.last_request else "-"))
+            # 总线还有其他节点的心跳/PDO/SDO；只消费本事务的标准数据帧。
+            # 超时用总期限，杂帧不能把一次事务无限延长。
+            if (frame.arbitration_id == self.response_cob_id and
+                    not frame.extended and not frame.remote and
+                    frame.frame_type == FRAME_CLASSIC):
+                return frame
 
     def _check_abort(self, frame: Frame, index: int, subindex: int,
                      check_index: bool = True) -> None:
@@ -1041,9 +1049,9 @@ def read_pdo_mapping(client: SdoClient, base_index: int, subindex: int) -> PdoMa
     for entry in range(1, count + 1):
         raw = client.read_uint32(object_index, entry)
         mapping.entries.append((
-            raw & 0xFFFF,
-            (raw >> 16) & 0xFF,
-            (raw >> 24) & 0xFF,
+            (raw >> 16) & 0xFFFF,
+            (raw >> 8) & 0xFF,
+            raw & 0xFF,
         ))
     return mapping
 
@@ -1052,10 +1060,10 @@ def read_pdo_mapping(client: SdoClient, base_index: int, subindex: int) -> PdoMa
 class PdoCommunication:
     """一个 PDO 的通讯参数（对象 0x1400+ / 0x1800+）。
 
-    - 0x01 COB-ID：bit31 有效位，bit30 RTR 允许，低 11 位是 COB-ID 本体
+    - 0x01 COB-ID：bit31 禁用，bit30 禁止 RTR，低 11 位是 COB-ID 本体
     - 0x02 传输类型：0 同步非周期，1..240 同步周期，254/255 事件驱动
     - 0x05 事件定时器，单位 ms（0 表示不用）
-    - 0x06 抑制时间，单位 100us（仅 TPDO 有）
+    - 0x03 抑制时间，单位 100us（仅 TPDO 有）
     """
 
     index: int
@@ -1072,7 +1080,11 @@ class PdoCommunication:
 
     @property
     def rtr_allowed(self) -> bool:
-        return bool(self.cob_id_raw & 0x40000000)
+        """公共 COB-ID 编码：bit30=1 禁止 RTR，不表示设备实现了 RTR。
+
+        依据 CANopenNode/CANopenDemo tutorial/PDO.md 的 PDO communication parameter。
+        """
+        return not bool(self.cob_id_raw & 0x40000000)
 
     @property
     def cob_id(self) -> int:
@@ -1117,6 +1129,6 @@ def read_pdo_communication(client: SdoClient, base_index: int,
     )
     if count >= 5:
         comm.event_timer = client.read_uint16(object_index, 5)
-    if count >= 6:
-        comm.inhibit_time = client.read_uint16(object_index, 6)
+    if 0x1800 <= object_index <= 0x19FF and count >= 3:
+        comm.inhibit_time = client.read_uint16(object_index, 3)
     return comm

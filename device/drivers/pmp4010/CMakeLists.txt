@@ -61,7 +61,7 @@ endif()
 # ---------------------------------------------------------------------------
 #
 # driver/od_generated.hpp 由 driver/od.json 生成，默认是**有毒**的：
-# 只要 od.json 里有 status != verified 的条目（当前是全部 25 条），它就 #error。
+# 只要 od.json 里有 status != verified 的条目，它就 #error。
 #
 # 允许旁路**仅**为了两件事：(1) CI 在无手册时保证骨架可构建；
 # (2) 未接电机的控制器回环验证。任何会驱动电机的场合都不允许带它——
@@ -91,14 +91,7 @@ endif()
 # 不引入 GoogleTest：开发机与 CI 上的可用性不一致，而这一层不需要它。
 if(KM3_BUILD_TESTS)
   enable_testing()
-
-  add_executable(test_${KM3_DRV_MODEL} tests/test_pmp4010.cpp)
-  target_include_directories(test_${KM3_DRV_MODEL} PRIVATE
-    ${CMAKE_CURRENT_SOURCE_DIR}/tests
-    ${CMAKE_CURRENT_SOURCE_DIR}/../../tests   # test_harness.hpp
-  )
-  target_link_libraries(test_${KM3_DRV_MODEL} PRIVATE ${KM3_DRV_TARGET})
-  add_test(NAME ${KM3_DRV_MODEL} COMMAND test_${KM3_DRV_MODEL})
+  add_subdirectory(tests)
 endif()
 
 # 横向链接的自检：本驱动不得依赖任何兄弟驱动。

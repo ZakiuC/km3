@@ -3,7 +3,7 @@
 #
 # 型号：pmp4010（驱动代号 pmp4010）
 # 来源：device/drivers/pmp4010/driver/od.json
-# 来源 sha256：1c66650e458d86b695c31168ac9277d2ab89a6bfab44899828f78d3a483562f9
+# 来源 sha256：76d49f2fb89c6e71974ff22a496784dc4a27a4f8bf0e280ea17d4b9974fbcd15
 #
 # 板端工具（tools/hwtui/）用的常量。**不要在这里手改**：
 # 手改会在 `python3 tools/hwdriver/gen-od.py --model pmp4010 --check` 下失败，
@@ -31,8 +31,8 @@ OD_VERIFIED = False
 # 未核对条目数。工具打印的「N 项对象字典未核对」用这个 N，
 # 措辞与 device/drivers/<型号>/tools/<型号>.py 的 refuse_motion() 一致，
 # 运维脚本会 grep 那一行。
-OD_UNVERIFIED_COUNT = 25
-OD_ENTRY_COUNT = 25
+OD_UNVERIFIED_COUNT = 6
+OD_ENTRY_COUNT = 79
 
 # 未核对索引的哨兵。用它而不是 0：0 是**合法**的对象字典索引，
 # 拿 0 当「未填」会让一条漏填的条目看起来像一条指向 0x0000 的真实条目。
@@ -42,67 +42,224 @@ INDEX_UNSET = 0xFFFF
 # 条目 key -> 索引。未核对的条目值为 INDEX_UNSET —— **不是 0，也不是省略**：
 # 省略键会让 OD_INDEX.get(key) 与「未核对」不可区分，于是调用方无法
 # 区分「这个索引不能用」与「这个 key 不存在」，而那两件事的处置完全不同。
-CONTROLWORD = INDEX_UNSET
-STATUSWORD = INDEX_UNSET
+CONTROLWORD = 0x6040
+STATUSWORD = 0x6041
 CONTROLWORD_BITS = INDEX_UNSET
 STATUSWORD_BITS = INDEX_UNSET
-MODES_OF_OPERATION = INDEX_UNSET
-MODES_OF_OPERATION_DISPLAY = INDEX_UNSET
+MODES_OF_OPERATION = 0x6060
+MODES_OF_OPERATION_DISPLAY = 0x6061
 MODE_CODES = INDEX_UNSET
-TARGET_POSITION = INDEX_UNSET
-ACTUAL_POSITION = INDEX_UNSET
+CONTROL_MODE_SELECT = 0x2002
+TARGET_POSITION = 0x607A
+ACTUAL_POSITION = 0x6064
 POSITION_SCALE = INDEX_UNSET
-TARGET_VELOCITY = INDEX_UNSET
-ACTUAL_VELOCITY = INDEX_UNSET
+USER_UNIT_SCALE = 0x608F
+TARGET_VELOCITY = 0x60FF
+ACTUAL_VELOCITY = 0x606C
 VELOCITY_SCALE = INDEX_UNSET
-PROFILE_ACCELERATION = INDEX_UNSET
-HOMING_METHOD = INDEX_UNSET
-HEARTBEAT_TIME = INDEX_UNSET
+PROFILE_ACCELERATION = 0x6083
+PROFILE_DECELERATION = 0x6084
+MAX_PROFILE_ACCELERATION = 0x60C5
+PROFILE_VELOCITY = 0x6081
+PROFILE_END_VELOCITY = 0x6082
+PROFILE_RAMP_TYPE = 0x6086
+PROFILE_JERK = 0x60A4
+HOMING_METHOD = 0x6098
+HOMING_SPEEDS = 0x6099
+HOMING_ACCELERATION = 0x609A
+HOME_OFFSET = 0x607C
+POSITION_OFFSET_60B0 = 0x60B0
+SOFTWARE_POSITION_LIMIT = 0x607D
+POSITION_WINDOW = 0x6067
+FOLLOWING_ERROR = 0x6065
+STOP_OPTION_CODES = INDEX_UNSET
+QUICK_STOP_DECELERATION = 0x6085
+HEARTBEAT_TIME = 0x1017
 NODE_GUARD = INDEX_UNSET
 EMCY_COB_ID = INDEX_UNSET
 EMCY_VENDOR_CODES = INDEX_UNSET
-FIRMWARE_VERSION = INDEX_UNSET
+FAULT_REACTION_CONFIG = 0x200E
+FIRMWARE_VERSION = 0x1018
+IDENTITY_OBJECT = 0x1018
+ERROR_CODE_OBJECT = 0x603F
+ERROR_REGISTER = 0x1001
+ALARM_HISTORY = 0x1003
+SUPPORTED_DRIVE_MODES = 0x6502
+POLARITY = 0x607E
+MAX_MOTOR_SPEED = 0x6080
+POSITION_OPTION_CODE = 0x60F2
 PDO_DEFAULT_MAPPING = INDEX_UNSET
+PDO_TRANSMISSION_TYPES = INDEX_UNSET
 PDO_MAPPING_WRITABLE = INDEX_UNSET
 SYNC_PERIOD = INDEX_UNSET
+INTERPOLATION_PERIOD = 0x60C2
 SDO_TIMEOUT = INDEX_UNSET
-STORE_PARAMETERS = INDEX_UNSET
+STORE_PARAMETERS = 0x1010
+RESTORE_PARAMETERS = 0x1011
+BUS_BITRATE = 0x200C
+NODE_ID_OBJECT = 0x200C
+COMM_METHOD = 0x200C
+VELOCITY_FEEDBACK_UNIT = 0x2006
+COMM_WATCHDOG_TIME = 0x200C
+MONITOR_BUS_VOLTAGE = 0x200B
+MAX_CURRENT = 0x6073
+TORQUE_FEEDBACK = 0x6077
+EMCY_FRAME_FORMAT = INDEX_UNSET
+NMT_COMMANDS = INDEX_UNSET
+SDO_FRAME_FORMAT = INDEX_UNSET
+CONTROLWORD_BITS_PER_MODE = INDEX_UNSET
+STATUSWORD_BITS_PER_MODE = INDEX_UNSET
+CIA402_COMMAND_TABLE = INDEX_UNSET
+ENABLE_SEQUENCE = INDEX_UNSET
+PP_TRIGGER_PATTERNS = INDEX_UNSET
+HOMING_DI_FUNCTION_CODES = INDEX_UNSET
+FAULT_RESET = INDEX_UNSET
+MODE_SWITCH_RESTRICTION = INDEX_UNSET
+STOP_OPTION_605BC_MISSING = INDEX_UNSET
+FAULT_REACTION_CODES = INDEX_UNSET
+MODE_SELECT_MANUAL_CONFLICT = INDEX_UNSET
+FAULT_REACTION_605E = INDEX_UNSET
+CIA402_STATE_MACHINE_MISSING = INDEX_UNSET
+DEVICE_TYPE_MISSING = 0x1000
 
 # 索引 -> 条目描述。板端工具用它把原始索引翻译成人能读的名字，
 # 并标注「这条是未核对的」——未核对却显示成已核对，比不显示更糟。
 # 字段：(key, 中文名, 子索引, 类型, 是否可用, cite)
 OD_BY_INDEX = {
+    0x6040: ('controlword', '控制字', 0, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x6041: ('statusword', '状态字', 0, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x6060: ('modes_of_operation', '工作模式设定', 0, 'int8', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x6061: ('modes_of_operation_display', '工作模式回显', 0, 'int8', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x2002: ('control_mode_select', '控制模式总开关（CiA402 / NiMotion）', 1, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.2 表10-6 2002h'),
+    0x607A: ('target_position', '目标位置', 0, 'int32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x6064: ('actual_position', '实际位置', 0, 'int32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x608F: ('user_unit_scale', '用户单位换算（608Fh / 6091h）', 0, 'scaling', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:5.1 表5-2'),
+    0x60FF: ('target_velocity', '目标速度', 0, 'int32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x606C: ('actual_velocity', '实际速度', 0, 'int32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x6083: ('profile_acceleration', '轮廓加速度 / 减速度', 0, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x6084: ('profile_deceleration', '轮廓减速度', 0, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x60C5: ('max_profile_acceleration', '最大轮廓加速度 / 减速度', 0, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x6081: ('profile_velocity', '轮廓速度与最大轮廓速度', 0, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x6082: ('profile_end_velocity', '轮廓终点速度', 0, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x6086: ('profile_ramp_type', '轮廓斜坡类型（线性 / S 曲线）', 0, 'int16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x60A4: ('profile_jerk', '轮廓加加速度 / 减加速度', 1, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x6098: ('homing_method', '回零方法与回零速度', 0, 'int8', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:6.7.4.1 表6-21'),
+    0x6099: ('homing_speeds', '找开关速度 / 找原点速度', 1, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x609A: ('homing_acceleration', '原点回归加速度', 0, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:6.7.2 表6-17'),
+    0x607C: ('home_offset', '原点偏移值与零位偏置', 0, 'int32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x60B0: ('position_offset_60B0', '位置偏置（周期同步用）', 0, 'int32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x607D: ('software_position_limit', '软件位置限位（最小 / 最大）', 1, 'int32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x6067: ('position_window', '位置到达阈值与时间窗口', 0, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x6065: ('following_error', '位置偏差过大阈值与超时', 0, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x6085: ('quick_stop_deceleration', '快速停机减速度', 0, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x1017: ('heartbeat_time', '心跳生产者时间', 0, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:3.5.2'),
+    0x200E: ('fault_reaction_config', '报警码配置（200Eh 故障代码组）', 1, 'int32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.2 表10-6 200Eh'),
+    0x1018: ('firmware_version', '固件版本读取索引', 3, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    0x1018: ('identity_object', '标识对象（厂商 / 产品 / 版本 / 序列号）', 1, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    0x603F: ('error_code_object', '错误码 603Fh', 0, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x1001: ('error_register', '错误寄存器', 0, 'uint8', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    0x1003: ('alarm_history', '预警错误场（报警数量与 16 条历史队列）', 0, 'uint8', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    0x6502: ('supported_drive_modes', '支持的驱动模式位图', 0, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x607E: ('polarity', '指令极性（位置 / 速度）', 0, 'uint8', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:5.3 表5-5'),
+    0x6080: ('max_motor_speed', '电机最大速度', 0, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x60F2: ('position_option_code', '定位选项（相对位置的基准）', 0, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x60C2: ('interpolation_period', '插补周期（t × 10^n）', 1, 'uint8', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x1010: ('store_parameters', '参数掉电保存', 1, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:7.7.1'),
+    0x1011: ('restore_parameters', '参数恢复', 1, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:7.7.2'),
+    0x200C: ('bus_bitrate', 'CAN 波特率设置', 3, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:3.6.1 表3-13'),
+    0x200C: ('node_id_object', '驱动器轴地址（节点 ID）', 2, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:3.6.2'),
+    0x200C: ('comm_method', '通信方式选择', 1, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.2 表10-6 200Ch'),
+    0x2006: ('velocity_feedback_unit', '606Ch 速度反馈的单位选择', 18, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.2 表10-6 2006h'),
+    0x200C: ('comm_watchdog_time', '通信看门狗喂狗时间', 27, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:7.10'),
+    0x200B: ('monitor_bus_voltage', '母线电压值与模块温度值', 21, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.2 表10-6 200Bh'),
+    0x6073: ('max_current', '最大电流', 0, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x6077: ('torque_feedback', '转矩反馈值', 0, 'int16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x1000: ('device_type_missing', '0x1000 设备类型（无数值）', 0, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
 }
 
 # key -> (索引, 子索引, 中文名, 可用?)。
 # 未核对的条目同样进表，但 usable 为 False —— 工具据此拒绝运动类操作，
 # 而不是抛 KeyError（那会让「未核对」表现为一个看不出原因的崩溃）。
 OD_BY_KEY = {
-    'controlword': (INDEX_UNSET, 0, '控制字', False),
-    'statusword': (INDEX_UNSET, 0, '状态字', False),
-    'controlword_bits': (INDEX_UNSET, 0, '控制字逐位定义', False),
-    'statusword_bits': (INDEX_UNSET, 0, '状态字逐位定义', False),
-    'modes_of_operation': (INDEX_UNSET, 0, '工作模式设定', False),
-    'modes_of_operation_display': (INDEX_UNSET, 0, '工作模式回显', False),
-    'mode_codes': (INDEX_UNSET, 0, '工作模式码取值表', False),
-    'target_position': (INDEX_UNSET, 0, '目标位置', False),
-    'actual_position': (INDEX_UNSET, 0, '实际位置', False),
-    'position_scale': (INDEX_UNSET, 0, '位置标度与零位偏置', False),
-    'target_velocity': (INDEX_UNSET, 0, '目标速度', False),
-    'actual_velocity': (INDEX_UNSET, 0, '实际速度', False),
-    'velocity_scale': (INDEX_UNSET, 0, '速度标度', False),
-    'profile_acceleration': (INDEX_UNSET, 0, '加速度 / 减速度', False),
-    'homing_method': (INDEX_UNSET, 0, '回零方法与回零速度', False),
-    'heartbeat_time': (INDEX_UNSET, 0, '心跳生产者时间', False),
+    'controlword': (0x6040, 0, '控制字', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'statusword': (0x6041, 0, '状态字', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'controlword_bits': (INDEX_UNSET, 0, '控制字逐位定义', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:4.1.2'),
+    'statusword_bits': (INDEX_UNSET, 0, '状态字逐位定义', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:4.1.3 表4-4'),
+    'modes_of_operation': (0x6060, 0, '工作模式设定', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'modes_of_operation_display': (0x6061, 0, '工作模式回显', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'mode_codes': (INDEX_UNSET, 0, '工作模式码取值表', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:6.1 表6-3'),
+    'control_mode_select': (0x2002, 1, '控制模式总开关（CiA402 / NiMotion）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.2 表10-6 2002h'),
+    'target_position': (0x607A, 0, '目标位置', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'actual_position': (0x6064, 0, '实际位置', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'position_scale': (INDEX_UNSET, 0, '位置标度与零位偏置', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:5.1'),
+    'user_unit_scale': (0x608F, 0, '用户单位换算（608Fh / 6091h）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:5.1 表5-2'),
+    'target_velocity': (0x60FF, 0, '目标速度', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'actual_velocity': (0x606C, 0, '实际速度', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'velocity_scale': (INDEX_UNSET, 0, '速度标度', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:5.2'),
+    'profile_acceleration': (0x6083, 0, '轮廓加速度 / 减速度', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'profile_deceleration': (0x6084, 0, '轮廓减速度', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'max_profile_acceleration': (0x60C5, 0, '最大轮廓加速度 / 减速度', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'profile_velocity': (0x6081, 0, '轮廓速度与最大轮廓速度', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'profile_end_velocity': (0x6082, 0, '轮廓终点速度', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'profile_ramp_type': (0x6086, 0, '轮廓斜坡类型（线性 / S 曲线）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'profile_jerk': (0x60A4, 1, '轮廓加加速度 / 减加速度', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'homing_method': (0x6098, 0, '回零方法与回零速度', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:6.7.4.1 表6-21'),
+    'homing_speeds': (0x6099, 1, '找开关速度 / 找原点速度', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'homing_acceleration': (0x609A, 0, '原点回归加速度', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:6.7.2 表6-17'),
+    'home_offset': (0x607C, 0, '原点偏移值与零位偏置', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'position_offset_60B0': (0x60B0, 0, '位置偏置（周期同步用）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'software_position_limit': (0x607D, 1, '软件位置限位（最小 / 最大）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'position_window': (0x6067, 0, '位置到达阈值与时间窗口', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'following_error': (0x6065, 0, '位置偏差过大阈值与超时', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'stop_option_codes': (INDEX_UNSET, 0, '停机方式：快速停机 / 暂停 / 故障停机', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:4.1.4 表4-6'),
+    'quick_stop_deceleration': (0x6085, 0, '快速停机减速度', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'heartbeat_time': (0x1017, 0, '心跳生产者时间', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:3.5.2'),
     'node_guard': (INDEX_UNSET, 0, '节点保护（周期 / 超时）', False),
     'emcy_cob_id': (INDEX_UNSET, 0, 'EMCY 的 COB-ID', False),
-    'emcy_vendor_codes': (INDEX_UNSET, 0, 'EMCY 厂商错误码表', False),
-    'firmware_version': (INDEX_UNSET, 0, '固件版本读取索引', False),
-    'pdo_default_mapping': (INDEX_UNSET, 0, '默认 PDO 映射（TPDO/RPDO 1-4）', False),
-    'pdo_mapping_writable': (INDEX_UNSET, 0, 'PDO 映射是否允许改写', False),
+    'emcy_vendor_codes': (INDEX_UNSET, 0, 'EMCY 厂商错误码表', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1'),
+    'fault_reaction_config': (0x200E, 1, '报警码配置（200Eh 故障代码组）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.2 表10-6 200Eh'),
+    'firmware_version': (0x1018, 3, '固件版本读取索引', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    'identity_object': (0x1018, 1, '标识对象（厂商 / 产品 / 版本 / 序列号）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    'error_code_object': (0x603F, 0, '错误码 603Fh', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'error_register': (0x1001, 0, '错误寄存器', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    'alarm_history': (0x1003, 0, '预警错误场（报警数量与 16 条历史队列）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    'supported_drive_modes': (0x6502, 0, '支持的驱动模式位图', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'polarity': (0x607E, 0, '指令极性（位置 / 速度）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:5.3 表5-5'),
+    'max_motor_speed': (0x6080, 0, '电机最大速度', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'position_option_code': (0x60F2, 0, '定位选项（相对位置的基准）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'pdo_default_mapping': (INDEX_UNSET, 0, '默认 PDO 映射（RPDO / TPDO 1-4）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    'pdo_transmission_types': (INDEX_UNSET, 0, 'PDO 传输类型 / 禁止时间 / 事件计时器', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:3.3.3'),
+    'pdo_mapping_writable': (INDEX_UNSET, 0, 'PDO 映射是否允许改写', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:3.3.4'),
     'sync_period': (INDEX_UNSET, 0, 'SYNC 周期与 SYNC 的 COB-ID', False),
+    'interpolation_period': (0x60C2, 1, '插补周期（t × 10^n）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
     'sdo_timeout': (INDEX_UNSET, 0, 'SDO 应答超时', False),
-    'store_parameters': (INDEX_UNSET, 0, '参数掉电保存', False),
+    'store_parameters': (0x1010, 1, '参数掉电保存', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:7.7.1'),
+    'restore_parameters': (0x1011, 1, '参数恢复', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:7.7.2'),
+    'bus_bitrate': (0x200C, 3, 'CAN 波特率设置', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:3.6.1 表3-13'),
+    'node_id_object': (0x200C, 2, '驱动器轴地址（节点 ID）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:3.6.2'),
+    'comm_method': (0x200C, 1, '通信方式选择', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.2 表10-6 200Ch'),
+    'velocity_feedback_unit': (0x2006, 18, '606Ch 速度反馈的单位选择', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.2 表10-6 2006h'),
+    'comm_watchdog_time': (0x200C, 27, '通信看门狗喂狗时间', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:7.10'),
+    'monitor_bus_voltage': (0x200B, 21, '母线电压值与模块温度值', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.2 表10-6 200Bh'),
+    'max_current': (0x6073, 0, '最大电流', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'torque_feedback': (0x6077, 0, '转矩反馈值', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'emcy_frame_format': (INDEX_UNSET, 0, 'EMCY 报文框架', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:3.4 表3-7'),
+    'nmt_commands': (INDEX_UNSET, 0, 'NMT 命令字与报文格式', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:3.5.1 表3-9'),
+    'sdo_frame_format': (INDEX_UNSET, 0, 'SDO 传输报文格式与命令符', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:3.2.1'),
+    'controlword_bits_per_mode': (INDEX_UNSET, 0, '控制字 bit4~bit6 与 bit8 的逐模式含义', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:6.3.3 表6-7'),
+    'statusword_bits_per_mode': (INDEX_UNSET, 0, '状态字 bit10 / bit12 / bit13 的逐模式含义', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:6.3.3 表6-9'),
+    'cia402_command_table': (INDEX_UNSET, 0, '控制字指令表与状态字掩码（状态机）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:4.1.1 表4-2'),
+    'enable_sequence': (INDEX_UNSET, 0, '使能序列与各模式使能终值', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:6.3.6'),
+    'pp_trigger_patterns': (INDEX_UNSET, 0, 'PP 模式触发位组合（绝对/相对 × 立即/非立即）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:6.3.6 表6-8'),
+    'homing_di_function_codes': (INDEX_UNSET, 0, '回零所需的 DI / VDI 功能号', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:6.7.4.1 表6-20'),
+    'fault_reset': (INDEX_UNSET, 0, '故障复位方式', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.3'),
+    'mode_switch_restriction': (INDEX_UNSET, 0, '运行中切换模式的限制', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:6.1'),
+    'stop_option_605BC_missing': (INDEX_UNSET, 0, '605Bh / 605Ch 停机方式（对象字典缺行）', False),
+    'fault_reaction_codes': (INDEX_UNSET, 0, '故障反应码取值表', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.2'),
+    'mode_select_manual_conflict': (INDEX_UNSET, 0, '0x2002:01h 的宽度与默认值冲突（登记）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:6.1 表6-2'),
+    'fault_reaction_605E': (INDEX_UNSET, 0, '故障停机方式 605Eh（访问权限冲突）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'cia402_state_machine_missing': (INDEX_UNSET, 0, 'CiA402 状态机转换图（图 4-2 未转换）', False),
+    'device_type_missing': (0x1000, 0, '0x1000 设备类型（无数值）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
 }
 
 

@@ -21,6 +21,7 @@
 #
 #   源   tools/hwtui/                        -> 目的 <root>/<ver>/hwtui/
 #        device/drivers/*/tools/             -> 目的 <root>/<ver>/drivers/<型号>/
+#        device/drivers/*/driver/od.json     -> 同一型号工具旁的 od.json
 #
 # hwtui 是公共库（canopen.py / tui.py / discover.py / canbus.py / mockbus.py
 # 及生成的 canopen_consts.py），各型号驱动的 tools/<型号>.py 复用它。
@@ -125,6 +126,8 @@ for d in device/drivers/*/tools; do
   case "$model" in _*) continue ;; esac
   # 只投含 .py 的目录：空目录（刚 new-driver.sh 出来还没写工具）不必占位。
   if compgen -G "$d/*.py" >/dev/null; then
+    [ -f "device/drivers/$model/driver/od.json" ] || \
+      die "缺少 device/drivers/$model/driver/od.json（工具运行与离线自检需要）"
     DRIVER_TOOL_DIRS+=("$d")
   fi
 done
@@ -167,12 +170,17 @@ run() {
 # GNU readlink -f 对不存在的路径也会打印规范化结果，首次部署时 PREV
 # 会取到字面量 "current"（一个并不存在的版本目录），回滚于是把 current
 # 指向悬空目标——比不回滚更糟。必须先确认它真是符号链接，再验证目标目录存在。
-PREV="$(ssh "${SSH_OPTS[@]}" "$REMOTE" \
+PREV=""
+if [ "$DRY_RUN" -eq 0 ]; then
+  PREV="$(ssh "${SSH_OPTS[@]}" "$REMOTE" \
   "if [ -L ${TARGET_ROOT}/current ]; then \
      t=\$(readlink ${TARGET_ROOT}/current); b=\$(basename \"\$t\"); \
      [ -d ${TARGET_ROOT}/releases/\$b ] && echo \"\$b\"; \
    fi" || true)"
-echo "==> 当前版本：${PREV:-<无>}"
+  echo "==> 当前版本：${PREV:-<无>}"
+else
+  echo "==> 当前版本：<dry-run 不连接目标机>"
+fi
 
 # ---- 上传 ----
 # 用 tar 经 ssh，不用 rsync：板端根分区只剩约 4.1 GiB，
@@ -184,6 +192,7 @@ STAGE_LIST=()
 STAGE_LIST+=("tools/hwtui")
 for d in ${DRIVER_TOOL_DIRS[@]+"${DRIVER_TOOL_DIRS[@]}"}; do
   STAGE_LIST+=("$d")
+  STAGE_LIST+=("$(dirname "$d")/driver/od.json")
 done
 
 upload() {
@@ -211,7 +220,7 @@ upload() {
   stage_dir="$(mktemp -d)"
   trap 'rm -rf "$stage_dir"' RETURN
   mkdir -p "$stage_dir/hwtui" "$stage_dir/drivers"
-  # 只拷 .py：__pycache__ 与 .pyc 不进板子（板端 python3 3.10.12 自己会编，
+  # 公共库只拷 .py；型号另带 od.json。__pycache__ 与 .pyc 不进板子（板端 python3 3.10.12 自己会编，
   # 而带上宿主机的 .pyc 会让板上 import 报 bad magic number）。
   #
   # chown 后面挂 `|| true`：**它失败不该让部署失败**。
@@ -226,6 +235,7 @@ upload() {
     model="$(basename "$(dirname "$d")")"
     mkdir -p "$stage_dir/drivers/$model"
     find "$d" -maxdepth 1 -name '*.py' -exec cp {} "$stage_dir/drivers/$model/" \;
+    cp "device/drivers/$model/driver/od.json" "$stage_dir/drivers/$model/od.json"
   done
 
   tar -C "$stage_dir" -czf - . | ssh "${SSH_OPTS[@]}" "$REMOTE" \
@@ -289,6 +299,10 @@ if [ "$DRY_RUN" -eq 0 ]; then
         [ \"\$(readlink -f ${TARGET_ROOT}/current)\" = \"\$(readlink -f \"\$v\")\" ] \
           || { echo 'current 未指向本次版本' >&2; exit 1; }; \
         cd \"\$v\"; \
+        for d in drivers/*; do \
+          [ -d \"\$d\" ] || continue; \
+          [ -f \"\$d/od.json\" ] || { echo \"缺少 \$d/od.json\" >&2; exit 1; }; \
+        done; \
         python3 -c 'import hwtui.canopen, hwtui.tui, hwtui.discover' \
           && echo 'import ok'"; then
     OK=0

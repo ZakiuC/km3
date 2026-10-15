@@ -19,11 +19,13 @@
 
 from __future__ import annotations
 
+import errno
 import io
 import json
 import os
 import sys
 import unittest
+from unittest import mock
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
@@ -881,7 +883,7 @@ class TestGoldenPdo(GoldenTestCase):
         self.assertEqual(mapping.total_bits, vector["expect_total_bits"])
 
     def test_pdo_mapping_entry_encoding(self):
-        """映射条目的 32 位布局：索引 | 子索引<<16 | 位长<<24。
+        """映射条目的 32 位布局：索引<<16 | 子索引<<8 | 位长。
 
         写错位移的实现在这里会算出荒谬的位长（例如 0x40 变成 64 位）。
         """
@@ -921,6 +923,51 @@ class TestGoldenPdo(GoldenTestCase):
         comm = read_pdo_communication(client, 0x1800, 1)
         self.assertFalse(comm.valid, "bit31 置位应判为禁用")
         self.assertEqual(comm.cob_id, 0x201)
+
+    def test_mapping_nonzero_subindex_uses_cia301_bit_layout(self):
+        node = MockNode(1)
+        node.set_object(0x1600, 0, b"\x01")
+        node.set_object(0x1600, 1, bytes.fromhex("20 02 64 60"))
+        mapping = read_pdo_mapping(SdoClient(MockBus([node], loopback=False), 1), 0x1600, 0)
+        self.assertEqual(mapping.entries, [(0x6064, 2, 32)])
+        self.assertEqual(mapping.total_bits, 32)
+
+    def test_tpdo_inhibit_time_is_subindex_three_even_without_event_timer(self):
+        node = MockNode(1)
+        node.set_object(0x1800, 0, b"\x03")
+        node.set_object(0x1800, 1, (0x181).to_bytes(4, "little"))
+        node.set_object(0x1800, 2, b"\xff")
+        node.set_object(0x1800, 3, (100).to_bytes(2, "little"))
+        comm = read_pdo_communication(SdoClient(MockBus([node], loopback=False), 1), 0x1800, 0)
+        self.assertEqual(comm.inhibit_time, 100)
+        self.assertIsNone(comm.event_timer)
+
+    def test_tpdo_event_and_inhibit_time_are_independent(self):
+        node = MockNode(1)
+        for subindex, data in {0: b"\x05", 1: (0x181).to_bytes(4, "little"),
+                               2: b"\xff", 3: (100).to_bytes(2, "little"),
+                               5: (250).to_bytes(2, "little")}.items():
+            node.set_object(0x1800, subindex, data)
+        comm = read_pdo_communication(SdoClient(MockBus([node], loopback=False), 1), 0x1800, 0)
+        self.assertEqual(comm.inhibit_time, 100)
+        self.assertEqual(comm.event_timer, 250)
+
+    def test_rpdo_does_not_read_tpdo_only_inhibit_time(self):
+        node = MockNode(1)
+        for subindex, data in {0: b"\x05", 1: (0x201).to_bytes(4, "little"),
+                               2: b"\xff", 5: (250).to_bytes(2, "little")}.items():
+            node.set_object(0x1400, subindex, data)
+        comm = read_pdo_communication(SdoClient(MockBus([node], loopback=False), 1), 0x1400, 0)
+        self.assertIsNone(comm.inhibit_time)
+        self.assertEqual(comm.event_timer, 250)
+
+    def test_tpdo_cob_id_bit30_means_rtr_disallowed(self):
+        comm = canopen.PdoCommunication(index=0x1800, cob_id_raw=0x181, transmission_type=255)
+        self.assertTrue(comm.rtr_allowed)
+        comm.cob_id_raw |= 0x40000000
+        self.assertFalse(comm.rtr_allowed)
+        self.assertEqual(comm.cob_id, 0x181)
+        self.assertTrue(comm.valid)
 
     def test_pdo_comm_rejects_non_comm_index(self):
         bus = MockBus([mockbus.make_sdo_golden_node(1)])
@@ -1080,24 +1127,34 @@ class TestGoldenTimeout(GoldenTestCase):
         self.assertNotIsInstance(ctx.exception, SdoAbort)
         self.assertNotIsInstance(ctx.exception, canopen.SdoProtocolError)
 
-    def test_wrong_cob_id_is_protocol_error(self):
-        # 收到别的节点的应答是协议错误，不是静默也不是 abort。
-        # 实现若只看"收到了帧"就返回，会把 2 号节点的数据当成 1 号的，
-        # 这类错在总线同时挂多个节点时极难发现。
-        # 这里直接把一帧 2 号节点的应答塞进接收队列（0x582 而不是 0x581）。
-        bus = MockBus.silent()
-        stray = Frame(cob_id_sdo_rx(2), bytes([0x43, 0x00, 0x10, 0x00, 0x01, 0x02, 0x03, 0x04]))
+    def test_unrelated_frames_do_not_replace_the_target_response(self):
+        node = MockNode(1, device_type=123)
+        bus = MockBus([node], loopback=False)
         original_recv = bus.recv
+        stray = iter([
+            Frame(cob_id_heartbeat(2), b"\x7f"),
+            Frame(cob_id_sdo_rx(2), b"\x43\x00\x10\x00\x01\x02\x03\x04"),
+            Frame(cob_id_sdo_rx(1), b"", remote=True),
+            Frame(cob_id_sdo_rx(1), b"", extended=True),
+        ])
 
         def recv_with_stray(timeout=None):
-            return stray
+            return next(stray, None) or original_recv(timeout)
 
         bus.recv = recv_with_stray
-        client = SdoClient(bus, 1, timeout=0.01)
-        with self.assertRaises(canopen.SdoProtocolError) as ctx:
-            client.read(0x1000)
-        self.assertIn("COB-ID", str(ctx.exception))
-        bus.recv = original_recv
+        client = SdoClient(bus, 1, timeout=0.05)
+        self.assertEqual(client.read_device_type(), 123)
+
+    def test_continuous_unrelated_traffic_obeys_total_deadline(self):
+        bus = MockBus.silent()
+        bus.recv = mock.Mock(return_value=Frame(cob_id_heartbeat(2), b"\x7f"))
+        client = SdoClient(bus, 1, timeout=0.1)
+        with mock.patch.object(canopen.time, "monotonic", side_effect=[0.0, 0.01, 0.04, 0.11]):
+            with self.assertRaises(BusSilenceError):
+                client.read_device_type()
+        self.assertEqual(bus.recv.call_count, 2)
+        self.assertAlmostEqual(bus.recv.call_args_list[0].args[0], 0.09)
+        self.assertAlmostEqual(bus.recv.call_args_list[1].args[0], 0.06)
 
 
 # --------------------------------------------------------------------------
@@ -1257,9 +1314,14 @@ class TestTransportDiscipline(unittest.TestCase):
         # 不参与 bind。这里只验证"接口不存在时报的是 InterfaceNotFoundError
         # 且消息里带接口名"，不依赖本机是否存在 CAN 接口。
         import canbus
-        with self.assertRaises((canbus.InterfaceNotFoundError, canbus.InterfaceError)) as ctx:
-            canbus._ifindex("nosuchcan0")
+        probe = mock.Mock()
+        with mock.patch.object(canbus.socket, "socket", return_value=probe), \
+                mock.patch.object(canbus.fcntl, "ioctl", side_effect=OSError(errno.ENODEV, "missing")) as ioctl:
+            with self.assertRaises(canbus.InterfaceNotFoundError) as ctx:
+                canbus._ifindex("nosuchcan0")
         self.assertIn("nosuchcan0", str(ctx.exception))
+        self.assertEqual(ioctl.call_args.args[1], canbus.SIOCGIFINDEX)
+        probe.close.assert_called_once_with()
 
 
 # --------------------------------------------------------------------------
