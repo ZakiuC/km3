@@ -25,6 +25,103 @@ import mockbus
 import tui
 
 
+class MotionClock:
+    def __init__(self):
+        self.now = 0.0
+
+    def monotonic(self):
+        return self.now
+
+    def sleep(self, duration):
+        self.now += duration
+
+
+class MotionBus:
+    """Independent expedited-SDO motor fixture; real SdoClient owns wire handling.
+
+    Literal request/response bytes deliberately avoid reproducing the client's
+    codecs. State changes occur only after accepted controlword downloads.
+    """
+    def __init__(self, clock, initial=0x40):
+        self.clock = clock
+        self.sw = initial
+        self.objects = {(0x2002, 1): b'\x00\x00', (0x6060, 0): b'\x01',
+                        (0x6061, 0): b'\x01', (0x6098, 0): b'\x11'}
+        self.sent = []
+        self.closed = False
+        self.pending = []
+        self.statuses = []
+        self.selectors = []
+        self.homing = [0x27, 0x1427]
+        self.freeze = set()
+        self.abort = None
+        self.silence = None
+        self.interrupt = None
+        self.mode_echo = True
+        self.delay = 0.0
+        self.timeouts = []
+        self.idle_homing_status = 0x27
+        self.status_flags = 0
+
+    def send(self, frame):
+        self.sent.append(frame)
+        assert frame.arbitration_id == 0x601
+        raw = frame.data
+        key = (raw[1] | raw[2] << 8, raw[3])
+        cs = raw[0]
+        if self.silence == (cs, key):
+            return
+        header = bytes(raw[1:4])
+        if self.abort == (cs, key):
+            self.pending.append(canopen.Frame(0x581, b'\x80' + header + b'\x00\x00\x02\x06'))
+            return
+        if cs == 0x40:
+            if key == (0x2002, 1) and self.selectors:
+                value = self.selectors.pop(0).to_bytes(2, 'little')
+            elif key == (0x6041, 0):
+                if self.statuses:
+                    self.sw = self.statuses.pop(0)
+                value = (self.sw | self.status_flags).to_bytes(2, 'little')
+            else:
+                value = self.objects[key]
+            command = {1: 0x4F, 2: 0x4B}[len(value)]
+            reply = bytes([command]) + header + value.ljust(4, b'\x00')
+        else:
+            size = {0x2B: 2, 0x2F: 1}[cs]
+            value = bytes(raw[4:4 + size])
+            if key == (0x6040, 0):
+                word = int.from_bytes(value, 'little')
+                if word not in self.freeze:
+                    self.sw = {0: 0x40, 0x80: 0x40, 6: 0x21, 7: 0x23,
+                               0xF: 0x27, 2: 0x07, 0x1F: 0x27}[word]
+                    if word == 0xF and self.objects[(0x6061, 0)] == b'\x06':
+                        self.sw = self.idle_homing_status
+                    if word == 0x1F:
+                        self.statuses = list(self.homing)
+                if word == self.interrupt:
+                    raise KeyboardInterrupt()
+            self.objects[key] = value
+            if key == (0x6060, 0) and self.mode_echo:
+                self.objects[(0x6061, 0)] = value
+            reply = b'\x60' + header + b'\x00' * 4
+        self.pending.append(canopen.Frame(0x581, reply))
+
+    def recv(self, timeout):
+        self.timeouts.append(timeout)
+        self.clock.now += self.delay
+        return self.pending.pop(0) if self.pending else None
+
+    def close(self):
+        self.closed = True
+
+    def controls(self):
+        return [int.from_bytes(frame.data[4:6], 'little') for frame in self.sent
+                if frame.data[0] == 0x2B and frame.data[1:4] == b'\x40\x60\x00']
+
+    def downloads(self):
+        return [frame for frame in self.sent if frame.data[0] & 0xE0 == 0x20]
+
+
 class ToolContractTests(unittest.TestCase):
     def setUp(self):
         self.directory = tempfile.TemporaryDirectory(prefix='km3-pmp4010-test-')
@@ -93,7 +190,8 @@ class ToolContractTests(unittest.TestCase):
     def test_current_nmt_and_motion_cannot_open_bus(self):
         with mock.patch.object(tool, '_std_open_active', side_effect=AssertionError('bus opened')):
             self.assertEqual(self.invoke('--nmt', '--i-know-rt-is-running'), 3)
-            self.assertEqual(self.invoke('--motion', 'enable'), 3)
+            for action in ('enable', 'disable', 'stop', 'home'):
+                self.assertEqual(self.invoke('--motion', action, '--node', '1'), 3)
 
     def test_empty_or_malformed_od_never_opens_motion_gate(self):
         path = self.root / 'od.json'
@@ -279,6 +377,310 @@ class ToolContractTests(unittest.TestCase):
             with self.subTest(args=args), self.assertRaises(SystemExit) as raised:
                 self.invoke(*args)
             self.assertEqual(raised.exception.code, 2)
+
+
+class MotionTests(unittest.TestCase):
+    invoke = ToolContractTests.invoke
+    actual = ToolContractTests.actual
+
+    def setUp(self):
+        ToolContractTests.setUp(self)
+        self.clock = MotionClock()
+        self.bus = MotionBus(self.clock)
+        for patch in (mock.patch.object(tool, 'time', self.clock),
+                      mock.patch.object(tool, 'od_status', return_value=(True, 0, [])),
+                      mock.patch.object(tool, 'service_active', return_value=False),
+                      mock.patch.object(tool, '_std_open_active', return_value=self.bus)):
+            patch.start()
+            self.addCleanup(patch.stop)
+
+    def motion(self, action, *args):
+        return self.invoke('--motion', action, '--node', '1',
+                           '--state-timeout', '0.08', '--home-timeout', '0.1', *args)
+
+    def test_motion_enable_confirms_every_transition_and_ignores_other_bits(self):
+        self.bus.status_flags = 0x8180
+        self.assertEqual(self.motion('enable'), 0)
+        self.assertEqual(self.bus.controls(), [6, 7, 15])
+        self.assertEqual(self.bus.sw & 0x6F, 0x27)
+        self.assertTrue(self.bus.closed)
+        self.assertEqual(self.motion('enable'), 0)
+        self.assertEqual(self.bus.controls(), [6, 7, 15])
+
+    def test_motion_enable_rejects_mode_specific_and_unknown_modes_before_writes(self):
+        for mode in (0, 2, 5, 7, 11, 255):
+            for sw in (0x40, 0x08, 0x27):
+                with self.subTest(mode=mode, sw=sw):
+                    self.bus.sw = sw
+                    self.bus.objects[(0x6061, 0)] = bytes([mode])
+                    self.assertEqual(self.motion('enable'), 3)
+                    self.assertEqual(self.bus.controls(), [])
+        self.assertIn('不支持本命令的 0x0F', self.stdout.getvalue())
+
+    def test_motion_enable_supports_only_documented_0f_modes(self):
+        for mode in (1, 3, 4, 6, 8, 9, 10):
+            with self.subTest(mode=mode):
+                self.bus.sent.clear()
+                self.bus.sw = 0x40
+                self.bus.objects[(0x6061, 0)] = bytes([mode])
+                self.assertEqual(self.motion('enable'), 0)
+                self.assertEqual(self.bus.controls(), [6, 7, 15])
+
+    def test_motion_enable_waits_for_initial_not_ready_without_premature_write(self):
+        self.bus.statuses = [0, 0, 0x40]
+        self.assertEqual(self.motion('enable'), 0)
+        self.assertEqual(self.bus.controls(), [6, 7, 15])
+        self.assertGreaterEqual(self.clock.now, 0.02)
+        self.bus.sent.clear()
+        self.bus.statuses = [0] * 20
+        self.assertEqual(self.motion('enable'), 3)
+        self.assertEqual(self.bus.controls(), [])
+
+    def test_motion_fault_reset_waits_for_reaction_and_clears_reset_edge(self):
+        self.bus.sw = 0xF
+        self.bus.statuses = [0xF, 0x2F, 0x8]
+        self.assertEqual(self.motion('enable'), 0)
+        self.assertEqual(self.bus.controls(), [0, 0x80, 0, 6, 7, 15])
+
+    def test_motion_enable_transition_timeout_never_sends_later_enable(self):
+        self.bus.freeze.add(7)
+        self.assertEqual(self.motion('enable'), 3)
+        self.assertEqual(self.bus.controls(), [6, 7, 2])
+        self.assertIn('Switched on', self.stdout.getvalue())
+        self.assertIn('超时', self.stdout.getvalue())
+        self.assertTrue(self.bus.closed)
+
+    def test_motion_fault_during_transition_fails_and_attempts_stop(self):
+        self.bus.statuses = [0x40, 0x8]
+        self.assertEqual(self.motion('enable'), 3)
+        self.assertEqual(self.bus.controls(), [6, 2])
+        self.assertIn('故障状态字', self.stdout.getvalue())
+
+    def test_motion_disable_and_stop_require_status_confirmation(self):
+        for action, expected in [('disable', 0x40), ('stop', 7)]:
+            with self.subTest(action=action):
+                self.bus.sw = 0x27
+                self.assertEqual(self.motion(action), 0)
+                self.assertEqual(self.bus.sw, expected)
+        for action, word in [('disable', 0), ('stop', 2)]:
+            with self.subTest(action=action):
+                self.bus.sw = 0x27
+                self.bus.freeze = {word}
+                self.assertEqual(self.motion(action), 3)
+
+    def test_motion_home_selects_mode_while_disabled_and_confirms_completion(self):
+        self.bus.sw = 0x27
+        self.assertEqual(self.motion('home'), 0)
+        self.assertEqual(self.bus.controls(), [0, 6, 7, 15, 15, 31, 15])
+        writes = [frame for frame in self.bus.sent if frame.data[0] in (0x2B, 0x2F)]
+        self.assertEqual(writes[0].data[1:6], b'\x40\x60\x00\x00\x00')
+        self.assertEqual(self.bus.objects[(0x6098, 0)], b'\x11')
+        self.assertEqual(self.bus.objects[(0x6061, 0)], b'\x06')
+        self.assertTrue(self.bus.closed)
+
+    def test_motion_home_stale_completion_must_clear_before_success(self):
+        self.bus.idle_homing_status = 0x1427
+        self.bus.homing = [0x1427, 0x1427, 0x27, 0x1427]
+        self.assertEqual(self.motion('home'), 0)
+        self.assertEqual(self.bus.statuses, [])
+        self.bus.homing = [0x1427] * 20
+        self.assertEqual(self.motion('home'), 3)
+        self.assertEqual(self.bus.controls()[-1], 2)
+
+    def test_motion_home_requires_both_target_reached_and_homing_attained(self):
+        self.bus.homing = [0x0427, 0x1027, 0x1427]
+        self.assertEqual(self.motion('home'), 0)
+        self.assertEqual(self.bus.statuses, [])
+        self.assertEqual(self.bus.controls()[-2:], [31, 15])
+
+    def test_motion_home_current_position_method_is_explicit(self):
+        self.bus.homing = [0x1427]
+        self.assertEqual(self.motion('home', '--homing-method', '35'), 0)
+        self.assertEqual(self.bus.objects[(0x6098, 0)], b'\x23')
+
+    def test_motion_home_errors_timeout_and_lost_enable_all_stop(self):
+        for homing in ([0x3427], [0x8], [0x1423], [0x27] * 20):
+            with self.subTest(homing=homing):
+                self.bus.sent.clear()
+                self.bus.statuses = []
+                self.bus.sw = 0x40
+                self.bus.homing = homing
+                self.assertEqual(self.motion('home'), 3)
+                self.assertEqual(self.bus.controls()[-1], 2)
+                self.assertTrue(self.bus.closed)
+        self.assertIn('回零错误', self.stdout.getvalue())
+        self.assertNotIn('[OK] 回零完成', self.stdout.getvalue())
+
+    def test_motion_home_mode_echo_failure_does_not_enable(self):
+        self.bus.mode_echo = False
+        self.assertEqual(self.motion('home'), 3)
+        self.assertEqual(self.bus.controls(), [0, 2])
+        self.assertNotIn(15, self.bus.controls())
+
+    def test_motion_home_read_failures_stop_or_report_quarantine_and_close(self):
+        for failure in ('abort', 'silence', 'length'):
+            with self.subTest(failure=failure):
+                self.bus.sent.clear()
+                self.bus.abort = self.bus.silence = None
+                self.bus.statuses = []
+                if failure == 'length':
+                    self.bus.mode_echo = False
+                    self.bus.objects[(0x6061, 0)] = b'\x06\x00'
+                else:
+                    setattr(self.bus, failure, (0x40, (0x6061, 0)))
+                self.assertEqual(self.motion('home'), 3)
+                if failure == 'silence':
+                    # Timeout quarantines this SDO session: cleanup must not
+                    # transmit into the unresolved response stream.
+                    self.assertEqual(self.bus.controls(), [0])
+                    self.assertEqual(len(self.bus.sent), 6)
+                    self.assertEqual(self.bus.sent[-1].data[:4], b'\x40\x61\x60\x00')
+                    self.assertIn('Quick stop 未确认', self.stdout.getvalue())
+                    self.assertIn('需由现场独立停机措施处置', self.stdout.getvalue())
+                else:
+                    self.assertEqual(self.bus.controls(), [0, 2])
+                self.assertTrue(self.bus.closed)
+
+    def test_motion_home_interruption_after_start_attempts_stop_and_closes(self):
+        self.bus.interrupt = 31
+        self.assertEqual(self.motion('home'), 130)
+        self.assertEqual(self.bus.controls()[-2:], [31, 2])
+        self.assertTrue(self.bus.closed)
+
+    def test_motion_home_stop_failure_is_reported_without_success(self):
+        self.bus.homing = [0x3427]
+        self.bus.freeze.add(2)
+        self.assertEqual(self.motion('home'), 3)
+        self.assertIn('Quick stop 未确认', self.stdout.getvalue())
+        self.assertNotIn('[OK] 回零完成', self.stdout.getvalue())
+
+    def test_motion_non_cia402_mode_refuses_without_writes(self):
+        self.bus.objects[(0x2002, 1)] = b'\x04\x00'
+        for action in ('enable', 'disable', 'stop', 'home'):
+            with self.subTest(action=action):
+                self.bus.sent.clear()
+                self.assertEqual(self.motion(action), 3)
+                self.assertEqual(len(self.bus.sent), 1)
+                self.assertEqual(self.bus.sent[0].data[:4], b'\x40\x02\x20\x01')
+                self.assertEqual(len(self.bus.downloads()), 0)
+                self.assertTrue(self.bus.closed)
+
+    def test_motion_selector_read_failure_refuses_all_actions_without_downloads(self):
+        for failure in ('abort', 'silence', 'length'):
+            for action in ('enable', 'disable', 'stop', 'home'):
+                with self.subTest(failure=failure, action=action):
+                    self.bus.sent.clear()
+                    self.bus.pending.clear()
+                    self.bus.abort = self.bus.silence = None
+                    self.bus.objects[(0x2002, 1)] = b'\x00\x00'
+                    if failure == 'length':
+                        self.bus.objects[(0x2002, 1)] = b'\x00'
+                    else:
+                        setattr(self.bus, failure, (0x40, (0x2002, 1)))
+                    self.assertEqual(self.motion(action), 3)
+                    self.assertEqual(len(self.bus.sent), 1)
+                    self.assertEqual(len(self.bus.downloads()), 0)
+                    self.assertTrue(self.bus.closed)
+
+    def test_every_controlword_rechecks_selector_before_download(self):
+        for word in (0, 2, 6, 7, 15, 31, 128):
+            for failure in ('mode', 'abort', 'silence', 'length'):
+                with self.subTest(word=word, failure=failure):
+                    self.bus.sent.clear()
+                    self.bus.pending.clear()
+                    self.bus.abort = self.bus.silence = None
+                    self.bus.objects[(0x2002, 1)] = b'\x00\x00'
+                    client = canopen.SdoClient(self.bus, 1, timeout=0.001)
+                    session = tool.MotionSession(client, tool.Out(), 0.08)
+                    session.require_cia402()
+                    if failure == 'mode':
+                        self.bus.objects[(0x2002, 1)] = b'\x04\x00'
+                    elif failure == 'length':
+                        self.bus.objects[(0x2002, 1)] = b'\x00'
+                    else:
+                        setattr(self.bus, failure, (0x40, (0x2002, 1)))
+                    with self.assertRaises(tool.MotionError):
+                        session.control(word, session.deadline())
+                    self.assertEqual(len(self.bus.sent), 2)
+                    self.assertEqual(len(self.bus.downloads()), 0)
+                    self.assertFalse(session.needs_stop)
+
+    def test_motion_selector_change_blocks_later_control_and_cleanup_downloads(self):
+        # Initial validation and Shutdown succeed; Switch on and cleanup see NiMotion.
+        self.bus.selectors = [0, 0, 4, 4]
+        self.assertEqual(self.motion('enable'), 3)
+        self.assertEqual(self.bus.controls(), [6])
+        self.assertEqual(len(self.bus.downloads()), 1)
+        selector_reads = [frame for frame in self.bus.sent
+                          if frame.data[:4] == b'\x40\x02\x20\x01']
+        self.assertEqual(len(selector_reads), 4)
+        self.assertIn('Quick stop 未确认', self.stdout.getvalue())
+        self.assertTrue(self.bus.closed)
+
+    def test_motion_absolute_deadline_bounds_each_sdo_and_total_wait(self):
+        self.bus.delay = 0.03
+        self.bus.freeze.add(6)
+        self.assertEqual(self.motion('enable', '--timeout', '5'), 3)
+        self.assertLess(self.clock.now, 0.4)  # includes independent bounded stop attempt
+        self.assertLessEqual(max(self.bus.timeouts), 0.08)
+
+    def test_motion_missing_node_and_broadcast_never_open_bus(self):
+        with mock.patch.object(tool, '_std_open_active') as opening:
+            self.assertEqual(self.invoke('--motion', 'enable'), 2)
+            self.assertEqual(self.invoke('--motion', 'enable', '--node', '0'), 2)
+            opening.assert_not_called()
+
+    def test_motion_all_gates_fail_before_transport_and_preserve_order(self):
+        for action in ('enable', 'disable', 'stop', 'home'):
+            with self.subTest(action=action), \
+                    mock.patch.object(tool, 'od_status', return_value=(False, 6, ['x'])), \
+                    mock.patch.object(tool, 'require_std_layer') as standard, \
+                    mock.patch.object(tool, 'require_rt_ack') as rt, \
+                    mock.patch.object(tool, '_std_open_active') as opening:
+                self.assertEqual(self.motion(action, '--i-know-rt-is-running'), 3)
+                standard.assert_not_called()
+                rt.assert_not_called()
+                opening.assert_not_called()
+                self.assertEqual(len(self.bus.sent), 0)
+        with mock.patch.object(tool, 'require_std_layer', return_value=False), \
+                mock.patch.object(tool, 'require_rt_ack') as rt, \
+                mock.patch.object(tool, '_std_open_active') as opening:
+            self.assertEqual(self.motion('enable'), 5)
+            rt.assert_not_called()
+            opening.assert_not_called()
+        for state in (True, None):
+            with self.subTest(state=state), mock.patch.object(tool, 'service_active', return_value=state), \
+                    mock.patch.object(tool, '_std_open_active') as opening:
+                self.assertEqual(self.motion('enable'), 4)
+                opening.assert_not_called()
+        with mock.patch.object(tool, 'service_active', return_value=True):
+            self.assertEqual(self.motion('enable', '--i-know-rt-is-running'), 0)
+
+    def test_nmt_gates_use_od_standard_rt_order_with_zero_frames_when_closed(self):
+        with mock.patch.object(tool, 'od_status', return_value=(False, 6, ['x'])), \
+                mock.patch.object(tool, 'require_std_layer') as standard, \
+                mock.patch.object(tool, 'require_rt_ack') as rt:
+            self.assertEqual(self.invoke('--nmt', '--i-know-rt-is-running'), 3)
+            standard.assert_not_called()
+            rt.assert_not_called()
+            self.assertEqual(len(self.bus.sent), 0)
+        with mock.patch.object(tool, 'require_std_layer', return_value=False), \
+                mock.patch.object(tool, 'require_rt_ack') as rt:
+            self.assertEqual(self.invoke('--nmt'), 5)
+            rt.assert_not_called()
+            self.assertEqual(len(self.bus.sent), 0)
+        with mock.patch.object(tool, 'service_active', return_value=True):
+            self.assertEqual(self.invoke('--nmt'), 4)
+            self.assertEqual(len(self.bus.sent), 0)
+
+    def test_motion_invalid_timeouts_and_homing_method_fail_before_transport(self):
+        for args in (('--state-timeout', 'nan'), ('--state-timeout', '-1'),
+                     ('--home-timeout', 'inf'), ('--home-timeout', '0'),
+                     ('--homing-method', '1')):
+            with self.subTest(args=args), self.assertRaises(SystemExit) as raised:
+                self.motion('home', *args)
+            self.assertEqual(raised.exception.code, 2)
+        self.assertEqual(self.bus.sent, [])
 
 
 if __name__ == '__main__':

@@ -1259,6 +1259,66 @@
       "status": "verified",
       "cite": "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5",
       "note": "**条目存在、但手册没有给出它的数值。** 10.1 表10-5 的 1000H 行：uint32、RO、NO、出厂值栏为「-」、单位/备注列写「VAR」。手册全文没有出现设备类型的具体值，**既没有 device profile 号（402 的 0x00020192 那类），也没有附加信息字**。因此只能登记「从哪里读」，不能登记「读到什么算对」。它是上机只读探测四项（0x1000/0x1008/0x100A/0x1018）的第一项 —— 读到任何值都证明通讯层通，不必先知道期望值。"
+    },
+    {
+      "key": "device_name",
+      "name": "设备名称",
+      "index": "0x1008",
+      "sub": 0,
+      "type": "string",
+      "bits": null,
+      "scale": null,
+      "unit": null,
+      "zero_offset": null,
+      "access": "ro",
+      "status": "verified",
+      "cite": "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5",
+      "note": "表10-5 明列 String、RO；未规定字符串最大长度。驱动保留原始字节（含可能的末尾 NUL），按共享 SDO Payload 容量限制为 256 字节；此容量是主机有界传输策略，不是手册给出的字符串定长。"
+    },
+    {
+      "key": "hardware_version",
+      "name": "硬件版本号",
+      "index": "0x1009",
+      "sub": 0,
+      "type": "string",
+      "bits": null,
+      "scale": null,
+      "unit": null,
+      "zero_offset": null,
+      "access": "ro",
+      "status": "verified",
+      "cite": "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5",
+      "note": "表10-5 明列 String、RO；未规定字符串最大长度。驱动保留原始字节（含可能的末尾 NUL），按共享 SDO Payload 容量限制为 256 字节；此容量是主机有界传输策略，不是手册给出的字符串定长。"
+    },
+    {
+      "key": "software_version",
+      "name": "软件版本号",
+      "index": "0x100A",
+      "sub": 0,
+      "type": "string",
+      "bits": null,
+      "scale": null,
+      "unit": null,
+      "zero_offset": null,
+      "access": "ro",
+      "status": "verified",
+      "cite": "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5",
+      "note": "表10-5 明列 String、RO；未规定字符串最大长度。驱动保留原始字节（含可能的末尾 NUL），按共享 SDO Payload 容量限制为 256 字节；此容量是主机有界传输策略，不是手册给出的字符串定长。"
+    },
+    {
+      "key": "software_position_limit_max",
+      "name": "软件绝对位置最大限制",
+      "index": "0x607D",
+      "sub": 2,
+      "type": "int32",
+      "bits": null,
+      "scale": 1,
+      "unit": "用户单位",
+      "zero_offset": null,
+      "access": "rw",
+      "status": "verified",
+      "cite": "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7",
+      "note": "10.3 表10-7 的 607DH:02h 行：int32、RW、出厂值 65535、单位用户单位、停机生效。与 607DH:01h 软件绝对位置最小限制共同构成闭区间；发目标位置前必须读回两项，读取失败或上下限倒置即拒绝运动。"
     }
   ]
 }

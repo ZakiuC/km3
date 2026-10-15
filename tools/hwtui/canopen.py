@@ -49,6 +49,8 @@ __all__ = [
     "SDO_DOWNLOAD_CS_MASK",
     "SDO_CS_UPLOAD_REQUEST",
     "SDO_CS_UPLOAD_SEGMENTED",
+    "SDO_CS_UPLOAD_SEGMENTED_NO_SIZE",
+    "SDO_CS_UPLOAD_SEGMENT_RESPONSE",
     "SDO_CS_UPLOAD_SEGMENTED_TOGGLE1",
     "SDO_CS_UPLOAD_SEGMENT_MASK",
     "SDO_CS_UPLOAD_EXPEDITED",
@@ -67,6 +69,7 @@ __all__ = [
     "SdoAbort",
     "BusSilenceError",
     "SdoProtocolError",
+    "SdoSessionQuarantined",
     "NmtState",
     "NMT_COMMANDS",
     "Emcy",
@@ -175,12 +178,12 @@ def _check_node_id(node_id: int) -> int:
 
 def cob_id_sdo_tx(node_id: int) -> int:
     """SDO 请求（主站 -> 从站），客户端发，服务端收：0x600 + node_id。"""
-    return 0x600 + _check_node_id(node_id)
+    return COB_SDO_REQUEST + _check_node_id(node_id)
 
 
 def cob_id_sdo_rx(node_id: int) -> int:
     """SDO 应答（从站 -> 主站）：0x580 + node_id。"""
-    return 0x580 + _check_node_id(node_id)
+    return COB_SDO_RESPONSE + _check_node_id(node_id)
 
 
 def cob_id_heartbeat(node_id: int) -> int:
@@ -222,53 +225,12 @@ def cob_id_pdo_rx(node_id: int, pdo_number: int) -> int:
 # SDO 命令字（CiA 301 §7.2.4）
 # --------------------------------------------------------------------------
 
-SDO_CS_DOWNLOAD_SEGMENTED = 0x21        # 分段下载，无长度指示
-# 加急下载：命令字 = 0x23 | ((4 - 有效字节数) << 2)，n 位落在 0x0C 上。
-# 把四个长度各自的完整命令字都列出来，是因为它们在实际抓包里就是这四个值，
-# 现场对照帧时不必再做心算：
-SDO_CS_DOWNLOAD_EXPEDITED = 0x23        # 4 字节，n = 0
-SDO_CS_DOWNLOAD_EXPEDITED_3 = 0x27      # 3 字节，n = 1
-SDO_CS_DOWNLOAD_EXPEDITED_2 = 0x2B      # 2 字节，n = 2
-SDO_CS_DOWNLOAD_EXPEDITED_1 = 0x2F      # 1 字节，n = 3
-#: 兼容别名。规范里"带长度指示"指的就是非 4 字节的情形，
-#: 其命令字随长度变化，因此这个常量只是 3 字节那个值。
-SDO_CS_DOWNLOAD_SIZE_INDICATED = SDO_CS_DOWNLOAD_EXPEDITED_3
-#: 加急下载的 n 位掩码。命令字的实际取值是
-#: `基值 | ((4 - 有效字节数) << 2)`，所以：
-#:   4 字节 -> 0x23；3 字节 -> 0x27；2 字节 -> 0x2B；1 字节 -> 0x2F
-#: 判读时必须先和这个掩码做与运算再比基值，直接精确比对基值会漏掉 0x2B/0x2F。
-SDO_DOWNLOAD_SIZE_MASK = 0x0C
-SDO_DOWNLOAD_CS_MASK = 0xE3                 # 去掉 n 位后的命令字判读掩码
-SDO_CS_UPLOAD_REQUEST = 0x40            # 上传请求（读）
-# 分段上传应答的命令字是 `0x40 | (toggle << 4) | c`，整个家族的取值只有四个：
-#   0x41 / 0x51（c=1，末段）与 0x40 / 0x50（c=0，非末段）。
-# 0x51 是最容易被漏掉的那个：它是 toggle=1 时的**末段**应答。
-# 少了它，读一个两段以上的对象会在最后一段上判"命令字不认识"。
-SDO_CS_UPLOAD_SEGMENTED = 0x41          # 分段上传应答，toggle 0
-SDO_CS_UPLOAD_SEGMENTED_TOGGLE1 = 0x51  # 分段上传应答，toggle 1（末段）
-SDO_CS_UPLOAD_SEGMENT_MASK = 0xC0       # 取高两位判断是否 0x40 族
-# 加急上传应答与下载对称，命令字同样是"基值 | n 位"（基值 0x43）：
-SDO_CS_UPLOAD_EXPEDITED = 0x43          # 4 字节应答，n = 0
-SDO_CS_UPLOAD_EXPEDITED_3 = 0x47        # 3 字节应答，n = 1
-SDO_CS_UPLOAD_EXPEDITED_2 = 0x4B        # 2 字节应答，n = 2
-SDO_CS_UPLOAD_EXPEDITED_1 = 0x4F        # 1 字节应答，n = 3
-#: 加急上传应答的判读基值
-SDO_CS_UPLOAD_EXPEDITED_BASE = 0x43
-SDO_CS_ABORT = 0x80                     # 中止
-
-SDO_CS_UPLOAD_SEGMENT_REQUEST = 0x60    # 客户端索取下一个上传段（0x60 | toggle<<4）
-#: 加急下载与分段下载**发起帧**的确认，固定 0x60（无 toggle 位）
-SDO_CS_DOWNLOAD_INITIATE_ACK = 0x60
-#: 分段下载**数据段**的确认，0x20 | (toggle << 4)：toggle=0 是 0x20、toggle=1 是 0x30
-SDO_CS_DOWNLOAD_SEGMENT_ACK = 0x20
-SDO_CS_SEGMENT_TOGGLE = 0x10            # 分段传输的 toggle 位，首段为 0
-SDO_CS_SEGMENT_LAST = 0x01              # c 位：本段是最后一段
-SDO_CS_SEGMENT_NBYTES_MASK = 0x0E       # n 位：末段有效字节数 (x-1)，0 表示全 7 字节
-SDO_UPLOAD_SEGMENTED_WITH_SIZE = 0x01   # 分段上传首帧的命令字附加位：带总长度指示
-SDO_EXPEDITED_NBYTES_MASK = 0x0C        # 加急应答的 n 位：(4-有效字节数) << 2
-#: 掩掉 n 位后的命令字判读掩码。加急上传与下载共用这一位段，
-#: 判读一律 `(cs & SDO_EXPEDITED_CS_MASK) == <基值>`。
-SDO_EXPEDITED_CS_MASK = 0xE3
+# The generated module contains only shared wire constants. Support deployment's
+# namespace-package import and the tools' standalone imports without changing sys.path.
+if __package__:
+    from .canopen_wire import *
+else:
+    from canopen_wire import *
 
 
 #: 规范里**含义固定**的公共对象索引。厂家私有对象**不在**此处——它们属于 od.json。
@@ -376,6 +338,10 @@ class SdoProtocolError(CanopenError):
     """收到的帧不符合 SDO 规范（命令字不认识、索引对不上、长度不对等）。"""
 
 
+class SdoSessionQuarantined(SdoProtocolError):
+    """A timed-out SDO session cannot safely accept indistinguishable late replies."""
+
+
 class SdoAbort(CanopenError):
     """服务端回了 abort（命令字 0x80）。"""
 
@@ -406,6 +372,7 @@ class NmtState:
     心跳帧的数据字节就是这些值——节点通过心跳自报状态。
     值 0x00 既是"上电初始化"又是"下电上报"，规范如此，靠上下文区分。
     """
+
 
     INITIALISING = 0x00
     STOPPED = 0x04
@@ -659,8 +626,8 @@ class SdoClient:
     请求-应答式，因此不需要多线程；超时由 `bus.recv(timeout)` 负责。
 
     分段传输的 toggle 位：**每个分段传输的序列从 0 开始**，
-    upload 与 download 各自交替。段内 n 位只在最后一段有意义，
-    取值 `有效字节数 - 1`（规范用 x-1 编码，所以满 7 字节写 0）。
+    upload 与 download 各自交替。段内 n 位表示未使用的数据字节数，
+    因此满 7 字节写 0，末段不足 7 字节时写 `7 - 有效字节数`。
     """
 
     def __init__(self, bus, node_id: int, timeout: float = 1.0) -> None:
@@ -671,28 +638,56 @@ class SdoClient:
         self.request_cob_id = cob_id_sdo_tx(node_id)
         self.response_cob_id = cob_id_sdo_rx(node_id)
         self.last_request: Optional[Frame] = None
+        self._deadline = 0.0
+        self._transmitted = False
+        self.quarantined = False
+
+    def confirm_external_recovery(self) -> None:
+        """Caller attests that peer/transport recovery eliminated all old replies.
+
+        Flushing a receive queue, issuing NMT, waiting, or constructing a fresh
+        client alone cannot establish this: SDO replies have no transaction ID.
+        Until recovery, SDO cleanup/stop is blocked too; use independent safety.
+        The single owner must preserve quarantine for the whole bus session.
+        """
+        self.quarantined = False
+
+    def _begin(self) -> None:
+        if self.quarantined:
+            raise SdoSessionQuarantined(
+                "node %d: SDO session quarantined after timeout; explicit external recovery required" %
+                self.node_id)
+        self._transmitted = False
+        self._deadline = time.monotonic() + self.timeout
+
+    def _timeout(self) -> None:
+        if self._transmitted:
+            self.quarantined = True
+        raise BusSilenceError(
+            "node %d: %.3fs 内未收到 SDO 应答（请求 %s）" % (
+                self.node_id, self.timeout,
+                str(self.last_request) if self.last_request else "-"))
 
     # -- 帧收发 ------------------------------------------------------------
 
     def _send(self, data: bytes) -> Frame:
+        if time.monotonic() >= self._deadline:
+            self._timeout()
         frame = Frame(self.request_cob_id, data)
         self.last_request = frame
         self.bus.send(frame)
+        self._transmitted = True
         return frame
 
     def _recv(self, request: Optional[Frame] = None) -> Frame:
-        deadline = time.monotonic() + self.timeout
         while True:
-            remaining = deadline - time.monotonic()
+            remaining = self._deadline - time.monotonic()
             if remaining <= 0:
                 frame = None
             else:
                 frame = self.bus.recv(remaining)
-            if frame is None:
-                raise BusSilenceError(
-                    "node %d: %.3fs 内未收到 SDO 应答（请求 %s）" % (
-                        self.node_id, self.timeout,
-                        str(self.last_request) if self.last_request else "-"))
+            if frame is None or time.monotonic() >= self._deadline:
+                self._timeout()
             # 总线还有其他节点的心跳/PDO/SDO；只消费本事务的标准数据帧。
             # 超时用总期限，杂帧不能把一次事务无限延长。
             if (frame.arbitration_id == self.response_cob_id and
@@ -703,43 +698,28 @@ class SdoClient:
     def _check_abort(self, frame: Frame, index: int, subindex: int,
                      check_index: bool = True) -> None:
         data = frame.data
-        if not data:
-            return
-        if data[0] == SDO_CS_ABORT:
-            if len(data) < 8:
-                raise SdoProtocolError(
-                    "node %d: abort 帧长度不足: %s" % (self.node_id, frame))
-            abort_index = data[1] | (data[2] << 8)
-            code = struct.unpack("<I", data[4:8])[0]
-            raise SdoAbort(self.node_id, abort_index, data[3], code,
-                           request=self.last_request)
-        # 索引回显校验只对"首帧"有意义。
-        #
-        # 加急应答与分段上传的**首帧**里 byte1..3 是索引/子索引，可以核对；
-        # 而分段传输的**数据段**（0x40 族且不带 c 位之外的段应答）里
-        # byte1..7 就是数据本身，拿它当索引解析会得到 0x4948 这类垃圾值，
-        # 报出的错会指向一个根本不存在的对象。
-        #
-        # 因此**只对真正的首帧**校验：调用方传 `check_index=True`，
-        # 而这个标志由 read() 在收到首帧后立即传入；数据段路径不传。
-        if not check_index:
-            return
-        if len(data) < 4:
-            return
-        if (data[0] & SDO_EXPEDITED_CS_MASK) != SDO_CS_UPLOAD_EXPEDITED_BASE \
-                and (data[0] & SDO_CS_UPLOAD_SEGMENT_MASK) != (SDO_CS_UPLOAD_SEGMENTED & 0xC0):
-            return
-        got_index = data[1] | (data[2] << 8)
-        if got_index != index or data[3] != subindex:
+        if len(data) != 8:
             raise SdoProtocolError(
-                "node %d: 应答索引不符，期望 %s，收到 0x%04X:%02X" % (
-                    self.node_id, format_object(index, subindex),
-                    got_index, data[3]))
+                "node %d: SDO 应答长度必须是 8 字节: %s" % (self.node_id, frame))
+        # Abort always carries the original object's multiplexor, including during
+        # a segmented transfer. Data segments themselves have no index fields.
+        if data[0] == SDO_CS_ABORT or check_index:
+            got_index = data[1] | (data[2] << 8)
+            if got_index != index or data[3] != subindex:
+                raise SdoProtocolError(
+                    "node %d: 应答索引不符，期望 %s，收到 0x%04X:%02X" % (
+                        self.node_id, format_object(index, subindex),
+                        got_index, data[3]))
+        if data[0] == SDO_CS_ABORT:
+            code = struct.unpack("<I", data[4:8])[0]
+            raise SdoAbort(self.node_id, index, subindex, code,
+                           request=self.last_request)
 
     # -- 上传（读） --------------------------------------------------------
 
     def read(self, index: int, subindex: int = 0) -> bytes:
         """读对象。加急应答一次返回；分段应答由 `_read_segmented` 续完。"""
+        self._begin()
         request = self._send(bytes([
             SDO_CS_UPLOAD_REQUEST,
             index & 0xFF, (index >> 8) & 0xFF,
@@ -759,28 +739,26 @@ class SdoClient:
             unused = (frame.data[0] & SDO_EXPEDITED_NBYTES_MASK) >> 2
             length = 4 - unused
             return bytes(frame.data[4:4 + length])
-        if cs == SDO_CS_UPLOAD_SEGMENTED:
-            # 分段上传有两种首帧（CiA 301 §7.2.4.2）：
-            #   帧长 4 字节：不带长度指示，客户端得自己数到末段
-            #   帧长 8 字节：byte0 的 bit0 置位，byte4..7 是总长度（小端）
-            # 判据**只能是帧长**。命令字在这里帮不上忙：
-            # SDO_CS_UPLOAD_SEGMENTED 是 0x41，附加位 0x01 也落在 bit0 上，
-            # 两者按位或的结果还是 0x41 —— 拿命令字去区分永远为真，
-            # 于是"不带长度"的应答会被读出一个凭空的总长（通常是 0）。
-            if len(frame.data) >= 8 and (cs & SDO_UPLOAD_SEGMENTED_WITH_SIZE):
-                total = struct.unpack("<I", frame.data[4:8])[0]
-            else:
-                total = None
-            return self._read_segmented(total)
+        if cs in (SDO_CS_UPLOAD_SEGMENTED_NO_SIZE, SDO_CS_UPLOAD_SEGMENTED):
+            # Both initiate responses are eight bytes. Only the s bit determines
+            # whether bytes 4..7 contain a declared total (0x41) or reserved data (0x40).
+            total = (struct.unpack("<I", frame.data[4:8])[0]
+                     if cs & SDO_UPLOAD_SEGMENTED_WITH_SIZE else None)
+            return self._read_segmented(total, index, subindex)
         raise SdoProtocolError(
             "node %d: 上传应答命令字不认识 0x%02X (%s)" % (
                 self.node_id, cs, frame))
 
-    def _read_segmented(self, total: Optional[int]) -> bytes:
+    def _read_segmented(self, total: Optional[int], index: int, subindex: int) -> bytes:
         """续读分段上传。toggle 从 0 起，交替 0/1。"""
         payload = bytearray()
         toggle = 0
-        while True:
+        if total is not None and total > SDO_PAYLOAD_CAPACITY:
+            raise SdoProtocolError("node %d: 分段上传超过容量 %d" %
+                                   (self.node_id, SDO_PAYLOAD_CAPACITY))
+        # Non-final segments always contain seven bytes. This additionally caps
+        # segment count even when the peer omits the total or never marks last.
+        for _ in range(SDO_PAYLOAD_CAPACITY // 7 + 1):
             request = self._send(bytes([
                 SDO_CS_UPLOAD_SEGMENT_REQUEST | (toggle << 4),
                 0, 0, 0, 0, 0, 0, 0,
@@ -790,14 +768,11 @@ class SdoClient:
             if not data:
                 raise SdoProtocolError("node %d: 空分段应答" % self.node_id)
             # 数据段的应答不含索引，因此不做索引回显校验
-            self._check_abort(frame, 0, 0, check_index=False)
+            self._check_abort(frame, index, subindex, check_index=False)
             cs = data[0]
-            # 分段上传应答的判据是**高两位为 01**（0x40 族），
-            # 不是 `(cs & 0xE0) == 0x00` —— 后者指的是下载方向的数据段
-            # （0x00/0x10/0x20/0x30），两者混起来就会把方向搞反。
-            # 0x40 族只有四个值：0x40/0x41（toggle 0）、0x50/0x51（toggle 1），
-            # 末段由 c 位（bit0）标志，与 toggle 无关。
-            if (cs & SDO_CS_UPLOAD_SEGMENT_MASK) != (SDO_CS_UPLOAD_SEGMENTED & 0xC0):
+            # CiA 301 upload segment response: 000tnnnc. The initiate response
+            # family (0100nnes) must never be accepted as a data segment.
+            if (cs & SDO_CS_UPLOAD_SEGMENT_MASK) != SDO_CS_UPLOAD_SEGMENT_RESPONSE:
                 raise SdoProtocolError(
                     "node %d: 分段应答命令字不认识 0x%02X (%s)" % (
                         self.node_id, cs, frame))
@@ -807,15 +782,26 @@ class SdoClient:
                     "node %d: toggle 位未交替，期望 %d 收到 %d" % (
                         self.node_id, toggle, got_toggle))
             last = bool(cs & SDO_CS_SEGMENT_LAST)
+            if not last and cs & SDO_CS_SEGMENT_NBYTES_MASK:
+                raise SdoProtocolError("node %d: 非末段含无效字节计数" % self.node_id)
             # 末段的 n 位编码的是**未使用的字节数**（(cs & 0x0E) >> 1），
             # 所以有效字节数是 7 减去它；非末段固定 7 字节。
             # 把它当成"有效字节数 - 1"会让末段多算几个字节，
             # 长度校验随即以"声明 N 实收 N+k"失败。
             nbytes = 7 - ((cs & SDO_CS_SEGMENT_NBYTES_MASK) >> 1) if last else 7
+            if len(payload) + nbytes > SDO_PAYLOAD_CAPACITY:
+                raise SdoProtocolError("node %d: 分段上传超过容量 %d" %
+                                       (self.node_id, SDO_PAYLOAD_CAPACITY))
             payload.extend(data[1:1 + nbytes])
+            if total is not None and len(payload) > total:
+                raise SdoProtocolError(
+                    "node %d: 分段上传长度超过声明 %d" % (self.node_id, total))
             toggle ^= 1
             if last:
                 break
+        else:
+            raise SdoProtocolError("node %d: 分段上传段数超过容量 %d" %
+                                   (self.node_id, SDO_PAYLOAD_CAPACITY))
         if total is not None and len(payload) != total:
             raise SdoProtocolError(
                 "node %d: 分段上传长度不符，声明 %d 实收 %d" % (
@@ -827,6 +813,9 @@ class SdoClient:
     def write(self, index: int, subindex: int, data: bytes) -> None:
         """写对象。<=4 字节走加急，更长走分段。"""
         payload = bytes(data)
+        if not 0 < len(payload) <= SDO_PAYLOAD_CAPACITY:
+            raise SdoProtocolError("SDO download payload must contain 1..%d bytes" % SDO_PAYLOAD_CAPACITY)
+        self._begin()
         index_bytes = bytes([index & 0xFF, (index >> 8) & 0xFF, subindex & 0xFF])
         if len(payload) == 4:
             # 4 字节用 0x23（无 n 位），避免与"带长度指示"混淆
@@ -862,9 +851,9 @@ class SdoClient:
             # 余下数据由 _write_segmented 按段续完。
             # 判据写成 >= 4 的话，4 字节对象会先走加急帧、再被当成分段续传，
             # 表现为"4 字节写成功一半后总线静默"。
-            self._write_segmented(payload)
+            self._write_segmented(payload, index, subindex)
 
-    def _write_segmented(self, payload: bytes) -> None:
+    def _write_segmented(self, payload: bytes, index: int, subindex: int) -> None:
         """续传分段下载。toggle 从 0 起。末段不足 7 字节时用 n 位标出有效长度。"""
         offset = 0
         toggle = 0
@@ -884,7 +873,7 @@ class SdoClient:
             if not data:
                 raise SdoProtocolError("node %d: 空分段确认" % self.node_id)
             # 数据段的确认帧不含索引，因此不做索引回显校验
-            self._check_abort(frame, 0, 0, check_index=False)
+            self._check_abort(frame, index, subindex, check_index=False)
             cs = data[0]
             # 确认帧命令字 = 0x20 | (toggle << 4)：toggle=0 是 0x20，toggle=1 是 0x30。
             # 判据必须覆盖 0x2x 与 0x3x 两段；只判 `(cs & 0xE0) == 0x20`

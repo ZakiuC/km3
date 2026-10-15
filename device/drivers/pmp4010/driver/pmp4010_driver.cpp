@@ -1,10 +1,12 @@
-// PMP4010 非实时驱动边界。OD 尚未全部核对，且 km3_canopen 尚未实现。
-// 所有协议入口都先经过同一个 OD / 生命周期 / 节点守卫；本文件不组装 CANopen 帧。
+// PMP4010 非实时驱动边界。所有 CANopen 帧与 SDO 事务由标准层处理。
 
 #include "pmp4010_driver.hpp"
 
 #include <algorithm>
 #include <utility>
+#include <cstring>
+#include <limits>
+#include "od_access_generated.hpp"
 
 namespace km3::pmp4010 {
 
@@ -32,7 +34,7 @@ Status CheckBackend(const ICanDevice& device) {
 }  // namespace
 
 Pmp4010Driver::Pmp4010Driver(ICanDevice& device, DriverConfig config)
-    : device_(device), config_(std::move(config)) {}
+    : device_(device), config_(std::move(config)), sdo_(device) {}
 
 Pmp4010Driver::~Pmp4010Driver() = default;
 
@@ -87,6 +89,7 @@ Status Pmp4010Driver::Close() noexcept {
 }
 
 Status Pmp4010Driver::GuardTransmit(std::uint8_t node_id, bool allow_broadcast) noexcept {
+    preserved_abort_code_ = 0;
     if (!kOdVerified) {
         // 唯一正确的行为：拒发，并计数。零字节出总线。
         ++stats_.rejected_by_od_guard;
@@ -103,110 +106,456 @@ Status Pmp4010Driver::GuardTransmit(std::uint8_t node_id, bool allow_broadcast) 
     return Status::Ok();
 }
 
-// ---- 诊断 ----
-
-Result<NodeState> Pmp4010Driver::ProbeNode(std::uint8_t node_id) {
-    const Status guard = GuardTransmit(node_id);
-    if (!guard.ok()) {
-        return Result<NodeState>::Err(guard.code());
+namespace {
+namespace wire = canopen::wire;
+const od::Access* Find(const char* key) noexcept {
+    for (const auto& item : od::kAccess) if (std::strcmp(item.key, key) == 0) return &item;
+    return nullptr;
+}
+const od::Access* Find(std::uint16_t index, std::uint8_t sub) noexcept {
+    for (const auto& item : od::kAccess) {
+        const auto& entry = od::kEntries[item.entry];
+        if (entry.verified && entry.index != od::kIndexUnset && entry.index == index && entry.sub == sub) return &item;
     }
-    // 未接入标准层就没有探测结果。不能把“未发送请求”报告为探测成功。
-    return Result<NodeState>::Err(ErrorCode::EInternal);
+    return nullptr;
+}
+std::int32_t Signed32(std::uint32_t value) noexcept {
+    std::int32_t result;
+    std::memcpy(&result, &value, sizeof(result));
+    return result;
+}
+bool ValidMode(std::int8_t mode) noexcept {
+    return mode == 1 || mode == 2 || mode == 3 || mode == 4 || mode == 6 ||
+           mode == 7 || mode == 8 || mode == 9 || mode == 10;
+}
+void PollPause(std::uint64_t deadline) noexcept {
+    SleepUntilMonotonic(std::min(deadline, MonotonicUs() + 1000u));
+}
+}  // namespace
+
+DriverStats Pmp4010Driver::Stats() const noexcept {
+    auto result = stats_;
+    const auto transfer = sdo_.Stats();
+    result.tx_frames = transfer.tx_frames;
+    result.rx_frames = transfer.rx_frames;
+    result.sdo_timeouts = transfer.timeouts;
+    return result;
+}
+std::uint64_t Pmp4010Driver::Deadline() const noexcept {
+    return MonotonicUs() + std::uint64_t{config_.sdo_timeout_ms} * 1000u;
+}
+Result<Pmp4010Driver::SdoBuffer> Pmp4010Driver::ReadRaw(std::uint8_t node, std::uint16_t index,
+        std::uint8_t sub, std::uint64_t deadline) {
+    if (config_.sdo_timeout_ms == 0) return Result<SdoBuffer>::Err(ErrorCode::EInvalidConfig);
+    const auto* item = Find(index, sub);
+    if (!item) return Result<SdoBuffer>::Err(ErrorCode::EInvalidRequest);
+    auto result = sdo_.Upload(node, index, sub, deadline);
+    if (result && (item->variable_length ? result.value().size > item->width :
+                                         result.value().size != item->width))
+        return Result<SdoBuffer>::Err(ErrorCode::EDeviceError);
+    return result;
+}
+Result<std::uint32_t> Pmp4010Driver::ReadValue(std::uint8_t node, const char* key, std::uint64_t deadline) {
+    const auto* item = Find(key);
+    if (!item || item->variable_length) return Result<std::uint32_t>::Err(ErrorCode::EInvalidConfig);
+    const auto& entry = od::kEntries[item->entry];
+    auto bytes = ReadRaw(node, entry.index, entry.sub, deadline);
+    if (!bytes) return Result<std::uint32_t>::Err(bytes.code());
+    return Result<std::uint32_t>::Ok(canopen::Decode32(bytes.value().bytes.data()));
+}
+Status Pmp4010Driver::WriteValue(std::uint8_t node, const char* key, std::uint32_t value,
+        std::uint64_t deadline) {
+    const auto* item = Find(key);
+    if (!item || !item->writable || config_.sdo_timeout_ms == 0) return Status(ErrorCode::EInvalidConfig);
+    // All numeric write entry points converge here, including generic SDO writes.
+    if (std::strcmp(key, "controlword") == 0) {
+        const auto cia402 = RequireCia402(node, deadline);
+        if (!cia402) return cia402;
+    } else if (std::strcmp(key, "target_position") == 0) {
+        const auto limits = RequirePositionInRange(node, Signed32(value), deadline);
+        if (!limits) return limits;
+    } else if (std::strcmp(key, "target_velocity") == 0) {
+        // E06 §5.2: user units/s -> rpm needs 608Fh and 6091h. The
+        // driver has no verified conversion chain, so 6080h cannot be compared.
+        return Status(ErrorCode::EInvalidConfig);
+    }
+    const auto& entry = od::kEntries[item->entry];
+    std::array<std::uint8_t, 4> bytes{};
+    canopen::Encode32(bytes.data(), value);
+    return sdo_.Download(node, entry.index, entry.sub, bytes.data(), item->width, deadline);
+}
+Status Pmp4010Driver::Control(std::uint8_t node, std::uint16_t value, std::uint64_t deadline) {
+    return WriteValue(node, "controlword", value, deadline);
 }
 
-Status Pmp4010Driver::SendNmt(NmtCommand command, std::uint8_t node_id) {
-    const Status guard = GuardTransmit(node_id, true);
-    if (!guard.ok()) {
-        return guard;
-    }
-    // NMT 帧组装归 km3_canopen 所有（硬件驱动开发路径第 7 步）。
-    // 标准层缺失时显式失败，不能在本型号驱动中另写一套实现。
-    (void)command;
-    return Status(ErrorCode::EInternal);
+Result<Pmp4010Driver::SdoBuffer> Pmp4010Driver::ReadBytes(std::uint8_t node, std::uint16_t index, std::uint8_t sub) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return Result<SdoBuffer>::Err(guard.code());
+    return ReadRaw(node, index, sub, Deadline());
+}
+Result<Pmp4010Driver::SdoBuffer> Pmp4010Driver::ReadString(std::uint8_t node, std::uint16_t index, std::uint8_t sub) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return Result<SdoBuffer>::Err(guard.code());
+    const auto* item = Find(index, sub);
+    if (!item || !item->variable_length) return Result<SdoBuffer>::Err(ErrorCode::EInvalidRequest);
+    return ReadRaw(node, index, sub, Deadline());
+}
+Result<std::uint32_t> Pmp4010Driver::ReadObject(std::uint8_t node, std::uint16_t index, std::uint8_t sub) {
+    auto result = ReadBytes(node, index, sub);
+    if (!result) return Result<std::uint32_t>::Err(result.code());
+    if (result.value().size == 0 || result.value().size > 4) return Result<std::uint32_t>::Err(ErrorCode::EDeviceError);
+    return Result<std::uint32_t>::Ok(canopen::Decode32(result.value().bytes.data()));
+}
+Status Pmp4010Driver::WriteObject(std::uint8_t node, std::uint16_t index, std::uint8_t sub, std::uint32_t value) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return guard;
+    const auto* item = Find(index, sub);
+    if (!item || !item->writable) return Status(ErrorCode::EInvalidRequest);
+    // Generic values must fit the on-wire width; signed callers use typed methods.
+    if (item->width < 4 && value >= (std::uint32_t{1} << (item->width * 8u))) return Status(ErrorCode::EInvalidRequest);
+    return WriteValue(node, item->key, value, Deadline());
+}
+Status Pmp4010Driver::SdoRead(std::uint8_t node, std::uint16_t index, std::uint8_t sub,
+                             std::vector<std::uint8_t>& out) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return guard;
+    if (out.capacity() < SdoBuffer::kCapacity) return Status(ErrorCode::EInvalidRequest);
+    auto result = ReadRaw(node, index, sub, Deadline());
+    if (!result) return Status(result.code());
+    out.resize(result.value().size); // Never allocates: capacity checked before any I/O.
+    std::copy_n(result.value().bytes.begin(), result.value().size, out.begin());
+    return Status::Ok();
+}
+Status Pmp4010Driver::SdoWrite(std::uint8_t node, std::uint16_t index, std::uint8_t sub,
+                              const std::vector<std::uint8_t>& data) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return guard;
+    const auto* item = Find(index, sub);
+    if (!item || !item->writable || data.size() != item->width) return Status(ErrorCode::EInvalidRequest);
+    if (config_.sdo_timeout_ms == 0) return Status(ErrorCode::EInvalidConfig);
+    std::array<std::uint8_t, 4> bytes{};
+    std::copy(data.begin(), data.end(), bytes.begin());
+    return WriteValue(node, item->key, canopen::Decode32(bytes.data()), Deadline());
+}
+Status Pmp4010Driver::SendNmt(NmtCommand command, std::uint8_t node) {
+    const auto guard = GuardTransmit(node, true);
+    return guard ? sdo_.Nmt(static_cast<std::uint8_t>(command), node) : guard;
 }
 
-// ---- 运动 ----
-
-Status Pmp4010Driver::Enable(std::uint8_t node_id) {
-    const Status guard = GuardTransmit(node_id);
-    if (!guard.ok()) {
-        return guard;
+Status Pmp4010Driver::WaitState(std::uint8_t node, std::uint16_t expected, std::uint64_t deadline) {
+    while (MonotonicUs() < deadline) {
+        auto sw = ReadValue(node, "statusword", deadline);
+        if (!sw) return Status(sw.code());
+        const auto value = static_cast<std::uint16_t>(sw.value());
+        if (canopen::StateIs(value, expected) || (expected == wire::CIA402_DISABLED && canopen::Disabled(value)))
+            return Status::Ok();
+        if ((value & wire::CIA402_FAULT) != 0) return Status(ErrorCode::EDeviceError);
+        PollPause(deadline);
     }
-    // 标准层接入后才可执行使能事务，并通过状态字确认结果。
-    return Status(ErrorCode::EInternal);
+    return Status(ErrorCode::ECommandTimeout);
+}
+Status Pmp4010Driver::Reset(std::uint8_t node, std::uint64_t deadline) {
+    auto st = Control(node, wire::CIA402_DISABLE, deadline); // de-energize and clear bit7 first
+    if (!st) return st;
+    st = Control(node, wire::CIA402_FAULT_RESET, deadline);
+    if (!st) return st;
+    while (MonotonicUs() < deadline) {
+        const auto sw = ReadValue(node, "statusword", deadline);
+        if (!sw) return Status(sw.code());
+        if ((sw.value() & wire::CIA402_FAULT) == 0) return Control(node, wire::CIA402_DISABLE, deadline);
+        PollPause(deadline);
+    }
+    return Status(ErrorCode::ECommandTimeout);
+}
+Status Pmp4010Driver::FaultReset(std::uint8_t node) {
+    const auto guard = GuardTransmit(node);
+    return guard ? Reset(node, Deadline()) : guard;
+}
+Status Pmp4010Driver::Shutdown(std::uint8_t node) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return guard;
+    const auto deadline = Deadline();
+    const auto st = Control(node, wire::CIA402_SHUTDOWN, deadline);
+    return st ? WaitState(node, wire::CIA402_READY, deadline) : st;
+}
+Status Pmp4010Driver::SwitchOn(std::uint8_t node) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return guard;
+    const auto deadline = Deadline();
+    const auto st = Control(node, wire::CIA402_SWITCH_ON, deadline);
+    return st ? WaitState(node, wire::CIA402_SWITCHED_ON, deadline) : st;
+}
+Status Pmp4010Driver::RequireCia402(std::uint8_t node, std::uint64_t deadline) {
+    const auto selected = ReadValue(node, "control_mode_select", deadline);
+    if (!selected) return Status(selected.code());
+    return selected.value() == 0 ? Status::Ok() : Status(ErrorCode::EInvalidConfig);
+}
+Status Pmp4010Driver::RequirePositionInRange(std::uint8_t node, std::int32_t value,
+        std::uint64_t deadline) {
+    const auto minimum = ReadValue(node, "software_position_limit", deadline);
+    if (!minimum) return Status(minimum.code());
+    const auto maximum = ReadValue(node, "software_position_limit_max", deadline);
+    if (!maximum) return Status(maximum.code());
+    const auto low = Signed32(minimum.value()), high = Signed32(maximum.value());
+    if (low > high) return Status(ErrorCode::EInvalidConfig);
+    return value >= low && value <= high ? Status::Ok() : Status(ErrorCode::EInvalidRequest);
+}
+Status Pmp4010Driver::RequireEnabled(std::uint8_t node, std::uint64_t deadline) {
+    const auto sw = ReadValue(node, "statusword", deadline);
+    if (!sw) return Status(sw.code());
+    return canopen::StateIs(static_cast<std::uint16_t>(sw.value()), wire::CIA402_ENABLED) ?
+           Status::Ok() : Status(ErrorCode::ECommandRejected);
+}
+Status Pmp4010Driver::EnableOperation(std::uint8_t node) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return guard;
+    const auto deadline = Deadline();
+    const auto mode = ReadValue(node, "modes_of_operation_display", deadline);
+    if (!mode) return Status(mode.code());
+    const auto mode_value = static_cast<std::int8_t>(mode.value());
+    if (!ValidMode(mode_value) || mode_value == 2 || mode_value == 7) return Status(ErrorCode::EInvalidConfig);
+    auto st = Control(node, wire::CIA402_ENABLE, deadline);
+    if (st) st = WaitState(node, wire::CIA402_ENABLED, deadline);
+    if (!st) CleanupStop(node);
+    return st;
+}
+Status Pmp4010Driver::EnableSequence(std::uint8_t node, std::uint64_t deadline) {
+    // Read the conflicting vendor selector instead of assuming a CiA402 factory default.
+    const auto selected = RequireCia402(node, deadline);
+    if (!selected) return selected;
+    auto mode = ReadValue(node, "modes_of_operation_display", deadline);
+    if (!mode) return Status(mode.code());
+    const auto m = static_cast<std::int8_t>(mode.value());
+    if (!ValidMode(m) || m == 2 || m == 7) return Status(ErrorCode::EInvalidConfig);
+    auto sw = ReadValue(node, "statusword", deadline);
+    if (!sw) return Status(sw.code());
+    while (canopen::FaultReaction(static_cast<std::uint16_t>(sw.value())) || (sw.value() & wire::CIA402_DISABLED_MASK) == 0) {
+        if (MonotonicUs() >= deadline) return Status(ErrorCode::ECommandTimeout);
+        PollPause(deadline);
+        sw = ReadValue(node, "statusword", deadline);
+        if (!sw) return Status(sw.code());
+    }
+    if (canopen::StateIs(static_cast<std::uint16_t>(sw.value()), wire::CIA402_ENABLED)) return Status::Ok();
+    if (canopen::Fault(static_cast<std::uint16_t>(sw.value()))) {
+        const auto st = Reset(node, deadline);
+        if (!st) return st;
+    }
+    for (const auto command : {wire::CIA402_SHUTDOWN, wire::CIA402_SWITCH_ON,
+                              wire::CIA402_ENABLE}) {
+        auto st = Control(node, static_cast<std::uint16_t>(command), deadline);
+        if (!st) { if (command == wire::CIA402_ENABLE) CleanupStop(node); return st; }
+        st = WaitState(node, static_cast<std::uint16_t>(command == wire::CIA402_SHUTDOWN ? wire::CIA402_READY :
+                      command == wire::CIA402_SWITCH_ON ? wire::CIA402_SWITCHED_ON : wire::CIA402_ENABLED), deadline);
+        if (!st) { if (command == wire::CIA402_ENABLE) CleanupStop(node); return st; }
+    }
+    return Status::Ok();
+}
+Status Pmp4010Driver::Enable(std::uint8_t node) {
+    const auto guard = GuardTransmit(node);
+    return guard ? EnableSequence(node, Deadline()) : guard;
+}
+Status Pmp4010Driver::Disable(std::uint8_t node) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return guard;
+    const auto deadline = Deadline();
+    const auto st = Control(node, wire::CIA402_DISABLE, deadline);
+    return st ? WaitState(node, wire::CIA402_DISABLED, deadline) : st;
+}
+Status Pmp4010Driver::QuickStop(std::uint8_t node) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return guard;
+    const auto deadline = Deadline();
+    const auto st = Control(node, wire::CIA402_QUICK_STOP_COMMAND, deadline);
+    if (!st) return st;
+    while (MonotonicUs() < deadline) {
+        const auto sw = ReadValue(node, "statusword", deadline);
+        if (!sw) return Status(sw.code());
+        const auto value = static_cast<std::uint16_t>(sw.value());
+        if (canopen::StateIs(value, wire::CIA402_QUICK_STOP) || canopen::Disabled(value)) return Status::Ok();
+        if ((value & wire::CIA402_FAULT) != 0) return Status(ErrorCode::EDeviceError);
+        PollPause(deadline);
+    }
+    return Status(ErrorCode::ECommandTimeout);
+}
+Status Pmp4010Driver::Stop(std::uint8_t node) { return QuickStop(node); }
+void Pmp4010Driver::CleanupStop(std::uint8_t node) {
+    const auto original_abort = LastSdoAbortCode();
+    if (!QuickStop(node)) ++stats_.cleanup_failures;
+    if (original_abort != 0) preserved_abort_code_ = original_abort;
 }
 
-Status Pmp4010Driver::Disable(std::uint8_t node_id) {
-    const Status guard = GuardTransmit(node_id);
-    if (!guard.ok()) {
-        return guard;
-    }
-    return Status(ErrorCode::EInternal);
+Result<std::uint16_t> Pmp4010Driver::ReadStatusword(std::uint8_t node) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return Result<std::uint16_t>::Err(guard.code());
+    const auto result = ReadValue(node, "statusword", Deadline());
+    return result ? Result<std::uint16_t>::Ok(static_cast<std::uint16_t>(result.value())) : Result<std::uint16_t>::Err(result.code());
 }
-
-Status Pmp4010Driver::MoveTo(std::uint8_t node_id, std::int32_t target_counts) {
-    const Status guard = GuardTransmit(node_id);
-    if (!guard.ok()) {
-        return guard;
-    }
-    // target_counts 是原始计数；不在此处猜测物理量换算。
-    (void)target_counts;
-    return Status(ErrorCode::EInternal);
+Result<std::int8_t> Pmp4010Driver::GetOperationMode(std::uint8_t node) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return Result<std::int8_t>::Err(guard.code());
+    const auto result = ReadValue(node, "modes_of_operation_display", Deadline());
+    return result ? Result<std::int8_t>::Ok(static_cast<std::int8_t>(result.value())) : Result<std::int8_t>::Err(result.code());
 }
-
-Status Pmp4010Driver::SetVelocity(std::uint8_t node_id, std::int32_t velocity_counts,
-                                  Direction direction) {
-    const Status guard = GuardTransmit(node_id);
-    if (!guard.ok()) {
-        return guard;
+Status Pmp4010Driver::SetOperationMode(std::uint8_t node, std::int8_t mode) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return guard;
+    if (!ValidMode(mode)) return Status(ErrorCode::EInvalidRequest);
+    const auto deadline = Deadline();
+    auto sw = ReadValue(node, "statusword", deadline);
+    if (!sw) return Status(sw.code());
+    // Use the manual's conservative disabled-only policy, including quick-stop/fault states.
+    const auto value = static_cast<std::uint16_t>(sw.value());
+    if (!canopen::Disabled(value) && !canopen::StateIs(value, wire::CIA402_READY) &&
+        !canopen::StateIs(value, wire::CIA402_SWITCHED_ON)) return Status(ErrorCode::ECommandRejected);
+    auto st = WriteValue(node, "modes_of_operation", static_cast<std::uint8_t>(mode), deadline);
+    if (!st) return st;
+    while (MonotonicUs() < deadline) {
+        const auto readback = ReadValue(node, "modes_of_operation_display", deadline);
+        if (!readback) return Status(readback.code());
+        if (readback.value() == static_cast<std::uint8_t>(mode)) return Status::Ok();
+        PollPause(deadline);
     }
-    (void)velocity_counts;
-    (void)direction;
-    return Status(ErrorCode::EInternal);
+    return Status(ErrorCode::ECommandTimeout);
 }
-
-Status Pmp4010Driver::Stop(std::uint8_t node_id) {
-    const Status guard = GuardTransmit(node_id);
-    if (!guard.ok()) {
-        return guard;
+Status Pmp4010Driver::SetTargetPosition(std::uint8_t node, std::int32_t value) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return guard;
+    const auto deadline = Deadline();
+    const auto enabled = RequireEnabled(node, deadline);
+    return enabled ? WriteValue(node, "target_position", static_cast<std::uint32_t>(value), deadline) : enabled;
+}
+Status Pmp4010Driver::SetTargetVelocity(std::uint8_t node, std::int32_t) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return guard;
+    // E06 §5.2 requires a live 608Fh/6091h conversion before comparing to
+    // max_motor_speed (6080h, rpm). counts_per_unit is not that conversion.
+    return Status(ErrorCode::EInvalidConfig);
+}
+Result<std::int32_t> Pmp4010Driver::GetActualPosition(std::uint8_t node) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return Result<std::int32_t>::Err(guard.code());
+    const auto result = ReadValue(node, "actual_position", Deadline());
+    return result ? Result<std::int32_t>::Ok(Signed32(result.value())) : Result<std::int32_t>::Err(result.code());
+}
+Result<std::int32_t> Pmp4010Driver::GetActualVelocity(std::uint8_t node) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return Result<std::int32_t>::Err(guard.code());
+    const auto result = ReadValue(node, "actual_velocity", Deadline());
+    return result ? Result<std::int32_t>::Ok(Signed32(result.value())) : Result<std::int32_t>::Err(result.code());
+}
+Result<NodeState> Pmp4010Driver::ProbeNode(std::uint8_t node) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return Result<NodeState>::Err(guard.code());
+    const auto deadline = Deadline();
+    const auto sw = ReadValue(node, "statusword", deadline);
+    if (!sw) return Result<NodeState>::Err(sw.code());
+    const auto position = ReadValue(node, "actual_position", deadline);
+    if (!position) return Result<NodeState>::Err(position.code());
+    const auto velocity = ReadValue(node, "actual_velocity", deadline);
+    if (!velocity) return Result<NodeState>::Err(velocity.code());
+    NodeState state;
+    state.node_id = node; state.online = true; state.fault = (sw.value() & wire::CIA402_FAULT) != 0;
+    state.enabled = canopen::StateIs(static_cast<std::uint16_t>(sw.value()), wire::CIA402_ENABLED);
+    state.actual_position_counts = Signed32(position.value());
+    state.actual_velocity_counts = Signed32(velocity.value());
+    return Result<NodeState>::Ok(state);
+}
+Status Pmp4010Driver::SetVelocity(std::uint8_t node, std::int32_t value, Direction direction) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return guard;
+    if (value < 0 || (direction != Direction::Raise && direction != Direction::Lower)) return Status(ErrorCode::EInvalidRequest);
+    // No configured/verified user units/s -> rpm conversion; deny before I/O.
+    return Status(ErrorCode::EInvalidConfig);
+}
+Status Pmp4010Driver::MoveTo(std::uint8_t node, std::int32_t value) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return guard;
+    const auto deadline = Deadline();
+    // Read both live software limits before clearing a set-point/control edge.
+    const auto limits = RequirePositionInRange(node, value, deadline);
+    if (!limits) return limits;
+    const auto enabled = RequireEnabled(node, deadline);
+    if (!enabled) return enabled;
+    const auto mode = ReadValue(node, "modes_of_operation_display", deadline);
+    if (!mode) return Status(mode.code());
+    if (mode.value() != 1) return Status(ErrorCode::ECommandRejected);
+    auto st = Control(node, wire::CIA402_ENABLE, deadline); // clear set-point edge
+    if (!st) return st;
+    const auto wait_ack = [&](bool expected) {
+        while (MonotonicUs() < deadline) {
+            const auto sw = ReadValue(node, "statusword", deadline);
+            if (!sw) return Status(sw.code());
+            if (!canopen::StateIs(static_cast<std::uint16_t>(sw.value()), wire::CIA402_ENABLED) ||
+                (sw.value() & wire::CIA402_PP_FOLLOWING_ERROR) != 0) return Status(ErrorCode::EDeviceError);
+            if (((sw.value() & wire::CIA402_PP_SETPOINT_ACK) != 0) == expected) return Status::Ok();
+            PollPause(deadline);
+        }
+        return Status(ErrorCode::ECommandTimeout);
+    };
+    st = wait_ack(false);
+    if (!st) return st;
+    st = WriteValue(node, "target_position", static_cast<std::uint32_t>(value), deadline);
+    if (!st) return st;
+    st = Control(node, static_cast<std::uint16_t>(wire::CIA402_ENABLE | wire::CIA402_NEW_SETPOINT), deadline);
+    if (st) st = wait_ack(true);
+    // Always lower the trigger, even if acknowledgement failed (fresh bounded cleanup).
+    const auto original_abort = LastSdoAbortCode();
+    const auto cleanup = Control(node, wire::CIA402_ENABLE, st ? deadline : Deadline());
+    if (!st && original_abort != 0) preserved_abort_code_ = original_abort;
+    if (!cleanup) ++stats_.cleanup_failures;
+    if (!st) { CleanupStop(node); return st; }
+    st = cleanup ? wait_ack(false) : cleanup;
+    if (!st) CleanupStop(node);
+    return st;
+}
+Status Pmp4010Driver::Home(std::uint8_t node) {
+    const auto guard = GuardTransmit(node);
+    if (!guard) return guard;
+    const auto method = config_.homing_method;
+    if (!((method >= 17 && method <= 30) || method == 35) || config_.homing_timeout_ms == 0)
+        return Status(ErrorCode::EInvalidConfig);
+    const auto selected = RequireCia402(node, Deadline());
+    if (!selected) return selected;
+    auto st = Disable(node);
+    if (!st) return st;
+    st = SetOperationMode(node, 6);
+    if (!st) return st;
+    st = WriteValue(node, "homing_method", static_cast<std::uint8_t>(method), Deadline());
+    if (!st) return st;
+    const auto method_readback = ReadValue(node, "homing_method", Deadline());
+    if (!method_readback) return Status(method_readback.code());
+    if (method_readback.value() != static_cast<std::uint8_t>(method)) return Status(ErrorCode::EDeviceError);
+    st = Enable(node);
+    if (!st) { CleanupStop(node); return st; }
+    const auto deadline = MonotonicUs() + std::uint64_t{config_.homing_timeout_ms} * 1000u;
+    st = Control(node, wire::CIA402_ENABLE, std::min(deadline, Deadline()));
+    const auto baseline = st ? ReadValue(node, "statusword", std::min(deadline, Deadline())) : Result<std::uint32_t>::Err(st.code());
+    if (!baseline) { CleanupStop(node); return Status(baseline.code()); }
+    if (!canopen::StateIs(static_cast<std::uint16_t>(baseline.value()), wire::CIA402_ENABLED) || (baseline.value() & wire::CIA402_HOMING_ERROR) != 0) {
+        CleanupStop(node); return Status(ErrorCode::EDeviceError);
     }
-    return Status(ErrorCode::EInternal);
-}
-
-Status Pmp4010Driver::Home(std::uint8_t node_id) {
-    const Status guard = GuardTransmit(node_id);
-    if (!guard.ok()) {
-        return guard;
+    // E06 table 6-19 defines target reached (bit10) and homing attained
+    // (bit12) separately. Host policy requires both, so successful homing also
+    // confirms the profile reached its target; this is stricter than either bit.
+    constexpr auto complete = wire::CIA402_HOMING_TARGET_REACHED | wire::CIA402_HOMING_ATTAINED;
+    bool seen_incomplete = (baseline.value() & complete) != complete;
+    if (st) st = Control(node, static_cast<std::uint16_t>(wire::CIA402_START_HOMING), std::min(deadline, Deadline()));
+    if (!st) { CleanupStop(node); return st; }
+    while (MonotonicUs() < deadline) {
+        const auto sw = ReadValue(node, "statusword", std::min(deadline, Deadline()));
+        if (!sw) { CleanupStop(node); return Status(sw.code()); }
+        if (!canopen::StateIs(static_cast<std::uint16_t>(sw.value()), wire::CIA402_ENABLED) || (sw.value() & wire::CIA402_HOMING_ERROR) != 0) {
+            CleanupStop(node); return Status(ErrorCode::EDeviceError);
+        }
+        if ((sw.value() & complete) != complete) seen_incomplete = true;
+        if (seen_incomplete && (sw.value() & complete) == complete) {
+            const auto finish = Control(node, wire::CIA402_ENABLE, std::min(deadline, Deadline()));
+            if (!finish) CleanupStop(node);
+            return finish;
+        }
+        PollPause(deadline);
     }
-    // 回零依赖标准层事务与明确的调用方运行参数，当前不执行。
-    return Status(ErrorCode::EInternal);
+    CleanupStop(node);
+    return Status(ErrorCode::ECommandTimeout);
 }
-
-// ---- SDO ----
-
-Status Pmp4010Driver::SdoRead(std::uint8_t node_id, std::uint16_t index, std::uint8_t sub,
-                              std::vector<std::uint8_t>& out) {
-    const Status guard = GuardTransmit(node_id);
-    if (!guard.ok()) {
-        return guard;
-    }
-    // 所有失败路径保持 out 原样。
-    (void)index;
-    (void)sub;
-    (void)out;
-    return Status(ErrorCode::EInternal);
-}
-
-Status Pmp4010Driver::SdoWrite(std::uint8_t node_id, std::uint16_t index, std::uint8_t sub,
-                               const std::vector<std::uint8_t>& data) {
-    const Status guard = GuardTransmit(node_id);
-    if (!guard.ok()) {
-        return guard;
-    }
-    (void)index;
-    (void)sub;
-    (void)data;
-    return Status(ErrorCode::EInternal);
-}
-
 }  // namespace km3::pmp4010

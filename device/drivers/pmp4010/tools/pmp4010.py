@@ -36,7 +36,7 @@ tput colors=256），不是开发机。三条前提都来自实测，工具的�
 
   运动类（OD 闸门 + active 时要求 --i-know-rt-is-running）
     --nmt        发 NMT 命令
-    --motion     手工点动（**当前无条件拒绝**，见 cmd_motion）
+    --motion     CiA402 使能 / 失能 / 快停 / 回零
 
 三条准入规则，顺序固定：
   1. **对象字典闸门**（refuse_motion）：od.json 里只要还有 status != verified 的条目，
@@ -63,6 +63,7 @@ import re
 import math
 import subprocess
 import sys
+import time
 
 # ---------------------------------------------------------------------------
 # 常量
@@ -173,9 +174,8 @@ def std_layer_available():
 # "编不过"，两边都以为自己是对的（模板 tools/<代号>.py 的 od_status() 是同一套判据，
 # 那份是蓝本，本文件照它来）。
 #
-# --nmt 受统一闸门限制；--motion 当前无条件拒绝。这不是"留个没用的空壳"：闸门先于功能落地，
-# 是为了让后来加 --motion 的人**必须**先过 refuse_motion() 这一关 ——
-# 移动电机的代码不可能"顺手"绕过一条已经写好的拒绝路径。
+# --nmt / --motion 统一先过 refuse_motion()，随后才检查标准层与实时进程确认。
+# 对象字典尚未核对时，连真实总线套接字也不打开。
 # 规则本身来自 CLAUDE 侧要求（模板文件头）：只警告不拒绝是不够的，
 # 动错方向的电机不会因为屏幕上有一行黄字就停下来。
 
@@ -1089,10 +1089,10 @@ def cmd_nmt(args, out):
     """
     if not refuse_motion(out, "nmt"):
         return 3
-    if not require_rt_ack(args, out, "发送 NMT"):
-        return 4
     if not require_std_layer("--nmt"):
         return 5
+    if not require_rt_ack(args, out, "发送 NMT"):
+        return 4
 
     cfg, _ = load_device_json()
     item, _ = find_can_bus(cfg, LOGICAL_BUS)
@@ -1141,25 +1141,229 @@ def cmd_nmt(args, out):
     return 0
 
 
-def cmd_motion(args, out):
-    """--motion 始终拒绝发帧。
+class MotionError(RuntimeError):
+    """运动事务失败；命令返回非零，不能把 SDO 确认当作状态到达。"""
 
-    未核对条目从 od.json 动态读取，先于其他确认显示。
-    即使 OD 全部核对，仍缺本工具的运动/状态机、可靠停机路径与硬件验收，
-    因此也不开放运动。原始计数标度不等于完成机械传动的物理单位换算。
+
+class MotionSession:
+    """非实时、单节点 CiA402 操作，所有 SDO 均经共用协议层。
+
+    超时是主机策略，非厂家参数。每次事务都限制在当前绝对期限内，
+    状态轮询不会因持续收到未到达状态而无限延长。
     """
-    out.title("手工点动 {} 节点 {}".format(args.motion, args.node))
+
+    def __init__(self, client, out, state_timeout):
+        try:
+            import canopen_consts as od
+        except ImportError:
+            try:
+                from hwtui import canopen_consts as od
+            except ImportError as exc:
+                raise ConfigError("缺少同版生成常量 canopen_consts.py：{}".format(exc)) from exc
+        self.od = od
+        self.client = client
+        self.out = out
+        self.state_timeout = state_timeout
+        self.sdo_timeout = client.timeout
+        self.needs_stop = False
+
+    def deadline(self):
+        return time.monotonic() + self.state_timeout
+
+    def call(self, deadline, label, method, *args):
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            raise MotionError("{}：超时".format(label))
+        self.client.timeout = min(self.sdo_timeout, remaining)
+        try:
+            result = method(*args)
+        except (_canopen.CanopenError, _canbus.CanBusError) as exc:
+            raise MotionError("{}：{}".format(label, exc)) from exc
+        finally:
+            self.client.timeout = self.sdo_timeout
+        if time.monotonic() >= deadline:
+            raise MotionError("{}：超时".format(label))
+        return result
+
+    def status(self, deadline):
+        return self.call(deadline, "读取状态字", self.client.read_uint16,
+                         self.od.STATUSWORD, 0)
+
+    def control(self, value, deadline):
+        # 每次控制字下载都重新核对，失败时连失能/快停也不能假定可用。
+        # 与上传共用的 call() 不加此守卫，避免递归或给所有只读事务加读请求。
+        self.require_cia402(deadline)
+        # 写确认丢失也可能已被电机执行，因此在发送前标记清理责任。
+        if value in (_canopen.CIA402_SHUTDOWN, _canopen.CIA402_SWITCH_ON,
+                     _canopen.CIA402_ENABLE, _canopen.CIA402_START_HOMING):
+            self.needs_stop = True
+        self.call(deadline, "写控制字 0x{:04X}".format(value),
+                  self.client.write_uint16, self.od.CONTROLWORD, 0, value)
+
+    def pause(self, deadline):
+        remaining = deadline - time.monotonic()
+        if remaining > 0:
+            time.sleep(min(0.02, remaining))
+
+    def wait_status(self, predicate, label, deadline, allow_fault=False):
+        last = None
+        while time.monotonic() < deadline:
+            last = self.status(deadline)
+            if not allow_fault and last & _canopen.CIA402_FAULT:
+                raise MotionError("{}：故障状态字 0x{:04X}".format(label, last))
+            if predicate(last):
+                return last
+            self.pause(deadline)
+        raise MotionError("{}：超时，最后状态字 {}".format(
+            label, "未知" if last is None else "0x{:04X}".format(last)))
+
+    def require_cia402(self, deadline=None):
+        mode = self.call(self.deadline() if deadline is None else deadline,
+                         "读取控制模式 2002h:01h",
+                         self.client.read_uint16, self.od.CONTROL_MODE_SELECT, 1)
+        if mode != 0:
+            raise MotionError("2002h:01h={}，不是 CiA402 模式；请先完成控制模式配置".format(mode))
+
+    def enable(self):
+        self.require_cia402()
+        mode = self.call(self.deadline(), "读取运行模式", self.client.read_uint8,
+                         self.od.MODES_OF_OPERATION_DISPLAY, 0)
+        # E06 enable_sequence：VM(2)需0x7F，IP(7)需0x1F；本命令只实现0x0F。
+        # 未实现的模式专用启动/PDO编排不能由通用使能顺手触发。
+        if mode not in (1, 3, 4, 6, 8, 9, 10):
+            raise MotionError("运行模式 {} 不支持本命令的 0x0F 使能序列".format(mode))
+        sw = self.status(self.deadline())
+        if sw & _canopen.CIA402_FAULT:
+            # Fault reaction active 必须先结束，复位是脱使能后的 bit7 上升沿。
+            self.wait_status(lambda value: value & _canopen.CIA402_DISABLED_MASK == _canopen.CIA402_FAULT,
+                             "等待 Fault", self.deadline(), allow_fault=True)
+            deadline = self.deadline()
+            self.control(_canopen.CIA402_DISABLE, deadline)
+            self.control(_canopen.CIA402_FAULT_RESET, deadline)
+            self.wait_status(lambda value: not value & _canopen.CIA402_FAULT,
+                             "故障复位", deadline, allow_fault=True)
+            self.control(_canopen.CIA402_DISABLE, deadline)
+        elif sw & _canopen.CIA402_MASK == _canopen.CIA402_ENABLED:
+            return
+        elif sw & _canopen.CIA402_DISABLED_MASK == 0:
+            self.wait_status(lambda value: value & _canopen.CIA402_DISABLED_MASK == _canopen.CIA402_DISABLED,
+                             "等待 Switch on disabled", self.deadline())
+        for word, state, label in ((_canopen.CIA402_SHUTDOWN, _canopen.CIA402_READY, "Ready to switch on"),
+                                   (_canopen.CIA402_SWITCH_ON, _canopen.CIA402_SWITCHED_ON, "Switched on"),
+                                   (_canopen.CIA402_ENABLE, _canopen.CIA402_ENABLED, "Operation enabled")):
+            deadline = self.deadline()
+            self.control(word, deadline)
+            self.wait_status(lambda value: value & _canopen.CIA402_MASK == state, label, deadline)
+
+    def disable(self):
+        deadline = self.deadline()
+        self.control(_canopen.CIA402_DISABLE, deadline)
+        self.wait_status(lambda value: value & _canopen.CIA402_DISABLED_MASK == _canopen.CIA402_DISABLED,
+                         "Switch on disabled", deadline)
+
+    def stop(self):
+        deadline = self.deadline()
+        self.control(_canopen.CIA402_QUICK_STOP_COMMAND, deadline)
+        self.wait_status(lambda value: value & _canopen.CIA402_MASK == _canopen.CIA402_QUICK_STOP or
+                         value & _canopen.CIA402_DISABLED_MASK == _canopen.CIA402_DISABLED,
+                         "Quick stop active / Switch on disabled", deadline)
+
+    def home(self, method, timeout):
+        # E06 §6.7.5 要求切换模式前失能，不能照任务示例先使能再改模式。
+        self.require_cia402()
+        self.needs_stop = True
+        self.disable()
+        deadline = self.deadline()
+        self.call(deadline, "设置 Homing mode", self.client.write_uint8,
+                  self.od.MODES_OF_OPERATION, 0, 6)
+        while True:
+            mode = self.call(deadline, "确认 Homing mode", self.client.read_uint8,
+                             self.od.MODES_OF_OPERATION_DISPLAY, 0)
+            if mode == 6:
+                break
+            self.pause(deadline)
+        self.call(deadline, "设置回零方法", self.client.write_uint8,
+                  self.od.HOMING_METHOD, 0, method)
+        readback = self.call(deadline, "回读回零方法", self.client.read_uint8,
+                             self.od.HOMING_METHOD, 0)
+        if readback != method:
+            raise MotionError("回零方法回读不一致：期望 {}，收到 {}".format(method, readback))
+        self.enable()
+        deadline = time.monotonic() + timeout
+        # 明确产生 bit4 的 0 -> 1 边沿，重复回零也不能依赖上次控制字。
+        self.control(_canopen.CIA402_ENABLE, deadline)
+        baseline = self.status(deadline)
+        # E06 表6-19 分列 bit10/bit12；主机额外要求两者同时成立，
+        # 避免只到达目标或只完成寻原点就提前报告整次回零完成。
+        homing_complete = (_canopen.CIA402_HOMING_TARGET_REACHED |
+                           _canopen.CIA402_HOMING_ATTAINED)
+        seen_incomplete = baseline & homing_complete != homing_complete
+
+        def completed(sw):
+            nonlocal seen_incomplete
+            if sw & _canopen.CIA402_HOMING_ERROR:
+                raise MotionError("回零错误（bit13），状态字 0x{:04X}".format(sw))
+            if sw & _canopen.CIA402_MASK != _canopen.CIA402_ENABLED:
+                raise MotionError("回零期间退出 Operation enabled：0x{:04X}".format(sw))
+            if sw & homing_complete != homing_complete:
+                seen_incomplete = True
+            # 上次回零的完成位可能尚未清除，不能把旧完成当作本次完成。
+            return seen_incomplete and sw & homing_complete == homing_complete
+
+        completed(baseline)  # 启动前也必须健康且仍处于使能状态。
+        self.control(_canopen.CIA402_START_HOMING, deadline)
+        self.out.info("回零中：方法 {}，最多等待 {} 秒".format(method, timeout))
+        self.wait_status(completed, "等待回零完成", deadline)
+        self.control(_canopen.CIA402_ENABLE, deadline)
+
+    def stop_after_failure(self):
+        if not self.needs_stop:
+            return
+        self.out.info("操作未完成，尝试 Quick stop。")
+        try:
+            self.stop()
+        except (MotionError, KeyboardInterrupt) as exc:
+            self.out.bad("Quick stop 未确认：{}；需由现场独立停机措施处置。".format(exc))
+        else:
+            self.out.info("已确认 Quick stop active / Switch on disabled 状态。")
+
+
+def cmd_motion(args, out):
+    """三条准入闸门全部通过后，才打开单节点 SDO 会话。"""
+    out.title("CiA402 {} 节点 {}".format(args.motion, args.node))
     if not refuse_motion(out, "motion"):
         return 3
-
-    # 走到这里只可能是有人把 od.json 全部核对完了。**仍不实现发帧**：
-    # 本文件没有写任何"使能 -> 设目标 -> 等到位 -> 停"的状态机，
-    # 也没有停机路径。宁可返回 5 让人去补，也不要在这里拼一帧看起来能动的报文。
-    out.bad("拒绝执行：本子命令的发帧实现尚未编写（无使能/停机状态机）。")
-    out.info("OD 已核对不等于可以发帧 —— 手工点动需要先写清停机路径。")
-    out.info("驱动的发帧入口与守卫见 driver/pmp4010_driver.hpp。")
-    out.info("资料清单与消解方式：docs/硬件手册/PMP4010/README.md")
-    return 5
+    if not require_std_layer("--motion"):
+        return 5
+    if not require_rt_ack(args, out, "CiA402 " + args.motion):
+        return 4
+    if args.node is None or not 1 <= args.node <= 127:
+        out.bad("--motion 必须显式指定 --node 1..127，不支持广播。")
+        return 2
+    cfg, _ = load_device_json()
+    item, _ = find_can_bus(cfg, LOGICAL_BUS)
+    bus = connect_bus(item["iface"], out)
+    session = None
+    try:
+        client = _canopen.SdoClient(bus, args.node, timeout=args.timeout)
+        session = MotionSession(client, out, args.state_timeout)
+        if args.motion == "home":
+            out.info("回零使用已配置的限位/原点输入、速度与加速度；默认方法17=负限位开关。")
+            session.home(args.homing_method, args.home_timeout)
+            out.ok("回零完成（bit10、bit12 已确认）")
+        else:
+            getattr(session, args.motion)()
+            messages = {"enable": "电机已使能（Operation enabled）",
+                        "disable": "电机已禁用（Switch on disabled）",
+                        "stop": "已确认 Quick stop active / Switch on disabled 状态"}
+            out.ok(messages[args.motion])
+        return 0
+    except (MotionError, KeyboardInterrupt):
+        if session is not None:
+            session.stop_after_failure()
+        raise
+    finally:
+        bus.close()
 
 
 def cmd_od_dump(args, out):
@@ -1499,7 +1703,7 @@ def build_parser():
         "  python3 pmp4010.py --scan --node-range 1-4 --identity   # SDO 扫节点\n"
         "  python3 pmp4010.py --raw --count 20       # 只监听，抓 20 帧\n"
         "  python3 pmp4010.py --nmt --nmt-command start --node 1 --i-know-rt-is-running\n"
-        "  python3 pmp4010.py --motion stop --node 1 # 手工点动（当前拒绝执行）\n"
+        "  python3 pmp4010.py --motion stop --node 1 # 快速停机（需 OD 全部核对）\n"
         "\n"
         "更稳的运行方式（自动接好共用外壳的 sys.path，与当前目录无关）：\n"
         "  {run}\n"
@@ -1528,7 +1732,7 @@ def build_parser():
     action.add_argument("--od-dump", action="store_true",
                         help="打印对象字典声明与核对状态（只读）")
     action.add_argument("--motion", choices=["enable", "disable", "stop", "home"],
-                        help="手工点动（发帧）。受 OD 闸门限制；闸门开着时也尚未实现发帧")
+                        help="CiA402 使能/失能/快停/回零（发帧）；需 OD 全部核对与显式 --node")
     action.add_argument("--bus-stats", action="store_true",
                         help="接口现状、CAN 专用错误计数、kmod、实时进程（只读）")
     action.add_argument("--raw", action="store_true", help="只监听原始帧（只读）")
@@ -1536,7 +1740,14 @@ def build_parser():
     p.add_argument("--bus", choices=[LOGICAL_BUS], default=LOGICAL_BUS,
                    help="逻辑总线；实际接口与位速率仅从 device.json 解析")
     p.add_argument("--timeout", type=float, default=0.05,
-                   help="--scan 单次 SDO 应答超时秒数（默认 0.05，不是厂家参数）")
+                   help="--scan/--motion 单次 SDO 应答超时秒数（默认 0.05，主机策略）")
+    p.add_argument("--state-timeout", type=float, default=2.0,
+                   help="--motion 每次状态迁移超时秒数（默认2，主机策略）")
+    p.add_argument("--home-timeout", type=float, default=10.0,
+                   help="--motion home 启动后完成期限秒数（默认10，主机策略）")
+    p.add_argument("--homing-method", type=int, choices=list(range(17, 31)) + [35], default=17,
+                   help="--motion home 回零方法（默认17=负限位；35=当前位置置零）。"
+                        "须预先配置对应输入、速度、加速度；不支持任务示例中的方法1")
     p.add_argument("--verify", "--read-only", dest="verify", action="store_true",
                    help="只对 --init 有意义：纯只读，不修改任何文件")
     p.add_argument("--no-tui", action="store_true",
@@ -1624,6 +1835,9 @@ def main(argv=None):
         parser.error("--verify/--read-only 仅可与 --init 一起使用")
     if not math.isfinite(args.timeout) or args.timeout <= 0:
         parser.error("--timeout 必须为有限正数")
+    if any(not math.isfinite(value) or value <= 0
+           for value in (args.state_timeout, args.home_timeout)):
+        parser.error("--state-timeout/--home-timeout 必须为有限正数")
     if args.listen_ms <= 0 or args.count < 0 or args.duration < 0:
         parser.error("--listen-ms 必须为正数；--count/--duration 不能为负数")
     if args.node is not None and not 0 <= args.node <= 127:
@@ -1653,7 +1867,7 @@ def main(argv=None):
         if args.raw:
             return cmd_raw(args, out)
         return cmd_panel(args, out)
-    except ConfigError as exc:
+    except (ConfigError, MotionError) as exc:
         out.bad(str(exc))
         return 3
     except KeyboardInterrupt:

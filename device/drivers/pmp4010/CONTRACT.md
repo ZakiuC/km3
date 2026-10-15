@@ -4,21 +4,21 @@
 
 ## 当前状态与阻塞
 
-厂家E06/D01已收，OD为79条中73条verified、6条unverified，整体 `kOdVerified=false`。余项按事实分类：节点/寿命保护已明确不支持；1014h仅有部分报文/索引依据，缺对象属性；SYNC配置及生产者能力未记载；SDO等待值属于主机策略；605Bh/605Ch行为有表但缺字典宽度等元数据；完整状态边缺E06原图4-2。具体来源和待补资料见硬件索引，不以“全部手册缺失”解释。
+厂家E06/D01已收，OD为83条中77条verified、6条unverified，整体 `kOdVerified=false`。余项按事实分类：节点/寿命保护已明确不支持；1014h仅有部分报文/索引依据，缺对象属性；SYNC配置及生产者能力未记载；SDO等待值属于主机策略；605Bh/605Ch行为有表但缺字典宽度等元数据；完整状态边缺E06原图4-2。具体来源和待补资料见硬件索引，不以“全部手册缺失”解释。
 
-PDO默认映射与动态改写已有E06 §3.3.4、表10-5依据；仍需读回现场映射和通信参数，核对固件、单位、节拍及总线负载后才能接受周期路径。C++ `km3_canopen` / `km3_driver_api` 目标当前缺失，协议入口尚未实现。核对OD不会自动打开运动或得到1ms控制能力。
+PDO默认映射与动态改写已有E06 §3.3.4、表10-5依据；仍需读回现场映射和通信参数，核对固件、单位、节拍及总线负载后才能接受周期路径。C++ `km3_canopen` 已提供非实时、有界 SDO/NMT 事务；`km3_driver_api` 尚缺，因此主工程仍不接入具体驱动。生产协议入口仍受全局 OD 闸门限制。核对OD不会自动打开运动或得到1ms控制能力。
 
 上层还须提供唯一且实机核对的1~127节点号、实际标度/方向/零偏。已有节点1在1Mbps响应的证据不证明4台现场电机身份、映射或健康均已核对；保存节点或通信参数、重新通电均属另行授权的维护动作。上电自动使能配置、内置终端电阻与6073h电流单位冲突仍未消解，禁止推导已验证电流上限。
 
 本次节点1的8项身份/通信参数上传均已取得应答，但1018h:01h厂商ID=`0x00000509`、1018h:02h产品代码=`0x03000001`，与E06表10-5的`0x2D`、`0x01`不同；设备名为`NiMotion Servo`、软件版本`V3.3`。此身份差异是**独立于6条unverified的兼容性阻塞**，必须由厂家澄清当前型号/固件与手册的对应关系，不能把“读取完成”写成“身份匹配”。200Ch:02h读值1、200Ch:03h读值8（均为uint16），按E06 §3.6.1 表3-13，8=1Mbps、7=800kbps；任务模板中的“7=1Mbps”不采纳。原始应答与读值表见 [2026-10-15验证记录](../../../docs/硬件手册/PMP4010/验证记录-2026-10-15.md#identity-readonly-20261015)。
 
-## 已核对的对象（73 条 verified）
+## 已核对的对象（77 条 verified）
 
-以 `driver/od.json` 的 **entries 数组**计数：79 = 73 verified + 6 unverified。顶层 `device` 的资料状态不计入此数。每行对应一个唯一 key；多对象说明、位域、协议表和冲突登记仍各算一条，并非 73 个独立可读写对象。表中的“主索引”是 JSON 实际 index/sub；“说明覆盖”是该条 note 涉及的范围，不表示生成器为范围中每个对象都生成独立常量。
+以 `driver/od.json` 的 **entries 数组**计数：83 = 77 verified + 6 unverified。顶层 `device` 的资料状态不计入此数。每行对应一个唯一 key；多对象说明、位域、协议表和冲突登记仍各算一条，并非 77 个独立可读写对象。表中的“主索引”是 JSON 实际 index/sub；“说明覆盖”是该条 note 涉及的范围，不表示生成器为范围中每个对象都生成独立常量。
 
 下文 E06 指 [一体化低压伺服电机 CANopen 通信用户手册 E06](../../../docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md)。`verified` 表示手册核对到表中列明的事实，**不表示板端、运动或带载验收通过**。结构条目的 index/sub 为 null；生成头保留它们且 index 为 `kIndexUnset`，不能仅凭 verified 标志将其作为可发送索引。
 
-### 通信参数、心跳与标识（8 条）
+### 通信参数、心跳与标识（11 条）
 
 | OD key（含义） | 索引/子索引及覆盖范围 | E06 出处 |
 | --- | --- | --- |
@@ -30,6 +30,8 @@ PDO默认映射与动态改写已有E06 §3.3.4、表10-5依据；仍需读回�
 | `identity_object`（标识对象（厂商 / 产品 / 版本 / 序列号）） | 主索引 1018h:01h；与 firmware_version 合看 1018h:00h–04h | 10.1 表10-5 |
 | `nmt_commands`（NMT 命令字与报文格式） | 结构条目；无独立索引 | 3.5.1 表3-9 |
 | `sdo_frame_format`（SDO 传输报文格式与命令符） | 结构条目；无独立索引 | 3.2.1 |
+
+| `device_name` / `hardware_version` / `software_version`（变长只读字符串） | 1008h:00h / 1009h:00h / 100Ah:00h | 10.1 表10-5 |
 
 ### 保存与恢复参数（2 条）
 
@@ -58,7 +60,7 @@ PDO默认映射与动态改写已有E06 §3.3.4、表10-5依据；仍需读回�
 | `cia402_command_table`（控制字指令表与状态字掩码（状态机）） | 结构条目；无独立索引 | 4.1.1 表4-2 |
 | `fault_reaction_605E`（故障停机方式 605Eh（访问权限冲突）） | 结构条目；605Eh:00h 的访问权限冲突登记 | 10.3 表10-7 |
 
-### CiA 402 工作模式、标度与参数（33 条）
+### CiA 402 工作模式、标度与参数（34 条）
 
 | OD key（含义） | 索引/子索引及覆盖范围 | E06 出处 |
 | --- | --- | --- |
@@ -83,6 +85,7 @@ PDO默认映射与动态改写已有E06 §3.3.4、表10-5依据；仍需读回�
 | `homing_acceleration`（原点回归加速度） | 609Ah:00h | 6.7.2 表6-17 |
 | `home_offset`（原点偏移值与零位偏置） | 607Ch:00h | 10.3 表10-7 |
 | `position_offset_60B0`（位置偏置（周期同步用）） | 60B0h:00h | 10.3 表10-7 |
+| `software_position_limit_max`（软件绝对位置上限） | 607Dh:02h | 10.3 表10-7 |
 | `software_position_limit`（软件位置限位（最小 / 最大）） | 主索引 607Dh:01h；说明覆盖 607Dh:01h–02h | 10.3 表10-7 |
 | `position_window`（位置到达阈值与时间窗口） | 主索引 6067h:00h；说明覆盖 6067h:00h、6068h:00h | 10.3 表10-7 |
 | `following_error`（位置偏差过大阈值与超时） | 主索引 6065h:00h；说明覆盖 6065h:00h、6066h:00h | 10.3 表10-7 |
@@ -126,7 +129,7 @@ PDO默认映射与动态改写已有E06 §3.3.4、表10-5依据；仍需读回�
 | `emcy_vendor_codes`（EMCY 厂商错误码表） | 结构条目；无独立索引 | 9.1 表9-1 |
 | `fault_reaction_codes`（故障反应码取值表） | 结构条目；无独立索引 | 9.2 |
 
-其中 1008h/1009h/100Ah 为表10-5 的设备名/硬件版本/软件版本行；当前 entries 未为它们各建独立条目。100Ah 仅在 `firmware_version` 的 note 中说明，不能把这些手册行另计进 73。60C1h:01h 是默认 RPDO2 映射涉及的对象，也未单独建 entry。200Ch:02h/03h 出处是 §3.6.2 / §3.6.1 表3-13 及 §10.2 表10-6；200Ch:1Bh 出处是 §7.10，不是 §5 的单位换算表。
+其中 1008h/1009h/100Ah 为表10-5 的设备名/硬件版本/软件版本行；当前 entries 已为它们各建 verified 字符串条目。607Dh:02h 也已独立登记为上软限位，四项均计入 77。60C1h:01h 是默认 RPDO2 映射涉及的对象，也未单独建 entry。200Ch:02h/03h 出处是 §3.6.2 / §3.6.1 表3-13 及 §10.2 表10-6；200Ch:1Bh 出处是 §7.10，不是 §5 的单位换算表。
 
 已有冲突继续保留：6073h 的电流单位在表6-30与表10-7不一致，verified 不覆盖物理换算；2002h:01h 的宽度/默认值、605Eh 的访问权限、1003h 的队列语义、PDO 传输类型宽度及60C2h的默认周期均须按各条 note 处理，不能用手册核对状态消除冲突。
 
@@ -145,8 +148,8 @@ PDO默认映射与动态改写已有E06 §3.3.4、表10-5依据；仍需读回�
 
 ## 生成物
 
-- `driver/od_generated.hpp`：`kEntryCount=79`、`kUnverifiedCount=6`，73条verified；默认 `PMP4010_OD_VERIFIED=0`、`kOdVerified=false`。
-- 仓库根目录 `tools/hwtui/canopen_consts.py`：Python维护工具共享常量，同源79条、6条未核对；不在型号tools目录另存一份。
+- `driver/od_generated.hpp`：`kEntryCount=83`、`kUnverifiedCount=6`，77条verified；默认 `PMP4010_OD_VERIFIED=0`、`kOdVerified=false`。
+- 仓库根目录 `tools/hwtui/canopen_consts.py`：Python维护工具共享常量，同源83条、6条未核对；不在型号tools目录另存一份。
 - 从仓库根目录生成：`python3 -I tools/hwdriver/gen-od.py --model pmp4010`。
 - 只读漂移校验：`python3 -I tools/hwdriver/gen-od.py --model pmp4010 --check`。
 
@@ -159,7 +162,7 @@ PDO默认映射与动态改写已有E06 §3.3.4、表10-5依据；仍需读回�
 #define PMP4010_OD_VERIFIED 0
 #endif
 #if !PMP4010_OD_VERIFIED
-#ifndef KM3_ALLOW_UNVERIFIED_OD
+#if !defined(KM3_ALLOW_UNVERIFIED_OD) || !KM3_ALLOW_UNVERIFIED_OD
 #error "pmp4010 对象字典未验证（driver/od.json 里仍有 6 条 status != verified）。..."
 #else
 // 未核对旁路标记，见生成头
@@ -167,7 +170,7 @@ PDO默认映射与动态改写已有E06 §3.3.4、表10-5依据；仍需读回�
 #endif
 ```
 
-默认编译被拒绝。源码按“宏是否已定义”判旁路，故即使定义 `KM3_ALLOW_UNVERIFIED_OD=0` 也会跳过此 `#error`；强制 `PMP4010_OD_VERIFIED=1` 也能跳过它。这是当前预处理行为的说明，不是许可。不得通过强制verified宏伪造资料状态。按架构硬停规则第2/4条和第6步，`KM3_ALLOW_UNVERIFIED_OD=1` 仅用于隔离CI/mock或未接电机的控制器回环验证；不能进入接有电机的现场运行、生产运动或用于解除运行时守卫。本轮资料收尾未运行此类构建或回环。
+默认编译被拒绝。源码按宏真值判旁路，因此定义 `KM3_ALLOW_UNVERIFIED_OD=0` 仍会触发此 `#error`；强制 `PMP4010_OD_VERIFIED=1` 也能跳过它。这是当前预处理行为的说明，不是许可。不得通过强制verified宏伪造资料状态。唯一额外区分是本地固定假设备夹具的私有编译定义：它仅让隔离可执行文件覆盖真实协议分支，不更改任何资料或生产构建，且绝不连接真实后端；详见下文。按架构硬停规则第2/4条和第6步，`KM3_ALLOW_UNVERIFIED_OD=1` 仅用于隔离CI/mock或未接电机的控制器回环验证；不能进入接有电机的现场运行、生产运动或用于解除运行时守卫。本轮资料收尾未运行此类构建或回环。
 
 ## RT 可达性
 
@@ -178,7 +181,7 @@ PDO默认映射与动态改写已有E06 §3.3.4、表10-5依据；仍需读回�
 | 构造 / 析构、`Open` / `Close` | 否 | 生命周期、配置与HAL状态操作属于边界线程 |
 | `ProbeNode` / `SendNmt` | 否 | 协议入口，后端收发与完成时序无RT保证 |
 | `Enable` / `Disable` / `MoveTo` / `SetVelocity` / `Stop` / `Home` | 否 | 统一守卫；未来协议事务仍须非实时执行 |
-| `SdoRead` / `SdoWrite` | 否 | SDO有请求/应答等待 |
+| `SdoRead` / `SdoWrite`、`ReadBytes` / `ReadObject` / `ReadString` / `WriteObject`、全部类型化读写与状态操作 | 否 | SDO有请求/应答等待，实例独占 |
 | `GuardTransmit` | 否 | 修改统计，限实例所属线程使用 |
 | `Stats` / `Config` / `LogicalBus` / `IsOpen` | 否（实例约束） | 虽只读，仍不得与边界线程并发访问可变实例 |
 | `UnverifiedOdCount` / `OdEntryCount` | 是 | constexpr编译期元数据，不访问总线 |
@@ -190,9 +193,32 @@ PDO默认映射与动态改写已有E06 §3.3.4、表10-5依据；仍需读回�
 1. `kOdVerified=false` 时，所有协议入口经全局守卫拒绝，MockCanDevice发送列表必须为空。生成头默认编译闸门与运行时守卫同时保留，测试旁路不构成生产许可。
 2. 输入错误在发帧前拒绝；节点号来自调用方配置并校验合法/唯一，不能取手册默认1充当4台现场地址。
 3. `Stop` 在守卫关闭时也不发帧，不能绕过OD限制。关闭服务或断总线会触发何种机械响应尚未验收，**不得宣称停服务就能安全停机**。现场停机由独立安全设计负责。
-4. 即使OD全部核对，缺少标准层的协议入口仍应明确返回未支持；不能返回成功伪装已执行。
+4. 标准层负责 CANopen 帧、应答相关性、分段传输与中止；型号驱动负责生成 OD 的宽度/权限校验和有依据的 CiA402 编排。未实现的周期 PDO/心跳会话能力不冒充成功。
 5. 生产运动还需状态机、PDO、故障/失联策略、物理标度与载荷验收；本地单测只证明隔离条件下的行为。
 
 ## 配置与维护工具
 
 逻辑总线 `can-2` 的底层映射来自 `device/config/device.json`；接口up/down及位速率归 `km3-can.service` 所有，驱动和工具不接管。Python维护工具是独立路径：`--test` 严格离线；`--od-dump` 仅展示本地OD元数据，不打开总线；`--scan` 是会发请求的只读SDO操作，RT服务active时必须显式确认。全局运动守卫不会因该确认而打开。部署工具包必须同时带共享hwtui、型号脚本及其同版OD；包验证不等于板端协议验收。
+
+
+## 有界 C++ 实现与本地验收边界
+
+`device/include/km3/canopen.hpp` 是 C++ 非实时标准层；`km3_canopen` 为其 CMake interface 目标。帧格式与 CiA402 状态/命令常量从 `tools/hwtui/canopen_wire.json` 生成到 C++/Python；事务执行器分别实现，不宣称跨语言共享算法。两者重放同一份 `tools/hwtui/vectors/canopen_golden.json` 完整事务作为一致性检查。PMP4010 E06 §3.2.1 只给出加急传输；通用分段协议依据 CANopenNode 的 [SDO 协议说明](https://canopennode.github.io/CANopenNode/CO__SDOserver_8h_source.html)，本地分段测试不证明此型号/固件支持全部分段能力。
+
+`od_access_generated.hpp` 从 `od.json` 的已核对、可寻址条目生成宽度、权限和变长标记，共52项（49项数值、3项字符串）。新增字符串与上软限位不改变六项 unverified 或全局置信度。结构条目没有地址，不会发向哨兵；多对象 note 不自动扩成可写索引。1008h/1009h/100Ah 字符串为手册表10-5的只读公共对象。未单列的对象/子索引保持拒绝，避免从说明文本猜测参数。
+
+SDO 内核、类型化读写及 `ReadString` 均使用固定256字节 `SdoBuffer`（bytes + size），不返回会分配的 `std::string`；这明确调整了任务示例的字符串返回类型，以满足无动态分配约束。保留原 `SdoRead(vector&)`，调用方须在事务前 `reserve(256)`，容量不足在发帧前返回 `EInvalidRequest`，失败保持原值。构造/配置的既有 string/vector 类型及 HAL 自身行为不纳入协议内核无分配证明；实例仍禁止进入RT。
+
+主机必须显式配置 `sdo_timeout_ms>0`，每次完整 SDO（含全部段）使用单调时钟绝对期限；使能/PP握手也共享一个总期限。状态轮询按绝对时刻休眠。错误传播保留 HAL 错误码；相关 SDO abort 返回 `ECommandRejected`，原32位码可用 `LastSdoAbortCode()` 取得，格式/宽度/toggle错误返回 `EDeviceError`。`Stats()` 同时给出实际收发、SDO超时和失败清理计数。
+
+实例必须独占 HAL 接收队列：事务开始有界清除旧帧，事务期间消费其他 COB-ID；不安装/篡改调用方过滤器。CANopen无事务ID，相同对象的迟到应答若在新请求后到达无法从帧上区分；标准层在已发送请求的事务超时后隔离该节点，后续 SDO 返回 EDeviceBusy 且不发送。只有独立恢复从站与传输、确认旧应答不可能残留后才能 ConfirmExternalRecovery；单纯清队列或 NMT 不能证明这一点。型号驱动不自动解除隔离；控制事务超时后的清理可能被隔离挡下，cleanup_failures 会记录，不能宣称机械停止。
+
+所有6040h控制字写（包括通用SDO写）均先只读确认2002h:01h为CiA402(0)，读失败即拒绝；普通只读事务不附加选择器读取。`Enable` 再确认模式1/3/4/6/8/9/10，再执行0x06→0x07→0x0F并逐步等待状态。模式2需要0x7F，模式7需要0x1F且会激活插补；当前一次性使能接口在任何写入前拒绝这两种模式，不将模式触发混入通用使能。故障复位为先0再0x80，等待故障位清除后再降回0；故障反应态先等其完成。
+
+`SetTargetPosition` 写用户单位的原始目标，先确认Operation enabled 并读607Dh:01h/02h闭区间；越界、上下限倒置或读取失败拒绝目标写。`MoveTo` 在首个控制字写入前预读两项限位。`WriteObject`/`SdoWrite` 同样不能绕过目标限位或控制字 CiA402 检查。读取限位与选择器会发送只读请求；“拒绝时零帧”在此指零运动/控制写，只有OD关闭时才保证零总帧。`MoveTo` 只接受PP(1)，实现0x0F→0x1F上升沿、状态字bit12握手、再清bit4；`SetTargetVelocity` / `SetVelocity(Direction)` 以及通用60FFh写入当前统一返回 EInvalidConfig，不发送：6080h单位rpm，而60FFh单位用户单位/s，E06 §5.2要求608Fh/6091h四项实际参数构成换算链。TODO：接通并核对该链后再比较速度与6080h；现有 counts_per_unit 不是这个换算，不能启用速度。模式切换采取手册示例的失能态策略，写后验证6061h。
+
+`Home` 要求明确配置 `homing_method`（17..30或35）与 `homing_timeout_ms>0`；在任何写入前检查CiA402选择器，失能后设置并读回模式6和方法，再使能并产生0x0F→0x1F边沿。端子、速度、加速度、负载和安全范围必须由上层维护配置与现场核对，不猜测方法1。完成判据为Operation enabled、无fault/homing error、bit10+bit12；若触发前已完成，须先观察不完整再接受完成，防止旧状态误报。启动后失败、丢失ACK、超时会尽力清触发/快速停机，保留原错误；`cleanup_failures` 表示未获得清理状态确认。状态确认不等于机械停止验收。
+
+测试分成未核对OD零帧契约、默认生产负编译、独立“已核对”固定内存假设备夹具。夹具的 `PMP4010_OD_VERIFIED=1` 仅为独立测试目标私有定义，不传播至生产或零帧目标，且不链接真实 SocketCAN 后端。夹具验证实际事务、共享金标、错误路径和无分配；不解除六项OD阻塞、身份差异或现场验收要求。
+
+漂移检查：`python3 tools/hwdriver/gen-canopen.py --check`、`python3 tools/hwdriver/gen-pmp4010-access.py --check`。隔离构建入口：`cmake -S device/drivers/pmp4010/tests -B /tmp/pmp4010-test -DKM3_SANITIZER=address`，随后构建与CTest；这不是生产设备端的native构建或部署。

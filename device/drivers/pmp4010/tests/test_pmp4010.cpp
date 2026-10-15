@@ -284,4 +284,30 @@ KM3_TEST(configuration_is_a_snapshot_without_invented_runtime_parameters) {
     KM3_CHECK(&driver.Device() == &device);
 }
 
+KM3_TEST(new_typed_and_bounded_apis_keep_the_global_zero_frame_guard) {
+    Fixture fixture;
+    KM3_REQUIRE(fixture.device.Open().ok());
+    KM3_REQUIRE(fixture.driver.Open().ok());
+    auto& driver = fixture.driver;
+    for (const auto node : std::array<std::uint8_t, 3>{1, 0, 255}) {
+        KM3_CHECK_EQ(driver.ReadBytes(node, 0x6041, 0).code(), Pmp4010Driver::kOdGuardError);
+        KM3_CHECK_EQ(driver.ReadObject(node, 0x6041, 0).code(), Pmp4010Driver::kOdGuardError);
+        KM3_CHECK_EQ(driver.ReadString(node, 0x1008, 0).code(), Pmp4010Driver::kOdGuardError);
+        KM3_CHECK_EQ(driver.WriteObject(node, 0x6040, 0, 15).code(), Pmp4010Driver::kOdGuardError);
+        KM3_CHECK_EQ(driver.Shutdown(node).code(), Pmp4010Driver::kOdGuardError);
+        KM3_CHECK_EQ(driver.SwitchOn(node).code(), Pmp4010Driver::kOdGuardError);
+        KM3_CHECK_EQ(driver.EnableOperation(node).code(), Pmp4010Driver::kOdGuardError);
+        KM3_CHECK_EQ(driver.QuickStop(node).code(), Pmp4010Driver::kOdGuardError);
+        KM3_CHECK_EQ(driver.FaultReset(node).code(), Pmp4010Driver::kOdGuardError);
+        KM3_CHECK_EQ(driver.ReadStatusword(node).code(), Pmp4010Driver::kOdGuardError);
+        KM3_CHECK_EQ(driver.SetOperationMode(node, 6).code(), Pmp4010Driver::kOdGuardError);
+        KM3_CHECK_EQ(driver.GetOperationMode(node).code(), Pmp4010Driver::kOdGuardError);
+        KM3_CHECK_EQ(driver.SetTargetPosition(node, -1).code(), Pmp4010Driver::kOdGuardError);
+        KM3_CHECK_EQ(driver.SetTargetVelocity(node, -1).code(), Pmp4010Driver::kOdGuardError);
+        KM3_CHECK_EQ(driver.GetActualPosition(node).code(), Pmp4010Driver::kOdGuardError);
+        KM3_CHECK_EQ(driver.GetActualVelocity(node).code(), Pmp4010Driver::kOdGuardError);
+    }
+    CheckNoIo(fixture);
+}
+
 KM3_TEST_MAIN()

@@ -3,7 +3,7 @@
 #
 # 型号：pmp4010（驱动代号 pmp4010）
 # 来源：device/drivers/pmp4010/driver/od.json
-# 来源 sha256：d286cc6c0eccefabad1bc7568f48a9aa698118060651a8f1eef35cfb37b9a0c9
+# 来源 sha256：7471262d9cd97f5b315ebe171ce1fbd5f46e06e2212cae36cd01480692ffa576
 #
 # 板端工具（tools/hwtui/）用的常量。**不要在这里手改**：
 # 手改会在 `python3 tools/hwdriver/gen-od.py --model pmp4010 --check` 下失败，
@@ -32,7 +32,7 @@ OD_VERIFIED = False
 # 措辞与 device/drivers/<型号>/tools/<型号>.py 的 refuse_motion() 一致，
 # 运维脚本会 grep 那一行。
 OD_UNVERIFIED_COUNT = 6
-OD_ENTRY_COUNT = 79
+OD_ENTRY_COUNT = 83
 
 # 未核对索引的哨兵。用它而不是 0：0 是**合法**的对象字典索引，
 # 拿 0 当「未填」会让一条漏填的条目看起来像一条指向 0x0000 的真实条目。
@@ -121,6 +121,10 @@ MODE_SELECT_MANUAL_CONFLICT = INDEX_UNSET
 FAULT_REACTION_605E = INDEX_UNSET
 CIA402_STATE_MACHINE_MISSING = INDEX_UNSET
 DEVICE_TYPE_MISSING = 0x1000
+DEVICE_NAME = 0x1008
+HARDWARE_VERSION = 0x1009
+SOFTWARE_VERSION = 0x100A
+SOFTWARE_POSITION_LIMIT_MAX = 0x607D
 
 # 索引 -> 条目描述。板端工具用它把原始索引翻译成人能读的名字，
 # 并标注「这条是未核对的」——未核对却显示成已核对，比不显示更糟。
@@ -175,6 +179,10 @@ OD_BY_INDEX = {
     0x6073: ('max_current', '最大电流', 0, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
     0x6077: ('torque_feedback', '转矩反馈值', 0, 'int16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
     0x1000: ('device_type_missing', '0x1000 设备类型（无数值）', 0, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    0x1008: ('device_name', '设备名称', 0, 'string', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    0x1009: ('hardware_version', '硬件版本号', 0, 'string', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    0x100A: ('software_version', '软件版本号', 0, 'string', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    0x607D: ('software_position_limit_max', '软件绝对位置最大限制', 2, 'int32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
 }
 
 # key -> (索引, 子索引, 中文名, 可用?)。
@@ -260,6 +268,10 @@ OD_BY_KEY = {
     'fault_reaction_605E': (INDEX_UNSET, 0, '故障停机方式 605Eh（访问权限冲突）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
     'cia402_state_machine_missing': (INDEX_UNSET, 0, 'CiA402 状态机转换图（图 4-2 未转换）', False),
     'device_type_missing': (0x1000, 0, '0x1000 设备类型（无数值）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    'device_name': (0x1008, 0, '设备名称', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    'hardware_version': (0x1009, 0, '硬件版本号', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    'software_version': (0x100A, 0, '软件版本号', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    'software_position_limit_max': (0x607D, 2, '软件绝对位置最大限制', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
 }
 
 

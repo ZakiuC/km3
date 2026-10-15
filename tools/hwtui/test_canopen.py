@@ -23,7 +23,9 @@ import errno
 import io
 import json
 import os
+import subprocess
 import sys
+import tempfile
 import unittest
 from unittest import mock
 
@@ -415,7 +417,7 @@ class TestGoldenSegmented(GoldenTestCase):
                         "末段必须带 c 位")
 
     def test_segmented_read_9_bytes(self):
-        # 本条语料的节点**不带**长度指示（首帧 0x41，byte4..7 保留为 0）。
+        # 本条语料的节点**不带**长度指示（首帧 0x40，byte4..7 保留为 0）。
         # 客户端必须靠 c 位判断末段，而不是去解析一个并不存在的总长度。
         vector = self.vector("segmented_read_9_bytes")
         self.assertFalse(vector.get("size_indicated", True),
@@ -439,36 +441,30 @@ class TestGoldenSegmented(GoldenTestCase):
         self.assert_frame_sequence(bus, vector["expected_frames"],
                                    note="64 字节分段读")
 
-    def test_segmented_read_0x51_is_recognised_as_last_segment(self):
-        # 命令字 0x51 = 0x40 | toggle 1 | c 1 —— 分段上传在 toggle=1 时的**末段**应答。
-        # 这是规范里最容易被漏掉的一个值：只实现 0x41 的话，
-        # 读一个需要两段以上的对象会在最后一段判"命令字不认识"。
-        vector = self.vector("segmented_read_0x51_last_segment")
-        payload = bytes(range(16))
-        node = mockbus.make_sdo_golden_node(1)
-        node.set_object(vector["index"], 0, payload)
-        bus, client, _ = self.make_bus_and_client(vector, node=node)
-        got = client.read(vector["index"], 0)
-        self.assertEqual(got, payload,
-                         "16 字节对象应分三段读回，末段命令字 0x51")
-        self.assert_frame_sequence(bus, vector["expected_frames"],
-                                   note="0x51 末段")
-        # 末段由 c 位判定，与 toggle 无关：三段对象（7+7+2）的第三段
-        # toggle 回到 0，因此命令字是 0x4B 而非 0x5B。
+    def test_segmented_read_three_segments_toggle0(self):
+        vector = self.vector("segmented_read_three_segments_toggle0")
+        bus, client, _ = self.make_bus_and_client(vector)
+        self.assertEqual(client.read(vector["index"], 0), bytes(range(16)))
+        self.assert_frame_sequence(bus, vector["expected_frames"])
         last = frame_from_json(vector["expected_frames"][3]["response"])
-        self.assertEqual(last.data[0], 0x4B)
-        self.assertEqual((last.data[0] >> 4) & 1, 0, "第三段的 toggle 应为 0")
-        self.assertTrue(last.data[0] & canopen.SDO_CS_SEGMENT_LAST, "必须是末段")
-        self.assertEqual(7 - ((last.data[0] & 0x0E) >> 1), 2)
+        self.assertEqual(last.data[0], 0x0B)  # toggle=0, five unused bytes, c=1
 
-    def test_upload_segment_mask_accepts_whole_0x40_family(self):
-        # 分段上传应答的命令字只有四个取值：0x40/0x41（toggle 0）、0x50/0x51（toggle 1）。
-        # 客户端必须靠 toggle 位与 c 位自己判断，而不是枚举命令字。
+    def test_segmented_read_toggle1_last_full_segment(self):
+        vector = self.vector("segmented_read_14_bytes_toggle1_last")
+        bus, client, _ = self.make_bus_and_client(vector)
+        self.assertEqual(client.read(vector["index"], 0), bytes(range(14)))
+        self.assert_frame_sequence(bus, vector["expected_frames"])
+        self.assertEqual(self.recorded[-1][1].data[0], 0x11)
+
+    def test_upload_segment_mask_accepts_only_server_segment_family(self):
         self.assertEqual(canopen.SDO_CS_UPLOAD_SEGMENTED, 0x41)
-        self.assertEqual(canopen.SDO_CS_UPLOAD_SEGMENTED_TOGGLE1, 0x51)
+        self.assertEqual(canopen.SDO_CS_UPLOAD_SEGMENTED_NO_SIZE, 0x40)
+        self.assertEqual(canopen.SDO_CS_UPLOAD_SEGMENTED_TOGGLE1, 0x11)
+        self.assertEqual(canopen.SDO_CS_UPLOAD_SEGMENT_RESPONSE, 0x00)
+        for command in (0x00, 0x01, 0x0B, 0x10, 0x11, 0x1D):
+            self.assertEqual(command & canopen.SDO_CS_UPLOAD_SEGMENT_MASK, 0x00)
         for command in (0x40, 0x41, 0x50, 0x51):
-            self.assertEqual((command & 0xE0), 0x40,
-                             "0x%02X 应落在 0x40 族" % command)
+            self.assertNotEqual(command & canopen.SDO_CS_UPLOAD_SEGMENT_MASK, 0x00)
 
     def test_segmented_read_toggle_alternation(self):
         """实测段请求的 toggle 必须从 0（0x60）起交替到 1（0x70）。"""
@@ -485,12 +481,7 @@ class TestGoldenSegmented(GoldenTestCase):
                              "第 %d 次段请求的 toggle 应为 %d" % (position, position % 2))
 
     def test_segmented_read_without_size_indicator(self):
-        """从站不带长度指示时也必须读对。
-
-        规范允许首帧 0x41 不带总长（bit0=0），此时客户端只能靠 c 位判断末段。
-        实现若用 `cs & 0x01` 判"带长度"，会因为 0x41 的最低位本来就是 1
-        而错读出一个总长 0，随即以"声明 0 实收 N"失败。
-        """
+        """八字节 0x40 首帧不带总长度，须读到最后一个数据段的 c 位。"""
         vector = self.vector("segmented_read_9_bytes")
         node = mockbus.make_sdo_golden_node(
             1, segmented_upload_size_indicated=False)
@@ -498,6 +489,198 @@ class TestGoldenSegmented(GoldenTestCase):
         bus, client, _ = self.make_bus_and_client(vector, node=node)
         self.assertEqual(client.read(4106, 0), hexbytes(vector["expected_value"]))
 
+
+
+class TestSdoWireInteroperability(unittest.TestCase):
+    """Literal server replies independent of MockNode and the generated constants.
+
+    Wire layout: CANopenNode/301/CO_SDOserver.h, upload initiate/segment states.
+    PMP4010 E06 section 3.2.1 additionally requires DLC 8 for every SDO frame.
+    These are protocol replay checks, not evidence of manufacturer hardware support.
+    """
+
+    def client_for_replies(self, *replies):
+        bus = mock.Mock()
+        bus.recv.side_effect = [Frame(0x581, bytes.fromhex(reply)) for reply in replies]
+        return SdoClient(bus, 1, timeout=0.05), bus
+
+    def test_differential_command_golden_vectors(self):
+        vectors = {v['name']: v for v in load_vectors()['vectors']}
+        reject = 'expedited_cs_42'
+        full = 'expedited_cs_53'
+        three = 'expedited_cs_57'
+        two = 'expedited_cs_5b'
+        one = 'expedited_cs_5f'
+        for name in (reject, full, three, two, one):
+            with self.subTest(name=name):
+                vector = vectors[name]
+                pair = vector['expected_frames'][0]
+                client, bus = self.client_for_replies(pair['response']['data'])
+                if vector.get('expect_protocol_error'):
+                    with self.assertRaises(canopen.SdoProtocolError):
+                        client.read(vector['index'], vector['subindex'])
+                else:
+                    self.assertEqual(client.read(vector['index'], vector['subindex']),
+                                     hexbytes(vector['expected_value']))
+                self.assertEqual(bus.send.call_args_list[0].args[0].data,
+                                 hexbytes(pair['request']['data']))
+
+    def test_all_256_initiate_commands_agree_with_expedited_family(self):
+        accepted = set()
+        for cs in range(256):
+            client, _ = self.client_for_replies(
+                '%02X 00 10 00 11 22 33 44' % cs,
+                '80 00 10 00 00 00 02 06')
+            try:
+                client.read(0x1000)
+            except canopen.CanopenError:
+                pass
+            else:
+                accepted.add(cs)
+        self.assertEqual(accepted, {0x43, 0x47, 0x4b, 0x4f, 0x53, 0x57, 0x5b, 0x5f})
+
+    def test_segmented_capacity_boundary_and_oversized_announcement(self):
+        for known in (False, True):
+            with self.subTest(known=known):
+                node = mockbus.make_sdo_golden_node(1, segmented_upload_size_indicated=known)
+                node.set_object(0x1008, 0, bytes(range(256)))
+                self.assertEqual(SdoClient(MockBus([node]), 1).read(0x1008), bytes(range(256)))
+        client, bus = self.client_for_replies('41 08 10 00 01 01 00 00')
+        with self.assertRaisesRegex(canopen.SdoProtocolError, '容量 256'):
+            client.read(0x1008)
+        self.assertEqual(bus.send.call_count, 1)
+
+    def test_endless_nonfinal_segments_fail_with_bounded_storage_and_requests(self):
+        bus = mock.Mock()
+        def receive(timeout):
+            sent = bus.send.call_count
+            if sent == 1:
+                return Frame(0x581, bytes.fromhex('40 08 10 00 00 00 00 00'))
+            toggle = ((sent - 2) % 2) << 4
+            return Frame(0x581, bytes([toggle]) + b'1234567')
+        bus.recv.side_effect = receive
+        client = SdoClient(bus, 1)
+        started = canopen.time.monotonic()
+        with self.assertRaisesRegex(canopen.SdoProtocolError, '容量 256'):
+            client.read(0x1008)
+        self.assertLess(canopen.time.monotonic() - started, 0.5)
+        self.assertEqual(bus.send.call_count, 38)  # initiate + 37 segments
+
+    def test_segmented_transfer_has_one_deadline_and_quarantines_on_expiry(self):
+        now = [0.0]
+        bus = mock.Mock()
+        def receive(timeout):
+            now[0] += 0.04
+            if bus.send.call_count == 1:
+                return Frame(0x581, bytes.fromhex('40 08 10 00 00 00 00 00'))
+            toggle = ((bus.send.call_count - 2) % 2) << 4
+            return Frame(0x581, bytes([toggle]) + b'1234567')
+        bus.recv.side_effect = receive
+        client = SdoClient(bus, 1, timeout=0.1)
+        with mock.patch.object(canopen.time, 'monotonic', side_effect=lambda: now[0]):
+            with self.assertRaises(BusSilenceError):
+                client.read(0x1008)
+        self.assertEqual(bus.send.call_count, 3)
+        self.assertTrue(client.quarantined)
+
+    def test_timeout_late_reply_cannot_pollute_any_followup_transaction(self):
+        bus = mock.Mock()
+        bus.recv.return_value = None
+        client = SdoClient(bus, 1, timeout=0.01)
+        with self.assertRaises(BusSilenceError):
+            client.read(0x1000)
+        stale = Frame(0x581, bytes.fromhex('43 00 10 00 27 00 00 00'))
+        bus.recv.return_value = stale
+        for operation in (lambda: client.read(0x1000), lambda: client.read(0x1001),
+                          lambda: client.write(0x1000, 0, b'\x00')):
+            with self.assertRaises(canopen.SdoSessionQuarantined):
+                operation()
+        self.assertEqual(bus.send.call_count, 1)
+        self.assertEqual(bus.recv.call_count, 1)  # stale remains unconsumed
+        # Simulate external peer/transport recovery eliminating stale replies.
+        bus.recv.return_value = Frame(0x581, bytes.fromhex('43 00 10 00 08 00 00 00'))
+        client.confirm_external_recovery()
+        self.assertEqual(client.read(0x1000), b'\x08\x00\x00\x00')
+        self.assertEqual(bus.send.call_count, 2)
+
+    def test_standard_upload_replay_with_and_without_declared_size(self):
+        for init in ("41 08 10 00 09 00 00 00", "40 08 10 00 EF BE AD DE"):
+            with self.subTest(init=init):
+                client, bus = self.client_for_replies(
+                    init, "00 41 42 43 44 45 46 47", "1B 48 49 00 00 00 00 00")
+                self.assertEqual(client.read(0x1008), b"ABCDEFGHI")
+                self.assertEqual([call.args[0].data for call in bus.send.call_args_list], [
+                    bytes.fromhex("40 08 10 00 00 00 00 00"),
+                    bytes.fromhex("60 00 00 00 00 00 00 00"),
+                    bytes.fromhex("70 00 00 00 00 00 00 00")])
+
+    def test_rejects_old_wrong_segment_response_family(self):
+        for command in (0x40, 0x41, 0x50, 0x51, 0x4B, 0x5B):
+            with self.subTest(command=command):
+                client, bus = self.client_for_replies(
+                    "40 08 10 00 00 00 00 00",
+                    "%02X 41 42 43 44 45 46 47" % command)
+                with self.assertRaisesRegex(canopen.SdoProtocolError, "分段应答命令字"):
+                    client.read(0x1008)
+                self.assertEqual(bus.send.call_count, 2)
+
+    def test_rejects_short_initiate_and_segment_responses(self):
+        for replies in (("41 08 10 00",), ("40 08 10 00",),
+                        ("41 08 10 00 09 00 00 00", "00 41 42 43"),
+                        ("40 08 10 00 00 00 00 00", "80 08 10 00")):
+            with self.subTest(replies=replies):
+                client, _ = self.client_for_replies(*replies)
+                with self.assertRaisesRegex(canopen.SdoProtocolError, "8 字节"):
+                    client.read(0x1008)
+
+    def test_rejects_wrong_upload_toggle(self):
+        client, _ = self.client_for_replies(
+            "40 08 10 00 00 00 00 00", "10 41 42 43 44 45 46 47")
+        with self.assertRaisesRegex(canopen.SdoProtocolError, "toggle"):
+            client.read(0x1008)
+
+    def test_declared_length_is_enforced_before_and_at_last_segment(self):
+        for length, segment in ((6, "00 41 42 43 44 45 46 47"),
+                                (9, "01 41 42 43 44 45 46 47")):
+            with self.subTest(length=length):
+                client, _ = self.client_for_replies(
+                    "41 08 10 00 %02X 00 00 00" % length, segment)
+                with self.assertRaisesRegex(canopen.SdoProtocolError, "长度"):
+                    client.read(0x1008)
+
+    def test_empty_segmented_upload_is_valid(self):
+        client, _ = self.client_for_replies(
+            "41 08 10 00 00 00 00 00", "0F 00 00 00 00 00 00 00")
+        self.assertEqual(client.read(0x1008), b"")
+
+    def test_segment_abort_preserves_object_and_unknown_code(self):
+        client, bus = self.client_for_replies(
+            "40 08 10 02 00 00 00 00", "80 08 10 02 0D F0 AD 0B")
+        with self.assertRaises(SdoAbort) as ctx:
+            client.read(0x1008, 2)
+        self.assertEqual((ctx.exception.index, ctx.exception.subindex), (0x1008, 2))
+        self.assertEqual(ctx.exception.code, 0x0BADF00D)
+        self.assertEqual(ctx.exception.request, bus.send.call_args.args[0])
+
+    def test_same_node_wrong_object_is_rejected(self):
+        # Every initiate response, including download ACK, must echo the request.
+        for operation, reply in (("read", "41 09 10 00 09 00 00 00"),
+                                 ("read", "40 08 10 01 00 00 00 00"),
+                                 ("write", "60 09 10 00 00 00 00 00"),
+                                 ("read", "80 09 10 00 00 00 02 06")):
+            with self.subTest(operation=operation, reply=reply):
+                client, _ = self.client_for_replies(reply)
+                with self.assertRaisesRegex(canopen.SdoProtocolError, "索引"):
+                    if operation == "read":
+                        client.read(0x1008)
+                    else:
+                        client.write(0x1008, 0, b"x")
+
+    def test_segment_abort_for_different_object_is_rejected(self):
+        client, _ = self.client_for_replies(
+            "40 08 10 00 00 00 00 00", "80 09 10 00 00 00 02 06")
+        with self.assertRaisesRegex(canopen.SdoProtocolError, "索引"):
+            client.read(0x1008)
 
 # --------------------------------------------------------------------------
 # abort 映射
@@ -1149,7 +1332,7 @@ class TestGoldenTimeout(GoldenTestCase):
         bus = MockBus.silent()
         bus.recv = mock.Mock(return_value=Frame(cob_id_heartbeat(2), b"\x7f"))
         client = SdoClient(bus, 1, timeout=0.1)
-        with mock.patch.object(canopen.time, "monotonic", side_effect=[0.0, 0.01, 0.04, 0.11]):
+        with mock.patch.object(canopen.time, "monotonic", side_effect=[0.0, 0.0, 0.01, 0.02, 0.04, 0.11]):
             with self.assertRaises(BusSilenceError):
                 client.read_device_type()
         self.assertEqual(bus.recv.call_count, 2)
@@ -1180,6 +1363,7 @@ class TestStandardLayerDiscipline(unittest.TestCase):
         allowed = {
             "__future__", "struct", "dataclasses", "typing", "time", "socket",
             "fcntl", "os", "errno", "json", "enum", "collections", "math",
+            "canopen_wire",  # Repository-owned generated integer constants, no dependencies.
         }
         import ast
         tree = ast.parse(self.source)
@@ -1192,6 +1376,25 @@ class TestStandardLayerDiscipline(unittest.TestCase):
                 if node.module:
                     self.assertIn(node.module.split(".")[0], allowed,
                                   "canopen.py 引入了非标准库: %s" % node.module)
+
+    def test_shared_wire_import_works_in_both_entry_modes(self):
+        tools_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        hwtui_dir = os.path.dirname(os.path.abspath(__file__))
+        # Fresh processes from an unrelated directory prevent this suite's sys.path
+        # setup and cached top-level modules from masking deployment import failures.
+        for module, search_path in (("hwtui.canopen", tools_dir), ("canopen", hwtui_dir)):
+            with self.subTest(module=module), tempfile.TemporaryDirectory() as cwd:
+                code = ("import " + module + " as c; "
+                        "assert c.SDO_CS_UPLOAD_SEGMENT_RESPONSE == 0; "
+                        "assert c.cob_id_sdo_tx(1) == 0x601; "
+                        "assert c.cob_id_sdo_rx(1) == 0x581")
+                if module == "hwtui.canopen":
+                    code += "; import hwtui.tui, hwtui.discover"
+                result = subprocess.run(
+                    [sys.executable, "-c", code], cwd=cwd,
+                    env=dict(os.environ, PYTHONPATH=search_path, PYTHONDONTWRITEBYTECODE="1"),
+                    capture_output=True, text=True, timeout=10)
+                self.assertEqual(result.returncode, 0, result.stderr)
 
     def test_object_index_table_is_standard_only(self):
         """对象索引表里的每个索引都必须落在 CiA 301 公共对象区。

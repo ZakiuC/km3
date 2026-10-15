@@ -122,6 +122,11 @@ add_library(km3_hal
 )
 target_link_libraries(km3_hal PUBLIC km3_core)
 
+# ---- 非实时 CANopen 标准层：有界事务，协议定义与 Python 同源生成 ----
+add_library(km3_canopen INTERFACE)
+target_include_directories(km3_canopen INTERFACE include)
+target_link_libraries(km3_canopen INTERFACE km3_hal km3_core)
+
 # ---- 硬件驱动（由 tools/hwdriver/new-driver.sh 追加）----
 #
 # 这一区由 tools/hwdriver/new-driver.sh 维护：新增型号时它在**结束标记之前**
@@ -143,7 +148,7 @@ target_link_libraries(km3_hal PUBLIC km3_core)
 # pmp4010 —— 机身抬降电机 A（4 台，CANopen，挂逻辑名 can-2）。
 #
 # 加 if(TARGET ...) 守卫，而不是裸 add_subdirectory：
-# pmp4010 要链 km3_canopen 与 km3_driver_api，而这两个目标尚未实现。
+# pmp4010 要链 km3_canopen 与 km3_driver_api，后者尚未实现。
 # 裸挂会让整个设备端工程在依赖落地前配置失败——一个尚未完成的驱动
 # 不该挡住其它模块的构建。
 #

@@ -31,7 +31,7 @@ _REPO_ROOT = os.path.abspath(os.path.join(_HERE, "..", "..", "..", ".."))
 _DRIVER_DIR = os.path.abspath(os.path.join(_HERE, "..", "driver"))
 
 # 逻辑总线名（**不是**内核接口名）。内核接口名一律从 device.json 按它解析。
-# 本文件不得出现 can0/can1/spi0 这类物理标识：同一事实两处定义迟早分家，
+# 本文件不得出现物理接口名：同一事实两处定义迟早分家，
 # 而分家的表现是"工具连的是另一条总线"——现场最难反查的一类故障。
 _DEFAULT_BUS = "can-2"
 

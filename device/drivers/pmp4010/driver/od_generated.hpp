@@ -2,7 +2,7 @@
 //
 // 型号：pmp4010（驱动代号 pmp4010，命名空间 km3::pmp4010）
 // 来源：device/drivers/pmp4010/driver/od.json
-// 来源 sha256：d286cc6c0eccefabad1bc7568f48a9aa698118060651a8f1eef35cfb37b9a0c9
+// 来源 sha256：7471262d9cd97f5b315ebe171ce1fbd5f46e06e2212cae36cd01480692ffa576
 //
 // 手改本文件会在 `python3 tools/hwdriver/gen-od.py --model pmp4010 --check`
 // 下失败，进而让 CI 变红。要改常量请改 od.json 再重新生成。
@@ -38,12 +38,12 @@
 #endif
 
 #if !PMP4010_OD_VERIFIED
-#ifndef KM3_ALLOW_UNVERIFIED_OD
-#error "pmp4010 对象字典未验证（driver/od.json 里仍有 6 条 status != verified）。 本文件在手册到达并填实之前不得使用：索引未知就发帧等于拿真实电机盲试。 仅在校验工具与 CI 中可定义 KM3_ALLOW_UNVERIFIED_OD=1（或 PMP4010_OD_VERIFIED=1）关闭本守卫。 阻塞项见 docs/硬件手册/pmp4010/README.md。"
+#if !defined(KM3_ALLOW_UNVERIFIED_OD) || !KM3_ALLOW_UNVERIFIED_OD
+#error "pmp4010 对象字典未验证（driver/od.json 里仍有 6 条 status != verified）。 本文件在手册到达并填实之前不得使用：索引未知就发帧等于拿真实电机盲试。 仅在校验工具与 CI 中可定义 KM3_ALLOW_UNVERIFIED_OD=1（或 PMP4010_OD_VERIFIED=1）关闭本守卫。 阻塞项见 docs/硬件手册/PMP4010/README.md。"
 #else
 // 显式旁路。保留一个可被 grep 到的标记，使「哪些产物是在未核对状态下构建的」
 // 在事后可查：一个能在未核对状态下构建的二进制，不应该出现在接了电机的现场。
-#pragma message("KM3: 正在以未核对的对象字典构建 pmp4010 驱动（KM3_ALLOW_UNVERIFIED_OD 已定义）")
+#pragma message("KM3: 正在以未核对的对象字典构建 pmp4010 驱动（KM3_ALLOW_UNVERIFIED_OD=1）")
 #endif
 #endif
 
@@ -71,7 +71,7 @@ struct OdEntry {
 // 拿 0 当「未填」会让一条漏填的条目看起来像一条指向 0x0000 的真实条目。
 inline constexpr std::uint16_t kIndexUnset = 0xFFFF;
 
-inline constexpr std::uint32_t kEntryCount = 79;
+inline constexpr std::uint32_t kEntryCount = 83;
 
 inline constexpr OdEntry kEntries[kEntryCount] = {
     // 控制字
@@ -141,10 +141,10 @@ inline constexpr OdEntry kEntries[kEntryCount] = {
     // 心跳生产者时间
     {"heartbeat_time", 0x1017u, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:3.5.2", true},
     // 节点保护（周期 / 超时）
-    //   溯源: 未核对（见 docs/硬件手册/pmp4010/README.md 的未确认项清单）
+    //   溯源: 未核对（见 docs/硬件手册/PMP4010/README.md 的未确认项清单）
     {"node_guard", kIndexUnset, 0u, OdStatus::Unverified, "", false},
     // EMCY 的 COB-ID
-    //   溯源: 未核对（见 docs/硬件手册/pmp4010/README.md 的未确认项清单）
+    //   溯源: 未核对（见 docs/硬件手册/PMP4010/README.md 的未确认项清单）
     {"emcy_cob_id", kIndexUnset, 0u, OdStatus::Unverified, "", false},
     // EMCY 厂商错误码表
     {"emcy_vendor_codes", kIndexUnset, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1", true},
@@ -175,12 +175,12 @@ inline constexpr OdEntry kEntries[kEntryCount] = {
     // PDO 映射是否允许改写
     {"pdo_mapping_writable", kIndexUnset, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:3.3.4", true},
     // SYNC 周期与 SYNC 的 COB-ID
-    //   溯源: 未核对（见 docs/硬件手册/pmp4010/README.md 的未确认项清单）
+    //   溯源: 未核对（见 docs/硬件手册/PMP4010/README.md 的未确认项清单）
     {"sync_period", kIndexUnset, 0u, OdStatus::Unverified, "", false},
     // 插补周期（t × 10^n）
     {"interpolation_period", 0x60C2u, 1u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7", true},
     // SDO 应答超时
-    //   溯源: 未核对（见 docs/硬件手册/pmp4010/README.md 的未确认项清单）
+    //   溯源: 未核对（见 docs/硬件手册/PMP4010/README.md 的未确认项清单）
     {"sdo_timeout", kIndexUnset, 0u, OdStatus::Unverified, "", false},
     // 参数掉电保存
     {"store_parameters", 0x1010u, 1u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:7.7.1", true},
@@ -225,7 +225,7 @@ inline constexpr OdEntry kEntries[kEntryCount] = {
     // 运行中切换模式的限制
     {"mode_switch_restriction", kIndexUnset, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:6.1", true},
     // 605Bh / 605Ch 停机方式（对象字典缺行）
-    //   溯源: 未核对（见 docs/硬件手册/pmp4010/README.md 的未确认项清单）
+    //   溯源: 未核对（见 docs/硬件手册/PMP4010/README.md 的未确认项清单）
     {"stop_option_605BC_missing", kIndexUnset, 0u, OdStatus::Unverified, "", false},
     // 故障反应码取值表
     {"fault_reaction_codes", kIndexUnset, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.2", true},
@@ -234,10 +234,18 @@ inline constexpr OdEntry kEntries[kEntryCount] = {
     // 故障停机方式 605Eh（访问权限冲突）
     {"fault_reaction_605E", kIndexUnset, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7", true},
     // CiA402 状态机转换图（图 4-2 未转换）
-    //   溯源: 未核对（见 docs/硬件手册/pmp4010/README.md 的未确认项清单）
+    //   溯源: 未核对（见 docs/硬件手册/PMP4010/README.md 的未确认项清单）
     {"cia402_state_machine_missing", kIndexUnset, 0u, OdStatus::Unverified, "", false},
     // 0x1000 设备类型（无数值）
     {"device_type_missing", 0x1000u, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5", true},
+    // 设备名称
+    {"device_name", 0x1008u, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5", true},
+    // 硬件版本号
+    {"hardware_version", 0x1009u, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5", true},
+    // 软件版本号
+    {"software_version", 0x100Au, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5", true},
+    // 软件绝对位置最大限制
+    {"software_position_limit_max", 0x607Du, 2u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7", true},
 };
 
 // 未核对条目数。工具打印的「N 项对象字典未核对」用这个 N，

@@ -35,3 +35,18 @@ if(NOT "${mock_result}" STREQUAL "0")
   message(FATAL_ERROR "Mock driver did not compile: ${mock_result}\n${mock_output}${mock_error}")
 endif()
 message(STATUS "Production OD guard rejected compilation; isolated mock compilation succeeded")
+
+execute_process(
+  COMMAND "${PMP4010_CXX_COMPILER}" -DKM3_ALLOW_UNVERIFIED_OD=0 ${compile_args}
+  RESULT_VARIABLE zero_result
+  OUTPUT_VARIABLE zero_output
+  ERROR_VARIABLE zero_error
+  TIMEOUT 20
+)
+if("${zero_result}" STREQUAL "0")
+  message(FATAL_ERROR "A zero-valued OD bypass unexpectedly permitted compilation")
+endif()
+string(FIND "${zero_output}${zero_error}" "对象字典未验证" zero_message)
+if(zero_message EQUAL -1)
+  message(FATAL_ERROR "Zero-valued bypass failed for a different reason: ${zero_result}\n${zero_error}")
+endif()

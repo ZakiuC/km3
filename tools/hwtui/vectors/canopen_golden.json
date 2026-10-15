@@ -14,6 +14,7 @@
     "  sdo_segmented_read  -- 分段上传：请求 + 交替的段请求",
     "  sdo_segmented_write -- 分段下载：发起帧 + 数据段 + 确认",
     "  sdo_abort           -- 中止：含规范码与未知码两种",
+    "  sdo_protocol_error  -- 明确拒绝的上传应答命令字",
     "  node_scan           -- 静默总线上扫描，必须无假阳性",
     "  heartbeat_timeout   -- 心跳超时判定",
     "  emcy                -- 紧急报文收帧",
@@ -274,7 +275,7 @@
     {
       "name": "segmented_read_9_bytes",
       "kind": "sdo_segmented_read",
-      "说明": "读 9 字节对象。首帧只 4 字节，表示**不带**长度指示（规范用帧长区分：8 字节才带总长度字段）；两段应答，第二段 c=1、n 位 5（命令字 0x1B，2 个有效字节）。",
+      "说明": "读 9 字节对象。不带总长度的发起应答为 0x40，仍是 8 字节；两段数据应答 0x00、0x1B，末段含 2 个有效字节。",
       "node_id": 1,
       "index": 4106,
       "subindex": 0,
@@ -288,7 +289,7 @@
           },
           "response": {
             "id": "0x581",
-            "data": "41 0A 10 00"
+            "data": "40 0A 10 00 00 00 00 00"
           }
         },
         {
@@ -298,7 +299,7 @@
           },
           "response": {
             "id": "0x581",
-            "data": "40 41 42 43 44 45 46 47"
+            "data": "00 41 42 43 44 45 46 47"
           }
         },
         {
@@ -308,7 +309,7 @@
           },
           "response": {
             "id": "0x581",
-            "data": "5B 48 49 00 00 00 00 00"
+            "data": "1B 48 49 00 00 00 00 00"
           }
         }
       ],
@@ -317,7 +318,7 @@
     {
       "name": "segmented_read_64_bytes",
       "kind": "sdo_segmented_read",
-      "说明": "读 64 字节对象。首帧带长度指示（0x41 | 0x01，byte4..7 是总长 64）。段请求 toggle 交替 0x60/0x70；末段命令字 0x1D（c=1、n=0x0C）。",
+      "说明": "读 64 字节对象。发起应答 0x41 的 byte4..7 是总长度；段请求交替 0x60/0x70，段应答是 000tnnnc，末段 0x1D 含 1 个有效字节。",
       "node_id": 1,
       "index": 4104,
       "subindex": 0,
@@ -341,7 +342,7 @@
           },
           "response": {
             "id": "0x581",
-            "data": "40 00 01 02 03 04 05 06"
+            "data": "00 00 01 02 03 04 05 06"
           }
         },
         {
@@ -351,7 +352,7 @@
           },
           "response": {
             "id": "0x581",
-            "data": "50 07 08 09 0A 0B 0C 0D"
+            "data": "10 07 08 09 0A 0B 0C 0D"
           }
         },
         {
@@ -361,7 +362,7 @@
           },
           "response": {
             "id": "0x581",
-            "data": "40 0E 0F 10 11 12 13 14"
+            "data": "00 0E 0F 10 11 12 13 14"
           }
         },
         {
@@ -371,7 +372,7 @@
           },
           "response": {
             "id": "0x581",
-            "data": "50 15 16 17 18 19 1A 1B"
+            "data": "10 15 16 17 18 19 1A 1B"
           }
         },
         {
@@ -381,7 +382,7 @@
           },
           "response": {
             "id": "0x581",
-            "data": "40 1C 1D 1E 1F 20 21 22"
+            "data": "00 1C 1D 1E 1F 20 21 22"
           }
         },
         {
@@ -391,7 +392,7 @@
           },
           "response": {
             "id": "0x581",
-            "data": "50 23 24 25 26 27 28 29"
+            "data": "10 23 24 25 26 27 28 29"
           }
         },
         {
@@ -401,7 +402,7 @@
           },
           "response": {
             "id": "0x581",
-            "data": "40 2A 2B 2C 2D 2E 2F 30"
+            "data": "00 2A 2B 2C 2D 2E 2F 30"
           }
         },
         {
@@ -411,7 +412,7 @@
           },
           "response": {
             "id": "0x581",
-            "data": "50 31 32 33 34 35 36 37"
+            "data": "10 31 32 33 34 35 36 37"
           }
         },
         {
@@ -421,7 +422,7 @@
           },
           "response": {
             "id": "0x581",
-            "data": "40 38 39 3A 3B 3C 3D 3E"
+            "data": "00 38 39 3A 3B 3C 3D 3E"
           }
         },
         {
@@ -431,7 +432,7 @@
           },
           "response": {
             "id": "0x581",
-            "data": "5D 3F 00 00 00 00 00 00"
+            "data": "1D 3F 00 00 00 00 00 00"
           }
         }
       ]
@@ -823,9 +824,9 @@
       "nmt_broadcast": 0
     },
     {
-      "name": "segmented_read_0x51_last_segment",
+      "name": "segmented_read_three_segments_toggle0",
       "kind": "sdo_segmented_read",
-      "说明": "读一个 16 字节对象，三段应答，命令字依次是 0x40 / 0x50 / 0x41：非末段的**末位 c=0**，并且每段的 toggle 交替 0,1,0。这条语料钉死两点：(1) 分段上传应答必须带 0x40 基值，只写 toggle 位会发出 0x00/0x10（那是下载方向的命令字）；(2) 末段由 c 位判定，与 toggle 取值无关。",
+      "说明": "读 16 字节对象，三段 7+7+2；数据应答 0x00、0x10、0x0B。第三段 toggle 回到 0，c=1、n=5；数据应答 scs=0，不得混用发起应答的 0x40 族。",
       "node_id": 1,
       "index": 4097,
       "subindex": 0,
@@ -849,7 +850,7 @@
           },
           "response": {
             "id": "0x581",
-            "data": "40 00 01 02 03 04 05 06"
+            "data": "00 00 01 02 03 04 05 06"
           }
         },
         {
@@ -859,7 +860,7 @@
           },
           "response": {
             "id": "0x581",
-            "data": "50 07 08 09 0A 0B 0C 0D"
+            "data": "10 07 08 09 0A 0B 0C 0D"
           }
         },
         {
@@ -869,10 +870,157 @@
           },
           "response": {
             "id": "0x581",
-            "data": "4B 0E 0F 00 00 00 00 00"
+            "data": "0B 0E 0F 00 00 00 00 00"
           }
         }
       ]
+    },
+    {
+      "name": "segmented_read_14_bytes_toggle1_last",
+      "kind": "sdo_segmented_read",
+      "说明": "读 14 字节对象，两段各 7 字节。末段 toggle=1、n=0、c=1，即 0x11。",
+      "node_id": 1,
+      "index": 4104,
+      "subindex": 0,
+      "object_value_hex_sequence_zero_to": 14,
+      "expected_value_hex_sequence_zero_to": 14,
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "40 08 10 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "41 08 10 00 0E 00 00 00"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "60 00 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "00 00 01 02 03 04 05 06"
+          }
+        },
+        {
+          "request": {
+            "id": "0x601",
+            "data": "70 00 00 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "11 07 08 09 0A 0B 0C 0D"
+          }
+        }
+      ]
+    },
+    {
+      "name": "expedited_cs_42",
+      "kind": "sdo_protocol_error",
+      "说明": "Cross-language differential: shared mask 0xE3; reject 0x42, accept size-indicated expedited family including bit4.",
+      "node_id": 1,
+      "index": 4096,
+      "subindex": 0,
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "40 00 10 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "42 00 10 00 11 22 33 44"
+          }
+        }
+      ],
+      "expect_protocol_error": true
+    },
+    {
+      "name": "expedited_cs_53",
+      "kind": "sdo_expedited_read",
+      "说明": "Cross-language differential: shared mask 0xE3; reject 0x42, accept size-indicated expedited family including bit4.",
+      "node_id": 1,
+      "index": 4096,
+      "subindex": 0,
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "40 00 10 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "53 00 10 00 11 22 33 44"
+          }
+        }
+      ],
+      "expected_value": "11 22 33 44"
+    },
+    {
+      "name": "expedited_cs_57",
+      "kind": "sdo_expedited_read",
+      "说明": "Cross-language differential: shared mask 0xE3; reject 0x42, accept size-indicated expedited family including bit4.",
+      "node_id": 1,
+      "index": 4096,
+      "subindex": 0,
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "40 00 10 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "57 00 10 00 11 22 33 44"
+          }
+        }
+      ],
+      "expected_value": "11 22 33"
+    },
+    {
+      "name": "expedited_cs_5b",
+      "kind": "sdo_expedited_read",
+      "说明": "Cross-language differential: shared mask 0xE3; reject 0x42, accept size-indicated expedited family including bit4.",
+      "node_id": 1,
+      "index": 4096,
+      "subindex": 0,
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "40 00 10 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "5B 00 10 00 11 22 33 44"
+          }
+        }
+      ],
+      "expected_value": "11 22"
+    },
+    {
+      "name": "expedited_cs_5f",
+      "kind": "sdo_expedited_read",
+      "说明": "Cross-language differential: shared mask 0xE3; reject 0x42, accept size-indicated expedited family including bit4.",
+      "node_id": 1,
+      "index": 4096,
+      "subindex": 0,
+      "expected_frames": [
+        {
+          "request": {
+            "id": "0x601",
+            "data": "40 00 10 00 00 00 00 00"
+          },
+          "response": {
+            "id": "0x581",
+            "data": "5F 00 10 00 11 22 33 44"
+          }
+        }
+      ],
+      "expected_value": "11"
     }
   ]
 }

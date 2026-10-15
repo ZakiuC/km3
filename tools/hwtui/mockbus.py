@@ -43,6 +43,8 @@ from canopen import (
     SDO_CS_UPLOAD_EXPEDITED,
     SDO_CS_UPLOAD_REQUEST,
     SDO_CS_UPLOAD_SEGMENTED,
+    SDO_CS_UPLOAD_SEGMENTED_NO_SIZE,
+    SDO_CS_UPLOAD_SEGMENT_RESPONSE,
     SDO_CS_UPLOAD_SEGMENT_REQUEST,
     SDO_UPLOAD_SEGMENTED_WITH_SIZE,
     Frame,
@@ -145,7 +147,7 @@ class MockNode:
 
         self.state = NmtState.INITIALISING
         self.heartbeat_period_ms = heartbeat_period_ms
-        #: 分段上传首帧是否带总长度指示（0x41|0x01 + 4 字节长度）。
+        #: 分段上传首帧是否带总长度指示（0x41 + 4 字节长度）。
         #: 真有从站不带，因此两种形态都必须能被客户端正确处理。
         self.segmented_upload_size_indicated = segmented_upload_size_indicated
         self.error_register = 0
@@ -294,18 +296,12 @@ class MockNode:
                               ]) + payload.ljust(4, b"\x00")
                 self._outbox.append(Frame(cob_id_sdo_rx(self.node_id), body))
             else:
-                # 分段上传首帧。带长度指示时命令字为 0x41|0x01 且 byte4..7 是总长；
-                # 不带时命令字 0x41、byte4..7 保留。两种形态客户端都要认。
-                if self.segmented_upload_size_indicated:
-                    body = bytes([SDO_CS_UPLOAD_SEGMENTED | SDO_UPLOAD_SEGMENTED_WITH_SIZE,
-                                  index & 0xFF, (index >> 8) & 0xFF, subindex & 0xFF,
-                                  ]) + len(payload).to_bytes(4, "little")
-                else:
-                    # 不带长度指示：命令字 0x41，帧只发前 4 字节。
-                    # 规范正是用**帧长**区分两种首帧（4 字节 vs 8 字节），
-                    # 因此这里不能补 4 个零字节——补了就变成"带长度，总长为 0"。
-                    body = bytes([SDO_CS_UPLOAD_SEGMENTED,
-                                  index & 0xFF, (index >> 8) & 0xFF, subindex & 0xFF])
+                # The s bit, not DLC, signals total length. Both forms use DLC 8.
+                command_byte = (SDO_CS_UPLOAD_SEGMENTED if self.segmented_upload_size_indicated
+                                else SDO_CS_UPLOAD_SEGMENTED_NO_SIZE)
+                total = len(payload) if self.segmented_upload_size_indicated else 0
+                body = bytes([command_byte, index & 0xFF, (index >> 8) & 0xFF,
+                              subindex & 0xFF]) + total.to_bytes(4, "little")
                 self._outbox.append(Frame(cob_id_sdo_rx(self.node_id), body))
                 self._seg_upload_payload = payload
                 self._seg_upload_offset = 0
@@ -324,13 +320,10 @@ class MockNode:
             chunk = payload[offset:offset + 7]
             offset += len(chunk)
             last = offset >= len(payload)
-            # 分段上传应答的命令字是 `0x40 | (toggle << 4) | c`，**0x40 基值不能丢**：
-            #   toggle 0 非末段 0x40、末段 0x41；toggle 1 非末段 0x50、末段 0x51。
-            # 只写 toggle 位会发出 0x00/0x10，那是**下载**方向的命令字，
-            # 客户端无从分辨方向——真机上这就是"读到一半解析乱套"。
+            # CiA 301 server upload segment response is 000tnnnc.
             toggle = self._seg_toggle
             self._seg_toggle = 1 - toggle
-            command_byte = SDO_CS_UPLOAD_SEGMENTED & 0xC0 | (toggle << 4)
+            command_byte = SDO_CS_UPLOAD_SEGMENT_RESPONSE | (toggle << 4)
             if last:
                 command_byte |= SDO_CS_SEGMENT_LAST
                 command_byte |= ((7 - len(chunk)) << 1) & SDO_CS_SEGMENT_NBYTES_MASK
