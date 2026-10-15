@@ -4,6 +4,21 @@ PMP4010 ×4，逻辑总线 `can-2`。物理映射由 `device/config/device.json`
 
 当前是**有证据的受保护骨架**：OD共79条、73条verified、6条unverified；设备上电自动使能、内置终端等也未确认。`PMP4010_OD_VERIFIED=0` / `kOdVerified=false` 保持，全局发帧守卫关闭生产协议路径。`km3_canopen` 与 `km3_driver_api` 当前不存在，`CMakeLists.txt` 仍按目标存在性保护接线；补齐OD也不会自动实现C++ CANopen。
 
+## 当前状态
+
+- [x] 骨架生成（`new-driver.sh`）
+- [x] 对象字典填充（79条中73 verified、6 unverified；含结构条目，见 [CONTRACT.md](CONTRACT.md)）
+- [x] 生成物同步（`driver/od_generated.hpp`、仓库根目录 `tools/hwtui/canopen_consts.py`）
+- [x] 契约测试已有通过记录（[2026-10-15验证记录](../../../docs/硬件手册/PMP4010/验证记录-2026-10-15.md#本地主机检查)：历史PMP4010 mock为14用例、3795检查；本次文档收尾未重跑C++构建，不能沿用任务模板的166 assertions）
+- [x] 板端只读探测（历史1 Mbps通信成功，节点1对1000h:00h上传应答；不等于全部4台验收）
+- [x] 完整身份读取与对照（既有1000h探测及本次1008h/100Ah、1018h:01h–04h、200Ch:02h–03h共8项读取完成；厂商ID/产品代码与E06不匹配，兼容性待厂家澄清，见 [验证记录](../../../docs/硬件手册/PMP4010/验证记录-2026-10-15.md#identity-readonly-20261015)）
+- [ ] **驱动实现**（`pmp4010_driver.cpp`仍是受保护骨架，待驱动填充agent完成）
+- [ ] **运动命令**（`pmp4010.py`的`--motion`尚未实现，待驱动实现后填充）
+
+**身份差异**：本次节点1读到设备名 `NiMotion Servo`、软件版本 `V3.3`；厂商ID `0x00000509`、产品代码 `0x03000001`，分别不同于E06表10-5的 `0x2D`、`0x01`。读取及对照完成不表示型号/固件兼容性已确认。200Ch:03h读值8，对应E06 §3.6.1 表3-13的1 Mbps；7对应800 kbps，任务模板中的速率码说明有误。
+
+**阻塞项**：上述身份差异须厂家澄清，另有6条unverified（见 [CONTRACT.md](CONTRACT.md#未核对的对象6-条-unverified)），分别涉及不支持的能力、缺失元数据/原图及主机策略，须逐项处置；手册原件或厂家澄清不能替代实际运动、失联和带载验收。`verified`仅表示已核对手册事实。
+
 ## 文件与边界
 
 | 文件 | 职责 |
@@ -41,7 +56,7 @@ python3 device/drivers/pmp4010/tools/pmp4010.py --bus can-2 --init --read-only
 ## 本地验证与交付
 
 ```sh
-python3 tools/hwdriver/gen-od.py --model pmp4010 --check
+python3 -I tools/hwdriver/gen-od.py --model pmp4010 --check
 bash tools/check-drivers.sh
 bash tools/check-manual-citations.sh
 bash tools/check-docs.sh
