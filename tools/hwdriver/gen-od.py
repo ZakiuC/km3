@@ -295,7 +295,29 @@ def cpp_string_literal(text):
     return '"' + text.replace("\\", "\\\\").replace('"', '\\"') + '"'
 
 
-def render_hpp(doc, model, code, od_sha):
+def manual_dir_name(root, model, declared):
+    """手册目录在磁盘上的**真实**名字。
+
+    依次尝试：目录名、od.json 的 device.model、以及大小写不敏感的唯一匹配。
+    都找不到时退回 device.model（若也没有则退回目录名）——手册还没到位是
+    正常状态，此时生成物里的路径只是"将来该放哪"，不构成错误。
+    """
+    base = os.path.join(root, "docs", "硬件手册")
+    candidates = [declared, model]
+    if os.path.isdir(base):
+        on_disk = [n for n in os.listdir(base)
+                   if os.path.isdir(os.path.join(base, n))]
+        lowered = {n.lower(): n for n in on_disk}
+        for cand in candidates:
+            if cand and cand.lower() in lowered:
+                return lowered[cand.lower()]
+    for cand in candidates:
+        if cand:
+            return cand
+    return model
+
+
+def render_hpp(doc, model, code, od_sha, manual_dir):
     dev = doc.get("device", {})
     entries = doc["entries"]
     unverified = [e for e in entries if e.get("status") != STATUS_VERIFIED]
@@ -345,16 +367,25 @@ def render_hpp(doc, model, code, od_sha):
     w("#endif")
     w("")
     w("#if !%s" % macro)
-    w("#ifndef KM3_ALLOW_UNVERIFIED_OD")
+    # 判定必须是**真值**而不是「宏是否存在」。
+    #
+    # `#ifndef KM3_ALLOW_UNVERIFIED_OD` 的漏洞：`-DKM3_ALLOW_UNVERIFIED_OD=0`
+    # 也算「已定义」，于是 #error 被跳过 —— 一个本想**关闭**旁路、显式写下
+    # `=0` 的构建脚本，反而静默打开了它。这类"写反了却看不出来"的配置
+    # 正是这道闸门要防的，不能让它自己被同样的手法绕过。
+    #
+    # 用 `!defined(X) || !X` 而不是 `#if !X`：后者在宏未定义时触发 -Wundef
+    # 警告，把「未核对」这条业务事实混进「宏忘了定义」这类构建噪声里。
+    w("#if !defined(KM3_ALLOW_UNVERIFIED_OD) || !KM3_ALLOW_UNVERIFIED_OD")
     w('#error "%s 对象字典未验证（driver/od.json 里仍有 %d 条 status != verified）。'
       ' 本文件在手册到达并填实之前不得使用：索引未知就发帧等于拿真实电机盲试。'
       ' 仅在校验工具与 CI 中可定义 KM3_ALLOW_UNVERIFIED_OD=1（或 %s=1）关闭本守卫。'
       ' 阻塞项见 docs/硬件手册/%s/README.md。"'
-      % (model, len(unverified), macro, model))
+      % (model, len(unverified), macro, manual_dir))
     w("#else")
     w("// 显式旁路。保留一个可被 grep 到的标记，使「哪些产物是在未核对状态下构建的」")
     w("// 在事后可查：一个能在未核对状态下构建的二进制，不应该出现在接了电机的现场。")
-    w('#pragma message("KM3: 正在以未核对的对象字典构建 %s 驱动（KM3_ALLOW_UNVERIFIED_OD 已定义）")'
+    w('#pragma message("KM3: 正在以未核对的对象字典构建 %s 驱动（KM3_ALLOW_UNVERIFIED_OD=1）")'
       % model)
     w("#endif")
     w("#endif")
@@ -402,7 +433,7 @@ def render_hpp(doc, model, code, od_sha):
         comment = e.get("name") or key
         w("    // %s" % comment)
         if not usable:
-            w("    //   溯源: 未核对（见 docs/硬件手册/%s/README.md 的未确认项清单）" % model)
+            w("    //   溯源: 未核对（见 docs/硬件手册/%s/README.md 的未确认项清单）" % manual_dir)
         w("    {%s, %s, %s, %s, %s, %s}," % (
             cpp_string_literal(key), idx_text, sub_text, status_enum, cite_text,
             "true" if usable else "false"))
@@ -429,7 +460,7 @@ def render_hpp(doc, model, code, od_sha):
     return "\n".join(o)
 
 
-def render_py(doc, model, code, od_sha):
+def render_py(doc, model, code, od_sha, manual_dir):
     dev = doc.get("device", {})
     entries = doc["entries"]
     unverified = [e for e in entries if e.get("status") != STATUS_VERIFIED]
@@ -641,11 +672,22 @@ def main(argv):
         return 2
 
     od_sha = sha256_of_file(od_path)
+    # 手册目录名按**磁盘上的实际写法**解析，而不是拿目录名去拼。
+    #
+    # 驱动目录约定小写（pmp4010），手册目录用厂家铭牌写法（PMP4010）——
+    # 两者是同一个型号的两种拼法，硬要用一个会逼人二选一，而无论选哪个
+    # 都会与另一处既有约定冲突（见 check-manual-citations.sh 的同名注释）。
+    #
+    # 拿目录名去拼的后果：生成物里写出 `docs/硬件手册/pmp4010/README.md`，
+    # 在区分大小写的 Linux 上指不到任何文件。这不是报错，是一条**指错路**的
+    # 注释——读的人照着它去找一份不存在的手册，而生成物看起来完全正常。
+    manual_dir = manual_dir_name(root, model, declared)
+
     targets = [
         (os.path.join(root, "device", "drivers", model, "driver", "od_generated.hpp"),
-         render_hpp(doc, model, code, od_sha)),
+         render_hpp(doc, model, code, od_sha, manual_dir)),
         (os.path.join(root, "tools", "hwtui", "canopen_consts.py"),
-         render_py(doc, model, code, od_sha)),
+         render_py(doc, model, code, od_sha, manual_dir)),
     ]
 
     if args.check:
@@ -679,7 +721,7 @@ def main(argv):
     if unverified:
         print("    手册未落地时这是预期状态：运动路径会被 #error 拦住（编译期），")
         print("    只有 CI 与未接电机的回环验证才该定义 KM3_ALLOW_UNVERIFIED_OD=1。")
-        print("    消解办法：把资料放进 docs/硬件手册/%s/，在 od.json 里把 status 改成" % model)
+        print("    消解办法：把资料放进 docs/硬件手册/%s/，在 od.json 里把 status 改成" % manual_dir)
         print("    verified 并把 cite 写成「<仓库相对路径>:<章节或页码>」，再重新生成。")
     return 0
 
