@@ -300,7 +300,9 @@ KM3_TEST(enable_selector_modes_and_transition_timeout_fail_closed) {
     KM3_CHECK_EQ(f.driver.Enable(1).code(), ErrorCode::EInvalidConfig);
     KM3_CHECK_EQ(ControlCount(f.can, 6), 0u);
     f.can.selector = 0;
-    for (std::uint8_t mode : std::array<std::uint8_t, 3>{2, 7, 0}) {
+    // 3 也在拒绝之列：速度模式下从站按 60FFh 的残留值运行，而速度标度
+    // 换算链未实现（见 CanEnableInMode 的注释）。
+    for (std::uint8_t mode : std::array<std::uint8_t, 4>{2, 3, 7, 0}) {
         f.can.mode = mode;
         KM3_CHECK_EQ(f.driver.Enable(1).code(), ErrorCode::EInvalidConfig);
     }
@@ -311,6 +313,49 @@ KM3_TEST(enable_selector_modes_and_transition_timeout_fail_closed) {
     KM3_CHECK_EQ(fault.driver.SetTargetPosition(1, 1).code(), ErrorCode::ECommandRejected);
     KM3_CHECK_EQ(ControlCount(f.can, 31), 0u);
 }
+KM3_TEST(speed_mode_cannot_be_enabled_because_scale_chain_is_absent) {
+    // 本用例钉住一条**安全不变式**：速度模式下驱动不得使能。
+    //
+    // 为什么它值得单独立一条：SetTargetVelocity 已经无条件拒绝，看起来
+    // 「速度写不进去」就够了。但真实的暴露面不是驱动写值，而是
+    // **60FFh 里已有的残留值**——实测该电机 60FFh = 6553600 = 3000 rpm
+    // （额定转速）。只要模式被别人（厂家工具 / 上层）置为 3，再让驱动
+    // 使能，从站就会按那个残留值转起来。所以在**使能这一侧**也必须有闸门。
+    //
+    // 断言两件事：(1) 拒绝且不发任何控制字；(2) 模式 1/4/6/8/9/10 仍可使能，
+    // 即这道闸门只挡速度模式，没有误伤。
+    for (std::uint8_t mode : std::array<std::uint8_t, 3>{3, 0, 5}) {
+        Fixture f;
+        f.can.mode = mode;
+        f.can.sw = 0x40;
+        const auto before = f.can.sent_count;
+        KM3_CHECK_EQ(f.driver.Enable(1).code(), ErrorCode::EInvalidConfig);
+        // 断言的是**语义**而不是精确帧数：拒绝发生在读模式下完之后，
+        // 所以会看到若干只读请求（RequireCia402 读 2002h:01h、模式读 6061h）。
+        // 精确计数会把「多读一个对象」这种无关改动变成测试失败，
+        // 而真正要钉的是「一个控制字都没发出去」。
+        KM3_CHECK(f.can.sent_count > before);          // 读了（诊断信息）
+        KM3_CHECK(f.can.sent_count <= before + 4u);    // 但只有读，没有写风暴
+        KM3_CHECK_EQ(ControlCount(f.can, 6), 0u);
+        KM3_CHECK_EQ(ControlCount(f.can, 7), 0u);
+        KM3_CHECK_EQ(ControlCount(f.can, 15), 0u);
+        KM3_CHECK_EQ(f.can.sw, 0x40);                  // 状态字未被推动
+    }
+    // EnableOperation 与 Enable 走同一个判据，单独验一遍：
+    Fixture g;
+    g.can.mode = 3;
+    KM3_CHECK_EQ(g.driver.EnableOperation(1).code(), ErrorCode::EInvalidConfig);
+    KM3_CHECK_EQ(ControlCount(g.can, 15), 0u);
+
+    for (std::uint8_t mode : std::array<std::uint8_t, 5>{1, 4, 6, 8, 9}) {
+        Fixture f;
+        f.can.mode = mode;
+        f.can.sw = 0x40;
+        KM3_REQUIRE(f.driver.Enable(1).ok());
+        KM3_CHECK_EQ(f.can.sw, 0x27);
+    }
+}
+
 KM3_TEST(mode_change_direction_and_pp_handshake) {
     Fixture f;
     KM3_REQUIRE(f.driver.SetOperationMode(1, 3).ok());

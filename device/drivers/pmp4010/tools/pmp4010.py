@@ -1228,10 +1228,12 @@ class MotionSession:
         self.require_cia402()
         mode = self.call(self.deadline(), "读取运行模式", self.client.read_uint8,
                          self.od.MODES_OF_OPERATION_DISPLAY, 0)
-        # E06 enable_sequence：VM(2)需0x7F，IP(7)需0x1F；本命令只实现0x0F。
-        # 未实现的模式专用启动/PDO编排不能由通用使能顺手触发。
-        if mode not in (1, 3, 4, 6, 8, 9, 10):
-            raise MotionError("运行模式 {} 不支持本命令的 0x0F 使能序列".format(mode))
+        # 见 ENABLE_MODES 的注释：排除 2/7（模式专用终值）与 3（速度标度未实现）。
+        if mode not in ENABLE_MODES:
+            raise MotionError(
+                "运行模式 {} 不在本工具允许使能的集合 {} 内"
+                "（2/7 需模式专用终值；3 的速度标度换算链尚未实现）".format(
+                    mode, ENABLE_MODES))
         sw = self.status(self.deadline())
         if sw & _canopen.CIA402_FAULT:
             # Fault reaction active 必须先结束，复位是脱使能后的 bit7 上升沿。
@@ -1453,6 +1455,17 @@ def cmd_od_dump(args, out):
 #
 # **列表只收已知键**：未知键不猜含义（iproute2 版本不同会加键），
 # 但也照原样留下来给 --show-raw 看，不静默丢。
+
+# 本工具允许使能的运行模式。**与 C++ 驱动的 CanEnableInMode 同一语义**——
+# 两侧各写一份会漂移，因此这里把理由写全，改一处必须改另一处。
+#
+# 排除 2(vl) 与 7(ip)：手册 enable_sequence 说这两种模式的使能终值是
+#   0x7F / 0x1F，本命令只实现通用的 0x0F。
+# 排除 3(CSV 速度模式)：该模式下从站按 60FFh 的目标速度运行，而速度标度
+#   （608Fh/6091h → rpm）的换算链尚未实现。放行使能等于把 60FFh 里的
+#   **残留值**当指令执行：实测该电机 60FFh = 6553600 = 3000 rpm（额定转速）。
+#   换算链落地后此集合再放开 3。
+ENABLE_MODES = (1, 4, 6, 8, 9, 10)
 
 CAN_XSTAT_KEYS = (
     "restart-ms", "bus-error", "bus-errors", "error-warn", "error-pass",

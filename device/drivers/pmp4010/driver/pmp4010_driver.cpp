@@ -124,9 +124,31 @@ std::int32_t Signed32(std::uint32_t value) noexcept {
     std::memcpy(&result, &value, sizeof(result));
     return result;
 }
-bool ValidMode(std::int8_t mode) noexcept {
+// constexpr：CanEnableInMode 在编译期引用它，且它本身是纯函数。
+constexpr bool ValidMode(std::int8_t mode) noexcept {
     return mode == 1 || mode == 2 || mode == 3 || mode == 4 || mode == 6 ||
            mode == 7 || mode == 8 || mode == 9 || mode == 10;
+}
+
+// 「本驱动允许使能」的模式集合。比 ValidMode 更严，**不是**它的同义词。
+//
+// 为什么单独一个判据：ValidMode 回答的是「这个模式码是手册定义的吗」，
+// 而本函数回答的是「本驱动在这个模式下发使能，会不会触发一个我们
+// 算不出后果的运动」。两者是不同的问题，混用会把「手册认识它」
+// 当成「我们可以安全地用它」。
+//
+// 当前排除速度模式（3, CSV）与 2（vl）。理由是可核查的：
+//   CanEnableInMode(3) 为假 —— 速度模式下从站按 60FFh 的目标速度运行，
+//   而速度标度（608Fh/6091h → rpm）的换算链本驱动尚未实现
+//   （SetTargetVelocity 因此无条件拒绝）。若此时放行使能，等于把
+//   60FFh 里**已有的残留值**当成指令执行：实测该电机 60FFh = 6553600
+//   = 3000 rpm（正是额定转速）。这不是假设的风险，是现场实测值。
+//   换算链实现后（届时 SetTargetVelocity 会真正写值），本函数再放开 3。
+//
+// 为什么不只在 SetTargetVelocity 里拒绝：那只挡驱动**自己**写速度，
+// 挡不住「模式已被别人（厂家工具 / 上层）置为 3，然后驱动使能」这条路。
+constexpr bool CanEnableInMode(std::int8_t mode) noexcept {
+    return ValidMode(mode) && mode != 2 && mode != 3 && mode != 7;
 }
 void PollPause(std::uint64_t deadline) noexcept {
     SleepUntilMonotonic(std::min(deadline, MonotonicUs() + 1000u));
@@ -313,7 +335,7 @@ Status Pmp4010Driver::EnableOperation(std::uint8_t node) {
     const auto mode = ReadValue(node, "modes_of_operation_display", deadline);
     if (!mode) return Status(mode.code());
     const auto mode_value = static_cast<std::int8_t>(mode.value());
-    if (!ValidMode(mode_value) || mode_value == 2 || mode_value == 7) return Status(ErrorCode::EInvalidConfig);
+    if (!CanEnableInMode(mode_value)) return Status(ErrorCode::EInvalidConfig);
     auto st = Control(node, wire::CIA402_ENABLE, deadline);
     if (st) st = WaitState(node, wire::CIA402_ENABLED, deadline);
     if (!st) CleanupStop(node);
@@ -326,7 +348,7 @@ Status Pmp4010Driver::EnableSequence(std::uint8_t node, std::uint64_t deadline) 
     auto mode = ReadValue(node, "modes_of_operation_display", deadline);
     if (!mode) return Status(mode.code());
     const auto m = static_cast<std::int8_t>(mode.value());
-    if (!ValidMode(m) || m == 2 || m == 7) return Status(ErrorCode::EInvalidConfig);
+    if (!CanEnableInMode(m)) return Status(ErrorCode::EInvalidConfig);
     auto sw = ReadValue(node, "statusword", deadline);
     if (!sw) return Status(sw.code());
     while (canopen::FaultReaction(static_cast<std::uint16_t>(sw.value())) || (sw.value() & wire::CIA402_DISABLED_MASK) == 0) {

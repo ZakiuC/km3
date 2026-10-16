@@ -408,23 +408,37 @@ class MotionTests(unittest.TestCase):
         self.assertEqual(self.bus.controls(), [6, 7, 15])
 
     def test_motion_enable_rejects_mode_specific_and_unknown_modes_before_writes(self):
-        for mode in (0, 2, 5, 7, 11, 255):
+        for mode in (0, 2, 3, 5, 7, 11, 255):
             for sw in (0x40, 0x08, 0x27):
                 with self.subTest(mode=mode, sw=sw):
                     self.bus.sw = sw
                     self.bus.objects[(0x6061, 0)] = bytes([mode])
                     self.assertEqual(self.motion('enable'), 3)
                     self.assertEqual(self.bus.controls(), [])
-        self.assertIn('不支持本命令的 0x0F', self.stdout.getvalue())
+        self.assertIn('不在本工具允许使能的集合', self.stdout.getvalue())
 
     def test_motion_enable_supports_only_documented_0f_modes(self):
-        for mode in (1, 3, 4, 6, 8, 9, 10):
+        # 3 已被排除：速度模式下从站按 60FFh 的残留值运行，而速度标度
+        # 换算链尚未实现（见 pmp4010.ENABLE_MODES 的注释）。
+        for mode in (1, 4, 6, 8, 9, 10):
             with self.subTest(mode=mode):
                 self.bus.sent.clear()
                 self.bus.sw = 0x40
                 self.bus.objects[(0x6061, 0)] = bytes([mode])
                 self.assertEqual(self.motion('enable'), 0)
                 self.assertEqual(self.bus.controls(), [6, 7, 15])
+
+    def test_speed_mode_cannot_be_enabled_because_scale_chain_is_absent(self):
+        """速度模式下不得使能——残留的 60FFh 会被当成指令执行。
+
+        实测该电机 60FFh = 6553600 = 3000 rpm（额定转速）。模式被置为 3
+        之后若放行使能，从站就会按这个残留值转起来。故在使能这一侧也要闸门。
+        """
+        self.bus.sw = 0x40
+        self.bus.objects[(0x6061, 0)] = bytes([3])
+        self.assertEqual(self.motion('enable'), 3)
+        self.assertEqual(self.bus.controls(), [])
+        self.assertEqual(self.bus.sw, 0x40)   # 状态字未被推动
 
     def test_motion_enable_waits_for_initial_not_ready_without_premature_write(self):
         self.bus.statuses = [0, 0, 0x40]
