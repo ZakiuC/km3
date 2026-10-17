@@ -37,6 +37,7 @@ tput colors=256），不是开发机。三条前提都来自实测，工具的�
   运动类（OD 闸门 + active 时要求 --i-know-rt-is-running）
     --nmt        发 NMT 命令
     --motion     CiA402 使能 / 失能 / 快停 / 回零
+    --params     参数维护，默认离线零发帧；backup显式读SDO，写须--apply
 
 三条准入规则，顺序固定：
   1. **对象字典闸门**（refuse_motion）：od.json 里只要还有 status != verified 的条目，
@@ -46,6 +47,12 @@ tput colors=256），不是开发机。三条前提都来自实测，工具的�
   2. **标准层**（require_std_layer）：总线操作只走 tools/hwtui，缺失时拒绝。
   3. **实时进程确认**（require_rt_ack）：km3-rt-controller active 时它正在用这条总线，
      两条控制流同时持有同一会话，只能由人确认。状态取不到时按更严一侧处理。
+
+第 1 条有一个**显式旁路**：`--od-gaps-bypass "<理由>"`。它存在是因为
+未核对条目里有两类（手册明说不支持、主机策略）按定义永远变不成 verified，
+闸门却是单一布尔量，"全部核对"因此不可满足 —— 整机调试时运动验收会被
+永久挡住。旁路对 `--motion` 与 `--params` 生效，`--nmt` 不放行；每次放行都把条目与
+理由打在屏上。理由与终局方案见 od_gaps_bypass() 的注释。
 
 --init 是三段式，**顺序不可颠倒**，每段都对应一条实测事实：
   (1) 读 /etc/km3/device.json 取 can-2 的 iface 与 bitrate，再用
@@ -215,35 +222,98 @@ def load_od():
             raise ConfigError("对象字典 {} 标为 verified 却没有 cite".format(key))
         if status == "unverified" and cite is not None:
             raise ConfigError("对象字典 {} 为 unverified，cite 必须为 null".format(key))
+        if status == "assumed" and cite is not None:
+            # 与 gen-od.py 的 _check_status_cite 和 CI 同一口径：assumed 的
+            # 依据**不是手册**（厂家答复、实测值），给它一个 cite 会让它看起来
+            # 像 verified —— 而「有人口头说过」与「手册写了」必须可区分。
+            # 这条校验曾只写了 unverified 一格，assumed 带上 cite 能一路通过
+            # 工具侧闸门（gen-od.py 与 CI 仍会拦，但工具自己不该漏）。
+            raise ConfigError("对象字典 {} 为 assumed，cite 必须为 null"
+                              "（依据写进 note，不写 cite）".format(key))
     return od
 
 
 def od_status():
-    """返回 (全部核对?, 未核对条数, 未核对条目名列表)。
+    """返回 (全部核对?, 未核对条数, 未核对条目名列表, 假设条目名列表)。
 
     load_od 先校验非空声明、状态取值与 cite；随后只按 status 判断。
     结构型条目的 index 可以为 null，不把它误判成未核对。
     引用路径与章节的可解析性由 CI 的溯源检查负责。
+
+    **assumed 单独返回**：它与 unverified 都挡住闸门（两者都拿不到
+    生成常量，见 gen-od.py「assumed 不是 verified 的弱化版」），但含义
+    完全不同 —— unverified 是「手册里找不到依据」，assumed 是
+    「有依据但不是手册」（例如厂家口头答复）。混成一个数字的后果是
+    现场看到「7 项未核对」会以为厂家答复没被采纳，于是重复去问一遍。
     """
     od = load_od()
     bad = [e for e in od.get("entries", []) if e.get("status") != "verified"]
     names = [e.get("key") or e.get("name") or "?" for e in bad]
-    return (not bad), len(bad), names
+    assumed = [e.get("key") or e.get("name") or "?"
+               for e in bad if e.get("status") == "assumed"]
+    return (not bad), len(bad), names, assumed
 
 
-def refuse_motion(out, action):
+def refuse_motion(out, action, args=None):
     """运动类子命令的统一闸门。
 
     措辞固定（与模板一致）：`--init` 与运维脚本会 grep 「项对象字典未核对」这一行。
+
+    **args 非 None 且带 --od-gaps-bypass 时**，本闸门放行，并把放行的条目
+    逐条打到屏上。为什么需要这条旁路见 `od_gaps_bypass()` 的注释——
+    简言之：未核对条目里有几类按定义永远不会变成 verified，而闸门是
+    「一条不 verified 就全拒」的单一布尔量，因此**整机调试时运动验收
+    会被永久挡住**，那不是"更安全"，那是"无法推进"。
+
+    `--nmt` 一律传 args=None（不放行）：NMT Start 会让总线上**所有**节点
+    同时进入可运动状态，风险面比单节点位置使能大一个量级，
+    没有理由跟着一起开。
     """
-    verified, count, names = od_status()
+    verified, count, names, assumed = od_status()
     if verified:
+        return True
+    if args is not None and getattr(args, "od_gaps_bypass", None):
+        od_gaps_bypass(out, action, count, names, assumed, args.od_gaps_bypass)
         return True
     out.bad("{} 项对象字典未核对，拒绝执行「{}」。".format(count, action))
     out.info("未核对的条目：{}".format(", ".join(names)))
+    if assumed:
+        out.info("其中 {} 项是 assumed（有依据但不是手册，如厂家答复）：{}".format(
+            len(assumed), ", ".join(assumed)))
+        out.info("assumed 与 unverified 都挡住闸门，但含义不同："
+                 "前者已有依据、只差成文，后者是手册里根本没有。")
     out.info("条目索引的核销走 driver/od.json 的 status/cite 两个字段；")
     out.info("全部核对并重新生成 od_generated.hpp 后，本命令才会执行。")
+    out.info("确需在整机调试中放行时，见 --od-gaps-bypass 的说明与前提。")
     return False
+
+
+def od_gaps_bypass(out, action, count, names, assumed, reason):
+    """OD 闸门的显式旁路：放行，但把代价打在屏上。
+
+    为什么需要它（而不是"把闸门改成按条目分级"）：
+      未核对条目里有几类**按定义永远进不了 verified** ——
+      ① 手册明说「本设备不支持」（节点保护）；
+      ② 根本不是设备事实（SDO 应答超时是**主机策略**）。
+      闸门是单一布尔量，所以只要这两类在，全库核对就永远达不到，
+      "全部核对"这个条件本身不可满足。
+      按条目分级是更干净的终局（把「已验证缺失」与「本设备不支持」
+      分成两种状态），但它要改闸门判据本身，而**在这个驱动还没有做过
+      任何一次实机运动验收之前**先动安全闸门的判据，顺序是反的。
+      因此本轮先做旁路：风险留在明面上（人每次都要显式确认），
+      等实机验收跑完再回头做分级。
+
+    为什么要求人显式给出理由：这条旁路绕过的是一条**安全设计**，
+    不是一条格式检查。留一行理由，是让后来的排查者知道
+    "当时是谁、基于什么判断放行的" —— 终端记录会进 journal。
+    """
+    out.warn("已放行 OD 闸门：{} 项对象字典未核对，仍执行「{}」。".format(count, action))
+    out.info("放行条目：{}".format(", ".join(names)))
+    if assumed:
+        out.info("其中 assumed（有依据但不是手册）：{}".format(", ".join(assumed)))
+    out.info("放行理由：{}".format(reason))
+    out.info("本次放行**没有**提高任何条目的可信度：od.json 与生成物均未改动。")
+    out.info("现场停机由独立安全设计负责；本工具不提供紧急停机（见 CONTRACT.md）。")
 
 
 # ---------------------------------------------------------------------------
@@ -695,7 +765,7 @@ def panel_rows(iface, cfg_path, actual, declared, rt_state):
         env_bitrate = env_values.get("CAN_BITRATE", "unset") if env_exists else "missing file"
 
     try:
-        verified, count, names = od_status()
+        verified, count, names, _assumed = od_status()
     except ConfigError:
         od_text = "od.json unavailable/invalid"
     else:
@@ -1228,11 +1298,11 @@ class MotionSession:
         self.require_cia402()
         mode = self.call(self.deadline(), "读取运行模式", self.client.read_uint8,
                          self.od.MODES_OF_OPERATION_DISPLAY, 0)
-        # 见 ENABLE_MODES 的注释：排除 2/7（模式专用终值）与 3（速度标度未实现）。
+        # 见 ENABLE_MODES 的注释：排除 2/7（模式专用终值）与 3/9（速度模式未开放）。
         if mode not in ENABLE_MODES:
             raise MotionError(
                 "运行模式 {} 不在本工具允许使能的集合 {} 内"
-                "（2/7 需模式专用终值；3 的速度标度换算链尚未实现）".format(
+                "（2/7 需模式专用终值；3/9 的速度模式换算与验收尚未实现）".format(
                     mode, ENABLE_MODES))
         sw = self.status(self.deadline())
         if sw & _canopen.CIA402_FAULT:
@@ -1320,20 +1390,28 @@ class MotionSession:
 
     def stop_after_failure(self):
         if not self.needs_stop:
-            return
-        self.out.info("操作未完成，尝试 Quick stop。")
+            return False
+        self.out.info("结束事务，尝试 Quick stop，然后失能并确认 Switch on disabled。")
         try:
             self.stop()
-        except (MotionError, KeyboardInterrupt) as exc:
-            self.out.bad("Quick stop 未确认：{}；需由现场独立停机措施处置。".format(exc))
-        else:
-            self.out.info("已确认 Quick stop active / Switch on disabled 状态。")
+        except (Exception, KeyboardInterrupt) as exc:
+            self.out.bad("Quick stop 未确认：{}".format(exc))
+        # A quick-stop state is not disabled and says nothing about the brake.
+        # Keep this same client: quarantine must never be bypassed for cleanup.
+        try:
+            self.disable()
+        except (Exception, KeyboardInterrupt) as exc:
+            self.out.bad("失能未确认：{}；机械停止未知，立即使用独立急停，禁止自动重试。".format(exc))
+            return False
+        self.needs_stop = False
+        self.out.info("已确认 Switch on disabled；机械停止与抱闸仍须现场独立确认。")
+        return True
 
 
 def cmd_motion(args, out):
     """三条准入闸门全部通过后，才打开单节点 SDO 会话。"""
     out.title("CiA402 {} 节点 {}".format(args.motion, args.node))
-    if not refuse_motion(out, "motion"):
+    if not refuse_motion(out, "motion", args):
         return 3
     if not require_std_layer("--motion"):
         return 5
@@ -1368,6 +1446,171 @@ def cmd_motion(args, out):
         bus.close()
 
 
+
+def cmd_position(args, out):
+    """Default offline preview; --apply is an explicit human execution action."""
+    sys.path.insert(0, _HERE)
+    import pmp4010_position as position
+    specs = position.specifications(load_od())
+    if args.node is None or not 1 <= args.node <= 127:
+        raise ValueError("--position/--calibrate必须显式指定--node 1..127")
+    if args.dry_run and args.apply:
+        raise ValueError("--dry-run与--apply互斥")
+    offline = not args.apply
+    if args.position:
+        position.validate(args, specs)
+        if not refuse_motion(out, "position", args):
+            return 3
+    if not require_std_layer("--position/--calibrate"):
+        return 5
+    if offline:
+        cal = position.calibration(args.offline_calibration or [])
+        if args.calibrate:
+            out.info("离线显式标定，未读设备：" + json.dumps(cal, ensure_ascii=False))
+            out.info("真实发送计数=0；未打开真实总线。")
+            return 0
+        if args.start_position is None or args.offline_limits is None:
+            raise ValueError("离线位置干跑还须--start-position及--offline-limits四项设备上限")
+        for key, value in zip(position.LIMITS, args.offline_limits):
+            if value <= 0:
+                raise ValueError("离线设备上限须为正数")
+            position.encode(specs[key], value)
+        position.check_start(args, args.start_position, cal)
+        bus = position.offline_bus(_canopen, specs, args)
+    else:
+        if args.offline_calibration is not None or args.offline_limits is not None or args.start_position is not None:
+            raise ValueError("--apply只采用设备实读，不能给离线标定/上限/起点")
+        if not require_rt_ack(args, out, "只读标定" if args.calibrate else "单次位置验收"):
+            return 4
+        cfg, _ = load_device_json()
+        item, _ = find_can_bus(cfg, LOGICAL_BUS)
+        iface, bitrate = item.get("iface"), item.get("bitrate")
+        actual = read_iface_actual(iface)
+        if (not iface or not actual or actual.get("error") or actual.get("state") != "UP"
+                or actual.get("bitrate") != bitrate or actual.get("can_state") != "ERROR-ACTIVE"):
+            raise ValueError("实际接口状态/位速率不匹配，拒绝打开总线")
+        # Create the log before the first bus request; do not overwrite a record.
+        bus = None
+    journal = None
+    try:
+        if args.position:
+            journal = position.Journal(args.motion_log, "offline_simulation" if offline else "device",
+                dict(node=args.node, target=args.target, soft_min=args.soft_min, soft_max=args.soft_max,
+                     max_displacement=args.max_displacement, velocity=args.velocity,
+                     acceleration=args.acceleration, deceleration=args.deceleration,
+                     move_timeout=args.move_timeout, od_gaps_bypass=args.od_gaps_bypass))
+        if bus is None:
+            bus = connect_bus(iface, out)
+        client = _canopen.SdoClient(bus, args.node, timeout=args.timeout)
+        session = MotionSession(client, out, args.state_timeout)
+        if args.calibrate:
+            values = []
+            for key in position.CALIBRATION:
+                spec = specs[key]
+                raw = session.call(session.deadline(), "只读标定 " + key, client.read, spec['index_value'], spec['sub'])
+                if len(raw) != spec['size']:
+                    raise ValueError("标定读回宽度错误")
+                values.append(int.from_bytes(raw, 'little'))
+            out.info("设备只读标定：" + json.dumps(position.calibration(values), ensure_ascii=False))
+            out.info("只读SDO上传4项；零写请求、零NMT。")
+        else:
+            position.run(session, args, specs, journal)
+            out.ok("离线模拟单次位置流程完成" if offline else "单次位置已到达，已确认失能；机械状态须人类确认")
+        return 0
+    finally:
+        if offline and bus is not None:
+            for number, frame in enumerate(bus.sent, 1):
+                out.info("拟发帧 {:03d}: 0x{:03X}#{}".format(number, frame_can_id(frame), bytes(frame.data).hex().upper()))
+            out.info("离线名义成功路径拟发帧数={}；轮询/异常清理依实际状态变化。真实发送计数=0；真实总线打开计数=0。".format(len(bus.sent)))
+        if journal is not None:
+            journal.close()
+        if bus is not None:
+            bus.close()
+
+
+def cmd_params(args, out):
+    """All dry runs are offline; only backup or --apply may open a bus."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "pmp4010_params", os.path.join(_HERE, "pmp4010_params.py"))
+    params = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(params)
+    if not refuse_motion(out, "params " + args.params, args):
+        return 3
+    od = load_od()
+    specs = params.specifications(od)
+    cfg, _ = load_device_json()
+    item, _ = find_can_bus(cfg, LOGICAL_BUS)
+    iface, bitrate = item["iface"], item["bitrate"]
+    if args.node is None or not 1 <= args.node <= 127:
+        raise ValueError("--params必须显式指定--node 1..127")
+    if args.params == "backup" and args.apply:
+        raise ValueError("backup只读，不接受--apply")
+    if args.confirm_save is not None and args.params != "save":
+        raise ValueError("--confirm-save只可用于独立save")
+    if args.params in ("backup", "rollback", "save") and not args.backup:
+        raise ValueError("此操作必须指定--backup文件")
+    backup = None
+    if args.backup and args.params != "backup":
+        backup = params.load_backup(args.backup, specs)
+        params.check_target(backup, iface, bitrate, args.node)
+    period = cfg.get("network", {}).get("sync_period_us")
+    writes = params.plan(args.params, specs, backup, period, args.param_set)
+    out.info("目标: iface={} bitrate={} node={}".format(iface, bitrate, args.node))
+    if args.params == "interpolation":
+        t, exponent = params.interpolation_values(period)
+        out.info("配置SYNC={}us: {}×10^{}秒；指数Int8字节={:02X}".format(
+            period, t, exponent, exponent & 255))
+    out.warn("设备是否接受4ms仍未证实；SDO立即读回也不能证明下次上电生效。")
+    out.info("先仅插补批次 → 独立save → 人类下次上电读回验证；之后才做传输类型批次和独立save。")
+    out.info("参数工具不会发NMT、运动、SYNC或PDO。")
+    for key, value in writes:
+        spec = specs[key]
+        before = backup['objects'][key]['value'] if backup else "未知(离线未读)"
+        out.info("{} {}: {} → {} bytes={}".format(
+            key, spec['type'], before, value, params.encode(spec, value).hex()))
+    if args.params == "rollback":
+        out.info("rollback跳过全部1010命令对象；仅还原参数，持久保存须另行独立save。")
+    if args.params == "save" and backup:
+        out.info("二次确认文字: --confirm-save {!r}".format(params.confirmation(backup)))
+        out.info("保存读回应为1，不能与写入magic比较。EEPROM不要反复save。")
+    if args.params != "backup" and not args.apply:
+        out.ok("DRY-RUN: 未打开总线，零发送（包括零SDO读请求）。")
+        return 0
+    if args.params != "backup":
+        if backup is None:
+            raise ValueError("--apply要求已完成且完整的--backup文件")
+        if args.params == "save" and args.confirm_save != params.confirmation(backup):
+            raise ValueError("save要求--apply和匹配的--confirm-save二次确认")
+        if args.params == "transmission" and not args.confirm_interpolation_readback:
+            raise ValueError("先保存插补批次并由人类下次上电读回，再给--confirm-interpolation-readback")
+    else:
+        # Refuse an existing recovery path before emitting even a read request.
+        if os.path.lexists(args.backup):
+            raise ValueError("备份文件已存在，拒绝覆盖")
+    if not require_std_layer("--params"):
+        return 5
+    if not require_rt_ack(args, out, "参数 " + args.params):
+        return 4
+    actual = read_iface_actual(iface)
+    if (not actual or actual.get("error") or actual.get("state") != "UP" or
+            actual.get("bitrate") != bitrate or actual.get("can_state") != "ERROR-ACTIVE"):
+        raise ValueError("实际接口状态/位速率不匹配，拒绝打开总线")
+    bus = connect_bus(iface, out)
+    try:
+        client = _canopen.SdoClient(bus, args.node, timeout=args.timeout)
+        if args.params == "backup":
+            data = params.capture(client, od, specs, iface, bitrate, args.node)
+            params.save_backup(args.backup, data, specs)
+            out.ok("完整备份已写入 {}（只读SDO，零写请求）".format(args.backup))
+        else:
+            params.execute(client, od, specs, backup, writes, args.params, out)
+            out.ok("本次逐项写/读回完成；不代表下次上电参数已生效。")
+    finally:
+        bus.close()
+    return 0
+
+
 def cmd_od_dump(args, out):
     """--od-dump：打印对象字典声明与核对状态（只读）。
 
@@ -1388,7 +1631,7 @@ def cmd_od_dump(args, out):
 
     out.info("只读子命令：不发帧，不要求 --i-know-rt-is-running。")
     try:
-        verified, count, names = od_status()
+        verified, count, names, assumed = od_status()
     except ConfigError as exc:
         out.bad(str(exc))
         return 2
@@ -1399,6 +1642,11 @@ def cmd_od_dump(args, out):
         out.bad("{} 项对象字典未核对（共 {} 条）—— 运动类子命令被拒绝。".format(
             count, len(od.get("entries", []))))
         out.info("未核对：{}".format(", ".join(names)))
+        if assumed:
+            out.info("其中 assumed（有依据但不是手册，如厂家答复）：{}".format(
+                ", ".join(assumed)))
+            out.info("assumed 与 unverified 都挡住闸门，但含义不同："
+                     "前者已有依据、只差成文，后者是手册里根本没有。")
         out.info("一行 cite 对应一处手册出处，消解方式见 docs/硬件手册/PMP4010/README.md。")
     print()
 
@@ -1461,11 +1709,11 @@ def cmd_od_dump(args, out):
 #
 # 排除 2(vl) 与 7(ip)：手册 enable_sequence 说这两种模式的使能终值是
 #   0x7F / 0x1F，本命令只实现通用的 0x0F。
-# 排除 3(CSV 速度模式)：该模式下从站按 60FFh 的目标速度运行，而速度标度
+# 排除 3(PV 轮廓速度模式) 与 9(CSV 循环同步速度模式)：该模式下从站按 60FFh 的目标速度运行，而速度标度
 #   （608Fh/6091h → rpm）的换算链尚未实现。放行使能等于把 60FFh 里的
 #   **残留值**当指令执行：实测该电机 60FFh = 6553600 = 3000 rpm（额定转速）。
 #   换算链落地后此集合再放开 3。
-ENABLE_MODES = (1, 4, 6, 8, 9, 10)
+ENABLE_MODES = (1, 4, 6, 8, 10)
 
 CAN_XSTAT_KEYS = (
     "restart-ms", "bus-error", "bus-errors", "error-warn", "error-pass",
@@ -1728,7 +1976,7 @@ def build_parser():
         prog="pmp4010.py",
         description="PMP4010（机身抬降电机 A）板载调试工具 —— curses TUI 与一次性子命令。\n"
                     "纯只读子命令任何身份可跑；--scan 发 SDO 上传请求；"
-                    "--nmt/--motion 是运动类，受对象字典闸门限制。",
+                    "--nmt/--motion 是运动类；--params 参数维护同样受对象字典闸门限制。",
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=epilog)
 
@@ -1746,10 +1994,36 @@ def build_parser():
                         help="打印对象字典声明与核对状态（只读）")
     action.add_argument("--motion", choices=["enable", "disable", "stop", "home"],
                         help="CiA402 使能/失能/快停/回零（发帧）；需 OD 全部核对与显式 --node")
+    action.add_argument("--position", action="store_true", help="单次PP位置验收，默认离线，显式--apply才发帧")
+    action.add_argument("--calibrate", action="store_true", help="读取608F/6091四项标定；--apply只读设备，默认离线")
+    action.add_argument("--params", choices=["backup", "interpolation", "transmission", "rollback", "save"],
+                        help="参数备份/分批写/回滚/独立保存；默认离线dry-run，需OD闸门")
     action.add_argument("--bus-stats", action="store_true",
                         help="接口现状、CAN 专用错误计数、kmod、实时进程（只读）")
     action.add_argument("--raw", action="store_true", help="只监听原始帧（只读）")
 
+    p.add_argument("--dry-run", action="store_true", help="--position/--calibrate显式离线干跑（也是默认值）")
+    p.add_argument("--target", type=int, help="绝对目标位置，用户单位")
+    p.add_argument("--velocity", type=int, help="轮廓速度，用户单位/s")
+    p.add_argument("--acceleration", type=int, help="轮廓加速度，用户单位/s²")
+    p.add_argument("--deceleration", type=int, help="轮廓减速度，用户单位/s²")
+    p.add_argument("--soft-min", type=int, help="脚本软行程下限，用户单位，必须人工给定")
+    p.add_argument("--soft-max", type=int, help="脚本软行程上限，用户单位，必须人工给定")
+    p.add_argument("--max-displacement", type=int, help="人工单次位移上限，用户单位；另限1度电机轴")
+    p.add_argument("--move-timeout", type=float, default=10.0, help="整次位置事务总体超时（含准备阶段），秒")
+    p.add_argument("--motion-log", help="新建JSONL日志路径，不覆盖既有记录")
+    p.add_argument("--offline-calibration", type=int, nargs=4, metavar=("ENC_INC", "ENC_REV", "MOTOR_REV", "OUTPUT_REV"),
+                   help="仅离线：明确608F:1/2、6091:1/2，禁止猜测设备默认值")
+    p.add_argument("--offline-limits", type=int, nargs=4, metavar=("MAX_V", "MAX_RPM", "MAX_A", "MAX_D"),
+                   help="仅离线：明确607F/6080/60C5/60C6上限，模拟数据不代表本机")
+    p.add_argument("--start-position", type=int, help="仅离线：明确模拟6064起点")
+    p.add_argument("--backup", metavar="JSON", help="--params backup的输出；其他参数操作的完整备份输入")
+    p.add_argument("--apply", action="store_true", help="--params显式实际写入；省略时离线零发帧")
+    p.add_argument("--set", dest="param_set", action="append", default=[], metavar="INDEX:SUB=VALUE",
+                   help="仅覆盖当前插补/传输类型批次，整批在发帧前按OD校验")
+    p.add_argument("--confirm-save", metavar="TEXT", help="独立save二次确认，文字见干跑输出")
+    p.add_argument("--confirm-interpolation-readback", action="store_true",
+                   help="人类确认插补批次已独立保存、下次上电并读回验证后，才可apply传输类型")
     p.add_argument("--bus", choices=[LOGICAL_BUS], default=LOGICAL_BUS,
                    help="逻辑总线；实际接口与位速率仅从 device.json 解析")
     p.add_argument("--timeout", type=float, default=0.05,
@@ -1768,6 +2042,12 @@ def build_parser():
     p.add_argument("--i-know-rt-is-running", dest="i_know_rt_is_running",
                    action="store_true",
                    help="确认已知 {} 正在使用总线；发帧类子命令必需".format(RT_SERVICE))
+    p.add_argument("--od-gaps-bypass", dest="od_gaps_bypass", metavar="理由", default=None,
+                   help="显式放行对象字典闸门，**必须给出一行理由**（会打进终端记录）。"
+                        "仅在 od.json 里仍有 status != verified 的条目时有意义；"
+                        "不改变任何条目的可信度，也不改生成物。"
+                        "只对 --motion/--params/--position 生效，--nmt 不放行（NMT Start 会让总线上所有节点"
+                        "同时进入可运动状态）。使用前请先跑 --od-dump 看清放行的是哪几条。")
     p.add_argument("--nmt-command", default="start",
                    choices=["start", "stop", "preop", "reset-node", "reset-comm"],
                    help="--nmt 的命令（默认 start）")
@@ -1860,6 +2140,15 @@ def main(argv=None):
             parse_node_range(args.node_range)
         except ValueError as exc:
             parser.error(str(exc))
+    if not (args.params or args.position or args.calibrate) and args.apply:
+        parser.error("--apply仅可与--params/--position/--calibrate使用")
+    if not args.params and (args.backup or args.param_set or args.confirm_save or args.confirm_interpolation_readback):
+        parser.error("参数工具选项必须与--params一起使用")
+    if not (args.position or args.calibrate) and (args.dry_run or args.offline_calibration is not None or
+            args.offline_limits is not None or args.start_position is not None or args.motion_log is not None or
+            any(v is not None for v in (args.target, args.velocity, args.acceleration, args.deceleration,
+                                       args.soft_min, args.soft_max, args.max_displacement))):
+        parser.error("位置/标定选项必须与--position/--calibrate使用")
     out = Out()
 
     try:
@@ -1873,6 +2162,10 @@ def main(argv=None):
             return cmd_nmt(args, out)
         if args.motion:
             return cmd_motion(args, out)
+        if args.position or args.calibrate:
+            return cmd_position(args, out)
+        if args.params:
+            return cmd_params(args, out)
         if args.od_dump:
             return cmd_od_dump(args, out)
         if args.bus_stats:

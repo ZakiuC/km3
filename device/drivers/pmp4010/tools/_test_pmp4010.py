@@ -193,6 +193,71 @@ class ToolContractTests(unittest.TestCase):
             for action in ('enable', 'disable', 'stop', 'home'):
                 self.assertEqual(self.invoke('--motion', action, '--node', '1'), 3)
 
+    def test_od_gaps_bypass_never_opens_nmt(self):
+        """旁路只对 --motion 开；--nmt 传 args=None，因此即使带上参数也不放行。
+
+        NMT Start 会让总线上**所有**节点同时进入可运动状态，风险面比
+        单节点位置使能大一个量级。这条测试钉的就是"参数存在但不生效"——
+        如果将来有人顺手把 args 传进 cmd_nmt，这里会红。
+        """
+        with mock.patch.object(tool, '_std_open_active', side_effect=AssertionError('bus opened')):
+            self.assertEqual(
+                self.invoke('--nmt', '--node', '1',
+                            '--od-gaps-bypass', '试图放行 NMT', '--i-know-rt-is-running'), 3)
+        self.assertIn('项对象字典未核对', self.stdout.getvalue())
+        self.assertNotIn('已放行 OD 闸门', self.stdout.getvalue())
+
+    def test_od_gaps_bypass_opens_motion_and_reports_what_was_waived(self):
+        """带理由时 --motion 放行，且必须把放行条目与理由打在屏上。
+
+        用真实的 CanBusError 作哨兵：它证明流程**已经越过闸门**、
+        走到 connect_bus 才停（而不是被 OD 闸门挡下）。
+        """
+        def sentinel(iface):
+            self.assertEqual(iface, 'testcan')
+            raise tool._canbus.CanBusError('哨兵：已到达发帧阶段')
+
+        with mock.patch.object(tool, 'service_active', return_value=False), \
+                mock.patch.object(tool, '_std_open_active', side_effect=sentinel):
+            code = self.invoke('--motion', 'stop', '--node', '1',
+                               '--od-gaps-bypass', '整机调试，单节点位置验收')
+        self.assertEqual(code, 3)
+        text = self.stdout.getvalue()
+        self.assertIn('已放行 OD 闸门', text)
+        self.assertIn('整机调试，单节点位置验收', text)
+        self.assertIn('没有**提高任何条目的可信度', text)
+        self.assertIn('哨兵：已到达发帧阶段', text)
+        # 放行后不应再出现"拒绝执行"的措辞——那说明闸门其实没开。
+        self.assertNotIn('拒绝执行', text)
+
+    def test_od_gaps_bypass_requires_a_reason_not_a_bare_flag(self):
+        """裸开关不算数：缺理由时 argparse 直接报错，不进入主流程。
+
+        理由不是形式主义——它会被 journal 记下来，供后来的人判断
+        "当时是谁、基于什么放行的"。没有理由的放行等于没有留痕。
+        """
+        with self.assertRaises(SystemExit) as caught:
+            with contextlib.redirect_stderr(io.StringIO()):
+                self.invoke('--motion', 'stop', '--node', '1', '--od-gaps-bypass')
+        self.assertEqual(caught.exception.code, 2)
+
+    def test_od_gaps_bypass_does_not_touch_od_or_generated_files(self):
+        """放行不得留下任何持久痕迹：od.json 字节不变。
+
+        旁路的语义是"这一次放行"，不是"把这几条洗成 verified"。
+        如果它悄悄改了 status，整条闸门就失去了意义。
+        """
+        od_path = Path(tool.od_json_path())
+        before = od_path.read_bytes()
+
+        def sentinel(iface):
+            raise tool._canbus.CanBusError('哨兵')
+
+        with mock.patch.object(tool, 'service_active', return_value=False), \
+                mock.patch.object(tool, '_std_open_active', side_effect=sentinel):
+            self.invoke('--motion', 'stop', '--node', '1', '--od-gaps-bypass', '测试不落盘')
+        self.assertEqual(od_path.read_bytes(), before)
+
     def test_empty_or_malformed_od_never_opens_motion_gate(self):
         path = self.root / 'od.json'
         cases = [{}, {'model': 'PMP4010', 'entries': []},
@@ -388,7 +453,7 @@ class MotionTests(unittest.TestCase):
         self.clock = MotionClock()
         self.bus = MotionBus(self.clock)
         for patch in (mock.patch.object(tool, 'time', self.clock),
-                      mock.patch.object(tool, 'od_status', return_value=(True, 0, [])),
+                      mock.patch.object(tool, 'od_status', return_value=(True, 0, [], [])),
                       mock.patch.object(tool, 'service_active', return_value=False),
                       mock.patch.object(tool, '_std_open_active', return_value=self.bus)):
             patch.start()
@@ -408,7 +473,7 @@ class MotionTests(unittest.TestCase):
         self.assertEqual(self.bus.controls(), [6, 7, 15])
 
     def test_motion_enable_rejects_mode_specific_and_unknown_modes_before_writes(self):
-        for mode in (0, 2, 3, 5, 7, 11, 255):
+        for mode in (0, 2, 3, 5, 7, 9, 11, 255):
             for sw in (0x40, 0x08, 0x27):
                 with self.subTest(mode=mode, sw=sw):
                     self.bus.sw = sw
@@ -420,7 +485,7 @@ class MotionTests(unittest.TestCase):
     def test_motion_enable_supports_only_documented_0f_modes(self):
         # 3 已被排除：速度模式下从站按 60FFh 的残留值运行，而速度标度
         # 换算链尚未实现（见 pmp4010.ENABLE_MODES 的注释）。
-        for mode in (1, 4, 6, 8, 9, 10):
+        for mode in (1, 4, 6, 8, 10):
             with self.subTest(mode=mode):
                 self.bus.sent.clear()
                 self.bus.sw = 0x40
@@ -459,7 +524,7 @@ class MotionTests(unittest.TestCase):
     def test_motion_enable_transition_timeout_never_sends_later_enable(self):
         self.bus.freeze.add(7)
         self.assertEqual(self.motion('enable'), 3)
-        self.assertEqual(self.bus.controls(), [6, 7, 2])
+        self.assertEqual(self.bus.controls(), [6, 7, 2, 0])
         self.assertIn('Switched on', self.stdout.getvalue())
         self.assertIn('超时', self.stdout.getvalue())
         self.assertTrue(self.bus.closed)
@@ -467,7 +532,7 @@ class MotionTests(unittest.TestCase):
     def test_motion_fault_during_transition_fails_and_attempts_stop(self):
         self.bus.statuses = [0x40, 0x8]
         self.assertEqual(self.motion('enable'), 3)
-        self.assertEqual(self.bus.controls(), [6, 2])
+        self.assertEqual(self.bus.controls(), [6, 2, 0])
         self.assertIn('故障状态字', self.stdout.getvalue())
 
     def test_motion_disable_and_stop_require_status_confirmation(self):
@@ -499,7 +564,7 @@ class MotionTests(unittest.TestCase):
         self.assertEqual(self.bus.statuses, [])
         self.bus.homing = [0x1427] * 20
         self.assertEqual(self.motion('home'), 3)
-        self.assertEqual(self.bus.controls()[-1], 2)
+        self.assertEqual(self.bus.controls()[-2:], [2, 0])
 
     def test_motion_home_requires_both_target_reached_and_homing_attained(self):
         self.bus.homing = [0x0427, 0x1027, 0x1427]
@@ -520,7 +585,7 @@ class MotionTests(unittest.TestCase):
                 self.bus.sw = 0x40
                 self.bus.homing = homing
                 self.assertEqual(self.motion('home'), 3)
-                self.assertEqual(self.bus.controls()[-1], 2)
+                self.assertEqual(self.bus.controls()[-2:], [2, 0])
                 self.assertTrue(self.bus.closed)
         self.assertIn('回零错误', self.stdout.getvalue())
         self.assertNotIn('[OK] 回零完成', self.stdout.getvalue())
@@ -528,7 +593,7 @@ class MotionTests(unittest.TestCase):
     def test_motion_home_mode_echo_failure_does_not_enable(self):
         self.bus.mode_echo = False
         self.assertEqual(self.motion('home'), 3)
-        self.assertEqual(self.bus.controls(), [0, 2])
+        self.assertEqual(self.bus.controls(), [0, 2, 0])
         self.assertNotIn(15, self.bus.controls())
 
     def test_motion_home_read_failures_stop_or_report_quarantine_and_close(self):
@@ -550,15 +615,17 @@ class MotionTests(unittest.TestCase):
                     self.assertEqual(len(self.bus.sent), 6)
                     self.assertEqual(self.bus.sent[-1].data[:4], b'\x40\x61\x60\x00')
                     self.assertIn('Quick stop 未确认', self.stdout.getvalue())
-                    self.assertIn('需由现场独立停机措施处置', self.stdout.getvalue())
+                    self.assertIn('机械停止未知，立即使用独立急停', self.stdout.getvalue())
                 else:
-                    self.assertEqual(self.bus.controls(), [0, 2])
+                    self.assertEqual(self.bus.controls(), [0, 2, 0])
                 self.assertTrue(self.bus.closed)
 
     def test_motion_home_interruption_after_start_attempts_stop_and_closes(self):
         self.bus.interrupt = 31
         self.assertEqual(self.motion('home'), 130)
-        self.assertEqual(self.bus.controls()[-2:], [31, 2])
+        self.assertEqual(self.bus.controls()[-1], 31)
+        self.assertIn('失能未确认', self.stdout.getvalue())
+        self.assertIn('独立急停', self.stdout.getvalue())
         self.assertTrue(self.bus.closed)
 
     def test_motion_home_stop_failure_is_reported_without_success(self):
@@ -621,13 +688,13 @@ class MotionTests(unittest.TestCase):
 
     def test_motion_selector_change_blocks_later_control_and_cleanup_downloads(self):
         # Initial validation and Shutdown succeed; Switch on and cleanup see NiMotion.
-        self.bus.selectors = [0, 0, 4, 4]
+        self.bus.selectors = [0, 0, 4, 4, 4]
         self.assertEqual(self.motion('enable'), 3)
         self.assertEqual(self.bus.controls(), [6])
         self.assertEqual(len(self.bus.downloads()), 1)
         selector_reads = [frame for frame in self.bus.sent
                           if frame.data[:4] == b'\x40\x02\x20\x01']
-        self.assertEqual(len(selector_reads), 4)
+        self.assertEqual(len(selector_reads), 5)
         self.assertIn('Quick stop 未确认', self.stdout.getvalue())
         self.assertTrue(self.bus.closed)
 
@@ -647,7 +714,7 @@ class MotionTests(unittest.TestCase):
     def test_motion_all_gates_fail_before_transport_and_preserve_order(self):
         for action in ('enable', 'disable', 'stop', 'home'):
             with self.subTest(action=action), \
-                    mock.patch.object(tool, 'od_status', return_value=(False, 6, ['x'])), \
+                    mock.patch.object(tool, 'od_status', return_value=(False, 6, ['x'], [])), \
                     mock.patch.object(tool, 'require_std_layer') as standard, \
                     mock.patch.object(tool, 'require_rt_ack') as rt, \
                     mock.patch.object(tool, '_std_open_active') as opening:
@@ -671,7 +738,7 @@ class MotionTests(unittest.TestCase):
             self.assertEqual(self.motion('enable', '--i-know-rt-is-running'), 0)
 
     def test_nmt_gates_use_od_standard_rt_order_with_zero_frames_when_closed(self):
-        with mock.patch.object(tool, 'od_status', return_value=(False, 6, ['x'])), \
+        with mock.patch.object(tool, 'od_status', return_value=(False, 6, ['x'], [])), \
                 mock.patch.object(tool, 'require_std_layer') as standard, \
                 mock.patch.object(tool, 'require_rt_ack') as rt:
             self.assertEqual(self.invoke('--nmt', '--i-know-rt-is-running'), 3)

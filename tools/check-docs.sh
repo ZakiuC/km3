@@ -151,9 +151,9 @@ EXTS = (".sh", ".py", ".sql", ".cpp", ".hpp", ".kt", ".kts", ".ts", ".vue",
 
 all_repo_files = set()
 for line in os.popen(
-    "find . -type f -not -path './.git/*' -not -path './build-*' "
+    "find . -path './harness' -prune -o -type f -not -path './.git/*' -not -path './build-*' "
     "-not -path './harness/*' -not -path '*/node_modules/*' "
-    "-not -path '*/dist/*'"
+    "-not -path '*/dist/*' -print"
 ).read().split("\n"):
     if line:
         all_repo_files.add(line[2:] if line.startswith("./") else line)
@@ -337,15 +337,15 @@ except ValueError:
 tree = text[start:end]
 
 files = os.popen(
-    "find . -type f -not -path './.git/*' -not -path './build-host/*' "
+    "find . -path './harness' -prune -o -type f -not -path './.git/*' -not -path './build-host/*' "
     "-not -path './build-server/*' -not -path './build-arm64/*' "
-    "-not -path './build-tsan/*' -not -path './harness/*'"
+    "-not -path './build-tsan/*' -not -path './harness/*' -print"
 ).read()
 bases = {os.path.basename(l) for l in files.split("\n") if l}
 dirs = os.popen(
-    "find . -type d -not -path './.git*' -not -path './build-host*' "
+    "find . -path './harness' -prune -o -type d -not -path './.git*' -not -path './build-host*' "
     "-not -path './build-server*' -not -path './build-arm64*' "
-    "-not -path './build-tsan*' -not -path './harness*'"
+    "-not -path './build-tsan*' -not -path './harness*' -print"
 ).read()
 dirset = {l.rstrip("/") for l in dirs.split("\n") if l and l != "."}
 
