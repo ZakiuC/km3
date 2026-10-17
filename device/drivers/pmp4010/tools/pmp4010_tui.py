@@ -1,93 +1,14 @@
-"""Interactive PMP4010 workflow. Rendering is pure; one worker owns bus I/O.
-
-The CLI transaction functions remain the safety authority. This module only
-collects inputs, reviews exact targets and reports their structured events.
-"""
+"""Chinese four-seat PMP4010 live bench; no I/O in rendering or key handling."""
 import copy
-import json
-from fractions import Fraction
 import queue
 import re
-import sys
 import threading
+import time
+from fractions import Fraction
 
-from tui import (Field, Form, Grid, LogView, Menu, Rect, Table, TuiApp,
-                 _display_width, draw_box, draw_hsep, draw_vsep, fit)
-import pmp4010_params as params
-import pmp4010_position as position
-
-
-# Internal view/field/event identifiers stay stable; only presentation is localized.
-VIEW_LABELS = {
-    'Status': '状态概览', 'Calibrate': '标定读取', 'Position': '位置运动',
-    'Params': '参数维护', 'Raw frames': '原始帧监听',
-}
-FIELD_LABELS = {
-    'node': '节点号', 'apply': '实际执行 yes/no', 'offline-calibration': '离线标定四项',
-    'rt-ack': '确认实时占用 yes/no', 'target': '绝对目标 U', 'velocity': '速度 U/s',
-    'accel': '加速度 U/s^2', 'decel': '减速度 U/s^2', 'soft-min': '脚本行程下限 U',
-    'soft-max': '脚本行程上限 U', 'max-displacement': '单次位移上限 U',
-    'move-timeout': '运动超时 s', 'motion-log': '运动日志路径', 'od-bypass': 'OD 旁路理由',
-    'start-position': '离线起点 U', 'offline-limits': '离线设备限值四项',
-    'action': '操作', 'backup': '备份路径', 'interpolation-readback': '断电后插补读回 yes/no',
-    'set': '参数赋值 key=value', 'confirm': '输入确认串', 'confirm-save': '独立保存确认串',
-}
-
-# All help prose lives here. Adding a view changes data, not help rendering.
-HELP = {
-    'global': (
-        '全局操作',
-        'Up/Down 或 j/k：选择菜单或字段；Tab：下一个字段。',
-        'Enter：进入视图；字段中开始编辑，再按 Enter 提交草稿。',
-        '编辑中 Esc 丢弃草稿；除 Ctrl-C 外的快捷键均被字段消费，? 是普通字符。',
-        'F5：概览刷新、监听启动，或审阅当前操作；输入确认串后再按 F5 执行。',
-        'Esc：返回菜单；确认时取消；任务运行时请求中止并等待清理。',
-        'q：退出；任务运行时请求中止，完成清理后退出。Ctrl-C 也等待清理。',
-        'PgUp/PgDn：翻阅日志；空闲或确认时 g 回到末尾并恢复跟随。',
-        '? 或 F1：打开帮助；帮助中 Esc 或 q 返回原视图和原焦点。',
-        '帮助中 Up/Down 或 j/k 滚动；PgUp/PgDn 翻页；Home/End 到首尾。',
-    ),
-    'views': {
-        'Status': ('状态概览：显示本地配置、接口状态与 OD 闸门；不发帧。', (
-            'F5 刷新本地状态；不打开 CAN 总线，不发 SDO/NMT。',
-            '内核接口名、ERROR-ACTIVE、UP/DOWN 等协议事实保留原文。',
-        )),
-        'Calibrate': ('标定读取：读取或离线检查 608F/6091 标定与实际位置。', (
-            'F5 或 F6 审阅读取；输入确认串后按 F5，才执行 SDO 上传。',
-            'apply=yes 读取设备；apply=no 使用明确填写的离线标定四项。',
-            '标定四项按 608F inc/rev、6091 电机/输出转数顺序填写；不猜分辨率。',
-            '读取不写参数、不发 NMT；实时控制器占用时仍需 rt-ack=yes。',
-        )),
-        'Position': ('位置运动：审阅 PP 绝对目标、脚本行程与电机轴 1度 位移预算。', (
-            'F6 单独审阅标定和起点读取；执行前须有同一接口、节点的设备快照。',
-            'F5 审阅位置操作；确认串包含接口、节点与绝对目标。',
-            '修改 node、apply 或 offline-calibration 草稿即废弃旧快照。',
-            'apply=no 需填写离线标定、起点和设备限值；这些值不是设备实测值。',
-            'motion-log 必须是新 JSONL 路径；单次电机轴位移硬顶为 1度。',
-            'OD 闸门、工具侧软行程、速度/加减速度与清理守卫始终有效。',
-        )),
-        'Params': ('参数维护：备份、插补、传动比、回滚与 EEPROM 保存。', (
-            'action 可填 backup / interpolation / transmission / rollback / save。',
-            'F5 审阅精确对象、值及编码；输入确认串后再按 F5 执行。',
-            'backup 是显式 SDO 读取：需新备份路径、apply=no；仍会发上传请求。',
-            '其余操作 apply=no 只生成离线计划；apply=yes 写入须完整备份。',
-            'transmission 还须独立确认断电后插补参数读回。',
-            'save 写 EEPROM，须两段各自输入确认串并按 F5；不会自动保存或重试。',
-            '第二段自行构造 SAVE <iface> <node> <十进制序列号>，单空格分隔。',
-        )),
-        'Raw frames': ('原始帧监听：只接收 CAN 帧；零发送。', (
-            'F5 启动只接收监听；Esc 请求停止并等待关闭总线。',
-            'PgUp/PgDn 翻阅接收日志；不发 NMT/SDO/PDO。',
-        )),
-    },
-    'safety': (
-        '1. F5 才可能发帧；Enter 只选中或编辑。',
-        '2. 行程保护仅在工具侧；607Dh 等于没有。',
-        '3. 中止时状态字读取失败，电机可能仍使能；用独立急停。',
-        '4. save 写 EEPROM 不可逆。',
-    ),
-}
-
+from tui import (Field, Form, Grid, LogView, Rect, Table, TuiApp,
+                 _display_width, draw_box, draw_hsep, fit)
+from pmp4010_bench import BenchController, ACTIONS, action_policy, mode_text, state_text, velocity_unit
 
 def chinese(text):
     """Preserve exact Chinese diagnostics and technical facts; translate known prose."""
@@ -153,658 +74,537 @@ class JobOutput:
     def c(self, name, text): return str(text)
 
 
-def field(name, value='', kind='text'):
-    return ChineseField(name, '' if value is None else str(value),
-                        label=FIELD_LABELS.get(name, name), kind=kind)
+HELP = (
+    '测试台：固定四席，按实际扫描到的节点填入；未分配席位显示离线。',
+    '启动：F5 显式确认 RT 总线占用风险后，自动发 SDO 身份上传扫描一次。',
+    '主界面：Up/Down 或 j/k 选电机；Enter 详情；S 扫描；R 刷新；D 全部失能；X 全部快停。',
+    '批量仅处理当前在线未隔离节点；跳过项明示；须审阅并输入含动作与节点列表的确认串。',
+    '详情：A 绝对位置；R 相对位置；Z 方法35设零点；E 使能；D 失能；X 快停。',
+    '详情刷新用 F6；R 专用于相对位置，避免同键歧义。',
+    'F2：逐项输入脚本行程下限、上限、人工单次位移预算，每屏只填一个数。',
+    '位置：按 A/R 后输入一个数，预览随输入变化；F5 审阅，再输确认串并按 F5 执行。',
+    'F5 自动提交当前草稿；Enter 也可提交；编辑中 ? 是普通字符。',
+    '首次动作需显式确认本会话 OD 旁路；默认只读，不继承命令行旁路理由。',
+    '相对位置＝静止快照6064＋偏移；只允许 target reached 且606C=0。',
+    '执行会重新读取并核对基准；准备期间也监视漂移，绝不静默重算目标。',
+    'PP速度、加减速度取设备实读并沿用 CLI 上限校验；不猜测默认值。',
+    '设零点只用方法35，不写607Ch/DI；DI配置需求未验证，607Ch非零则拒绝。',
+    '设零点须新 bit10+bit12 完成与6064=0读回；bit15不作通用状态或成功判据。',
+    '设零点后，旧坐标的脚本行程和预算失效，必须重新输入。',
+    '速度模式未开放（换算链未实现）；转矩显示额定转矩百分比，非N·m。',
+    '实时对象含6064用户单位、606C实际单位选择；刷新约2Hz，失败保留旧值。',
+    'SDO超时即隔离该接口/节点；需外部恢复，本工具不自动重连、不重试绕过隔离。',
+    'Esc 中止动作并等待快停/失能确认；q/Ctrl-C 等待清理后退出。',
+    'PgUp/PgDn 翻日志；g 回到末尾；? 或 F1 帮助；帮助中 Esc/q 返回原焦点。',
+)
+SAFETY = ('安全：工具侧软行程与电机轴1度硬顶；607Dh不能替代机械保护。',
+          '中止清理若读状态失败，必须按状态未知处理；使用独立急停。')
+SETTINGS = (('soft_min', '脚本行程下限 U'), ('soft_max', '脚本行程上限 U'),
+            ('max_displacement', '人工单次位移上限 U（另限1度）'))
 
 
-def flag(text, name):
-    if text not in ('yes', 'no'):
-        raise ValueError('{} 必须填写 yes 或 no'.format(name))
-    return text == 'yes'
-
-
-def numbers(text, count, name):
-    values = [int(v) for v in text.split()]
-    if len(values) != count:
-        raise ValueError('{} 需要 {} 个整数'.format(name, count))
-    return values
+class QuietOutput:
+    def __getattr__(self, name):
+        return lambda *args, **kwargs: None
 
 
 class PmpApp(TuiApp):
-    title = 'PMP4010 机身抬降电机 A'
-    menu_width = 15
+    title = 'PMP4010 测试台'
     log_rows = 4
-    VIEWS = ('Status', 'Calibrate', 'Position', 'Params', 'Raw frames')
+    menu_width = 0
+    VIEWS = ('overview', 'detail', 'action', 'confirm', 'rt', 'od', 'setting', 'help')
 
     def __init__(self, tool, args):
-        super().__init__(rows=args.rows, cols=args.cols, box='ascii' if args.ascii else None)
+        super().__init__(rows=args.rows, cols=args.cols, box='ascii' if args.ascii else None, poll_ms=50)
         self.tool, self.args = tool, copy.copy(args)
+        self.controller = BenchController(tool, args)
         self.log = ChineseLog(max_lines=2000)
         self.help_log = LogView(max_lines=500)
-        self._help_return_view = None
-        self._help_return_form = None
-        self.set_views({name: name for name in self.VIEWS}, menu=Menu(self.VIEWS))
-        node = args.node
-        self.forms = {
-            'Calibrate': Form([field('node', node, 'number'), field('apply', 'no'),
-                field('offline-calibration', ''), field('rt-ack', 'no')]),
-            'Position': Form([field('target', args.target, 'number'),
-                field('velocity', args.velocity, 'number'), field('accel', args.acceleration, 'number'),
-                field('decel', args.deceleration, 'number'), field('soft-min', args.soft_min, 'number'),
-                field('soft-max', args.soft_max, 'number'), field('max-displacement', args.max_displacement, 'number'),
-                field('move-timeout', args.move_timeout, 'number'), field('motion-log', args.motion_log),
-                field('node', node, 'number'), field('apply', 'no'), field('od-bypass', args.od_gaps_bypass or ''),
-                field('rt-ack', 'no'), field('offline-calibration'), field('start-position', None, 'number'),
-                field('offline-limits')]),
-            'Params': Form([field('action', 'backup'), field('node', node, 'number'), field('backup'),
-                field('apply', 'no'), field('od-bypass', args.od_gaps_bypass or ''), field('rt-ack', 'no'),
-                field('interpolation-readback', 'no'), field('set')])}
-        self.status_rows = [('status', '状态', '等待读取快照', '')]
-        self.context = None
-        self.snapshot = None
+        for line in HELP:
+            self.help_log.append(line)
+        self.current_view = 'rt'
+        self.selected = 0
+        self.worker = self.refresh_worker = None
         self.events = queue.Queue()
         self.logs = queue.Queue(maxsize=2000)
         self.cancel = threading.Event()
-        self.worker = None
+        self.refresh_cancel = threading.Event()
         self.pending = None
         self.confirm = None
-        self.progress = '空闲；未打开总线'
-        self.recovery = '尚无事务'
-        self.exit_after = False
+        self.input_field = None
+        self.action = None
+        self.progress = '默认只读；等待启动确认'
+        self.recovery = '尚无动作；设备状态未测量'
         self.initial_snapshot = True
-        self.motion_specs = None
-        self.active_review = None
-        self.blocked_targets = set()
-        self.log.append('状态概览不发帧。apply=no 使用离线输入。')
-        self.log.append('F5 审阅操作；Enter 仅编辑字段。? / F1 查看帮助。')
+        self.exit_after = False
+        self.next_refresh = 0
+        self._setting_index = 0
+        self._setting_draft = {}
+        self._resume_action = None
+        self._help_return = None
+        self._result_seen = False
+        self._finalizing = False
+        self.log.append('启动需确认 RT 占用；只读扫描也会发 SDO 上传请求。')
+        self.log.append('动作默认关闭；F2 人工设置行程与单次位移预算。')
 
     @property
     def busy(self):
         return self.worker is not None
 
-    def _values(self, view, draft=False):
-        return {f.name: f.text if draft else f.value for f in self.forms[view].fields}
+    @property
+    def selected_row(self):
+        return self.controller.rows[self.selected]
 
-    def _args(self, view, draft=False):
-        v = self._values(view, draft=draft)
-        a = copy.copy(self.args)
-        a.node = int(v['node'])
-        if not 1 <= a.node <= 127:
-            raise ValueError('node 必须明确填写 1..127')
-        a.apply = flag(v['apply'], 'apply')
-        a.dry_run = False
-        a.i_know_rt_is_running = flag(v['rt-ack'], 'rt-ack')
-        a.od_gaps_bypass = v.get('od-bypass', '').strip() or None
-        a.calibrate = view == 'Calibrate'
-        a.position = view == 'Position'
-        a.offline_calibration = a.offline_limits = a.start_position = None
-        if view in ('Position', 'Calibrate') and not a.apply:
-            a.offline_calibration = numbers(v['offline-calibration'], 4, 'offline-calibration')
-        if view == 'Position':
-            for key, dest in [('target', 'target'), ('velocity', 'velocity'), ('accel', 'acceleration'),
-                              ('decel', 'deceleration'), ('soft-min', 'soft_min'), ('soft-max', 'soft_max'),
-                              ('max-displacement', 'max_displacement')]:
-                setattr(a, dest, int(v[key]))
-            a.move_timeout = float(v['move-timeout'])
-            a.motion_log = v['motion-log']
-            if not a.apply:
-                a.start_position = int(v['start-position'])
-                a.offline_limits = numbers(v['offline-limits'], 4, 'offline-limits')
-        if view == 'Params':
-            a.params, a.backup = v['action'], v['backup'] or None
-            a.param_set = v['set'].split()
-            a.confirm_interpolation_readback = flag(v['interpolation-readback'], 'interpolation-readback')
-            a.confirm_save = None
-            if a.params not in ('backup', 'interpolation', 'transmission', 'rollback', 'save'):
-                raise ValueError('action 可填 backup/interpolation/transmission/rollback/save')
-        return a
+    def _field(self, label, value='', kind='text'):
+        self.input_field = ChineseField('value', str(value), label=label, kind=kind)
+        self.set_form(Form([self.input_field]))
+        self.input_field.begin_edit()
 
-    def _launch(self, label, function):
-        if self.busy:
+    def _launch(self, label, function, refresh=False):
+        slot = 'refresh_worker' if refresh else 'worker'
+        if getattr(self, slot) is not None:
             return
-        self.cancel = threading.Event()
-        out = JobOutput(self.events, self.cancel, self.logs)
-        self.progress = self._job_label(label)
+        cancel = threading.Event()
+        if refresh:
+            self.refresh_cancel = cancel
+        else:
+            self.cancel = cancel
+            self.progress = {'scan': '扫描中；界面仍可操作', 'execute': '动作执行中', 'review': '审阅中', 'shutdown': '退出失能确认中'}.get(label, label)
+        out = JobOutput(self.events, cancel, self.logs)
         def job():
+            result = error = None
             try:
                 result = function(out)
-                if getattr(out, 'dropped', 0):
-                    self.events.put(('dropped', out.dropped))
-                self.events.put(('done', label, result, None))
             except BaseException as exc:
-                self.events.put(('done', label, None, exc))
-        self.worker = threading.Thread(target=job, name='pmp4010-io')
-        self.worker.start()
+                error = exc
+            self.events.put(('done', slot, label, result, error))
+        worker = threading.Thread(target=job, name='pmp4010-' + label)
+        setattr(self, slot, worker)
+        worker.start()
 
-    def _status(self, out):
-        cfg, path = self.tool.load_device_json()
-        item, _ = self.tool.find_can_bus(cfg, self.tool.LOGICAL_BUS)
-        iface, bitrate = item.get('iface'), item.get('bitrate')
-        rows = self.tool.panel_rows(iface, path, self.tool.read_iface_actual(iface) if iface else None,
-                                    bitrate, self.tool.service_active(self.tool.RT_SERVICE))
-        specs = position.specifications(self.tool.load_od())
-        return ('status', rows, (iface, bitrate), specs)
+    def _start_scan(self):
+        if not self.busy:
+            self._launch('scan', self.controller.scan)
 
-    def _prepare(self, view, a, out):
-        """Read local plans before confirmation, never open a bus here."""
-        cfg, _ = self.tool.load_device_json()
-        item, _ = self.tool.find_can_bus(cfg, self.tool.LOGICAL_BUS)
-        target = (item.get('iface'), item.get('bitrate'), a.node)
-        sends = a.apply or (view == 'Params' and a.params == 'backup')
-        if sends and (target[0], target[2]) in self.blocked_targets:
-            raise ValueError('SDO 目标已隔离：必须外部恢复；重启本工具不能证明已恢复')
-        od = self.tool.load_od()
-        a._tui_expected_target, a._tui_expected_od = target, od
-        lines = ['接口={} 位速率={} 节点={}'.format(*target)]
-        backup = None
-        if view == 'Position':
-            specs = position.specifications(od)
-            position.validate(a, specs)
-            if not self.tool.refuse_motion(out, 'position', a):
-                raise ValueError('OD 闸门拒绝；未打开总线')
-            if a.apply:
-                s = self.snapshot
-                if not s or s['context'] != target or s['source'] != 'device':
-                    raise ValueError('请先按 F6 读取此目标的当前标定与起点')
-                cal, start = s['calibration'], s['calibration']['start_position']
-            else:
-                cal, start = position.calibration(a.offline_calibration), a.start_position
-            position.check_start(a, start, cal)
-            position.check_envelope(a, start, start)
-            lines += ['绝对目标={} 速度={} 加速度={} 减速度={}'.format(
-                a.target, a.velocity, a.acceleration, a.deceleration),
-                '脚本行程=[{},{}] 单次位移上限={} 超时={}s'.format(
-                    a.soft_min, a.soft_max, a.max_displacement, a.move_timeout), 'JSONL=' + a.motion_log]
-        elif view == 'Params':
-            if not self.tool.refuse_motion(out, 'params ' + a.params, a):
-                raise ValueError('OD 闸门拒绝；未打开总线')
-            specs = params.specifications(od)
-            if a.backup and a.params != 'backup':
-                backup = params.load_backup(a.backup, specs)
-                params.check_target(backup, *target)
-            writes = params.plan(a.params, specs, backup, cfg.get('network', {}).get('sync_period_us'), a.param_set)
-            a._tui_expected_writes, a._tui_expected_backup = writes, backup
-            if a.params == 'backup' and (not a.backup or a.apply):
-                raise ValueError('backup 需要新路径和 apply=no（显式读取操作）')
-            if a.apply and backup is None:
-                raise ValueError('apply=yes 需要完整备份')
-            lines += ['{} = {} 编码字节={}'.format(k, value, params.encode(specs[k], value).hex()) for k, value in writes]
-            lines += ['备份=' + str(a.backup), '不自动保存。transmission 须先独立确认断电后读回。']
-        elif view == 'Calibrate':
-            lines += ['仅 SDO 上传：标定与实际位置；零写入、零 NMT' if a.apply
-                      else '明确填写的离线标定；不读取设备']
-        for line in lines:
-            out.info(line)
-        return ('review', view, a, target, lines, backup)
+    def _start_refresh(self):
+        if not self.busy:
+            self._launch('refresh', self.controller.refresh, refresh=True)
 
-    def _review(self):
-        view = self.current_view
-        if view in self.forms:
-            try:
-                a = self._args(view)
-                self._launch('review', lambda out: self._prepare(view, a, out))
-            except (ValueError, TypeError) as exc:
-                self.log.append(chinese(exc), 'err')
+    def _requirements(self, action):
+        """The same data-driven prerequisites guard entry and review."""
+        policy = action_policy(action)
+        if not policy['confirm']:
+            return False
+        if policy['batch']:
+            nodes, skipped = self.controller.batch_selection()
+            if not nodes:
+                for line in skipped:
+                    self.log.append(line, 'warn')
+                self.log.append('无在线节点；请先扫描', 'err')
+                return False
+        elif self.selected_row['node'] is None:
+            self.log.append('该席位未分配节点；请先扫描', 'err')
+            return False
+        if policy['od'] and not self.controller.od_reason:
+            self.current_view = 'od'
+            self._field('输入 OD 会话确认串')
+            return False
+        if policy['settings'] and any(v is None for v in self.controller.settings.values()):
+            self._start_settings(action)
+            return False
+        return True
 
-    def _snapshot(self):
+    def _od_token(self):
+        policy = action_policy(self._resume_action) if self._resume_action else None
+        if policy and policy['batch']:
+            nodes, _ = self.controller.batch_selection()
+            target = 'ALL ' + ','.join(map(str, nodes))
+        else:
+            target = self.selected_row['node']
+        return 'OD {} {}'.format(self.controller.context[0] if self.controller.context else '未知', target)
+
+    def begin_action(self, action):
+        if self.busy:
+            return
+        self.action = self._resume_action = action
+        if not self._requirements(action):
+            return
+        policy = action_policy(action)
+        self.current_view = 'action'
+        self.pending = self.confirm = None
+        if policy['input']:
+            row = self.selected_row
+            value = row['values'].get('actual_position', '') if action == 'absolute' else '0'
+            self._field('绝对位置目标 U' if action == 'absolute' else '相对位置偏移 U（可负）', value, 'number')
+        else:
+            self.input_field = None
+            self.set_form(None)
+
+    def _start_settings(self, resume=None):
+        if self.busy:
+            return
+        self._resume_action = resume
+        self._setting_index = 0
+        self._setting_draft = copy.copy(self.controller.settings)
+        self.current_view = 'setting'
+        self._show_setting()
+
+    def _show_setting(self):
+        key, label = SETTINGS[self._setting_index]
+        value = self._setting_draft.get(key)
+        self._field(label, '' if value is None else value, 'number')
+
+    def _save_setting(self):
+        key, _ = SETTINGS[self._setting_index]
         try:
-            v = self._values(self.current_view)
-            a = copy.copy(self.args)
-            a.node = int(v['node'])
-            if not 1 <= a.node <= 127:
-                raise ValueError('node 必须明确填写 1..127')
-            a.apply, a.dry_run = flag(v['apply'], 'apply'), False
-            a.i_know_rt_is_running = flag(v['rt-ack'], 'rt-ack')
-            a.offline_calibration = (None if a.apply else numbers(v['offline-calibration'], 4, 'offline-calibration'))
-            a.offline_limits = a.start_position = None
-            a.position, a.calibrate, a._tui_snapshot = False, True, True
-            # Snapshot is an explicitly confirmed read, never a motion action.
-            self._launch('review', lambda out: self._prepare('Calibrate', a, out))
-        except (ValueError, TypeError) as exc:
+            value = int(self.input_field.value)
+            if key == 'max_displacement' and value <= 0:
+                raise ValueError('人工单次位移上限必须为正整数')
+            self._setting_draft[key] = value
+            if self._setting_index == len(SETTINGS) - 1:
+                if self._setting_draft['soft_min'] >= self._setting_draft['soft_max']:
+                    raise ValueError('脚本行程下限必须小于上限；Esc 取消后重填')
+                self.controller.settings.update(self._setting_draft)
+                self.log.append('人工脚本行程与预算已记录；仍须实读标定核对1度硬顶')
+                self.set_form(None)
+                self.current_view = 'detail'
+                if self._resume_action:
+                    self.begin_action(self._resume_action)
+            else:
+                self._setting_index += 1
+                self._show_setting()
+        except ValueError as exc:
             self.log.append(chinese(exc), 'err')
 
-    def _execute(self, review):
-        _, view, a, target, lines, backup = review
-        if view == 'Params':
-            callback = lambda out: self.tool.cmd_params(a, out)
-        else:
-            a._tui_snapshot = view == 'Calibrate'
-            callback = lambda out: self.tool.cmd_position(a, out)
-        self.confirm = None
-        self.active_review = review
-        if view == 'Position':
-            self.snapshot = None
-        self._set_work_form(self.forms.get(self.current_view))
-        self.recovery = ('结果与读回确认前，设备状态未知' if a.apply else
-                         '离线；未测量设备状态')
-        if view == 'Calibrate':
-            self.recovery = '只读标定；零写入、零 NMT'
-        self._launch(view + ' running', callback)
-
-    def _confirm_key(self, name):
-        if name == 'esc':
-            self.confirm = None
-            self._set_work_form(self.forms.get(self.current_view))
-            return
-        if name != 'f5':
-            return
-        review = self.confirm['review']
-        _, view, a, target, lines, backup = review
-        typed = self.confirm['form'].fields[0].value
-        if typed != self.confirm['expected']:
-            self.log.append('确认串不匹配；未执行任何操作', 'err')
-            return
-        if view == 'Params' and a.params == 'save' and a.apply and self.confirm['stage'] == 1:
-            expected = params.confirmation(backup)
-            self.confirm.update(stage=2, expected=expected,
-                form=Form([field('confirm-save')]))
-            self._set_work_form(self.confirm['form'])
-            return
-        if view == 'Params' and a.params == 'save' and a.apply:
-            a.confirm_save = typed
-        self._execute(review)
-
-    def _raw(self, out):
-        cfg, _ = self.tool.load_device_json()
-        item, _ = self.tool.find_can_bus(cfg, self.tool.LOGICAL_BUS)
-        bus = self.tool.connect_bus(item['iface'], out)
-        count = 0
+    def _preview(self):
         try:
-            while not self.cancel.is_set():
-                frame = bus.recv(timeout=min(.1, self.args.timeout))
-                if frame is not None:
-                    count += 1
-                    out.info(self.tool.format_frame(frame))
-        finally:
-            bus.close()
-        return ('raw', count)
+            if action_policy(self.action)['batch']:
+                return self.controller.review_batch(self.action, QuietOutput(), check_gate=False), None
+            value = self.input_field.text if self.input_field else 0
+            return self.controller.review(self.action, self.selected_row['node'], value, QuietOutput(), check_gate=False), None
+        except (ValueError, TypeError, KeyError) as exc:
+            return None, chinese(exc)
+
+    def review_action(self):
+        if not self._requirements(self.action):
+            return
+        review, error = self._preview()
+        if error:
+            self.log.append('已阻止：' + error, 'err')
+            return
+        self.pending = review
+        self.confirm = dict(expected=review['token'], review=review)
+        self.current_view = 'confirm'
+        self._field('输入确认串')
+        self.confirm['form'] = self.focused_form
+
+    def _execute(self):
+        if self.input_field.value != self.pending['token']:
+            self.log.append('确认串不匹配；未执行', 'err')
+            return
+        review = self.pending
+        self.pending = self.confirm = None
+        self.set_form(None)
+        self.input_field = None
+        policy = action_policy(review['action'])
+        self.current_view = 'overview' if policy['batch'] else 'detail'
+        self._result_seen = False
+        self.recovery = '执行中；结果读回与清理前状态未知'
+        execute = self.controller.execute_batch if policy['batch'] else self.controller.execute
+        self._launch('execute', lambda out: execute(review, out))
+
+    def dispatch_key(self, name, key):
+        # F5 is the documented single-key commit/review/execute path. Ordinary
+        # action/help keys remain consumed by the active field draft.
+        if name == 'f5' and self.focused_form and self.focused_form.editing:
+            if not self.focused_form.current.commit():
+                return False
+        return super().dispatch_key(name, key)
 
     def poll(self):
-        if self.initial_snapshot:
+        if not self.exit_after and self.initial_snapshot and self.controller.rt_ack:
             self.initial_snapshot = False
-            self._launch('status snapshot', self._status)
-        for _ in range(128):
+            self.current_view = 'overview'
+            self._start_scan()
+        for _ in range(256):
             try:
                 event = self.events.get_nowait()
             except queue.Empty:
                 break
-            kind = event[0]
-            if kind == 'dropped':
-                self.log.append('已丢弃 {} 行显示日志；事务事件仍保留'.format(event[1]), 'warn')
-            elif kind == 'log':
-                self.log.append(event[2], event[1])
-            elif kind == 'event':
+            if event[0] == 'done':
+                _, slot, label, result, error = event
+                worker = getattr(self, slot)
+                if worker:
+                    worker.join(0)
+                setattr(self, slot, None)
+                if label != 'refresh' or error:
+                    self.progress = ('已中止；请核对清理状态' if isinstance(error, KeyboardInterrupt)
+                                     else '失败：' + chinese(error) if error else '扫描完成' if label == 'scan' else '动作已完成；见结果读回')
+                    self.log.append(self.progress, 'err' if error else 'info')
+                if label == 'shutdown':
+                    self._shutdown_recovery()
+                if label == 'execute':
+                    if not self._result_seen:
+                        self.recovery = ('动作失败或中止；未确认的数据按状态未知处理' if error else
+                                     '动作读回完成；机械停止与抱闸仍须独立确认')
+                    self.next_refresh = 0
+            elif event[0] == 'event':
                 _, name, data = event
-                if name == 'calibration_snapshot':
-                    # Captured context is the reviewed invocation, not current editable fields.
-                    target = self.pending[3] if self.pending else None
-                    self.snapshot = dict(data, context=target)
-                elif name == 'result':
-                    applied = self.active_review is not None and self.active_review[2].apply
-                    self.recovery = ('设备失能已确认={}；机械停止状态未知'.format(data['disabled_confirmed']) if applied else
-                        '离线模拟失能={}；设备状态未知'.format(data['disabled_confirmed']))
-                elif name == 'parameter_recovery':
-                    self.recovery = ('RAM 已回滚且读回确认；未保存' if data['recovery'] == 'restored_confirmed'
-                        else '未尝试写入' if data['recovery'] == 'no_writes'
-                        else '状态未知；须人工核查')
-                elif name == 'session_state' and data['quarantined'] and data['source'] == 'device':
-                    target = self.active_review[3] if self.active_review else None
-                    if target is not None:
-                        self.blocked_targets.add((target[0], target[2]))
-                    self.recovery = 'SDO 已隔离；必须外部恢复；状态未知'
-                    self.snapshot = None
-                self.progress = {'calibration_snapshot': '标定快照', 'result': '操作结果',
-                    'parameter_recovery': '参数恢复', 'session_state': '会话状态'}.get(name, '事件 ' + name) + '：' + json.dumps(data, ensure_ascii=False, sort_keys=True)
-                self.log.append(self.progress)
-            elif kind == 'done':
-                _, label, result, error = event
-                self.worker.join()
-                self.worker = None
-                self.progress = ('已中止；请检查恢复状态' if isinstance(error, KeyboardInterrupt)
-                                 else '失败：' + chinese(error) if error else self._job_label(label) + ' 已完成')
-                self.log.append(self.progress, 'err' if error else 'info')
-                if error is None and isinstance(result, tuple) and result[0] == 'status':
-                    _, self.status_rows, self.context, self.motion_specs = result
-                elif error is None and isinstance(result, tuple) and result[0] == 'review':
-                    self.pending = result
-                    _, view, a, target, lines, backup = result
-                    action = 'PERSIST' if view == 'Params' and a.params == 'save' and a.apply else (
-                        'ROLLBACK' if view == 'Params' and a.params == 'rollback' and a.apply else
-                        'MOVE' if view == 'Position' and a.apply else 'WRITE' if view == 'Params' and a.apply else 'RUN')
-                    expected = '{} {} {}'.format(action, target[0], target[2])
-                    if view == 'Position': expected += ' ' + str(a.target)
-                    self.confirm = dict(review=result, expected=expected, stage=1, form=Form([field('confirm')]))
-                    self._set_work_form(self.confirm['form'])
-                elif not error and isinstance(result, int) and result != 0:
-                    self.log.append('命令被拒绝，rc={}；不能判为成功'.format(result), 'err')
-                elif not error and result == 0 and label == 'Params running':
-                    a = self.active_review[2]
-                    self.recovery = ('备份读取完成；零写入' if a.params == 'backup' else
-                        '批量读回已确认；断电效果未验证' if a.apply else
-                        '仅离线计划；零总线读写')
-                elif not error and result == 0 and label == 'Calibrate running':
-                    self.recovery = ('设备标定已读取；零写入、零 NMT' if self.active_review[2].apply else
-                                     '离线标定；未读取设备')
-                if label == 'Position running':
-                    self.snapshot = None
-                if self.exit_after:
-                    self._running = False
+                if name in ('result', 'bench_result'):
+                    self._result_seen = True
+                    disabled = data.get('disabled_confirmed')
+                    self.recovery = '失能确认={}；机械停止状态未知'.format(disabled)
+                if name in ('result', 'bench_result', 'write_readback'):
+                    self.log.append('结果事件 {}：{}'.format(name, data))
         for _ in range(128):
             try:
                 _, level, line = self.logs.get_nowait()
+                self.log.append(line, level)
             except queue.Empty:
                 break
-            self.log.append(line, level)
-
-    @staticmethod
-    def _job_label(label):
-        return {'review': '审阅', 'status snapshot': '状态快照',
-                **{name + ' running': title + '执行中'
-                   for name, title in VIEW_LABELS.items()}}.get(label, label)
-
-    def _set_work_form(self, form):
-        if self.current_view == 'Help':
-            self._help_return_form = form
-        else:
-            self.set_form(form)
-
-    def _open_help(self):
-        self._help_return_view = self.current_view
-        self._help_return_form = self.focused_form
-        self.current_view = 'Help'
-        self.focused_form = None
-        self.help_log.clear()
-        for line in self.help_lines(self._help_return_view):
-            self.help_log.append(line)
-        # LogView clamps this at render time, after the wrapped height is known.
-        self.help_log.scroll(100000)
-
-    @staticmethod
-    def help_lines(view):
-        entry = HELP['views'].get(view)
-        lines = ['当前视图：' + VIEW_LABELS.get(view, '主菜单')]
-        if entry:
-            lines += [entry[0], '本视图操作'] + list(entry[1])
-        lines += list(HELP['global']) + ['五视图用途']
-        lines += [entry[0] for entry in HELP['views'].values()]
-        return lines
-
-    def _help_key(self, name, key):
-        if key == 3:
-            if self.busy:
-                self.cancel.set()
-                self.exit_after = True
-                self.log.append('已请求中止；等待清理；状态尚未确认', 'warn')
-                return False
-            return True
-        if name in ('esc', 'q'):
-            self.current_view = self._help_return_view
-            self.focused_form = self._help_return_form
-            return False
-        if name in ('up', 'k', 'down', 'j'):
-            self.help_log.scroll(1 if name in ('up', 'k') else -1)
-        elif name in ('pgup', 'pgdn'):
-            self.help_log.page(1 if name == 'pgup' else -1)
-        elif name == 'home':
-            self.help_log.goto_start()
-        elif name == 'end':
-            self.help_log.goto_end()
-        return False
-
-    def _render_help(self, grid, lay):
-        rect = lay.body
-        if not rect.valid:
+        if self.exit_after:
+            if self.worker is None and self.refresh_worker is None:
+                if self.controller.enabled_sessions and self.controller.shutdown_results is None and not self._finalizing:
+                    self._launch('shutdown', self.controller.close)
+                else:
+                    self.controller.close()
+                    self._running = False
             return
-        # Help uses the full body; safety stays outside the scrolling content.
-        grid.fill_rect(rect)
-        heading = '帮助：' + VIEW_LABELS.get(self._help_return_view, '主菜单')
-        grid.put(rect.y, rect.x, fit(heading, rect.w))
-        safety = list(HELP['safety'])
-        # On normal 24x80 terminals all four warnings are always visible.
-        safety_h = min(len(safety), max(0, rect.h - 2))
-        scroll_h = max(0, rect.h - 1 - safety_h)
-        self.help_log.render(grid, Rect(rect.y + 1, rect.x, scroll_h, rect.w), self.box)
-        for row, line in enumerate(safety[:safety_h]):
-            grid.put(rect.bottom - safety_h + row, rect.x, fit(line, rect.w))
+        if (self.controller.rt_ack and self.controller.context is not None
+                and not self.busy and self.refresh_worker is None and time.monotonic() >= self.next_refresh):
+            self.next_refresh = time.monotonic() + .5
+            self._start_refresh()
 
-    def hints(self):
-        if self.current_view == 'Help':
-            return ['Esc/q 返回', 'Up/Down 滚动', 'PgUp/PgDn 翻页', 'Home/End 首尾']
-        if self.focused_form and self.focused_form.editing:
-            return ['Enter 提交草稿', 'Esc 丢弃草稿', '? 输入字符']
-        if self.confirm:
-            return ['Esc 取消', 'Enter 编辑', 'F5 确认', '?/F1 帮助', 'PgUp/PgDn 日志']
-        if self.busy:
-            return ['Esc 中止', 'q 中止并退出', '?/F1 帮助', 'PgUp/PgDn 日志']
-        action = {'Status': 'F5 刷新', 'Raw frames': 'F5 监听'}.get(self.current_view, 'F5 审阅')
-        if self.current_view is None:
-            action = 'F5 刷新'
-        hints = ['q 退出', '?/F1 帮助', 'Enter 编辑/选择', 'Esc 返回', action]
-        if self.current_view in ('Position', 'Calibrate'):
-            hints.append('F6 读取起点')
-        return hints + ['PgUp/PgDn 日志', 'g 跟随']
+    def _shutdown_recovery(self):
+        results = self.controller.shutdown_results
+        if results:
+            confirmed = all(item['disabled_confirmed'] for item in results)
+            self.recovery = ('退出失能确认=True；机械停止与抱闸仍须独立确认' if confirmed else
+                             '退出失能确认=False；状态未知，须独立急停')
 
-    def fit_hints(self, hints, mark, width):
-        """Keep whole hints, with a Chinese overflow count."""
-        if width <= 0:
-            return ''
-        suffix = '   [' + mark + ']' if mark else ''
-        room = width - _display_width(suffix)
-        for count in range(len(hints), -1, -1):
-            text = '  '.join(hints[:count])
-            rest = len(hints) - count
-            if rest:
-                text += ('  ' if text else '') + '+{} 项'.format(rest)
-            if _display_width(text) <= room:
-                return text + suffix
-        return fit('+{} 项'.format(len(hints)), width)
-
-    def shell_grid(self):
-        """Use shared geometry/widgets with Chinese shell labels."""
-        lay = self.layout()
-        grid = Grid(self.rows, self.cols, strict=(self.box != 'ascii'))
-        view = self._help_return_view if self.current_view == 'Help' else self.current_view
-        title = self.title + ' / ' + VIEW_LABELS.get(view, '主菜单')
-        draw_box(grid, lay.outer, title, self.box)
-        if lay.body.valid:
-            if lay.menu.valid:
-                draw_vsep(grid, lay.menu.right, lay.body.y, lay.body.h, self.box)
-            if lay.status.valid and lay.body.bottom < lay.status.y:
-                draw_hsep(grid, lay.body.bottom, lay.body.x, lay.body.w, self.box,
-                          '日志' if lay.log.valid else None)
-        if lay.status.valid:
-            mark = '暂停跟随' if not self.log.follow else ''
-            hint = self.fit_hints(self.hints(), mark, max(0, lay.status.w - 2))
-            grid.put(lay.status.y, lay.status.x, ' ' + hint)
-        return grid, lay
-
-    def _emit_plain(self, grid):
-        sys.stderr.write('提示：非交互终端，仅绘制一帧 {}x{}；尺寸可用 --rows/--cols 指定。\n'.format(grid.rows, grid.cols))
-        for line in grid.to_lines():
-            sys.stdout.write(line.rstrip() + '\n')
-        sys.stdout.flush()
-
-    def dispatch_key(self, name, key):
-        if self.current_view == 'Help':
-            return self._help_key(name, key)
-        # Editing retains first refusal over every help/action shortcut.
-        editing = self.focused_form and self.focused_form.editing
-        if name in ('?', 'f1') and not editing:
-            self._open_help()
-            return False
-        if self.busy and (name in ('q', 'esc') or key == 3):
+    def _quit(self):
+        if self.worker or self.refresh_worker:
             self.cancel.set()
-            self.exit_after = self.exit_after or name == 'q' or key == 3
-            self.log.append('已请求中止；等待清理；状态尚未确认', 'warn')
+            self.refresh_cancel.set()
+            self.exit_after = True
+            self.log.append('已请求中止；等待后台事务与失能清理，状态尚未知', 'warn')
             return False
-        if self.busy:
-            if name in ('pgup', 'pgdn'):
-                self.log.page(1 if name == 'pgup' else -1)
+        self.exit_after = True
+        if self.controller.enabled_sessions:
+            self._launch('shutdown', self.controller.close)
             return False
-        before = self.current_view
-        binding = None
-        if before in ('Position', 'Calibrate'):
-            v = self._values(before, draft=True)
-            binding = tuple(v[k] for k in ('node', 'apply', 'offline-calibration'))
-        result = super().dispatch_key(name, key)
-        if binding is not None and before == self.current_view:
-            v = self._values(before, draft=True)
-            if binding != tuple(v[k] for k in ('node', 'apply', 'offline-calibration')):
-                self.snapshot = None
-        if before != self.current_view:
-            self._set_work_form(self.forms.get(self.current_view))
-        return result
+        self.controller.close()
+        return True
 
     def on_key(self, name, key):
-        if self.confirm:
-            # Form dispatch has already isolated text editing from action keys.
-            if name in ('esc', 'f5'):
-                self._confirm_key(name)
-                return False
-            if name == 'q' or key == 3:
-                self.confirm = None
-                self._set_work_form(self.forms.get(self.current_view))
-                return key == 3
-        if super().on_key(name, key):
-            return True
+        if key == 3:
+            return self._quit()
+        if self.current_view == 'help':
+            if name in ('esc', 'q'):
+                self.current_view, form = self._help_return
+                self.focused_form = form
+            elif name in ('up', 'k', 'down', 'j'):
+                self.help_log.scroll(1 if name in ('up', 'k') else -1)
+            elif name in ('pgup', 'pgdn'):
+                self.help_log.page(1 if name == 'pgup' else -1)
+            elif name in ('home', 'end'):
+                getattr(self.help_log, 'goto_start' if name == 'home' else 'goto_end')()
+            return False
+        if name in ('?', 'f1'):
+            self._help_return = (self.current_view, self.focused_form)
+            self.current_view, self.focused_form = 'help', None
+            return False
+        if name == 'q':
+            return self._quit()
         if name in ('pgup', 'pgdn'):
             self.log.page(1 if name == 'pgup' else -1)
             return False
         if name == 'g':
             self.log.goto_end()
-            return False
         if self.busy:
+            if name == 'esc':
+                self.cancel.set()
+                self.log.append('请求中止；等待快停/失能确认，状态未知', 'warn')
             return False
-        if name == 'f5':
-            if self.current_view == 'Raw frames':
-                self._launch('只接收监听；零发送', self._raw)
-            elif self.current_view == 'Status' or self.current_view is None:
-                self._launch('status snapshot', self._status)
-            else:
-                self._review()
-        elif name == 'f6' and self.current_view in ('Position', 'Calibrate'):
-            self._snapshot()
+        if name == 'esc':
+            self.current_view = 'overview' if self.current_view == 'detail' else 'detail' if self.current_view in ('action', 'confirm', 'setting', 'od') else 'rt' if not self.controller.rt_ack else 'overview'
+            self.set_form(None)
+            self.pending = self.confirm = None
+            return False
+        if self.current_view == 'rt':
+            if name == 'f5':
+                self.controller.rt_ack = True
+                self.log.append('操作者已显式确认 RT 占用风险；本会话记住此确认')
+            return False
+        if self.current_view == 'od':
+            if name == 'f5':
+                expected = self._od_token()
+                if self.input_field.value == expected:
+                    self.controller.od_reason = '测试台会话显式确认：' + expected
+                    self.log.append('已显式放行本会话 OD 闸门；未提高任何条目可信度', 'warn')
+                    self.begin_action(self._resume_action)
+                else:
+                    self.log.append('OD 确认串不匹配；保持只读', 'err')
+            return False
+        if self.current_view == 'setting':
+            if name == 'f5':
+                self._save_setting()
+            return False
+        if self.current_view == 'action':
+            if name == 'f5':
+                self.review_action()
+            return False
+        if self.current_view == 'confirm':
+            if name == 'f5':
+                self._execute()
+            return False
+        if name == 'f2':
+            self._start_settings()
+        elif self.current_view == 'overview':
+            if name in ('up', 'k', 'down', 'j'):
+                self.selected = (self.selected + (-1 if name in ('up', 'k') else 1)) % 4
+            elif name == 'enter':
+                self.current_view = 'detail'
+            elif name.lower() == 's':
+                self._start_scan()
+            elif name.lower() == 'r' or name == 'f6':
+                self._start_refresh()
+            elif name.lower() in ('d', 'x'):
+                self.begin_action('disable_all' if name.lower() == 'd' else 'stop_all')
+        elif self.current_view == 'detail':
+            action = {'a': 'absolute', 'r': 'relative', 'z': 'zero', 'e': 'enable', 'd': 'disable', 'x': 'stop'}.get(name.lower())
+            if action:
+                self.begin_action(action)
+            elif name == 'f6':
+                self._start_refresh()
         return False
 
-    def preview_lines(self):
-        """Pure draft preview; never opens files or reads a bus."""
-        v = self._values('Position', draft=True)
-        try:
-            applied = flag(v['apply'], 'apply')
-            if applied:
-                s = self.snapshot
-                target = (self.context or (None, None)) + (int(v['node']),)
-                if not s or s['context'] != target or s['source'] != 'device':
-                    return ['F6：读取此目标的实际标定与起点', '无有效设备快照；执行已阻止']
-                cal, start = s['calibration'], s['calibration']['start_position']
-                source = '设备快照（执行时再次核查）'
-            else:
-                cal = position.calibration(numbers(v['offline-calibration'], 4, 'offline-calibration'))
-                start = int(v['start-position'])
-                source = '离线人工输入；并非设备读数'
-            scale = Fraction(cal['motor_degrees_per_user_unit'])
-            budget = int(v['max-displacement']) * scale
-            lines = [source, '电机轴 1度={} U；起点={} U'.format(float(1 / scale), start),
-                     '位移预算={:.6g}度；剩余={:+.6g}度{}'.format(float(budget), float(1-budget),
-                      ' 已超限' if budget > 1 else '')]
-            for key in ('target', 'soft-min', 'soft-max'):
-                try:
-                    value = int(v[key])
-                    lines.append('{}={} U = {:.6g}度；位移={:+} U/{:+.6g}度'.format(
-                        FIELD_LABELS[key], value, float(value*scale), value-start, float((value-start)*scale)))
-                except (ValueError, TypeError):
-                    lines.append(FIELD_LABELS[key] + '：草稿未填完整或无效')
-            try:
-                a = self._args('Position', draft=True)
-                if self.motion_specs is None:
-                    raise ValueError('等待状态与 OD 快照后校验')
-                position.validate(a, self.motion_specs)
-                position.check_start(a, start, cal)
-                position.check_envelope(a, start, start)
-                lines.append('输入检查通过；仍须 F5 审阅')
-            except (ValueError, TypeError) as exc:
-                lines.append('已阻止：' + chinese(exc))
-            return lines
-        except (ValueError, TypeError, ZeroDivisionError) as exc:
-            return ['预览不可用：' + chinese(exc), '草稿无效；执行已阻止']
+    def hints(self):
+        if self.current_view == 'help':
+            return ['Esc/q 返回', 'Up/Down 滚动', 'PgUp/PgDn 翻页']
+        if self.busy:
+            return ['Esc 中止', 'q 清理后退出', '? 帮助']
+        return {'rt': ['F5 确认并扫描', 'q 退出', '? 帮助'],
+                'overview': ['S 扫描', 'Enter 详情', 'R 刷新', 'D 全部失能', 'X 全部快停', 'F2 安全设置', '? 帮助', 'q 退出'],
+                'detail': ['Esc 返回', 'A 绝对', 'R 相对', 'Z 设零', 'E 使能', 'D 失能', 'X 快停', 'F6 刷新', 'F2 设置', '? 帮助'],
+                'action': ['F5 审阅', 'Esc 取消', '?/F1 帮助'],
+                'confirm': ['F5 执行', 'Esc 取消', '?/F1 帮助'],
+                'od': ['F5 确认', 'Esc 取消'], 'setting': ['F5 下一项', 'Esc 取消']}.get(self.current_view, [])
+
+    def _detail_lines(self, row):
+        if row['node'] is None:
+            return ['未分配席位：离线；请返回主界面扫描。']
+        v = row['values']
+        lines = ['节点 {}  {}  固件 {}'.format(row['node'], row['name'], row['firmware']),
+                 '实时约2Hz；上次更新 {}；{}'.format('{:.1f}s前'.format(time.monotonic()-row['updated']) if row['updated'] else '未取得', state_text(row))]
+        if row['quarantined']:
+            lines.append(row['quarantine_reason'])
+        if not v:
+            return lines + ['尚无完整实时数据；保持旧值，禁止动作。']
+        cal = row['calibration']
+        pos = v['actual_position']
+        angle = ' = {:.3f}度 电机轴'.format(pos * float(Fraction(cal['motor_degrees_per_user_unit']))) if cal else ''
+        lines += ['状态 {} (0x{:04X})'.format(state_text(row), v['statusword']),
+                  '位置 {} U{}'.format(pos, angle),
+                  '速度 {} {}'.format(v['actual_velocity'], velocity_unit(v)),
+                  '转矩 {:.1f}% 额定转矩'.format(v['torque_feedback'] * .1),
+                  '模式 {} ({})  报警 {}'.format(mode_text(v['modes_of_operation_display']), v['modes_of_operation_display'], '无' if not v['error_code_object'] else '0x{:04X}'.format(v['error_code_object'])),
+                  '控制 [E]使能 [D]失能 [X]快停  [A]绝对 [R]相对 [Z]设零点',
+                  '设零点：回零方式35；DI配置需求未验证。速度模式未开放。']
+        return lines
 
     def build(self):
-        grid, lay = self.shell_grid()
-        display_menu = Menu([VIEW_LABELS.get(name, name) for name in self.menu.items],
-                            selected=self.menu.selected)
-        display_menu.offset = self.menu.offset
-        display_menu.render(grid, lay.menu, self.box)
-        self.menu.offset = display_menu.offset
-        rect = lay.content
-        if self.current_view == 'Help':
-            self._render_help(grid, lay)
-            if lay.log.valid:
-                grid.put(lay.log.y, lay.log.x, fit(self.recovery, lay.log.w))
-                self.log.render(grid, Rect(lay.log.y+1, lay.log.x, max(0, lay.log.h-1), lay.log.w), self.box)
-            return grid
-        if self.confirm:
-            _, view, a, target, lines, backup = self.confirm['review']
-            title = '确认：' + ('实际总线操作' if a.apply or (view == 'Params' and a.params == 'backup') else '离线')
-            content = [title] + lines
-            if view == 'Params' and a.params == 'save' and a.apply:
-                content += ['写入设备 EEPROM；不可撤销；不重试',
-                    '序列号={}；第 {}/2 阶段'.format(backup['identity']['4'], self.confirm['stage'])]
-            if self.confirm['stage'] == 1:
-                content += ['请输入：' + self.confirm['expected']]
+        # Pure cached rendering. The shared render()/resolve_size() contract is unchanged.
+        grid = Grid(self.rows, self.cols, strict=(self.box != 'ascii'))
+        outer = Rect(0, 0, self.rows, self.cols)
+        draw_box(grid, outer, self.title, self.box)
+        width = max(0, self.cols - 4)
+        bottom = max(1, self.rows - 7)
+        body = Rect(1, 2, max(0, bottom - 1), width)
+        lines = []
+        if self.current_view == 'help':
+            self.help_log.render(grid, Rect(body.y, body.x, max(0, body.h-2), body.w), self.box)
+            for i, line in enumerate(SAFETY):
+                grid.put(max(body.y, bottom-2)+i, 2, fit(line, width))
+        else:
+            if self.current_view == 'overview':
+                table = Table(['节点', '状态', '位置 U', '速度', '模式', '报警'])
+                rows = []
+                for row in self.controller.rows:
+                    v = row['values']
+                    rows.append([str(row['node']) if row['node'] is not None else '未分配', state_text(row),
+                        v.get('actual_position', '-'), '{} {}'.format(v['actual_velocity'], velocity_unit(v)) if v else '-',
+                        mode_text(v['modes_of_operation_display']) if v else '-',
+                        '无' if v and v['error_code_object'] == 0 else '0x{:04X}'.format(v['error_code_object']) if v else '-'])
+                table.set_rows(rows)
+                table.set_selected(self.selected)
+                table.render(grid, Rect(1, 2, min(7, body.h), width), self.box)
+                lines = ['', '', '', '', '', '', '总线：' + self.controller.bus_status,
+                         'OD：本会话已显式放行' if self.controller.od_reason else 'OD：默认只读；运动前需显式确认',
+                         '单次位移预算：{}'.format(self.controller.settings['max_displacement'] if self.controller.settings['max_displacement'] is not None else '未给定（F2）')]
+            elif self.current_view == 'rt':
+                lines = ['启动确认：RT 控制器可能正在占用总线，继续？',
+                         '本测试台将自动扫描 SDO 身份，再以约2Hz读取实时数据。',
+                         '即使只读也会发上传请求；本程序锁不能排除外部控制器。',
+                         '请确认已协调总线占用与现场安全，然后按 F5。',
+                         '此次确认仅对本会话有效；运动仍默认关闭。']
+            elif self.current_view == 'od':
+                count = len([e for e in (self.controller.od or {}).get('entries', []) if e['status'] != 'verified'])
+                expected = self._od_token()
+                lines = ['OD 闸门：{} 项未核对；当前默认只读。'.format(count),
+                         '确认承担未核对对象与独立停机责任后，显式放行本会话。',
+                         '不修改OD可信度；不会自动复位报警、不会开放速度模式。',
+                         '请输入：' + expected]
+            elif self.current_view == 'setting':
+                lines = ['安全设置 {}/3：每一项都由操作者明确给定。'.format(self._setting_index+1),
+                         '607Dh几乎全域，不能替代脚本行程；预算另受1度硬顶。',
+                         'F5保存当前数并进入下一项；Esc取消整组修改。']
+            elif self.current_view in ('action', 'confirm'):
+                review, error = (self.pending, None) if self.current_view == 'confirm' else self._preview()
+                lines = [ACTIONS.get(self.action, '') + ('：确认执行' if self.current_view == 'confirm' else '：实时预览')]
+                lines += review['lines'] if review else ['已阻止：' + str(error)]
+                if self.current_view == 'confirm':
+                    lines += ['审阅目标已冻结；执行前重新读取基准，变化就拒绝。', '请输入：' + review['token']]
+                else:
+                    lines += ['F5审阅后还须输入含接口、节点、目标的确认串。']
             else:
-                content += ['自行构造 SAVE <iface> <node> <十进制序列号>', '单空格分隔；输入后按 F5（独立二次确认）']
-            # Full exact target list is retained in the scrollable log at every size.
-            limit = max(0, rect.h - 3)
-            if len(content) > limit:
-                content = content[:max(0, limit-4)] + content[-4:]
-            for i, line in enumerate(content[:limit]): grid.put(rect.y+i, rect.x, fit(line, rect.w))
-            self.confirm['form'].render(grid, Rect(rect.bottom-2, rect.x, 2, rect.w), self.box)
-        elif self.current_view in (None, 'Status'):
-            Table(headers=('字段', '值'), rows=[(label, value) for _, label, value, _ in self.status_rows]).render(grid, rect, self.box)
-        elif self.current_view in self.forms:
-            preview = self.preview_lines() if self.current_view == 'Position' else (
-                ['apply=yes 读取实际设备；零写入、零 NMT', 'apply=no 须明确填写离线标定四项',
-                 'F5 审阅读取；位置视图 F6 读取标定与起点。'] if self.current_view == 'Calibrate' else
-                ['F5 审阅精确对象与值；再输入确认串', 'apply=no 仅计划；backup 是显式 SDO 读取',
-                 'save：两段确认；EEPROM 持久写入；不可撤销'])
-            if self.current_view == 'Calibrate' and self.snapshot:
-                cal = self.snapshot['calibration']
-                preview = ['来源=' + {'device': '设备实读', 'offline_simulation': '离线模拟'}.get(self.snapshot['source'], self.snapshot['source']), '目标=' + str(self.snapshot['context']),
-                    '608F 每转计数 inc/rev={} / {}'.format(*cal['values'][:2]),
-                    '6091 电机/输出转数={} / {}'.format(*cal['values'][2:]),
-                    '电机轴 1度 = {:.9g} 用户单位'.format(float(1/Fraction(cal['motor_degrees_per_user_unit']))),
-                    '电机轴 度/U=' + cal['motor_degrees_per_user_unit'],
-                    '起点=' + str(cal.get('start_position', '离线：未读取'))]
-            height = max(1, rect.h-len(preview)-1)
-            self.forms[self.current_view].render(grid, Rect(rect.y, rect.x, height, rect.w), self.box)
-            for i, line in enumerate(preview): grid.put(rect.y+height+i, rect.x, fit(line, rect.w))
-        elif self.current_view == 'Raw frames':
-            for i, line in enumerate(['F5 启动只接收监听；零发送', 'Esc 中止接收；不发 NMT/SDO/PDO', 'PgUp/PgDn 翻阅日志中的帧']):
-                grid.put(rect.y+i, rect.x, fit(line, rect.w))
-        # Keep cleanup truth visible in the log region even after returning to menu.
-        if lay.log.valid:
-            grid.put(lay.log.y, lay.log.x, fit(self.recovery, lay.log.w))
-            self.log.render(grid, Rect(lay.log.y+1, lay.log.x, max(0, lay.log.h-1), lay.log.w), self.box)
+                lines = self._detail_lines(self.selected_row)
+            for i, line in enumerate(lines):
+                if i >= body.h:
+                    break
+                if line:
+                    grid.put(body.y+i, body.x, fit(line, width))
+            if self.focused_form:
+                y = min(bottom-2, max(5, len(lines)+2))
+                self.focused_form.render(grid, Rect(y, 2, max(0, min(2, bottom-y)), width), self.box)
+        if self.rows >= 9:
+            draw_hsep(grid, bottom, 1, max(0, self.cols-2), self.box, '日志')
+            self.log.render(grid, Rect(bottom+1, 2, 3, width), self.box)
+            grid.put(self.rows-3, 2, fit(self.progress + '；' + self.recovery, width))
+            grid.put(self.rows-2, 2, self.fit_hints(self.hints(), '', width))
         return grid
 
     def run(self):
-        interrupted = False
         try:
             return super().run()
-        except KeyboardInterrupt:
-            self.cancel.set()
-            interrupted = True
-            return 130
         finally:
-            # Never abandon an active transaction when curses restores the terminal.
-            # Transport/state deadlines bound every request; cleanup retains its client.
             self.cancel.set()
-            if self.worker is not None:
-                while self.worker is not None:
-                    self.worker.join(.05)
-                    self.poll()
-            if interrupted or self.active_review is not None:
-                # curses.wrapper has restored echo/cursor before this report.
-                # Actual SIGINT is distinct from a decoded Ctrl-C key.
-                print('\nPMP4010: {}\n{}'.format(chinese(self.progress), self.recovery), flush=True)
+            self.refresh_cancel.set()
+            self.exit_after = True
+            self._finalizing = True
+            for worker in (self.worker, self.refresh_worker):
+                if worker:
+                    worker.join()
+            self.poll()
+            self.controller.close()
+            self._shutdown_recovery()
+            # curses is already restored here, including real SIGINT unwinds.
+            # Print the latest cleanup events, so terminal teardown cannot hide
+            # unconfirmed disable/quarantine results queued by the I/O worker.
+            if self.controller.context is not None:
+                for line in self.controller.shutdown_lines:
+                    print(line, flush=True)
+                print('测试台结束：' + self.recovery, flush=True)
+                for row in self.controller.rows:
+                    if row['quarantined']:
+                        print('节点 {}：{}；状态未知'.format(row['node'], row['quarantine_reason']), flush=True)

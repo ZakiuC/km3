@@ -98,12 +98,16 @@ def check_start(args, start, cal):
     delta = abs(args.target - start)
     if not 0 < delta <= args.max_displacement:
         raise ValueError('目标位移必须非零且不超过人工单次位移上限')
-    # A separate small hard ceiling prevents a mistakenly huge manual limit.
-    if args.max_displacement * Fraction(cal['motor_degrees_per_user_unit']) > 1:
-        raise ValueError('人工单次位移上限超过1度电机轴角度；请用实读标定缩小')
+    check_budget(args, cal)
     g = Fraction(cal['gear_ratio'])
     if any(not -0x80000000 <= value*g <= 0x7fffffff for value in (args.target, args.soft_min, args.soft_max)):
         raise ValueError('脚本行程/目标经G换算后超出6063编码器Int32范围')
+
+
+def check_budget(args, cal):
+    """Shared hard ceiling, including non-travelling bench actions."""
+    if args.max_displacement * Fraction(cal['motor_degrees_per_user_unit']) > 1:
+        raise ValueError('人工单次位移上限超过1度电机轴角度；请用实读标定缩小')
 
 
 class Journal:
@@ -186,6 +190,9 @@ def run(session, args, specs, journal):
 
     try:
         _, before = snapshot('before', guarded=False)
+        expected_start = getattr(args, '_bench_expected_start', before)
+        if before != expected_start:
+            raise ValueError('审阅后起点已变化；拒绝执行，请重新审阅')
         session.require_cia402(session.deadline())
         # Refuse faults: acceptance never resets alarms automatically.
         if read('statusword') & protocol.CIA402_FAULT:
@@ -199,6 +206,9 @@ def run(session, args, specs, journal):
                 or args.deceleration > limits['max_deceleration']
                 or args.velocity * Fraction(cal['gear_ratio']) / Fraction(cal['resolution']) * 60 > limits['max_motor_speed']):
             raise ValueError('速度/加减速度超过设备607F/6080/60C5/60C6上限')
+        bench_guard = getattr(args, '_bench_guard', None)
+        if bench_guard is not None:
+            bench_guard(session, 'before_setup')
         session.disable()  # E06 §6.1: mode change only while disabled.
         checked_write('modes_of_operation', pp['mode'])
         if read('modes_of_operation_display') != pp['mode']:
@@ -206,6 +216,8 @@ def run(session, args, specs, journal):
         for key, value in [('profile_end_velocity', 0), ('profile_velocity', args.velocity),
                            ('profile_acceleration', args.acceleration), ('profile_deceleration', args.deceleration),
                            ('target_position', args.target)]:
+            if key == 'target_position' and bench_guard is not None:
+                bench_guard(session, 'before_target')
             checked_write(key, value)
         # No calls to enable() that might reset a fault arising during setup.
         for word, state in ((protocol.CIA402_SHUTDOWN, protocol.CIA402_READY),
@@ -215,6 +227,8 @@ def run(session, args, specs, journal):
             session.wait_status(lambda sw: sw & protocol.CIA402_MASK == state, 'PP使能迁移', session.deadline())
         session.control(pp['idle_word'], session.deadline())  # E06 §6.3.6 absolute/immediate, bit4=0.
         poll('ready_for_setpoint', lambda sw, pos: not sw & protocol.CIA402_PP_SETPOINT_ACK)
+        if bench_guard is not None:
+            bench_guard(session, 'before_trigger')
         session.control(pp['trigger_word'], session.deadline())
         # The fresh ACK 0 -> 1 -> 0 handshake identifies this command.
         # A short move may finish before one poll; bit10 need not be observed 0.
