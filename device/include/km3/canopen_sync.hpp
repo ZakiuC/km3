@@ -2,6 +2,7 @@
 // CANopen SYNC is a standard-layer responsibility, independent of node drivers.
 #include <atomic>
 #include <cstdint>
+#include <limits>
 #include <pthread.h>
 
 #include "km3/canopen_wire_generated.hpp"
@@ -12,6 +13,10 @@ namespace km3::canopen {
 
 static_assert(std::atomic<std::uint64_t>::is_always_lock_free,
               "SYNC telemetry must not introduce hidden locks");
+static_assert(std::atomic<std::int64_t>::is_always_lock_free,
+              "SYNC margin telemetry must not introduce hidden locks");
+
+inline constexpr std::int64_t kNoSyncSendMarginUs = std::numeric_limits<std::int64_t>::max();
 
 struct SyncStats {
     std::uint64_t attempts = 0;
@@ -19,7 +24,19 @@ struct SyncStats {
     std::uint64_t failures = 0;
     std::uint64_t consecutive_failures = 0;
     std::uint64_t skipped = 0;
+    // Maximum Tick-entry lateness relative to the ORIGINAL next_us_, before
+    // skipping slots. This is wake-up lateness, not send-deadline overrun.
     std::uint64_t max_late_us = 0;
+    // Minimum (next_us_ + period_us_) - observation since successful Start().
+    // One sample per attempted Tick with a representable deadline: immediately
+    // after BeforeSync fails / the pre-send deadline check, or after Send or
+    // SendConfirmed returns (including failure). Positive = time remaining;
+    // zero = exactly at the deadline (the cycle pre-send check rejects equality);
+    // negative = overdue. Values saturate to [INT64_MIN, INT64_MAX - 1].
+    // kNoSyncSendMarginUs means no sample. Unrepresentable deadlines add no sample.
+    // These are software-clock observations, NOT physical CAN TX timestamps;
+    // plain Send only observes queue acceptance/return, confirmed Send its return.
+    std::int64_t min_send_margin_us = kNoSyncSendMarginUs;
     ErrorCode last_error = ErrorCode::Ok;
 };
 
@@ -100,6 +117,7 @@ private:
     // Approximate independent counters, never a lock/wait for the producer.
     std::atomic<std::uint64_t> attempts_{0}, sent_{0}, failures_{0};
     std::atomic<std::uint64_t> consecutive_failures_{0}, skipped_{0}, max_late_us_{0};
+    std::atomic<std::int64_t> min_send_margin_us_{kNoSyncSendMarginUs};
     std::atomic<ErrorCode> last_error_{ErrorCode::Ok};
 };
 

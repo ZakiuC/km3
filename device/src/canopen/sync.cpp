@@ -13,6 +13,21 @@
 #include "km3/config.hpp"
 
 namespace km3::canopen {
+namespace {
+std::int64_t SendMarginUs(std::uint64_t deadline, std::uint64_t observed) noexcept {
+    constexpr auto max = std::numeric_limits<std::int64_t>::max();
+    if (observed <= deadline) {
+        const auto remaining = deadline - observed;
+        if (remaining >= static_cast<std::uint64_t>(max))
+            return max - 1;
+        return static_cast<std::int64_t>(remaining);
+    }
+    const auto overdue = observed - deadline;
+    if (overdue > static_cast<std::uint64_t>(max))
+        return std::numeric_limits<std::int64_t>::min();
+    return -static_cast<std::int64_t>(overdue);
+}
+}  // namespace
 
 SyncProducer::SyncProducer(ICanDevice& device, std::uint64_t period_us, ClockFn clock,
                            std::uint32_t cob_id, SyncCycle* cycle) noexcept
@@ -58,19 +73,26 @@ void SyncProducer::Tick() noexcept {
     // One sender owns the entire cycle. Every RPDO must be confirmed complete
     // before SYNC is even queued: send() success alone permits CAN arbitration
     // to let the lower-ID SYNC overtake queued RPDOs.
-    if (cycle_ && next_us_ > std::numeric_limits<std::uint64_t>::max() - period_us_) {
+    const bool deadline_valid = next_us_ <= std::numeric_limits<std::uint64_t>::max() - period_us_;
+    if (cycle_ && !deadline_valid) {
         active_ = false;
         ++stats_.failures;
         stats_.last_error = ErrorCode::EInternal;
         cycle_->LatchFailure();
         return;
     }
-    auto status = cycle_ ? cycle_->BeforeSync(next_us_ + period_us_) : Status::Ok();
-    if (status.ok() && cycle_ && clock_() >= next_us_ + period_us_)
+    const auto deadline = deadline_valid ? next_us_ + period_us_ : 0;
+    auto status = cycle_ ? cycle_->BeforeSync(deadline) : Status::Ok();
+    auto observed = cycle_ ? clock_() : now;
+    if (status.ok() && cycle_ && observed >= deadline)
         status = Status(ErrorCode::ECommandTimeout);
-    if (status.ok())
-        status =
-            cycle_ ? device_.SendConfirmed(frame_, next_us_ + period_us_) : device_.Send(frame_);
+    if (status.ok()) {
+        status = cycle_ ? device_.SendConfirmed(frame_, deadline) : device_.Send(frame_);
+        observed = clock_();
+    }
+    if (deadline_valid)
+        stats_.min_send_margin_us =
+            std::min(stats_.min_send_margin_us, SendMarginUs(deadline, observed));
     if (status.ok()) {
         ++stats_.sent;
         stats_.consecutive_failures = 0;
@@ -312,6 +334,7 @@ void SyncWorker::Publish() noexcept {
     consecutive_failures_.store(stats.consecutive_failures, std::memory_order_relaxed);
     skipped_.store(stats.skipped, std::memory_order_relaxed);
     max_late_us_.store(stats.max_late_us, std::memory_order_relaxed);
+    min_send_margin_us_.store(stats.min_send_margin_us, std::memory_order_relaxed);
     last_error_.store(stats.last_error, std::memory_order_relaxed);
 }
 
@@ -323,6 +346,7 @@ SyncStats SyncWorker::Stats() const noexcept {
     stats.consecutive_failures = consecutive_failures_.load(std::memory_order_relaxed);
     stats.skipped = skipped_.load(std::memory_order_relaxed);
     stats.max_late_us = max_late_us_.load(std::memory_order_relaxed);
+    stats.min_send_margin_us = min_send_margin_us_.load(std::memory_order_relaxed);
     stats.last_error = last_error_.load(std::memory_order_relaxed);
     return stats;
 }

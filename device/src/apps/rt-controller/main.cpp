@@ -65,11 +65,15 @@ km3::SpscRing<LoopReport, 16> g_report_ring;
 
 void PrintSyncStats(const km3::canopen::SyncWorker& sync) {
     const auto stats = sync.Stats();
+    char margin[32] = "n/a";
+    if (stats.min_send_margin_us != km3::canopen::kNoSyncSendMarginUs)
+        std::snprintf(margin, sizeof(margin), "%lldus", (long long)stats.min_send_margin_us);
     std::printf("  SYNC: attempts=%llu sent=%llu failures=%llu consecutive=%llu"
-                " skipped=%llu max_late=%lluus last_error=%s worker_error=%s errno=%d\n",
+                " skipped=%llu wake_late_max=%lluus send_margin_min=%s"
+                " last_error=%s worker_error=%s errno=%d\n",
                 (unsigned long long)stats.attempts, (unsigned long long)stats.sent,
                 (unsigned long long)stats.failures, (unsigned long long)stats.consecutive_failures,
-                (unsigned long long)stats.skipped, (unsigned long long)stats.max_late_us,
+                (unsigned long long)stats.skipped, (unsigned long long)stats.max_late_us, margin,
                 km3::ToString(stats.last_error), km3::ToString(sync.WorkerError()),
                 sync.LastSystemError());
 }
