@@ -300,9 +300,10 @@ KM3_TEST(enable_selector_modes_and_transition_timeout_fail_closed) {
     KM3_CHECK_EQ(f.driver.Enable(1).code(), ErrorCode::EInvalidConfig);
     KM3_CHECK_EQ(ControlCount(f.can, 6), 0u);
     f.can.selector = 0;
-    // 3 也在拒绝之列：速度模式下从站按 60FFh 的残留值运行，而速度标度
-    // 换算链未实现（见 CanEnableInMode 的注释）。
-    for (std::uint8_t mode : std::array<std::uint8_t, 4>{2, 3, 7, 0}) {
+    // 2/7 与 3/9 都在拒绝之列：前者使能终值不同（0x7F / 0x1F），后者
+    // 从站按 60FFh 残留值运行而速度标度换算链未实现。逐模式的完整
+    // 拒绝集合见 speed_mode_cannot_be_enabled_because_scale_chain_is_absent。
+    for (std::uint8_t mode : std::array<std::uint8_t, 5>{2, 3, 7, 9, 0}) {
         f.can.mode = mode;
         KM3_CHECK_EQ(f.driver.Enable(1).code(), ErrorCode::EInvalidConfig);
     }
@@ -322,9 +323,15 @@ KM3_TEST(speed_mode_cannot_be_enabled_because_scale_chain_is_absent) {
     // （额定转速）。只要模式被别人（厂家工具 / 上层）置为 3，再让驱动
     // 使能，从站就会按那个残留值转起来。所以在**使能这一侧**也必须有闸门。
     //
-    // 断言两件事：(1) 拒绝且不发任何控制字；(2) 模式 1/4/6/8/9/10 仍可使能，
-    // 即这道闸门只挡速度模式，没有误伤。
-    for (std::uint8_t mode : std::array<std::uint8_t, 3>{3, 0, 5}) {
+    // 断言两件事：(1) 拒绝且不发任何控制字；(2) 模式 1/4/6/8/10 仍可使能，
+    // 即这道闸门只挡下面列出的那些，没有误伤。
+    //
+    // 拒绝集合分两组理由（详见 CanEnableInMode 注释）：
+    //   3(PV)、9(CSV) —— 从站按 60FFh 残留值运行，换算链未实现；
+    //   2(VM)、7(IP) —— 使能终值是 0x7F / 0x1F，本驱动只实现 0x0F。
+    // 9 曾经漏在「可使能」一侧（注释说排除 CSV 而代码没排除），
+    // 本条用例就是钉住它不能回去。
+    for (std::uint8_t mode : std::array<std::uint8_t, 6>{3, 9, 2, 7, 0, 5}) {
         Fixture f;
         f.can.mode = mode;
         f.can.sw = 0x40;
@@ -347,7 +354,7 @@ KM3_TEST(speed_mode_cannot_be_enabled_because_scale_chain_is_absent) {
     KM3_CHECK_EQ(g.driver.EnableOperation(1).code(), ErrorCode::EInvalidConfig);
     KM3_CHECK_EQ(ControlCount(g.can, 15), 0u);
 
-    for (std::uint8_t mode : std::array<std::uint8_t, 5>{1, 4, 6, 8, 9}) {
+    for (std::uint8_t mode : std::array<std::uint8_t, 5>{1, 4, 6, 8, 10}) {
         Fixture f;
         f.can.mode = mode;
         f.can.sw = 0x40;

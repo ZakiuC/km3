@@ -137,18 +137,35 @@ constexpr bool ValidMode(std::int8_t mode) noexcept {
 // 算不出后果的运动」。两者是不同的问题，混用会把「手册认识它」
 // 当成「我们可以安全地用它」。
 //
-// 当前排除速度模式（3, CSV）与 2（vl）。理由是可核查的：
-//   CanEnableInMode(3) 为假 —— 速度模式下从站按 60FFh 的目标速度运行，
-//   而速度标度（608Fh/6091h → rpm）的换算链本驱动尚未实现
-//   （SetTargetVelocity 因此无条件拒绝）。若此时放行使能，等于把
-//   60FFh 里**已有的残留值**当成指令执行：实测该电机 60FFh = 6553600
-//   = 3000 rpm（正是额定转速）。这不是假设的风险，是现场实测值。
-//   换算链实现后（届时 SetTargetVelocity 会真正写值），本函数再放开 3。
+// 当前排除四种，分**两组、两个不同的理由**（不要混成一句话）：
+//
+// ── 第一组：2（VM）、7（IP）—— 使能终值不同 ─────────────────────
+//   od.json 的 enable_sequence（引用 E06 6.4.5 / 6.8.5）写明：首次使能
+//   是「0x6 → 0x7 → 终值」，**终值逐模式不同**——VM 是 0x7F，IP 是 0x1F
+//   （IP 的 bit4 = Enable interpolation 必须一起置位）。
+//   本驱动只实现通用的 0x0F 那一条路径（wire::CIA402_ENABLE），
+//   对这两种模式发 0x0F 不是「使能」而是别的转移，结果不可预期。
+//   **注意这不是安全闸门而是能力缺口**：补上按模式选终值之后，
+//   这两种模式应当可以直接放开，不需要等任何换算链。
+//
+// ── 第二组：3（PV）、9（CSV）—— 速度标度换算链未实现 ────────────
+//   这两种模式下从站按 60FFh 的目标速度运行，而速度标度
+//   （608Fh/6091h → rpm）的换算链本驱动尚未实现（SetTargetVelocity
+//   因此无条件拒绝）。若此时放行使能，等于把 60FFh 里**已有的残留值**
+//   当成指令执行：实测该电机 60FFh = 6553600 = 3000 rpm（正是额定转速，
+//   按本机 608Fh=131072/1 反算恰好 3000.000）。这不是假设的风险，
+//   是现场实测值。换算链实现后（届时 SetTargetVelocity 会真正写值），
+//   本函数再放开 3 与 9。
 //
 // 为什么不只在 SetTargetVelocity 里拒绝：那只挡驱动**自己**写速度，
-// 挡不住「模式已被别人（厂家工具 / 上层）置为 3，然后驱动使能」这条路。
+// 挡不住「模式已被别人（厂家工具 / 上层）置为 3 或 9，然后驱动使能」
+// 这条路。CSV（9）与 PV（3）在这一点的暴露面**完全相同**——两者都
+// 从 60FFh 取速度，所以两处都必须挡。
+//
+// 与 Python 侧 pmp4010.ENABLE_MODES = (1, 4, 6, 8, 10) **同一语义**：
+// 两侧各写一份会漂移，改这里必须同步改那里（反之亦然）。
 constexpr bool CanEnableInMode(std::int8_t mode) noexcept {
-    return ValidMode(mode) && mode != 2 && mode != 3 && mode != 7;
+    return ValidMode(mode) && mode != 2 && mode != 3 && mode != 7 && mode != 9;
 }
 void PollPause(std::uint64_t deadline) noexcept {
     SleepUntilMonotonic(std::min(deadline, MonotonicUs() + 1000u));
