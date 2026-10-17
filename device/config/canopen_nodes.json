@@ -31,9 +31,9 @@
     "can-2": {
       "kernel": "can1",
       "protocol": "canopen",
-      "bitrate": 500000,
+      "bitrate": 1000000,
       "can_fd": false,
-      "note": "主板 CAN 第 2 口（清单里的 CAN-2）。实测 500000bps 已 UP，驱动 mcp251x。主板不支持 CAN FD。",
+      "note": "主板 CAN 第 2 口（清单里的 CAN-2）。1 Mbps，驱动 mcp251x，实测 ERROR-ACTIVE、错误计数全 0。主板不支持 CAN FD。位速率的权威来源是 device/config/device.json 的 bus.can[] 与板端 /etc/km3/can.env 的 CAN_BITRATE=；本字段只作登记，不作为配置源。",
       "nodes": {
         "未分配-1": "PMP4010",
         "未分配-2": "PMP4010",

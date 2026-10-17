@@ -2,7 +2,7 @@
 //
 // 型号：pmp4010（驱动代号 pmp4010，命名空间 km3::pmp4010）
 // 来源：device/drivers/pmp4010/driver/od.json
-// 来源 sha256：7471262d9cd97f5b315ebe171ce1fbd5f46e06e2212cae36cd01480692ffa576
+// 来源 sha256：61efa0185e09d467388c1aefa6cb81e4768e963eb38afde4da258a61143ed2ce
 //
 // 手改本文件会在 `python3 tools/hwdriver/gen-od.py --model pmp4010 --check`
 // 下失败，进而让 CI 变红。要改常量请改 od.json 再重新生成。
@@ -39,7 +39,7 @@
 
 #if !PMP4010_OD_VERIFIED
 #if !defined(KM3_ALLOW_UNVERIFIED_OD) || !KM3_ALLOW_UNVERIFIED_OD
-#error "pmp4010 对象字典未验证（driver/od.json 里仍有 6 条 status != verified）。 本文件在手册到达并填实之前不得使用：索引未知就发帧等于拿真实电机盲试。 仅在校验工具与 CI 中可定义 KM3_ALLOW_UNVERIFIED_OD=1（或 PMP4010_OD_VERIFIED=1）关闭本守卫。 阻塞项见 docs/硬件手册/PMP4010/README.md。"
+#error "pmp4010 对象字典未验证（driver/od.json 里仍有 7 条 status != verified）。 本文件在手册到达并填实之前不得使用：索引未知就发帧等于拿真实电机盲试。 仅在校验工具与 CI 中可定义 KM3_ALLOW_UNVERIFIED_OD=1（或 PMP4010_OD_VERIFIED=1）关闭本守卫。 阻塞项见 docs/硬件手册/PMP4010/README.md。"
 #else
 // 显式旁路。保留一个可被 grep 到的标记，使「哪些产物是在未核对状态下构建的」
 // 在事后可查：一个能在未核对状态下构建的二进制，不应该出现在接了电机的现场。
@@ -71,7 +71,7 @@ struct OdEntry {
 // 拿 0 当「未填」会让一条漏填的条目看起来像一条指向 0x0000 的真实条目。
 inline constexpr std::uint16_t kIndexUnset = 0xFFFF;
 
-inline constexpr std::uint32_t kEntryCount = 83;
+inline constexpr std::uint32_t kEntryCount = 94;
 
 inline constexpr OdEntry kEntries[kEntryCount] = {
     // 控制字
@@ -179,6 +179,10 @@ inline constexpr OdEntry kEntries[kEntryCount] = {
     {"sync_period", kIndexUnset, 0u, OdStatus::Unverified, "", false},
     // 插补周期（t × 10^n）
     {"interpolation_period", 0x60C2u, 1u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7", true},
+    // PDO 传输类型实测（连接收是否同步）
+    {"pdo_transmission_type_measured", 0x1400u, 2u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5", true},
+    // PDO 映射与 COB-ID 实测（与手册默认对照）
+    {"rpdo_mapping_measured", 0x1600u, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5", true},
     // SDO 应答超时
     //   溯源: 未核对（见 docs/硬件手册/PMP4010/README.md 的未确认项清单）
     {"sdo_timeout", kIndexUnset, 0u, OdStatus::Unverified, "", false},
@@ -233,9 +237,28 @@ inline constexpr OdEntry kEntries[kEntryCount] = {
     {"mode_select_manual_conflict", kIndexUnset, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:6.1 表6-2", true},
     // 故障停机方式 605Eh（访问权限冲突）
     {"fault_reaction_605E", kIndexUnset, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7", true},
-    // CiA402 状态机转换图（图 4-2 未转换）
+    // 抱闸失电抱紧行为（垂直轴安全）
     //   溯源: 未核对（见 docs/硬件手册/PMP4010/README.md 的未确认项清单）
-    {"cia402_state_machine_missing", kIndexUnset, 0u, OdStatus::Unverified, "", false},
+    {"brake_failsafe_behaviour", kIndexUnset, 0u, OdStatus::Assumed, "", false},
+    // 抱闸保持力矩与额定转矩的余量（安全核算）
+    {"brake_holding_torque", kIndexUnset, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/LMS-C12-21060 PMMP系列EtherCAT&CANopen&RS485通信一体化伺服电机使用说明书-D01.pdf:第1页 表2-1", true},
+    // 手册「出厂设定」列的适用范围（厂家答复）
+    //   溯源: 未核对（见 docs/硬件手册/PMP4010/README.md 的未确认项清单）
+    {"vendor_factory_value_policy", kIndexUnset, 0u, OdStatus::Assumed, "", false},
+    // 型号命名规则（含是否带抱闸）
+    {"model_naming_rule", kIndexUnset, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/LMS-C12-21060 PMMP系列EtherCAT&CANopen&RS485通信一体化伺服电机使用说明书-D01.pdf:第1页 图2-1", true},
+    // CiA402 状态机完整转换表（图 4-2）
+    {"cia402_state_transitions", kIndexUnset, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/LMS-C12-19011  一体化低压伺服电机CANopen通信用户手册-E06.pdf:第14页 图4-2", true},
+    // 抱闸输出 PWM 占空比
+    {"brake_duty_cycle", 0x2002u, 4u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/LMS-C12-19011  一体化低压伺服电机CANopen通信用户手册-E06.pdf:第115页 表10-6", true},
+    // 抱闸输出关闭至电机不通电延时
+    {"brake_release_delay", 0x2002u, 10u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/LMS-C12-19011  一体化低压伺服电机CANopen通信用户手册-E06.pdf:第115页 表10-6", true},
+    // 抱闸输出控制与 DO3 功能选择的登记冲突
+    {"brake_output_function", 0x2004u, 5u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/LMS-C12-19011  一体化低压伺服电机CANopen通信用户手册-E06.pdf:第86页 7.3 制动设置", true},
+    // 抱闸检测使能（重力预设）
+    {"brake_detection_enable", 0x200Au, 31u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/LMS-C12-19011  一体化低压伺服电机CANopen通信用户手册-E06.pdf:第116页 表10-6", true},
+    // 抱闸负载重力（重力预设值）
+    {"brake_load_gravity", 0x200Au, 32u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/LMS-C12-19011  一体化低压伺服电机CANopen通信用户手册-E06.pdf:第116页 表10-6", true},
     // 0x1000 设备类型（无数值）
     {"device_type_missing", 0x1000u, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5", true},
     // 设备名称
@@ -250,7 +273,7 @@ inline constexpr OdEntry kEntries[kEntryCount] = {
 
 // 未核对条目数。工具打印的「N 项对象字典未核对」用这个 N，
 // 与 od.json 同一个来源，不各自再算一遍。
-inline constexpr std::uint32_t kUnverifiedCount = 6;
+inline constexpr std::uint32_t kUnverifiedCount = 7;
 
 // 当前对象字典的整体置信度。全部 verified 才为 true。
 inline constexpr bool kOdVerified = (PMP4010_OD_VERIFIED != 0);
@@ -263,5 +286,19 @@ constexpr std::uint16_t pmp4010_index(std::size_t entry) noexcept {
     }
     return kEntries[entry].index;
 }
+
+struct PdoLayout { std::uint16_t communication_index, mapping_index, cob_base; std::uint8_t entry_count; std::uint32_t entries[8]; };
+inline constexpr PdoLayout kRpdoLayouts[] = {
+    {0x1400u, 0x1600u, 0x200u, 2u, {0x60400010u, 0x60600008u}},
+    {0x1401u, 0x1601u, 0x300u, 2u, {0x607A0020u, 0x60C10120u}},
+    {0x1402u, 0x1602u, 0x400u, 2u, {0x60420010u, 0x60FF0020u}},
+    {0x1403u, 0x1603u, 0x500u, 1u, {0x60710010u}},
+};
+inline constexpr PdoLayout kTpdoLayouts[] = {
+    {0x1800u, 0x1A00u, 0x180u, 2u, {0x60410010u, 0x60610008u}},
+    {0x1801u, 0x1A01u, 0x280u, 2u, {0x60630020u, 0x60640020u}},
+    {0x1802u, 0x1A02u, 0x380u, 1u, {0x606C0020u}},
+    {0x1803u, 0x1A03u, 0x480u, 1u, {0x60770010u}},
+};
 
 }  // namespace km3::pmp4010::od

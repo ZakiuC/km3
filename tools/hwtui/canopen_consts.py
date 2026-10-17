@@ -3,7 +3,7 @@
 #
 # 型号：pmp4010（驱动代号 pmp4010）
 # 来源：device/drivers/pmp4010/driver/od.json
-# 来源 sha256：7471262d9cd97f5b315ebe171ce1fbd5f46e06e2212cae36cd01480692ffa576
+# 来源 sha256：61efa0185e09d467388c1aefa6cb81e4768e963eb38afde4da258a61143ed2ce
 #
 # 板端工具（tools/hwtui/）用的常量。**不要在这里手改**：
 # 手改会在 `python3 tools/hwdriver/gen-od.py --model pmp4010 --check` 下失败，
@@ -31,8 +31,8 @@ OD_VERIFIED = False
 # 未核对条目数。工具打印的「N 项对象字典未核对」用这个 N，
 # 措辞与 device/drivers/<型号>/tools/<型号>.py 的 refuse_motion() 一致，
 # 运维脚本会 grep 那一行。
-OD_UNVERIFIED_COUNT = 6
-OD_ENTRY_COUNT = 83
+OD_UNVERIFIED_COUNT = 7
+OD_ENTRY_COUNT = 94
 
 # 未核对索引的哨兵。用它而不是 0：0 是**合法**的对象字典索引，
 # 拿 0 当「未填」会让一条漏填的条目看起来像一条指向 0x0000 的真实条目。
@@ -93,6 +93,8 @@ PDO_TRANSMISSION_TYPES = INDEX_UNSET
 PDO_MAPPING_WRITABLE = INDEX_UNSET
 SYNC_PERIOD = INDEX_UNSET
 INTERPOLATION_PERIOD = 0x60C2
+PDO_TRANSMISSION_TYPE_MEASURED = 0x1400
+RPDO_MAPPING_MEASURED = 0x1600
 SDO_TIMEOUT = INDEX_UNSET
 STORE_PARAMETERS = 0x1010
 RESTORE_PARAMETERS = 0x1011
@@ -119,7 +121,16 @@ STOP_OPTION_605BC_MISSING = INDEX_UNSET
 FAULT_REACTION_CODES = INDEX_UNSET
 MODE_SELECT_MANUAL_CONFLICT = INDEX_UNSET
 FAULT_REACTION_605E = INDEX_UNSET
-CIA402_STATE_MACHINE_MISSING = INDEX_UNSET
+BRAKE_FAILSAFE_BEHAVIOUR = INDEX_UNSET
+BRAKE_HOLDING_TORQUE = INDEX_UNSET
+VENDOR_FACTORY_VALUE_POLICY = INDEX_UNSET
+MODEL_NAMING_RULE = INDEX_UNSET
+CIA402_STATE_TRANSITIONS = INDEX_UNSET
+BRAKE_DUTY_CYCLE = 0x2002
+BRAKE_RELEASE_DELAY = 0x2002
+BRAKE_OUTPUT_FUNCTION = 0x2004
+BRAKE_DETECTION_ENABLE = 0x200A
+BRAKE_LOAD_GRAVITY = 0x200A
 DEVICE_TYPE_MISSING = 0x1000
 DEVICE_NAME = 0x1008
 HARDWARE_VERSION = 0x1009
@@ -168,6 +179,8 @@ OD_BY_INDEX = {
     0x6080: ('max_motor_speed', '电机最大速度', 0, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
     0x60F2: ('position_option_code', '定位选项（相对位置的基准）', 0, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
     0x60C2: ('interpolation_period', '插补周期（t × 10^n）', 1, 'uint8', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x1400: ('pdo_transmission_type_measured', 'PDO 传输类型实测（连接收是否同步）', 2, 'uint8', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    0x1600: ('rpdo_mapping_measured', 'PDO 映射与 COB-ID 实测（与手册默认对照）', 0, '', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
     0x1010: ('store_parameters', '参数掉电保存', 1, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:7.7.1'),
     0x1011: ('restore_parameters', '参数恢复', 1, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:7.7.2'),
     0x200C: ('bus_bitrate', 'CAN 波特率设置', 3, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:3.6.1 表3-13'),
@@ -178,6 +191,11 @@ OD_BY_INDEX = {
     0x200B: ('monitor_bus_voltage', '母线电压值与模块温度值', 21, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.2 表10-6 200Bh'),
     0x6073: ('max_current', '最大电流', 0, 'uint16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
     0x6077: ('torque_feedback', '转矩反馈值', 0, 'int16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x2002: ('brake_duty_cycle', '抱闸输出 PWM 占空比', 4, 'uint16', True, 'docs/硬件手册/PMP4010/协议/LMS-C12-19011  一体化低压伺服电机CANopen通信用户手册-E06.pdf:第115页 表10-6'),
+    0x2002: ('brake_release_delay', '抱闸输出关闭至电机不通电延时', 10, 'uint16', True, 'docs/硬件手册/PMP4010/协议/LMS-C12-19011  一体化低压伺服电机CANopen通信用户手册-E06.pdf:第115页 表10-6'),
+    0x2004: ('brake_output_function', '抱闸输出控制与 DO3 功能选择的登记冲突', 5, '', True, 'docs/硬件手册/PMP4010/协议/LMS-C12-19011  一体化低压伺服电机CANopen通信用户手册-E06.pdf:第86页 7.3 制动设置'),
+    0x200A: ('brake_detection_enable', '抱闸检测使能（重力预设）', 31, 'uint16', True, 'docs/硬件手册/PMP4010/协议/LMS-C12-19011  一体化低压伺服电机CANopen通信用户手册-E06.pdf:第116页 表10-6'),
+    0x200A: ('brake_load_gravity', '抱闸负载重力（重力预设值）', 32, 'int16', True, 'docs/硬件手册/PMP4010/协议/LMS-C12-19011  一体化低压伺服电机CANopen通信用户手册-E06.pdf:第116页 表10-6'),
     0x1000: ('device_type_missing', '0x1000 设备类型（无数值）', 0, 'uint32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
     0x1008: ('device_name', '设备名称', 0, 'string', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
     0x1009: ('hardware_version', '硬件版本号', 0, 'string', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
@@ -240,6 +258,8 @@ OD_BY_KEY = {
     'pdo_mapping_writable': (INDEX_UNSET, 0, 'PDO 映射是否允许改写', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:3.3.4'),
     'sync_period': (INDEX_UNSET, 0, 'SYNC 周期与 SYNC 的 COB-ID', False),
     'interpolation_period': (0x60C2, 1, '插补周期（t × 10^n）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'pdo_transmission_type_measured': (0x1400, 2, 'PDO 传输类型实测（连接收是否同步）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
+    'rpdo_mapping_measured': (0x1600, 0, 'PDO 映射与 COB-ID 实测（与手册默认对照）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
     'sdo_timeout': (INDEX_UNSET, 0, 'SDO 应答超时', False),
     'store_parameters': (0x1010, 1, '参数掉电保存', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:7.7.1'),
     'restore_parameters': (0x1011, 1, '参数恢复', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:7.7.2'),
@@ -266,7 +286,16 @@ OD_BY_KEY = {
     'fault_reaction_codes': (INDEX_UNSET, 0, '故障反应码取值表', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.2'),
     'mode_select_manual_conflict': (INDEX_UNSET, 0, '0x2002:01h 的宽度与默认值冲突（登记）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:6.1 表6-2'),
     'fault_reaction_605E': (INDEX_UNSET, 0, '故障停机方式 605Eh（访问权限冲突）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
-    'cia402_state_machine_missing': (INDEX_UNSET, 0, 'CiA402 状态机转换图（图 4-2 未转换）', False),
+    'brake_failsafe_behaviour': (INDEX_UNSET, 0, '抱闸失电抱紧行为（垂直轴安全）', False),
+    'brake_holding_torque': (INDEX_UNSET, 0, '抱闸保持力矩与额定转矩的余量（安全核算）', 'docs/硬件手册/PMP4010/协议/LMS-C12-21060 PMMP系列EtherCAT&CANopen&RS485通信一体化伺服电机使用说明书-D01.pdf:第1页 表2-1'),
+    'vendor_factory_value_policy': (INDEX_UNSET, 0, '手册「出厂设定」列的适用范围（厂家答复）', False),
+    'model_naming_rule': (INDEX_UNSET, 0, '型号命名规则（含是否带抱闸）', 'docs/硬件手册/PMP4010/协议/LMS-C12-21060 PMMP系列EtherCAT&CANopen&RS485通信一体化伺服电机使用说明书-D01.pdf:第1页 图2-1'),
+    'cia402_state_transitions': (INDEX_UNSET, 0, 'CiA402 状态机完整转换表（图 4-2）', 'docs/硬件手册/PMP4010/协议/LMS-C12-19011  一体化低压伺服电机CANopen通信用户手册-E06.pdf:第14页 图4-2'),
+    'brake_duty_cycle': (0x2002, 4, '抱闸输出 PWM 占空比', 'docs/硬件手册/PMP4010/协议/LMS-C12-19011  一体化低压伺服电机CANopen通信用户手册-E06.pdf:第115页 表10-6'),
+    'brake_release_delay': (0x2002, 10, '抱闸输出关闭至电机不通电延时', 'docs/硬件手册/PMP4010/协议/LMS-C12-19011  一体化低压伺服电机CANopen通信用户手册-E06.pdf:第115页 表10-6'),
+    'brake_output_function': (0x2004, 5, '抱闸输出控制与 DO3 功能选择的登记冲突', 'docs/硬件手册/PMP4010/协议/LMS-C12-19011  一体化低压伺服电机CANopen通信用户手册-E06.pdf:第86页 7.3 制动设置'),
+    'brake_detection_enable': (0x200A, 31, '抱闸检测使能（重力预设）', 'docs/硬件手册/PMP4010/协议/LMS-C12-19011  一体化低压伺服电机CANopen通信用户手册-E06.pdf:第116页 表10-6'),
+    'brake_load_gravity': (0x200A, 32, '抱闸负载重力（重力预设值）', 'docs/硬件手册/PMP4010/协议/LMS-C12-19011  一体化低压伺服电机CANopen通信用户手册-E06.pdf:第116页 表10-6'),
     'device_type_missing': (0x1000, 0, '0x1000 设备类型（无数值）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
     'device_name': (0x1008, 0, '设备名称', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
     'hardware_version': (0x1009, 0, '硬件版本号', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
