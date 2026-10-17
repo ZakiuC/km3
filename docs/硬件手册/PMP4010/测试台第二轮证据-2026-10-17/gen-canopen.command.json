@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "tools/hwdriver/gen-canopen.py",
+    "--check"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "exit_code": 0,
+  "elapsed_seconds": 0.018421232234686613
+}

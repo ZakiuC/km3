@@ -1,0 +1,26 @@
+$ python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p "_test_*.py"
+.............................................................................................................................................................
+----------------------------------------------------------------------
+Ran 157 tests in 1.060s
+
+OK
+BENCH nonblocking: help key + rendered screen 0.005592s; worker still blocked past SDO timeout; quarantine visible
+BENCH cancellation: disabled_confirmed=true; completed=false; cleanup ignores transaction cancellation
+BENCH enable postflight: out-of-envelope readback causes same-client quick-stop + disable
+BENCH enable postflight timeout: disabled_confirmed=false; state_unknown=true; replacement clients=0
+BENCH lost write ACK: same quarantined client; disabled_confirmed=false; independent_estop_required=true
+BENCH quarantine: timeout latched; rescan/refresh/action cannot recreate client or send another request
+BENCH relative: -1464 + 50 = absolute -1414; nonzero actual velocity rejected before write
+BENCH scan: four slots; node 1 online; three unassigned slots offline; SDO uploads only; NMT=0
+BENCH setup race: start drift after mode write; target 607A never downloaded; cleanup confirmed
+BENCH zero: 6098:00=35; controlword edge 0x000F -> 0x001F; 607C writes=0; cleanup [0x0002,0x0000]
+B explicit backup mock frames=16 SDO uploads; downloads=0; objects=12 identity=4
+B out-of-range/late-invalid-plan mock frame_count=0
+B dry-run mock frame_count=0; bus_open_count=0; link_query_count=0
+C invalid parameter/soft travel/small displacement checks: zero real frames
+C fast move: fresh ACK 0->1->0 + target actual position; all sampled target-reached bits=1 accepted
+C lost enable ACK: SDO quarantined; stop and disable attempted, unconfirmed; independent E-stop required
+C offline default/explicit dry-run: real_frame_count=0 real_bus_open_count=0
+C preview matches independent SDO peer: 62/62 complete nominal request frames
+
+exit_code=0

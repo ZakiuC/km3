@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "bash",
+    "-c",
+    "cmake --build build-host -j\"$(nproc)\" && ctest --test-dir build-host --output-on-failure"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "exit_code": 0,
+  "elapsed_seconds": 11.598603726364672
+}

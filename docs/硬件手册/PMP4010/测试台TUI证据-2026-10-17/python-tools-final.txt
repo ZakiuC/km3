@@ -1,0 +1,8 @@
+$ python3 -I -m unittest discover -s tools/tests -p "test_*.py"
+........
+----------------------------------------------------------------------
+Ran 8 tests in 0.514s
+
+OK
+
+exit_code=0

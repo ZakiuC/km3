@@ -1,0 +1,227 @@
+{
+  "device/drivers/pmp4010/tools/pmp4010_bench.py": {
+    "sha256": "a5100daf41916387c90e0bb9da9b57602aa20b1173393c0601b54d0f7f7078bc",
+    "bytes": 23142,
+    "cases": [
+      {
+        "class": "SilentOutput",
+        "tests": []
+      },
+      {
+        "class": "BenchController",
+        "tests": []
+      },
+      {
+        "class": "BenchSession",
+        "tests": []
+      }
+    ]
+  },
+  "device/drivers/pmp4010/tools/pmp4010_tui.py": {
+    "sha256": "f3a26bbb141bedc8f28f5c06d901102a59d2712af67ddab072b44472bfb5590e",
+    "bytes": 27828,
+    "cases": [
+      {
+        "class": "ChineseLog",
+        "tests": []
+      },
+      {
+        "class": "ChineseField",
+        "tests": []
+      },
+      {
+        "class": "JobOutput",
+        "tests": []
+      },
+      {
+        "class": "QuietOutput",
+        "tests": []
+      },
+      {
+        "class": "PmpApp",
+        "tests": []
+      }
+    ]
+  },
+  "device/drivers/pmp4010/tools/pmp4010_position.py": {
+    "sha256": "98c994f432ff75e2a441bca376683d335b02e587386f384285351dc41e3cf92f",
+    "bytes": 16405,
+    "cases": [
+      {
+        "class": "Journal",
+        "tests": []
+      },
+      {
+        "class": "PositionNode",
+        "tests": []
+      }
+    ]
+  },
+  "device/drivers/pmp4010/tools/_test_bench.py": {
+    "sha256": "a44398b75a409e030141ff9b19d61ddc414f7b343ce18b77aad1f86ac7ee9db4",
+    "bytes": 26336,
+    "cases": [
+      {
+        "class": "BenchFixture",
+        "tests": []
+      },
+      {
+        "class": "BenchTests",
+        "tests": [
+          "test_constructor_no_io_and_four_slots",
+          "test_startup_rt_ack_is_required_before_scan",
+          "test_scan_four_slots_one_online_three_offline_upload_only",
+          "test_velocity_unit_selector_is_read_and_preserved",
+          "test_refresh_loss_preserves_all_last_values_and_calibration",
+          "test_quarantine_is_sticky_no_retry_or_client_recreation",
+          "test_motion_requires_od_ack_and_operator_budget",
+          "test_review_reuses_all_shared_position_guards",
+          "test_manual_budget_over_one_degree_is_blocked",
+          "test_oversize_target_and_soft_envelope_are_blocked",
+          "test_relative_uses_absolute_target_and_rejects_moving_velocity",
+          "test_relative_rejects_not_target_reached",
+          "test_review_start_drift_refused_before_target_write",
+          "test_review_target_context_drift_refused_before_writes",
+          "test_review_od_drift_refused_before_writes",
+          "test_position_transaction_shared_runner_cleanup_and_absolute_wire",
+          "test_zero_method35_and_explicit_0f_to_1f_edge",
+          "test_lost_write_ack_does_not_claim_disabled_and_latches_quarantine",
+          "test_start_drift_during_setup_is_refused_before_607a_download",
+          "test_cancel_during_transaction_confirms_disabled_with_same_client",
+          "test_stale_snapshot_rejects_relative_before_writes",
+          "test_zero_refuses_nonzero_origin_offset_and_never_writes_607c",
+          "test_fault_refused_without_auto_reset",
+          "test_actions_reject_velocity_modes",
+          "test_telemetry_and_action_clients_are_separate_on_one_transport",
+          "test_refresh_yields_while_motion_owns_transport_lock",
+          "test_enable_postflight_envelope_failure_cleans_up_same_client",
+          "test_enable_postflight_timeout_reports_unknown_without_replacement_client",
+          "test_zero_coordinate_reset_accepts_old_bounds_excluding_zero",
+          "test_disable_and_stop_cancel_after_download_still_confirm_cleanup"
+        ]
+      },
+      {
+        "class": "BenchInteractionTests",
+        "tests": [
+          "test_delayed_mockbus_sdo_does_not_block_key_help_or_build",
+          "test_review_then_exact_confirmation_required_before_execute",
+          "test_action_edit_consumes_q_question_mark_and_escape_cancels",
+          "test_od_dialog_exact_session_ack_then_budget_remains_required",
+          "test_busy_q_waits_for_worker_cleanup",
+          "test_actual_keyboardinterrupt_drains_and_reports_worker_cleanup",
+          "test_interrupt_before_startup_does_not_launch_initial_scan"
+        ]
+      }
+    ]
+  },
+  "device/drivers/pmp4010/tools/_test_bench_support.py": {
+    "sha256": "848ff65422c5b8f229aff2153bdbdbd7b355436dc9c0b5164070444c89d38598",
+    "bytes": 5902,
+    "cases": [
+      {
+        "class": "BenchNode",
+        "tests": []
+      },
+      {
+        "class": "DelayedBus",
+        "tests": []
+      }
+    ]
+  },
+  "tools/hwtui/test_tui.py": {
+    "sha256": "96f006b04838da0ed89245418809fbf18b682a98da20ec0c31fd42f6843ecb9f",
+    "bytes": 32146,
+    "cases": [
+      {
+        "class": "TestRenderPureFunction",
+        "tests": [
+          "test_zero_size_frame_does_not_raise",
+          "test_zero_size_grid_renders_to_empty",
+          "test_grid_zero_size_put_and_box_are_noops",
+          "test_identical_frames_emit_nothing",
+          "test_prev_none_is_full_repaint",
+          "test_shape_change_forces_full_repaint",
+          "test_three_contiguous_changed_cells_exact_bytes",
+          "test_three_scattered_changed_cells_exact_bytes",
+          "test_two_runs_merge_only_when_adjacent",
+          "test_multiple_rows_use_absolute_positioning",
+          "test_render_is_deterministic_and_pure",
+          "test_round_trip_single_frame_is_identity",
+          "test_incremental_equals_full_repaint_result"
+        ]
+      },
+      {
+        "class": "_Screen",
+        "tests": []
+      },
+      {
+        "class": "TestSizeResolution",
+        "tests": [
+          "test_fallback_when_nothing_available",
+          "test_ioctl_wins",
+          "test_board_stty_size_zero_zero_falls_through_to_env",
+          "test_zero_zero_falls_through_to_cli",
+          "test_partial_dimensions_resolve_independently",
+          "test_bad_env_values_are_ignored",
+          "test_env_whitespace_is_tolerated",
+          "test_ioctl_exception_falls_back",
+          "test_app_constructs_at_zero_size_without_polling_tty",
+          "test_resize_recomputes_layout"
+        ]
+      },
+      {
+        "class": "TestLayoutAndWidgets",
+        "tests": [
+          "test_layout_degenerate_sizes",
+          "test_layout_normal",
+          "test_app_first_frame_at_24x80_is_stable",
+          "test_app_renders_at_degenerate_sizes",
+          "test_row_width_is_always_consistent",
+          "test_sanitize_strips_control_characters",
+          "test_sanitize_replaces_wide_characters_by_default",
+          "test_fit_never_exceeds_width",
+          "test_put_clips_negative_and_overflow",
+          "test_put_sanitizes_by_default",
+          "test_menu_selection_is_clamped_and_scrolls",
+          "test_empty_menu_is_safe",
+          "test_status_hints_never_truncate_a_key_name",
+          "test_status_hints_report_overflow_instead_of_silence",
+          "test_status_hints_all_fit_when_wide",
+          "test_fit_hints_edge_cases",
+          "test_fit_hints_is_monotonic_in_width",
+          "test_table_columns_fit_available_width",
+          "test_table_renders_selection_marker",
+          "test_empty_table_is_safe",
+          "test_table_truncates_overlong_cell",
+          "test_logview_wraps_and_follows_tail",
+          "test_logview_wraps_long_lines_by_cells",
+          "test_logview_ring_buffer_is_bounded",
+          "test_logview_zero_size_is_safe"
+        ]
+      },
+      {
+        "class": "TestKeyDecoding",
+        "tests": [
+          "test_basic_keys",
+          "test_control_keys_are_not_letters",
+          "test_special_keys_when_curses_available",
+          "test_unknown_key_returns_empty",
+          "test_app_quit_keys"
+        ]
+      },
+      {
+        "class": "TestDiscoverExistence",
+        "tests": [
+          "test_discover_module_importable",
+          "test_discover_returns_list_without_drivers_dir",
+          "test_discover_parses_a_synthetic_driver_tool",
+          "test_underscore_dirs_are_not_hardware",
+          "test_summary_truncation_marks_itself",
+          "test_table_lists_multibyte_summary_without_mangling",
+          "test_discover_detects_entry_point_shapes",
+          "test_discover_survives_unreadable_or_broken_tool"
+        ]
+      }
+    ]
+  }
+}

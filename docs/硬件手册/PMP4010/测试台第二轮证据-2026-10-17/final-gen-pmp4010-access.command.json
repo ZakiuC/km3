@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "tools/hwdriver/gen-pmp4010-access.py",
+    "--check"
+  ],
+  "exit_code": 0
+}

@@ -1,0 +1,57 @@
+{
+  "scenario": "sigint",
+  "command": [
+    "/usr/bin/python3",
+    "-I",
+    "/tmp/pmp4010-round2-pty.py",
+    "--child",
+    "--scenario",
+    "sigint",
+    "--output-dir",
+    "docs/硬件手册/PMP4010/测试台第二轮证据-2026-10-17/pty-sigint"
+  ],
+  "child_exit_code": -2,
+  "failure": null,
+  "keys": [
+    "f5",
+    "enter",
+    "e",
+    "OD mock-bench 1",
+    "f5",
+    "f5",
+    "f5",
+    "364",
+    "f5",
+    "f5",
+    "ENABLE mock-bench 1 -1464",
+    "f5",
+    "q"
+  ],
+  "mock_closed": true,
+  "write_frames": [
+    {
+      "sequence": 223,
+      "kind": "send",
+      "id": 1537,
+      "data": "2b40600006000000"
+    },
+    {
+      "sequence": 229,
+      "kind": "send",
+      "id": 1537,
+      "data": "2b40600007000000"
+    },
+    {
+      "sequence": 235,
+      "kind": "send",
+      "id": 1537,
+      "data": "2b4060000f000000"
+    },
+    {
+      "sequence": 279,
+      "kind": "send",
+      "id": 1537,
+      "data": "2b40600006000000"
+    }
+  ]
+}

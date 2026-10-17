@@ -1,0 +1,4 @@
+$ git diff --exit-code -- tools/hwtui/test_tui.py tools/hwtui/tui.py && sha256sum tools/hwtui/test_tui.py
+96f006b04838da0ed89245418809fbf18b682a98da20ec0c31fd42f6843ecb9f  tools/hwtui/test_tui.py
+
+exit_code=0

@@ -1,0 +1,7 @@
+{
+  "argv": [
+    "bash",
+    "tools/check-deps.sh"
+  ],
+  "exit_code": 0
+}

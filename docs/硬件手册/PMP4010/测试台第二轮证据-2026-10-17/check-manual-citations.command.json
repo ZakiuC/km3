@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "bash",
+    "tools/check-manual-citations.sh"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "exit_code": 0,
+  "elapsed_seconds": 0.06975363101810217
+}

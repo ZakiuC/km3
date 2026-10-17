@@ -1,0 +1,69 @@
+$ cmake --build build-tsan -j"$(nproc)" && setarch -R ctest --test-dir build-tsan
+[  3%] Built target km3_common
+[ 11%] Built target test_pmp4010_verified
+[ 19%] Built target km3_pmp4010_mock
+[ 22%] Built target test_error_code
+[ 30%] Built target km3_core
+[ 33%] Built target test_pmp4010
+[ 37%] Built target test_spsc_ring
+[ 45%] Built target km3-video
+[ 46%] Built target km3_hal
+[ 50%] Built target km3_config
+[ 54%] Built target km3_proto
+[ 58%] Built target km3_link
+[ 61%] Built target test_clock
+[ 67%] Built target test_socketcan
+[ 67%] Built target km3-core
+[ 70%] Built target test_hal
+[ 75%] Built target km3_rt_control
+[ 80%] Built target km3_canopen
+[ 83%] Built target test_frame
+[ 87%] Built target test_config
+[ 90%] Built target test_rt_control
+[ 93%] Built target test_pdo
+[ 96%] Built target test_sync
+[100%] Built target km3-rt-controller
+Internal ctest changing into directory: /home/zakiu/km3/build-tsan
+Test project /home/zakiu/km3/build-tsan
+      Start  1: spsc_ring
+ 1/16 Test  #1: spsc_ring ..........................   Passed    0.16 sec
+      Start  2: error_code
+ 2/16 Test  #2: error_code .........................   Passed    0.01 sec
+      Start  3: frame
+ 3/16 Test  #3: frame ..............................   Passed    0.01 sec
+      Start  4: config
+ 4/16 Test  #4: config .............................   Passed    0.03 sec
+      Start  5: hal
+ 5/16 Test  #5: hal ................................   Passed    0.01 sec
+      Start  6: socketcan
+ 6/16 Test  #6: socketcan ..........................   Passed    0.01 sec
+      Start  7: canopen_pdo
+ 7/16 Test  #7: canopen_pdo ........................   Passed    0.06 sec
+      Start  8: canopen_sync
+ 8/16 Test  #8: canopen_sync .......................   Passed    0.35 sec
+      Start  9: sync_config_cli
+ 9/16 Test  #9: sync_config_cli ....................   Passed   10.61 sec
+      Start 10: clock
+10/16 Test #10: clock ..............................   Passed    0.07 sec
+      Start 11: rt_control
+11/16 Test #11: rt_control .........................   Passed    0.01 sec
+      Start 12: pmp4010_mock_contract
+12/16 Test #12: pmp4010_mock_contract ..............   Passed    0.03 sec
+      Start 13: pmp4010_production_od_guard
+13/16 Test #13: pmp4010_production_od_guard ........   Passed    0.58 sec
+      Start 14: pmp4010_verified_fixture
+14/16 Test #14: pmp4010_verified_fixture ...........   Passed    0.14 sec
+      Start 15: pmp4010_protocol_generated_check
+15/16 Test #15: pmp4010_protocol_generated_check ...   Passed    0.02 sec
+      Start 16: pmp4010_access_generated_check
+16/16 Test #16: pmp4010_access_generated_check .....   Passed    0.02 sec
+
+100% tests passed, 0 tests failed out of 16
+
+Label Time Summary:
+mock       =   0.79 sec*proc (5 tests)
+pmp4010    =   0.79 sec*proc (5 tests)
+
+Total Test time (real) =  12.11 sec
+
+exit_code=0

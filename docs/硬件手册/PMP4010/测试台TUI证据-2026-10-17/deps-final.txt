@@ -1,0 +1,20 @@
+$ bash tools/check-deps.sh
+  install-deps.sh 提供 26 个包
+  CMake 共需要 12 个依赖
+
+    Boost            OK  (libboost-all-dev)
+    OpenSSL          OK  (libssl-dev)
+    PostgreSQL       OK  (libpq-dev)
+    Protobuf         OK  (libprotobuf-dev)
+    Python3          ??  未在映射表中
+    SQLite3          OK  (libsqlite3-dev)
+    Threads          OK  (build-essential)
+    ZeroMQ           OK  (libzmq3-dev)
+    fmt              OK  (libfmt-dev)
+    libpqxx          OK  (libpqxx-dev)
+    nlohmann_json    OK  (nlohmann-json3-dev)
+    spdlog           OK  (libspdlog-dev)
+
+结果：全部已知依赖已覆盖；1 个需人工确认：Python3
+
+exit_code=0

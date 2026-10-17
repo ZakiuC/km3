@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "bash",
+    "tools/check-docs.sh"
+  ],
+  "exit_code": 0,
+  "note": "Run after final report text was written."
+}

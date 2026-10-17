@@ -1,0 +1,8 @@
+{
+  "path": "tools/hwtui/tui.py",
+  "comparison": "current working tree against Git HEAD; no initial-run snapshot available for shared tui.py",
+  "git_show_exit_code": 0,
+  "head_sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb",
+  "current_sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb",
+  "byte_identical_to_head": true
+}

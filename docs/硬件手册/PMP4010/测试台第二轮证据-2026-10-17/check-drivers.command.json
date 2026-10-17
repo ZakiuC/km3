@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "bash",
+    "tools/check-drivers.sh"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "exit_code": 0,
+  "elapsed_seconds": 0.021685750223696232
+}

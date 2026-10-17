@@ -1,0 +1,126 @@
+[
+  [
+    "[i]",
+    "启动需确认 RT 占用；只读扫描也会发 SDO 上传请求。"
+  ],
+  [
+    "[i]",
+    "动作默认关闭；F2 人工设置行程与单次位移预算。"
+  ],
+  [
+    "[i]",
+    "已启动；终端尺寸 30x120"
+  ],
+  [
+    "[i]",
+    "操作者已显式确认 RT 占用风险；本会话记住此确认"
+  ],
+  [
+    "[!]",
+    "km3-rt-controller.service 处于 active —— 它正在使用这条总线"
+  ],
+  [
+    "[i]",
+    "已给出 --i-know-rt-is-running，继续。"
+  ],
+  [
+    "[i]",
+    "扫描完成"
+  ],
+  [
+    "[x]",
+    "节点 4 扫描 SDO 已隔离：node 4: 0.015s 内未收到 SDO 应答（请求 604  [8]  40 00 10 00 00 00 00 00）；需外部恢复"
+  ],
+  [
+    "[i]",
+    "扫描完成：发现 3 台（节点 1,2,3）；面板固定四席"
+  ],
+  [
+    "[!]",
+    "已显式放行本会话 OD 闸门；未提高任何条目可信度"
+  ],
+  [
+    "[!]",
+    "节点 2：已隔离，跳过"
+  ],
+  [
+    "[!]",
+    "未分配席位：离线或失联，跳过"
+  ],
+  [
+    "[i]",
+    "结果事件 bench_result：{'node': 1, 'success': True, 'readback': {'statusword': 1031, 'actual_position': -1464, 'actual_velocity': 0, 'modes_of_operation_display': 1}, 'disabled_confirmed': False, 'mechanical_stop_confirmed': False, 'state_unknown': True}"
+  ],
+  [
+    "[i]",
+    "结果事件 bench_result：{'node': 3, 'success': True, 'readback': {'statusword': 1031, 'actual_position': -1464, 'actual_velocity': 0, 'modes_of_operation_display': 1}, 'disabled_confirmed': False, 'mechanical_stop_confirmed': False, 'state_unknown': True}"
+  ],
+  [
+    "[i]",
+    "动作已完成；见结果读回"
+  ],
+  [
+    "[!]",
+    "已放行 OD 闸门：7 项对象字典未核对，仍执行「快停」。"
+  ],
+  [
+    "[i]",
+    "放行条目：node_guard, emcy_cob_id, sync_period, sdo_timeout, stop_option_605BC_missing, brake_failsafe_behaviour, vendor_factory_value_policy"
+  ],
+  [
+    "[i]",
+    "其中 assumed（有依据但不是手册）：brake_failsafe_behaviour, vendor_factory_value_policy"
+  ],
+  [
+    "[i]",
+    "放行理由：测试台会话显式确认：OD mock-bench ALL 1,3"
+  ],
+  [
+    "[i]",
+    "本次放行**没有**提高任何条目的可信度：od.json 与生成物均未改动。"
+  ],
+  [
+    "[i]",
+    "现场停机由独立安全设计负责；本工具不提供紧急停机（见 CONTRACT.md）。"
+  ],
+  [
+    "[i]",
+    "结果读回：节点 1 位置 -1464 U 状态 0x0407；机械停止状态未知"
+  ],
+  [
+    "[+]",
+    "节点 1 全部快停成功；状态已读回，机械停止未知"
+  ],
+  [
+    "[!]",
+    "已放行 OD 闸门：7 项对象字典未核对，仍执行「快停」。"
+  ],
+  [
+    "[i]",
+    "放行条目：node_guard, emcy_cob_id, sync_period, sdo_timeout, stop_option_605BC_missing, brake_failsafe_behaviour, vendor_factory_value_policy"
+  ],
+  [
+    "[i]",
+    "其中 assumed（有依据但不是手册）：brake_failsafe_behaviour, vendor_factory_value_policy"
+  ],
+  [
+    "[i]",
+    "放行理由：测试台会话显式确认：OD mock-bench ALL 1,3"
+  ],
+  [
+    "[i]",
+    "本次放行**没有**提高任何条目的可信度：od.json 与生成物均未改动。"
+  ],
+  [
+    "[i]",
+    "现场停机由独立安全设计负责；本工具不提供紧急停机（见 CONTRACT.md）。"
+  ],
+  [
+    "[i]",
+    "结果读回：节点 3 位置 -1464 U 状态 0x0407；机械停止状态未知"
+  ],
+  [
+    "[+]",
+    "节点 3 全部快停成功；状态已读回，机械停止未知"
+  ]
+]

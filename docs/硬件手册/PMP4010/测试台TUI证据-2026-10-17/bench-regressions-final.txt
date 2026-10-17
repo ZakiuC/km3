@@ -1,0 +1,55 @@
+$ python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p "_test_bench.py" -v
+test_action_edit_consumes_q_question_mark_and_escape_cancels (_test_bench.BenchInteractionTests) ... ok
+test_actual_keyboardinterrupt_drains_and_reports_worker_cleanup (_test_bench.BenchInteractionTests) ... ok
+test_busy_q_waits_for_worker_cleanup (_test_bench.BenchInteractionTests) ... ok
+test_delayed_mockbus_sdo_does_not_block_key_help_or_build (_test_bench.BenchInteractionTests) ... ok
+test_interrupt_before_startup_does_not_launch_initial_scan (_test_bench.BenchInteractionTests) ... ok
+test_od_dialog_exact_session_ack_then_budget_remains_required (_test_bench.BenchInteractionTests) ... ok
+test_review_then_exact_confirmation_required_before_execute (_test_bench.BenchInteractionTests) ... ok
+test_actions_reject_velocity_modes (_test_bench.BenchTests) ... ok
+test_cancel_during_transaction_confirms_disabled_with_same_client (_test_bench.BenchTests) ... ok
+test_constructor_no_io_and_four_slots (_test_bench.BenchTests) ... ok
+test_disable_and_stop_cancel_after_download_still_confirm_cleanup (_test_bench.BenchTests) ... ok
+test_enable_postflight_envelope_failure_cleans_up_same_client (_test_bench.BenchTests) ... ok
+test_enable_postflight_timeout_reports_unknown_without_replacement_client (_test_bench.BenchTests) ... ok
+test_fault_refused_without_auto_reset (_test_bench.BenchTests) ... ok
+test_lost_write_ack_does_not_claim_disabled_and_latches_quarantine (_test_bench.BenchTests) ... ok
+test_manual_budget_over_one_degree_is_blocked (_test_bench.BenchTests) ... ok
+test_motion_requires_od_ack_and_operator_budget (_test_bench.BenchTests) ... ok
+test_oversize_target_and_soft_envelope_are_blocked (_test_bench.BenchTests) ... ok
+test_position_transaction_shared_runner_cleanup_and_absolute_wire (_test_bench.BenchTests) ... ok
+test_quarantine_is_sticky_no_retry_or_client_recreation (_test_bench.BenchTests) ... ok
+test_refresh_loss_preserves_all_last_values_and_calibration (_test_bench.BenchTests) ... ok
+test_refresh_yields_while_motion_owns_transport_lock (_test_bench.BenchTests) ... ok
+test_relative_rejects_not_target_reached (_test_bench.BenchTests) ... ok
+test_relative_uses_absolute_target_and_rejects_moving_velocity (_test_bench.BenchTests) ... ok
+test_review_od_drift_refused_before_writes (_test_bench.BenchTests) ... ok
+test_review_reuses_all_shared_position_guards (_test_bench.BenchTests) ... ok
+test_review_start_drift_refused_before_target_write (_test_bench.BenchTests) ... ok
+test_review_target_context_drift_refused_before_writes (_test_bench.BenchTests) ... ok
+test_scan_four_slots_one_online_three_offline_upload_only (_test_bench.BenchTests) ... ok
+test_stale_snapshot_rejects_relative_before_writes (_test_bench.BenchTests) ... ok
+test_start_drift_during_setup_is_refused_before_607a_download (_test_bench.BenchTests) ... ok
+test_startup_rt_ack_is_required_before_scan (_test_bench.BenchTests) ... ok
+test_telemetry_and_action_clients_are_separate_on_one_transport (_test_bench.BenchTests) ... ok
+test_velocity_unit_selector_is_read_and_preserved (_test_bench.BenchTests) ... ok
+test_zero_coordinate_reset_accepts_old_bounds_excluding_zero (_test_bench.BenchTests) ... ok
+test_zero_method35_and_explicit_0f_to_1f_edge (_test_bench.BenchTests) ... ok
+test_zero_refuses_nonzero_origin_offset_and_never_writes_607c (_test_bench.BenchTests) ... ok
+
+----------------------------------------------------------------------
+Ran 37 tests in 0.242s
+
+OK
+BENCH nonblocking: help key + rendered screen 0.005673s; worker still blocked past SDO timeout; quarantine visible
+BENCH cancellation: disabled_confirmed=true; completed=false; cleanup ignores transaction cancellation
+BENCH enable postflight: out-of-envelope readback causes same-client quick-stop + disable
+BENCH enable postflight timeout: disabled_confirmed=false; state_unknown=true; replacement clients=0
+BENCH lost write ACK: same quarantined client; disabled_confirmed=false; independent_estop_required=true
+BENCH quarantine: timeout latched; rescan/refresh/action cannot recreate client or send another request
+BENCH relative: -1464 + 50 = absolute -1414; nonzero actual velocity rejected before write
+BENCH scan: four slots; node 1 online; three unassigned slots offline; SDO uploads only; NMT=0
+BENCH setup race: start drift after mode write; target 607A never downloaded; cleanup confirmed
+BENCH zero: 6098:00=35; controlword edge 0x000F -> 0x001F; 607C writes=0; cleanup [0x0002,0x0000]
+
+exit_code=0

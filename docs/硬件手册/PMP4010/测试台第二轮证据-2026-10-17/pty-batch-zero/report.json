@@ -1,0 +1,22 @@
+{
+  "scenario": "batch-zero",
+  "command": [
+    "/usr/bin/python3",
+    "-I",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/测试台第二轮证据-2026-10-17/verify_round2_pty.py",
+    "--child",
+    "--scenario",
+    "batch-zero",
+    "--output-dir",
+    "docs/硬件手册/PMP4010/测试台第二轮证据-2026-10-17/pty-batch-zero"
+  ],
+  "child_exit_code": 0,
+  "failure": null,
+  "keys": [
+    "f5",
+    "d",
+    "q"
+  ],
+  "mock_closed": true,
+  "write_frames": []
+}

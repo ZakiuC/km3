@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "setarch",
+    "x86_64",
+    "-R",
+    "ctest",
+    "--test-dir",
+    "build-tsan",
+    "--output-on-failure"
+  ],
+  "exit_code": 0
+}

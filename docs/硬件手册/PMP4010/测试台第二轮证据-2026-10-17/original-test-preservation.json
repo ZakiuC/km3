@@ -1,0 +1,50 @@
+{
+  "device/drivers/pmp4010/tools/pmp4010_bench.py": {
+    "baseline_test_count": 0,
+    "final_test_count": 0,
+    "missing_original_cases": [],
+    "changed_original_test_method_source": [],
+    "file_byte_identical": false,
+    "all_original_cases_preserved": true
+  },
+  "device/drivers/pmp4010/tools/pmp4010_tui.py": {
+    "baseline_test_count": 0,
+    "final_test_count": 0,
+    "missing_original_cases": [],
+    "changed_original_test_method_source": [],
+    "file_byte_identical": false,
+    "all_original_cases_preserved": true
+  },
+  "device/drivers/pmp4010/tools/pmp4010_position.py": {
+    "baseline_test_count": 0,
+    "final_test_count": 0,
+    "missing_original_cases": [],
+    "changed_original_test_method_source": [],
+    "file_byte_identical": true,
+    "all_original_cases_preserved": true
+  },
+  "device/drivers/pmp4010/tools/_test_bench.py": {
+    "baseline_test_count": 37,
+    "final_test_count": 58,
+    "missing_original_cases": [],
+    "changed_original_test_method_source": [],
+    "file_byte_identical": false,
+    "all_original_cases_preserved": true
+  },
+  "device/drivers/pmp4010/tools/_test_bench_support.py": {
+    "baseline_test_count": 0,
+    "final_test_count": 0,
+    "missing_original_cases": [],
+    "changed_original_test_method_source": [],
+    "file_byte_identical": true,
+    "all_original_cases_preserved": true
+  },
+  "tools/hwtui/test_tui.py": {
+    "baseline_test_count": 61,
+    "final_test_count": 61,
+    "missing_original_cases": [],
+    "changed_original_test_method_source": [],
+    "file_byte_identical": true,
+    "all_original_cases_preserved": true
+  }
+}

@@ -1,0 +1,16 @@
+$ python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p "_test_*.py"
+.....................................................................................................................................................
+----------------------------------------------------------------------
+Ran 149 tests in 1.352s
+
+OK
+B explicit backup mock frames=16 SDO uploads; downloads=0; objects=12 identity=4
+B out-of-range/late-invalid-plan mock frame_count=0
+B dry-run mock frame_count=0; bus_open_count=0; link_query_count=0
+C invalid parameter/soft travel/small displacement checks: zero real frames
+C fast move: fresh ACK 0->1->0 + target actual position; all sampled target-reached bits=1 accepted
+C lost enable ACK: SDO quarantined; stop and disable attempted, unconfirmed; independent E-stop required
+C offline default/explicit dry-run: real_frame_count=0 real_bus_open_count=0
+C preview matches independent SDO peer: 62/62 complete nominal request frames
+
+exit_code=0

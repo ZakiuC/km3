@@ -1,0 +1,19 @@
+节点 1 已发失能 6040h=0x0006，6041h=0x0421，operation enabled=0，失能已确认
+总线已关闭（失能确认流程之后）
+测试台结束：退出失能确认=True；机械停止与抱闸仍须独立确认
+Traceback (most recent call last):
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/测试台第二轮证据-2026-10-17/verify_round2_pty.py", line 147, in <module>
+    if __name__=='__main__':sys.exit(main())
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/测试台第二轮证据-2026-10-17/verify_round2_pty.py", line 79, in main
+    if a.child:return child(a.output_dir,a.scenario)
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/测试台第二轮证据-2026-10-17/verify_round2_pty.py", line 52, in child
+    try:return app.run()
+  File "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_tui.py", line 589, in run
+    return super().run()
+  File "/home/zakiu/km3/tools/hwtui/tui.py", line 1365, in run
+    return curses.wrapper(self._main)  # pragma: no cover - 需要真终端
+  File "/usr/lib/python3.10/curses/__init__.py", line 94, in wrapper
+    return func(stdscr, *args, **kwds)
+  File "/home/zakiu/km3/tools/hwtui/tui.py", line 1341, in _main
+    key = stdscr.getch()
+KeyboardInterrupt

@@ -1,0 +1,55 @@
+{
+  "cwd": "/home/zakiu/km3",
+  "runtime": {
+    "model": "unknown",
+    "reasoning_effort": "unknown",
+    "last_token_usage.input_tokens": "unknown"
+  },
+  "commands": [
+    {
+      "name": "pmp4010",
+      "argv": [
+        "python3",
+        "-I",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "device/drivers/pmp4010/tools",
+        "-p",
+        "_test_*.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "hwtui",
+      "argv": [
+        "python3",
+        "-I",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools/hwtui",
+        "-p",
+        "test_*.py"
+      ],
+      "exit_code": 0
+    },
+    {
+      "name": "tools-tests",
+      "argv": [
+        "python3",
+        "-I",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools/tests",
+        "-p",
+        "test_*.py"
+      ],
+      "exit_code": 0
+    }
+  ]
+}

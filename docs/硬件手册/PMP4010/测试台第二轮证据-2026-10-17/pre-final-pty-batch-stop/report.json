@@ -1,0 +1,40 @@
+{
+  "scenario": "batch-stop",
+  "command": [
+    "/usr/bin/python3",
+    "-I",
+    "/tmp/pmp4010-round2-pty.py",
+    "--child",
+    "--scenario",
+    "batch-stop",
+    "--output-dir",
+    "docs/硬件手册/PMP4010/测试台第二轮证据-2026-10-17/pty-batch-stop"
+  ],
+  "child_exit_code": 0,
+  "failure": null,
+  "keys": [
+    "f5",
+    "x",
+    "OD mock-bench ALL 1,3",
+    "f5",
+    "f5",
+    "STOP ALL 1,3",
+    "f5",
+    "q"
+  ],
+  "mock_closed": true,
+  "write_frames": [
+    {
+      "sequence": 346,
+      "kind": "send",
+      "id": 1537,
+      "data": "2b40600002000000"
+    },
+    {
+      "sequence": 360,
+      "kind": "send",
+      "id": 1539,
+      "data": "2b40600002000000"
+    }
+  ]
+}

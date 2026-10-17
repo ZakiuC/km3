@@ -1,0 +1,7 @@
+$ python3 -I tools/hwdriver/gen-od.py --model pmp4010 --check
+==> 校验 pmp4010 的两份生成物（--check）
+  一致   /home/zakiu/km3/device/drivers/pmp4010/driver/od_generated.hpp
+  一致   /home/zakiu/km3/tools/hwtui/canopen_consts.py
+结果：两份生成物都与 od.json 一致
+
+exit_code=0

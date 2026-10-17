@@ -1,0 +1,11 @@
+$ bash tools/check-drivers.sh
+==> 驱动解耦检查（device/drivers/，1 个驱动）
+  (d) 五件套：检查 1 个驱动
+  (a) 链接白名单：检查 1 个驱动的 CMakeLists，白名单 = km3_core km3_hal km3_canopen km3_driver_api
+  (b) 驱动互引：检查 1 个驱动之间的两两引用
+  (c) 反向完整性：检查 1 个驱动是否都能从 device/CMakeLists.txt 到达
+  (e) 物理标识：扫描 device/drivers 全树（含 _template）
+
+结果：1 个驱动，五条断言全部通过
+
+exit_code=0

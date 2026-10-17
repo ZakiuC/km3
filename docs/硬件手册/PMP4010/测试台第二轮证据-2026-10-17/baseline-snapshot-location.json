@@ -1,0 +1,5 @@
+{
+  "snapshot_directory": "/tmp/pmp4010-round2-baseline-20261017",
+  "manifest": "baseline-manifest.json",
+  "note": "Exact source snapshots kept outside delivery evidence; SHA256 and AST case list in manifest."
+}

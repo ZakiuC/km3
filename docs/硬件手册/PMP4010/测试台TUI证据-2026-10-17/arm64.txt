@@ -1,0 +1,26 @@
+$ cmake --build build-arm64 -j"$(nproc)"
+[  3%] Built target km3_common
+[ 13%] Built target km3_pmp4010_mock
+[ 20%] Built target test_pmp4010_verified
+[ 28%] Built target km3_core
+[ 32%] Built target test_error_code
+[ 35%] Built target test_pmp4010
+[ 38%] Built target km3_link
+[ 42%] Built target km3_config
+[ 45%] Built target km3-video
+[ 49%] Built target test_spsc_ring
+[ 61%] Built target km3_hal
+[ 59%] Built target km3-core
+[ 62%] Built target test_clock
+[ 66%] Built target test_frame
+[ 69%] Built target test_config
+[ 74%] Built target km3_rt_control
+[ 77%] Built target test_socketcan
+[ 81%] Built target test_hal
+[ 86%] Built target km3_canopen
+[ 89%] Built target test_rt_control
+[ 93%] Built target km3-rt-controller
+[ 96%] Built target test_sync
+[100%] Built target test_pdo
+
+exit_code=0

@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "bash",
+    "-c",
+    "cmake --build build-tsan -j\"$(nproc)\" && ctest --test-dir build-tsan --output-on-failure"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "exit_code": 8,
+  "elapsed_seconds": 0.7806231286376715
+}

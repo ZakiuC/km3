@@ -1,0 +1,7 @@
+{
+  "argv": [
+    "bash",
+    "tools/check-drivers.sh"
+  ],
+  "exit_code": 0
+}

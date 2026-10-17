@@ -1,0 +1,144 @@
+{
+  "exit": {
+    "mock_closed": true,
+    "close_is_final_event": true,
+    "nmt_count": 0,
+    "download_count": 4,
+    "download_indices_hex": [
+      "0x6040"
+    ],
+    "exit_sequence": [
+      {
+        "sequence": 280,
+        "kind": "recv",
+        "id": 1409,
+        "data": "6040600000000000"
+      },
+      {
+        "sequence": 281,
+        "kind": "send",
+        "id": 1537,
+        "data": "4041600000000000"
+      },
+      {
+        "sequence": 282,
+        "kind": "recv",
+        "id": 1409,
+        "data": "4b41600021040000"
+      },
+      {
+        "sequence": 283,
+        "kind": "close"
+      }
+    ]
+  },
+  "exit-timeout": {
+    "mock_closed": true,
+    "close_is_final_event": true,
+    "nmt_count": 0,
+    "download_count": 4,
+    "download_indices_hex": [
+      "0x6040"
+    ]
+  },
+  "review": {
+    "mock_closed": true,
+    "close_is_final_event": true,
+    "nmt_count": 0,
+    "download_count": 4,
+    "download_indices_hex": [
+      "0x6040"
+    ],
+    "exit_sequence": [
+      {
+        "sequence": 340,
+        "kind": "recv",
+        "id": 1409,
+        "data": "6040600000000000"
+      },
+      {
+        "sequence": 341,
+        "kind": "send",
+        "id": 1537,
+        "data": "4041600000000000"
+      },
+      {
+        "sequence": 342,
+        "kind": "recv",
+        "id": 1409,
+        "data": "4b41600021040000"
+      },
+      {
+        "sequence": 343,
+        "kind": "close"
+      }
+    ]
+  },
+  "batch-disable": {
+    "mock_closed": true,
+    "close_is_final_event": true,
+    "nmt_count": 0,
+    "download_count": 2,
+    "download_indices_hex": [
+      "0x6040"
+    ]
+  },
+  "batch-stop": {
+    "mock_closed": true,
+    "close_is_final_event": true,
+    "nmt_count": 0,
+    "download_count": 2,
+    "download_indices_hex": [
+      "0x6040"
+    ]
+  },
+  "sigint": {
+    "mock_closed": true,
+    "close_is_final_event": true,
+    "nmt_count": 0,
+    "download_count": 4,
+    "download_indices_hex": [
+      "0x6040"
+    ],
+    "exit_sequence": [
+      {
+        "sequence": 280,
+        "kind": "recv",
+        "id": 1409,
+        "data": "6040600000000000"
+      },
+      {
+        "sequence": 281,
+        "kind": "send",
+        "id": 1537,
+        "data": "4041600000000000"
+      },
+      {
+        "sequence": 282,
+        "kind": "recv",
+        "id": 1409,
+        "data": "4b41600021040000"
+      },
+      {
+        "sequence": 283,
+        "kind": "close"
+      }
+    ]
+  },
+  "batch-zero": {
+    "mock_closed": true,
+    "close_is_final_event": true,
+    "nmt_count": 0,
+    "download_count": 0,
+    "download_indices_hex": []
+  },
+  "batch-cancel": {
+    "mock_closed": true,
+    "close_is_final_event": true,
+    "nmt_count": 0,
+    "download_count": 1,
+    "download_indices_hex": [
+      "0x6040"
+    ]
+  }
+}

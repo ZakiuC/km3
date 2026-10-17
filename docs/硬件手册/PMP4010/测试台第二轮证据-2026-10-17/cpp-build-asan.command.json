@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "bash",
+    "-c",
+    "cmake --build build-asan -j\"$(nproc)\" && ctest --test-dir build-asan --output-on-failure"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "exit_code": 0,
+  "elapsed_seconds": 12.240741472225636
+}

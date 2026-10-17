@@ -1,0 +1,40 @@
+{
+  "scenario": "batch-disable",
+  "command": [
+    "/usr/bin/python3",
+    "-I",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/测试台第二轮证据-2026-10-17/verify_round2_pty.py",
+    "--child",
+    "--scenario",
+    "batch-disable",
+    "--output-dir",
+    "docs/硬件手册/PMP4010/测试台第二轮证据-2026-10-17/pty-batch-disable"
+  ],
+  "child_exit_code": 0,
+  "failure": null,
+  "keys": [
+    "f5",
+    "d",
+    "OD mock-bench ALL 1,3",
+    "f5",
+    "f5",
+    "DISABLE ALL 1,3",
+    "f5",
+    "q"
+  ],
+  "mock_closed": true,
+  "write_frames": [
+    {
+      "sequence": 346,
+      "kind": "send",
+      "id": 1537,
+      "data": "2b40600000000000"
+    },
+    {
+      "sequence": 360,
+      "kind": "send",
+      "id": 1539,
+      "data": "2b40600000000000"
+    }
+  ]
+}
