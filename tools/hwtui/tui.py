@@ -7,14 +7,10 @@
     所以共用外壳不需要引入任何新依赖。板端根分区只剩约 4.1 GiB，
     也没有必要为"画个框"装一个包。
 
-字形边界（清醒的裁剪，完整理由见 README.md）
-    只处理 ASCII 可打印字符与单宽制表符号（U+2500-U+257F）。
-    不碰 wcwidth、组合字符、双宽字形。
-    于是"一个字符 = 一个格子 = 一次 len()"，宽度计算不需要任何库，
-    也不需要 UTF-8 解码器；UI 文案因此一律用英文与符号。
-
-    代价：终端里排不了中文。这是接受的代价，不是疏漏——硬排中文就得做
-    东亚字宽，那是另一个量级的工程，远超"共用外壳"该负的责任。
+字形边界（完整理由见 README.md）
+    网格仍是 list[str]；行的字符数可变，终端列宽固定。标准库 unicodedata
+    的 W/F 字形占两列，ASCII 与制表符号占一列，Ambiguous 按一列处理。
+    不处理组合字符或 emoji 字形簇；控制字符始终替换，不能注入终端指令。
 
 渲染接缝（本文件最重要的设计）
     render(prev_grid, next_grid) -> list[str] 是纯函数：
@@ -51,6 +47,7 @@ import argparse
 import os
 import signal
 import sys
+import unicodedata
 from collections import deque, namedtuple
 from decimal import Decimal, InvalidOperation
 from typing import Dict, List, Optional, Sequence, Tuple
@@ -69,6 +66,7 @@ __all__ = [
     "Layout",
     "render",
     "sanitize",
+    "_display_width",
     "fit",
     "draw_box",
     "draw_hsep",
@@ -110,45 +108,85 @@ def box_chars(style: str = "unicode") -> Dict[str, str]:
     return BOX_ASCII if style == "ascii" else BOX_UNICODE
 
 
-def _is_supported(ch: str) -> bool:
+def _display_width(text: str) -> int:
+    """终端列宽：East Asian Width W/F 占两列，其余占一列。
+
+    组合字符/字形簇不在网格支持范围内；先用 sanitize(..., wide=True)
+    清理外部文本。Ambiguous 按一列，终端采用双宽策略时请用 ASCII 框线。
+    """
+    return sum(2 if unicodedata.east_asian_width(ch) in ("W", "F") else 1
+               for ch in text)
+
+
+def _is_supported(ch: str, wide: bool = False) -> bool:
     o = ord(ch)
-    return any(lo <= o <= hi for lo, hi in _SUPPORTED_RANGES)
+    return (any(lo <= o <= hi for lo, hi in _SUPPORTED_RANGES)
+            or (wide and unicodedata.east_asian_width(ch) in ("W", "F")))
 
 
-def sanitize(text: str, strict: bool = True) -> str:
+def sanitize(text: str, strict: bool = True, wide: bool = False) -> str:
     """把不能安全落进网格的字符换掉。这是防注入，不是美化。
 
     网格里会出现来自 CAN 报文、串口、文件名、环境变量的字节。若放行 ESC，
     一段损坏或恶意的数据就能改写终端状态（清屏、伪造提示行、把光标搬走）。
     控制字符一律换成 '.'。
 
-    strict=True（默认）时，非 ASCII 且非制表符号的字符一律降级为 '?'：
-    不做 wcwidth 就无法保证它们的宽度是 1，放行就等于允许静默错位。
-    strict=False 保留原样——给"我知道自己终端是什么"的人留的口子。
+    wide=True 放行可打印的 W/F 双宽字形（Grid 与控件显式启用）。默认值保留
+    旧调用方的 ASCII/框线约定。strict=False 还允许其他单宽可打印字符。
+    两种模式都拒绝控制/格式字符与组合字符，避免注入与不可计量的字形簇。
     """
     out = []
     for ch in text:
-        o = ord(ch)
-        if o < 0x20 or o == 0x7F:
+        category = unicodedata.category(ch)
+        if not ch.isprintable() or category.startswith("C"):
             out.append(".")
-        elif strict and not _is_supported(ch):
+        elif category.startswith("M") or (strict and not _is_supported(ch, wide)):
             out.append("?")
         else:
             out.append(ch)
     return "".join(out)
 
 
+def _glyphs(text: str):
+    """临时列跨度；持久网格仍是行字符串。"""
+    col = 0
+    for ch in text:
+        end = col + _display_width(ch)
+        yield col, end, ch
+        col = end
+
+
+def _column_slice(text: str, start: int, end: int) -> str:
+    """取列区间；相交的半个双宽字用空格擦除，不留下孤立半字。"""
+    out = []
+    for left, right, ch in _glyphs(text):
+        if left >= end:
+            break
+        if right <= start:
+            continue
+        out.append(ch if start <= left and right <= end
+                   else " " * (min(end, right) - max(start, left)))
+    return "".join(out)
+
+
+def _prefix_columns(text: str, width: int) -> str:
+    out = []
+    for left, right, ch in _glyphs(text):
+        if right > width:
+            break
+        out.append(ch)
+    return "".join(out)
+
+
 def fit(text: str, width: int, mark: str = TRUNCATE_MARK) -> str:
-    """按格子数截断（一个字符 = 一个格子）。被截断时末位换成 mark。"""
+    """按终端列截断，不切半个字。被截断时保留完整的 mark。"""
     if width <= 0:
         return ""
-    if len(text) <= width:
+    text = sanitize(text, strict=False, wide=True)
+    if _display_width(text) <= width:
         return text
-    if not mark:
-        return text[:width]
-    if width == 1:
-        return mark[:1]
-    return text[: width - 1] + mark
+    mark = _prefix_columns(sanitize(mark, strict=False, wide=True), width)
+    return _prefix_columns(text, width - _display_width(mark)) + mark
 
 
 # --------------------------------------------------------------------------
@@ -224,12 +262,12 @@ def resolve_size(rows=None, cols=None, ioctl=None, env=None) -> Tuple[int, int]:
 # 纯函数渲染接缝
 # --------------------------------------------------------------------------
 def _shape(grid: Sequence[str]) -> Tuple[int, ...]:
-    """把一帧的"形状"表达成每行长度组成的元组。
+    """把一帧的"形状"表达成每行终端列宽组成的元组。
 
     行数不同、宽度不同、行宽不齐——三种情况一次性全captured，
     所以形状不等就等于"不能逐格 diff，必须全量重绘"。
     """
-    return tuple(len(row) for row in grid)
+    return tuple(_display_width(row) for row in grid)
 
 
 def cursor_to(row: int, col: int) -> str:
@@ -238,19 +276,27 @@ def cursor_to(row: int, col: int) -> str:
 
 
 def _changed_runs(before: str, after: str) -> List[Tuple[int, int]]:
-    """把"字符不同"的列下标收集成连续区间 [start, end)，半开区间。"""
+    """变化列区间，边界必须同时是新旧帧的字形边界。
+
+    共同边界一次完成传递扩张：错开一列的连续双宽字可能一直扩到行尾。
+    """
+    def columns(text):
+        cells, boundaries = [], {0}
+        for left, right, ch in _glyphs(text):
+            cells.extend((ch, offset) for offset in range(right - left))
+            boundaries.add(right)
+        return cells, boundaries
+
+    old, old_edges = columns(before)
+    new, new_edges = columns(after)
+    edges = sorted(old_edges & new_edges)
     runs: List[Tuple[int, int]] = []
-    width = min(len(before), len(after))
-    start = -1
-    for x in range(width):
-        if before[x] != after[x]:
-            if start < 0:
-                start = x
-        elif start >= 0:
-            runs.append((start, x))
-            start = -1
-    if start >= 0:
-        runs.append((start, width))
+    for start, end in zip(edges, edges[1:]):
+        if old[start:end] != new[start:end]:
+            if runs and runs[-1][1] == start:
+                runs[-1] = (runs[-1][0], end)
+            else:
+                runs.append((start, end))
     return runs
 
 
@@ -258,7 +304,7 @@ def _full_repaint(grid: Sequence[str]) -> List[str]:
     """全量重绘：清屏 + 回原点，然后每行以 CRLF 分隔。
 
     返回的第一项是 "\x1b[2J\x1b[H" + 第 0 行；其后每项是 "\r\n" + 对应行。
-    因此总字节数 = 7 + sum(len(row)) + 2 * (行数 - 1)。
+    UTF-8 总字节数 = 7 + sum(len(row.encode("utf-8"))) + 2 * (行数 - 1)。
     """
     out = [CLEAR_SCREEN + CURSOR_HOME + grid[0]]
     out.extend("\r\n" + row for row in grid[1:])
@@ -268,7 +314,7 @@ def _full_repaint(grid: Sequence[str]) -> List[str]:
 def render(prev_grid: Optional[Sequence[str]], next_grid: Sequence[str]) -> List[str]:
     """渲染接缝。纯函数：同样的两帧永远产出逐字节相同的输出。
 
-    入参是两帧字符网格（每行等长；Grid.to_lines() 的返回值就是这种形状），
+    入参是两帧安全字符网格（每行等显示列宽；Grid.to_lines() 返回这种形状），
     出参是要写给终端的转义行列表。
 
     契约（改动前请先读 README.md，测试逐字节钉住了这些性质）：
@@ -278,6 +324,7 @@ def render(prev_grid: Optional[Sequence[str]], next_grid: Sequence[str]) -> List
     2. prev_grid 为 None 或两帧形状不同 -> 全量重绘（见 _full_repaint）。
     3. 否则逐行逐格比较，只发"改变了的列"：
        每个连续变化区间一条 "\x1b[<行>;<列>H" + 该区间的新字符。
+       双宽字要求区间扩到新旧帧共同字形边界，可能连带重画相邻未变格。
     4. 不追踪光标状态：每个区间自带绝对定位，所以输出只取决于两帧之差，
        不取决于之前发过什么。这条性质让字节数可以被写死。
     5. 不读不写任何东西，不改动入参。
@@ -291,7 +338,7 @@ def render(prev_grid: Optional[Sequence[str]], next_grid: Sequence[str]) -> List
     out: List[str] = []
     for y, (before, after) in enumerate(zip(prev_lines, next_lines)):
         for start, end in _changed_runs(before, after):
-            out.append(cursor_to(y, start) + after[start:end])
+            out.append(cursor_to(y, start) + _column_slice(after, start, end))
     return out
 
 
@@ -363,7 +410,9 @@ class Grid:
         self.rows = max(0, int(rows))
         self.cols = max(0, int(cols))
         self.strict = strict
-        self._fill = (fill or " ")[:1]
+        self._fill = sanitize((fill or " ")[:1], strict, wide=True)
+        if _display_width(self._fill) != 1:
+            self._fill = " "
         self._lines: List[str] = [self._fill * self.cols for _ in range(self.rows)]
 
     @property
@@ -379,25 +428,25 @@ class Grid:
             return
         if not (0 <= y < self.rows):
             return
-        text = sanitize(text, self.strict)
-        if x < 0:
-            text = text[-x:]
-            x = 0
-        if x >= self.cols or not text:
+        text = sanitize(text, self.strict, wide=True)
+        start, end = max(0, x), min(self.cols, x + _display_width(text))
+        if start >= end:
             return
-        piece = text[: self.cols - x]
+        piece = _column_slice(text, start - x, end - x)
         line = self._lines[y]
-        self._lines[y] = line[:x] + piece + line[x + len(piece):]
+        self._lines[y] = (_column_slice(line, 0, start) + piece
+                          + _column_slice(line, end, self.cols))
 
     def fill_rect(self, rect: Rect, ch: str = " ") -> None:
         if not rect.valid:
             return
         for i in range(rect.h):
-            self.put(rect.y + i, rect.x, ch * rect.w)
+            self.put(rect.y + i, rect.x, _column_slice(
+                sanitize(ch, self.strict, wide=True) * rect.w, 0, rect.w))
 
     def hline(self, y: int, x: int, w: int, ch: str = "-") -> None:
         if w > 0:
-            self.put(y, x, ch * w)
+            self.put(y, x, _column_slice(sanitize(ch, self.strict, wide=True) * w, 0, w))
 
     def box(self, rect: Rect, title: Optional[str] = None, style: str = "unicode") -> None:
         draw_box(self, rect, title, style)
@@ -418,7 +467,7 @@ def draw_box(grid: Grid, rect: Rect, title: Optional[str] = None, style: str = "
         grid.put(rect.y + i, rect.x + rect.w - 1, b["v"])
     grid.put(rect.y + rect.h - 1, rect.x, b["bl"] + mid + b["br"])
     if title:
-        grid.put(rect.y, rect.x + 2, " " + fit(sanitize(title, grid.strict), max(0, rect.w - 5)) + " ")
+        grid.put(rect.y, rect.x + 2, " " + fit(sanitize(title, grid.strict, wide=True), max(0, rect.w - 5)) + " ")
 
 
 def draw_hsep(grid: Grid, y: int, x: int, w: int, style: str = "unicode", label: Optional[str] = None) -> None:
@@ -431,7 +480,7 @@ def draw_hsep(grid: Grid, y: int, x: int, w: int, style: str = "unicode", label:
         return
     grid.put(y, x, b["lt"] + b["h"] * (w - 2) + b["rt"])
     if label:
-        grid.put(y, x + 2, " " + fit(sanitize(label, grid.strict), max(0, w - 5)) + " ")
+        grid.put(y, x + 2, " " + fit(sanitize(label, grid.strict, wide=True), max(0, w - 5)) + " ")
 
 
 def draw_vsep(grid: Grid, x: int, y: int, h: int, style: str = "unicode") -> None:
@@ -549,7 +598,7 @@ class Menu:
 
 
 class Field:
-    """One ASCII input, with a separate draft until Enter commits it.
+    """One text input (ASCII keyboard), with a separate draft until Enter commits it.
 
     ``number`` checks only numeric syntax and finiteness. Device limits and
     units remain the caller's responsibility. A readonly field never edits.
@@ -642,12 +691,15 @@ class Field:
         """Return a clipped, sanitized value while keeping the cursor visible."""
         if width <= 0:
             return ""
-        text = sanitize(self.text)
+        text = sanitize(self.text, wide=True)
         if not self.editing:
             return fit(text + (" [ro]" if self.kind == "readonly" else ""), width)
+        # cursor 始终是草稿的字符下标；滚动窗口的起点必须落在字形边界。
+        cursor_col = _display_width(text[:self.cursor])
         text = text[:self.cursor] + "_" + text[self.cursor:]
-        start = max(0, self.cursor - width + 1)
-        return text[start:start + width]
+        first_col = max(0, cursor_col - width + 1)
+        start = next((left for left, _, _ in _glyphs(text) if left >= first_col), 0)
+        return _prefix_columns(_column_slice(text, start, _display_width(text)), width)
 
 
 class Form:
@@ -700,10 +752,10 @@ class Form:
         self.offset = max(0, min(self.offset, max(0, len(self.fields) - rect.h)))
         for row, field in enumerate(self.fields[self.offset:self.offset + rect.h]):
             marker = "x " if field.error else ("> " if row + self.offset == self.selected else "  ")
-            label_width = min(len(sanitize(field.label)) + 2, max(0, rect.w - 6))
-            label = fit(sanitize(field.label) + ": ", label_width)
+            label_width = min(_display_width(sanitize(field.label, wide=True)) + 2, max(0, rect.w - 6))
+            label = fit(sanitize(field.label, wide=True) + ": ", label_width)
             prefix = marker + label
-            value = field.display(max(0, rect.w - len(prefix)))
+            value = field.display(max(0, rect.w - _display_width(prefix)))
             grid.put(rect.y + row, rect.x, fit(prefix + value, rect.w))
 
 
@@ -757,7 +809,7 @@ class Table:
         self.offset = max(0, min(self.offset, max(0, len(self.rows) - height)))
 
     def _sep_width(self, ncols: int, style: str) -> int:
-        return (len(self.gap) * 2 + 1) * max(0, ncols - 1)
+        return (_display_width(sanitize(self.gap, wide=True)) * 2 + 1) * max(0, ncols - 1)
 
     def resolve_widths(self, avail: int, style: str = "unicode") -> List[int]:
         """算列宽：先取内容自然宽度，再按可用宽度收缩；放不下的列整列丢掉。
@@ -774,10 +826,8 @@ class Table:
         natural = [0] * ncols
         for row in [self.headers] + self.rows:
             for c_i in range(min(ncols, len(row))):
-                natural[c_i] = max(natural[c_i], len(row[c_i]))
+                natural[c_i] = max(natural[c_i], _display_width(sanitize(row[c_i], wide=True)))
         natural = [max(1, w) for w in natural]
-        stylesep = len(self.gap) * 2 + 1
-
         widths = list(natural)
         while sum(widths) + self._sep_width(len(widths), style) > avail and max(widths) > 3:
             widths[widths.index(max(widths))] -= 1
@@ -807,8 +857,8 @@ class Table:
         b = box_chars(style)
         limit = x + rect.w
         pos = x
-        grid.put(y, pos, self.gap + (">" if selected else " ") + " ")
-        pos += len(self.gap) + 2
+        grid.put(y, pos, fit(self.gap + (">" if selected else " ") + " ", rect.w, mark=""))
+        pos += _display_width(sanitize(self.gap, wide=True)) + 2
         for i, w in enumerate(widths):
             if pos >= limit:
                 break
@@ -817,15 +867,15 @@ class Table:
             pos += w
             if i + 1 < len(widths):
                 sep = self.gap + b["v"] + self.gap
-                if pos + len(sep) > limit:
+                if pos + _display_width(sanitize(sep, wide=True)) > limit:
                     break
                 grid.put(y, pos, sep)
-                pos += len(sep)
+                pos += _display_width(sanitize(sep, wide=True))
 
     def render(self, grid: Grid, rect: Rect, style: str = "unicode") -> None:
         if not rect.valid:
             return
-        avail = max(1, rect.w - (len(self.gap) + 2))
+        avail = max(1, rect.w - (_display_width(sanitize(self.gap, wide=True)) + 2))
         widths = self.resolve_widths(avail, style)
         if not widths:
             return
@@ -849,7 +899,7 @@ def _cell(value: object) -> str:
 class LogView:
     """滚动日志窗。按宽度折行；follow=True 时钉在底部。
 
-    折行是"单元格数"折行（一个字符一个格子），所以宽度 = len()。
+    按终端列宽折行，不拆双宽字。
     """
 
     TAGS = {"info": "[i]", "ok": "[+]", "warn": "[!]", "err": "[x]"}
@@ -914,14 +964,25 @@ class LogView:
         width = max(1, width)
         out: List[str] = []
         for tag, text in self._entries:
-            head = tag + " "
-            avail = max(1, width - len(head))
+            head = _prefix_columns(tag + " ", max(0, width - 1))
+            avail = max(1, width - _display_width(head))
+            text = sanitize(text, wide=True)
             if not text:
                 out.append(head.rstrip())
                 continue
-            for i in range(0, len(text), avail):
-                piece = text[i:i + avail]
-                out.append((head + piece) if i == 0 else (" " * len(head) + piece))
+            piece, used, first = "", 0, True
+            for ch in text:
+                size = _display_width(ch)
+                if size > avail:
+                    # 一列视口无法容纳双宽字；显式标记，不能循环或切半字。
+                    ch, size = TRUNCATE_MARK, 1
+                if used + size > avail:
+                    out.append((head if first else " " * _display_width(head)) + piece)
+                    piece, used, first = "", 0, False
+                piece += ch
+                used += size
+            if piece:
+                out.append((head if first else " " * _display_width(head)) + piece)
         self._cache = out
         self._cache_key = key
         return out
@@ -1070,10 +1131,12 @@ class TuiApp:
         """
         if width <= 0:
             return ""
+        hints = [sanitize(hint, wide=True) for hint in hints]
+        mark = sanitize(mark, wide=True)
         suffix = ("   [" + mark + "]") if mark else ""
-        if len(suffix) >= width:
+        if _display_width(suffix) >= width:
             return fit(suffix.strip(), width)
-        room = width - len(suffix)
+        room = width - _display_width(suffix)
 
         def joined(items: Sequence[str]) -> str:
             return "  ".join(items)
@@ -1081,7 +1144,7 @@ class TuiApp:
         # 1) 最长可行前缀。若连第一条都放不下 -> 退化成只报条数。
         kept: List[str] = []
         for hint in hints:
-            if len(joined(kept + [hint])) > room:
+            if _display_width(joined(kept + [hint])) > room:
                 break
             kept.append(hint)
         if not kept:
@@ -1091,7 +1154,7 @@ class TuiApp:
         rest = len(hints) - len(kept)
         while rest > 0:
             more = "  +%d key%s" % (rest, "" if rest == 1 else "s")
-            if len(joined(kept)) + len(more) <= room:
+            if _display_width(joined(kept)) + _display_width(more) <= room:
                 return joined(kept) + more + suffix
             kept.pop()
             rest += 1
@@ -1185,8 +1248,7 @@ class TuiApp:
             finally:
                 self._winch_installed = False
 
-    @staticmethod
-    def _prepare_screen(stdscr) -> None:
+    def _prepare_screen(self, stdscr) -> None:
         """Flush curses bookkeeping before writing the independent ANSI grid.
 
         getch() implicitly refreshes a touched window. Its initial/resize clear
@@ -1198,6 +1260,10 @@ class TuiApp:
                 call()
             except Exception:
                 pass
+        # resizeterm updates curses dimensions but may leave the terminal's
+        # old DECSTBM margins active. Reset after refresh, before a full frame;
+        # otherwise CRLF can scroll a larger fallback frame inside 24 rows.
+        self._write(ESC + "[r")
 
     def _poll_size_change(self) -> bool:
         """没有 SIGWINCH 时的兜底：直接问 ioctl，变了才重算。"""
@@ -1252,6 +1318,10 @@ class TuiApp:
         except Exception:
             pass
         try:
+            # With a zero ioctl size curses can start at 24x80 while our
+            # explicit fallback is larger. Sync its dimensions before refresh;
+            # _prepare_screen also resets the terminal's scrolling margins.
+            self._resize_now(stdscr)
             self._prepare_screen(stdscr)
             self._running = True
             prev: Optional[List[str]] = None

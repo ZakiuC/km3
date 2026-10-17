@@ -149,7 +149,9 @@ class TestForm(unittest.TestCase):
         press(form, "enter")
         grid = tui.Grid(2, 22)
         form.render(grid, tui.Rect(0, 0, 2, 22), "ascii")
-        self.assertEqual(grid.to_lines(), ["> path: ab_           ", "  state: ?. [ro]      "])
+        self.assertEqual(grid.to_lines(), ["> path: ab_           ", "  state: 中. [ro]     "])
+        self.assertTrue(all(tui._display_width(row) == 22 for row in grid.to_lines()))
+        self.assertNotIn("\x1b", "".join(grid.to_lines()))
 
     def test_invalid_number_keeps_visible_cursor_and_error_marker(self):
         form = tui.Form([tui.Field("n", "x", kind="number")])
@@ -277,6 +279,7 @@ class TestViewNavigation(unittest.TestCase):
         app = tui.TuiApp()
         with patch.object(app, "_install_winch"), patch.object(app, "_poll_size_change", return_value=False), \
                 patch.object(app, "poll", side_effect=RuntimeError("poll failed")), \
+                patch.object(app, "_write"), \
                 patch.object(tui.curses, "curs_set") as cursor:
             with self.assertRaisesRegex(RuntimeError, "poll failed"):
                 app._main(object())
@@ -311,10 +314,11 @@ class TestViewNavigation(unittest.TestCase):
                 patch.object(tui.signal, "signal") as install, \
                 patch.object(tui.curses, "curs_set") as cursor, \
                 patch.object(app, "build", return_value=tui.Grid(1, 1)), \
-                patch.object(app, "_write", side_effect=lambda data: events.append("ansi")):
+                patch.object(app, "_write", side_effect=lambda data: events.append(
+                    "margins" if data == "\x1b[r" else "ansi")):
             with self.assertRaises(KeyboardInterrupt):
                 app._main(Screen())
-        self.assertEqual(events, ["refresh", "untouch", "ansi", "getch"])
+        self.assertEqual(events, ["refresh", "untouch", "margins", "ansi", "getch"])
         self.assertEqual(install.call_args_list[-1].args, (tui.signal.SIGWINCH, previous))
         self.assertEqual([call.args for call in cursor.call_args_list], [(0,), (1,)])
         self.assertFalse(app._winch_installed)
@@ -376,7 +380,9 @@ class TestViewNavigation(unittest.TestCase):
         fallback.assert_not_called()
         self.assertEqual((app.rows, app.cols), (24, 80))
         self.assertEqual(screen.reads, 3)
+        # Startup sync avoids painting stale dimensions: margins, then one frame.
         self.assertEqual(write.call_count, 2)
+        self.assertEqual(write.call_args_list[0].args, ("\x1b[r",))
 
     def test_curses_already_resized_only_updates_cached_layout(self):
         if tui.curses is None:

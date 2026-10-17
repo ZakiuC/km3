@@ -436,7 +436,7 @@ class ToolContractTests(unittest.TestCase):
             app = cls()
             frame = app.build().to_lines()
         self.assertEqual(len(frame), 24)
-        self.assertTrue(all(len(row) == 80 for row in frame))
+        self.assertTrue(all(tui._display_width(row) == 80 for row in frame))
         self.assertNotIn('F5 refresh', app.hints())
         self.assertTrue(tui.render(None, frame))
 
@@ -444,7 +444,7 @@ class ToolContractTests(unittest.TestCase):
         with mock.patch.object(tool, 'read_iface_actual', side_effect=self.actual), \
                 mock.patch.object(tool, 'service_active', return_value=None):
             self.assertEqual(self.invoke('--no-tui'), 0)
-        self.assertIn('motion blocked', self.stdout.getvalue())
+        self.assertIn('运动已阻止', self.stdout.getvalue())
 
     def test_bad_options_fail_before_any_transport_access(self):
         for args in [('--bus', 'can-1'), ('--timeout', 'nan'), ('--timeout', '-1'),

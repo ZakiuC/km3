@@ -69,7 +69,7 @@ class TuiTests(unittest.TestCase):
                     self.view(name)
                     lines = self.app.build().to_lines()
                     self.assertEqual(len(lines), rows)
-                    self.assertTrue(all(len(line) == cols for line in lines))
+                    self.assertTrue(all(ui._display_width(line) == cols for line in lines))
 
     def test_q_j_slash_are_field_contents_and_enter_never_runs(self):
         self.view('Params')
@@ -104,43 +104,43 @@ class TuiTests(unittest.TestCase):
         f.begin_edit()
         f._draft = '40'
         text = '\n'.join(self.app.preview_lines())
-        self.assertIn('budget=1.2 deg; remaining=-0.2 deg EXCEEDED', text)
-        self.assertIn('BLOCKED:', text)
+        self.assertIn('位移预算=1.2度；剩余=-0.2度 已超限', text)
+        self.assertIn('已阻止：', text)
         self.assertEqual(f.value, '30')
 
     def test_partial_target_keeps_live_budget(self):
         f = self.app.forms['Position'].fields[0]
         f.begin_edit(); f._draft = '-'
         text = '\n'.join(self.app.preview_lines())
-        self.assertIn('budget=0.9 deg', text)
-        self.assertIn('target: incomplete/invalid draft', text)
-        self.assertIn('BLOCKED:', text)
+        self.assertIn('位移预算=0.9度', text)
+        self.assertIn('绝对目标 U：草稿未填完整或无效', text)
+        self.assertIn('已阻止：', text)
 
     def test_preview_reuses_all_shared_checks_and_marks_bad_velocity(self):
         with mock.patch.object(position, 'validate', wraps=position.validate) as valid, \
              mock.patch.object(position, 'check_start', wraps=position.check_start) as start, \
              mock.patch.object(position, 'check_envelope', wraps=position.check_envelope) as envelope:
-            self.assertIn('Input checks OK', '\n'.join(self.app.preview_lines()))
+            self.assertIn('输入检查通过', '\n'.join(self.app.preview_lines()))
             self.assertTrue(valid.called and start.called and envelope.called)
         self.set_values('Position', velocity='0')
-        self.assertIn('BLOCKED:', '\n'.join(self.app.preview_lines()))
+        self.assertIn('已阻止：', '\n'.join(self.app.preview_lines()))
 
     def test_negative_budget_and_bad_travel_block(self):
         for values in ({'max-displacement': '-1'}, {'target': '0'}, {'soft-min': '40'}, {'soft-max': '1'}):
             self.set_values('Position', **self.settings)
             self.set_values('Position', **values)
-            self.assertIn('BLOCKED:', '\n'.join(self.app.preview_lines()))
+            self.assertIn('已阻止：', '\n'.join(self.app.preview_lines()))
 
     def test_actual_snapshot_bound_to_exact_node_and_source(self):
         cal = position.calibration([36000, 1, 3, 1]); cal['start_position'] = 0
         self.set_values('Position', apply='yes')
         self.app.snapshot = dict(calibration=cal, source='device', context=('mock-iface', 500000, 1))
-        self.assertIn('device snapshot', '\n'.join(self.app.preview_lines()))
+        self.assertIn('设备快照', '\n'.join(self.app.preview_lines()))
         self.set_values('Position', node='2')
-        self.assertIn('No valid device snapshot', '\n'.join(self.app.preview_lines()))
+        self.assertIn('无有效设备快照', '\n'.join(self.app.preview_lines()))
         self.set_values('Position', node='1')
         self.app.snapshot['source'] = 'offline_simulation'
-        self.assertIn('No valid device snapshot', '\n'.join(self.app.preview_lines()))
+        self.assertIn('无有效设备快照', '\n'.join(self.app.preview_lines()))
 
     def test_editing_target_binding_discards_snapshot_even_if_draft_cancelled(self):
         self.view('Position')
@@ -182,14 +182,14 @@ class TuiTests(unittest.TestCase):
         self.assertEqual(events[-1]['event'], 'result')
         self.assertTrue(events[-1]['disabled_confirmed'])
         self.assertEqual(events[-1]['source'], 'offline_simulation')
-        self.assertIn('OFFLINE simulated disabled=True', self.app.recovery)
+        self.assertIn('离线模拟失能=True', self.app.recovery)
         self.assertIsNone(self.app.snapshot)
 
     def test_od_gate_blocks_tui_review_with_no_bus(self):
         self.set_values('Position', **{'od-bypass': ''})
         with mock.patch.object(tool, 'load_device_json', return_value=(self.cfg, 'mock')), \
              mock.patch.object(tool, 'connect_bus', side_effect=AssertionError('opened')):
-            with self.assertRaisesRegex(ValueError, 'OD gate'):
+            with self.assertRaisesRegex(ValueError, 'OD 闸门'):
                 self.app._prepare('Position', self.app._args('Position'), ui.JobOutput(queue.Queue(), threading.Event()))
 
     def test_confirmation_mismatch_never_executes(self):
@@ -238,7 +238,7 @@ class TuiTests(unittest.TestCase):
         self.assertEqual(self.app.logs.qsize(), 2000)
         out.event('result', dict(disabled_confirmed=False))
         self.app.poll()
-        self.assertIn('device state UNKNOWN', self.app.recovery)
+        self.assertIn('设备状态未知', self.app.recovery)
         self.assertEqual(self.app.logs.qsize(), 1872)
 
     def test_readonly_calibration_results_visible(self):
@@ -246,8 +246,8 @@ class TuiTests(unittest.TestCase):
         self.app.snapshot = dict(source='device', context=('mock-iface', 500000, 1),
             calibration=position.calibration([36000, 1, 3, 1]))
         text = '\n'.join(self.app.build().to_lines())
-        self.assertIn('608F inc/rev=36000 / 1', text)
-        self.assertIn('1 motor deg = 33.3333333 user units', text)
+        self.assertIn('608F 每转计数 inc/rev=36000 / 1', text)
+        self.assertIn('电机轴 1度 = 33.3333333 用户单位', text)
 
     def test_target_config_drift_is_refused_inside_shared_position_command(self):
         a = self.app._args('Position'); a.apply = True
@@ -273,15 +273,15 @@ class TuiTests(unittest.TestCase):
         with mock.patch.object(ui.TuiApp, 'run', side_effect=KeyboardInterrupt()), contextlib.redirect_stdout(io.StringIO()) as output:
             self.assertEqual(self.app.run(), 130)
         self.assertFalse(self.app.busy)
-        self.assertIn('device state UNKNOWN', output.getvalue())
+        self.assertIn('设备状态未知', output.getvalue())
 
     def test_params_offline_plan_does_not_claim_readback(self):
         a = copy.copy(self.args); a.params = 'interpolation'; a.apply = False
         self.app.active_review = ('review', 'Params', a, None, [], None)
         self.app._launch('Params running', lambda out: 0)
         self.finish()
-        self.assertIn('zero bus reads/writes', self.app.recovery)
-        self.assertNotIn('readback confirmed', self.app.recovery)
+        self.assertIn('零总线读写', self.app.recovery)
+        self.assertNotIn('读回已确认', self.app.recovery)
 
     def test_quarantine_latches_physical_iface_node_across_bitrate_changes(self):
         a = copy.copy(self.args); a.apply = True
@@ -289,12 +289,12 @@ class TuiTests(unittest.TestCase):
         self.app.events.put(('event', 'session_state', {'quarantined': True, 'source': 'device'}))
         self.app.poll()
         self.assertIn(('mock-iface', 1), self.app.blocked_targets)
-        self.assertIn('external recovery REQUIRED', self.app.recovery)
+        self.assertIn('必须外部恢复', self.app.recovery)
         cfg = copy.deepcopy(self.cfg); cfg['bus']['can'][0]['bitrate'] = 250000
         a.node = 1
         with mock.patch.object(tool, 'load_device_json', return_value=(cfg, 'mock')), \
              mock.patch.object(tool, 'connect_bus', side_effect=AssertionError('quarantine bypass')):
-            with self.assertRaisesRegex(ValueError, 'external recovery REQUIRED'):
+            with self.assertRaisesRegex(ValueError, '必须外部恢复'):
                 self.app._prepare('Calibrate', a, ui.JobOutput(queue.Queue(), threading.Event()))
         self.app.events.put(('event', 'session_state', {'quarantined': True, 'source': 'offline_simulation'}))
         self.app.active_review = ('review', 'Calibrate', a, ('another-iface', 500000, 2), [], None)
@@ -313,10 +313,10 @@ class TuiTests(unittest.TestCase):
         self.app.events.put(('event', 'parameter_recovery', {'recovery': 'unknown',
             'failures': ['60C2:02 恢复期望-3，读回未知']}))
         self.app.poll()
-        self.assertIn('STATE UNKNOWN', self.app.recovery)
+        self.assertIn('状态未知', self.app.recovery)
         self.assertIn('60C2:02', self.app.progress)
         self.assertIn('-3', self.app.progress)
-        self.assertTrue(self.app.progress.isascii())
+        self.assertIn('恢复期望-3，读回未知', self.app.progress)
 
     def test_raw_listener_uses_only_recv_and_closes_on_cancel(self):
         bus = mockbus.MockBus([], loopback=False)

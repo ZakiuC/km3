@@ -740,36 +740,35 @@ def write_can_env_bitrate(bitrate):
 def panel_rows(iface, cfg_path, actual, declared, rt_state):
     """面板/纯文本共用的字段表。每行 (key_en, label_zh, value, source)。
 
-    字段名给两份，不是冗余：tools/hwtui/tui.py 的字形边界**刻意只到 ASCII
-    与单宽制表符号**（见那个文件的文件头），所以 curses 表格里排不了中文 ——
-    它要用 key_en；纯文本输出没有这个限制，用 label_zh 更贴现场。
+    key_en 保持稳定，供程序识别；label_zh 供中文 TUI 与纯文本共同显示。
+    共用 TUI 已按终端列宽排版，可直接使用中文标签。
     source 一列是"这个值从哪来"，两种输出都用它，避免有人对着面板猜数字来源。
     """
     if actual is None:
-        link, rate = "missing", "n/a"
+        link, rate = "缺失", "不适用"
     elif actual.get("error"):
-        link, rate = "read failed", "n/a"
+        link, rate = "读取失败", "不适用"
     else:
-        link = actual.get("state") or "unknown"
+        link = actual.get("state") or "未知"
         cur = actual.get("bitrate")
-        rate = "{} bps".format(cur) if cur is not None else "unset"
+        rate = "{} bps".format(cur) if cur is not None else "未设置"
 
-    rt_text = {True: "active (using bus)", False: "inactive",
-               None: "unknown (confirmation needed)"}[rt_state]
+    rt_text = {True: "运行中（占用总线）", False: "未运行",
+               None: "未知（须确认）"}[rt_state]
 
     try:
         env_values, _, env_exists = read_can_env()
     except ConfigError:
-        env_bitrate = "unreadable"
+        env_bitrate = "无法读取"
     else:
-        env_bitrate = env_values.get("CAN_BITRATE", "unset") if env_exists else "missing file"
+        env_bitrate = env_values.get("CAN_BITRATE", "未设置") if env_exists else "文件缺失"
 
     try:
         verified, count, names, _assumed = od_status()
     except ConfigError:
-        od_text = "od.json unavailable/invalid"
+        od_text = "od.json 不可用或无效"
     else:
-        od_text = "verified" if verified else "{} unverified -> motion blocked".format(count)
+        od_text = "已核对" if verified else "{} 项未核对 -> 运动已阻止".format(count)
 
     return [
         ("logical bus", "逻辑总线", LOGICAL_BUS,
@@ -777,33 +776,23 @@ def panel_rows(iface, cfg_path, actual, declared, rt_state):
         ("iface", "内核接口", iface or "(未配置)",
          "device.json bus.can[].iface"),
         ("CAN state", "CAN 状态",
-         (actual or {}).get("can_state") or "unknown", "ip -details link show"),
+         (actual or {}).get("can_state") or "未知", "ip -details link show"),
         ("link state", "链路状态", link, "ip -details link show"),
         ("link bitrate", "链路位速率", rate, "ip -details link show"),
         ("declared rate", "配置声明速率",
-         "{} bps".format(declared) if declared else "missing",
+         "{} bps".format(declared) if declared else "缺失",
          "device.json bus.can[].bitrate"),
         ("can.env rate", "can.env 速率", env_bitrate, CAN_ENV),
         ("rt-controller", "实时控制器", rt_text, "systemctl show -p ActiveState"),
         ("od gate", "对象字典", od_text, "driver/od.json"),
-        ("config file", "配置文件", cfg_path, "loaded path"),
+        ("config file", "配置文件", cfg_path, "已加载路径"),
     ]
 
 
 def _display_width(text):
-    """终端显示宽度：东亚双宽字符算 2 列，其余算 1 列。
-
-    用 unicodedata.east_asian_width 做判定，返回 W（宽）或 F（全角）时算双宽；
-    Na / N / H / A 算单宽。比手写 Unicode 范围表更准，也不会触发
-    check-manual-citations.sh 的「源码索引字面量」检查（那把 0x1100 这类
-    16 进制值当成 CANopen 对象字典索引要求引用注释）。
-    """
-    import unicodedata as _ud  # noqa: PLC0415  — 延迟 import 保持顶层最小
-    width = 0
-    for ch in text:
-        eaw = _ud.east_asian_width(ch)
-        width += 2 if eaw in ('W', 'F') else 1
-    return width
+    """按需复用标准层字宽测量；不复制 Unicode 宽度规则。"""
+    from tui import _display_width as measure
+    return measure(text)
 
 
 def _pad(text, width):
@@ -853,29 +842,30 @@ class HwPanel(object):
 
     def _make_app(self):
         try:
-            from tui import Table, TuiApp     # 扁平：板上 hwtui/ 在 sys.path 上
+            from tui import Table, TuiApp, draw_hsep     # 扁平：板上 hwtui/ 在 sys.path 上
         except ImportError:
-            from hwtui.tui import Table, TuiApp
+            from hwtui.tui import Table, TuiApp, draw_hsep
         provider = self._provider
 
         class _App(TuiApp):
-            title = "PMP4010 lift motor A  (read-only panel)"
+            title = "PMP4010 机身抬降电机 A（只读面板）"
 
             def __init__(self):
                 TuiApp.__init__(self, rows=rows_forced, cols=cols_forced, box=box_style)
-                self._table = Table(headers=("field", "value", "source"),
+                self._table = Table(headers=("字段", "值", "来源"),
                                     rows=[], gap="  ")
 
             def hints(self):
-                return ["q quit", "snapshot: no frames sent"]
+                return ["q/Esc 退出", "快照：零发帧"]
 
             def build(self):
                 grid, lay = self.shell_grid()
-                # 只喂 ASCII 字段名：tui.py 不处理东亚字宽，中文字段名在 curses 里
-                # 会比它声称的窄一半，整列错位（值列被推左）。
+                # 中文标签与纯文本共用；共用网格按终端列宽处理双宽字。
+                if lay.log.valid and lay.status.valid:
+                    draw_hsep(grid, lay.body.bottom, lay.body.x, lay.body.w, self.box, "日志")
                 self._table.set_rows(
-                    [(key_en, value, source)
-                     for key_en, _label, value, source in provider()])
+                    [(label, value, source)
+                     for _key_en, label, value, source in provider()])
                 if lay.content.valid:
                     self._table.render(grid, lay.content, self.box)
                 return grid
