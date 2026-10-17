@@ -1236,11 +1236,14 @@ class MotionSession:
         self.state_timeout = state_timeout
         self.sdo_timeout = client.timeout
         self.needs_stop = False
+        self.cancel_event = None
 
     def deadline(self):
         return time.monotonic() + self.state_timeout
 
     def call(self, deadline, label, method, *args):
+        if self.cancel_event is not None and self.cancel_event.is_set():
+            raise KeyboardInterrupt()
         remaining = deadline - time.monotonic()
         if remaining <= 0:
             raise MotionError("{}：超时".format(label))
@@ -1271,6 +1274,8 @@ class MotionSession:
                   self.client.write_uint16, self.od.CONTROLWORD, 0, value)
 
     def pause(self, deadline):
+        if self.cancel_event is not None and self.cancel_event.is_set():
+            raise KeyboardInterrupt()
         remaining = deadline - time.monotonic()
         if remaining > 0:
             time.sleep(min(0.02, remaining))
@@ -1451,7 +1456,10 @@ def cmd_position(args, out):
     """Default offline preview; --apply is an explicit human execution action."""
     sys.path.insert(0, _HERE)
     import pmp4010_position as position
-    specs = position.specifications(load_od())
+    od = load_od()
+    if getattr(args, '_tui_expected_od', od) != od:
+        raise ValueError('OD changed since review; review again')
+    specs = position.specifications(od)
     if args.node is None or not 1 <= args.node <= 127:
         raise ValueError("--position/--calibrate必须显式指定--node 1..127")
     if args.dry_run and args.apply:
@@ -1466,6 +1474,8 @@ def cmd_position(args, out):
     if offline:
         cal = position.calibration(args.offline_calibration or [])
         if args.calibrate:
+            if hasattr(out, 'event'):
+                out.event('calibration_snapshot', dict(calibration=cal, source='offline_simulation', node=args.node))
             out.info("离线显式标定，未读设备：" + json.dumps(cal, ensure_ascii=False))
             out.info("真实发送计数=0；未打开真实总线。")
             return 0
@@ -1485,6 +1495,8 @@ def cmd_position(args, out):
         cfg, _ = load_device_json()
         item, _ = find_can_bus(cfg, LOGICAL_BUS)
         iface, bitrate = item.get("iface"), item.get("bitrate")
+        if getattr(args, '_tui_expected_target', (iface, bitrate, args.node)) != (iface, bitrate, args.node):
+            raise ValueError('Target changed since review; review again')
         actual = read_iface_actual(iface)
         if (not iface or not actual or actual.get("error") or actual.get("state") != "UP"
                 or actual.get("bitrate") != bitrate or actual.get("can_state") != "ERROR-ACTIVE"):
@@ -1492,17 +1504,20 @@ def cmd_position(args, out):
         # Create the log before the first bus request; do not overwrite a record.
         bus = None
     journal = None
+    client = None
     try:
         if args.position:
             journal = position.Journal(args.motion_log, "offline_simulation" if offline else "device",
                 dict(node=args.node, target=args.target, soft_min=args.soft_min, soft_max=args.soft_max,
                      max_displacement=args.max_displacement, velocity=args.velocity,
                      acceleration=args.acceleration, deceleration=args.deceleration,
-                     move_timeout=args.move_timeout, od_gaps_bypass=args.od_gaps_bypass))
+                     move_timeout=args.move_timeout, od_gaps_bypass=args.od_gaps_bypass),
+                observer=getattr(out, 'event', None))
         if bus is None:
             bus = connect_bus(iface, out)
         client = _canopen.SdoClient(bus, args.node, timeout=args.timeout)
         session = MotionSession(client, out, args.state_timeout)
+        session.cancel_event = getattr(out, 'cancel_event', None)
         if args.calibrate:
             values = []
             for key in position.CALIBRATION:
@@ -1511,13 +1526,27 @@ def cmd_position(args, out):
                 if len(raw) != spec['size']:
                     raise ValueError("标定读回宽度错误")
                 values.append(int.from_bytes(raw, 'little'))
-            out.info("设备只读标定：" + json.dumps(position.calibration(values), ensure_ascii=False))
-            out.info("只读SDO上传4项；零写请求、零NMT。")
+            cal = position.calibration(values)
+            if getattr(args, '_tui_snapshot', False):
+                key = 'actual_position'
+                spec = specs[key]
+                raw = session.call(session.deadline(), key, client.read, spec['index_value'], spec['sub'])
+                if len(raw) != spec['size']:
+                    raise ValueError('actual_position readback width mismatch')
+                cal['start_position'] = int.from_bytes(raw, 'little', signed=spec['signed'])
+            if hasattr(out, 'event'):
+                out.event('calibration_snapshot', dict(calibration=cal, source='device', node=args.node))
+            out.info("设备只读标定：" + json.dumps(cal, ensure_ascii=False))
+            out.info("只读SDO上传5项（四项标定及起点）；零写请求、零NMT。" if getattr(args, '_tui_snapshot', False)
+                     else "只读SDO上传4项；零写请求、零NMT。")
         else:
             position.run(session, args, specs, journal)
             out.ok("离线模拟单次位置流程完成" if offline else "单次位置已到达，已确认失能；机械状态须人类确认")
         return 0
     finally:
+        if client is not None and hasattr(out, 'event'):
+            out.event('session_state', dict(quarantined=bool(client.quarantined),
+                source='offline_simulation' if offline else 'device'))
         if offline and bus is not None:
             for number, frame in enumerate(bus.sent, 1):
                 out.info("拟发帧 {:03d}: 0x{:03X}#{}".format(number, frame_can_id(frame), bytes(frame.data).hex().upper()))
@@ -1538,10 +1567,14 @@ def cmd_params(args, out):
     if not refuse_motion(out, "params " + args.params, args):
         return 3
     od = load_od()
+    if getattr(args, '_tui_expected_od', od) != od:
+        raise ValueError('OD changed since review; review again')
     specs = params.specifications(od)
     cfg, _ = load_device_json()
     item, _ = find_can_bus(cfg, LOGICAL_BUS)
     iface, bitrate = item["iface"], item["bitrate"]
+    if getattr(args, '_tui_expected_target', (iface, bitrate, args.node)) != (iface, bitrate, args.node):
+        raise ValueError('Target changed since review; review again')
     if args.node is None or not 1 <= args.node <= 127:
         raise ValueError("--params必须显式指定--node 1..127")
     if args.params == "backup" and args.apply:
@@ -1556,6 +1589,9 @@ def cmd_params(args, out):
         params.check_target(backup, iface, bitrate, args.node)
     period = cfg.get("network", {}).get("sync_period_us")
     writes = params.plan(args.params, specs, backup, period, args.param_set)
+    if (getattr(args, '_tui_expected_writes', writes) != writes or
+            getattr(args, '_tui_expected_backup', backup) != backup):
+        raise ValueError('Backup or parameter plan changed since review; review again')
     out.info("目标: iface={} bitrate={} node={}".format(iface, bitrate, args.node))
     if args.params == "interpolation":
         t, exponent = params.interpolation_values(period)
@@ -1597,6 +1633,7 @@ def cmd_params(args, out):
             actual.get("bitrate") != bitrate or actual.get("can_state") != "ERROR-ACTIVE"):
         raise ValueError("实际接口状态/位速率不匹配，拒绝打开总线")
     bus = connect_bus(iface, out)
+    client = None
     try:
         client = _canopen.SdoClient(bus, args.node, timeout=args.timeout)
         if args.params == "backup":
@@ -1607,6 +1644,8 @@ def cmd_params(args, out):
             params.execute(client, od, specs, backup, writes, args.params, out, args.backup)
             out.ok("本次逐项写/读回完成；不代表下次上电参数已生效。")
     finally:
+        if client is not None and hasattr(out, 'event'):
+            out.event('session_state', dict(quarantined=bool(client.quarantined), source='device'))
         bus.close()
     return 0
 
@@ -2083,6 +2122,13 @@ def cmd_panel(args, out):
     而且读失败时没法降级成文本。读失败照样显示那一行（值为"读取失败"），
     不因为一个字段读不到就整屏不画 —— 面板的价值恰恰在于"现在的现状是什么"。
     """
+    if not args.no_tui:
+        sys.path.insert(0, _HERE)
+        from pmp4010_tui import PmpApp
+        import types
+        app = PmpApp(sys.modules.get(__name__) or types.SimpleNamespace(**globals()), args)
+        if app._curses_usable():
+            return app.run()
     try:
         cfg, cfg_path = load_device_json()
     except ConfigError as exc:

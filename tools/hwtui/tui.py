@@ -52,6 +52,7 @@ import os
 import signal
 import sys
 from collections import deque, namedtuple
+from decimal import Decimal, InvalidOperation
 from typing import Dict, List, Optional, Sequence, Tuple
 
 try:  # 没有 curses 的宿主也能 import 本模块来跑纯函数（主机回归测试就是这么干的）
@@ -73,6 +74,8 @@ __all__ = [
     "draw_hsep",
     "draw_vsep",
     "Menu",
+    "Field",
+    "Form",
     "Table",
     "LogView",
     "TuiApp",
@@ -545,6 +548,165 @@ class Menu:
             grid.put(rect.y + i, rect.x, fit(prefix + self.items[idx], rect.w))
 
 
+class Field:
+    """One ASCII input, with a separate draft until Enter commits it.
+
+    ``number`` checks only numeric syntax and finiteness. Device limits and
+    units remain the caller's responsibility. A readonly field never edits.
+    The cursor is an inserted '_' character, so the renderer needs no attrs.
+    """
+
+    def __init__(self, name: str, value: object = "", label: Optional[str] = None,
+                 kind: str = "text", max_length: int = 1024) -> None:
+        if kind not in ("text", "number", "readonly"):
+            raise ValueError("unknown field kind: %s" % kind)
+        self.name = name
+        self.label = label if label is not None else name
+        self.kind = kind
+        self.value = str(value)
+        self.max_length = max(1, int(max_length))
+        self.editing = False
+        self.cursor = 0
+        self.error = ""
+        self._draft = self.value
+
+    @property
+    def text(self) -> str:
+        return self._draft if self.editing else self.value
+
+    def begin_edit(self) -> bool:
+        if self.kind == "readonly":
+            return False
+        self._draft = self.value
+        self.cursor = len(self._draft)
+        self.error = ""
+        self.editing = True
+        return True
+
+    def cancel(self) -> None:
+        self.editing = False
+        self._draft = self.value
+        self.cursor = len(self.value)
+        self.error = ""
+
+    def commit(self) -> bool:
+        if not self.editing:
+            return False
+        if self.kind == "number":
+            try:
+                valid = Decimal(self._draft.strip()).is_finite()
+            except (InvalidOperation, ValueError):
+                valid = False
+            if not valid:
+                self.error = "finite number required"
+                return False
+        self.value = self._draft
+        self.editing = False
+        self.error = ""
+        return True
+
+    def on_key(self, name: str, key: int) -> bool:
+        """Consume every key while editing, including global shortcuts.
+
+        Ctrl-C belongs to the application and is deliberately left unconsumed.
+        """
+        if not self.editing or key == 3:
+            return False
+        if name == "enter":
+            self.commit()
+        elif name == "esc":
+            self.cancel()
+        elif name == "left":
+            self.cursor = max(0, self.cursor - 1)
+        elif name == "right":
+            self.cursor = min(len(self._draft), self.cursor + 1)
+        elif name == "home":
+            self.cursor = 0
+        elif name == "end":
+            self.cursor = len(self._draft)
+        elif name == "backspace" and self.cursor:
+            self._draft = self._draft[:self.cursor - 1] + self._draft[self.cursor:]
+            self.cursor -= 1
+            self.error = ""
+        elif name == "delete":
+            self._draft = self._draft[:self.cursor] + self._draft[self.cursor + 1:]
+            self.error = ""
+        elif len(name) == 1 and 0x20 <= ord(name) <= 0x7E:
+            if len(self._draft) < self.max_length:
+                self._draft = self._draft[:self.cursor] + name + self._draft[self.cursor:]
+                self.cursor += 1
+                self.error = ""
+        return True
+
+    def display(self, width: int) -> str:
+        """Return a clipped, sanitized value while keeping the cursor visible."""
+        if width <= 0:
+            return ""
+        text = sanitize(self.text)
+        if not self.editing:
+            return fit(text + (" [ro]" if self.kind == "readonly" else ""), width)
+        text = text[:self.cursor] + "_" + text[self.cursor:]
+        start = max(0, self.cursor - width + 1)
+        return text[start:start + width]
+
+
+class Form:
+    """A scrollable collection of fields; Enter edits/commits, Esc cancels.
+
+    ``values`` contains committed strings; ``current.text`` includes the draft
+    for live previews. Form handling has no device actions or I/O.
+    """
+
+    def __init__(self, fields: Sequence[Field], selected: int = 0) -> None:
+        self.fields = list(fields)
+        if len({field.name for field in self.fields}) != len(self.fields):
+            raise ValueError("field names must be unique")
+        self.selected = max(0, min(int(selected), len(self.fields) - 1))
+        self.offset = 0
+
+    @property
+    def current(self) -> Optional[Field]:
+        return self.fields[self.selected] if self.fields else None
+
+    @property
+    def editing(self) -> bool:
+        return bool(self.current and self.current.editing)
+
+    @property
+    def values(self) -> Dict[str, str]:
+        return {field.name: field.value for field in self.fields}
+
+    def on_key(self, name: str, key: int) -> bool:
+        if self.editing:
+            return self.current.on_key(name, key)
+        if key == 3 or not self.fields:
+            return False
+        if name in ("up", "k", "down", "j", "tab"):
+            delta = -1 if name in ("up", "k") else 1
+            self.selected = max(0, min(self.selected + delta, len(self.fields) - 1))
+            return True
+        if name == "enter":
+            self.current.begin_edit()
+            return True
+        return False
+
+    def render(self, grid: Grid, rect: Rect, style: str = "unicode") -> None:
+        if not rect.valid:
+            return
+        if self.selected < self.offset:
+            self.offset = self.selected
+        elif self.selected >= self.offset + rect.h:
+            self.offset = self.selected - rect.h + 1
+        self.offset = max(0, min(self.offset, max(0, len(self.fields) - rect.h)))
+        for row, field in enumerate(self.fields[self.offset:self.offset + rect.h]):
+            marker = "x " if field.error else ("> " if row + self.offset == self.selected else "  ")
+            label_width = min(len(sanitize(field.label)) + 2, max(0, rect.w - 6))
+            label = fit(sanitize(field.label) + ": ", label_width)
+            prefix = marker + label
+            value = field.display(max(0, rect.w - len(prefix)))
+            grid.put(rect.y + row, rect.x, fit(prefix + value, rect.w))
+
+
 class Table:
     """带表头、可滚动的文本表。列宽按内容算，再按可用宽度收缩。"""
 
@@ -817,6 +979,51 @@ class TuiApp:
         self._running = False
         self._winch = False
         self._winch_installed = False
+        self._previous_winch = None
+        self.views: Dict[str, object] = {}
+        self.current_view: Optional[str] = None
+        self.focused_form: Optional[Form] = None
+
+    def set_views(self, views: Dict[str, object], menu: Optional[Menu] = None) -> None:
+        """Opt into menu navigation; view rendering remains owned by the app.
+
+        Menu entries are view keys, in insertion order. Existing applications
+        that do not call this method keep their original on_key behavior.
+        """
+        self.views = dict(views)
+        self.menu = menu if menu is not None else Menu(list(self.views))
+        self.back_to_menu()
+
+    def show_view(self, name: str) -> None:
+        if name not in self.views:
+            raise KeyError(name)
+        if self.focused_form and self.focused_form.editing:
+            self.focused_form.current.cancel()
+        self.current_view = name
+        view = self.views[name]
+        self.focused_form = view if isinstance(view, Form) else None
+
+    def back_to_menu(self) -> None:
+        if self.focused_form and self.focused_form.editing:
+            self.focused_form.current.cancel()
+        self.focused_form = None
+        self.current_view = None
+
+    def set_form(self, form: Optional[Form]) -> None:
+        """Give a form keyboard focus without changing its selection."""
+        if self.focused_form is not form and self.focused_form and self.focused_form.editing:
+            self.focused_form.current.cancel()
+        self.focused_form = form
+
+    def dispatch_key(self, name: str, key: int) -> bool:
+        """Route focus before subclass/global keys; True requests exit.
+
+        Use this same entry point in pure interaction tests and the curses loop.
+        Ctrl-C always reaches the application's on_key, even while editing.
+        """
+        if key != 3 and self.focused_form and self.focused_form.on_key(name, key):
+            return False
+        return self.on_key(name, key)
 
     # ---- 子类接口 ----
     def hints(self) -> List[str]:
@@ -834,6 +1041,18 @@ class TuiApp:
 
     def on_key(self, name: str, key: int) -> bool:
         """返回 True 表示请求退出。子类覆盖时请先调用 super().on_key()。"""
+        if key == 3:
+            return True
+        if self.views:
+            if name == "esc" and self.current_view is not None:
+                self.back_to_menu()
+                return False
+            if self.current_view is None:
+                if name in ("up", "k", "down", "j"):
+                    self.menu.move(-1 if name in ("up", "k") else 1)
+                elif name == "enter" and self.menu.current in self.views:
+                    self.show_view(self.menu.current)
+            return name == "q"
         return name in ("q", "esc")
 
     def fit_hints(self, hints: Sequence[str], mark: str, width: int) -> str:
@@ -903,16 +1122,32 @@ class TuiApp:
         return grid, lay
 
     # ---- 尺寸 ----
-    def _resize_now(self, stdscr=None) -> None:
-        """按 SIGWINCH 重算尺寸：resize_term + resizeterm，然后记下新尺寸。"""
+    def _resize_now(self, stdscr=None) -> bool:
+        """Apply a changed size once; return whether the ANSI grid needs repaint.
+
+        resizeterm may queue KEY_RESIZE itself. Reapplying an unchanged size in
+        response to that event would keep queuing events and starve input.
+        curses can also resize before delivering KEY_RESIZE, so compare its
+        window size as well as our cached layout before calling resizeterm.
+        """
         rows, cols = resolve_size(self._forced_rows, self._forced_cols)
-        if curses is not None:
-            for fn_name in ("resize_term", "resizeterm"):
+        changed = (rows, cols) != (self.rows, self.cols)
+        needs_curses_resize = changed
+        if stdscr is not None:
+            try:
+                needs_curses_resize = stdscr.getmaxyx() != (rows, cols)
+            except Exception:
+                pass
+        if not changed and not needs_curses_resize:
+            return False
+        if curses is not None and needs_curses_resize:
+            for fn_name in ("resizeterm", "resize_term"):
                 fn = getattr(curses, fn_name, None)
                 if fn is None:
                     continue
                 try:
                     fn(rows, cols)
+                    break
                 except Exception:
                     pass
             try:
@@ -926,6 +1161,7 @@ class TuiApp:
                     call()
                 except Exception:
                     pass
+        return True
 
     def _on_winch(self, signum, frame) -> None:  # pragma: no cover - 信号路径
         # 信号处理器里只举手，真正的 resize+resizeterm 在主循环里做。
@@ -933,11 +1169,35 @@ class TuiApp:
 
     def _install_winch(self) -> None:
         try:
+            self._previous_winch = signal.getsignal(signal.SIGWINCH)
             signal.signal(signal.SIGWINCH, self._on_winch)
             self._winch_installed = True
         except Exception:
             # 非主线程装不了信号处理器。退化为主循环里轮询 TIOCGWINSZ。
             self._winch_installed = False
+
+    def _restore_winch(self) -> None:
+        if self._winch_installed:
+            try:
+                signal.signal(signal.SIGWINCH, self._previous_winch)
+            except Exception:
+                pass
+            finally:
+                self._winch_installed = False
+
+    @staticmethod
+    def _prepare_screen(stdscr) -> None:
+        """Flush curses bookkeeping before writing the independent ANSI grid.
+
+        getch() implicitly refreshes a touched window. Its initial/resize clear
+        must happen before our frame, otherwise it erases an unchanged frame
+        that the character diff correctly considers already painted.
+        """
+        for call in (lambda: stdscr.refresh(), lambda: stdscr.untouchwin()):
+            try:
+                call()
+            except Exception:
+                pass
 
     def _poll_size_change(self) -> bool:
         """没有 SIGWINCH 时的兜底：直接问 ioctl，变了才重算。"""
@@ -991,33 +1251,40 @@ class TuiApp:
             stdscr.timeout(self.poll_ms)
         except Exception:
             pass
-        self._running = True
-        prev: Optional[List[str]] = None
-        while self._running:
-            if self._winch or (not self._winch_installed and self._poll_size_change()):
-                self._winch = False
-                self._resize_now(stdscr)
-                prev = None  # 尺寸变了，下一帧必须全量重绘
-            self.poll()
-            lines = self.build().to_lines()
-            if lines != prev:
-                out = render(prev, lines)
-                if out:
-                    self._write("".join(out))
-                prev = lines
-            key = stdscr.getch()
-            if key == -1:
-                continue
-            if curses is not None and key == getattr(curses, "KEY_RESIZE", None):
-                self._resize_now(stdscr)
-                prev = None
-                continue
-            if self.on_key(key_name(key), key):
-                self._running = False
         try:
-            curses.curs_set(1)
-        except Exception:
-            pass
+            self._prepare_screen(stdscr)
+            self._running = True
+            prev: Optional[List[str]] = None
+            while self._running:
+                if self._winch or (not self._winch_installed and self._poll_size_change()):
+                    self._winch = False
+                    if self._resize_now(stdscr):
+                        self._prepare_screen(stdscr)
+                        prev = None  # 尺寸变了，下一帧必须全量重绘
+                self.poll()
+                lines = self.build().to_lines()
+                if lines != prev:
+                    out = render(prev, lines)
+                    if out:
+                        self._write("".join(out))
+                    prev = lines
+                key = stdscr.getch()
+                if key == -1:
+                    continue
+                if curses is not None and key == getattr(curses, "KEY_RESIZE", None):
+                    if self._resize_now(stdscr):
+                        self._prepare_screen(stdscr)
+                        prev = None
+                    continue
+                if self.dispatch_key(key_name(key), key):
+                    self._running = False
+        finally:
+            self._running = False
+            try:
+                curses.curs_set(1)
+            except Exception:
+                pass
+            self._restore_winch()
         return 0
 
     def run(self) -> int:

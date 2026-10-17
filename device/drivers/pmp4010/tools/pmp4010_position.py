@@ -107,9 +107,10 @@ def check_start(args, start, cal):
 
 
 class Journal:
-    def __init__(self, path, source, metadata):
+    def __init__(self, path, source, metadata, observer=None):
         self.stream = open(path, 'x', encoding='utf-8')
         self.source = source
+        self.observer = observer
         try:
             self.event('begin', **metadata)
         except BaseException:
@@ -120,6 +121,8 @@ class Journal:
         self.stream.write(json.dumps(dict(timestamp_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
             source=self.source, event=event, **data), ensure_ascii=False) + '\n')
         self.stream.flush()
+        if self.observer is not None:
+            self.observer(event, data)
 
     def close(self):
         self.stream.close()
@@ -229,6 +232,8 @@ def run(session, args, specs, journal):
         except (OSError, ValueError):
             pass
     finally:
+        # Cancellation interrupts the transaction, never its bounded cleanup.
+        session.cancel_event = None
         session.deadline = original_deadline
         # Always try both operations, even if quick-stop confirmation fails.
         confirmed = session.stop_after_failure()

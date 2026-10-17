@@ -279,6 +279,15 @@ def restore_attempted(client, od, specs, attempted, before, out):
 
 
 def execute(client, od, specs, backup, writes, action, out, backup_path=None):
+    def event(name, **data):
+        if hasattr(out, 'event'):
+            out.event(name, data)
+
+    def cancelled():
+        if hasattr(out, 'check_cancel'):
+            out.check_cancel()
+
+    cancelled()
     if identity(client, od) != backup['identity']:
         raise ParameterError('1018身份四字段与备份不匹配，零写入')
     require_disabled(client, od)
@@ -297,24 +306,32 @@ def execute(client, od, specs, backup, writes, action, out, backup_path=None):
             spec = specs[key]
             actual = '未知'
             expected = 1 if spec['role'] == 'command' else value
+            cancelled()
             attempted.append(key)  # A failed/aborted download may already have changed RAM.
             client.write(spec['index_value'], spec['sub'], encode(spec, value))
             actual = read_value(client, spec)
             if actual != expected:
                 raise ParameterError('写读不一致')
             out.ok('{} readback={}'.format(key, actual))
+            event('parameter_readback', object=key, value=actual)
     except (Exception, KeyboardInterrupt) as exc:
         original = '{} 失败: 期望{}，读回{}；原始错误: {}'.format(key, expected, actual, exc)
         out.bad(original)
-        if action == 'save':
+        if not attempted:
+            event('parameter_recovery', recovery='no_writes')
+            detail = '取消发生在首项下载前；未尝试写入。'
+        elif action == 'save':
+            event('parameter_recovery', recovery='unknown', persistent=True)
             detail = '保存命令可能已生效，持久保存结果未知且不可自动撤销；不重试、不自动回滚或save，需人工独立核验。'
         else:
             failures = restore_attempted(client, od, specs, attempted, before, out)
             if failures:
+                event('parameter_recovery', recovery='unknown', failures=failures)
                 recovery = shlex.quote(str(backup_path)) if backup_path is not None else '<file>'
                 detail = ('设备处于混合状态或写入结果未知；{}；需人工先审阅 --params rollback --backup {}，'
                           '确认外部恢复及失能后另行授权 --apply；未自动save。').format('; '.join(failures), recovery)
             else:
+                event('parameter_recovery', recovery='restored_confirmed')
                 detail = '已自动回滚本次全部已尝试参数并读回确认到本次pre-read值；未自动save。'
         if isinstance(exc, KeyboardInterrupt):
             out.bad(detail)
