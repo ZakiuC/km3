@@ -84,6 +84,24 @@ km3::canopen::PdoBatch Batch(const km3::canopen::PdoConfig& c) {
     for (std::size_t i = 0; i < b.count; ++i) b.values[i].count = c.rpdo[i].entry_count;
     return b;
 }
+struct WireFixture {
+    std::uint8_t length;
+    std::uint8_t count;
+    std::array<std::uint32_t, 8> values;
+    std::array<std::uint8_t, 8> bytes;
+};
+// Handwritten wire oracles, in RPDO1..4 then TPDO1..4 order. Neither codec
+// produces the other's input/expectation; distinct high bytes expose swaps.
+constexpr WireFixture kWireFixtures[] = {
+    {3, 2, {0xfedcu, 0xfbu}, {0xdc, 0xfe, 0xfb}},
+    {8, 2, {0x607a0020u, 0x89abcdefu}, {0x20, 0x00, 0x7a, 0x60, 0xef, 0xcd, 0xab, 0x89}},
+    {6, 2, {0xfedcu, 0x12345678u}, {0xdc, 0xfe, 0x78, 0x56, 0x34, 0x12}},
+    {2, 1, {0xabcdu}, {0xcd, 0xab}},
+    {3, 2, {0x1234u, 0xf9u}, {0x34, 0x12, 0xf9}},
+    {8, 2, {0x89abcdefu, 0x76543210u}, {0xef, 0xcd, 0xab, 0x89, 0x10, 0x32, 0x54, 0x76}},
+    {4, 1, {0xfedcba98u}, {0x98, 0xba, 0xdc, 0xfe}},
+    {2, 1, {0x8badu}, {0xad, 0x8b}},
+};
 }  // namespace
 void* operator new(std::size_t size) {
     if (measuring.load())
@@ -136,6 +154,40 @@ KM3_TEST(generated_mapping_lengths_and_little_endian_raw_signed_roundtrips) {
                              length == lengths[d][i]);
             }
         }
+    }
+}
+KM3_TEST(encode_all_mappings_matches_handwritten_wire_bytes) {
+    const auto c = Config();
+    // RPDO2 field 0 maps target position; its chosen raw value 0x607A0020
+    // must appear on the wire as 20 00 7A 60, independently of DecodePdo.
+    KM3_CHECK_EQ(c.rpdo[1].entries[0], 0x607a0020u);
+    for (unsigned i = 0; i < 8; ++i) {
+        const auto& mapping = i < 4 ? c.rpdo[i] : c.tpdo[i - 4];
+        const auto& expected = kWireFixtures[i];
+        km3::canopen::PdoValues values{};
+        values.count = expected.count;
+        values.values = expected.values;
+        const auto encoded = km3::canopen::EncodePdo(mapping, values);
+        KM3_REQUIRE(encoded.ok());
+        KM3_CHECK_EQ(encoded.value().id, mapping.cob_id);
+        KM3_CHECK_EQ(encoded.value().dlc, expected.length);
+        for (unsigned b = 0; b < expected.length; ++b)
+            KM3_CHECK_EQ(encoded.value().data[b], expected.bytes[b]);
+    }
+}
+KM3_TEST(decode_all_mappings_from_handwritten_wire_bytes) {
+    const auto c = Config();
+    for (unsigned i = 0; i < 8; ++i) {
+        const auto& mapping = i < 4 ? c.rpdo[i] : c.tpdo[i - 4];
+        const auto& expected = kWireFixtures[i];
+        km3::CanFrame frame{};
+        frame.id = mapping.cob_id;
+        frame.dlc = expected.length;
+        std::copy(expected.bytes.begin(), expected.bytes.end(), frame.data.begin());
+        const auto decoded = km3::canopen::DecodePdo(mapping, frame);
+        KM3_REQUIRE(decoded.ok());
+        KM3_CHECK_EQ(decoded.value().count, expected.count);
+        KM3_CHECK_EQ(decoded.value().values, expected.values);
     }
 }
 KM3_TEST(mapping_count_width_flags_and_values_are_rejected) {

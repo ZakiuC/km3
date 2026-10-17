@@ -6,6 +6,7 @@ No function here opens hardware. The CLI supplies one exclusively owned client.
 import datetime
 import json
 from pathlib import Path
+import shlex
 
 
 class ParameterError(ValueError):
@@ -232,18 +233,90 @@ def confirmation(backup):
     return 'SAVE {} {} {}'.format(backup['iface'], backup['node'], backup['identity']['4'])
 
 
-def execute(client, od, specs, backup, writes, action, out):
+def require_disabled(client, od):
+    """Passive upload: OD statusword cites E06 10.3 table 10-7 (Uint16);
+    OD statusword_bits cites E06 4.1.3 table 4-4 (bit2 operation enabled).
+    """
+    entry = next(e for e in od['entries'] if e['key'] == 'statusword')
+    if entry['status'] != 'verified' or entry['type'] != 'uint16':
+        raise ParameterError('状态字缺少已核对的Uint16声明，零写入')
+    status = read_value(client, dict(index_value=int(entry['index'], 0),
+                                    sub=entry['sub'], size=2, signed=False))
+    if status & (1 << 2):
+        raise ParameterError('电机处于使能状态，请先失能')
+
+
+def restore_attempted(client, od, specs, attempted, before, out):
+    """Restore even the failed download: it may have taken effect without ACK.
+
+    Keep the same client and its quarantine. Never recover the SDO stream here,
+    retry a failed restore, or turn a RAM recovery into a save command.
+    """
+    remaining = list(reversed(attempted))
+    failures = []
+    if client.quarantined:
+        return ['SDO会话已隔离，禁止继续发帧；{} 当前值未知'.format(', '.join(remaining))]
+    try:
+        require_disabled(client, od)
+    except (Exception, KeyboardInterrupt) as exc:
+        return ['自动回滚前状态检查失败: {}；{} 当前值未知'.format(exc, ', '.join(remaining))]
+    for position, key in enumerate(remaining):
+        spec = specs[key]
+        actual = '未知'
+        try:
+            client.write(spec['index_value'], spec['sub'], encode(spec, before[key]))
+            actual = read_value(client, spec)
+            if actual != before[key]:
+                raise ParameterError('恢复写读不一致')
+            out.info('{} 自动回滚读回确认={}'.format(key, actual))
+        except (Exception, KeyboardInterrupt) as exc:
+            failures.append('{} 恢复期望{}，读回{}: {}'.format(key, before[key], actual, exc))
+            if client.quarantined or isinstance(exc, KeyboardInterrupt):
+                if remaining[position+1:]:
+                    failures.append('停止恢复；{} 当前值未知'.format(', '.join(remaining[position+1:])))
+                break
+    return failures
+
+
+def execute(client, od, specs, backup, writes, action, out, backup_path=None):
     if identity(client, od) != backup['identity']:
         raise ParameterError('1018身份四字段与备份不匹配，零写入')
+    require_disabled(client, od)
+    # Snapshot the entire batch before any download. Recovery uses this invocation's
+    # live values, which may differ from the older human-supplied backup.
+    before = {}
     for key, value in writes:
         spec = specs[key]
-        before = read_value(client, spec)
-        out.info('{} pre-read={}'.format(key, before))
-        if spec['role'] == 'command' and before != 1:
+        before[key] = read_value(client, spec)
+        out.info('{} pre-read={}'.format(key, before[key]))
+        if spec['role'] == 'command' and before[key] != 1:
             raise ParameterError('保存状态不是1，拒绝写保存命令')
-        client.write(spec['index_value'], spec['sub'], encode(spec, value))
-        actual = read_value(client, spec)
-        expected = 1 if spec['role'] == 'command' else value
-        if actual != expected:
-            raise ParameterError('{} 写读不一致: 期望{}，读回{}；停止后续写入'.format(key, expected, actual))
-        out.ok('{} readback={}'.format(key, actual))
+    attempted = []
+    try:
+        for key, value in writes:
+            spec = specs[key]
+            actual = '未知'
+            expected = 1 if spec['role'] == 'command' else value
+            attempted.append(key)  # A failed/aborted download may already have changed RAM.
+            client.write(spec['index_value'], spec['sub'], encode(spec, value))
+            actual = read_value(client, spec)
+            if actual != expected:
+                raise ParameterError('写读不一致')
+            out.ok('{} readback={}'.format(key, actual))
+    except (Exception, KeyboardInterrupt) as exc:
+        original = '{} 失败: 期望{}，读回{}；原始错误: {}'.format(key, expected, actual, exc)
+        out.bad(original)
+        if action == 'save':
+            detail = '保存命令可能已生效，持久保存结果未知且不可自动撤销；不重试、不自动回滚或save，需人工独立核验。'
+        else:
+            failures = restore_attempted(client, od, specs, attempted, before, out)
+            if failures:
+                recovery = shlex.quote(str(backup_path)) if backup_path is not None else '<file>'
+                detail = ('设备处于混合状态或写入结果未知；{}；需人工先审阅 --params rollback --backup {}，'
+                          '确认外部恢复及失能后另行授权 --apply；未自动save。').format('; '.join(failures), recovery)
+            else:
+                detail = '已自动回滚本次全部已尝试参数并读回确认到本次pre-read值；未自动save。'
+        if isinstance(exc, KeyboardInterrupt):
+            out.bad(detail)
+            raise
+        raise ParameterError(original + '；' + detail) from exc

@@ -28,6 +28,7 @@ class Peer:
     def __init__(self):
         self.values = {(i, 2): b'\xff' for i in list(range(0x1400, 0x1404)) + list(range(0x1800, 0x1804))}
         self.values.update({(0x60c2, 1): b'\x14', (0x60c2, 2): b'\xff',
+                            (0x6041, 0): b'\x40\x00',
                             (0x1010, 1): b'\x01\x00\x00\x00',
                             (0x1010, 11): b'\x01\x00\x00\x00'})
         for sub, raw in enumerate([b'\x09\x05\x00\x00', b'\x01\x00\x00\x03',
@@ -38,6 +39,8 @@ class Peer:
         self.ignore_write = None
         self.abort_write = None
         self.bad_save = False
+        self.faults = {}
+        self.calls = {}
 
     def send(self, frame):
         self.sent.append(frame)
@@ -45,23 +48,41 @@ class Peer:
         raw = frame.data
         key = (raw[1] | raw[2] << 8, raw[3])
         header = raw[1:4]
+        operation = 'read' if raw[0] == 0x40 else 'write'
+        counter = (operation, key)
+        self.calls[counter] = self.calls.get(counter, 0) + 1
+        fault = self.faults.get((operation, key, self.calls[counter]))
         if raw[0] == 0x40:
             value = self.values[key]
             self.events.append(('read', key, value))
+            if fault == 'silence':
+                return
+            if fault == 'abort':
+                self.pending.append(canopen.Frame(0x581, b'\x80' + header + b'\x30\x00\x09\x06'))
+                return
+            if isinstance(fault, bytes):
+                value = fault
             reply = bytes([{1: 0x4f, 2: 0x4b, 4: 0x43}[len(value)]]) + header + value.ljust(4, b'\x00')
         else:
             size = {0x2f: 1, 0x2b: 2, 0x23: 4}[raw[0]]
             value = raw[4:4+size]
             self.events.append(('write', key, value))
-            if self.abort_write == key:
+            if self.abort_write == key or fault == 'abort':
                 self.pending.append(canopen.Frame(0x581, b'\x80' + header + b'\x30\x00\x09\x06'))
                 return
-            if key != self.ignore_write:
+            if key != self.ignore_write and fault != 'ignore':
                 if key == (0x1010, 1):
                     assert value == b'save'
                     self.values[key] = b'\x00\x00\x00\x00' if self.bad_save else b'\x01\x00\x00\x00'
                 else:
                     self.values[key] = bytes(value)
+            if fault == 'silence_after_write':
+                return
+            if fault == 'abort_after_write':
+                self.pending.append(canopen.Frame(0x581, b'\x80' + header + b'\x30\x00\x09\x06'))
+                return
+            if fault == 'interrupt_after_write':
+                raise KeyboardInterrupt()
             reply = b'\x60' + header + b'\x00'*4
         self.pending.append(canopen.Frame(0x581, reply))
 
@@ -89,6 +110,7 @@ class ParameterTests(unittest.TestCase):
         params.save_backup(self.path, self.backup, self.specs)
         self.peer.sent.clear()
         self.peer.events.clear()
+        self.peer.calls.clear()
         self.patches = [
             mock.patch.object(tool, 'load_device_json', return_value=(self.cfg, 'mock-config')),
             mock.patch.object(tool, 'read_iface_actual', return_value={'state': 'UP', 'bitrate': 1000000, 'can_state': 'ERROR-ACTIVE'}),
@@ -149,8 +171,9 @@ class ParameterTests(unittest.TestCase):
         self.assertEqual(rc, 0, output)
         self.assertEqual([event[2] for event in self.peer.writes()], [b'\x04', b'\xfd'])
         self.assertEqual([event[:2] for event in self.peer.events[4:]], [
-            ('read', (0x60c2, 1)), ('write', (0x60c2, 1)), ('read', (0x60c2, 1)),
-            ('read', (0x60c2, 2)), ('write', (0x60c2, 2)), ('read', (0x60c2, 2))])
+            ('read', (0x6041, 0)), ('read', (0x60c2, 1)), ('read', (0x60c2, 2)),
+            ('write', (0x60c2, 1)), ('read', (0x60c2, 1)),
+            ('write', (0x60c2, 2)), ('read', (0x60c2, 2))])
         self.peer.events.clear()
         rc, output = self.run_cli('rollback', '--apply', '--backup', str(self.path))
         self.assertEqual(rc, 0, output)
@@ -195,7 +218,7 @@ class ParameterTests(unittest.TestCase):
         self.assertNotEqual(rc, 0)
         self.assertEqual(self.peer.sent, [])
 
-    def test_write_read_mismatch_and_abort_stop_immediately(self):
+    def test_write_read_mismatch_and_abort_stop_forward_writes_and_recover(self):
         for kind in ('ignore_write', 'abort_write'):
             with self.subTest(kind=kind):
                 peer = Peer()
@@ -203,8 +226,167 @@ class ParameterTests(unittest.TestCase):
                 with mock.patch.object(tool, 'connect_bus', return_value=peer):
                     rc, _ = self.run_cli('interpolation', '--apply', '--backup', str(self.path))
                 self.assertNotEqual(rc, 0)
-                self.assertEqual(len(peer.writes()), 1)
+                self.assertEqual(len(peer.writes()), 2)
+                self.assertTrue(all(event[1] == (0x60c2, 1) for event in peer.writes()))
+                self.assertEqual(peer.values[0x60c2, 1], b'\x14')
                 self.assertTrue(peer.closed)
+
+    def transmission(self, *args):
+        return self.run_cli('transmission', '--apply', '--backup', str(self.path),
+                            '--confirm-interpolation-readback', '--timeout', '0.001', *args)
+
+    def test_status_bit2_blocks_every_parameter_action_without_downloads(self):
+        for action in ('interpolation', 'transmission', 'rollback', 'save'):
+            for status in (0x0004, 0x0027, 0x0007, 0x000f):
+                with self.subTest(action=action, status=status):
+                    peer = Peer()
+                    peer.values[0x6041, 0] = status.to_bytes(2, 'little')
+                    args = [action, '--apply', '--backup', str(self.path),
+                            '--confirm-interpolation-readback']
+                    if action == 'save':
+                        args += ['--confirm-save', params.confirmation(self.backup)]
+                    with mock.patch.object(tool, 'connect_bus', return_value=peer):
+                        rc, output = self.run_cli(*args)
+                    self.assertNotEqual(rc, 0, output)
+                    self.assertIn('电机处于使能状态，请先失能', output)
+                    self.assertEqual(peer.writes(), [])
+                    self.assertEqual(peer.events[-1][:2], ('read', (0x6041, 0)))
+                    self.assertTrue(peer.closed)
+
+    def test_status_read_abort_timeout_or_wrong_width_refuses_zero_writes(self):
+        for action in ('interpolation', 'transmission', 'rollback', 'save'):
+            for fault in ('abort', 'silence', b'\x40', b'\x40\x00\x00\x00'):
+                with self.subTest(action=action, fault=fault):
+                    peer = Peer()
+                    peer.faults['read', (0x6041, 0), 1] = fault
+                    args = [action, '--apply', '--backup', str(self.path),
+                            '--confirm-interpolation-readback', '--timeout', '0.001']
+                    if action == 'save':
+                        args += ['--confirm-save', params.confirmation(self.backup)]
+                    with mock.patch.object(tool, 'connect_bus', return_value=peer):
+                        rc, output = self.run_cli(*args)
+                    self.assertNotEqual(rc, 0, output)
+                    self.assertEqual(peer.writes(), [])
+                    self.assertEqual(len(peer.sent), 5)
+                    self.assertTrue(peer.closed)
+
+    def test_all_pre_reads_complete_before_first_write_and_late_failure_is_zero_write(self):
+        self.peer.faults['read', (0x1803, 2), 1] = 'abort'
+        rc, output = self.transmission()
+        self.assertNotEqual(rc, 0, output)
+        self.assertEqual(self.peer.writes(), [])
+
+    def test_partial_success_and_failed_write_that_took_effect_restore_live_snapshot(self):
+        self.peer.values[0x1400, 2] = b'\xfe'  # Live pre-read differs from backup's ff.
+        original = copy.deepcopy(self.peer.values)
+        self.peer.faults['write', (0x1402, 2), 1] = 'abort_after_write'
+        rc, output = self.transmission()
+        self.assertEqual(rc, 2, output)
+        self.assertIn('SDO abort value range of parameter exceeded', output)
+        self.assertIn('已自动回滚', output)
+        self.assertIn('未自动save', output)
+        self.assertEqual(self.peer.values, original)
+        self.assertEqual([e[1] for e in self.peer.writes()], [
+            (0x1400, 2), (0x1401, 2), (0x1402, 2),
+            (0x1402, 2), (0x1401, 2), (0x1400, 2)])
+        first_write = next(i for i, e in enumerate(self.peer.events) if e[0] == 'write')
+        self.assertEqual(first_write, 13)  # Four identity, one status, all eight target uploads.
+        self.assertEqual(self.peer.calls['read', (0x6041, 0)], 2)
+        self.assertFalse(any(e[1][0] in (0x1010, 0x6040) for e in self.peer.writes()))
+
+    def test_partial_success_readback_mismatch_abort_or_width_restores_all_attempts(self):
+        for fault in (b'\x7f', 'abort', b'\x00\x00'):
+            with self.subTest(fault=fault):
+                peer = Peer()
+                original = copy.deepcopy(peer.values)
+                peer.faults['read', (0x1402, 2), 2] = fault
+                with mock.patch.object(tool, 'connect_bus', return_value=peer):
+                    rc, output = self.transmission()
+                self.assertEqual(rc, 2, output)
+                self.assertIn('1402:02 失败', output)
+                self.assertIn('已自动回滚', output)
+                self.assertEqual(peer.values, original)
+                self.assertEqual(len(peer.writes()), 6)
+
+    def test_rollback_write_or_readback_failure_reports_mixed_state_and_original_error(self):
+        for operation, occurrence, fault in [('write', 2, 'abort'), ('write', 2, 'ignore'),
+                                             ('read', 3, b'\x00'), ('read', 3, 'abort')]:
+            with self.subTest(operation=operation, fault=fault):
+                peer = Peer()
+                peer.faults['read', (0x1402, 2), 2] = b'\x7f'
+                peer.faults[operation, (0x1401, 2), occurrence] = fault
+                with mock.patch.object(tool, 'connect_bus', return_value=peer):
+                    rc, output = self.transmission()
+                self.assertEqual(rc, 2, output)
+                self.assertIn('1402:02 失败: 期望0，读回127', output)
+                self.assertIn('设备处于混合状态', output)
+                self.assertIn('1401:02 恢复期望255，读回', output)
+                self.assertIn('--params rollback --backup ' + str(self.path), output)
+                self.assertEqual(peer.values[0x1400, 2], b'\xff')
+                self.assertFalse(any(e[1][0] == 0x1010 for e in peer.writes()))
+
+    def test_write_ack_loss_or_readback_timeout_quarantines_without_recovery_frames(self):
+        for operation, occurrence, fault in [('write', 1, 'silence_after_write'),
+                                             ('read', 2, 'silence'),
+                                             ('write', 1, 'interrupt_after_write')]:
+            with self.subTest(operation=operation, fault=fault):
+                peer = Peer()
+                peer.faults[operation, (0x1402, 2), occurrence] = fault
+                with mock.patch.object(tool, 'connect_bus', return_value=peer):
+                    rc, output = self.transmission()
+                self.assertEqual(rc, 130 if 'interrupt' in fault else 2, output)
+                self.assertIn('SDO会话已隔离', output)
+                self.assertIn('设备处于混合状态', output)
+                self.assertEqual(len(peer.writes()), 3)
+                self.assertEqual(peer.values[0x1402, 2], b'\x00')
+                self.assertEqual(peer.events[-1][:2], (operation, (0x1402, 2)))
+                self.assertEqual(peer.calls['read', (0x6041, 0)], 1)
+                self.assertTrue(peer.closed)
+
+    def test_rollback_timeout_stops_restoration_and_preserves_quarantine(self):
+        self.peer.faults['read', (0x1402, 2), 2] = b'\x7f'
+        self.peer.faults['write', (0x1402, 2), 2] = 'silence_after_write'
+        rc, output = self.transmission()
+        self.assertEqual(rc, 2, output)
+        self.assertIn('停止恢复；1401:02, 1400:02 当前值未知', output)
+        self.assertEqual(len(self.peer.writes()), 4)
+        self.assertEqual(self.peer.events[-1][:2], ('write', (0x1402, 2)))
+
+    def test_automatic_rollback_rechecks_disabled_and_fails_closed(self):
+        for fault in (b'\x27\x00', 'abort', 'silence', b'\x40'):
+            with self.subTest(fault=fault):
+                peer = Peer()
+                peer.faults['read', (0x1402, 2), 2] = b'\x7f'
+                peer.faults['read', (0x6041, 0), 2] = fault
+                with mock.patch.object(tool, 'connect_bus', return_value=peer):
+                    rc, output = self.transmission()
+                self.assertEqual(rc, 2, output)
+                self.assertIn('自动回滚前状态检查失败', output)
+                self.assertIn('1402:02, 1401:02, 1400:02 当前值未知', output)
+                self.assertEqual(len(peer.writes()), 3)
+                self.assertEqual(peer.events[-1][:2], ('read', (0x6041, 0)))
+
+    def test_save_dry_run_never_discloses_confirmation_token(self):
+        rc, output = self.run_cli('save', '--backup', str(self.path))
+        self.assertEqual(rc, 0, output)
+        self.assertIn('确认串由备份内容推导，见文档', output)
+        self.assertNotIn(params.confirmation(self.backup), output)
+        self.assertEqual(self.peer.sent, [])
+
+    def test_save_failure_never_retries_or_restores_irreversible_command(self):
+        for operation, occurrence, fault in [('write', 1, 'silence_after_write'),
+                                             ('write', 1, 'abort_after_write'),
+                                             ('read', 2, b'\x00\x00\x00\x00')]:
+            with self.subTest(fault=fault):
+                peer = Peer()
+                peer.faults[operation, (0x1010, 1), occurrence] = fault
+                with mock.patch.object(tool, 'connect_bus', return_value=peer):
+                    rc, output = self.run_cli('save', '--apply', '--backup', str(self.path),
+                        '--confirm-save', params.confirmation(self.backup), '--timeout', '0.001')
+                self.assertEqual(rc, 2, output)
+                self.assertIn('持久保存结果未知且不可自动撤销', output)
+                self.assertEqual(peer.writes(), [('write', (0x1010, 1), b'save')])
+                self.assertEqual(peer.calls['read', (0x6041, 0)], 1)
 
     def test_save_independent_second_confirmation_and_status_one(self):
         for token in (None, 'yes', 'SAVE wrong-device 1 4660'):

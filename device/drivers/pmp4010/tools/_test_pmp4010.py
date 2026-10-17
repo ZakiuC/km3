@@ -258,6 +258,17 @@ class ToolContractTests(unittest.TestCase):
             self.invoke('--motion', 'stop', '--node', '1', '--od-gaps-bypass', '测试不落盘')
         self.assertEqual(od_path.read_bytes(), before)
 
+    def test_od_gaps_bypass_rejects_whitespace_before_transport_even_if_od_verified(self):
+        for verified in (False, True):
+            for reason in ('', ' ', '\t\r\n', '\u3000'):
+                with self.subTest(verified=verified, reason=reason), \
+                        mock.patch.object(tool, 'od_status', return_value=(verified, 0, [], [])), \
+                        mock.patch.object(tool, '_std_open_active') as opening:
+                    with self.assertRaises(SystemExit) as caught:
+                        self.invoke('--motion', 'stop', '--node', '1', '--od-gaps-bypass', reason)
+                    self.assertEqual(caught.exception.code, 2)
+                    opening.assert_not_called()
+
     def test_empty_or_malformed_od_never_opens_motion_gate(self):
         path = self.root / 'od.json'
         cases = [{}, {'model': 'PMP4010', 'entries': []},

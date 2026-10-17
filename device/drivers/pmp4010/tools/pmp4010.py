@@ -1572,7 +1572,7 @@ def cmd_params(args, out):
     if args.params == "rollback":
         out.info("rollback跳过全部1010命令对象；仅还原参数，持久保存须另行独立save。")
     if args.params == "save" and backup:
-        out.info("二次确认文字: --confirm-save {!r}".format(params.confirmation(backup)))
+        out.info("二次确认串由备份内容推导，见文档；实际save须提供--confirm-save。")
         out.info("保存读回应为1，不能与写入magic比较。EEPROM不要反复save。")
     if args.params != "backup" and not args.apply:
         out.ok("DRY-RUN: 未打开总线，零发送（包括零SDO读请求）。")
@@ -1604,7 +1604,7 @@ def cmd_params(args, out):
             params.save_backup(args.backup, data, specs)
             out.ok("完整备份已写入 {}（只读SDO，零写请求）".format(args.backup))
         else:
-            params.execute(client, od, specs, backup, writes, args.params, out)
+            params.execute(client, od, specs, backup, writes, args.params, out, args.backup)
             out.ok("本次逐项写/读回完成；不代表下次上电参数已生效。")
     finally:
         bus.close()
@@ -2021,7 +2021,7 @@ def build_parser():
     p.add_argument("--apply", action="store_true", help="--params显式实际写入；省略时离线零发帧")
     p.add_argument("--set", dest="param_set", action="append", default=[], metavar="INDEX:SUB=VALUE",
                    help="仅覆盖当前插补/传输类型批次，整批在发帧前按OD校验")
-    p.add_argument("--confirm-save", metavar="TEXT", help="独立save二次确认，文字见干跑输出")
+    p.add_argument("--confirm-save", metavar="TEXT", help="独立save二次确认，从备份内容推导，见文档")
     p.add_argument("--confirm-interpolation-readback", action="store_true",
                    help="人类确认插补批次已独立保存、下次上电并读回验证后，才可apply传输类型")
     p.add_argument("--bus", choices=[LOGICAL_BUS], default=LOGICAL_BUS,
@@ -2124,6 +2124,10 @@ def main(argv=None):
 
     parser = build_parser()
     args = parser.parse_args(argv)
+    if args.od_gaps_bypass is not None:
+        args.od_gaps_bypass = args.od_gaps_bypass.strip()
+        if not args.od_gaps_bypass:
+            parser.error("--od-gaps-bypass理由去除首尾空白后不得为空")
     if args.verify and not args.init:
         parser.error("--verify/--read-only 仅可与 --init 一起使用")
     if not math.isfinite(args.timeout) or args.timeout <= 0:
