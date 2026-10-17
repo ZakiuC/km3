@@ -118,14 +118,15 @@ endif()
 # 没有它们，总线层与上层控制逻辑在硬件到位前完全无法测试。
 add_library(km3_hal
   src/hal/mock_devices.cpp
+  src/hal/socketcan_device.cpp
   src/common/device_kind.cpp
 )
 target_link_libraries(km3_hal PUBLIC km3_core)
 
 # ---- 非实时 CANopen 标准层：有界事务，协议定义与 Python 同源生成 ----
-add_library(km3_canopen INTERFACE)
-target_include_directories(km3_canopen INTERFACE include)
-target_link_libraries(km3_canopen INTERFACE km3_hal km3_core)
+add_library(km3_canopen src/canopen/sync.cpp src/canopen/pdo.cpp)
+target_include_directories(km3_canopen PUBLIC include)
+target_link_libraries(km3_canopen PUBLIC km3_hal km3_core)
 
 # ---- 硬件驱动（由 tools/hwdriver/new-driver.sh 追加）----
 #
@@ -186,7 +187,7 @@ endif()
 
 # ---- 可执行目标 ----
 add_executable(km3-rt-controller src/apps/rt-controller/main.cpp)
-target_link_libraries(km3-rt-controller PRIVATE km3_core km3_config)
+target_link_libraries(km3-rt-controller PRIVATE km3_core km3_config km3_canopen)
 
 add_executable(km3-core src/apps/core/main.cpp)
 target_link_libraries(km3-core PRIVATE km3_core)
@@ -238,6 +239,34 @@ if(KM3_BUILD_TESTS)
   target_include_directories(test_hal PRIVATE tests)
   target_link_libraries(test_hal PRIVATE km3_hal)
   add_test(NAME hal COMMAND test_hal)
+
+  add_executable(test_socketcan tests/test_socketcan.cpp)
+  target_include_directories(test_socketcan PRIVATE tests)
+  target_link_libraries(test_socketcan PRIVATE km3_hal)
+  # Deterministic Linux syscall seam; production targets keep real syscalls.
+  foreach(call socket close bind setsockopt sendto poll recvmsg send recv if_nametoindex)
+    target_link_options(test_socketcan PRIVATE "-Wl,--wrap=${call}")
+  endforeach()
+  add_test(NAME socketcan COMMAND test_socketcan)
+
+  add_executable(test_pdo tests/test_pdo.cpp)
+  target_include_directories(test_pdo PRIVATE tests)
+  target_compile_definitions(test_pdo PRIVATE KM3_ALLOW_UNVERIFIED_OD=1)
+  target_link_libraries(test_pdo PRIVATE km3_canopen)
+  add_test(NAME canopen_pdo COMMAND test_pdo)
+  set_tests_properties(canopen_pdo PROPERTIES TIMEOUT 15)
+
+  add_executable(test_sync tests/test_sync.cpp)
+  target_include_directories(test_sync PRIVATE tests)
+  target_link_libraries(test_sync PRIVATE km3_canopen)
+  add_test(NAME canopen_sync COMMAND test_sync)
+  set_tests_properties(canopen_sync PROPERTIES TIMEOUT 15)
+  find_package(Python3 COMPONENTS Interpreter REQUIRED)
+  add_test(NAME sync_config_cli COMMAND ${Python3_EXECUTABLE}
+    ${CMAKE_CURRENT_SOURCE_DIR}/tests/test_sync_cli.py
+    $<TARGET_FILE:km3-rt-controller>
+    ${CMAKE_CURRENT_SOURCE_DIR}/config/validate-config.sh)
+  set_tests_properties(sync_config_cli PROPERTIES TIMEOUT 45)
 
   add_executable(test_clock tests/test_clock.cpp)
   target_include_directories(test_clock PRIVATE tests)

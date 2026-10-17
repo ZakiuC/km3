@@ -92,7 +92,7 @@ Result<DeviceConfig> LoadConfigText(const std::string& json_text) {
     json root;
     try {
         root = json::parse(json_text);
-    } catch (const json::parse_error&) {
+    } catch (const json::exception&) {
         return Result<DeviceConfig>::Err(ErrorCode::EInvalidConfig);
     }
     if (!root.is_object()) {
@@ -127,6 +127,29 @@ Result<DeviceConfig> LoadConfigText(const std::string& json_text) {
     cfg.iface_uplink = Get<std::string>(net, "iface_uplink", "");
     cfg.iface_g30    = Get<std::string>(net, "iface_g30", "");
 
+    // Unlike legacy Get(), an explicitly supplied SYNC value must never fall
+    // back, truncate floats, wrap negative/oversized numbers, or accept bool.
+    // A JSON integer beyond uint64 is parsed as float by nlohmann: reject it too.
+    const auto sync = net.find("sync_period_us");
+    if (sync != net.end()) {
+        if (!sync->is_number_integer() ||
+            (!sync->is_number_unsigned() && sync->get<std::int64_t>() <= 0)) {
+            return Result<DeviceConfig>::Err(ErrorCode::EInvalidConfig);
+        }
+        cfg.rt.sync_period_us = sync->get<std::uint64_t>();
+        if (cfg.rt.sync_period_us == 0 || cfg.rt.sync_period_us > kMaxSyncPeriodUs)
+            return Result<DeviceConfig>::Err(ErrorCode::EInvalidConfig);
+    }
+
+    const auto sync_id = net.find("sync_cob_id");
+    if (sync_id != net.end()) {
+        if (!sync_id->is_number_integer() ||
+            (!sync_id->is_number_unsigned() && sync_id->get<std::int64_t>() <= 0) ||
+            (sync_id->get<std::uint64_t>() == 0 || sync_id->get<std::uint64_t>() > 0x7FF))
+            return Result<DeviceConfig>::Err(ErrorCode::EInvalidConfig);
+        cfg.rt.sync_cob_id = sync_id->get<std::uint32_t>();
+    }
+
     cfg.rt.control_period_us    = Get<std::uint64_t>(net, "control_period_us", 1000);
     cfg.rt.watchdog_direct_us   = Get<std::uint64_t>(net, "watchdog_direct_us", 500000);
     cfg.rt.watchdog_relay_us    = Get<std::uint64_t>(net, "watchdog_relay_us", 3000000);
@@ -154,6 +177,29 @@ Result<DeviceConfig> LoadConfigText(const std::string& json_text) {
     }
 
     const json bus = SectionOf(root, "bus");
+    // Physical SocketCAN identity and bitrate cannot silently fall back either.
+    const json can_endpoints = ArrayOf(bus, "can");
+    for (const auto& endpoint : can_endpoints) {
+        if (!endpoint.is_object()) return Result<DeviceConfig>::Err(ErrorCode::EInvalidConfig);
+        for (const char* key : {"logical", "iface", "protocol"}) {
+            const auto field = endpoint.find(key);
+            if (field == endpoint.end() || !field->is_string() || field->get<std::string>().empty())
+                return Result<DeviceConfig>::Err(ErrorCode::EInvalidConfig);
+        }
+        // Serial 'device' aliases are intentionally not allowed to override a
+        // different CAN iface: CAN identity comes from JSON bus.can[].iface.
+        const auto alias = endpoint.find("device");
+        if (alias != endpoint.end() && (!alias->is_string() || *alias != endpoint["iface"]))
+            return Result<DeviceConfig>::Err(ErrorCode::EInvalidConfig);
+        const auto rate = endpoint.find("bitrate");
+        if (rate == endpoint.end() || !rate->is_number_integer() ||
+            (!rate->is_number_unsigned() && rate->get<std::int64_t>() <= 0) ||
+            rate->get<std::uint64_t>() == 0 || rate->get<std::uint64_t>() > 1000000)
+            return Result<DeviceConfig>::Err(ErrorCode::EInvalidConfig);
+        const auto baud = endpoint.find("baudrate");
+        if (baud != endpoint.end() && *baud != *rate)
+            return Result<DeviceConfig>::Err(ErrorCode::EInvalidConfig);
+    }
     cfg.rs485     = ParseEndpoints(ArrayOf(bus, "rs485"));
     cfg.rs485_usb = ParseEndpoints(ArrayOf(bus, "rs485_usb"));
     cfg.can       = ParseEndpoints(ArrayOf(bus, "can"));
@@ -257,6 +303,15 @@ Status ValidateConfig(const DeviceConfig& cfg) {
         return Status(ErrorCode::EInvalidConfig);
     }
 
+    // SYNC values are also validated for programmatically constructed configs.
+    // 1us is syntactically valid, not a usable classic-CAN bandwidth claim. The
+    // 1s upper bound catches unit mistakes and bounds operational cadence; it
+    // does not establish watchdog/consumer timing (no such protection is set).
+    if (cfg.rt.sync_cob_id == 0 || cfg.rt.sync_cob_id > 0x7FF ||
+        cfg.rt.sync_period_us == 0 || cfg.rt.sync_period_us > kMaxSyncPeriodUs) {
+        return Status(ErrorCode::EInvalidConfig);
+    }
+
     // 6) 抬降行程上下限必须有序
     if (cfg.rt.lift_position_min_mm >= cfg.rt.lift_position_max_mm) {
         return Status(ErrorCode::EInvalidConfig);
@@ -273,6 +328,14 @@ Status ValidateConfig(const DeviceConfig& cfg) {
                 return Status(ErrorCode::EInvalidConfig);
             }
             all.push_back(ep.logical);
+        }
+    }
+
+    for (const auto& endpoint : cfg.can) {
+        if (endpoint.device.empty() || endpoint.device.size() >= 16 || endpoint.baudrate == 0 ||
+            endpoint.baudrate > 1000000 ||
+            (endpoint.protocol != "raw" && endpoint.protocol != "canopen")) {
+            return Status(ErrorCode::EInvalidConfig);
         }
     }
 

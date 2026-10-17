@@ -566,6 +566,39 @@ class TestSdoWireInteroperability(unittest.TestCase):
         self.assertLess(canopen.time.monotonic() - started, 0.5)
         self.assertEqual(bus.send.call_count, 38)  # initiate + 37 segments
 
+    def test_interrupt_during_send_or_ack_wait_quarantines_and_blocks_cleanup(self):
+        for phase in ('send', 'recv'):
+            for operation in ('read', 'write'):
+                with self.subTest(phase=phase, operation=operation):
+                    bus = mock.Mock()
+                    getattr(bus, phase).side_effect = KeyboardInterrupt
+                    client = SdoClient(bus, 1)
+                    with self.assertRaises(KeyboardInterrupt):
+                        if operation == 'read':
+                            client.read(0x6041)
+                        else:
+                            client.write(0x6040, 0, b'\x0f\x00')
+                    self.assertTrue(client.quarantined)
+                    sent = bus.send.call_count
+                    with self.assertRaises(canopen.SdoSessionQuarantined):
+                        client.write(0x6040, 0, b'\x00\x00')
+                    self.assertEqual(bus.send.call_count, sent)
+
+    def test_interrupt_during_segmented_transfer_preserves_quarantine(self):
+        for download in (False, True):
+            with self.subTest(download=download):
+                bus = mock.Mock()
+                first = '60 08 10 00 00 00 00 00' if download else '41 08 10 00 08 00 00 00'
+                bus.recv.side_effect = [Frame(0x581, bytes.fromhex(first)), KeyboardInterrupt]
+                client = SdoClient(bus, 1)
+                with self.assertRaises(KeyboardInterrupt):
+                    if download:
+                        client.write(0x1008, 0, b'12345678')
+                    else:
+                        client.read(0x1008)
+                self.assertEqual(bus.send.call_count, 2)
+                self.assertTrue(client.quarantined)
+
     def test_segmented_transfer_has_one_deadline_and_quarantines_on_expiry(self):
         now = [0.0]
         bus = mock.Mock()
@@ -1362,7 +1395,7 @@ class TestStandardLayerDiscipline(unittest.TestCase):
         """只用 Python 3 标准库。"""
         allowed = {
             "__future__", "struct", "dataclasses", "typing", "time", "socket",
-            "fcntl", "os", "errno", "json", "enum", "collections", "math",
+            "fcntl", "os", "errno", "json", "enum", "collections", "functools", "math",
             "canopen_wire",  # Repository-owned generated integer constants, no dependencies.
         }
         import ast

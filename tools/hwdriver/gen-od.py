@@ -317,6 +317,65 @@ def manual_dir_name(root, model, declared):
     return model
 
 
+def parameter_objects(doc):
+    """Check structured writable subobjects before accepting an OD hash."""
+    result = []
+    seen = set()
+    for entry in doc.get("entries", []):
+        if "parameter_objects" not in entry:
+            continue
+        if entry.get("status") != STATUS_VERIFIED or entry.get("access") != "rw":
+            raise ValueError("parameter metadata requires verified/rw source")
+        for obj in entry["parameter_objects"]:
+            index, sub = _parse_int(obj["index"]), obj["sub"]
+            if (index is None or not 1 <= index <= 65535 or
+                    isinstance(sub, bool) or not isinstance(sub, int) or not 0 <= sub <= 255):
+                raise ValueError("invalid parameter address")
+            if (index, sub) in seen or obj["type"] not in CPP_INT_TYPES:
+                raise ValueError("duplicate parameter or unsupported type")
+            seen.add((index, sub))
+            _, low, high = CPP_INT_TYPES[obj["type"]]
+            ranges = obj["ranges"]
+            if not isinstance(ranges, list) or not ranges:
+                raise ValueError("missing parameter range")
+            for pair in ranges:
+                if (not isinstance(pair, list) or len(pair) != 2 or
+                        any(isinstance(x, bool) or not isinstance(x, int) for x in pair) or
+                        not low <= pair[0] <= pair[1] <= high):
+                    raise ValueError("parameter range exceeds width")
+            if (obj["group"] not in ("interpolation", "transmission", "save") or
+                    obj["role"] not in ("parameter", "command") or
+                    ((obj["group"] == "save") != (obj["role"] == "command"))):
+                raise ValueError("invalid parameter group/command role")
+            result.append(obj)
+    return result
+
+
+def pdo_layouts(doc):
+    layouts = []
+    for entry in doc.get("entries", []):
+        if "pdo_layouts" not in entry:
+            continue
+        if entry.get("status") != STATUS_VERIFIED:
+            raise ValueError("PDO layout requires verified source")
+        for layout in entry["pdo_layouts"]:
+            count = layout["entry_count"]
+            words = [_parse_int(v) for v in layout["entries"]]
+            if (type(count) is not int or not 1 <= count <= 8 or len(words) != count
+                    or layout["direction"] not in ("rpdo", "tpdo")
+                    or not 1 <= layout["number"] <= 4
+                    or any(w is None or not 0 <= w <= 0xffffffff or (w >> 16) == 0 or (w & 255) not in (8, 16, 32) for w in words)
+                    or sum(w & 255 for w in words) > 64
+                    or any(_parse_int(layout[k]) is None for k in ("communication_index", "mapping_index", "cob_base"))
+                    or not 0 < _parse_int(layout["cob_base"]) <= 0x780
+                    or any(not 0 < _parse_int(layout[k]) <= 0xffff for k in ("communication_index", "mapping_index"))):
+                raise ValueError("invalid PDO mapping count, width, length or address")
+            layouts.append(layout)
+    if len({(v["direction"], v["number"]) for v in layouts}) != len(layouts):
+        raise ValueError("duplicate PDO layout")
+    return layouts
+
+
 def render_hpp(doc, model, code, od_sha, manual_dir):
     dev = doc.get("device", {})
     entries = doc["entries"]
@@ -454,6 +513,21 @@ def render_hpp(doc, model, code, od_sha, manual_dir):
     w("    }")
     w("    return kEntries[entry].index;")
     w("}")
+    w("")
+    layouts = pdo_layouts(doc)
+    if layouts:
+        w("struct PdoLayout { std::uint16_t communication_index, mapping_index, cob_base; std::uint8_t entry_count; std::uint32_t entries[8]; };")
+        for direction in ("rpdo", "tpdo"):
+            w("inline constexpr PdoLayout k%sLayouts[] = {" % direction.capitalize())
+            for layout in sorted(layouts, key=lambda value: value["number"]):
+                if layout["direction"] != direction:
+                    continue
+                words = [_parse_int(v) for v in layout["entries"]]
+                w("    {0x%04Xu, 0x%04Xu, 0x%03Xu, %du, {%s}}," % (
+                    _parse_int(layout["communication_index"]), _parse_int(layout["mapping_index"]),
+                    _parse_int(layout["cob_base"]), layout["entry_count"],
+                    ", ".join("0x%08Xu" % v for v in words)))
+            w("};")
     w("")
     w("}  // namespace %s::od" % ns)
     w("")
@@ -665,6 +739,12 @@ def main(argv):
             % (os.path.relpath(od_path, root), declared, model))
         return 2
 
+    try:
+        pdo_layouts(doc)
+        parameter_objects(doc)
+    except (ValueError, KeyError, TypeError) as exc:
+        sys.stderr.write("invalid OD structured metadata: %s\n" % exc)
+        return 2
     ok, unverified = validate(doc, model)
     if not ok:
         sys.stderr.write("\n结果：od.json 未通过校验，**不生成任何产物**。\n"

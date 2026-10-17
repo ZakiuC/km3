@@ -7,11 +7,12 @@
 //   - 状态经预分配无锁环形缓冲交给本进程的 BoundaryThread
 //
 // 本程序当前是**骨架**：实时环境设置与周期循环已到位并可验证，
-// 硬件 HAL 与具体控制律待接入（见 src/hal/、src/rt-control/）。
+// 运动 HAL 与控制律待接入；经典 SocketCAN 与显式 SYNC 发送已接入。
 //
 // 用法：
 //   km3-rt-controller [--config PATH] [--require-realtime]
 //                     [--period-us N] [--duration-s N] [--require-config]
+//                     [--enable-sync] [--validate-config-only]
 //
 // 配置来源：--config 指定的 JSON（默认 /etc/km3/device.json）。
 // 周期与控制参数**来自配置**，不在代码里写死；见 docs/架构设计/设备端程序架构.md §2.3.5。
@@ -28,10 +29,15 @@
 #include <csignal>
 #include <cstdio>
 #include <cstring>
+#include <memory>
+#include <pthread.h>
+#include <sched.h>
 #include <string>
 #include <thread>
 
 #include "km3/clock.hpp"
+#include "km3/canopen_sync.hpp"
+#include "km3/hal/socketcan_device.hpp"
 #include "km3/config.hpp"
 #include "km3/config_snapshot.hpp"
 #include "km3/deadline.hpp"
@@ -52,14 +58,42 @@ constexpr std::size_t kSampleRingCapacity = 4096;
 km3::SpscRing<km3::MotionSnapshot, kStateRingCapacity> g_state_ring;
 km3::SpscRing<km3::SensorSample, kSampleRingCapacity> g_sample_ring;
 km3::SpscRing<km3::SafetyEvent, 64> g_safety_ring;
+struct LoopReport {
+    std::uint64_t elapsed_s, ticks, overruns, late_ticks, max_late_us, dropped;
+};
+km3::SpscRing<LoopReport, 16> g_report_ring;
+
+void PrintSyncStats(const km3::canopen::SyncWorker& sync) {
+    const auto stats = sync.Stats();
+    std::printf("  SYNC: attempts=%llu sent=%llu failures=%llu consecutive=%llu"
+                " skipped=%llu max_late=%lluus last_error=%s worker_error=%s errno=%d\n",
+                (unsigned long long)stats.attempts, (unsigned long long)stats.sent,
+                (unsigned long long)stats.failures, (unsigned long long)stats.consecutive_failures,
+                (unsigned long long)stats.skipped, (unsigned long long)stats.max_late_us,
+                km3::ToString(stats.last_error), km3::ToString(sync.WorkerError()),
+                sync.LastSystemError());
+}
 
 // 边界线程：非实时（SCHED_OTHER）。负责出队、序列化、交给消息总线。
 // 所有可能阻塞或分配的工作都在这里，绝不在实时线程里做。
-void BoundaryLoop(std::atomic<bool>& running) {
+void BoundaryLoop(std::atomic<bool>& running, const km3::canopen::SyncWorker* sync,
+                  std::atomic<int>& startup) {
+    // std::thread otherwise inherits a systemd FIFO policy. Drop and VERIFY
+    // before any dequeuing/log formatting, and acknowledge to the startup caller.
+    sched_param param{};
+    const int changed = ::pthread_setschedparam(::pthread_self(), SCHED_OTHER, &param);
+    int policy = -1;
+    const int checked = ::pthread_getschedparam(::pthread_self(), &policy, &param);
+    if (changed != 0 || checked != 0 || policy != SCHED_OTHER || param.sched_priority != 0) {
+        startup.store(-1, std::memory_order_release);
+        return;
+    }
+    startup.store(1, std::memory_order_release);
     km3::MotionSnapshot motion;
     km3::SensorSample sample;
     km3::SafetyEvent event;
     std::uint64_t drained = 0;
+    std::uint64_t last_sync_report_us = km3::MonotonicUs();
 
     while (running.load(std::memory_order_acquire)) {
         while (g_safety_ring.Pop(event)) {
@@ -74,6 +108,17 @@ void BoundaryLoop(std::atomic<bool>& running) {
             // TODO: 批量落盘 / 上报
             ++drained;
         }
+        LoopReport report{};
+        while (g_report_ring.Pop(report)) {
+            std::printf("  [%llus] ticks=%llu overrun=%llu late=%llu max_late=%lluus drop=%llu\n",
+                        (unsigned long long)report.elapsed_s, (unsigned long long)report.ticks,
+                        (unsigned long long)report.overruns, (unsigned long long)report.late_ticks,
+                        (unsigned long long)report.max_late_us, (unsigned long long)report.dropped);
+        }
+        if (sync != nullptr && km3::MonotonicUs() - last_sync_report_us >= 1000000) {
+            last_sync_report_us = km3::MonotonicUs();
+            PrintSyncStats(*sync);
+        }
         // 边界线程允许睡眠；它不在实时路径上。
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
@@ -82,6 +127,8 @@ void BoundaryLoop(std::atomic<bool>& running) {
 struct Options {
     bool require_realtime = false;
     bool require_config = false;
+    bool enable_sync = false;
+    bool validate_config_only = false;
     std::string config_path = "/etc/km3/device.json";
     std::uint64_t period_us = 1000;      // 1kHz；配置有效时以配置为准
     bool period_overridden_by_cli = false;
@@ -97,6 +144,10 @@ Options ParseArgs(int argc, char** argv) {
         const std::string arg = argv[i];
         if (arg == "--require-realtime") {
             o.require_realtime = true;
+        } else if (arg == "--enable-sync") {
+            o.enable_sync = true;
+        } else if (arg == "--validate-config-only") {
+            o.validate_config_only = true;
         } else if (arg == "--require-config") {
             o.require_config = true;
         } else if (arg == "--config" && i + 1 < argc) {
@@ -108,7 +159,8 @@ Options ParseArgs(int argc, char** argv) {
             o.duration_s = std::atoi(argv[++i]);
         } else if (arg == "--help" || arg == "-h") {
             std::printf("usage: %s [--config PATH] [--require-realtime] [--require-config]"
-                        " [--period-us N] [--duration-s N]\n", argv[0]);
+                        " [--period-us N] [--duration-s N] [--enable-sync]"
+                        " [--validate-config-only]\n", argv[0]);
             std::exit(0);
         } else {
             std::fprintf(stderr, "unknown argument: %s\n", arg.c_str());
@@ -142,6 +194,11 @@ int main(int argc, char** argv) {
 
     std::printf("km3-rt-controller starting\n");
 
+    // Disabled by default. Neither missing configuration nor an invalid file may
+    // turn into implicit hardware sending. --enable-sync makes config mandatory.
+    std::string sync_iface;
+    std::unique_ptr<km3::SocketCanDevice> sync_device;
+    std::unique_ptr<km3::canopen::SyncWorker> sync_worker;
     // ---- 配置：加载 → 校验 → 填入实时快照 ----
     //
     // 实时线程绝不解析 JSON：那会分配内存、需要加锁，且异常被吞掉后会
@@ -152,7 +209,7 @@ int main(int argc, char** argv) {
         if (!cfg.ok()) {
             std::printf("  config      : %s (%s)\n",
                         km3::ToString(cfg.code()), opts.config_path.c_str());
-            if (opts.require_config) {
+            if (opts.require_config || opts.enable_sync || opts.validate_config_only) {
                 std::fprintf(stderr,
                     "km3-rt-controller: --require-config 已指定但配置不可用，退出。\n"
                     "  用默认参数运行控制回路是危险配置，不应静默继续。\n");
@@ -164,7 +221,7 @@ int main(int argc, char** argv) {
             if (!v.ok()) {
                 std::printf("  config      : INVALID (%s) %s\n",
                             km3::ToString(v.code()), opts.config_path.c_str());
-                if (opts.require_config) {
+                if (opts.require_config || opts.enable_sync || opts.validate_config_only) {
                     std::fprintf(stderr,
                         "km3-rt-controller: 配置校验未通过，拒绝以默认值继续。\n"
                         "  常见原因：device.id 仍是 REPLACE 占位、server_url 缺 /api/v1、\n"
@@ -181,8 +238,24 @@ int main(int argc, char** argv) {
                 }
                 std::printf("  device id   : %s\n", cfg.value().device_id.c_str());
                 std::printf("  data root   : %s\n", cfg.value().storage.data_root.c_str());
+                if (opts.enable_sync) {
+                    const km3::BusEndpoint* selected = nullptr;
+                    for (const auto& endpoint : cfg.value().can) {
+                        if (endpoint.logical == "can-2") selected = &endpoint;
+                    }
+                    if (selected == nullptr || selected->protocol != "canopen")
+                        return Fail("SYNC can-2 endpoint", km3::ErrorCode::EInvalidConfig);
+                    sync_iface = selected->device;
+                    sync_device = std::make_unique<km3::SocketCanDevice>(*selected);
+                    sync_worker = std::make_unique<km3::canopen::SyncWorker>(
+                        *sync_device, cfg.value().rt.sync_period_us, cfg.value().rt.sync_cob_id);
+                }
             }
         }
+    }
+    if (opts.validate_config_only) {
+        std::printf("configuration valid (no threads or hardware opened)\n");
+        return 0;
     }
     const km3::RtParams rt_params = g_rt_params.Get();
     std::printf("  period      : %llu us\n", (unsigned long long)opts.period_us);
@@ -196,6 +269,41 @@ int main(int argc, char** argv) {
 
     // 取时钟会触发一次性初始化，必须在实时循环之前完成，避免首周期抖动。
     km3::WarmUpClock();
+
+    // Explicit start boundary: validated config, open configured classic CAN,
+    // verified SCHED_OTHER worker. No NMT/SDO/PDO or motor-object writes occur.
+    if (sync_worker) {
+        const auto opened = sync_device->Open();
+        if (!opened.ok()) {
+            std::fprintf(stderr, "SocketCAN open errno=%d\n", sync_device->LastSystemError());
+            return Fail("SYNC device open", opened.code());
+        }
+        const auto started = sync_worker->Start();
+        if (!started.ok()) return Fail("SYNC worker start", started.code());
+        std::printf("  SYNC        : enabled on %s (%s), period=%lluus policy=%d priority=%d\n",
+                    sync_device->LogicalName().c_str(), sync_iface.c_str(),
+                    (unsigned long long)rt_params.sync_period_us,
+                    sync_worker->ActualPolicy(), sync_worker->ActualPriority());
+    } else {
+        std::printf("  SYNC        : disabled (use --enable-sync with validated config)\n");
+    }
+
+    // Start the logging boundary before entering the cyclic section. Blocking
+    // handshake yields to SCHED_OTHER even if systemd starts this process FIFO.
+    std::atomic<int> boundary_startup{0};
+    std::thread boundary(BoundaryLoop, std::ref(g_running), sync_worker.get(),
+                         std::ref(boundary_startup));
+    const auto boundary_deadline = km3::MonotonicUs() + 5000000;
+    while (boundary_startup.load(std::memory_order_acquire) == 0 &&
+           km3::MonotonicUs() < boundary_deadline) {
+        km3::SleepUntilMonotonic(km3::MonotonicUs() + 1000);
+    }
+    if (boundary_startup.load() != 1) {
+        if (sync_worker) sync_worker->Stop();
+        g_running.store(false);
+        boundary.join();
+        return Fail("boundary SCHED_OTHER setup", km3::ErrorCode::EPermission);
+    }
 
     // ---- 实时环境设置 ----
     km3::RealtimeConfig rt;
@@ -213,14 +321,14 @@ int main(int argc, char** argv) {
             std::fprintf(stderr,
                          "km3-rt-controller: --require-realtime 已指定但实时设置失败，退出。\n"
                          "  以非实时方式运行实时进程是危险配置，不应静默继续。\n");
+            if (sync_worker) sync_worker->Stop();
+            g_running.store(false);
+            boundary.join();
             return Fail("realtime setup", rt_status.code());
         }
         std::printf("  → 以非实时方式继续（仅供开发验证；生产必须传 --require-realtime）\n");
     }
     std::printf("  thread      : %s\n", km3::DescribeCurrentThread().c_str());
-
-    // ---- 启动边界线程（非实时）----
-    std::thread boundary(BoundaryLoop, std::ref(g_running));
 
     // ---- 实时周期循环 ----
     //
@@ -250,23 +358,36 @@ int main(int argc, char** argv) {
             break;
         }
 
-        // 周期性打印统计。这本身会调用 printf（非实时友好），
-        // 因此只按秒打印，且这是骨架阶段的临时手段；
-        // 正式实现应把统计压入环形缓冲，由边界线程输出。
+        // RT only publishes fixed-size reports; formatting belongs to boundary.
         if (now - last_report_us >= 1000000ULL) {
             last_report_us = now;
-            std::printf("  [%llus] ticks=%llu overrun=%llu late=%llu max_late=%lluus drop=%llu\n",
-                        (unsigned long long)((now - start_us) / 1000000ULL),
-                        (unsigned long long)timer.Schedule().Ticks(),
-                        (unsigned long long)timer.Schedule().Overruns(),
-                        (unsigned long long)timer.Schedule().LateTicks(),
-                        (unsigned long long)timer.Schedule().MaxLateUs(),
-                        (unsigned long long)g_state_ring.Dropped());
+            const auto& schedule = timer.Schedule();
+            g_report_ring.Push(LoopReport{(now - start_us) / 1000000ULL, schedule.Ticks(),
+                schedule.Overruns(), schedule.LateTicks(), schedule.MaxLateUs(),
+                g_state_ring.Dropped()});
         }
+        if (sync_worker && sync_worker->WorkerError() != km3::ErrorCode::Ok) break;
     }
 
+    // End of cyclic RT work. All waits and formatting below are shutdown work.
+    sched_param normal{};
+    ::pthread_setschedparam(::pthread_self(), SCHED_OTHER, &normal);
+    // Stopping SYNC does NOT imply a safe motor stop: with 1007h=0 the consumer
+    // has no sync window, and stopping SYNC does not automatically raise EMCY.
+    // Watchdog/heartbeat provisioning is a separately authorized task.
+    if (sync_worker) sync_worker->Stop();
     g_running.store(false, std::memory_order_release);
     boundary.join();
+    if (sync_worker) {
+        PrintSyncStats(*sync_worker);
+        const auto bus_stats = sync_device->Stats();
+        std::printf("  CAN: tx=%llu rx=%llu tx_errors=%llu rx_errors=%llu bus_off=%llu"
+                    " netlink=%s errno=%d\n", (unsigned long long)bus_stats.tx_frames,
+                    (unsigned long long)bus_stats.rx_frames, (unsigned long long)bus_stats.tx_errors,
+                    (unsigned long long)bus_stats.rx_errors, (unsigned long long)bus_stats.bus_off_count,
+                    km3::ToString(sync_device->LastLinkError()), sync_device->LastSystemError());
+        sync_device->Close();
+    }
 
     // ---- 收尾报告 ----
     const auto& sched = timer.Schedule();
@@ -285,5 +406,5 @@ int main(int argc, char** argv) {
     if (g_state_ring.Dropped() > 0 || g_sample_ring.Dropped() > 0) {
         std::printf("  WARNING: 存在丢弃记录，边界线程可能跟不上实时节奏\n");
     }
-    return 0;
+    return sync_worker && sync_worker->WorkerError() != km3::ErrorCode::Ok ? 3 : 0;
 }

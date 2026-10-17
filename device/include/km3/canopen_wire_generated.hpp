@@ -82,4 +82,6 @@ inline constexpr std::uint32_t CIA402_PP_FOLLOWING_ERROR = 0x2000u;
 inline constexpr std::uint32_t CIA402_NEW_SETPOINT = 0x10u;
 // PMP4010 E06 4.1.2 and 6.7.3, table 6-18: operation enabled plus controlword bit 4
 inline constexpr std::uint32_t CIA402_START_HOMING = 0x1Fu;
+// CiA 301 default SYNC COB-ID; configurable host identifier, not manufacturer 1005h metadata
+inline constexpr std::uint32_t COB_SYNC = 0x80u;
 }  // namespace km3::canopen::wire

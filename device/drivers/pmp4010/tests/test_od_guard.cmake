@@ -4,6 +4,7 @@ endif()
 
 set(compile_args
   -std=c++17 -fsyntax-only
+  -include "${PMP4010_REPO_ROOT}/device/drivers/pmp4010/driver/pdo_config.hpp"
   "-I${PMP4010_REPO_ROOT}/device/include"
   "-I${PMP4010_REPO_ROOT}/common/include"
   "${PMP4010_REPO_ROOT}/device/drivers/pmp4010/driver/pmp4010_driver.cpp"

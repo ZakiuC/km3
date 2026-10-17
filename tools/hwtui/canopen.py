@@ -22,6 +22,7 @@
 from __future__ import annotations
 
 import struct
+from functools import wraps
 import time
 from dataclasses import dataclass, field
 from typing import Callable, Dict, Iterable, List, Optional, Sequence, Tuple
@@ -619,6 +620,23 @@ def parse_emcy(frame: Frame) -> Optional[Emcy]:
 # --------------------------------------------------------------------------
 
 
+def _quarantine_interrupted_sdo(method):
+    """SIGINT can interrupt send after enqueue or leave an ACK in flight.
+
+    The standard layer owns this uncertainty. Only explicit external recovery
+    may reopen this same-node session; cleanup must use independent safety.
+    """
+    @wraps(method)
+    def guarded(self, *args, **kwargs):
+        try:
+            return method(self, *args, **kwargs)
+        except KeyboardInterrupt:
+            if self._send_attempted:
+                self.quarantined = True
+            raise
+    return guarded
+
+
 class SdoClient:
     """SDO 客户端：加急与分段，上传与下载双向。
 
@@ -640,6 +658,7 @@ class SdoClient:
         self.last_request: Optional[Frame] = None
         self._deadline = 0.0
         self._transmitted = False
+        self._send_attempted = False
         self.quarantined = False
 
     def confirm_external_recovery(self) -> None:
@@ -658,6 +677,7 @@ class SdoClient:
                 "node %d: SDO session quarantined after timeout; explicit external recovery required" %
                 self.node_id)
         self._transmitted = False
+        self._send_attempted = False
         self._deadline = time.monotonic() + self.timeout
 
     def _timeout(self) -> None:
@@ -675,6 +695,7 @@ class SdoClient:
             self._timeout()
         frame = Frame(self.request_cob_id, data)
         self.last_request = frame
+        self._send_attempted = True  # send may enqueue before KeyboardInterrupt
         self.bus.send(frame)
         self._transmitted = True
         return frame
@@ -717,6 +738,7 @@ class SdoClient:
 
     # -- 上传（读） --------------------------------------------------------
 
+    @_quarantine_interrupted_sdo
     def read(self, index: int, subindex: int = 0) -> bytes:
         """读对象。加急应答一次返回；分段应答由 `_read_segmented` 续完。"""
         self._begin()
@@ -810,6 +832,7 @@ class SdoClient:
 
     # -- 下载（写） --------------------------------------------------------
 
+    @_quarantine_interrupted_sdo
     def write(self, index: int, subindex: int, data: bytes) -> None:
         """写对象。<=4 字节走加急，更长走分段。"""
         payload = bytes(data)

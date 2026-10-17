@@ -1,4 +1,5 @@
 #pragma once
+#include "km3/canopen_wire_generated.hpp"
 // 设备端配置：加载、校验、以及对实时线程可见的部分。
 // 依据 docs/架构设计/设备端程序架构.md §2.3.5 与 开发规范.md §1.4。
 //
@@ -19,9 +20,17 @@
 
 namespace km3 {
 
+// Operational bound: at most one second between SYNC frames. This is a host
+// scheduling/configuration bound, NOT certification of any motion period.
+inline constexpr std::uint64_t kMaxSyncPeriodUs = 1000000;
+
 // 实时线程可见参数。全部平凡可拷贝（ConfigSnapshot 有静态断言把关）。
 struct RtParams {
     std::uint64_t control_period_us   = 1000;     // 1 kHz
+    // Shared with future cyclic paths; publishing config does not enable sending.
+    // 4000us follows the can-2 bandwidth budget; enable explicitly at process start.
+    std::uint64_t sync_period_us      = 4000;
+    std::uint32_t sync_cob_id = canopen::wire::COB_SYNC;
     // 看门狗阈值随通道变化：直连比中转快得多。切换通道时必须重置计时，
     // 否则一次切换就会误触发安全模式（见 通信协议规范.md §八）。
     std::uint64_t watchdog_direct_us  = 500000;   // 500 ms

@@ -365,4 +365,51 @@ KM3_TEST(rejects_out_of_range_g30_port) {
   KM3_CHECK(Valid(WithField("\"g30_port\": 8888", "\"g30_port\": 65535")));
 }
 
+KM3_TEST(sync_period_is_defaulted_overridable_and_strictly_validated) {
+    const auto defaults = LoadConfigText(BaseJson());
+    KM3_REQUIRE(defaults.ok());
+    KM3_CHECK_EQ(defaults.value().rt.sync_period_us, 4000u);
+    for (const char* good : {"1", "8000", "1000000"}) {
+        const auto cfg = LoadConfigText(WithField("\"g30_port\": 8888",
+            std::string("\"g30_port\": 8888, \"sync_period_us\": ") + good));
+        KM3_REQUIRE(cfg.ok());
+        KM3_CHECK(ValidateConfig(cfg.value()).ok());
+        KM3_CHECK_EQ(cfg.value().rt.sync_period_us, std::stoull(good));
+    }
+    for (const char* bad : {"0", "-1", "-18446744073709551616", "1000001", "1.5", "4000.0",
+                           "true", "false", "null", "\"4000\"", "[]", "{}", "1e100", "1e1000",
+                           "18446744073709551615", "18446744073709551616"}) {
+        const auto cfg = LoadConfigText(WithField("\"g30_port\": 8888",
+            std::string("\"g30_port\": 8888, \"sync_period_us\": ") + bad));
+        KM3_CHECK(!cfg.ok());
+        KM3_CHECK(cfg.code() == ErrorCode::EInvalidConfig);
+    }
+    auto cfg = defaults.value();
+    for (auto bad : {std::uint64_t{0}, km3::kMaxSyncPeriodUs + 1, UINT64_MAX}) {
+        cfg.rt.sync_period_us = bad;
+        KM3_CHECK(ValidateConfig(cfg).code() == ErrorCode::EInvalidConfig);
+    }
+}
+
+KM3_TEST(socketcan_identity_and_rate_must_not_silently_fall_back) {
+    for (const char* bad : {"{\"logical\":\"can-2\",\"iface\":3,\"bitrate\":1000000,\"protocol\":\"canopen\"}",
+         "{\"logical\":\"can-2\",\"iface\":\"testcan\",\"bitrate\":-1,\"protocol\":\"canopen\"}",
+         "{\"logical\":\"can-2\",\"iface\":\"testcan\",\"bitrate\":1000000.0,\"protocol\":\"canopen\"}",
+         "{\"logical\":\"can-2\",\"iface\":\"testcan\",\"device\":\"other\",\"bitrate\":1000000,\"protocol\":\"canopen\"}"}) {
+        const auto cfg = LoadConfigText(WithField("\"rs485\":", std::string("\"can\": [") + bad + "], \"rs485\":"));
+        KM3_CHECK(!cfg.ok());
+    }
+}
+
+KM3_TEST(sync_cob_id_is_defaulted_overridable_and_strict) {
+    KM3_CHECK_EQ(km3::RtParams{}.sync_cob_id, km3::canopen::wire::COB_SYNC);
+    for (const auto* bad : {"0", "-1", "2048", "128.0", "null", "true", "\"128\""}) {
+        const auto cfg = km3::LoadConfigText(std::string("{\"network\":{\"sync_cob_id\":") + bad + "}}");
+        KM3_CHECK(!cfg.ok());
+    }
+    const auto cfg = km3::LoadConfigText("{\"network\":{\"sync_cob_id\":129}}");
+    KM3_REQUIRE(cfg.ok());
+    KM3_CHECK_EQ(cfg.value().rt.sync_cob_id, 129u);
+}
+
 KM3_TEST_MAIN()

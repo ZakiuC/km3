@@ -99,6 +99,14 @@ public:
 
     virtual Status Send(const CanFrame& frame) noexcept = 0;
 
+    // Optional single-owner, non-RT completion fence. Success MUST mean driver
+    // TX completion, never just kernel queue acceptance. No other sender/reader
+    // may use this instance during the operation. RX data must be preserved.
+    virtual bool SupportsTxConfirmation() const noexcept { return false; }
+    virtual Status SendConfirmed(const CanFrame&, std::uint64_t) noexcept {
+        return Status(ErrorCode::ECommandRejected);
+    }
+
     // timeout_ms: 0 = 非阻塞轮询；>0 = 等待至多该毫秒数。
     // 超时返回 ECommandTimeout，而不是错误 —— 总线空闲是正常状态。
     virtual Result<CanFrame> Receive(int timeout_ms) = 0;

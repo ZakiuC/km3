@@ -79,3 +79,5 @@ CIA402_PP_FOLLOWING_ERROR = 0x2000
 CIA402_NEW_SETPOINT = 0x10
 # PMP4010 E06 4.1.2 and 6.7.3, table 6-18: operation enabled plus controlword bit 4
 CIA402_START_HOMING = 0x1F
+# CiA 301 default SYNC COB-ID; configurable host identifier, not manufacturer 1005h metadata
+COB_SYNC = 0x80

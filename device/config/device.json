@@ -11,6 +11,8 @@
     "iface_uplink": "eth0",
     "iface_g30": "eth1",
     "heartbeat_interval_ms": 5000,
+    "sync_period_us": 4000,
+    "sync_cob_id": 128,
     "watchdog_direct_us": 500000,
     "watchdog_relay_us": 3000000
   },
