@@ -1,0 +1,137 @@
+{
+  "download_begins": 0,
+  "download_dones": 0,
+  "state": {
+    "view": "detail",
+    "action": null,
+    "busy": false,
+    "field_value": null,
+    "field_draft": null,
+    "field_editing": null,
+    "pending": null,
+    "row_values": {
+      "statusword": 608,
+      "actual_position": -1470,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": 1,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 500000,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": 7800,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 0,
+      "halt_option": 1,
+      "position_demand": 7800,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    },
+    "row_updated": 1988.377289724,
+    "row_lost": false,
+    "row_quarantined": false,
+    "recovery": "尚无动作；设备状态未测量",
+    "enabled_session_nodes": [],
+    "blocked": []
+  },
+  "objects": {
+    "6041:00": {
+      "raw_hex": "6002",
+      "unsigned": 608,
+      "signed": 608,
+      "utc": "2026-10-19T03:06:21.567009+00:00"
+    },
+    "6064:00": {
+      "raw_hex": "42faffff",
+      "unsigned": 4294965826,
+      "signed": -1470,
+      "utc": "2026-10-19T03:06:21.567480+00:00"
+    },
+    "606C:00": {
+      "raw_hex": "00000000",
+      "unsigned": 0,
+      "signed": 0,
+      "utc": "2026-10-19T03:06:21.567931+00:00"
+    },
+    "607C:00": {
+      "raw_hex": "00000000",
+      "unsigned": 0,
+      "signed": 0,
+      "utc": "2026-10-19T03:06:21.571421+00:00"
+    },
+    "608F:01": {
+      "raw_hex": "00000200",
+      "unsigned": 131072,
+      "signed": 131072,
+      "utc": "2026-10-19T03:06:21.634536+00:00"
+    },
+    "608F:02": {
+      "raw_hex": "01000000",
+      "unsigned": 1,
+      "signed": 1,
+      "utc": "2026-10-19T03:06:21.634967+00:00"
+    },
+    "6091:01": {
+      "raw_hex": "01000000",
+      "unsigned": 1,
+      "signed": 1,
+      "utc": "2026-10-19T03:06:21.635410+00:00"
+    },
+    "6091:02": {
+      "raw_hex": "01000000",
+      "unsigned": 1,
+      "signed": 1,
+      "utc": "2026-10-19T03:06:21.635837+00:00"
+    },
+    "6060:00": {
+      "raw_hex": "01",
+      "unsigned": 1,
+      "signed": 1,
+      "utc": "2026-10-19T03:06:21.572250+00:00"
+    },
+    "6061:00": {
+      "raw_hex": "01",
+      "unsigned": 1,
+      "signed": 1,
+      "utc": "2026-10-19T03:06:21.568424+00:00"
+    },
+    "6081:00": {
+      "raw_hex": "20a10700",
+      "unsigned": 500000,
+      "signed": 500000,
+      "utc": "2026-10-19T03:06:21.570128+00:00"
+    },
+    "607A:00": {
+      "raw_hex": "781e0000",
+      "unsigned": 7800,
+      "signed": 7800,
+      "utc": "2026-10-19T03:06:21.582844+00:00"
+    },
+    "6062:00": {
+      "raw_hex": "781e0000",
+      "unsigned": 7800,
+      "signed": 7800,
+      "utc": "2026-10-19T03:06:21.632429+00:00"
+    },
+    "605D:00": {
+      "raw_hex": "0100",
+      "unsigned": 1,
+      "signed": 1,
+      "utc": "2026-10-19T03:06:21.632019+00:00"
+    },
+    "6040:00": {
+      "raw_hex": "0000",
+      "unsigned": 0,
+      "signed": 0,
+      "utc": "2026-10-19T03:06:21.631591+00:00"
+    }
+  }
+}

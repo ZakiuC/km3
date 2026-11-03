@@ -1,0 +1,35 @@
+--- before/_test_simple_pty.py
++++ device/drivers/pmp4010/tools/_test_simple_pty.py
+@@ -165,6 +165,16 @@
+             send('360\r')
+             state=wait(lambda s:s.get('coefficient')=='360' and not s.get('busy'),'c positive exact mm/rev conversion')
+             assert state['writes']==0
++            send('s')
++            view('edit')
++            assert '速度 mm/s' in (output/'edit-80x24.txt').read_text()
++            (output/'edit-80x24.txt').replace(output/'linear-speed-edit-80x24.txt')
++            send('1\r')
++            state=wait(lambda s:s.get('next_velocity')==364 and not s.get('busy'),'s1mm/s quantizes364U/s at mock360mm/rev')
++            assert state['writes']==0
++            assert '实际 0.999756 mm/s（364 U/s）' in (output/'main-80x24.txt').read_text()
++            (output/'main-80x24.txt').replace(output/'linear-speed-main-80x24.txt')
++            checks.append('linear s input and defaultU/s draft display mm/s; no velocity download before confirmation')
+             def move(key,text):
+                 before=last['writes']
+                 start=last['position']
+@@ -174,6 +184,7 @@
+                 send(text+'\r')
+                 state=view('confirm')
+                 assert state['writes']==before,'numeric review must be read only'
++                assert '实际 0.999756 mm/s（364 U/s）' in (output/'confirm-80x24.txt').read_text()
+                 from fractions import Fraction
+                 base=start if key in ('r','j') else zero
+                 target=base+int(Fraction(text)/Fraction(360,131072))
+@@ -222,6 +233,7 @@
+             checks.append('x during position review discards target; Enter cannot replay')
+             send('?')
+             view('help')
++            assert 's：直线mm/s' in (output/'help-80x24.txt').read_text()
+             stop('x')
+             send('q')
+             end=time.monotonic()+10

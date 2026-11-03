@@ -692,5 +692,14 @@ class TestDiscoverExistence(unittest.TestCase):
                              ["broken.py", "empty.py", "syntaxerr.py"])
 
 
+class TestOptionalRenderFrame(unittest.TestCase):
+    def test_default_hook_preserves_render_bytes(self):
+        app=tui.TuiApp(rows=4,cols=8)
+        cases=[(None,['ab  ','cd  ']),(['ab  ','cd  '],['aZ  ','cd  ']),
+               (['中文    '],['中A     ']),([],[])]
+        for prev,lines in cases:
+            self.assertEqual(app.render_frame(prev,lines),tui.render(prev,lines))
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -1,0 +1,47 @@
+{
+  "python_model": {
+    "before": 206,
+    "after": 216,
+    "rc": 0
+  },
+  "python_velocity_enable": {
+    "before": 15,
+    "after": 23,
+    "rc": 0
+  },
+  "python_bench": {
+    "before": 59,
+    "after": 61,
+    "rc": 0
+  },
+  "cpp_verified_test_cases": {
+    "before_source_count": 32,
+    "after_source_count": 36,
+    "added": 4,
+    "checks_after": 2301,
+    "failures_after": 0,
+    "rc": 0
+  },
+  "cpp_host_ctest": {
+    "before_parent_verified": 17,
+    "after": 17,
+    "failures_after": 0,
+    "rc": 0
+  },
+  "remaining": "hardware/CAN acceptance, sanitizers/cross-build/four gates coordinated by parent; no hardware actions in this task",
+  "cleanup": "No temporary executable/test fixture retained in repository; evidence logs retained in /tmp/km3-csv-offset-20261017; no commits or deployment.",
+  "changed_file_count": 13,
+  "source_manifest": "source-manifest.json",
+  "manifest_revision": {
+    "revision": 2,
+    "supersedes": "source-manifest-v1-incomplete-12-files.json",
+    "previous_file_count": 12,
+    "corrected_file_count": 13,
+    "omitted_file_added": "device/drivers/pmp4010/tests/test_pmp4010_verified.cpp",
+    "previous_12_hashes_unchanged": true,
+    "other_omissions_found": false,
+    "audit_basis": "Reviewed all source-writing tool calls in this worker task against full corrected manifest; compared current task-scoped git status with original dirty baseline. Other dirty files predate this worker task.",
+    "source_or_comment_edits": false,
+    "tests_repeated": false
+  }
+}

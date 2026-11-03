@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "python3",
+    "-B",
+    "-I",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/post-power-local/review-recovery/replay_stage3_9.py"
+  ],
+  "shell_command": "python3 -B -I '/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/post-power-local/review-recovery/replay_stage3_9.py'",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:16:46.412132+00:00"
+}

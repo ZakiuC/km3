@@ -1,0 +1,119 @@
+{
+  "motion_rc": 1,
+  "feedback": {
+    "enable_results": [
+      {
+        "event": "manual_result",
+        "utc": "2026-10-20T00:39:26.604589+00:00",
+        "monotonic_ns": 79573345958938,
+        "node": 1,
+        "action": "enable",
+        "success": true,
+        "message": "已使能且保持Halt；等待G",
+        "position": -1390,
+        "target": -329070
+      }
+    ],
+    "Go_timing_events": [
+      {
+        "event": "Go观察计时起点",
+        "utc": "2026-10-20T00:39:27.187616+00:00",
+        "monotonic_ns": 79573928985640,
+        "deadline_monotonic": 79583.928978057,
+        "definition": "首次002F写前；含原Go握手，最多10秒；清理另有原bounded期限"
+      }
+    ],
+    "operation_enabled_cleared": false,
+    "last_health_values": {
+      "6041": {
+        "event": "诊断实读",
+        "utc": "2026-10-20T00:39:36.850668+00:00",
+        "monotonic_ns": 79583592039538,
+        "phase": "Go后运行",
+        "index": "6041",
+        "subindex": 0,
+        "label": "状态字",
+        "size_bytes": 2,
+        "signed": false,
+        "raw_value_hex": "3702",
+        "value": 567,
+        "request_start_monotonic": 79583.591605533,
+        "response_monotonic": 79583.59203108,
+        "simultaneous_sample": false
+      },
+      "603F": {
+        "event": "诊断实读",
+        "utc": "2026-10-20T00:39:36.851213+00:00",
+        "monotonic_ns": 79583592583502,
+        "phase": "Go后运行",
+        "index": "603F",
+        "subindex": 0,
+        "label": "错误码",
+        "size_bytes": 2,
+        "signed": false,
+        "raw_value_hex": "0000",
+        "value": 0,
+        "request_start_monotonic": 79583.592131414,
+        "response_monotonic": 79583.592575627,
+        "simultaneous_sample": false
+      },
+      "1001": {
+        "event": "诊断实读",
+        "utc": "2026-10-20T00:39:36.851678+00:00",
+        "monotonic_ns": 79583593104716,
+        "phase": "Go后运行",
+        "index": "1001",
+        "subindex": 0,
+        "label": "错误寄存器",
+        "size_bytes": 1,
+        "signed": false,
+        "raw_value_hex": "00",
+        "value": 0,
+        "request_start_monotonic": 79583.592616169,
+        "response_monotonic": 79583.593041132,
+        "simultaneous_sample": false
+      }
+    },
+    "terminal_events": [
+      {
+        "event": "单次退出",
+        "utc": "2026-10-20T00:39:36.875611+00:00",
+        "monotonic_ns": 79583616981100,
+        "target_reached": false,
+        "mechanical_stop_confirmed": false,
+        "acceleration_restore_attempted": false,
+        "save_operations": 0,
+        "shutdown_results": [
+          {
+            "node": 1,
+            "disabled_confirmed": false
+          }
+        ],
+        "operation_enabled_cleared": false,
+        "automatic_retries": 0,
+        "second_target": false,
+        "RAM_acceleration_after_failure_may_be_partial": true,
+        "normal_exit": "原close=0006，仅确认operation enabled清零",
+        "exceptional_exit": "原cleanup=0002→0000；quarantine则零追加请求"
+      },
+      {
+        "event": "结束且不重试",
+        "utc": "2026-10-20T00:39:36.875670+00:00",
+        "monotonic_ns": 79583617040309,
+        "exception": "TimeoutError",
+        "message": "首次002F写前起10秒/20批内未满足原exact目标+零速+bit10",
+        "mechanical_stop_confirmed": false,
+        "automatic_retries": 0
+      }
+    ],
+    "invalid_json_lines": 0,
+    "mechanical_stop_confirmed": false,
+    "interpretation": "rc为远程应用退出码；不自动归为transport丢包；Go计时事件仅证明首次Go写前已到达"
+  },
+  "automatic_retries": 0,
+  "mechanical_stop_confirmed": false,
+  "source_sha256": {
+    "motion_compare_once.py": "e530b81f231d3ccccca5df741ccc0f79ec410b9cf5569e517d14428ca7151202",
+    "pinned_payload.py": "d8d99ccffdf1b1cb3fc02669af2627243f9801b4fe8861cc39f18692af954a62"
+  }
+}

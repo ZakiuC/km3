@@ -1,0 +1,26 @@
+{
+  "argv": [
+    "ssh",
+    "-tt",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectTimeout=5",
+    "-o",
+    "ConnectionAttempts=1",
+    "root@192.168.0.188",
+    "env LANG=C.UTF-8 LC_ALL=C.UTF-8 TERM=xterm ESCDELAY=25 python3 -I -B -c 'import hashlib,pathlib,runpy,sys; p=pathlib.Path(sys.argv[1]); assert hashlib.sha256(p.read_bytes()).hexdigest()==sys.argv[2], '\"'\"'wrapper hash mismatch'\"'\"'; sys.argv=[str(p),'\"'\"'--run-tui'\"'\"']; runpy.run_path(str(p),run_name='\"'\"'__main__'\"'\"')' /tmp/km3-pp-disabled-start-stage2-20261019-e0fhd4gp/board_app.py 9c16dc48706ec16a62841c2e59080bf4f18c7198a80baef0a4e72e6f2a17072e"
+  ],
+  "cwd": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1",
+  "environment": {
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "TERM": "xterm",
+    "ESCDELAY": "25"
+  },
+  "mode": "fixed_board_ssh_pty",
+  "utc": "2026-10-19T01:26:40.899944+00:00",
+  "monotonic": 4229072.962255371
+}

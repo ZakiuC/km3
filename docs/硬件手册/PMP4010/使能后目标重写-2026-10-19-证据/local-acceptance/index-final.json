@@ -1,0 +1,234 @@
+{
+  "records": [
+    {
+      "name": "model",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "device/drivers/pmp4010/tools",
+        "-p",
+        "_test_*.py"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T06:56:31.293723+00:00",
+      "duration_seconds": 37.80941654500202,
+      "returncode": 0,
+      "stdout": "model.stdout.log",
+      "stdout_sha256": "ea9e3feeb0294bf3623cf93f2cfd6831e82d12d7db70c0efd62f0fc9ee7a399f",
+      "stderr": "model.stderr.log",
+      "stderr_sha256": "d75a04a537d85a1b43d444bb9a025e85dcce0405879059b7e8d319557d8d0d60"
+    },
+    {
+      "name": "hwtui",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools/hwtui",
+        "-p",
+        "test_*.py"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T06:57:09.103475+00:00",
+      "duration_seconds": 0.4023500500006776,
+      "returncode": 0,
+      "stdout": "hwtui.stdout.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": "hwtui.stderr.log",
+      "stderr_sha256": "59d424606839e43d9087d59ac7e06a9cf4f50ca854e9065167329536db7336b5"
+    },
+    {
+      "name": "tools-tests",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools/tests",
+        "-p",
+        "test_*.py"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T06:57:09.506221+00:00",
+      "duration_seconds": 0.40414134199818363,
+      "returncode": 0,
+      "stdout": "tools-tests.stdout.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": "tools-tests.stderr.log",
+      "stderr_sha256": "0ae75beb82f5e534d1c311c684e96b5584e67a461fbbe497c7ec2255aa14674c"
+    },
+    {
+      "name": "drivers",
+      "argv": [
+        "bash",
+        "tools/check-drivers.sh"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T06:57:09.910720+00:00",
+      "duration_seconds": 0.023612716999195982,
+      "returncode": 0,
+      "stdout": "drivers.stdout.log",
+      "stdout_sha256": "97089ae37d0b7df7f91afe640b1ebf1cdf849e4697a1946f75763b0173c9da7d",
+      "stderr": "drivers.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "docs",
+      "argv": [
+        "bash",
+        "tools/check-docs.sh"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T06:57:09.934784+00:00",
+      "duration_seconds": 0.546537990001525,
+      "returncode": 0,
+      "stdout": "docs.stdout.log",
+      "stdout_sha256": "3150333635aa44c41312620e0963e70acc8e19f04baffcd4f6019d8b40b90034",
+      "stderr": "docs.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "deps",
+      "argv": [
+        "bash",
+        "tools/check-deps.sh"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T06:57:10.481707+00:00",
+      "duration_seconds": 0.01913990899993223,
+      "returncode": 0,
+      "stdout": "deps.stdout.log",
+      "stdout_sha256": "64c699c396e34f61f47aee249d1c4357dd63797c35e3c16eed061909a9669a06",
+      "stderr": "deps.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "manual-citations",
+      "argv": [
+        "bash",
+        "tools/check-manual-citations.sh"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T06:57:10.501382+00:00",
+      "duration_seconds": 0.11188869100078591,
+      "returncode": 0,
+      "stdout": "manual-citations.stdout.log",
+      "stdout_sha256": "ba38c7c8a511c8cfc09005f6127702c827646ce3dc676f1f15ab9cde7cb33a10",
+      "stderr": "manual-citations.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gen-od",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "tools/hwdriver/gen-od.py",
+        "--model",
+        "pmp4010",
+        "--check"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T06:57:10.613572+00:00",
+      "duration_seconds": 0.018252205998578575,
+      "returncode": 0,
+      "stdout": "gen-od.stdout.log",
+      "stdout_sha256": "1fb8101f983b222bf8ece7312432fc4a34725ad3422420032c2ca0bd09a77b16",
+      "stderr": "gen-od.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gen-canopen",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "tools/hwdriver/gen-canopen.py",
+        "--check"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T06:57:10.632288+00:00",
+      "duration_seconds": 0.018052628998702858,
+      "returncode": 0,
+      "stdout": "gen-canopen.stdout.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": "gen-canopen.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gen-access",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "tools/hwdriver/gen-pmp4010-access.py",
+        "--check"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T06:57:10.650757+00:00",
+      "duration_seconds": 0.021638358000927838,
+      "returncode": 0,
+      "stdout": "gen-access.stdout.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr": "gen-access.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "manual-help",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "device/drivers/pmp4010/tools/pmp4010.py",
+        "--manual",
+        "--help"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T06:57:10.672796+00:00",
+      "duration_seconds": 0.027395458000682993,
+      "returncode": 0,
+      "stdout": "manual-help.stdout.log",
+      "stdout_sha256": "0a0fb9c73e4fedd29870e21ec15f91c7719f009347c6e7f1e657ea780480d8e1",
+      "stderr": "manual-help.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "independent-pty",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "device/drivers/pmp4010/tools/_test_simple_pty.py",
+        "--run",
+        "/home/zakiu/km3/docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/local-acceptance/independent-pty"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T06:57:10.700633+00:00",
+      "duration_seconds": 8.246921226000268,
+      "returncode": 0,
+      "stdout": "independent-pty.stdout.log",
+      "stdout_sha256": "bde6b5e72cee8af13a4ea77b6a0ba9ef2f21b3c276c7808ad5013552c894f283",
+      "stderr": "independent-pty.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "all_returncodes_zero": true,
+  "source_before_after_match": true,
+  "hardware_acceptance": false,
+  "actual_model": "unknown",
+  "actual_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "input_estimate": "initial packet below 8K; not measured; runtime metadata unavailable"
+}

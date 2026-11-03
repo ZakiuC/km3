@@ -1,0 +1,98 @@
+[
+  {
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py"
+    ],
+    "attempt": 1,
+    "rc": 1,
+    "stdout": "mock-attempt-1.stdout",
+    "stderr": "mock-attempt-1.stderr"
+  },
+  {
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py"
+    ],
+    "attempt": 2,
+    "rc": 1,
+    "stdout": "mock-attempt-2.stdout",
+    "stderr": "mock-attempt-2.stderr"
+  },
+  {
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py"
+    ],
+    "attempt": 3,
+    "rc": 1,
+    "stdout": "mock-attempt-3.stdout",
+    "stderr": "mock-attempt-3.stderr"
+  },
+  {
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py"
+    ],
+    "attempt": 4,
+    "rc": 0,
+    "stdout": "mock-attempt-4.stdout",
+    "stderr": "mock-attempt-4.stderr"
+  },
+  {
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py"
+    ],
+    "attempt": 5,
+    "rc": 1,
+    "stdout": "mock-attempt-5.stdout",
+    "stderr": "mock-attempt-5.stderr"
+  },
+  {
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py"
+    ],
+    "attempt": 6,
+    "rc": 0,
+    "stdout": "mock-attempt-6.stdout",
+    "stderr": "mock-attempt-6.stderr"
+  },
+  {
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py"
+    ],
+    "attempt": 7,
+    "rc": 1,
+    "stdout": "mock-attempt-7.stdout",
+    "stderr": "mock-attempt-7.stderr"
+  },
+  {
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py"
+    ],
+    "attempt": 8,
+    "rc": 0,
+    "stdout": "mock-attempt-8.stdout",
+    "stderr": "mock-attempt-8.stderr"
+  }
+]

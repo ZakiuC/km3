@@ -1,0 +1,443 @@
+diff --git a/device/drivers/pmp4010/tools/pmp4010_bench.py b/device/drivers/pmp4010/tools/pmp4010_bench.py
+index 0244a73..54f3a18 100644
+--- a/device/drivers/pmp4010/tools/pmp4010_bench.py
++++ b/device/drivers/pmp4010/tools/pmp4010_bench.py
+@@ -1,7 +1,7 @@
+ """Non-RT bench model. One serialized bus, independent telemetry/action clients.
+ 
+-All object addresses/types come from the checked OD, all PP validation and
+-execution come from the CLI's position module. This module opens no bus until
++All object addresses/types come from the checked OD; PP motion reuses the CLI
++position module. Disabled preparation is a separate two-object transaction. This module opens no bus until
+ an explicitly acknowledged background operation asks for it.
+ """
+ import copy
+@@ -19,6 +19,7 @@ from pmp4010_params import TYPES
+ ACTION_POLICY = {
+     'absolute': dict(label='绝对位置', confirm=True, od=True, settings=True, batch=False, input=True),
+     'relative': dict(label='相对位置', confirm=True, od=True, settings=True, batch=False, input=True),
++    'prepare_pp': dict(label='失能准备', confirm=True, od=True, settings=True, batch=False, input=False),
+     'zero': dict(label='设零点', confirm=True, od=True, settings=True, batch=False, input=False),
+     'enable': dict(label='使能', confirm=True, od=True, settings=True, batch=False, input=False),
+     'disable': dict(label='失能', confirm=True, od=True, settings=False, batch=False, input=False),
+@@ -33,7 +34,7 @@ ACTIONS = {key: policy['label'] for key, policy in ACTION_POLICY.items() if poli
+ 
+ def action_policy(action):
+     if action not in ACTION_POLICY:
+-        raise ValueError('不支持的动作；速度模式未开放')
++        raise ValueError('不支持的动作；非零速度运动未开放')
+     return ACTION_POLICY[action]
+ 
+ 
+@@ -45,7 +46,8 @@ def write_text(item):
+ TELEMETRY = ('statusword', 'actual_position', 'actual_velocity',
+              'modes_of_operation_display', 'error_code_object', 'torque_feedback',
+              'velocity_feedback_unit', 'profile_velocity', 'profile_acceleration',
+-             'profile_deceleration', 'home_offset')
++             'profile_deceleration', 'home_offset', 'control_mode_select',
++             'modes_of_operation', 'target_position') + position.LIMITS
+ 
+ 
+ def state_text(row):
+@@ -76,6 +78,10 @@ class SilentOutput:
+         return lambda *args, **kwargs: None
+ 
+ 
++class PrepareReview(dict):
++    """Origin survives field deletion, cancellation, consumption and deepcopy."""
++
++
+ class BenchController:
+     """Thread-safe cached data; callers run I/O on worker threads only.
+ 
+@@ -107,6 +113,7 @@ class BenchController:
+         self.enabled_sessions = {}
+         self.shutdown_lines = []
+         self.shutdown_results = None
++        self._prepare_review = None
+ 
+     @staticmethod
+     def _empty(node=None):
+@@ -296,11 +303,13 @@ class BenchController:
+ 
+     def review(self, action, node, value, out, check_gate=True):
+         if action not in ACTIONS or action_policy(action)['batch']:
+-            raise ValueError('不支持的动作；速度模式未开放')
++            raise ValueError('不支持的动作；非零速度运动未开放')
+         row = self._fresh(node)
+         start = row['values']['actual_position']
+         target = start + int(value) if action == 'relative' else int(value) if action == 'absolute' else 0 if action == 'zero' else start
+         a = self._args(row, start if action == 'zero' else target)
++        if action == 'prepare_pp':
++            a.velocity = 100
+         if check_gate:
+             if not self.tool.refuse_motion(out, ACTIONS[action], a):
+                 raise ValueError('OD 闸门关闭：默认只读，须显式会话确认')
+@@ -315,10 +324,16 @@ class BenchController:
+             self._stationary(row['values'], reached=action in ('relative', 'absolute', 'zero'))
+             if action in ('absolute', 'relative'):
+                 position.check_start(a, start, row['calibration'])
+-            if action == 'enable' and row['values']['modes_of_operation_display'] != self.specs['pp_protocol']['mode']:
+-                raise ValueError('位置测试台只允许 PP 模式使能；其它模式须独立验收')
++            if action == 'enable':
++                mode = row['values']['modes_of_operation_display']
++                if mode not in (self.specs['pp_protocol']['mode'], 3, 9):
++                    raise ValueError('测试台只允许 PP 或预写零速度后的 PV/CSV 模式使能')
++                if mode in (3, 9):
++                    position.require_velocity_library()
+             if action == 'zero' and row['values']['home_offset'] != 0:
+                 raise ValueError('607Ch 非零；设零点拒绝，须人工核对原点偏移')
++        if action == 'prepare_pp':
++            self._prepare_values(row['values'], a, row['calibration'])
+         writes = []
+         def planned(key, value, note=''):
+             spec = self.objects[key]
+@@ -329,7 +344,12 @@ class BenchController:
+                                ('profile_acceleration', a.acceleration), ('profile_deceleration', a.deceleration),
+                                ('target_position', a.target)]:
+                 planned(key, value, '用户单位' if key == 'target_position' else '')
++        elif action == 'prepare_pp':
++            planned('target_position', start, '仅对齐本次实读起点；不触发轨迹')
++            planned('profile_velocity', 100, '固定100用户单位/s；仅降速')
+         else:
++            if action == 'enable' and row['values']['modes_of_operation_display'] in (3, 9):
++                planned('target_velocity', 0, '先预写零速度并读回，再执行使能序列')
+             planned('controlword', {'zero': self.tool._canopen.CIA402_START_HOMING,
+                 'enable': self.tool._canopen.CIA402_ENABLE, 'disable': self.tool._canopen.CIA402_DISABLE,
+                 'stop': self.tool._canopen.CIA402_QUICK_STOP_COMMAND}[action], '触发回零' if action == 'zero' else '')
+@@ -346,14 +366,187 @@ class BenchController:
+                       '归零是坐标重置；完成后必须重新输入脚本行程与位移预算。']
+         if action in ('absolute', 'relative'):
+             lines.append('PP速度/加减速度取设备实读：{}/{}/{}；日志 {}'.format(a.velocity, a.acceleration, a.deceleration, a.motion_log))
++        if action == 'enable' and row['values']['modes_of_operation_display'] in (3, 9):
++            lines.append('PV/CSV 仅按本次审阅显式准备 60FFh=0；不执行非零速度运动。')
++        if action == 'prepare_pp':
++            v = row['values']
++            rpm = Fraction(100) * Fraction(row['calibration']['gear_ratio']) * 60 / Fraction(row['calibration']['resolution'])
++            reached = bool(v['statusword'] & self.tool._canopen.CIA402_HOMING_TARGET_REACHED)
++            lines += ['失能准备：607A {} → {} U；6081 {} → 100 U/s（{:.6f} rpm轮廓值）'.format(
++                          v['target_position'], start, v['profile_velocity'], float(rpm)),
++                      '实际速度0（约0 rpm），计划位移0 U；执行前5次采样，间隔0.2秒。',
++                      '保持失能；不发控制字/NMT，不触发轨迹；target reached当前={}。'.format(reached),
++                      '准备完成不代表可运动，也不保证bit10置位；运动须重新静止检查和两段确认。',
++                      '日志 ' + a.motion_log]
+         lines += [write_text(item) for item in writes]
+         token = '{} {} {} {}'.format(action.upper(), self.context[0], node, target)
+-        return dict(action=action, node=node, target=target, start=start,
++        review = dict(action=action, node=node, target=target, start=start,
+                     context=self.context, args=a, lines=lines, token=token,
+-                    od=copy.deepcopy(self.od), calibration=row['calibration'], writes=writes)
++                    od=copy.deepcopy(self.od), calibration=row['calibration'], writes=writes,
++                    mode=row['values']['modes_of_operation_display'])
++        if action == 'prepare_pp':
++            review = PrepareReview(review)
++            review['prepare_before'] = copy.deepcopy(row['values'])
++            review['settings'] = copy.deepcopy(self.settings)
++            if check_gate:
++                self.freeze_prepare(review)
++        return review
++
++    def discard_prepare(self):
++        self._prepare_review = None
++
++    def freeze_prepare(self, review):
++        # Preview is pure cached rendering. Only F5 (or an explicit model review)
++        # registers a single-use, complete copy; execution never trusts edits.
++        if review['action'] == 'prepare_pp':
++            review['prepare_id'] = uuid.uuid4().hex
++            self._prepare_review = (review, copy.deepcopy(review))
++
++    def _prepare_values(self, values, args, cal):
++        p = self.tool._canopen
++        self._stationary(values, reached=False)  # Exception belongs only to disabled preparation.
++        if values['statusword'] & p.CIA402_DISABLED_MASK != p.CIA402_DISABLED:
++            raise ValueError('失能准备要求严格disabled；当前未确认失能')
++        if values['control_mode_select'] != 0:
++            raise ValueError('失能准备要求CiA402控制模式')
++        if values['modes_of_operation'] != 1 or values['modes_of_operation_display'] != 1:
++            raise ValueError('失能准备要求6060/6061均为PP模式1')
++        if values['home_offset'] != 0:
++            raise ValueError('607Ch非零；拒绝失能准备')
++        if values['profile_velocity'] < 100:
++            raise ValueError('原6081小于100；失能准备不得擅自升速')
++        position.validate(args, self.specs)
++        position.check_envelope(args, args.target, values['actual_position'])
++        position.check_budget(args, cal)
++        rpm = Fraction(100) * Fraction(cal['gear_ratio']) * 60 / Fraction(cal['resolution'])
++        if (100 > values['max_velocity'] or rpm > values['max_motor_speed']
++                or args.acceleration > values['max_profile_acceleration']
++                or args.deceleration > values['max_deceleration']):
++            raise ValueError('失能准备超过设备607F/6080/60C5/60C6上限')
++
++    def _execute_prepare(self, review, out):
++        # Caller owns the bus lock. No enable/stop/disable cleanup is appropriate
++        # for this two-object disabled transaction, even after a partial write.
++        sealed = self._prepare_review
++        self._prepare_review = None
++        if sealed is None or review is not sealed[0] or review != sealed[1]:
++            raise ValueError('失能准备审阅已失效、复用或被修改；请重新审阅')
++        review = sealed[1]
++        node, a = review['node'], review['args']
++        self._configuration(out)
++        self._allowed(node)
++        if (self.context != review['context'] or self.od != review['od']
++                or self.settings != review['settings'] or self.od_reason != a.od_gaps_bypass):
++            raise ValueError('失能准备接口/OD/设置在审阅后已变化')
++        if not self.tool.refuse_motion(out, ACTIONS['prepare_pp'], a):
++            raise ValueError('OD闸门拒绝失能准备')
++        # Reconstruct the complete narrow plan from sealed start and fixed speed.
++        # Never interpret user input or a review writes list as arbitrary writes.
++        plan = [('target_position', review['start']), ('profile_velocity', 100)]
++        expected = copy.deepcopy(review['prepare_before'])
++        client = self.tool._canopen.SdoClient(self.bus, node, timeout=self.args.timeout)
++        session = self.tool.MotionSession(client, out, a.state_timeout)
++        session.cancel_event = out.cancel_event
++        journal = None
++        attempts = []
++        last = None
++        success = False
++        def sample(phase):
++            nonlocal last
++            out.check_cancel()
++            self._configuration(out)
++            self._allowed(node)
++            current = {k: self._read(client, k, session) for k in TELEMETRY}
++            cal = position.calibration([self._read(client, k, session) for k in position.CALIBRATION])
++            # Validate the first observed state before a later read can replace it.
++            self._prepare_values(current, a, cal)
++            # Bracket the longer configuration reads with fresh critical state.
++            for k in ('control_mode_select', 'modes_of_operation', 'modes_of_operation_display',
++                      'home_offset', 'actual_velocity', 'actual_position', 'statusword'):
++                again = self._read(client, k, session)
++                changed = again ^ current[k] if k == 'statusword' else again != current[k]
++                if k == 'statusword':
++                    changed &= ~self.tool._canopen.CIA402_HOMING_TARGET_REACHED
++                if changed:
++                    raise ValueError('失能准备采样期间状态变化；请重新审阅')
++                current[k] = again
++            last = current
++            journal.event('prepare_sample', phase=phase, values=current, calibration=cal)
++            self._prepare_values(current, a, cal)
++            if current['actual_position'] != review['start']:
++                raise ValueError('失能准备位置漂移；请重新审阅')
++            if cal != review['calibration']:
++                raise ValueError('失能准备标定已变化；请重新审阅')
++            keys = ('control_mode_select', 'modes_of_operation', 'modes_of_operation_display',
++                    'home_offset', 'profile_velocity', 'target_position', 'profile_acceleration',
++                    'profile_deceleration', 'velocity_feedback_unit') + position.LIMITS
++            if any(current[k] != expected[k] for k in keys):
++                raise ValueError('失能准备关键设置已变化；请重新审阅')
++            if self.settings != review['settings'] or self.od_reason != a.od_gaps_bypass:
++                raise ValueError('失能准备人工设置或OD确认已变化')
++            return current
++        try:
++            journal = position.Journal(a.motion_log, 'device', dict(action='prepare_pp', node=node,
++                reviewed_start=review['start'], planned_displacement=0,
++                settings=review['settings'], od_gaps_bypass=a.od_gaps_bypass), observer=out.event)
++            for i in range(5):
++                if i:
++                    deadline = time.monotonic() + .2
++                    while time.monotonic() < deadline:
++                        session.pause(deadline)
++                sample('稳定采样{}/5'.format(i + 1))
++            for key, value in plan:
++                sample('写前' + key)
++                spec = self.specs[key]
++                attempt = dict(object=key, before=expected[key], expected=value,
++                               write_attempted=True, readback=None)
++                attempts.append(attempt)
++                journal.event('prepare_write_attempt', **attempt)
++                session.call(session.deadline(), '失能准备写入 ' + key, client.write,
++                    spec['index_value'], spec['sub'], position.encode(spec, value))
++                actual = self._read(client, key, session)
++                attempt['readback'] = actual
++                journal.event('write_readback', **attempt)
++                out.info('失能准备 {}：{} → {}；读回 {}'.format(key, attempt['before'], value, actual))
++                if actual != value:
++                    raise ValueError('失能准备 ' + key + ' 写读回不一致；停止，保留部分写入证据')
++                expected[key] = value
++                sample('写后' + key)
++            success = True
++            reached = bool(last['statusword'] & self.tool._canopen.CIA402_HOMING_TARGET_REACHED)
++            out.info('失能准备完成：仅两处写读回，仍失能，实际速度0、位移0 U；target reached={}。须重新运动审阅与两段确认。'.format(reached))
++        except BaseException as exc:
++            self._latch(client, node, '失能准备', exc, out)
++            last = None  # A pre-write snapshot cannot prove the final state.
++            if journal:
++                journal.event('prepare_exception', message=str(exc), attempts=attempts,
++                              quarantined=bool(getattr(client, 'quarantined', False)))
++            out.bad('失能准备失败；保留已写证据，不回滚、不重试、不发控制字：' + str(exc))
++            raise
++        finally:
++            row = self.row(node)
++            if row:
++                row.update(updated=0, lost=True)
++                self._put(row)
++            result = dict(action='prepare_pp', node=node, success=success, attempts=attempts,
++                readback=last, disabled_confirmed=True if success else None,
++                target_reached=bool(last['statusword'] & self.tool._canopen.CIA402_HOMING_TARGET_REACHED) if last else None,
++                mechanical_stop_confirmed=False, state_unknown=not success)
++            if journal:
++                try:
++                    journal.event('bench_result', **result)
++                finally:
++                    journal.close()
++            else:
++                out.event('bench_result', result)
++        return 0
+ 
+     def execute(self, review, out):
+         with self.lock:
++            if (isinstance(review, PrepareReview) or review.get('action') == 'prepare_pp'
++                    or 'prepare_id' in review or 'prepare_before' in review
++                    or self._prepare_review is not None and review is self._prepare_review[0]):
++                return self._execute_prepare(review, out)
+             self._configuration(out)
+             node, action, a = review['node'], review['action'], copy.copy(review['args'])
+             if self.context != review['context'] or self.od != review['od']:
+@@ -423,8 +616,17 @@ class BenchController:
+                     out.info('方法35完成：新bit10+bit12；6064=0；bit15仅为手册散见说法，未作判据')
+                 else:
+                     if action == 'enable':
+-                        if self._read(client, 'modes_of_operation_display', session) != self.specs['pp_protocol']['mode']:
+-                            raise ValueError('只允许 PP 模式使能')
++                        mode = self._read(client, 'modes_of_operation_display', session)
++                        if mode != review['mode'] or mode not in (self.specs['pp_protocol']['mode'], 3, 9):
++                            raise ValueError('使能模式在审阅后已变化；请重新审阅')
++                        if mode in (3, 9):
++                            targets = [item for item in review['writes'] if item['key'] == 'target_velocity']
++                            if len(targets) != 1 or targets[0]['value'] != 0:
++                                raise ValueError('速度模式使能必须审阅并预写 60FFh=0')
++                            session.set_target_velocity(0)
++                            cal_now = position.calibration([self._read(client, k, session) for k in position.CALIBRATION])
++                            if cal_now != review['calibration']:
++                                raise ValueError('速度准备后标定与审阅不符；请重新审阅')
+                         session.needs_stop = True
+                     # An interrupted stop/disable also owes bounded cleanup.
+                     session.needs_stop = True
+diff --git a/device/drivers/pmp4010/tools/pmp4010_tui.py b/device/drivers/pmp4010/tools/pmp4010_tui.py
+index 85a0a65..fbd3255 100644
+--- a/device/drivers/pmp4010/tools/pmp4010_tui.py
++++ b/device/drivers/pmp4010/tools/pmp4010_tui.py
+@@ -75,26 +75,27 @@ class JobOutput:
+ 
+ 
+ HELP = (
+-    '测试台：固定四席，按实际扫描到的节点填入；未分配席位显示离线。',
++    '测试台：固定四席，按实际扫描到的节点填入；未分配席位显示离线。本页为帮助。',
+     '启动：F5 显式确认 RT 总线占用风险后，自动发 SDO 身份上传扫描一次。',
+     '主界面：Up/Down 或 j/k 选电机；Enter 详情；S 扫描；R 刷新；D 全部失能；X 全部快停。',
+     '批量仅处理当前在线未隔离节点；跳过项明示；须审阅并输入含动作与节点列表的确认串。',
+-    '详情：A 绝对位置；R 相对位置；Z 方法35设零点；E 使能；D 失能；X 快停。',
++    '详情：A 绝对；R 相对；Z 方法35设零；E 使能；D 失能；X 快停；P 失能准备。',
+     '详情刷新用 F6；R 专用于相对位置，避免同键歧义。',
+     'F2：逐项输入脚本行程下限、上限、人工单次位移预算，每屏只填一个数。',
+-    '位置：按 A/R 后输入一个数，预览随输入变化；F5 审阅，再输确认串并按 F5 执行。',
++    '动作：A/R先填位置；含P失能准备均F5审阅、精确确认串、F5执行；P后重新审阅运动。',
+     'F5 自动提交当前草稿；Enter 也可提交；编辑中 ? 是普通字符。',
+     '首次动作需显式确认本会话 OD 旁路；默认只读，不继承命令行旁路理由。',
+     '相对位置＝静止快照6064＋偏移；只允许 target reached 且606C=0。',
+     '执行会重新读取并核对基准；准备期间也监视漂移，绝不静默重算目标。',
+-    'PP速度、加减速度取设备实读并沿用 CLI 上限校验；不猜测默认值。',
++    'PP轮廓实读并校验上限；P仅607A对齐起点、6081降100，仍失能且不保证bit10置位。',
+     '设零点只用方法35，不写607Ch/DI；DI配置需求未验证，607Ch非零则拒绝。',
+     '设零点须新 bit10+bit12 完成与6064=0读回；bit15不作通用状态或成功判据。',
+     '设零点后，旧坐标的脚本行程和预算失效，必须重新输入。',
+-    '速度模式未开放（换算链未实现）；转矩显示额定转矩百分比，非N·m。',
++    'PV/CSV 使能须审阅并预写零速度；非零速度操作未开放。',
++    '转矩显示额定转矩百分比，非N·m。',
+     '实时对象含6064用户单位、606C实际单位选择；刷新约2Hz，失败保留旧值。',
+     'SDO超时即隔离该接口/节点；需外部恢复，本工具不自动重连、不重试绕过隔离。',
+-    'Esc 中止动作并等待快停/失能确认；q/Ctrl-C 等待清理后退出。',
++    'Esc中止；P仅停止并留部分写证据，其余等待快停/失能；q/Ctrl-C等后台结束退出。',
+     'PgUp/PgDn 翻日志；g 回到末尾；? 或 F1 帮助；帮助中 Esc/q 返回原焦点。',
+ )
+ SAFETY = ('安全：工具侧软行程与电机轴1度硬顶；607Dh不能替代机械保护。',
+@@ -122,6 +123,8 @@ class PmpApp(TuiApp):
+         self.help_log = LogView(max_lines=500)
+         for line in HELP:
+             self.help_log.append(line)
++        # Before first render LogView has no measured total for goto_start().
++        self.help_log.scroll(self.help_log.max_lines)
+         self.current_view = 'rt'
+         self.selected = 0
+         self.worker = self.refresh_worker = None
+@@ -226,6 +229,7 @@ class PmpApp(TuiApp):
+     def begin_action(self, action):
+         if self.busy:
+             return
++        self.controller.discard_prepare()
+         self.action = self._resume_action = action
+         if not self._requirements(action):
+             return
+@@ -292,6 +296,8 @@ class PmpApp(TuiApp):
+         if error:
+             self.log.append('已阻止：' + error, 'err')
+             return
++        if review['action'] == 'prepare_pp':
++            self.controller.freeze_prepare(review)
+         self.pending = review
+         self.confirm = dict(expected=review['token'], review=review)
+         self.current_view = 'confirm'
+@@ -309,7 +315,8 @@ class PmpApp(TuiApp):
+         policy = action_policy(review['action'])
+         self.current_view = 'overview' if policy['batch'] else 'detail'
+         self._result_seen = False
+-        self.recovery = '执行中；结果读回与清理前状态未知'
++        self.recovery = ('失能准备执行中；失败仅停止并保留部分写入证据' if review['action'] == 'prepare_pp'
++                         else '执行中；结果读回与清理前状态未知')
+         execute = self.controller.execute_batch if policy['batch'] else self.controller.execute
+         self._launch('execute', lambda out: execute(review, out))
+ 
+@@ -387,7 +394,8 @@ class PmpApp(TuiApp):
+             self.cancel.set()
+             self.refresh_cancel.set()
+             self.exit_after = True
+-            self.log.append('已请求中止；等待后台事务与失能清理，状态尚未知', 'warn')
++            self.log.append('已请求中止；等待后台事务结果，状态尚未知' if self.action == 'prepare_pp'
++                            else '已请求中止；等待后台事务与失能清理，状态尚未知', 'warn')
+             return False
+         self.exit_after = True
+         if self.controller.enabled_sessions:
+@@ -424,9 +432,11 @@ class PmpApp(TuiApp):
+         if self.busy:
+             if name == 'esc':
+                 self.cancel.set()
+-                self.log.append('请求中止；等待快停/失能确认，状态未知', 'warn')
++                self.log.append('请求中止失能准备；停止后保留部分写入证据，状态未知' if self.action == 'prepare_pp'
++                                else '请求中止；等待快停/失能确认，状态未知', 'warn')
+             return False
+         if name == 'esc':
++            self.controller.discard_prepare()
+             self.current_view = 'overview' if self.current_view == 'detail' else 'detail' if self.current_view in ('action', 'confirm', 'setting', 'od') else 'rt' if not self.controller.rt_ack else 'overview'
+             self.set_form(None)
+             self.pending = self.confirm = None
+@@ -472,7 +482,7 @@ class PmpApp(TuiApp):
+             elif name.lower() in ('d', 'x'):
+                 self.begin_action('disable_all' if name.lower() == 'd' else 'stop_all')
+         elif self.current_view == 'detail':
+-            action = {'a': 'absolute', 'r': 'relative', 'z': 'zero', 'e': 'enable', 'd': 'disable', 'x': 'stop'}.get(name.lower())
++            action = {'a': 'absolute', 'r': 'relative', 'z': 'zero', 'e': 'enable', 'd': 'disable', 'x': 'stop', 'p': 'prepare_pp'}.get(name.lower())
+             if action:
+                 self.begin_action(action)
+             elif name == 'f6':
+@@ -486,7 +496,7 @@ class PmpApp(TuiApp):
+             return ['Esc 中止', 'q 清理后退出', '? 帮助']
+         return {'rt': ['F5 确认并扫描', 'q 退出', '? 帮助'],
+                 'overview': ['S 扫描', 'Enter 详情', 'R 刷新', 'D 全部失能', 'X 全部快停', 'F2 安全设置', '? 帮助', 'q 退出'],
+-                'detail': ['Esc 返回', 'A 绝对', 'R 相对', 'Z 设零', 'E 使能', 'D 失能', 'X 快停', 'F6 刷新', 'F2 设置', '? 帮助'],
++                'detail': ['Esc 返回', 'A 绝对', 'R 相对', 'P 失能准备', 'Z 设零', 'E 使能', 'D 失能', 'X 快停', 'F6 刷新', 'F2 设置', '? 帮助'],
+                 'action': ['F5 审阅', 'Esc 取消', '?/F1 帮助'],
+                 'confirm': ['F5 执行', 'Esc 取消', '?/F1 帮助'],
+                 'od': ['F5 确认', 'Esc 取消'], 'setting': ['F5 下一项', 'Esc 取消']}.get(self.current_view, [])
+@@ -509,8 +519,8 @@ class PmpApp(TuiApp):
+                   '速度 {} {}'.format(v['actual_velocity'], velocity_unit(v)),
+                   '转矩 {:.1f}% 额定转矩'.format(v['torque_feedback'] * .1),
+                   '模式 {} ({})  报警 {}'.format(mode_text(v['modes_of_operation_display']), v['modes_of_operation_display'], '无' if not v['error_code_object'] else '0x{:04X}'.format(v['error_code_object'])),
+-                  '控制 [E]使能 [D]失能 [X]快停  [A]绝对 [R]相对 [Z]设零点',
+-                  '设零点：回零方式35；DI配置需求未验证。速度模式未开放。']
++                  '控制 [E]使能 [D]失能 [X]快停  [A]绝对 [R]相对 [Z]设零点 [P]失能准备',
++                  '设零点：回零方式35；DI配置需求未验证。PV/CSV仅允许预写零速度后使能。']
+         return lines
+ 
+     def build(self):

@@ -1,0 +1,50 @@
+{
+  "before-comparison.json": {
+    "size": 433,
+    "sha256": "abfb95614c6e11be4c5ee6c673a902001f466b926a3e33b74c53df3d7e3f8081"
+  },
+  "before-passive.command.json": {
+    "size": 470,
+    "sha256": "5e7682705eb4346640d107efcab04eaf8507fad54af95fb20e016fc33500ad2a"
+  },
+  "before-passive.rc": {
+    "size": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  "before-passive.stderr": {
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "before-passive.stdout": {
+    "size": 4366,
+    "sha256": "2d91aaef7750233fa0280f7f53b4fbb80845ba6dfed9049073d81c26d865f363"
+  },
+  "execute.remote.py": {
+    "size": 1628,
+    "sha256": "ae475da9f462d6406eac9b85f31536f597652f862767503f6b085fcfc954b091"
+  },
+  "reset.command.json": {
+    "size": 2877,
+    "sha256": "1a717732735f1d810908280ee6e96a6ddd5fac59d9be9140af3376bf3cd96a7b"
+  },
+  "reset.rc": {
+    "size": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  "reset.stderr": {
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "reset.stdout": {
+    "size": 5221,
+    "sha256": "c55d9a2847c9c72da44e0e097f06fcb623fa712cf04c0f76aae2f091cb96a913"
+  },
+  "source-preflight.json": {
+    "size": 235,
+    "sha256": "76927d18251397e5cade105fdd36028b1c32c7f615764a86c065cf27ad98d59b"
+  },
+  "summary.json": {
+    "size": 3837,
+    "sha256": "fc85f562a93c12ce709ac5da90d06b01881d63e8edd0ea9dc84c332627210c90"
+  }
+}

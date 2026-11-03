@@ -47,6 +47,10 @@ class MotionBus:
         self.sw = initial
         self.objects = {(0x2002, 1): b'\x00\x00', (0x6060, 0): b'\x01',
                         (0x6061, 0): b'\x01', (0x6098, 0): b'\x11'}
+        for key, value in (((0x608f, 1), 131072), ((0x608f, 2), 1), ((0x6091, 1), 1),
+                           ((0x6091, 2), 1), ((0x607f, 0), 10000000), ((0x6080, 0), 3000),
+                           ((0x60ff, 0), 6553600), ((0x60b1, 0), 0)):
+            self.objects[key] = value.to_bytes(4, 'little')
         self.sent = []
         self.closed = False
         self.pending = []
@@ -84,16 +88,16 @@ class MotionBus:
                 value = (self.sw | self.status_flags).to_bytes(2, 'little')
             else:
                 value = self.objects[key]
-            command = {1: 0x4F, 2: 0x4B}[len(value)]
+            command = {1: 0x4F, 2: 0x4B, 4: 0x43}[len(value)]
             reply = bytes([command]) + header + value.ljust(4, b'\x00')
         else:
-            size = {0x2B: 2, 0x2F: 1}[cs]
+            size = {0x2B: 2, 0x2F: 1, 0x23: 4}[cs]
             value = bytes(raw[4:4 + size])
             if key == (0x6040, 0):
                 word = int.from_bytes(value, 'little')
                 if word not in self.freeze:
                     self.sw = {0: 0x40, 0x80: 0x40, 6: 0x21, 7: 0x23,
-                               0xF: 0x27, 2: 0x07, 0x1F: 0x27}[word]
+                               0xF: 0x27, 2: 0x07, 0x1F: 0x27, 0x3F: 0x27, 0x7F: 0x27}[word]
                     if word == 0xF and self.objects[(0x6061, 0)] == b'\x06':
                         self.sw = self.idle_homing_status
                     if word == 0x1F:
@@ -484,7 +488,7 @@ class MotionTests(unittest.TestCase):
         self.assertEqual(self.bus.controls(), [6, 7, 15])
 
     def test_motion_enable_rejects_mode_specific_and_unknown_modes_before_writes(self):
-        for mode in (0, 2, 3, 5, 7, 9, 11, 255):
+        for mode in (0, 2, 5, 7, 11, 255):
             for sw in (0x40, 0x08, 0x27):
                 with self.subTest(mode=mode, sw=sw):
                     self.bus.sw = sw
@@ -494,8 +498,7 @@ class MotionTests(unittest.TestCase):
         self.assertIn('不在本工具允许使能的集合', self.stdout.getvalue())
 
     def test_motion_enable_supports_only_documented_0f_modes(self):
-        # 3 已被排除：速度模式下从站按 60FFh 的残留值运行，而速度标度
-        # 换算链尚未实现（见 pmp4010.ENABLE_MODES 的注释）。
+        # Velocity modes have a separate explicit zero-target path below.
         for mode in (1, 4, 6, 8, 10):
             with self.subTest(mode=mode):
                 self.bus.sent.clear()
@@ -504,17 +507,18 @@ class MotionTests(unittest.TestCase):
                 self.assertEqual(self.motion('enable'), 0)
                 self.assertEqual(self.bus.controls(), [6, 7, 15])
 
-    def test_speed_mode_cannot_be_enabled_because_scale_chain_is_absent(self):
-        """速度模式下不得使能——残留的 60FFh 会被当成指令执行。
-
-        实测该电机 60FFh = 6553600 = 3000 rpm（额定转速）。模式被置为 3
-        之后若放行使能，从站就会按这个残留值转起来。故在使能这一侧也要闸门。
-        """
-        self.bus.sw = 0x40
-        self.bus.objects[(0x6061, 0)] = bytes([3])
-        self.assertEqual(self.motion('enable'), 3)
-        self.assertEqual(self.bus.controls(), [])
-        self.assertEqual(self.bus.sw, 0x40)   # 状态字未被推动
+    def test_speed_mode_cli_explicit_zero_precedes_enable_and_replaces_residual(self):
+        for mode in (3, 9):
+            self.bus.sent.clear()
+            self.bus.sw = 0x40
+            self.bus.objects[(0x6061, 0)] = bytes([mode])
+            self.bus.objects[(0x60ff, 0)] = (6553600).to_bytes(4, 'little')
+            self.assertEqual(self.motion('enable'), 0)
+            self.assertEqual(self.bus.controls(), [6, 7, 15])
+            downloads = self.bus.downloads()
+            self.assertEqual(downloads[0].data[:4], b'\x23\xff\x60\x00')
+            self.assertEqual(downloads[0].data[4:], bytes(4))
+            self.assertEqual(self.bus.objects[0x60ff, 0], bytes(4))
 
     def test_motion_enable_waits_for_initial_not_ready_without_premature_write(self):
         self.bus.statuses = [0, 0, 0x40]
@@ -623,7 +627,7 @@ class MotionTests(unittest.TestCase):
                     # Timeout quarantines this SDO session: cleanup must not
                     # transmit into the unresolved response stream.
                     self.assertEqual(self.bus.controls(), [0])
-                    self.assertEqual(len(self.bus.sent), 6)
+                    self.assertEqual(len(self.bus.sent), 7)  # Includes disabled-only mode-write status guard.
                     self.assertEqual(self.bus.sent[-1].data[:4], b'\x40\x61\x60\x00')
                     self.assertIn('Quick stop 未确认', self.stdout.getvalue())
                     self.assertIn('机械停止未知，立即使用独立急停', self.stdout.getvalue())

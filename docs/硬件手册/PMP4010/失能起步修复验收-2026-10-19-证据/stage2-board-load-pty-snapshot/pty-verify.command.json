@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pp-disabled-start-20261019-board/stage2/verify_probe_pty.py"
+  ],
+  "utc_start": "2026-10-19T01:23:39.302116+00:00",
+  "utc_end": "2026-10-19T01:23:39.372007+00:00",
+  "rc": 1
+}

@@ -1,0 +1,135 @@
+test_CLI_mutual_exclusion_and_manual_modifier_guards_before_IO (_test_manual.ManualTests) ... ok
+test_E_G_require_this_session_single_use_proof (_test_manual.ManualTests) ... ok
+test_X_communication_timeout_no_cleanup_retries_or_client_replacement (_test_manual.ManualTests) ... ok
+test_X_following_fault_envelope_and_parameters_still_cleanup_same_client (_test_manual.ManualTests) ... ok
+test_X_receive_failure_and_raw_protocol_mismatch_quarantine_without_cleanup (_test_manual.ManualTests) ... ok
+test_X_retains_original_proof_and_protection_until_D (_test_manual.ManualTests) ... ok
+test_background_603F_preserves_history_and_exact_owned_cleanup (_test_manual.ManualTests) ... DIAGNOSTIC running603F=3456: exact5 uploads then mode/CW2/status/mode/CW0/status; no extra deviceIO; original historical values preserved
+ok
+test_bit10_zero_submit_only_artificial_target_fresh_ack_no_enable (_test_manual.ManualTests) ... MANUAL submit: bit10=0, final human target -1420 only, fresh ACK0/1/0, CW106/107/127/137/127, no enable/release
+ok
+test_cleanup_exception_cannot_replace_original_603F (_test_manual.ManualTests) ... ok
+test_cleanup_send_enqueued_then_error_never_sends_following_disable (_test_manual.ManualTests) ... ok
+test_controlled_106_107_accept_delayed_previous_first_and_last_samples (_test_manual.ManualTests) ... DELAYED actual SDO: 0106 ACK then0260/0260/0231; 0107 ACK then0231/0231/0233; fixed607A=-1434; submit completes
+ok
+test_controlled_first_unexpected_enabled_then_normal_is_not_hidden (_test_manual.ManualTests) ... DELAYED unexpected0237 then0231: first raw immediately rejected, no read of later normal, cleanup cannot replace root sample
+ok
+test_controlled_following_fault_in_first_or_last_sample_refuses (_test_manual.ManualTests) ... ok
+test_controlled_invalid_raw_survives_diagnostic_journal_failure (_test_manual.ManualTests) ... ok
+test_controlled_pending_fresh_velocity_position_calibration_and_settings_guards (_test_manual.ManualTests) ... DELAYED pending guard injections: first velocity/position/calibration/profile/607C/settings each prevents next CW and cleans2/0
+ok
+test_controlled_previous_state_timeout_bounded_and_cleanup_logged (_test_manual.ManualTests) ... DELAYED persistent0260: state_timeout bounded; no0107/enable/release; first_failure and cleanup2/0 retained
+ok
+test_controlled_quickstop_is_never_ready (_test_manual.ManualTests) ... ok
+test_controlled_wait_cancel_cleanup_no_later_controlword (_test_manual.ManualTests) ... DELAYED waiting cancel: immediate cancellation at pending snapshot, same-client bounded2/0, no later CW
+ok
+test_controlled_wait_timeout_quarantine_zero_subsequent_requests (_test_manual.ManualTests) ... ok
+test_default_backend_cannot_call_manual_go (_test_manual.ManualTests) ... ok
+test_diagnostic_disk_failure_occurs_after_cleanup_and_keeps_original (_test_manual.ManualTests) ... ok
+test_download_ack_loss_never_retries_cleanup_or_G (_test_manual.ManualTests) ... ok
+test_enable_plus13_feedback_allowed_original_envelope_no_auto_disable (_test_manual.ManualTests) ... GC_DURATION {'generation': 2, 'collected': 39403, 'uncollectable': 0} elapsed_s= 0.007012650999968173
+MANUAL E: CW12F only, +13U accepted inside original start/budget; no zero-drift cleanup, waits for G
+ok
+test_enabled_edge_ack_read_timeout_quarantines_zero_retry (_test_manual.ManualTests) ... ENABLED EDGE ACK read timeout after003F: original client quarantined; no cleanup/refresh/scan/exit requests
+ok
+test_enabled_edge_behavior_moves_frozen_target_not_disabled_ack (_test_manual.ManualTests) ... ENABLED EDGE behavior: before=-1457, after=-1445, target=-1420, edges=[(47, 63, -1420)], CW=['0x106', '0x107', '0x127', '0x137', '0x127', '0x12f', '0x2f', '0x3f', '0x2f']
+ENABLED EDGE actual SDO: ACK samples 0/0→1/1→0/0; moving during high/low handshake; fixed target reached, one edge only
+ok
+test_enabled_edge_delayed_ack_samples_wait_for_fresh_generation (_test_manual.ManualTests) ... ok
+test_enabled_edge_go_initial_nonzero_speed_still_refused (_test_manual.ManualTests) ... ok
+test_enabled_edge_missing_or_stuck_ack_fixed_deadline_same_client_cleanup (_test_manual.ManualTests) ... ENABLED EDGE missing high/stuck low ACK: fixed deadline; same-client bounded2/0; proof consumed and node blocked
+ok
+test_enabled_edge_moving_handshake_all_protected_guards_cleanup (_test_manual.ManualTests) ... GC_DURATION {'generation': 2, 'collected': 28450, 'uncollectable': 0} elapsed_s= 0.01838207500259159
+ENABLED EDGE moving phase: mode/CW/607A/6062/calibration/profile/607C/607D/fault/envelope changes stop2/disable0 before final release
+test_enabled_target_bad_readback_width_quarantines_without_cleanup_retry (_test_manual.ManualTests) ... ENABLED TARGET malformed readback width: same-client quarantine and zero following requests
+ok
+test_enabled_target_lost_download_ack_quarantines_without_retry (_test_manual.ManualTests) ... ENABLED TARGET lost download ACK: one attempted target download; same-client quarantine, zero subsequent requests/edges
+ok
+test_enabled_target_readback_mismatch_cleanup_without_edge (_test_manual.ManualTests) ... ENABLED TARGET readback mismatch: same-client bounded2/0; no new edge
+ok
+test_enabled_target_rewrite_hypothesis_moves_same_frozen_target (_test_manual.ManualTests) ... ENABLED TARGET hypothesis (not firmware fact): before=-1457, after=-1445, frozen=-1420, enabled writes=[-1420], edges=[(47, 63, -1420)]
+ok
+test_exit_send_enqueued_then_error_marks_original_client_uncertain (_test_manual.ManualTests) ... ok
+test_explicit_SDO_abort_is_known_reply_and_keeps_bounded_cleanup (_test_manual.ManualTests) ... ok
+test_explicit_sequence_submit_E_G_X_D_exit_exact_controls (_test_manual.ManualTests) ... MANUAL user sequence CW: 0106 0107 0127 0137 0127 | 012F | 002F 003F 002F | 0002 | 0000 | exit0006
+ok
+test_external_enable_between_profile_and_target_never_writes_target (_test_manual.ManualTests) ... ok
+test_fault_ui_shows_locked_and_unknown_stop_without_G (_test_manual.ManualTests) ... ok
+test_first_6041_fault_does_not_read_603F_to_complete_diagnostic (_test_manual.ManualTests) ... ok
+test_first_fault_or_out_of_envelope_sample_cannot_be_hidden (_test_manual.ManualTests) ... ok
+test_following_fault_and_envelope_background_same_client_cleanup (_test_manual.ManualTests) ... GC_DURATION {'generation': 2, 'collected': 57339, 'uncollectable': 0} elapsed_s= 0.011388967999664601
+ok
+test_guards_OD_607C_budget_one_degree_device_limits (_test_manual.ManualTests) ... ok
+test_initial_603F_retains_partial_hex_without_control_or_extra_upload (_test_manual.ManualTests) ... DIAGNOSTIC initial603F=ABCD: exact identity+5 uploads; CW unknown; partial persisted before enable; target lock retained, client communication healthy
+ok
+test_logging_write_or_close_failure_cannot_skip_same_client_cleanup (_test_manual.ManualTests) ... ok
+test_manual_explicit_speed100_can_adjust_above100_under_limits (_test_manual.ManualTests) ... ok
+test_missing_ack_or_wrong_demand_never_enable_or_G (_test_manual.ManualTests) ... ok
+test_modified_review_rejected_before_io (_test_manual.ManualTests) ... ok
+test_quarantined_cleanup_reports_skip_and_adds_zero_sends (_test_manual.ManualTests) ... ok
+test_read_failure_before_actions_never_sends_cleanup_writes (_test_manual.ManualTests) ... ok
+test_rescan_and_refresh_reuse_one_original_client (_test_manual.ManualTests) ... ok
+test_scan_with_active_proof_refuses_before_any_request (_test_manual.ManualTests) ... ok
+test_send_enqueued_G_then_CanBusError_quarantines_without_cleanup_writes (_test_manual.ManualTests) ... ok
+test_stale_target_after_E_refuses_G_and_cleanup_same_client (_test_manual.ManualTests) ... ok
+test_startup_scan_and_refresh_zero_downloads (_test_manual.ManualTests) ... GC_DURATION {'generation': 2, 'collected': 39921, 'uncollectable': 0} elapsed_s= 0.007269032001204323
+ok
+test_submitted_target_and_start_never_rebased_for_position_change (_test_manual.ManualTests) ... ok
+test_successful_snapshot_exact_original_read_order_no_diagnostics (_test_manual.ManualTests) ... ok
+test_timeout_isolation_zero_retry_scan_refresh_action_and_exit (_test_manual.ManualTests) ... MANUAL timeout: same client quarantined; scan/refresh/G/exit zero subsequent requests; independent emergency stop required
+ok
+test_ui_V_F2_refused_while_proof_exists (_test_manual.ManualTests) ... ok
+test_ui_normal_Form_target_E_G_two_stage_and_no_hidden_actions (_test_manual.ManualTests) ... ok
+
+======================================================================
+ERROR: test_enabled_edge_moving_handshake_all_protected_guards_cleanup (_test_manual.ManualTests) (index='0x608f')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010.py", line 1265, in call
+    result = method(*args)
+  File "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_manual.py", line 102, in read
+    return self._manual_sdo(super().read, index, subindex)
+  File "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_manual.py", line 95, in _manual_sdo
+    return method(*args)
+  File "/home/zakiu/km3/tools/hwtui/canopen.py", line 632, in guarded
+    return method(self, *args, **kwargs)
+  File "/home/zakiu/km3/tools/hwtui/canopen.py", line 751, in read
+    frame = self._recv(request)
+  File "/home/zakiu/km3/tools/hwtui/canopen.py", line 711, in _recv
+    self._timeout()
+  File "/home/zakiu/km3/tools/hwtui/canopen.py", line 686, in _timeout
+    raise BusSilenceError(
+canopen.BusSilenceError: node 1: 0.015s 内未收到 SDO 应答（请求 601  [8]  40 81 60 00 00 00 00 00）
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/zakiu/km3/device/drivers/pmp4010/tools/_test_manual.py", line 314, in test_enabled_edge_moving_handshake_all_protected_guards_cleanup
+    self.submit()
+  File "/home/zakiu/km3/device/drivers/pmp4010/tools/_test_manual.py", line 145, in submit
+    self.ctl.execute(review, self.out)
+  File "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_manual.py", line 592, in execute
+    observed = guard(previous,state, ack=(word == 0x137) if word in (0x127, 0x137) else None,
+  File "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_manual.py", line 542, in guard
+    current, current_cal = transition_snapshot('等待受控迁移',word,allowed,state)
+  File "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_manual.py", line 499, in transition_snapshot
+    return self._snapshot(session,(a,review['start']),allowed,observer=observe)
+  File "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_manual.py", line 149, in _snapshot
+    values = {k: observed(k) for k in TELEMETRY}
+  File "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_manual.py", line 149, in <dictcomp>
+    values = {k: observed(k) for k in TELEMETRY}
+  File "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_manual.py", line 128, in observed
+    value = self._read(session.client, key, session)
+  File "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_manual.py", line 115, in _read
+    return super()._read(client, key, session)
+  File "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_bench.py", line 199, in _read
+    raw = session.call(session.deadline(), '读取 ' + key, client.read, spec['index_value'], spec['sub'])
+  File "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010.py", line 1268, in call
+    raise MotionError("{}：{}".format(label, exc)) from exc
+bench_acceptance_cli.MotionError: 读取 profile_velocity：node 1: 0.015s 内未收到 SDO 应答（请求 601  [8]  40 81 60 00 00 00 00 00）
+
+----------------------------------------------------------------------
+Ran 59 tests in 3.211s
+
+FAILED (errors=1)
+EXIT_CODE 1

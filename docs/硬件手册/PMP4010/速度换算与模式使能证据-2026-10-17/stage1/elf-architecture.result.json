@@ -1,0 +1,18 @@
+{
+  "command": "file -L build-host/libpmp4010_velocity.so build-arm64/libpmp4010_velocity.so",
+  "argv": [
+    "bash",
+    "-c",
+    "file -L build-host/libpmp4010_velocity.so build-arm64/libpmp4010_velocity.so"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "env_overrides": {
+    "TMPDIR": "/tmp/km3-pmp4010-a-20261017-evidence/tmp"
+  },
+  "start_utc": "2026-10-17T07:25:36.554695+00:00",
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "exitcode": 0,
+  "end_utc": "2026-10-17T07:25:36.557489+00:00"
+}

@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "ctest",
+    "--test-dir",
+    "build-host",
+    "--output-on-failure"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-20T00:50:08.835905+00:00",
+  "returncode": 0,
+  "elapsed_seconds": 11.560951112012845,
+  "finished_utc": "2026-10-20T00:50:20.396970+00:00"
+}

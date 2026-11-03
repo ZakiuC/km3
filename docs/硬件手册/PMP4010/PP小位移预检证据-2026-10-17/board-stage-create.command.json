@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=8",
+    "root@192.168.0.188",
+    "mktemp -d /tmp/km3-pp-preflight-20261017-XXXXXXXX"
+  ],
+  "utc": "2026-10-17T08:04:47.535086+00:00"
+}

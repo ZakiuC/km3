@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "tools/hwdriver/gen-pmp4010-access.py",
+    "--check"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-20T00:57:19.753035+00:00",
+  "returncode": 0,
+  "elapsed_seconds": 0.021594519988866523,
+  "finished_utc": "2026-10-20T00:57:19.774771+00:00"
+}

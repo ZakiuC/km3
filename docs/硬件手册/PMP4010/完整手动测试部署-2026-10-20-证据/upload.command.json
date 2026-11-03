@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "scp",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "/home/zakiu/km3/docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u62b1\u95f8\u624b\u52a8\u6d4b\u8bd5-2026-10-19-\u8bc1\u636e/package/pmp4010-brake-offline-payload.tar.gz",
+    "root@192.168.0.188:/opt/km3/hwtools/.manual-test-e137c603-f7ocslad/payload.tar.gz"
+  ],
+  "start_utc": "2026-10-20T01:33:46.114541+00:00",
+  "end_utc": "2026-10-20T01:33:46.383771+00:00",
+  "rc": 0,
+  "automatic_retries": 0,
+  "timeout_seconds": 40
+}

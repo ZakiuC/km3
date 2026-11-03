@@ -181,8 +181,11 @@ class PositionTests(unittest.TestCase):
         self.assertEqual(self.invoke(), 0, self.output)
         actual = ['0x{:03X}#{}'.format(f.arbitration_id, f.data.hex().upper()) for f in self.peer.sent]
         self.assertEqual(plans, actual)
-        self.assertEqual(len(actual), 62)
-        print('C preview matches independent SDO peer: 62/62 complete nominal request frames')
+        self.assertEqual(len(actual), 67)
+        # Four enable-family mode checks plus one disabled-only mode-write
+        # status read extend the former 62 requests; every old guard remains.
+        self.assertEqual(sum(f.data[:4] == b'\x40\x61\x60\x00' for f in self.peer.sent), 8)
+        print('C preview matches independent SDO peer: 67/67 complete nominal request frames')
 
     def test_bounds_refused_before_bus_or_frame(self):
         for options in [('--target', '31'), ('--soft-max', '-40'), ('--max-displacement', '0'),

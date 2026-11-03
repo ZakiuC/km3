@@ -1,0 +1,1246 @@
+[
+  {
+    "utc": "2026-10-19T07:07:42.961976+00:00",
+    "event": "REVIEW_READY",
+    "data": {
+      "snapshot": {
+        "review_nonce": "80d71b91405a4808a7796db122590612",
+        "node": 1,
+        "interface": "can1",
+        "mode": "PP1",
+        "start": -1429,
+        "target": -1465,
+        "displacement": -36,
+        "direction": "backward",
+        "motor_degrees": "405/4096",
+        "velocity_units_per_s": 1000,
+        "velocity_rpm": "1875/4096",
+        "origin": -1429,
+        "settings": {
+          "soft_min": -1793,
+          "soft_max": -1119,
+          "max_displacement": 364
+        },
+        "calibration": {
+          "values": [
+            131072,
+            1,
+            1,
+            1
+          ],
+          "resolution": "131072",
+          "gear_ratio": "1",
+          "motor_degrees_per_user_unit": "45/16384",
+          "output_degrees_per_user_unit": "45/16384"
+        },
+        "values": {
+          "statusword": 561,
+          "actual_position": -1429,
+          "actual_velocity": 0,
+          "modes_of_operation_display": 1,
+          "error_code_object": 0,
+          "torque_feedback": 0,
+          "velocity_feedback_unit": 0,
+          "profile_velocity": 1000,
+          "profile_acceleration": 5000000,
+          "profile_deceleration": 5000000,
+          "home_offset": 0,
+          "control_mode_select": 0,
+          "modes_of_operation": 1,
+          "target_position": -1190,
+          "profile_end_velocity": 0,
+          "software_position_limit": -2147483628,
+          "software_position_limit_max": 2147483627,
+          "controlword": 6,
+          "halt_option": 1,
+          "position_demand": -1190,
+          "max_velocity": 9000000,
+          "max_motor_speed": 4000,
+          "max_profile_acceleration": 2147483647,
+          "max_deceleration": 2147483647
+        },
+        "lines": [
+          "反向点动",
+          "冻结起点 -1429 U -> 终点 -1465 U；位移 -36 U = 0.0989 电机轴度",
+          "请求步长 0.1 -> 实际 0.0989 电机轴度（36 U）",
+          "请求速度 1000 U/s -> 实际 0.457764 rpm（1000 U/s）",
+          "使能后重写冻结目标并触发002F→003F→002F；核对ACK 0→1→0",
+          "Enter 确认这一次动作；Esc 取消；Space/x 随时快停"
+        ],
+        "RT_reason": "沿用用户已确认到场接线急停的小角度现场授权；保留RT进程，接受本次同client测试的RT占用风险",
+        "OD_reason": "沿用用户已确认的小角度现场及1度硬顶许可；仅本次PP1反向量化0.1度、1000U/s小步对照；接受原OD未核对项及独立停机责任"
+      },
+      "digest": "d4979450da021ada086447c1b820875347d36ce00f086e6005c483dce16e6257",
+      "required_line": "EXECUTE d4979450da021ada086447c1b820875347d36ce00f086e6005c483dce16e6257",
+      "abort_line": "ABORT",
+      "read_phase_control_writes": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.152713+00:00",
+    "event": "执行前实读位置",
+    "data": {
+      "actual_position": -1429,
+      "frozen_start": -1429,
+      "frozen_target": -1465,
+      "delta_from_start": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.282387+00:00",
+    "event": "write_readback",
+    "data": {
+      "object": "profile_velocity",
+      "expected": 1000,
+      "actual": 1000
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.299517+00:00",
+    "event": "write_readback",
+    "data": {
+      "object": "target_position",
+      "expected": -1465,
+      "actual": -1465
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.506698+00:00",
+    "event": "manual_result",
+    "data": {
+      "node": 1,
+      "action": "absolute",
+      "success": true,
+      "message": "人工目标已提交；保持Halt未使能，等待E",
+      "position": -1429,
+      "target": -1465
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.507005+00:00",
+    "event": "manual_stage_complete",
+    "data": {
+      "message": "人工目标已提交；保持Halt未使能，等待E",
+      "values": {
+        "statusword": 563,
+        "actual_position": -1429,
+        "actual_velocity": 0,
+        "modes_of_operation_display": 1,
+        "error_code_object": 0,
+        "torque_feedback": -1,
+        "velocity_feedback_unit": 0,
+        "profile_velocity": 1000,
+        "profile_acceleration": 5000000,
+        "profile_deceleration": 5000000,
+        "home_offset": 0,
+        "control_mode_select": 0,
+        "modes_of_operation": 1,
+        "target_position": -1465,
+        "profile_end_velocity": 0,
+        "software_position_limit": -2147483628,
+        "software_position_limit_max": 2147483627,
+        "controlword": 295,
+        "halt_option": 1,
+        "position_demand": -1465,
+        "max_velocity": 9000000,
+        "max_motor_speed": 4000,
+        "max_profile_acceleration": 2147483647,
+        "max_deceleration": 2147483647
+      }
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.592337+00:00",
+    "event": "manual_result",
+    "data": {
+      "node": 1,
+      "action": "enable",
+      "success": true,
+      "message": "已使能且保持Halt；等待G",
+      "position": -1429,
+      "target": -1465
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.592421+00:00",
+    "event": "manual_stage_complete",
+    "data": {
+      "message": "已使能且保持Halt；等待G",
+      "values": {
+        "statusword": 1591,
+        "actual_position": -1429,
+        "actual_velocity": 0,
+        "modes_of_operation_display": 1,
+        "error_code_object": 0,
+        "torque_feedback": -1,
+        "velocity_feedback_unit": 0,
+        "profile_velocity": 1000,
+        "profile_acceleration": 5000000,
+        "profile_deceleration": 5000000,
+        "home_offset": 0,
+        "control_mode_select": 0,
+        "modes_of_operation": 1,
+        "target_position": -1465,
+        "profile_end_velocity": 0,
+        "software_position_limit": -2147483628,
+        "software_position_limit_max": 2147483627,
+        "controlword": 303,
+        "halt_option": 1,
+        "position_demand": -1465,
+        "max_velocity": 9000000,
+        "max_motor_speed": 4000,
+        "max_profile_acceleration": 2147483647,
+        "max_deceleration": 2147483647
+      }
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.700041+00:00",
+    "event": "manual_transition_snapshot",
+    "data": {
+      "phase": "使能后新ACK核对",
+      "controlword": 47,
+      "raw_statusword": 1591,
+      "decoded_state": "Operation enabled",
+      "state": 39,
+      "allowed_states": [
+        39
+      ],
+      "expected_state": 39,
+      "point": "complete",
+      "actual_position": -1425,
+      "actual_velocity": 0,
+      "fault_code": 0,
+      "observed_fields": [
+        "statusword",
+        "actual_position",
+        "actual_velocity",
+        "modes_of_operation_display",
+        "error_code_object",
+        "torque_feedback",
+        "velocity_feedback_unit",
+        "profile_velocity",
+        "profile_acceleration",
+        "profile_deceleration",
+        "home_offset",
+        "control_mode_select",
+        "modes_of_operation",
+        "target_position",
+        "profile_end_velocity",
+        "software_position_limit",
+        "software_position_limit_max",
+        "controlword",
+        "halt_option",
+        "position_demand",
+        "max_velocity",
+        "max_motor_speed",
+        "max_profile_acceleration",
+        "max_deceleration"
+      ],
+      "reason": "完整快照及新ACK已核对",
+      "expected_ack": false,
+      "ack_samples": [
+        false,
+        false
+      ]
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.726616+00:00",
+    "event": "manual_transition_snapshot",
+    "data": {
+      "phase": "使能后新ACK核对",
+      "controlword": 63,
+      "raw_statusword": 5687,
+      "decoded_state": "Operation enabled",
+      "state": 39,
+      "allowed_states": [
+        39
+      ],
+      "expected_state": 39,
+      "point": "complete",
+      "actual_position": -1425,
+      "actual_velocity": 0,
+      "fault_code": 0,
+      "observed_fields": [
+        "statusword",
+        "actual_position",
+        "actual_velocity",
+        "modes_of_operation_display",
+        "error_code_object",
+        "torque_feedback",
+        "velocity_feedback_unit",
+        "profile_velocity",
+        "profile_acceleration",
+        "profile_deceleration",
+        "home_offset",
+        "control_mode_select",
+        "modes_of_operation",
+        "target_position",
+        "profile_end_velocity",
+        "software_position_limit",
+        "software_position_limit_max",
+        "controlword",
+        "halt_option",
+        "position_demand",
+        "max_velocity",
+        "max_motor_speed",
+        "max_profile_acceleration",
+        "max_deceleration"
+      ],
+      "reason": "完整快照及新ACK已核对",
+      "expected_ack": true,
+      "ack_samples": [
+        true,
+        true
+      ]
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.753164+00:00",
+    "event": "manual_transition_snapshot",
+    "data": {
+      "phase": "使能后新ACK核对",
+      "controlword": 47,
+      "raw_statusword": 1591,
+      "decoded_state": "Operation enabled",
+      "state": 39,
+      "allowed_states": [
+        39
+      ],
+      "expected_state": 39,
+      "point": "complete",
+      "actual_position": -1425,
+      "actual_velocity": 0,
+      "fault_code": 0,
+      "observed_fields": [
+        "statusword",
+        "actual_position",
+        "actual_velocity",
+        "modes_of_operation_display",
+        "error_code_object",
+        "torque_feedback",
+        "velocity_feedback_unit",
+        "profile_velocity",
+        "profile_acceleration",
+        "profile_deceleration",
+        "home_offset",
+        "control_mode_select",
+        "modes_of_operation",
+        "target_position",
+        "profile_end_velocity",
+        "software_position_limit",
+        "software_position_limit_max",
+        "controlword",
+        "halt_option",
+        "position_demand",
+        "max_velocity",
+        "max_motor_speed",
+        "max_profile_acceleration",
+        "max_deceleration"
+      ],
+      "reason": "完整快照及新ACK已核对",
+      "expected_ack": false,
+      "ack_samples": [
+        false,
+        false
+      ]
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.753839+00:00",
+    "event": "manual_result",
+    "data": {
+      "node": 1,
+      "action": "go",
+      "success": true,
+      "message": "使能后新ACK 0→1→0已确认；人工目标执行中，请观察反馈",
+      "position": -1425,
+      "target": -1465
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.753924+00:00",
+    "event": "manual_stage_complete",
+    "data": {
+      "message": "使能后新ACK 0→1→0已确认；人工目标执行中，请观察反馈",
+      "values": {
+        "statusword": 1591,
+        "actual_position": -1425,
+        "actual_velocity": 0,
+        "modes_of_operation_display": 1,
+        "error_code_object": 0,
+        "torque_feedback": -2,
+        "velocity_feedback_unit": 0,
+        "profile_velocity": 1000,
+        "profile_acceleration": 5000000,
+        "profile_deceleration": 5000000,
+        "home_offset": 0,
+        "control_mode_select": 0,
+        "modes_of_operation": 1,
+        "target_position": -1465,
+        "profile_end_velocity": 0,
+        "software_position_limit": -2147483628,
+        "software_position_limit_max": 2147483627,
+        "controlword": 47,
+        "halt_option": 1,
+        "position_demand": -1465,
+        "max_velocity": 9000000,
+        "max_motor_speed": 4000,
+        "max_profile_acceleration": 2147483647,
+        "max_deceleration": 2147483647
+      }
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:45.468660+00:00",
+    "event": "FINAL",
+    "data": {
+      "completed": true,
+      "failure": null,
+      "output_error": null,
+      "hardware_motion_acceptance": true,
+      "mock_only": false,
+      "cleanup": [
+        {
+          "action": "stop",
+          "values": {
+            "statusword": 576,
+            "actual_position": -1456,
+            "actual_velocity": 0,
+            "modes_of_operation_display": 1,
+            "error_code_object": 0,
+            "torque_feedback": -2,
+            "velocity_feedback_unit": 0,
+            "profile_velocity": 1000,
+            "profile_acceleration": 5000000,
+            "profile_deceleration": 5000000,
+            "home_offset": 0,
+            "control_mode_select": 0,
+            "modes_of_operation": 1,
+            "target_position": -1465,
+            "profile_end_velocity": 0,
+            "software_position_limit": -2147483628,
+            "software_position_limit_max": 2147483627,
+            "controlword": 2,
+            "halt_option": 1,
+            "position_demand": -1465,
+            "max_velocity": 9000000,
+            "max_motor_speed": 4000,
+            "max_profile_acceleration": 2147483647,
+            "max_deceleration": 2147483647
+          }
+        },
+        {
+          "action": "disable",
+          "values": {
+            "statusword": 576,
+            "actual_position": -1456,
+            "actual_velocity": 0,
+            "modes_of_operation_display": 1,
+            "error_code_object": 0,
+            "torque_feedback": -3,
+            "velocity_feedback_unit": 0,
+            "profile_velocity": 1000,
+            "profile_acceleration": 5000000,
+            "profile_deceleration": 5000000,
+            "home_offset": 0,
+            "control_mode_select": 0,
+            "modes_of_operation": 1,
+            "target_position": -1465,
+            "profile_end_velocity": 0,
+            "software_position_limit": -2147483628,
+            "software_position_limit_max": 2147483627,
+            "controlword": 0,
+            "halt_option": 1,
+            "position_demand": -1465,
+            "max_velocity": 9000000,
+            "max_motor_speed": 4000,
+            "max_profile_acceleration": 2147483647,
+            "max_deceleration": 2147483647
+          }
+        }
+      ],
+      "close_results": [
+        {
+          "node": 1,
+          "disabled_confirmed": true
+        }
+      ],
+      "close_lines": [
+        "节点 1 已发失能 6040h=0x0006，6041h=0x0240，operation enabled=0，失能已确认",
+        "总线已关闭（失能确认流程之后）"
+      ],
+      "final_velocity_note": "606C实读在disable0完整快照中；close6后只再读6041并关闭总线",
+      "mechanical_stop_confirmed": false
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.800011+00:00",
+    "event": "动作后实读",
+    "data": {
+      "statusword": 1591,
+      "actual_position": -1427,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": -11,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 1000,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1465,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 47,
+      "halt_option": 1,
+      "position_demand": -1465,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.901643+00:00",
+    "event": "动作后实读",
+    "data": {
+      "statusword": 1591,
+      "actual_position": -1433,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": -24,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 1000,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1465,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 47,
+      "halt_option": 1,
+      "position_demand": -1465,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:41.006111+00:00",
+    "event": "动作后实读",
+    "data": {
+      "statusword": 1591,
+      "actual_position": -1439,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": -39,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 1000,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1465,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 47,
+      "halt_option": 1,
+      "position_demand": -1465,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:41.104144+00:00",
+    "event": "动作后实读",
+    "data": {
+      "statusword": 1591,
+      "actual_position": -1443,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": -46,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 1000,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1465,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 47,
+      "halt_option": 1,
+      "position_demand": -1465,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:41.208623+00:00",
+    "event": "动作后实读",
+    "data": {
+      "statusword": 1591,
+      "actual_position": -1448,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": -51,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 1000,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1465,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 47,
+      "halt_option": 1,
+      "position_demand": -1465,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:41.317763+00:00",
+    "event": "动作后实读",
+    "data": {
+      "statusword": 1591,
+      "actual_position": -1452,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": -55,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 1000,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1465,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 47,
+      "halt_option": 1,
+      "position_demand": -1465,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:41.426666+00:00",
+    "event": "动作后实读",
+    "data": {
+      "statusword": 1591,
+      "actual_position": -1456,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": -61,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 1000,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1465,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 47,
+      "halt_option": 1,
+      "position_demand": -1465,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:41.534044+00:00",
+    "event": "动作后实读",
+    "data": {
+      "statusword": 1591,
+      "actual_position": -1459,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": -62,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 1000,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1465,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 47,
+      "halt_option": 1,
+      "position_demand": -1465,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:44.672303+00:00",
+    "event": "动作后实读",
+    "data": {
+      "statusword": 1591,
+      "actual_position": -1466,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": -45,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 1000,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1465,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 47,
+      "halt_option": 1,
+      "position_demand": -1465,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:44.778194+00:00",
+    "event": "动作后实读",
+    "data": {
+      "statusword": 1591,
+      "actual_position": -1466,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": -45,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 1000,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1465,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 47,
+      "halt_option": 1,
+      "position_demand": -1465,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:44.883911+00:00",
+    "event": "动作后实读",
+    "data": {
+      "statusword": 1591,
+      "actual_position": -1466,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": -45,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 1000,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1465,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 47,
+      "halt_option": 1,
+      "position_demand": -1465,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:44.986788+00:00",
+    "event": "动作后实读",
+    "data": {
+      "statusword": 1591,
+      "actual_position": -1466,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": -45,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 1000,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1465,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 47,
+      "halt_option": 1,
+      "position_demand": -1465,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:45.092494+00:00",
+    "event": "动作后实读",
+    "data": {
+      "statusword": 1591,
+      "actual_position": -1466,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": -45,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 1000,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1465,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 47,
+      "halt_option": 1,
+      "position_demand": -1465,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:45.196272+00:00",
+    "event": "动作后实读",
+    "data": {
+      "statusword": 1591,
+      "actual_position": -1466,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": -44,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 1000,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1465,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 47,
+      "halt_option": 1,
+      "position_demand": -1465,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:45.302983+00:00",
+    "event": "动作后实读",
+    "data": {
+      "statusword": 1591,
+      "actual_position": -1465,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": -44,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 1000,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1465,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 47,
+      "halt_option": 1,
+      "position_demand": -1465,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:45.405742+00:00",
+    "event": "动作后实读",
+    "data": {
+      "statusword": 1591,
+      "actual_position": -1465,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": -45,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 1000,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1465,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 47,
+      "halt_option": 1,
+      "position_demand": -1465,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.800557+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:40.800137+00:00",
+      "raw_hex": "b4ecffff",
+      "width": 4,
+      "value": -4940
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.801017+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:40.800608+00:00",
+      "raw_hex": "0c000000",
+      "width": 4,
+      "value": 12
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.801447+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:40.801064+00:00",
+      "raw_hex": "6dfaffff",
+      "width": 4,
+      "value": -1427
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.801930+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:40.801488+00:00",
+      "raw_hex": "daffffff",
+      "width": 4,
+      "value": -38
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.902196+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:40.901769+00:00",
+      "raw_hex": "c0efffff",
+      "width": 4,
+      "value": -4160
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.902670+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:40.902263+00:00",
+      "raw_hex": "e6ffffff",
+      "width": 4,
+      "value": -26
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.903107+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:40.902720+00:00",
+      "raw_hex": "67faffff",
+      "width": 4,
+      "value": -1433
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:40.903539+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:40.903149+00:00",
+      "raw_hex": "e0ffffff",
+      "width": 4,
+      "value": -32
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:41.006632+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:41.006223+00:00",
+      "raw_hex": "ccf2ffff",
+      "width": 4,
+      "value": -3380
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:41.007166+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:41.006694+00:00",
+      "raw_hex": "d4ffffff",
+      "width": 4,
+      "value": -44
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:41.007655+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:41.007210+00:00",
+      "raw_hex": "61faffff",
+      "width": 4,
+      "value": -1439
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:41.008137+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:41.007696+00:00",
+      "raw_hex": "e6ffffff",
+      "width": 4,
+      "value": -26
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:41.104683+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:41.104254+00:00",
+      "raw_hex": "d4f4ffff",
+      "width": 4,
+      "value": -2860
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:41.105126+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:41.104735+00:00",
+      "raw_hex": "d7ffffff",
+      "width": 4,
+      "value": -41
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:41.105563+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:41.105171+00:00",
+      "raw_hex": "5cfaffff",
+      "width": 4,
+      "value": -1444
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:41.106013+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:41.105605+00:00",
+      "raw_hex": "ebffffff",
+      "width": 4,
+      "value": -21
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:45.303522+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:45.303106+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:45.304071+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:45.303575+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:45.304564+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:45.304116+00:00",
+      "raw_hex": "47faffff",
+      "width": 4,
+      "value": -1465
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:45.305014+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:45.304606+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:45.406302+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:45.405867+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:45.406854+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:45.406353+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:45.407352+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:45.406899+00:00",
+      "raw_hex": "47faffff",
+      "width": 4,
+      "value": -1465
+    }
+  },
+  {
+    "utc": "2026-10-19T07:08:45.407836+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T07:08:45.407395+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  }
+]

@@ -1,0 +1,23 @@
+{
+  "name": "model",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "device/drivers/pmp4010/tools",
+    "-p",
+    "_test_*.py"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T07:35:59.828525+00:00",
+  "duration_seconds": 39.833049003998894,
+  "returncode": 0,
+  "stdout": "model.stdout.log",
+  "stdout_sha256": "d679bcaa2403ab586cd198c6fd986d1e8fc013eb1ce14af05cebefc4519e3848",
+  "stderr": "model.stderr.log",
+  "stderr_sha256": "25be1f6ac2f5c3604e0a111625469d86cb3e725d977809f8e511741f13227657"
+}

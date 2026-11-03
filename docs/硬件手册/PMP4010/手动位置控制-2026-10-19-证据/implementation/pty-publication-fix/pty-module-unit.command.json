@@ -1,0 +1,21 @@
+{
+  "name": "pty-module-unit",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "device/drivers/pmp4010/tools",
+    "-p",
+    "_test_simple_pty.py"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T07:34:44.141918+00:00",
+  "stdout": "pty-module-unit.stdout.log",
+  "stderr": "pty-module-unit.stderr.log",
+  "rc": 0,
+  "finished_utc": "2026-10-19T07:34:55.374179+00:00"
+}

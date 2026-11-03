@@ -1,0 +1,59 @@
+{
+  "result": "D_FROZEN_NOT_EXECUTED",
+  "PTY_session": 28938,
+  "pending": {
+    "action": "disable",
+    "node": 1,
+    "target": -1470,
+    "start": -1470,
+    "token": "DISABLE can1 1 -1470",
+    "lines": [
+      "接口 can1  节点 1  动作 失能",
+      "目标 -1470 U = -4.037度 电机轴；相对当前位置 +0 U / +0.000度",
+      "单次位移上限 36 U (硬顶1度)；本次 0 U，剩余 36 U",
+      "写 6040h = 0x0000（uint16）"
+    ],
+    "writes": [
+      {
+        "key": "controlword",
+        "index": 24640,
+        "sub": 0,
+        "type": "uint16",
+        "value": 0,
+        "note": ""
+      }
+    ]
+  },
+  "row_values": {
+    "statusword": 561,
+    "actual_position": -1470,
+    "actual_velocity": 0,
+    "modes_of_operation_display": 1,
+    "error_code_object": 0,
+    "torque_feedback": 2,
+    "velocity_feedback_unit": 0,
+    "profile_velocity": 100,
+    "profile_acceleration": 5000000,
+    "profile_deceleration": 5000000,
+    "home_offset": 0,
+    "control_mode_select": 0,
+    "modes_of_operation": 1,
+    "target_position": -1469,
+    "profile_end_velocity": 0,
+    "software_position_limit": -2147483628,
+    "software_position_limit_max": 2147483627,
+    "controlword": 6,
+    "halt_option": 1,
+    "position_demand": 7800,
+    "max_velocity": 9000000,
+    "max_motor_speed": 4000,
+    "max_profile_acceleration": 2147483647,
+    "max_deceleration": 2147483647
+  },
+  "field_draft": "",
+  "downloads": 0,
+  "executions": 0,
+  "business_client_exceptions": 0,
+  "screen": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/D-frozen-before-token.screen.txt",
+  "audit": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-D-frozen-evidence/app-audit.jsonl"
+}

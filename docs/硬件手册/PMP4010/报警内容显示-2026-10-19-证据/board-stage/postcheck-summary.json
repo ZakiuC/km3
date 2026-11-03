@@ -1,0 +1,34 @@
+{
+  "result": "PASS",
+  "compared_keys": [
+    "hostname",
+    "model",
+    "boot_id",
+    "device_id",
+    "config_sha",
+    "can_env_sha",
+    "current",
+    "services",
+    "can_rcvlists",
+    "related_processes_excluding_snapshot_pid",
+    "can_link"
+  ],
+  "compared_count": 11,
+  "equal": {
+    "hostname": true,
+    "model": true,
+    "boot_id": true,
+    "device_id": true,
+    "config_sha": true,
+    "can_env_sha": true,
+    "current": true,
+    "services": true,
+    "can_rcvlists": true,
+    "related_processes_excluding_snapshot_pid": true,
+    "can_link": true
+  },
+  "before_utc": "2026-10-19T09:01:38.590129+00:00",
+  "after_utc": "2026-10-19T09:02:03.362370+00:00",
+  "stage_absent_before_present_after": true,
+  "driver_realtime_state": "unknown: no CAN/SDO reads performed"
+}

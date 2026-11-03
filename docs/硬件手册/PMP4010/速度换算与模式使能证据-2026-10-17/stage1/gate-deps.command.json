@@ -1,0 +1,16 @@
+{
+  "command": "bash tools/check-deps.sh",
+  "argv": [
+    "bash",
+    "-c",
+    "bash tools/check-deps.sh"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "env_overrides": {
+    "TMPDIR": "/tmp/km3-pmp4010-a-20261017-evidence/tmp"
+  },
+  "start_utc": "2026-10-17T07:25:21.846497+00:00",
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown"
+}

@@ -1,0 +1,12 @@
+{
+  "literal_command": "bash tools/check-docs.sh",
+  "argv": [
+    "bash",
+    "tools/check-docs.sh"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "start_utc": "2026-10-20T01:26:04.631677+00:00",
+  "end_utc": "2026-10-20T01:26:05.193387+00:00",
+  "elapsed_seconds": 0.5619195219915127,
+  "rc": 0
+}

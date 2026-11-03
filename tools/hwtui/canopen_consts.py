@@ -3,7 +3,7 @@
 #
 # 型号：pmp4010（驱动代号 pmp4010）
 # 来源：device/drivers/pmp4010/driver/od.json
-# 来源 sha256：61efa0185e09d467388c1aefa6cb81e4768e963eb38afde4da258a61143ed2ce
+# 来源 sha256：1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
 #
 # 板端工具（tools/hwtui/）用的常量。**不要在这里手改**：
 # 手改会在 `python3 tools/hwdriver/gen-od.py --model pmp4010 --check` 下失败，
@@ -32,7 +32,7 @@ OD_VERIFIED = False
 # 措辞与 device/drivers/<型号>/tools/<型号>.py 的 refuse_motion() 一致，
 # 运维脚本会 grep 那一行。
 OD_UNVERIFIED_COUNT = 7
-OD_ENTRY_COUNT = 94
+OD_ENTRY_COUNT = 97
 
 # 未核对索引的哨兵。用它而不是 0：0 是**合法**的对象字典索引，
 # 拿 0 当「未填」会让一条漏填的条目看起来像一条指向 0x0000 的真实条目。
@@ -136,6 +136,9 @@ DEVICE_NAME = 0x1008
 HARDWARE_VERSION = 0x1009
 SOFTWARE_VERSION = 0x100A
 SOFTWARE_POSITION_LIMIT_MAX = 0x607D
+VELOCITY_OFFSET = 0x60B1
+HALT_OPTION = 0x605D
+POSITION_DEMAND = 0x6062
 
 # 索引 -> 条目描述。板端工具用它把原始索引翻译成人能读的名字，
 # 并标注「这条是未核对的」——未核对却显示成已核对，比不显示更糟。
@@ -201,6 +204,9 @@ OD_BY_INDEX = {
     0x1009: ('hardware_version', '硬件版本号', 0, 'string', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
     0x100A: ('software_version', '软件版本号', 0, 'string', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
     0x607D: ('software_position_limit_max', '软件绝对位置最大限制', 2, 'int32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x60B1: ('velocity_offset', '速度偏置（周期同步用）', 0, 'int32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    0x605D: ('halt_option', '暂停方式选择', 0, 'int16', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:4.1.4 表4-7；10.3 表10-7'),
+    0x6062: ('position_demand', '内部当前生效目标位置指令', 0, 'int32', True, 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
 }
 
 # key -> (索引, 子索引, 中文名, 可用?)。
@@ -301,6 +307,9 @@ OD_BY_KEY = {
     'hardware_version': (0x1009, 0, '硬件版本号', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
     'software_version': (0x100A, 0, '软件版本号', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5'),
     'software_position_limit_max': (0x607D, 2, '软件绝对位置最大限制', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'velocity_offset': (0x60B1, 0, '速度偏置（周期同步用）', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
+    'halt_option': (0x605D, 0, '暂停方式选择', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:4.1.4 表4-7；10.3 表10-7'),
+    'position_demand': (0x6062, 0, '内部当前生效目标位置指令', 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7'),
 }
 
 

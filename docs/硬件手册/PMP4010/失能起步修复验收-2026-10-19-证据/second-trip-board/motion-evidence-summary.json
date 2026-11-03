@@ -1,0 +1,392 @@
+{
+  "result": "HARDWARE_MOTION_ACCEPTANCE_FAILED_SAFE_GUARD_STOP",
+  "raw_source": "after-q-final-app-audit.jsonl",
+  "raw_source_sha256": "61ff3a7fbabdb316461584e889ce01f7a56e9b310c35c19ca6c8d18f15ad358d",
+  "halt_enable_begin": {
+    "utc": "2026-10-19T03:08:33.612944+00:00",
+    "monotonic": 2120.354330095,
+    "client_id": 547961555888
+  },
+  "first_uploads_after_12F": {
+    "6041": {
+      "source_line": 19704,
+      "utc": "2026-10-19T03:08:33.712627+00:00",
+      "offset_ms": 99.6940039999572,
+      "raw_hex": "3706",
+      "signed": 1591
+    },
+    "6064": {
+      "source_line": 19706,
+      "utc": "2026-10-19T03:08:33.713414+00:00",
+      "offset_ms": 100.47042899986991,
+      "raw_hex": "4ffaffff",
+      "signed": -1457
+    },
+    "606C": {
+      "source_line": 19708,
+      "utc": "2026-10-19T03:08:33.714169+00:00",
+      "offset_ms": 101.22614700003396,
+      "raw_hex": "00000000",
+      "signed": 0
+    },
+    "607A": {
+      "source_line": 19730,
+      "utc": "2026-10-19T03:08:33.722397+00:00",
+      "offset_ms": 109.45328500019968,
+      "raw_hex": "42faffff",
+      "signed": -1470
+    },
+    "6062": {
+      "source_line": 19742,
+      "utc": "2026-10-19T03:08:33.726890+00:00",
+      "offset_ms": 113.9461709999523,
+      "raw_hex": "42faffff",
+      "signed": -1470
+    }
+  },
+  "first_trigger_displacement_users": 13,
+  "first_trigger_displacement_motor_degrees": "585/16384",
+  "first_trigger_not_cleanup_position": true,
+  "motion_observed_6064": {
+    "count": 81,
+    "min": -1470,
+    "max": -1457
+  },
+  "post12F_through_q_observed_6064": {
+    "count": 52,
+    "min": -1470,
+    "max": -1457,
+    "last": -1470,
+    "last_utc": "2026-10-19T03:08:59.917846+00:00"
+  },
+  "sampled_606C_in_motion": [
+    0
+  ],
+  "ack_0_1_0": [
+    {
+      "phase": "current_ack_initial_zero",
+      "utc": "2026-10-19T03:08:30.660290+00:00",
+      "statusword": 563,
+      "statusword_hex": "0x0233",
+      "ack_bit12": false,
+      "actual_position": -1470,
+      "position_demand": 7800
+    },
+    {
+      "phase": "current_setpoint_ack",
+      "utc": "2026-10-19T03:08:31.322274+00:00",
+      "statusword": 4659,
+      "statusword_hex": "0x1233",
+      "ack_bit12": true,
+      "actual_position": -1470,
+      "position_demand": -1470
+    },
+    {
+      "phase": "current_ack_return_zero",
+      "utc": "2026-10-19T03:08:31.656857+00:00",
+      "statusword": 563,
+      "statusword_hex": "0x0233",
+      "ack_bit12": false,
+      "actual_position": -1470,
+      "position_demand": -1470
+    }
+  ],
+  "stable_sample_groups": {
+    "起步稳定采样": {
+      "count": 5,
+      "samples": [
+        {
+          "utc": "2026-10-19T03:08:27.147974+00:00",
+          "phase": "起步稳定采样1/5",
+          "statusword": 608,
+          "actual_position": -1470,
+          "actual_velocity": 0,
+          "position_demand": 7800
+        },
+        {
+          "utc": "2026-10-19T03:08:27.483181+00:00",
+          "phase": "起步稳定采样2/5",
+          "statusword": 608,
+          "actual_position": -1470,
+          "actual_velocity": 0,
+          "position_demand": 7800
+        },
+        {
+          "utc": "2026-10-19T03:08:27.809176+00:00",
+          "phase": "起步稳定采样3/5",
+          "statusword": 608,
+          "actual_position": -1470,
+          "actual_velocity": 0,
+          "position_demand": 7800
+        },
+        {
+          "utc": "2026-10-19T03:08:28.141002+00:00",
+          "phase": "起步稳定采样4/5",
+          "statusword": 608,
+          "actual_position": -1470,
+          "actual_velocity": 0,
+          "position_demand": 7800
+        },
+        {
+          "utc": "2026-10-19T03:08:28.448820+00:00",
+          "phase": "起步稳定采样5/5",
+          "statusword": 608,
+          "actual_position": -1470,
+          "actual_velocity": 0,
+          "position_demand": 7800
+        }
+      ]
+    },
+    "Halt保持核证采样": {
+      "count": 5,
+      "samples": [
+        {
+          "utc": "2026-10-19T03:08:31.966325+00:00",
+          "phase": "Halt保持核证采样1/5",
+          "statusword": 563,
+          "actual_position": -1470,
+          "actual_velocity": 0,
+          "position_demand": -1470
+        },
+        {
+          "utc": "2026-10-19T03:08:32.309822+00:00",
+          "phase": "Halt保持核证采样2/5",
+          "statusword": 563,
+          "actual_position": -1470,
+          "actual_velocity": 0,
+          "position_demand": -1470
+        },
+        {
+          "utc": "2026-10-19T03:08:32.639021+00:00",
+          "phase": "Halt保持核证采样3/5",
+          "statusword": 563,
+          "actual_position": -1470,
+          "actual_velocity": 0,
+          "position_demand": -1470
+        },
+        {
+          "utc": "2026-10-19T03:08:32.968405+00:00",
+          "phase": "Halt保持核证采样4/5",
+          "statusword": 563,
+          "actual_position": -1470,
+          "actual_velocity": 0,
+          "position_demand": -1470
+        },
+        {
+          "utc": "2026-10-19T03:08:33.298184+00:00",
+          "phase": "Halt保持核证采样5/5",
+          "statusword": 563,
+          "actual_position": -1470,
+          "actual_velocity": 0,
+          "position_demand": -1470
+        }
+      ]
+    },
+    "Halt使能核证采样": {
+      "count": 0,
+      "samples": []
+    }
+  },
+  "stable_count_note": "5 initial strictdisabled + 5 pre-enable Halt hold completed; post-12F enable check rejected first position upload, so no post-enable 5-sample proof.",
+  "controls": [
+    {
+      "utc": "2026-10-19T03:08:29.989298+00:00",
+      "monotonic": 2116.730669252,
+      "value": 262,
+      "hex": "0x0106",
+      "client_id": 547961555888
+    },
+    {
+      "utc": "2026-10-19T03:08:30.216269+00:00",
+      "monotonic": 2116.957640214,
+      "value": 263,
+      "hex": "0x0107",
+      "client_id": 547961555888
+    },
+    {
+      "utc": "2026-10-19T03:08:30.437392+00:00",
+      "monotonic": 2117.178762606,
+      "value": 295,
+      "hex": "0x0127",
+      "client_id": 547961555888
+    },
+    {
+      "utc": "2026-10-19T03:08:31.092365+00:00",
+      "monotonic": 2117.833751269,
+      "value": 311,
+      "hex": "0x0137",
+      "client_id": 547961555888
+    },
+    {
+      "utc": "2026-10-19T03:08:31.433279+00:00",
+      "monotonic": 2118.174650902,
+      "value": 295,
+      "hex": "0x0127",
+      "client_id": 547961555888
+    },
+    {
+      "utc": "2026-10-19T03:08:33.613603+00:00",
+      "monotonic": 2120.354990144,
+      "value": 303,
+      "hex": "0x012F",
+      "client_id": 547961555888
+    },
+    {
+      "utc": "2026-10-19T03:08:33.735153+00:00",
+      "monotonic": 2120.476539863,
+      "value": 2,
+      "hex": "0x0002",
+      "client_id": 547961555888
+    },
+    {
+      "utc": "2026-10-19T03:08:33.737442+00:00",
+      "monotonic": 2120.47882889,
+      "value": 0,
+      "hex": "0x0000",
+      "client_id": 547961555888
+    },
+    {
+      "utc": "2026-10-19T03:09:00.157549+00:00",
+      "monotonic": 2146.898936565,
+      "value": 6,
+      "hex": "0x0006",
+      "client_id": 547961555888
+    }
+  ],
+  "target_writes": [
+    {
+      "utc": "2026-10-19T03:08:28.574975+00:00",
+      "value": -1470,
+      "client_id": 547961555888
+    }
+  ],
+  "motion_controlwords": [
+    "0x0106",
+    "0x0107",
+    "0x0127",
+    "0x0137",
+    "0x0127",
+    "0x012F",
+    "0x0002",
+    "0x0000"
+  ],
+  "q_controlword": "0x0006",
+  "elapsed_seconds": {
+    "begin_to_result": 6.919384819999777,
+    "begin_to_bench_result": 6.92339528399998,
+    "halt_enable_to_exception": 0.12044108100008089,
+    "exception_to_first_quick_stop": 0.0011602629997469194
+  },
+  "exception": {
+    "utc": "2026-10-19T03:08:33.733385+00:00",
+    "monotonic": 2120.474771176,
+    "event": "job_event",
+    "name": "exception",
+    "data": {
+      "type": "ValueError",
+      "message": "严格失能起步位置漂移；拒绝继续",
+      "quarantined": false
+    }
+  },
+  "cleanup": {
+    "utc": "2026-10-19T03:08:33.820114+00:00",
+    "monotonic": 2120.561499277,
+    "event": "job_event",
+    "name": "after_cleanup",
+    "data": {
+      "statusword": 576,
+      "actual_position": -1467,
+      "actual_velocity": 0,
+      "disabled_confirmed": true,
+      "position_unchanged": false,
+      "position_target_confirmed": false,
+      "zero_velocity_confirmed": true
+    }
+  },
+  "motion_result": {
+    "utc": "2026-10-19T03:08:33.820706+00:00",
+    "monotonic": 2120.562092534,
+    "event": "job_event",
+    "name": "result",
+    "data": {
+      "action": "relative",
+      "strict_disabled_start": true,
+      "completed": false,
+      "disabled_confirmed": true,
+      "position_unchanged": false,
+      "position_target_confirmed": false,
+      "zero_velocity_confirmed": true,
+      "cleanup_confirmed": true,
+      "no_fault_following_error_confirmed": true,
+      "mechanical_stop_confirmed": false,
+      "halt_released": false,
+      "operation_enable_requested": true,
+      "halt_release_attempted": false,
+      "operation_enable_attempted": true,
+      "travel_trigger_attempted": false,
+      "completed_motion": false,
+      "operation_enabled_observed": true,
+      "travel_executed": false,
+      "travel_executed_semantics": "legacy protocol trigger attempt, not physical displacement evidence",
+      "independent_estop_required": true
+    }
+  },
+  "bench_result": {
+    "utc": "2026-10-19T03:08:33.824716+00:00",
+    "monotonic": 2120.566102998,
+    "event": "job_event",
+    "name": "bench_result",
+    "data": {
+      "node": 1,
+      "success": false,
+      "readback": null,
+      "disabled_confirmed": true,
+      "mechanical_stop_confirmed": false,
+      "state_unknown": true,
+      "action": "relative",
+      "strict_disabled_start": true,
+      "position_unchanged": false,
+      "position_target_confirmed": false,
+      "zero_velocity_confirmed": true,
+      "operation_enable_requested": true,
+      "operation_enable_attempted": true,
+      "travel_trigger_attempted": false,
+      "completed_motion": false,
+      "operation_enabled_observed": true
+    }
+  },
+  "q_readback_line": {
+    "utc": "2026-10-19T03:09:00.160665+00:00",
+    "monotonic": 2146.902051018,
+    "event": "job_line",
+    "level": "info",
+    "text": "节点 1 已发失能 6040h=0x0006，6041h=0x0231，operation enabled=0，失能已确认"
+  },
+  "board_app_exit": {
+    "utc": "2026-10-19T03:09:00.326962+00:00",
+    "monotonic": 2147.068339982,
+    "event": "board_app_exit",
+    "rc": 0
+  },
+  "motion_client_ids": [
+    547961555888
+  ],
+  "execute_call_count": 1,
+  "begin_count": 1,
+  "result_count": 1,
+  "download_begin": 14,
+  "download_done": 14,
+  "sdo_exceptions": [],
+  "quarantine_observed": false,
+  "retry_or_new_action": false,
+  "retry_scope": "Exactly one UI execute and one motion begin/result; every observer delegates the original SDO method once. This does not measure CAN frame-level retransmission.",
+  "CAN_closed_confirmed": true,
+  "postcheck_passive_changed_keys": [],
+  "postcheck_related_runners": [],
+  "remaining_limits": [
+    "Observed encoder position discrepancy after Halt enable does not establish physical root cause or mechanical stop/brake behavior.",
+    "No final target -1434 was written; no Halt release or final trigger attempted; requested move did not complete.",
+    "Previous interrupted boot session completion remains unknown."
+  ],
+  "cleanup_status": "Original q completed rc0; no runner/CAN receiver remains; isolated b2 remote package and logs intentionally retained; no source/config/services/current changed."
+}

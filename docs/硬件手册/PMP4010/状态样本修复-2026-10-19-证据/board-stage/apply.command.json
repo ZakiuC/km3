@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "python3",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/board-stage/stage_state.py",
+    "--archive",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/package/pmp4010-manual-board-payload.tar.gz",
+    "--sha256",
+    "43b0b2355c3be3882ea4fceeada801dd9a4b9d2909e878ede80bf5be2fb1da08",
+    "--stage",
+    "/var/tmp/km3-pmp4010-state-20261019-43b0b2355c3b",
+    "--apply"
+  ],
+  "rc": 0,
+  "actual_remote_labels": [
+    "stage",
+    "pureload",
+    "launcher-syntax"
+  ],
+  "original_per_remote_commands_retained": true
+}

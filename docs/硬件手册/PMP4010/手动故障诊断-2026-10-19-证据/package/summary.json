@@ -1,0 +1,28 @@
+{
+  "stage": "manual_fault_diagnostics_2026_10_19",
+  "python_test_counts": {
+    "model": 412,
+    "hwtui": 217,
+    "tools-tests": 8
+  },
+  "archive": "/home/zakiu/km3/docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/package/pmp4010-manual-board-payload.tar.gz",
+  "archive_bytes": 220380,
+  "archive_sha256": "0218ab4207ebf09948feb995ec360cbe6d22fb3dc94a0062cafc5b3dd4397761",
+  "manifest": "/home/zakiu/km3/docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/package/payload/payload-manifest.json",
+  "manifest_sha256": "a41b88269819e718e1486876be8d99502a773a401ef084343b57d597fb818b71",
+  "archive_members": 24,
+  "regular_files": 22,
+  "symlinks": 2,
+  "imports": 18,
+  "native_vectors": 33,
+  "python_vectors": 33,
+  "int32_vectors": 14,
+  "forbidden_io_attempts": 0,
+  "tamper_refused_before_import": true,
+  "arm_library_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+  "arm_library_build": "reused previous artifact after matching SHA256",
+  "arm_execution": false,
+  "hardware_acceptance": false,
+  "board_pureload": "pending",
+  "launcher": "/home/zakiu/km3/docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/package/payload/run-manual.sh"
+}

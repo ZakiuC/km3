@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u5931\u80fd\u8d77\u6b65\u4fee\u590d\u9a8c\u6536-2026-10-19-\u8bc1\u636e/post-power-board/verify_move_pty.py"
+  ],
+  "utc_start": "2026-10-19T02:15:58.044181+00:00",
+  "utc_end": "2026-10-19T02:15:58.123153+00:00",
+  "rc": 1
+}

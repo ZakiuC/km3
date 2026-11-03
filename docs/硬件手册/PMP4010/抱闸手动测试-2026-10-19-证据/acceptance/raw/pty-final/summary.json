@@ -1,0 +1,38 @@
+{
+  "rc": 0,
+  "passed": true,
+  "controls": [
+    262,
+    263,
+    295,
+    311,
+    295,
+    303,
+    0,
+    262,
+    263,
+    295,
+    311,
+    295,
+    303,
+    6
+  ],
+  "screens": [
+    "startup-rt",
+    "authorization",
+    "main",
+    "invalid-motion-keys-noop",
+    "hold-review-1",
+    "held-1",
+    "disabled-immediately",
+    "hold-review-e",
+    "held-e"
+  ],
+  "size": [
+    24,
+    80
+  ],
+  "transport": "MockBus",
+  "socket_subprocess_audit_block": true,
+  "termios_restored": true
+}

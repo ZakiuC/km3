@@ -1,0 +1,11 @@
+--- docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/board-stage/snapshot.py
++++ /home/zakiu/km3/docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/board-stage/snapshot.py
+@@ -4,7 +4,7 @@
+ B=Path(__file__).resolve().parent
+ label=sys.argv[1]
+ assert label in ('before-passive','after-passive')
+-stage='/var/tmp/km3-pmp4010-state-20261019-43b0b2355c3b'
++stage='/var/tmp/km3-pmp4010-trigger-20261019-c20f27992759'
+ source=B/'passive.remote.py'
+ raw=source.read_bytes()
+ argv=['ssh','-o','BatchMode=yes','-o','StrictHostKeyChecking=yes','-o','ConnectionAttempts=1','-o','ConnectTimeout=5','root@192.168.0.188',shlex.join(['python3','-I','-B','-',stage])]

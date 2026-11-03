@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-live/execute_staged_once.py",
+    "--frozen-input",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-live/frozen-input.json",
+    "--runner-sha256",
+    "7fa11d2bee89e3242cf052e1cf315d49ffe6e745a82134b2d9417293bafb54ec",
+    "--frozen-sha256",
+    "a1b2c28d919ec8f893df74b5218cd4ba78eb36fec75bb2b20cb784437873b8f0",
+    "--parent-authorized-staged-once"
+  ],
+  "hardware_execution_authorized_here": false
+}

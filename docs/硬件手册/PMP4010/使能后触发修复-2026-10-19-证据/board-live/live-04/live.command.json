@@ -1,0 +1,37 @@
+{
+  "argv": [
+    "ssh",
+    "-T",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B /var/tmp/km3-pmp4010-accept-20261019-be54b9c0/controlled-forward.runner.py --mode live --payload /var/tmp/km3-pmp4010-trigger-20261019-c20f27992759/payload --output /var/tmp/km3-pmp4010-accept-20261019-be54b9c0/run-01 --rt-reason '沿用用户已确认到场接线急停的小角度现场授权；保留RT进程，接受本次同client测试的RT占用风险' --od-reason '沿用用户已确认的小角度现场及1度硬顶许可；仅本次PP1正向量化0.8度、100U/s；接受原OD未核对项及独立停机责任'"
+  ],
+  "remote_argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/var/tmp/km3-pmp4010-accept-20261019-be54b9c0/controlled-forward.runner.py",
+    "--mode",
+    "live",
+    "--payload",
+    "/var/tmp/km3-pmp4010-trigger-20261019-c20f27992759/payload",
+    "--output",
+    "/var/tmp/km3-pmp4010-accept-20261019-be54b9c0/run-01",
+    "--rt-reason",
+    "沿用用户已确认到场接线急停的小角度现场授权；保留RT进程，接受本次同client测试的RT占用风险",
+    "--od-reason",
+    "沿用用户已确认的小角度现场及1度硬顶许可；仅本次PP1正向量化0.8度、100U/s；接受原OD未核对项及独立停机责任"
+  ],
+  "started_utc": "2026-10-19T06:50:55.989677+00:00",
+  "stage_authorization": "upload and CAN upload-only scan/review; no EXECUTE authorized",
+  "status": "finished",
+  "rc": 1,
+  "finished_utc": "2026-10-19T06:51:41.229704+00:00"
+}

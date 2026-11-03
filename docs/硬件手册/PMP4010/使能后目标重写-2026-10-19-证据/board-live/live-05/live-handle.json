@@ -1,0 +1,8 @@
+{
+  "session_id": 7114,
+  "status": "running-awaiting-root-execute",
+  "review_utc": "2026-10-19T06:59:38.754647+00:00",
+  "approval_deadline_utc": "2026-10-19T07:04:38.754647+00:00",
+  "digest": "ec6c43497f8e4d081cc176f6dc7eb51c60613fb6c0a135e975b10bc146d4622d",
+  "read_phase_control_writes": 0
+}

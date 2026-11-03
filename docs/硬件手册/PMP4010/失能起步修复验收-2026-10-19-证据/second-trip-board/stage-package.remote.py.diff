@@ -1,0 +1,17 @@
+--- post-power-board/stage-package.remote.py
++++ second-trip-board/stage-package.remote.py
+@@ -1,4 +1,4 @@
+-"""Stage the approved historical archive into a new /tmp; do not execute payload."""
++"""Stage the approved historical archive into a new isolated /var/tmp; do not execute payload."""
+ import hashlib,io,json,os,pathlib,posixpath,sys,tarfile,tempfile
+ raw=sys.stdin.buffer.read()
+ sha=hashlib.sha256(raw).hexdigest()
+@@ -25,7 +25,7 @@
+  else:
+   data=t.extractfile(member).read()
+   assert member.isfile() and len(data)==item['size'] and hashlib.sha256(data).hexdigest()==item['sha256']
+-base=pathlib.Path('/tmp/km3-pp-disabled-start-stage3-recovery-20261019-0213');base.mkdir(mode=0o700,exist_ok=False)
++base=pathlib.Path('/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2');base.mkdir(mode=0o700,exist_ok=False)
+ (base/'frozen-payload.tar.gz').write_bytes(raw)
+ root=base/'payload';root.mkdir()
+ for member in members:

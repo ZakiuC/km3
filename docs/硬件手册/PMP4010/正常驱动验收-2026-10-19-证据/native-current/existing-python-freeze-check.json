@@ -1,0 +1,241 @@
+{
+  "reference": "/home/zakiu/km3/docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/local-acceptance/freeze-source-sha256.json",
+  "all_match": true,
+  "scope": "hash equality only; does not claim rerunning375/217/8 or seven gates",
+  "files": [
+    {
+      "path": "device/drivers/pmp4010/driver/od.json",
+      "expected_sha256": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e",
+      "current_sha256": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tests/velocity_vectors.json",
+      "expected_sha256": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644",
+      "current_sha256": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_bench.py",
+      "expected_sha256": "ebfeef5fbf1bc066aab4bd3e4c85ab989b35bf146c59a6c084c31a17dde4d95c",
+      "current_sha256": "ebfeef5fbf1bc066aab4bd3e4c85ab989b35bf146c59a6c084c31a17dde4d95c",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_bench_support.py",
+      "expected_sha256": "61185ab79743fa328380d8230c81ce3c643bf4a89348c954b90104ba125343e4",
+      "current_sha256": "61185ab79743fa328380d8230c81ce3c643bf4a89348c954b90104ba125343e4",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_disabled_move.py",
+      "expected_sha256": "35259dbb1c6c59bb43f61b1cec177cee1a876f3ccbd4560a39cac5bb358c4501",
+      "current_sha256": "35259dbb1c6c59bb43f61b1cec177cee1a876f3ccbd4560a39cac5bb358c4501",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_disabled_start.py",
+      "expected_sha256": "62535ecabb73964badca5ce164f302044e849523f4a97d0fe426598c47b77247",
+      "current_sha256": "62535ecabb73964badca5ce164f302044e849523f4a97d0fe426598c47b77247",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_manual.py",
+      "expected_sha256": "2608c8187da15076a9bf36a82f388be0c2977a30107db98d2529f136e3bebf1c",
+      "current_sha256": "2608c8187da15076a9bf36a82f388be0c2977a30107db98d2529f136e3bebf1c",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_manual_pty.py",
+      "expected_sha256": "3792d9c59ed7dc1f66ce06cf9810bf84c0c8965b14b38224572052398cd6812f",
+      "current_sha256": "3792d9c59ed7dc1f66ce06cf9810bf84c0c8965b14b38224572052398cd6812f",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_params.py",
+      "expected_sha256": "3e6634829f6ce6a833bc1eb6714112042ff1b3f2f47c17b96cdfe00e8a2d9b06",
+      "current_sha256": "3e6634829f6ce6a833bc1eb6714112042ff1b3f2f47c17b96cdfe00e8a2d9b06",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_pmp4010.py",
+      "expected_sha256": "04e9c610c4c6256895581d7a5c12d721a496fbeb1d3a213d886294872d4f1c80",
+      "current_sha256": "04e9c610c4c6256895581d7a5c12d721a496fbeb1d3a213d886294872d4f1c80",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_position.py",
+      "expected_sha256": "59d3446890afee4f45e6c9c1690a8e428dde9d233507a13f7f1b14d13ca4bcff",
+      "current_sha256": "59d3446890afee4f45e6c9c1690a8e428dde9d233507a13f7f1b14d13ca4bcff",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_prepare.py",
+      "expected_sha256": "ae8b15c2abf564275b48b81be22016ce0356e896d27405fe07f50464881edbee",
+      "current_sha256": "ae8b15c2abf564275b48b81be22016ce0356e896d27405fe07f50464881edbee",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_simple.py",
+      "expected_sha256": "6480477172c761c6f54762fd688dbced19d3adff0c91b8ffb4c612200a20ebcb",
+      "current_sha256": "6480477172c761c6f54762fd688dbced19d3adff0c91b8ffb4c612200a20ebcb",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_simple_pty.py",
+      "expected_sha256": "2f3a46306a5164cef043dd225c2be2fc08b68487ef1f82cf2ee11834e9b8bb98",
+      "current_sha256": "2f3a46306a5164cef043dd225c2be2fc08b68487ef1f82cf2ee11834e9b8bb98",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_tui.py",
+      "expected_sha256": "384153bb1aa3aace68aa8d442eeebba62f2df115a1076684dbaef3591cc52ce3",
+      "current_sha256": "384153bb1aa3aace68aa8d442eeebba62f2df115a1076684dbaef3591cc52ce3",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_tui_chinese_help.py",
+      "expected_sha256": "c9414f33269ed856fad6d6834668b56ed13351bbf9c96220f9d2ba7c3b01e671",
+      "current_sha256": "c9414f33269ed856fad6d6834668b56ed13351bbf9c96220f9d2ba7c3b01e671",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_velocity.py",
+      "expected_sha256": "a38970a55ecdf7387abecaa0d217bdc474839c3ef941c999e9fa84fecbed5b51",
+      "current_sha256": "a38970a55ecdf7387abecaa0d217bdc474839c3ef941c999e9fa84fecbed5b51",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_velocity_enable.py",
+      "expected_sha256": "47f349de3e5420f26f4bedc4f2a7de650afbba29bc55883d02f1f5e9b0ee6db8",
+      "current_sha256": "47f349de3e5420f26f4bedc4f2a7de650afbba29bc55883d02f1f5e9b0ee6db8",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010.py",
+      "expected_sha256": "b3c6743f929284ce98ff052e92515f4515d28fde4035841a4bf9f74b24036e27",
+      "current_sha256": "b3c6743f929284ce98ff052e92515f4515d28fde4035841a4bf9f74b24036e27",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_bench.py",
+      "expected_sha256": "80063d5448d1a5c42a0a241d29882d5e1485c010bad3128dd7c9bf338c10e73a",
+      "current_sha256": "80063d5448d1a5c42a0a241d29882d5e1485c010bad3128dd7c9bf338c10e73a",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_manual.py",
+      "expected_sha256": "bee76eaeed270e6d66d1b2d4791e6c5778305b246136ec4e90cd9788bf8642b9",
+      "current_sha256": "bee76eaeed270e6d66d1b2d4791e6c5778305b246136ec4e90cd9788bf8642b9",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_params.py",
+      "expected_sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec",
+      "current_sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_position.py",
+      "expected_sha256": "fe8299deb3fe52dc3f8d2cfd91383129274579e93b4a0a1ac9ffd09eab2b7668",
+      "current_sha256": "fe8299deb3fe52dc3f8d2cfd91383129274579e93b4a0a1ac9ffd09eab2b7668",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_simple.py",
+      "expected_sha256": "59c9a134b3ee080e73c99a46e2d835c06136132cb7a89bcea3272bdf63bba3a1",
+      "current_sha256": "59c9a134b3ee080e73c99a46e2d835c06136132cb7a89bcea3272bdf63bba3a1",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_tui.py",
+      "expected_sha256": "9d1e64e20e764471c84f76f6f6937941c28480e3a40b90e8203e7db5fa1190d1",
+      "current_sha256": "9d1e64e20e764471c84f76f6f6937941c28480e3a40b90e8203e7db5fa1190d1",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_velocity.py",
+      "expected_sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96",
+      "current_sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96",
+      "match": true
+    },
+    {
+      "path": "tools/hwtui/canbus.py",
+      "expected_sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300",
+      "current_sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300",
+      "match": true
+    },
+    {
+      "path": "tools/hwtui/canopen.py",
+      "expected_sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf",
+      "current_sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf",
+      "match": true
+    },
+    {
+      "path": "tools/hwtui/canopen_consts.py",
+      "expected_sha256": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c",
+      "current_sha256": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c",
+      "match": true
+    },
+    {
+      "path": "tools/hwtui/canopen_wire.py",
+      "expected_sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885",
+      "current_sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885",
+      "match": true
+    },
+    {
+      "path": "tools/hwtui/discover.py",
+      "expected_sha256": "1a2efb5efd8a6b7c96eec36dd926605cf2097e6bdcabb3865fc2c99415708ad3",
+      "current_sha256": "1a2efb5efd8a6b7c96eec36dd926605cf2097e6bdcabb3865fc2c99415708ad3",
+      "match": true
+    },
+    {
+      "path": "tools/hwtui/mockbus.py",
+      "expected_sha256": "8fe9da8ea4e4d6f37e65820d54256432bc2ddc01649997e217c51428d284e044",
+      "current_sha256": "8fe9da8ea4e4d6f37e65820d54256432bc2ddc01649997e217c51428d284e044",
+      "match": true
+    },
+    {
+      "path": "tools/hwtui/test_canopen.py",
+      "expected_sha256": "1c0e7a54b2c62ebefcf2d3ead8a74502f19b87113e5fb5c193086523a2bf231e",
+      "current_sha256": "1c0e7a54b2c62ebefcf2d3ead8a74502f19b87113e5fb5c193086523a2bf231e",
+      "match": true
+    },
+    {
+      "path": "tools/hwtui/test_form.py",
+      "expected_sha256": "3493c97cea9f67ad84626412555c6b7bc364dd3eeeca0eed880daeac9a3e99b4",
+      "current_sha256": "3493c97cea9f67ad84626412555c6b7bc364dd3eeeca0eed880daeac9a3e99b4",
+      "match": true
+    },
+    {
+      "path": "tools/hwtui/test_tui.py",
+      "expected_sha256": "96f006b04838da0ed89245418809fbf18b682a98da20ec0c31fd42f6843ecb9f",
+      "current_sha256": "96f006b04838da0ed89245418809fbf18b682a98da20ec0c31fd42f6843ecb9f",
+      "match": true
+    },
+    {
+      "path": "tools/hwtui/test_tui_unicode.py",
+      "expected_sha256": "adf6d58647699b3283428405f7eda2af548d697fb4c512f27e47e02940e8d81f",
+      "current_sha256": "adf6d58647699b3283428405f7eda2af548d697fb4c512f27e47e02940e8d81f",
+      "match": true
+    },
+    {
+      "path": "tools/hwtui/tui.py",
+      "expected_sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb",
+      "current_sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb",
+      "match": true
+    },
+    {
+      "path": "tools/hwtui/verify_pmp4010_bench_pty.py",
+      "expected_sha256": "7a954f02077e0295aeae8c7ff2a36510d4fc39e4575657a8f204a12a90952428",
+      "current_sha256": "7a954f02077e0295aeae8c7ff2a36510d4fc39e4575657a8f204a12a90952428",
+      "match": true
+    },
+    {
+      "path": "tools/hwtui/verify_pmp4010_pty.py",
+      "expected_sha256": "99c9c0a376bd98656823a8e2ec492fe3eef2dc025b44de2ceb272e4ae568b442",
+      "current_sha256": "99c9c0a376bd98656823a8e2ec492fe3eef2dc025b44de2ceb272e4ae568b442",
+      "match": true
+    }
+  ]
+}

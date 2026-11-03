@@ -1,0 +1,8 @@
+test_enabled_edge_moving_handshake_all_protected_guards_cleanup (_test_manual.ManualTests) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 1.032s
+
+OK
+ENABLED EDGE moving phase: mode/CW/607A/6062/calibration/profile/607C/607D/fault/envelope changes stop2/disable0 before final release
+GC_DURATION {'generation': 2, 'collected': 38349, 'uncollectable': 0} elapsed_s= 0.006991893998929299

@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tools/hwtui",
+    "-p",
+    "test_*.py"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-17T07:56:12.572136+00:00"
+}

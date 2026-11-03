@@ -1,0 +1,11 @@
+{
+  "name": "16-citations-after-comment-fix",
+  "argv": [
+    "bash",
+    "tools/check-manual-citations.sh"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 0.07289046607911587,
+  "stdout": "/tmp/km3-csv-guard-final-20261017/16-citations-after-comment-fix.stdout.log",
+  "stderr": "/tmp/km3-csv-guard-final-20261017/16-citations-after-comment-fix.stderr.log"
+}

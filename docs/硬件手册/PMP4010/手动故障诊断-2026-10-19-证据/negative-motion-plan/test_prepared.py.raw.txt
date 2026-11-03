@@ -1,0 +1,18 @@
+test_default_plans_open_no_bus (__main__.PreparedTests) ... ok
+test_existing_2312_refuses_negative_motion_before_all_writes (__main__.PreparedTests) ... ok
+test_motion_background_quarantine_adds_no_cleanup_or_exit_sends (__main__.PreparedTests) ... ok
+test_motion_observation_timeout_original_cleanup_once_no_second_target (__main__.PreparedTests) ... ok
+test_one_healthy_negative_target_uses_original_sequence_and_exit (__main__.PreparedTests) ... ok
+test_reset_configuration_alias_drift_refuses_before_SDO (__main__.PreparedTests) ... ok
+test_reset_exact_eight_transactions_does_not_authorize_motion (__main__.PreparedTests) ... ok
+test_reset_lost_80_ack_no_later_zero_read_or_cleanup (__main__.PreparedTests) ... ok
+test_reset_mismatched_preconditions_zero_writes (__main__.PreparedTests) ... ok
+test_reset_missing_reason_and_OD_refusal_add_zero_sends (__main__.PreparedTests) ... ok
+test_reset_post_code_timeout_forbids_post_status (__main__.PreparedTests) ... ok
+test_reset_wire_guard_rejects_unplanned_write_before_transport (__main__.PreparedTests) ... ok
+test_speed_limit_refuses_before_any_motion_write (__main__.PreparedTests) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.224s
+
+OK

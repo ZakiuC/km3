@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pp-disabled-start-package-20261019/prepare.py"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

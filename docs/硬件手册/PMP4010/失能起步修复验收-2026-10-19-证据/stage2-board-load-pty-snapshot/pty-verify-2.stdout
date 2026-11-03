@@ -1,0 +1,1 @@
+{"result": "PASS", "scenarios": 3, "probe_outcomes": [true, false, false], "controlword_bit3_always0": true, "reviews_per_scenario": 2}

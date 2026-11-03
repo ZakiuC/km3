@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "bash",
+    "tools/check-docs.sh"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T07:41:46.332110+00:00",
+  "returncode": 0,
+  "reason": "Two documentation wording clarifications only; no source hashes or other tests rerun",
+  "stdout": "docs/硬件手册/PMP4010/手动位置控制-2026-10-19-证据/local-acceptance/final-check-docs-after-clarification.stdout.log",
+  "stderr": "docs/硬件手册/PMP4010/手动位置控制-2026-10-19-证据/local-acceptance/final-check-docs-after-clarification.stderr.log"
+}

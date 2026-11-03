@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=8",
+    "root@192.168.0.188",
+    "python3 -I -B -c 'import hashlib,pathlib,sys; data=sys.stdin.buffer.read(); assert hashlib.sha256(data).hexdigest()=='\"'\"'9c16dc48706ec16a62841c2e59080bf4f18c7198a80baef0a4e72e6f2a17072e'\"'\"'; p=pathlib.Path('\"'\"'/tmp/km3-pp-disabled-start-stage2-20261019-e0fhd4gp/board_app.py'\"'\"'); p.open('\"'\"'xb'\"'\"').write(data); print(hashlib.sha256(p.read_bytes()).hexdigest())'"
+  ],
+  "stdin_sha256": "9c16dc48706ec16a62841c2e59080bf4f18c7198a80baef0a4e72e6f2a17072e",
+  "stdin_bytes": 11041,
+  "utc_start": "2026-10-19T01:26:37.102067+00:00",
+  "utc_end": "2026-10-19T01:26:37.364166+00:00",
+  "rc": 0
+}

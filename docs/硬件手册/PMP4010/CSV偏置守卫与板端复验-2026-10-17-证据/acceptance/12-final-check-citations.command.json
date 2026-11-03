@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "bash",
+    "tools/check-manual-citations.sh"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-17T07:57:01.785055+00:00"
+}

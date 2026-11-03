@@ -1,0 +1,10 @@
+{
+  "cwd": "/home/zakiu/km3",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-analysis/analyze_motion.py"
+  ],
+  "rc": 0
+}

@@ -1,0 +1,209 @@
+[
+  {
+    "name": "source-head",
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0,
+    "expected_returncode": 0,
+    "stdout": "source-head.stdout.log",
+    "stdout_sha256": "03e291363c563239e3289c85e1fad057dc4a0ac06550de33e2eacc66d68c3fff",
+    "stderr": "source-head.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "host-load-smoke",
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/package/payload/load_smoke.py",
+      "--library",
+      "/home/zakiu/km3/build-host/libpmp4010_velocity.so",
+      "--check-missing-library"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0,
+    "expected_returncode": 0,
+    "stdout": "host-load-smoke.stdout.log",
+    "stdout_sha256": "369d58cb6a5049a954647ba338b2a5ea7fc929f87967a5f2fdf5920982091760",
+    "stderr": "host-load-smoke.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "launcher-shell-syntax",
+    "argv": [
+      "sh",
+      "-n",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/package/payload/run-manual.sh"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0,
+    "expected_returncode": 0,
+    "stdout": "launcher-shell-syntax.stdout.log",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "launcher-shell-syntax.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "launcher-help",
+    "argv": [
+      "sh",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/package/payload/run-manual.sh",
+      "--help"
+    ],
+    "cwd": "/",
+    "returncode": 0,
+    "expected_returncode": 0,
+    "stdout": "launcher-help.stdout.log",
+    "stdout_sha256": "1a964bc70f786dc295bb789c3be827f09840f03d63485b8d7a94036ebe2b6f21",
+    "stderr": "launcher-help.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "launcher-no-tty-refused",
+    "argv": [
+      "sh",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/package/payload/run-manual.sh"
+    ],
+    "cwd": "/",
+    "returncode": 2,
+    "expected_returncode": 2,
+    "stdout": "launcher-no-tty-refused.stdout.log",
+    "stdout_sha256": "b47cd40e453d51ac059dcf3b6639b81ef6b051e71afefb4b4e91ad8c07a4f6a9",
+    "stderr": "launcher-no-tty-refused.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "launcher-rt-argument-refused",
+    "argv": [
+      "sh",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/package/payload/run-manual.sh",
+      "--i-know-rt-is-running"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 2,
+    "expected_returncode": 2,
+    "stdout": "launcher-rt-argument-refused.stdout.log",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "launcher-rt-argument-refused.stderr.log",
+    "stderr_sha256": "714b86e6d878186428aee8838a3bcd78809df3d3f04934d0de5a322c335659a3"
+  },
+  {
+    "name": "launcher-od-argument-refused",
+    "argv": [
+      "sh",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/package/payload/run-manual.sh",
+      "--od-gaps-bypass",
+      "not-allowed"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 2,
+    "expected_returncode": 2,
+    "stdout": "launcher-od-argument-refused.stdout.log",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "launcher-od-argument-refused.stderr.log",
+    "stderr_sha256": "1c70a723fe5cd58b52146a51f7f08f52bad5e401494e85ecd377ef52957c6160"
+  },
+  {
+    "name": "launcher-node-override-refused",
+    "argv": [
+      "sh",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/package/payload/run-manual.sh",
+      "--node",
+      "2"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 2,
+    "expected_returncode": 2,
+    "stdout": "launcher-node-override-refused.stdout.log",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "launcher-node-override-refused.stderr.log",
+    "stderr_sha256": "425dea22cdedc921d39752d23c158987493ad3ea24b500df20d1d2f0072ebb21"
+  },
+  {
+    "name": "arm-file",
+    "argv": [
+      "file",
+      "-L",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/package/payload/drivers/pmp4010/libpmp4010_velocity.so"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0,
+    "expected_returncode": 0,
+    "stdout": "arm-file.stdout.log",
+    "stdout_sha256": "3d079dc5582d0deb33a90995f7188d3d01dcdc5f44e97167cf436864b605a194",
+    "stderr": "arm-file.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "arm-elf-header",
+    "argv": [
+      "readelf",
+      "-h",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/package/payload/drivers/pmp4010/libpmp4010_velocity.so"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0,
+    "expected_returncode": 0,
+    "stdout": "arm-elf-header.stdout.log",
+    "stdout_sha256": "2bb4cf3adde9b33b51b2b8e44baab6b0efa2030f9db325a557a601b9cd55695a",
+    "stderr": "arm-elf-header.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "archive-list",
+    "argv": [
+      "tar",
+      "-tvzf",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/package/pmp4010-manual-board-payload.tar.gz"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0,
+    "expected_returncode": 0,
+    "stdout": "archive-list.stdout.log",
+    "stdout_sha256": "a375e147cde037f235bb9f9f2b1ee83efeecad648f3c87dd347744ae610f4266",
+    "stderr": "archive-list.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "roundtrip-smoke",
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/package/roundtrip/load_smoke.py",
+      "--library",
+      "/home/zakiu/km3/build-host/libpmp4010_velocity.so",
+      "--check-missing-library"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0,
+    "expected_returncode": 0,
+    "stdout": "roundtrip-smoke.stdout.log",
+    "stdout_sha256": "ea16a984e9f5afb1bdb48df6cf511bbd1798ac2c36c588fe060b6d16070f0bff",
+    "stderr": "roundtrip-smoke.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "tampered-manual-refused",
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/package/roundtrip/load_smoke.py",
+      "--library",
+      "/home/zakiu/km3/build-host/libpmp4010_velocity.so"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 1,
+    "expected_returncode": 1,
+    "stdout": "tampered-manual-refused.stdout.log",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "tampered-manual-refused.stderr.log",
+    "stderr_sha256": "1593fc1c13e6fdf328b6519945e802ddc38ae1c170d5ecd603d07214edf5a581"
+  }
+]

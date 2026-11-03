@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B /opt/km3/hwtools/manual-test-20261020-e137c603/load_smoke.py --check-missing-library"
+  ],
+  "start_utc": "2026-10-20T01:34:13.613690+00:00",
+  "end_utc": "2026-10-20T01:34:14.188574+00:00",
+  "rc": 0,
+  "automatic_retries": 0,
+  "timeout_seconds": 40
+}

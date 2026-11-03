@@ -1,0 +1,4 @@
+                 U pthread_cond_clockwait@GLIBC_2.34
+                 U pthread_cond_destroy
+                 U pthread_cond_init
+                 U pthread_cond_timedwait

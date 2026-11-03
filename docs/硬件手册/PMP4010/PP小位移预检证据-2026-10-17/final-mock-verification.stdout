@@ -1,0 +1,27 @@
+{
+  "mock_only": true,
+  "results": [
+    {
+      "name": "nominal_uploads_only",
+      "passed": true,
+      "request_frames": 66,
+      "writes": 0,
+      "nmt": 0,
+      "close_frames": 0,
+      "real_can_opens": 0,
+      "quarantined": false,
+      "retry_count": 0
+    },
+    {
+      "name": "timeout_stops_without_retry",
+      "passed": true,
+      "request_frames": 28,
+      "writes": 0,
+      "nmt": 0,
+      "close_frames": 0,
+      "real_can_opens": 0,
+      "quarantined": true,
+      "retry_count": 0
+    }
+  ]
+}

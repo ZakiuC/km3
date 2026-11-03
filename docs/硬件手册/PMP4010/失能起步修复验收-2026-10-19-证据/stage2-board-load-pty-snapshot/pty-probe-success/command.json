@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pp-disabled-start-20261019-board/stage2/mock_app.py",
+    "--output-dir",
+    "/tmp/km3-pp-disabled-start-20261019-board/stage2/pty-probe-success",
+    "--scenario",
+    "success"
+  ],
+  "cwd": "/tmp/km3-pp-disabled-start-20261019-board/stage2/pty-probe-success",
+  "environment": {
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "TERM": "xterm",
+    "ESCDELAY": "25"
+  },
+  "mode": "local_mock_only",
+  "utc": "2026-10-19T01:22:41.406718+00:00",
+  "monotonic": 4228833.469029384
+}

@@ -1,0 +1,419 @@
+[?1049h[?25l[2J[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 -- mm   raw 未知   软件零点 0
+[2K速度 -- rpm   状态 未知 --
+[2K603F 未知 [样本不完整/已失效]
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K会话开始: 2026-10-20T02:14:03Z interface=can0 node=1 bitrate=1000000 mock=是
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K
+[2K
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K会话开始: 2026-10-20T02:14:03Z interface=can0 node=1 bitrate=1000000 mock=是
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K会话开始: 2026-10-20T02:14:03Z interface=can0 node=1 bitrate=1000000 mock=是
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K会话开始: 2026-10-20T02:14:03Z interface=can0 node=1 bitrate=1000000 mock=是
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-
+[2K相对位移 mm: 输入有限数值，Enter审阅，Esc取消
+[2K> nan
+[2K--- 消息 ---
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K输入无效：请输入有限数值
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-
+[2K相对位移 mm: 输入有限数值，Enter审阅，Esc取消
+[2K> nan
+[2K--- 消息 ---
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K输入无效：请输入有限数值
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-
+[2K相对位移 mm: 输入有限数值，Enter审阅，Esc取消
+[2K> nan
+[2K--- 消息 ---
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K输入无效：请输入有限数值
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K输入无效：请输入有限数值
+[2K已取消输入/审阅；未提交执行
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K输入无效：请输入有限数值
+[2K已取消输入/审阅；未提交执行
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-
+[2K正在读取并审阅；尚未执行。Space/x停止，d失能，q退出
+[2K--- 消息 ---
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K输入无效：请输入有限数值
+[2K已取消输入/审阅；未提交执行
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-
+[2K【待执行】绝对位置 mm；再次Enter执行，Esc取消
+[2K执行一次人工PP位置运动
+[2K冻结起点 0 U → 目标 65536 U
+[2K请求 2 mm → 实际 2 mm
+[2K请求 1 rpm → 实际 1.00021362305 rpm；6081=2185 U/s（最近整数）
+[2K换算 4 mm/电机转；仅设备607D/Int32行程限制
+[2K先在Halt下冻结提交，012F保持使能
+[2K使能后重写冻结607A，002F→003F→002F，新ACK 0→1→0；不会自动重复
+[2KOD本会话人工理由：PTY人工校验
+[2K再次Enter只执行此冻结动作；软件快停不能替代独立急停
+[2K--- 消息 ---
+[2K审阅: OD本会话人工理由：PTY人工校验
+[2K审阅: 再次Enter只执行此冻结动作；软件快停不能替代独立急停
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-
+[2K【待执行】绝对位置 mm；再次Enter执行，Esc取消
+[2K执行一次人工PP位置运动
+[2K冻结起点 0 U → 目标 65536 U
+[2K请求 2 mm → 实际 2 mm
+[2K请求 1 rpm → 实际 1.00021362305 rpm；6081=2185 U/s（最近整数）
+[2K换算 4 mm/电机转；仅设备607D/Int32行程限制
+[2K先在Halt下冻结提交，012F保持使能
+[2K使能后重写冻结607A，002F→003F→002F，新ACK 0→1→0；不会自动重复
+[2KOD本会话人工理由：PTY人工校验
+[2K再次Enter只执行此冻结动作；软件快停不能替代独立急停
+[2K--- 消息 ---
+[2K审阅: OD本会话人工理由：PTY人工校验
+[2K审阅: 再次Enter只执行此冻结动作；软件快停不能替代独立急停
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K审阅就绪: 绝对位置 mm；等待第二次Enter，尚未执行
+[2K审阅: 执行一次人工PP位置运动
+[2K审阅: 冻结起点 0 U → 目标 65536 U
+[2K审阅: 请求 2 mm → 实际 2 mm
+[2K审阅: 请求 1 rpm → 实际 1.00021362305 rpm；6081=2185 U/s（最近整数）
+[2K审阅: 换算 4 mm/电机转；仅设备607D/Int32行程限制
+[2K审阅: 先在Halt下冻结提交，012F保持使能
+[2K审阅: 使能后重写冻结607A，002F→003F→002F，新ACK 0→1→0；不会自动重复
+[2K审阅: OD本会话人工理由：PTY人工校验
+[2K审阅: 再次Enter只执行此冻结动作；软件快停不能替代独立急停
+[2K已取消输入/审阅；未提交执行
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K审阅就绪: 绝对位置 mm；等待第二次Enter，尚未执行
+[2K审阅: 执行一次人工PP位置运动
+[2K审阅: 冻结起点 0 U → 目标 65536 U
+[2K审阅: 请求 2 mm → 实际 2 mm
+[2K审阅: 请求 1 rpm → 实际 1.00021362305 rpm；6081=2185 U/s（最近整数）
+[2K审阅: 换算 4 mm/电机转；仅设备607D/Int32行程限制
+[2K审阅: 先在Halt下冻结提交，012F保持使能
+[2K审阅: 使能后重写冻结607A，002F→003F→002F，新ACK 0→1→0；不会自动重复
+[2K审阅: OD本会话人工理由：PTY人工校验
+[2K审阅: 再次Enter只执行此冻结动作；软件快停不能替代独立急停
+[2K已取消输入/审阅；未提交执行
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K审阅: 执行一次人工PP位置运动
+[2K审阅: 冻结起点 0 U → 目标 65536 U
+[2K审阅: 请求 2 mm → 实际 2 mm
+[2K审阅: 请求 1 rpm → 实际 1.00021362305 rpm；6081=2185 U/s（最近整数）
+[2K审阅: 换算 4 mm/电机转；仅设备607D/Int32行程限制
+[2K审阅: 先在Halt下冻结提交，012F保持使能
+[2K审阅: 使能后重写冻结607A，002F→003F→002F，新ACK 0→1→0；不会自动重复
+[2K审阅: OD本会话人工理由：PTY人工校验
+[2K审阅: 再次Enter只执行此冻结动作；软件快停不能替代独立急停
+[2K已取消输入/审阅；未提交执行
+[2K已取消输入/审阅；未提交执行
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K审阅: 执行一次人工PP位置运动
+[2K审阅: 冻结起点 0 U → 目标 65536 U
+[2K审阅: 请求 2 mm → 实际 2 mm
+[2K审阅: 请求 1 rpm → 实际 1.00021362305 rpm；6081=2185 U/s（最近整数）
+[2K审阅: 换算 4 mm/电机转；仅设备607D/Int32行程限制
+[2K审阅: 先在Halt下冻结提交，012F保持使能
+[2K审阅: 使能后重写冻结607A，002F→003F→002F，新ACK 0→1→0；不会自动重复
+[2K审阅: OD本会话人工理由：PTY人工校验
+[2K审阅: 再次Enter只执行此冻结动作；软件快停不能替代独立急停
+[2K已取消输入/审阅；未提交执行
+[2K已取消输入/审阅；未提交执行
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-
+[2K退出清理中；等待后台完成并恢复终端
+[2K--- 消息 ---
+[2K审阅: 冻结起点 0 U → 目标 65536 U
+[2K审阅: 请求 2 mm → 实际 2 mm
+[2K审阅: 请求 1 rpm → 实际 1.00021362305 rpm；6081=2185 U/s（最近整数）
+[2K审阅: 换算 4 mm/电机转；仅设备607D/Int32行程限制
+[2K审阅: 先在Halt下冻结提交，012F保持使能
+[2K审阅: 使能后重写冻结607A，002F→003F→002F，新ACK 0→1→0；不会自动重复
+[2K审阅: OD本会话人工理由：PTY人工校验
+[2K审阅: 再次Enter只执行此冻结动作；软件快停不能替代独立急停
+[2K已取消输入/审阅；未提交执行
+[2K已取消输入/审阅；未提交执行
+[2K退出请求：取消当前动作，执行受控清理
+[2K[?25h[?1049l会话开始: 2026-10-20T02:14:03Z interface=can0 node=1 bitrate=1000000 mock=是
+初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+servo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+socketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed85
+od_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+日志路径: /home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-host/cancel-invalid.log
+会话OD人工理由: PTY人工校验
+启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 velocity_raw=0 attempted_CW=无 download_ACK=否；无错误码
+输入无效：请输入有限数值
+已取消输入/审阅；未提交执行
+审阅就绪: 绝对位置 mm；等待第二次Enter，尚未执行
+审阅: 执行一次人工PP位置运动
+审阅: 冻结起点 0 U → 目标 65536 U
+审阅: 请求 2 mm → 实际 2 mm
+审阅: 请求 1 rpm → 实际 1.00021362305 rpm；6081=2185 U/s（最近整数）
+审阅: 换算 4 mm/电机转；仅设备607D/Int32行程限制
+审阅: 先在Halt下冻结提交，012F保持使能
+审阅: 使能后重写冻结607A，002F→003F→002F，新ACK 0→1→0；不会自动重复
+审阅: OD本会话人工理由：PTY人工校验
+审阅: 再次Enter只执行此冻结动作；软件快停不能替代独立急停
+已取消输入/审阅；未提交执行
+已取消输入/审阅；未提交执行
+退出请求：取消当前动作，执行受控清理
+结果: 会话未发控制下载；关闭零帧；电气失能确认=否；机械停稳未确认
+完整反馈: phase=人工动作审阅 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 velocity_raw=0 attempted_CW=无 download_ACK=否；无错误码
+终端已恢复；机械停稳未由软件确认。

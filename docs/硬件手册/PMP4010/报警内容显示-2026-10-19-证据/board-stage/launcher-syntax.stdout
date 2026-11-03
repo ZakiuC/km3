@@ -1,0 +1,1 @@
+{"argv": ["sh", "-n", "/var/tmp/km3-pmp4010-alarm-20261019-735538978204/payload/run-manual.sh"], "rc": 0, "stdout": "", "stderr": "", "launcher_executed": false, "CAN_opens": 0, "CAN_sends": 0}

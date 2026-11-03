@@ -1,0 +1,420 @@
+--- baseline/_test_bench.py
++++ device/drivers/pmp4010/tools/_test_bench.py
+@@ -502,6 +502,31 @@
+     def press(app, name):
+         return app.dispatch_key(name, ord(name) if len(name) == 1 else {'enter': 10, 'esc': 27}.get(name, 0))
+ 
++    def test_alarm_meanings_visible_in_80x24_detail_and_four_seat_overview(self):
++        from pmp4010_faults import FAULT_DESCRIPTIONS, format_fault
++        app = self.app()
++        app.rows, app.cols = 24, 80
++        row = self.ctl.row(1)
++        # Exercise every label: longest Flash/STO messages must fit as well.
++        for code in [None, 0, 0xA123, *FAULT_DESCRIPTIONS]:
++            row['values']['error_code_object'] = code
++            self.ctl._put(row)
++            expected = '报警 ' + format_fault(code)
++            app.current_view = 'detail'
++            self.assertIn(expected, '\n'.join(app.build().to_lines()))
++            app.current_view = 'overview'
++            self.assertIn(format_fault(code), '\n'.join(app.build().to_lines()))
++        row['values']['error_code_object'] = 0x2312
++        for node in range(1,5):
++            self.ctl._put(dict(copy.deepcopy(row), node=node))
++        text = '\n'.join(app.build().to_lines())
++        self.assertEqual(text.count('0x2312（电机堵转）'), 4)
++        app.cols = 160
++        row['values'].update(actual_position=-2147483648, actual_velocity=123456789, modes_of_operation_display=8)
++        self.ctl._put(row)
++        text = '\n'.join(app.build().to_lines())
++        self.assertIn('-2147483648U / 123456789 rpm / CSP', text)
++
+     def test_delayed_mockbus_sdo_does_not_block_key_help_or_build(self):
+         app = self.app()
+         self.bus.delay_key = (0x6041, 0)
+--- baseline/_test_manual.py
++++ device/drivers/pmp4010/tools/_test_manual.py
+@@ -392,6 +392,18 @@
+         self.assertIn('-diagnostics-', path.name)
+         return [json.loads(line) for line in path.read_text().splitlines()]
+ 
++    def test_known_alarm_in_exception_protection_and_jsonl_without_extra_reads(self):
++        self.node.set_value(0x603f, 0x2312)
++        self.ctl.rt_ack = True
++        self.ctl.scan(self.out)
++        self.assertEqual(requests(self.bus), [(i,0,0) for i in (0x1000,0x6041,0x6064,0x606c,0x6061,0x603f)])
++        failure = self.failure_records()[1]['first_failure']
++        self.assertEqual((failure['fault_code'], failure['fault_code_hex'], failure['fault_description']),
++                         (0x2312, '0x2312', '电机堵转'))
++        self.assertIn('0x2312（电机堵转）', failure['reason'])
++        self.assertIn('603F=0x2312（电机堵转）', self.ctl.row(1)['quarantine_reason'])
++        self.assertFalse(requests(self.bus, True))
++
+     def test_initial_603F_retains_partial_hex_without_control_or_extra_upload(self):
+         self.node.set_value(0x603f, 0xabcd)
+         self.ctl.rt_ack = True
+@@ -399,6 +411,7 @@
+         self.assertEqual(requests(self.bus), [(i,0,0) for i in (0x1000,0x6041,0x6064,0x606c,0x6061,0x603f)])
+         failure = self.ctl.failure_diagnostics[1]
+         self.assertEqual(failure['fault_code_hex'], '0xABCD')
++        self.assertEqual(failure['fault_description'], '未知报警')
+         self.assertFalse(failure['snapshot_complete'])
+         self.assertIsNone(failure['controlword'])
+         self.assertIn('未知', failure['controlword_source'])
+@@ -454,6 +467,7 @@
+         self.assertEqual(failure['raw_statusword'],0x2f)
+         self.assertIsNone(failure['fault_code'])
+         self.assertIsNone(failure['fault_code_hex'])
++        self.assertEqual(failure['fault_description'], '未知')
+         self.assertEqual(failure['observed_fields'], ['statusword'])
+ 
+     def test_quarantined_cleanup_reports_skip_and_adds_zero_sends(self):
+--- baseline/_test_simple.py
++++ device/drivers/pmp4010/tools/_test_simple.py
+@@ -329,6 +329,8 @@
+                 self.assertIsNotNone(sample['actual_position'])
+                 self.assertIsNotNone(sample['actual_velocity'])
+                 self.assertEqual(sample['fault_code'],0)
++                self.assertEqual(sample['fault_code_hex'],'0x0000')
++                self.assertEqual(sample['fault_description'],'无错误码')
+         print('SIMPLE delayed SDO full f action: fixed start/target; write ACK/raw snapshots identify actual0106..012F..002F/003F/002F phases')
+ 
+     def test_one_confirm_enabled_edge_executes_motion_once_with_frozen_target(self):
+@@ -379,10 +381,27 @@
+         self.assertNotIn('实际速度 0 rpm  故障 0x0000',text)
+         print('SIMPLE locked80x24: last-valid telemetry explicitly historical; current state unknown; firstCW0106/raw0237 remains visible')
+ 
++    def test_live_and_historical_telemetry_show_alarm_description(self):
++        self.ready()
++        app=SimpleApp(tool,self.args)
++        app.controller=self.ctl
++        app.rows,app.cols=24,80
++        app.current_view='main'
++        self.assertIn('0x0000（无错误码）', '\n'.join(app.build().to_lines()))
++        row=self.ctl.row(1)
++        row['values']['error_code_object']=0x2312
++        self.ctl._put(row)
++        self.assertIn('0x2312（电机堵转）', '\n'.join(app.build().to_lines()))
++        row.update(lost=True,quarantined=True)
++        self.ctl._put(row)
++        text='\n'.join(app.build().to_lines())
++        self.assertIn('最后有效采样',text)
++        self.assertIn('0x2312（电机堵转）',text)
++
+     def test_initial_partial_603F_unknown_CW_builds_80x24_and_persists(self):
+         import json
+         from pathlib import Path
+-        self.node.set_value(0x603f,0xa123)
++        self.node.set_value(0x603f,0x2312)
+         self.ctl.rt_ack=True
+         self.ctl.scan(self.out)
+         app=SimpleApp(tool,self.args)
+@@ -393,12 +412,13 @@
+         text='\n'.join(app.build().to_lines())
+         self.assertIn('当前实读状态未知',text)
+         self.assertIn('非完整快照',text)
+-        self.assertIn('603F=0xA123',text)
++        self.assertIn('603F=0x2312（电机堵转）',text)
+         self.assertIn('CW=未知',text)
+         self.assertIn('未执行',text)
+         self.assertIsNone(self.ctl.row(1)['failure_diagnostic']['controlword'])
+         records=[json.loads(line) for line in Path(self.ctl.diagnostic_paths[1]).read_text().splitlines()]
+-        self.assertEqual(records[1]['first_failure']['fault_code'],0xa123)
++        self.assertEqual(records[1]['first_failure']['fault_code'],0x2312)
++        self.assertEqual(records[1]['first_failure']['fault_description'],'电机堵转')
+         self.assertFalse(requests(self.bus,True))
+ 
+     def test_background_partial_603F_UI_keeps_last_valid_values_historical(self):
+@@ -415,7 +435,7 @@
+         text='\n'.join(app.build().to_lines())
+         self.assertIn('最后有效采样',text)
+         self.assertIn('历史软件坐标',text)
+-        self.assertIn('603F=0x6789',text)
++        self.assertIn('603F=0x6789（未知报警）',text)
+         self.assertIn('CW=未知',text)
+         self.assertEqual(self.ctl.row(1)['values'],previous)
+         self.assertNotIn('实读：故障',text)
+--- baseline/pmp4010_bench.py
++++ device/drivers/pmp4010/tools/pmp4010_bench.py
+@@ -12,6 +12,7 @@
+ from pathlib import Path
+ 
+ import pmp4010_position as position
++from pmp4010_faults import format_fault
+ from pmp4010_params import TYPES
+ 
+ # One policy is consumed by both entry and review. Read-only navigation never
+@@ -308,7 +309,7 @@
+         if reached and not values['statusword'] & p.CIA402_HOMING_TARGET_REACHED:
+             raise ValueError('目标到达标志未置位（target reached/bit10）；当前实际速度为零')
+         if values['statusword'] & p.CIA402_FAULT:
+-            raise ValueError('存在故障；测试台不自动复位')
++            raise ValueError('存在故障；603F={}；测试台不自动复位'.format(format_fault(values.get('error_code_object'))))
+ 
+     def review(self, action, node, value, out, check_gate=True):
+         if check_gate:
+--- baseline/pmp4010_manual.py
++++ device/drivers/pmp4010/tools/pmp4010_manual.py
+@@ -12,6 +12,7 @@
+ from pathlib import Path
+ 
+ import pmp4010_position as position
++from pmp4010_faults import fault_fields, format_fault
+ from pmp4010_bench import BenchController, TELEMETRY
+ from pmp4010_tui import PmpApp, LogView
+ 
+@@ -142,7 +143,7 @@
+                     raise ValueError('关键状态样本异常，禁止隐含使能；6041=0x{:04X}，允许状态={}'.format(
+                         value, ','.join('0x{:04X}'.format(s) for s in states)))
+             if key == 'error_code_object' and value:
+-                raise ValueError('603Fh故障码非零：0x{:04X}（最后错误低16bit，不能据此判断当前Fault或根因）'.format(value))
++                raise ValueError('603Fh故障码非零：{}（最后错误低16bit，不能据此判断当前Fault或根因）'.format(format_fault(value)))
+             if key == 'actual_position' and envelope:
+                 position.check_envelope(envelope[0], envelope[1], value)
+                 if proof and not proof['expected']['software_position_limit'] <= value <= proof['expected']['software_position_limit_max']:
+@@ -169,8 +170,7 @@
+                     p.CIA402_QUICK_STOP:'Quick stop active'}.get(state,'Other' if raw is not None else None),
+                 controlword=samples.get('controlword'), controlword_source='本轮实读' if 'controlword' in samples else '未知（本轮尚未读到6040h）',
+                 actual_position=samples.get('actual_position'), actual_velocity=samples.get('actual_velocity'),
+-                fault_code=samples.get('error_code_object'),
+-                fault_code_hex=None if samples.get('error_code_object') is None else '0x{:04X}'.format(samples['error_code_object']),
++                **fault_fields(samples.get('error_code_object')),
+                 observed_controlword=samples.get('controlword'), observed_fields=list(samples), reason=str(exc))
+             raise
+         return values, cal
+@@ -208,6 +208,7 @@
+             for key, value in partial.items():
+                 if first.get(key) is None:
+                     first[key] = copy.deepcopy(value)
++        first.update(fault_fields(first.get('fault_code')))
+         first.setdefault('node', node)
+         first.setdefault('reason', reason)
+         first.setdefault('controlword_source', '阶段控制字（非本轮6040h实读）' if first.get('controlword') is not None else '未知')
+@@ -244,7 +245,7 @@
+     def _validate(self, values, cal, a, start, stationary=False, allow_hold=False):
+         p = self.tool._canopen
+         if values['statusword'] & (p.CIA402_FAULT | p.CIA402_PP_FOLLOWING_ERROR) or values['error_code_object']:
+-            raise ValueError('故障或PP跟随误差；禁止自动复位')
++            raise ValueError('故障或PP跟随误差；603F={}；禁止自动复位'.format(format_fault(values.get('error_code_object'))))
+         if values['control_mode_select'] != 0 or values['modes_of_operation'] != 1 or values['modes_of_operation_display'] != 1:
+             raise ValueError('手动入口仅支持CiA402 PP1；模式已变化')
+         if values['home_offset'] != 0:
+@@ -390,7 +391,7 @@
+         detail = ('CW=0x{:04X} 6041=0x{:04X} {}；'.format(word,raw,first_failure.get('decoded_state',''))
+                   if word is not None and raw is not None else '')
+         if first_failure.get('fault_code') is not None:
+-            detail += '603F=0x{:04X}；'.format(first_failure['fault_code'])
++            detail += '603F={}；'.format(format_fault(first_failure['fault_code']))
+         skip_text = {'client_quarantined':'通信已隔离', 'no_control_responsibility':'本会话尚未控制电机'}.get(skip,skip)
+         result = '已确认失能' if confirmed is True else '已执行但失能未确认' if attempted else '未执行停止（{}）'.format(skip_text)
+         reason = '手动保护锁定：{}{}；{}；停止确认={}'.format(detail,first_failure.get('reason') or str(exc),result,confirmed)
+@@ -479,7 +480,7 @@
+                     controlword=word, raw_statusword=raw, decoded_state=decoded,
+                     state=normalized, allowed_states=list(allowed), expected_state=state, point=point,
+                     actual_position=values.get('actual_position'), actual_velocity=values.get('actual_velocity'),
+-                    fault_code=values.get('error_code_object'), observed_fields=list(values), reason=reason)
++                    **fault_fields(values.get('error_code_object')), observed_fields=list(values), reason=reason)
+ 
+             def remember_failure(exc):
+                 # Preserve evidence before attempting any more journal I/O.
+@@ -512,6 +513,7 @@
+                         for field in ('actual_position','actual_velocity','error_code_object'):
+                             dest = 'fault_code' if field=='error_code_object' else field
+                             last_diagnostic[dest] = observed_values.get(field)
++                        last_diagnostic.update(fault_fields(observed_values.get('error_code_object')))
+                         last_diagnostic['observed_fields'] = list(observed_values)
+                     # The ordinary snapshot brackets velocity twice. During
+                     # this stationary transition, never let its final zero
+--- baseline/pmp4010_simple.py
++++ device/drivers/pmp4010/tools/pmp4010_simple.py
+@@ -12,6 +12,7 @@
+ import time
+ 
+ import pmp4010_position as position
++from pmp4010_faults import format_fault
+ from pmp4010_manual import ManualController, FIXED
+ from pmp4010_tui import PmpApp, Grid, Rect, LogView, draw_box, draw_hsep, fit
+ 
+@@ -631,9 +632,9 @@
+         historical = bool(row and (row['lost'] or row['quarantined']))
+         lines = (['节点 {}  {}  当前实读状态未知'.format(c.node,online),
+             '最后有效采样：位置 {} U  速度 {}  故障 {}'.format(v.get('actual_position','-'),speed,
+-                '0x{:04X}'.format(v['error_code_object']) if v else '未知')] if historical else
++                format_fault(v.get('error_code_object')))] if historical else
+             ['节点 {}  {}  位置 {} U  实读：{}'.format(c.node,online,v.get('actual_position','-'),state),
+-             '实际速度 {}  故障 {}'.format(speed,'0x{:04X}'.format(v['error_code_object']) if v else '未知')])
++             '实际速度 {}  故障 {}'.format(speed,format_fault(v.get('error_code_object')))])
+         if row and row['calibration']:
+             try:
+                 step,degrees,rpm = c.quantities(row)
+@@ -659,7 +660,7 @@
+                 return '未知' if value is None else '0x{:04X}'.format(value)
+             lines += ['诊断样本（历史，{}）：603F={} 6041={}'.format(
+                 '非完整快照' if failure.get('snapshot_complete') is False else '阶段采样',
+-                hex_word(failure.get('fault_code')),hex_word(failure.get('raw_statusword'))),
++                format_fault(failure.get('fault_code')),hex_word(failure.get('raw_statusword'))),
+                 'CW={}（{}） {}'.format(hex_word(failure.get('controlword')),
+                     failure.get('controlword_source','来源未知'),failure.get('decoded_state') or '状态未知')]
+             cleanup = row.get('cleanup_diagnostic')
+--- baseline/pmp4010_tui.py
++++ device/drivers/pmp4010/tools/pmp4010_tui.py
+@@ -1,4 +1,6 @@
+ """Chinese four-seat PMP4010 live bench; no I/O in rendering or key handling."""
++from pmp4010_faults import format_fault
++
+ import copy
+ import queue
+ import re
+@@ -529,7 +531,8 @@
+                   '位置 {} U{}'.format(pos, angle),
+                   '速度 {} {}'.format(v['actual_velocity'], velocity_unit(v)),
+                   '转矩 {:.1f}% 额定转矩'.format(v['torque_feedback'] * .1),
+-                  '模式 {} ({})  报警 {}'.format(mode_text(v['modes_of_operation_display']), v['modes_of_operation_display'], '无' if not v['error_code_object'] else '0x{:04X}'.format(v['error_code_object'])),
++                  '报警 {}'.format(format_fault(v.get('error_code_object'))),
++                  '模式 {} ({})'.format(mode_text(v['modes_of_operation_display']), v['modes_of_operation_display']),
+                   '控制 [E]使能 [D]失能 [X]快停  [A]绝对 [R]相对 [Z]设零点 [P]失能准备',
+                   '设零点：回零方式35；DI配置需求未验证。PV/CSV仅允许预写零速度后使能。']
+         return lines
+@@ -549,14 +552,21 @@
+                 grid.put(max(body.y, bottom-2)+i, 2, fit(line, width))
+         else:
+             if self.current_view == 'overview':
+-                table = Table(['节点', '状态', '位置 U', '速度', '模式', '报警'])
++                # Reserve the full alarm meaning even on an 80-column terminal.
++                table = Table(['节点', '报警', '状态 / 位置 / 速度 / 模式'])
+                 rows = []
+                 for row in self.controller.rows:
+                     v = row['values']
+-                    rows.append([str(row['node']) if row['node'] is not None else '未分配', state_text(row),
++                    summary = '{} / {}U / {} / {}'.format(state_text(row),
+                         v.get('actual_position', '-'), '{} {}'.format(v['actual_velocity'], velocity_unit(v)) if v else '-',
+-                        mode_text(v['modes_of_operation_display']) if v else '-',
+-                        '无' if v and v['error_code_object'] == 0 else '0x{:04X}'.format(v['error_code_object']) if v else '-'])
++                        mode_text(v['modes_of_operation_display']) if v else '-')
++                    rows.append([str(row['node']) if row['node'] is not None else '未分配',
++                        format_fault(v.get('error_code_object')), summary])
++                reserved = sum(max(_display_width(header), max((_display_width(row[i]) for row in rows), default=0))
++                               for i, header in enumerate(table.headers[:2]))
++                summary_width = max(0, width - reserved - table._sep_width(3, self.box))
++                for row in rows:
++                    row[2] = fit(row[2], summary_width)
+                 table.set_rows(rows)
+                 table.set_selected(self.selected)
+                 table.render(grid, Rect(1, 2, min(7, body.h), width), self.box)
+--- /dev/null
++++ device/drivers/pmp4010/tools/pmp4010_faults.py
+@@ -0,0 +1,77 @@
++"""Display-only 603Fh descriptions from E06 manual section 9.1, table 9-1.
++
++603Fh is the last error's low 16 bits, not a current Fault indicator or a
++physical-cause diagnosis. Do not infer configured reactions or read more OD
++objects here. Match the full supplied value: masking could mislabel bad data.
++"""
++
++FAULT_DESCRIPTIONS = {
++    0x2300: '电机过流',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x2311: '电机过载',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x2312: '电机堵转',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x3210: '电源过电压',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x3220: '电源欠电压',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x3211: '过泄压值故障',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x3285: '输出相故障',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x4210: '温度过高报警',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x4220: '温度过低报警',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x5080: '驱动器故障',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x5540: 'Flash 操作故障',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x5541: 'Flash 初始化故障',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x5542: 'Flash 校验错误警告',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x5543: 'Flash 用户区无参数',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x5544: '掉电位置存储异常',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x5545: '掉电保存数据未存储上',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x6000: '硬件初始化故障',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x6320: '参数设置错误',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x6321: '注册故障',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x7301: '编码器电池低压故障',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x7302: '编码器电池欠压报警',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x7303: '编码器通信故障',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x7304: '编码器多圈计数错误',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x7305: 'Z 脉冲故障',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x7306: '编码器故障',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x7307: '编码器警告',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x7309: '编码器电池失效故障',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x7310: '超速',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x7501: '通信故障',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x7502: 'CAN 被动错误',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x7503: 'CAN 接收溢出',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x8610: '原点回归超时',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x8611: '位置超差',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x8613: '软件限位错误',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x8614: '限位开关错误',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x8700: '同步故障',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x8615: '曲线规划计算错误',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x8616: '目标位置溢出',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0x8617: '曲线规划参数过小',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0xFF01: '电机参数识别故障',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0xFF02: '不能执行的命令',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0xFF05: 'STO 1 关闭失败',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0xFF06: 'STO 1 使能失败',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0xFF07: 'STO 2 关闭失败',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0xFF08: 'STO 2 使能失败',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0xFF09: 'STO 输入异常故障',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0xFF0A: 'STO 使能状态',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0xFF0B: '非安全状态',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++    0xFF0C: '编码器校准超时',  # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1
++}
++
++
++def fault_description(code):
++    if code is None:
++        return '未知'
++    if code == 0:
++        return '无错误码'
++    return FAULT_DESCRIPTIONS.get(code, '未知报警')
++
++
++def format_fault(code):
++    return '未知' if code is None else '0x{:04X}（{}）'.format(code, fault_description(code))
++
++
++def fault_fields(code):
++    """Add display metadata without changing the original numeric sample."""
++    return dict(fault_code=code,
++                fault_code_hex=None if code is None else '0x{:04X}'.format(code),
++                fault_description=fault_description(code))
+--- /dev/null
++++ device/drivers/pmp4010/tools/_test_faults.py
+@@ -0,0 +1,34 @@
++"""603F display vocabulary is checked against the authoritative local manual."""
++from pathlib import Path
++import unittest
++
++from pmp4010_faults import FAULT_DESCRIPTIONS, fault_description, fault_fields, format_fault
++
++
++class FaultDescriptionsTests(unittest.TestCase):
++    def test_mapping_matches_all_table_rows_and_duplicate_is_synonymous(self):
++        root = Path(__file__).resolve().parents[4]
++        manual = root / 'docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md'
++        section = manual.read_text().split('### 9.1 报警代码', 1)[1].split('### 9.2', 1)[0]
++        expected, rows = {}, 0
++        for line in section.splitlines():
++            cells = [cell.strip() for cell in line.split('|')]
++            if len(cells) == 8 and cells[1].startswith('0x'):
++                rows += 1
++                code, description = int(cells[6], 16), cells[2].rstrip('*_')
++                if code in expected:
++                    self.assertEqual(expected[code], description)
++                expected[code] = description
++        self.assertEqual((rows, len(expected)), (50, 49))
++        self.assertEqual(FAULT_DESCRIPTIONS, expected)
++
++    def test_known_unknown_zero_and_missing_preserve_numeric_value(self):
++        for code, expected in ((0x2312, '0x2312（电机堵转）'),
++                               (0xA123, '0xA123（未知报警）'),
++                               (0, '0x0000（无错误码）'), (None, '未知'),
++                               (0x3002312, '0x3002312（未知报警）')):
++            with self.subTest(code=code):
++                self.assertEqual(format_fault(code), expected)
++                self.assertEqual(fault_fields(code)['fault_code'], code)
++                self.assertEqual(fault_fields(code)['fault_description'], fault_description(code))
++        self.assertIsNone(fault_fields(None)['fault_code_hex'])

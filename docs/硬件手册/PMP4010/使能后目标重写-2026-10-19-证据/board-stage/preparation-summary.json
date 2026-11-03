@@ -1,0 +1,64 @@
+{
+  "status": "LOCAL_TEMPLATES_ONLY_WAIT_FINAL_ARCHIVE_SHA_AND_ROOT_AUTHORIZATION",
+  "utc": "2026-10-19T06:56:58.260443+00:00",
+  "files": [
+    {
+      "path": "stage_rewrite.py",
+      "source": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/board-stage/stage_trigger.py",
+      "sha256": "5bbb859cec7faf40205b2a5d0cc9218669e54f86ad2fe6ff43aa6d937a696334",
+      "AST": "PASS"
+    },
+    {
+      "path": "stage.remote.py",
+      "source": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/board-stage/stage.remote.py",
+      "sha256": "011fd8149999f41179b7b0bd577aba1775a74cbd977707cc13825e3207bc9693",
+      "AST": "PASS"
+    },
+    {
+      "path": "pureload.remote.py",
+      "source": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/board-stage/pureload.remote.py",
+      "sha256": "91942eb49cb902e894ffd0c139d35269e43080de3fb9420dbe58eb58d0e12929",
+      "AST": "PASS"
+    },
+    {
+      "path": "passive.remote.py",
+      "source": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/board-stage/passive.remote.py",
+      "sha256": "b7198fbed8061f2241f0aa1edede2a7666f11a1fcdb822a513e8ba11e5207e95",
+      "AST": "PASS"
+    },
+    {
+      "path": "snapshot.py",
+      "source": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/board-stage/snapshot.py",
+      "sha256": "2f8ff6f287a1572ae1c252aca786887ad8f5168efbde4de359137774e5d690e4",
+      "AST": "PASS",
+      "final_stage": "explicit argument required"
+    }
+  ],
+  "archive": null,
+  "archive_sha256": null,
+  "manifest_sha256": null,
+  "stage_prefix": "/var/tmp/km3-pmp4010-rewrite-20261019-",
+  "actual_AST_checks": 5,
+  "local_help_rc": 0,
+  "expected_imports": 18,
+  "expected_imports_actual_verified": false,
+  "actual_SSH_calls": 0,
+  "archive_uploads": 0,
+  "CAN_opens": 0,
+  "CAN_sends": 0,
+  "SDO_operations": 0,
+  "real_TUI_started": false,
+  "process_control_operations": 0,
+  "remote_writes": 0,
+  "prior_evidence_modified": false,
+  "requested_route": {
+    "role": "light_worker",
+    "model": "GPT-6.1 Sol",
+    "effort": "medium"
+  },
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "context_estimate_only": "under 190K",
+  "estimate_source": "parent routing estimate; not measured"
+}

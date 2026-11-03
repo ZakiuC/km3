@@ -1,0 +1,30 @@
+{
+  "status": "PROPOSED_ONLY_NOT_AUTHORIZED_NOT_EXECUTED",
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B - --live-read-only-once"
+  ],
+  "stdin_file": "/home/zakiu/km3/docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/read-code-probe/probe.py",
+  "stdin_sha256": "5f95ddd9532cc34f9d60b61a0e070e991b83e676e4f9368d2c45f1ba16801c47",
+  "subprocess_timeout_seconds": 15,
+  "automatic_retries": 0,
+  "remote_file_writes": 0,
+  "maximum_CAN_requests": 2,
+  "request_hex": [
+    "601#403F600000000000",
+    "601#4041600000000000"
+  ],
+  "response_requirements": "581 standard classic 8bytes, CS4B, exact pending index/sub, uint16",
+  "per_request_timeout_seconds": 0.25,
+  "total_CAN_transaction_deadline_seconds": 1.0,
+  "shell_equivalent": "ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectionAttempts=1 -o ConnectTimeout=5 root@192.168.0.188 'python3 -I -B - --live-read-only-once' < '/home/zakiu/km3/docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/read-code-probe/probe.py'"
+}

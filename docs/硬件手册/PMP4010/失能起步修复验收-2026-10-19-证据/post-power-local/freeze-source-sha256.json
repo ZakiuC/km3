@@ -1,0 +1,23 @@
+{
+  "stage": "stage3_post_power_recovered",
+  "files": {
+    "device/drivers/pmp4010/tools/pmp4010_bench.py": "8f6677156f04d331c7a5c0e552bc007f7949c65c1482bc7d67183cd17b8d4b5b",
+    "device/drivers/pmp4010/tools/pmp4010_position.py": "e93ed776ee7ad13dc10e84f3027d6fc9c95200e016cc226ec61af2db1c86c9da",
+    "device/drivers/pmp4010/tools/pmp4010_tui.py": "9d1e64e20e764471c84f76f6f6937941c28480e3a40b90e8203e7db5fa1190d1",
+    "device/drivers/pmp4010/tools/_test_disabled_start.py": "62535ecabb73964badca5ce164f302044e849523f4a97d0fe426598c47b77247",
+    "device/drivers/pmp4010/tools/_test_bench_support.py": "61185ab79743fa328380d8230c81ce3c643bf4a89348c954b90104ba125343e4",
+    "device/drivers/pmp4010/driver/od.json": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e",
+    "device/drivers/pmp4010/driver/od_generated.hpp": "b726bf604ce42c91ce048dfdb2891dde23e374ce9234cabe0416172ffaea5d40",
+    "device/drivers/pmp4010/driver/od_access_generated.hpp": "5144ed5e763beab5004d225e215fc76707a7f4cb42d222eb2da473bb594a33fb",
+    "tools/hwtui/canopen_consts.py": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c",
+    "tools/hwdriver/gen-pmp4010-access.py": "b9d2c4c8406398562a25ef517cf99efd97d9f16ace6e07c9ccef39e07b36fd3d",
+    "device/drivers/pmp4010/tests/test_pmp4010_verified.cpp": "6dceedae4ca6aa369570c50018ec2c84f4ec41e39c8ce9846f1f8c80aee4ef3b",
+    "device/drivers/pmp4010/tools/_test_disabled_move.py": "35259dbb1c6c59bb43f61b1cec177cee1a876f3ccbd4560a39cac5bb358c4501",
+    "device/drivers/pmp4010/tools/_test_bench.py": "ebfeef5fbf1bc066aab4bd3e4c85ab989b35bf146c59a6c084c31a17dde4d95c",
+    "device/drivers/pmp4010/tools/_test_prepare.py": "ae8b15c2abf564275b48b81be22016ce0356e896d27405fe07f50464881edbee"
+  },
+  "pre_power_three_source_hashes_match": true,
+  "lost_prior_manifest_sha256": "6b591cdf92e9ba401985a4cb37bb3b7cd2a15caf8e6d9e280c58eac9efb784c5",
+  "lost_prior_archive_sha256": "4ff8de9703c438e179368f8b5c947b63bebcf398e32cd0a5bbf66d37192162b6",
+  "prior_temporary_evidence": "lost; not recovered"
+}

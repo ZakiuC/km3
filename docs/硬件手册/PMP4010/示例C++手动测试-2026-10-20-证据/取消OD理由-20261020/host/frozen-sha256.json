@@ -1,0 +1,10 @@
+{
+  "tools/pmp4010_cpp_test/controller.hpp": "da01c1c4a3aa67f11132652b57d20906ab502aa0fc739991f15b0b44e9f7f260",
+  "tools/pmp4010_cpp_test/controller.cpp": "551ccbbefa3275c94fb811402a7aad252e178e3dc3a4aab16bbb1e569ae64a2a",
+  "tools/pmp4010_cpp_test/ui.cpp": "0f4b03cf5dc2e719df01121641970b1f688ced059c4949355eeb9236333dfd00",
+  "tools/pmp4010_cpp_test/main.cpp": "a3ccf9a6eec839bb9793071cd288cdb879e26c3f080ddcdb0ff9a48c58641f81",
+  "tools/pmp4010_cpp_test/README.md": "e2fc5bc414cb88d8ed4cb300fef9a3793b8993031d28f27b1efe83be5d3a6aa3",
+  "tools/pmp4010_cpp_test/tests/backend_tests.cpp": "9c0a076979cd61eacb86a34b2dc68d7a830bccdfc8cfb5ddcf2777700ec2558d",
+  "tools/pmp4010_cpp_test/tests/verify_pty.py": "9d00ef0351b7c536e6c3512e56ce49b2f9857fc80b59e4e5b91bbf98f1e28e78",
+  "build-pmp4010-cpp-host/pmp4010_manual_test": "6eb85279c7bc4767538eb4be528065e4faf0b3f4865621ab2d9ae321a98deb2c"
+}

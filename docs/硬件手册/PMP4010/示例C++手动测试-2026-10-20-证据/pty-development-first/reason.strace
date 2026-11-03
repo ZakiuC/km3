@@ -1,0 +1,1 @@
+157610 execve("/tmp/pmp4010-ui-check/pmp4010_manual_test", ["/tmp/pmp4010-ui-check/pmp4010_ma"..., "--mock", "--log", "/tmp/pmp4010-cpp-pty-first/reaso"..., "--mock-trace", "/tmp/pmp4010-cpp-pty-first/reaso"...], 0x7ffc9e2dab18 /* 62 vars */) = 0

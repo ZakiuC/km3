@@ -1,0 +1,1182 @@
+{
+  "reference": "/tmp/km3-pp-disabled-start-20261019-acceptance/stage1-native-reuse-reference.json",
+  "stage1_actual_execution": "/tmp/km3-pp-disabled-start-20261019-acceptance/probe-index-final.json",
+  "stage2_cpp_tests_repeated": false,
+  "stage2_arm_build_repeated": false,
+  "rows": [
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "build-arm64/libpmp4010_velocity.so.1.0.0",
+      "expected": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+      "actual": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/CMakeLists.txt",
+      "expected": "26ba92de0f6e7204919950943fa5fea0ca48e86d4aff50dc1a3ca17e5b3e42a6",
+      "actual": "26ba92de0f6e7204919950943fa5fea0ca48e86d4aff50dc1a3ca17e5b3e42a6"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/cmake/aarch64-linux-gnu.cmake",
+      "expected": "14214184d3518b85b432ad6684bfc6a122a1f9355fd8b5a5fb74c2b2e267af46",
+      "actual": "14214184d3518b85b432ad6684bfc6a122a1f9355fd8b5a5fb74c2b2e267af46"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/CMakeLists.txt",
+      "expected": "c9d8e84f9c09f4e831f3267feac4663b466428aaffbe4ac48bd95ecc64c7cf41",
+      "actual": "c9d8e84f9c09f4e831f3267feac4663b466428aaffbe4ac48bd95ecc64c7cf41"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/CONTRACT.md",
+      "expected": "e0a853144fbddc8b20ce43a674af7ae1d52a4d1f05cd97153cb2b0f56638b077",
+      "actual": "e0a853144fbddc8b20ce43a674af7ae1d52a4d1f05cd97153cb2b0f56638b077"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/README.md",
+      "expected": "091e089b47ed6d5589861e80d9467daf61bdd7aed753f6c5884f7d0343ed3275",
+      "actual": "091e089b47ed6d5589861e80d9467daf61bdd7aed753f6c5884f7d0343ed3275"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/od.json",
+      "expected": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e",
+      "actual": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/od_access_generated.hpp",
+      "expected": "5144ed5e763beab5004d225e215fc76707a7f4cb42d222eb2da473bb594a33fb",
+      "actual": "5144ed5e763beab5004d225e215fc76707a7f4cb42d222eb2da473bb594a33fb"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/od_generated.hpp",
+      "expected": "b726bf604ce42c91ce048dfdb2891dde23e374ce9234cabe0416172ffaea5d40",
+      "actual": "b726bf604ce42c91ce048dfdb2891dde23e374ce9234cabe0416172ffaea5d40"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/pdo_config.hpp",
+      "expected": "ce29b7442e9487d2b5b5e8b4c947f2db1bc8d7c71c1022bac4affb7bc198a229",
+      "actual": "ce29b7442e9487d2b5b5e8b4c947f2db1bc8d7c71c1022bac4affb7bc198a229"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/pmp4010_driver.cpp",
+      "expected": "7ef4f5adb42c77e5b6ae18afb56ab1482c0108dae270e0e60dcb05bc81ee5182",
+      "actual": "7ef4f5adb42c77e5b6ae18afb56ab1482c0108dae270e0e60dcb05bc81ee5182"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/pmp4010_driver.hpp",
+      "expected": "3b2131c2076f5a241285abf5852c22f689fdd81bd6f24d36980fc7208bdc5c6c",
+      "actual": "3b2131c2076f5a241285abf5852c22f689fdd81bd6f24d36980fc7208bdc5c6c"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/pmp4010_velocity.cpp",
+      "expected": "dd922c91bfd04c55a2a3ef5dfd72424f0ef9faee30c4f9225a38640f82b2546c",
+      "actual": "dd922c91bfd04c55a2a3ef5dfd72424f0ef9faee30c4f9225a38640f82b2546c"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/pmp4010_velocity.hpp",
+      "expected": "6e4f08e0f3c381fbedc016f456c860dfdb631971cb1a2462c493187ce0b769bc",
+      "actual": "6e4f08e0f3c381fbedc016f456c860dfdb631971cb1a2462c493187ce0b769bc"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/pmp4010_velocity_c.cpp",
+      "expected": "e70b72b671e17e578ad27199913fbbb89d6e97e4dbbbcd07be4fba3321629de7",
+      "actual": "e70b72b671e17e578ad27199913fbbb89d6e97e4dbbbcd07be4fba3321629de7"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/pmp4010_velocity_c.h",
+      "expected": "a051aa656583cdb97030bbdc86f9da0c9e725352fa3e54bab0e9999dbdae1856",
+      "actual": "a051aa656583cdb97030bbdc86f9da0c9e725352fa3e54bab0e9999dbdae1856"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/native/CMakeLists.txt",
+      "expected": "7d5cc42f78fc76b7c8ddb999e98d77cbc3b4bc260a55db7e79c74f44c3c0dffc",
+      "actual": "7d5cc42f78fc76b7c8ddb999e98d77cbc3b4bc260a55db7e79c74f44c3c0dffc"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/native/README.md",
+      "expected": "4972c83516eaf711eba2ba0628003b0b52fd1d628a700478cafc692770058b31",
+      "actual": "4972c83516eaf711eba2ba0628003b0b52fd1d628a700478cafc692770058b31"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/tests/CMakeLists.txt",
+      "expected": "3ef3fd0088db4377dd404437e2c5f4d5e22dfe0590cb89aac18fd20f3afb8042",
+      "actual": "3ef3fd0088db4377dd404437e2c5f4d5e22dfe0590cb89aac18fd20f3afb8042"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/tests/canopen_vectors_generated.hpp",
+      "expected": "24b4157dc692f419db728eff6bbeff4935db599de261d756e20dea04de0df0e0",
+      "actual": "24b4157dc692f419db728eff6bbeff4935db599de261d756e20dea04de0df0e0"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/tests/gen_velocity_vectors.py",
+      "expected": "e3e8cf509f236b0ee672ea520337c425f8b4bfca816176287308e406bec95442",
+      "actual": "e3e8cf509f236b0ee672ea520337c425f8b4bfca816176287308e406bec95442"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/tests/test_od_guard.cmake",
+      "expected": "e5392653ff3949469f2e2d8cab35efee36e11588b82ad760345b375881597eb2",
+      "actual": "e5392653ff3949469f2e2d8cab35efee36e11588b82ad760345b375881597eb2"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/tests/test_pmp4010.cpp",
+      "expected": "07ee9585ccd6da51edcfea38869b96c3dad2cf78128496975096c63d163e445d",
+      "actual": "07ee9585ccd6da51edcfea38869b96c3dad2cf78128496975096c63d163e445d"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/tests/test_pmp4010_velocity.cpp",
+      "expected": "fb59d5c0db056790d9cb9e352c99133a9b5d5726bdcb3818da446264f9191ec7",
+      "actual": "fb59d5c0db056790d9cb9e352c99133a9b5d5726bdcb3818da446264f9191ec7"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/tests/test_pmp4010_verified.cpp",
+      "expected": "6dceedae4ca6aa369570c50018ec2c84f4ec41e39c8ce9846f1f8c80aee4ef3b",
+      "actual": "6dceedae4ca6aa369570c50018ec2c84f4ec41e39c8ce9846f1f8c80aee4ef3b"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/tests/velocity_vectors.json",
+      "expected": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644",
+      "actual": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "tools/hwdriver/gen-canopen.py",
+      "expected": "ba1398c2cae0b31a5046210e207c544cca1e2856f41427883b06608052ef7133",
+      "actual": "ba1398c2cae0b31a5046210e207c544cca1e2856f41427883b06608052ef7133"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "tools/hwdriver/gen-od.py",
+      "expected": "8c49fe35f521a76f8459d95dbb2fa7618e967effae9eda7341995e693cfa1c0b",
+      "actual": "8c49fe35f521a76f8459d95dbb2fa7618e967effae9eda7341995e693cfa1c0b"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "tools/hwdriver/gen-pmp4010-access.py",
+      "expected": "b9d2c4c8406398562a25ef517cf99efd97d9f16ace6e07c9ccef39e07b36fd3d",
+      "actual": "b9d2c4c8406398562a25ef517cf99efd97d9f16ace6e07c9ccef39e07b36fd3d"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "tools/hwdriver/new-driver.sh",
+      "expected": "b01da723e8db161b26ef577e3f15da615cabb17ba145f90058f5cf57043511f4",
+      "actual": "b01da723e8db161b26ef577e3f15da615cabb17ba145f90058f5cf57043511f4"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_spsc_ring",
+      "expected": "7c5ff5ba448a693cd324fee41793c5c47c811a32c3a6bb429c0987ca34aa08ee",
+      "actual": "7c5ff5ba448a693cd324fee41793c5c47c811a32c3a6bb429c0987ca34aa08ee"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_error_code",
+      "expected": "decfd833fea9e8356e53f8ff24deafd0430ac35c2200a1ffb9ba04e18321356e",
+      "actual": "decfd833fea9e8356e53f8ff24deafd0430ac35c2200a1ffb9ba04e18321356e"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_frame",
+      "expected": "8c35f3b105035d95dba8b6579c30f97a9628b42f162d1383e68088748e16177b",
+      "actual": "8c35f3b105035d95dba8b6579c30f97a9628b42f162d1383e68088748e16177b"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_config",
+      "expected": "fafbb2ccfa39e62b49eb5442554c880705409a229d5293bf15a016340797c074",
+      "actual": "fafbb2ccfa39e62b49eb5442554c880705409a229d5293bf15a016340797c074"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_hal",
+      "expected": "63ff6a27b409482290ac33a809907374243c4a93fd251f048d54db739c9ebcbf",
+      "actual": "63ff6a27b409482290ac33a809907374243c4a93fd251f048d54db739c9ebcbf"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_socketcan",
+      "expected": "a4b2c4d5fecb7e13b9b06e3617a7d7489c1b60df3b93db65032bae92fbdcabec",
+      "actual": "a4b2c4d5fecb7e13b9b06e3617a7d7489c1b60df3b93db65032bae92fbdcabec"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_pdo",
+      "expected": "3156f9a5cce39784bc54500ac2d8ac62705cdc8247f1c76ba59b1f4bb18ff147",
+      "actual": "3156f9a5cce39784bc54500ac2d8ac62705cdc8247f1c76ba59b1f4bb18ff147"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_sync",
+      "expected": "4d9df27323c8f723a71efcb0a4e134258d3ba3a4b44e10c96afb498618d7fb0b",
+      "actual": "4d9df27323c8f723a71efcb0a4e134258d3ba3a4b44e10c96afb498618d7fb0b"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_clock",
+      "expected": "eb6fc34416bd792c0c8423753ca1acf01543e0aebc539965ae3a9caec465cfc8",
+      "actual": "eb6fc34416bd792c0c8423753ca1acf01543e0aebc539965ae3a9caec465cfc8"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_rt_control",
+      "expected": "3c2d40455bf0043577906c545bd8e3379fd42f2c15da2e00370c5dedfe340d32",
+      "actual": "3c2d40455bf0043577906c545bd8e3379fd42f2c15da2e00370c5dedfe340d32"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/km3-rt-controller",
+      "expected": "1e8ed5dff177b6d03fb686551da206e96c767376b5f6636f62497844db326477",
+      "actual": "1e8ed5dff177b6d03fb686551da206e96c767376b5f6636f62497844db326477"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/libpmp4010_velocity.so.1.0.0",
+      "expected": "7f1cb4efb3c2861311abd46daaa352961a6ea66b18fe615c2636516685d358a8",
+      "actual": "7f1cb4efb3c2861311abd46daaa352961a6ea66b18fe615c2636516685d358a8"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/drivers/pmp4010/tests/test_pmp4010",
+      "expected": "098af7d1b748e6017dc213e113c181075a51eb00871a08c2e11db743a4e5f8be",
+      "actual": "098af7d1b748e6017dc213e113c181075a51eb00871a08c2e11db743a4e5f8be"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/drivers/pmp4010/tests/test_pmp4010_verified",
+      "expected": "bdad0b57d9d131b1e835c3d16bb8595ce5b3604b532012789895b23a727702e7",
+      "actual": "bdad0b57d9d131b1e835c3d16bb8595ce5b3604b532012789895b23a727702e7"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/drivers/pmp4010/tests/test_pmp4010_velocity",
+      "expected": "c001972669de61b5d43c0bab3f769427f37562dc84432dc467c7c0f32b022e01",
+      "actual": "c001972669de61b5d43c0bab3f769427f37562dc84432dc467c7c0f32b022e01"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_spsc_ring",
+      "expected": "1460ce13e9fac30bd7d5a0ce4c11e216a6d3685a7dc06665bb9848e59f54017a",
+      "actual": "1460ce13e9fac30bd7d5a0ce4c11e216a6d3685a7dc06665bb9848e59f54017a"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_error_code",
+      "expected": "46154f60b013f00622e32c085a19e733ee254e0e110f0cf58f2e2c33c00ccb0a",
+      "actual": "46154f60b013f00622e32c085a19e733ee254e0e110f0cf58f2e2c33c00ccb0a"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_frame",
+      "expected": "ca9ada9a1e0b0723a98685d4a2da3a752c1bc8a4a8c619897049287406b80721",
+      "actual": "ca9ada9a1e0b0723a98685d4a2da3a752c1bc8a4a8c619897049287406b80721"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_config",
+      "expected": "7c10f74c04356692eb9e85b9d106a349bc6e1c40041f4b62de9052b647382623",
+      "actual": "7c10f74c04356692eb9e85b9d106a349bc6e1c40041f4b62de9052b647382623"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_hal",
+      "expected": "9f4c7457754ecf3b4e360d2b57a470f24b9017712dc50c53a611b9574b9c099a",
+      "actual": "9f4c7457754ecf3b4e360d2b57a470f24b9017712dc50c53a611b9574b9c099a"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_socketcan",
+      "expected": "a5e73cb64786717a025843a833cfc07ace265cc77d36b161bde89953f2623b15",
+      "actual": "a5e73cb64786717a025843a833cfc07ace265cc77d36b161bde89953f2623b15"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_pdo",
+      "expected": "8c49cee1bf3742c6e412d8cb41903c7ac56fe673d0fc724b5ecca6f6955ee7f8",
+      "actual": "8c49cee1bf3742c6e412d8cb41903c7ac56fe673d0fc724b5ecca6f6955ee7f8"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_sync",
+      "expected": "478c61ce413d681fd06c47f3ad2568dd71c69dd396402765c4b871bb40126bf6",
+      "actual": "478c61ce413d681fd06c47f3ad2568dd71c69dd396402765c4b871bb40126bf6"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_clock",
+      "expected": "adfe7913178b8b657854fae551c8b605294557bfd9f1630adf0ee64a5222fbb4",
+      "actual": "adfe7913178b8b657854fae551c8b605294557bfd9f1630adf0ee64a5222fbb4"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_rt_control",
+      "expected": "9a7b6c6eeef586223edc3e009e63d599339c70bb84f6ea03086e4b146fae7f5f",
+      "actual": "9a7b6c6eeef586223edc3e009e63d599339c70bb84f6ea03086e4b146fae7f5f"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/km3-rt-controller",
+      "expected": "bed415ff56b79e52622114e6eb39d5a0f0a827a1925b194cf0b6fe1f939e5666",
+      "actual": "bed415ff56b79e52622114e6eb39d5a0f0a827a1925b194cf0b6fe1f939e5666"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/libpmp4010_velocity.so.1.0.0",
+      "expected": "ada5fca720da310fe2ae3ec65c2618b0bd12c7844dc4d1321299bcfd48f59170",
+      "actual": "ada5fca720da310fe2ae3ec65c2618b0bd12c7844dc4d1321299bcfd48f59170"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/drivers/pmp4010/tests/test_pmp4010",
+      "expected": "86abdfee9e0d520b2abba24b5d70a6df0bd82a468fe24a60baa80a0fe3f1c29a",
+      "actual": "86abdfee9e0d520b2abba24b5d70a6df0bd82a468fe24a60baa80a0fe3f1c29a"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/drivers/pmp4010/tests/test_pmp4010_verified",
+      "expected": "4dfbc9e2b372ea36eb84bac3917ef93744b65fa322b77f09328b84bbab7edb7e",
+      "actual": "4dfbc9e2b372ea36eb84bac3917ef93744b65fa322b77f09328b84bbab7edb7e"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/drivers/pmp4010/tests/test_pmp4010_velocity",
+      "expected": "0365e7e865fe2e1a9ffb72c3ca8abe0ce414a7a07de26638beb66ed3a2877be0",
+      "actual": "0365e7e865fe2e1a9ffb72c3ca8abe0ce414a7a07de26638beb66ed3a2877be0"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_spsc_ring",
+      "expected": "36a05dfd329aa1c0e913e761e848a7a7c0c5628a98030960417b31342bc2613c",
+      "actual": "36a05dfd329aa1c0e913e761e848a7a7c0c5628a98030960417b31342bc2613c"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_error_code",
+      "expected": "100d3af85beb96618d349684f580b8d89ec2a70bdec6d66ebd8ba065d2a0d3d3",
+      "actual": "100d3af85beb96618d349684f580b8d89ec2a70bdec6d66ebd8ba065d2a0d3d3"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_frame",
+      "expected": "8c99358185628568dd3d8a408a72082f884f0b9dd993605232743da8fc485f5a",
+      "actual": "8c99358185628568dd3d8a408a72082f884f0b9dd993605232743da8fc485f5a"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_config",
+      "expected": "81d68d4949b7207c5af64c0055c671841a0e60da7a2e17902ab5e8fb213b530a",
+      "actual": "81d68d4949b7207c5af64c0055c671841a0e60da7a2e17902ab5e8fb213b530a"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_hal",
+      "expected": "a952103d1916b9a7747df175be06ef83b205b0d409a9af48faa8de545a6c2962",
+      "actual": "a952103d1916b9a7747df175be06ef83b205b0d409a9af48faa8de545a6c2962"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_socketcan",
+      "expected": "8e6b0539afb71319b992ca449e91e10c414b25e36f617c7d03bcb8e8a34436ac",
+      "actual": "8e6b0539afb71319b992ca449e91e10c414b25e36f617c7d03bcb8e8a34436ac"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_pdo",
+      "expected": "fb5d5147c4d24d7aeaede329bba84fdb2ee7f71a1edabe1b082a5b581de6b34b",
+      "actual": "fb5d5147c4d24d7aeaede329bba84fdb2ee7f71a1edabe1b082a5b581de6b34b"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_sync",
+      "expected": "0e3c90ffb5a95223c4f3b8a5a7570ad5d6b6fb708a7a92b5c0411397a6938369",
+      "actual": "0e3c90ffb5a95223c4f3b8a5a7570ad5d6b6fb708a7a92b5c0411397a6938369"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_clock",
+      "expected": "dbbe93170541c4e04413679cedc1039ecd94fbfda7de8c51b97f487ead7925b9",
+      "actual": "dbbe93170541c4e04413679cedc1039ecd94fbfda7de8c51b97f487ead7925b9"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_rt_control",
+      "expected": "b9db09a4437bbf7969ff01567d194dd2079a87f7cbeebae682284bdefd3b8deb",
+      "actual": "b9db09a4437bbf7969ff01567d194dd2079a87f7cbeebae682284bdefd3b8deb"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/km3-rt-controller",
+      "expected": "843729859f4d55d5acca945510f7596ed6d41b790af77ca4997d20a594742339",
+      "actual": "843729859f4d55d5acca945510f7596ed6d41b790af77ca4997d20a594742339"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/libpmp4010_velocity.so.1.0.0",
+      "expected": "2f7ac139f7957d2b44c8761a9595420a2d2d3290656a7d409ce7672af75a1ea4",
+      "actual": "2f7ac139f7957d2b44c8761a9595420a2d2d3290656a7d409ce7672af75a1ea4"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/drivers/pmp4010/tests/test_pmp4010",
+      "expected": "0916cbd60e4df13ce96c634c63bb62fa756cd2350929cba5346c656f94e2cf38",
+      "actual": "0916cbd60e4df13ce96c634c63bb62fa756cd2350929cba5346c656f94e2cf38"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/drivers/pmp4010/tests/test_pmp4010_verified",
+      "expected": "c68dd9484b86a34d7720497a964f14f76bf5fce2e5c6f452d4798173753b618a",
+      "actual": "c68dd9484b86a34d7720497a964f14f76bf5fce2e5c6f452d4798173753b618a"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/drivers/pmp4010/tests/test_pmp4010_velocity",
+      "expected": "f03f7566b5eed0281f5c604c2744ae613a8f4e04e358fb7a6aaf5c08545cd1ab",
+      "actual": "f03f7566b5eed0281f5c604c2744ae613a8f4e04e358fb7a6aaf5c08545cd1ab"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_spsc_ring",
+      "expected": "42d2bba46fd8c57740d4c73b5b7eac5c3670e700c6a4aff3ea929e293f2eafb9",
+      "actual": "42d2bba46fd8c57740d4c73b5b7eac5c3670e700c6a4aff3ea929e293f2eafb9"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_error_code",
+      "expected": "7e0fa520c43c5bece403d6401c4a7c1313efaf5b35ed922f7fd5a052bce4b91c",
+      "actual": "7e0fa520c43c5bece403d6401c4a7c1313efaf5b35ed922f7fd5a052bce4b91c"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_frame",
+      "expected": "2a2f0698f20da2fa2e341aa7e199adb4b4069a5a13756300d60b30522938e0b3",
+      "actual": "2a2f0698f20da2fa2e341aa7e199adb4b4069a5a13756300d60b30522938e0b3"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_config",
+      "expected": "c3f01cb08ca2c9734bb9eae66d0a04ebb0c9be92b8cebfa10c1eed029bacc0c9",
+      "actual": "c3f01cb08ca2c9734bb9eae66d0a04ebb0c9be92b8cebfa10c1eed029bacc0c9"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_hal",
+      "expected": "0d9cabfab55ad95211cf77b2201b737e5e38cdac3f1dd276310b07c78de7bb3d",
+      "actual": "0d9cabfab55ad95211cf77b2201b737e5e38cdac3f1dd276310b07c78de7bb3d"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_socketcan",
+      "expected": "456a67153ea4220650e4fdf009f6addf5c2baf774adb3d328d3ffa99acd41093",
+      "actual": "456a67153ea4220650e4fdf009f6addf5c2baf774adb3d328d3ffa99acd41093"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_pdo",
+      "expected": "75e32b42ce366bfe7d21af02560d23ab8ae4f054036645982cf0f5975741e8ff",
+      "actual": "75e32b42ce366bfe7d21af02560d23ab8ae4f054036645982cf0f5975741e8ff"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_sync",
+      "expected": "1a99512ab91bcc8bba0847f5d7ae871162512dfe5ff2012b100bb1cda398fbfa",
+      "actual": "1a99512ab91bcc8bba0847f5d7ae871162512dfe5ff2012b100bb1cda398fbfa"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_clock",
+      "expected": "7768167891fba5442731b760182e6d087cc82916fc9dd10cf200f39784593d7f",
+      "actual": "7768167891fba5442731b760182e6d087cc82916fc9dd10cf200f39784593d7f"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_rt_control",
+      "expected": "67b578efbb624324b705212331a4dcd1bde6d41fa9bda2937ebeef7898a433a4",
+      "actual": "67b578efbb624324b705212331a4dcd1bde6d41fa9bda2937ebeef7898a433a4"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/km3-rt-controller",
+      "expected": "af3a5d43750d21ca885d9a0ec7b39c7c7508cbc5f54bb99b03c2f23fd731f845",
+      "actual": "af3a5d43750d21ca885d9a0ec7b39c7c7508cbc5f54bb99b03c2f23fd731f845"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/libpmp4010_velocity.so.1.0.0",
+      "expected": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+      "actual": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/drivers/pmp4010/tests/test_pmp4010",
+      "expected": "72748c159762466e7e707a84372be162d261070789318f4cca02280e5a6ec3d8",
+      "actual": "72748c159762466e7e707a84372be162d261070789318f4cca02280e5a6ec3d8"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/drivers/pmp4010/tests/test_pmp4010_verified",
+      "expected": "ff3cddf5ae0c500b40f74be2accef3b4f0b2234144e8ef890392e6cf07a479b7",
+      "actual": "ff3cddf5ae0c500b40f74be2accef3b4f0b2234144e8ef890392e6cf07a479b7"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/drivers/pmp4010/tests/test_pmp4010_velocity",
+      "expected": "74fa85196a2c113a1f3a251049ac50d0ee81ba2952c122194b98f83984f01567",
+      "actual": "74fa85196a2c113a1f3a251049ac50d0ee81ba2952c122194b98f83984f01567"
+    }
+  ],
+  "all_match": true,
+  "artifact_capture_timing": "source hashes captured in stage1 package after actual builds; this filtered reference prepared before stage2 freeze",
+  "after_rows": [
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "build-arm64/libpmp4010_velocity.so.1.0.0",
+      "expected": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+      "actual": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+      "after": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/CMakeLists.txt",
+      "expected": "26ba92de0f6e7204919950943fa5fea0ca48e86d4aff50dc1a3ca17e5b3e42a6",
+      "actual": "26ba92de0f6e7204919950943fa5fea0ca48e86d4aff50dc1a3ca17e5b3e42a6",
+      "after": "26ba92de0f6e7204919950943fa5fea0ca48e86d4aff50dc1a3ca17e5b3e42a6"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/cmake/aarch64-linux-gnu.cmake",
+      "expected": "14214184d3518b85b432ad6684bfc6a122a1f9355fd8b5a5fb74c2b2e267af46",
+      "actual": "14214184d3518b85b432ad6684bfc6a122a1f9355fd8b5a5fb74c2b2e267af46",
+      "after": "14214184d3518b85b432ad6684bfc6a122a1f9355fd8b5a5fb74c2b2e267af46"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/CMakeLists.txt",
+      "expected": "c9d8e84f9c09f4e831f3267feac4663b466428aaffbe4ac48bd95ecc64c7cf41",
+      "actual": "c9d8e84f9c09f4e831f3267feac4663b466428aaffbe4ac48bd95ecc64c7cf41",
+      "after": "c9d8e84f9c09f4e831f3267feac4663b466428aaffbe4ac48bd95ecc64c7cf41"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/CONTRACT.md",
+      "expected": "e0a853144fbddc8b20ce43a674af7ae1d52a4d1f05cd97153cb2b0f56638b077",
+      "actual": "e0a853144fbddc8b20ce43a674af7ae1d52a4d1f05cd97153cb2b0f56638b077",
+      "after": "e0a853144fbddc8b20ce43a674af7ae1d52a4d1f05cd97153cb2b0f56638b077"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/README.md",
+      "expected": "091e089b47ed6d5589861e80d9467daf61bdd7aed753f6c5884f7d0343ed3275",
+      "actual": "091e089b47ed6d5589861e80d9467daf61bdd7aed753f6c5884f7d0343ed3275",
+      "after": "091e089b47ed6d5589861e80d9467daf61bdd7aed753f6c5884f7d0343ed3275"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/od.json",
+      "expected": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e",
+      "actual": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e",
+      "after": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/od_access_generated.hpp",
+      "expected": "5144ed5e763beab5004d225e215fc76707a7f4cb42d222eb2da473bb594a33fb",
+      "actual": "5144ed5e763beab5004d225e215fc76707a7f4cb42d222eb2da473bb594a33fb",
+      "after": "5144ed5e763beab5004d225e215fc76707a7f4cb42d222eb2da473bb594a33fb"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/od_generated.hpp",
+      "expected": "b726bf604ce42c91ce048dfdb2891dde23e374ce9234cabe0416172ffaea5d40",
+      "actual": "b726bf604ce42c91ce048dfdb2891dde23e374ce9234cabe0416172ffaea5d40",
+      "after": "b726bf604ce42c91ce048dfdb2891dde23e374ce9234cabe0416172ffaea5d40"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/pdo_config.hpp",
+      "expected": "ce29b7442e9487d2b5b5e8b4c947f2db1bc8d7c71c1022bac4affb7bc198a229",
+      "actual": "ce29b7442e9487d2b5b5e8b4c947f2db1bc8d7c71c1022bac4affb7bc198a229",
+      "after": "ce29b7442e9487d2b5b5e8b4c947f2db1bc8d7c71c1022bac4affb7bc198a229"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/pmp4010_driver.cpp",
+      "expected": "7ef4f5adb42c77e5b6ae18afb56ab1482c0108dae270e0e60dcb05bc81ee5182",
+      "actual": "7ef4f5adb42c77e5b6ae18afb56ab1482c0108dae270e0e60dcb05bc81ee5182",
+      "after": "7ef4f5adb42c77e5b6ae18afb56ab1482c0108dae270e0e60dcb05bc81ee5182"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/pmp4010_driver.hpp",
+      "expected": "3b2131c2076f5a241285abf5852c22f689fdd81bd6f24d36980fc7208bdc5c6c",
+      "actual": "3b2131c2076f5a241285abf5852c22f689fdd81bd6f24d36980fc7208bdc5c6c",
+      "after": "3b2131c2076f5a241285abf5852c22f689fdd81bd6f24d36980fc7208bdc5c6c"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/pmp4010_velocity.cpp",
+      "expected": "dd922c91bfd04c55a2a3ef5dfd72424f0ef9faee30c4f9225a38640f82b2546c",
+      "actual": "dd922c91bfd04c55a2a3ef5dfd72424f0ef9faee30c4f9225a38640f82b2546c",
+      "after": "dd922c91bfd04c55a2a3ef5dfd72424f0ef9faee30c4f9225a38640f82b2546c"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/pmp4010_velocity.hpp",
+      "expected": "6e4f08e0f3c381fbedc016f456c860dfdb631971cb1a2462c493187ce0b769bc",
+      "actual": "6e4f08e0f3c381fbedc016f456c860dfdb631971cb1a2462c493187ce0b769bc",
+      "after": "6e4f08e0f3c381fbedc016f456c860dfdb631971cb1a2462c493187ce0b769bc"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/pmp4010_velocity_c.cpp",
+      "expected": "e70b72b671e17e578ad27199913fbbb89d6e97e4dbbbcd07be4fba3321629de7",
+      "actual": "e70b72b671e17e578ad27199913fbbb89d6e97e4dbbbcd07be4fba3321629de7",
+      "after": "e70b72b671e17e578ad27199913fbbb89d6e97e4dbbbcd07be4fba3321629de7"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/driver/pmp4010_velocity_c.h",
+      "expected": "a051aa656583cdb97030bbdc86f9da0c9e725352fa3e54bab0e9999dbdae1856",
+      "actual": "a051aa656583cdb97030bbdc86f9da0c9e725352fa3e54bab0e9999dbdae1856",
+      "after": "a051aa656583cdb97030bbdc86f9da0c9e725352fa3e54bab0e9999dbdae1856"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/native/CMakeLists.txt",
+      "expected": "7d5cc42f78fc76b7c8ddb999e98d77cbc3b4bc260a55db7e79c74f44c3c0dffc",
+      "actual": "7d5cc42f78fc76b7c8ddb999e98d77cbc3b4bc260a55db7e79c74f44c3c0dffc",
+      "after": "7d5cc42f78fc76b7c8ddb999e98d77cbc3b4bc260a55db7e79c74f44c3c0dffc"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/native/README.md",
+      "expected": "4972c83516eaf711eba2ba0628003b0b52fd1d628a700478cafc692770058b31",
+      "actual": "4972c83516eaf711eba2ba0628003b0b52fd1d628a700478cafc692770058b31",
+      "after": "4972c83516eaf711eba2ba0628003b0b52fd1d628a700478cafc692770058b31"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/tests/CMakeLists.txt",
+      "expected": "3ef3fd0088db4377dd404437e2c5f4d5e22dfe0590cb89aac18fd20f3afb8042",
+      "actual": "3ef3fd0088db4377dd404437e2c5f4d5e22dfe0590cb89aac18fd20f3afb8042",
+      "after": "3ef3fd0088db4377dd404437e2c5f4d5e22dfe0590cb89aac18fd20f3afb8042"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/tests/canopen_vectors_generated.hpp",
+      "expected": "24b4157dc692f419db728eff6bbeff4935db599de261d756e20dea04de0df0e0",
+      "actual": "24b4157dc692f419db728eff6bbeff4935db599de261d756e20dea04de0df0e0",
+      "after": "24b4157dc692f419db728eff6bbeff4935db599de261d756e20dea04de0df0e0"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/tests/gen_velocity_vectors.py",
+      "expected": "e3e8cf509f236b0ee672ea520337c425f8b4bfca816176287308e406bec95442",
+      "actual": "e3e8cf509f236b0ee672ea520337c425f8b4bfca816176287308e406bec95442",
+      "after": "e3e8cf509f236b0ee672ea520337c425f8b4bfca816176287308e406bec95442"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/tests/test_od_guard.cmake",
+      "expected": "e5392653ff3949469f2e2d8cab35efee36e11588b82ad760345b375881597eb2",
+      "actual": "e5392653ff3949469f2e2d8cab35efee36e11588b82ad760345b375881597eb2",
+      "after": "e5392653ff3949469f2e2d8cab35efee36e11588b82ad760345b375881597eb2"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/tests/test_pmp4010.cpp",
+      "expected": "07ee9585ccd6da51edcfea38869b96c3dad2cf78128496975096c63d163e445d",
+      "actual": "07ee9585ccd6da51edcfea38869b96c3dad2cf78128496975096c63d163e445d",
+      "after": "07ee9585ccd6da51edcfea38869b96c3dad2cf78128496975096c63d163e445d"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/tests/test_pmp4010_velocity.cpp",
+      "expected": "fb59d5c0db056790d9cb9e352c99133a9b5d5726bdcb3818da446264f9191ec7",
+      "actual": "fb59d5c0db056790d9cb9e352c99133a9b5d5726bdcb3818da446264f9191ec7",
+      "after": "fb59d5c0db056790d9cb9e352c99133a9b5d5726bdcb3818da446264f9191ec7"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/tests/test_pmp4010_verified.cpp",
+      "expected": "6dceedae4ca6aa369570c50018ec2c84f4ec41e39c8ce9846f1f8c80aee4ef3b",
+      "actual": "6dceedae4ca6aa369570c50018ec2c84f4ec41e39c8ce9846f1f8c80aee4ef3b",
+      "after": "6dceedae4ca6aa369570c50018ec2c84f4ec41e39c8ce9846f1f8c80aee4ef3b"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "device/drivers/pmp4010/tests/velocity_vectors.json",
+      "expected": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644",
+      "actual": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644",
+      "after": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "tools/hwdriver/gen-canopen.py",
+      "expected": "ba1398c2cae0b31a5046210e207c544cca1e2856f41427883b06608052ef7133",
+      "actual": "ba1398c2cae0b31a5046210e207c544cca1e2856f41427883b06608052ef7133",
+      "after": "ba1398c2cae0b31a5046210e207c544cca1e2856f41427883b06608052ef7133"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "tools/hwdriver/gen-od.py",
+      "expected": "8c49fe35f521a76f8459d95dbb2fa7618e967effae9eda7341995e693cfa1c0b",
+      "actual": "8c49fe35f521a76f8459d95dbb2fa7618e967effae9eda7341995e693cfa1c0b",
+      "after": "8c49fe35f521a76f8459d95dbb2fa7618e967effae9eda7341995e693cfa1c0b"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "tools/hwdriver/gen-pmp4010-access.py",
+      "expected": "b9d2c4c8406398562a25ef517cf99efd97d9f16ace6e07c9ccef39e07b36fd3d",
+      "actual": "b9d2c4c8406398562a25ef517cf99efd97d9f16ace6e07c9ccef39e07b36fd3d",
+      "after": "b9d2c4c8406398562a25ef517cf99efd97d9f16ace6e07c9ccef39e07b36fd3d"
+    },
+    {
+      "group": "stage1_required_input_hashes",
+      "path": "tools/hwdriver/new-driver.sh",
+      "expected": "b01da723e8db161b26ef577e3f15da615cabb17ba145f90058f5cf57043511f4",
+      "actual": "b01da723e8db161b26ef577e3f15da615cabb17ba145f90058f5cf57043511f4",
+      "after": "b01da723e8db161b26ef577e3f15da615cabb17ba145f90058f5cf57043511f4"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_spsc_ring",
+      "expected": "7c5ff5ba448a693cd324fee41793c5c47c811a32c3a6bb429c0987ca34aa08ee",
+      "actual": "7c5ff5ba448a693cd324fee41793c5c47c811a32c3a6bb429c0987ca34aa08ee",
+      "after": "7c5ff5ba448a693cd324fee41793c5c47c811a32c3a6bb429c0987ca34aa08ee"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_error_code",
+      "expected": "decfd833fea9e8356e53f8ff24deafd0430ac35c2200a1ffb9ba04e18321356e",
+      "actual": "decfd833fea9e8356e53f8ff24deafd0430ac35c2200a1ffb9ba04e18321356e",
+      "after": "decfd833fea9e8356e53f8ff24deafd0430ac35c2200a1ffb9ba04e18321356e"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_frame",
+      "expected": "8c35f3b105035d95dba8b6579c30f97a9628b42f162d1383e68088748e16177b",
+      "actual": "8c35f3b105035d95dba8b6579c30f97a9628b42f162d1383e68088748e16177b",
+      "after": "8c35f3b105035d95dba8b6579c30f97a9628b42f162d1383e68088748e16177b"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_config",
+      "expected": "fafbb2ccfa39e62b49eb5442554c880705409a229d5293bf15a016340797c074",
+      "actual": "fafbb2ccfa39e62b49eb5442554c880705409a229d5293bf15a016340797c074",
+      "after": "fafbb2ccfa39e62b49eb5442554c880705409a229d5293bf15a016340797c074"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_hal",
+      "expected": "63ff6a27b409482290ac33a809907374243c4a93fd251f048d54db739c9ebcbf",
+      "actual": "63ff6a27b409482290ac33a809907374243c4a93fd251f048d54db739c9ebcbf",
+      "after": "63ff6a27b409482290ac33a809907374243c4a93fd251f048d54db739c9ebcbf"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_socketcan",
+      "expected": "a4b2c4d5fecb7e13b9b06e3617a7d7489c1b60df3b93db65032bae92fbdcabec",
+      "actual": "a4b2c4d5fecb7e13b9b06e3617a7d7489c1b60df3b93db65032bae92fbdcabec",
+      "after": "a4b2c4d5fecb7e13b9b06e3617a7d7489c1b60df3b93db65032bae92fbdcabec"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_pdo",
+      "expected": "3156f9a5cce39784bc54500ac2d8ac62705cdc8247f1c76ba59b1f4bb18ff147",
+      "actual": "3156f9a5cce39784bc54500ac2d8ac62705cdc8247f1c76ba59b1f4bb18ff147",
+      "after": "3156f9a5cce39784bc54500ac2d8ac62705cdc8247f1c76ba59b1f4bb18ff147"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_sync",
+      "expected": "4d9df27323c8f723a71efcb0a4e134258d3ba3a4b44e10c96afb498618d7fb0b",
+      "actual": "4d9df27323c8f723a71efcb0a4e134258d3ba3a4b44e10c96afb498618d7fb0b",
+      "after": "4d9df27323c8f723a71efcb0a4e134258d3ba3a4b44e10c96afb498618d7fb0b"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_clock",
+      "expected": "eb6fc34416bd792c0c8423753ca1acf01543e0aebc539965ae3a9caec465cfc8",
+      "actual": "eb6fc34416bd792c0c8423753ca1acf01543e0aebc539965ae3a9caec465cfc8",
+      "after": "eb6fc34416bd792c0c8423753ca1acf01543e0aebc539965ae3a9caec465cfc8"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/test_rt_control",
+      "expected": "3c2d40455bf0043577906c545bd8e3379fd42f2c15da2e00370c5dedfe340d32",
+      "actual": "3c2d40455bf0043577906c545bd8e3379fd42f2c15da2e00370c5dedfe340d32",
+      "after": "3c2d40455bf0043577906c545bd8e3379fd42f2c15da2e00370c5dedfe340d32"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/km3-rt-controller",
+      "expected": "1e8ed5dff177b6d03fb686551da206e96c767376b5f6636f62497844db326477",
+      "actual": "1e8ed5dff177b6d03fb686551da206e96c767376b5f6636f62497844db326477",
+      "after": "1e8ed5dff177b6d03fb686551da206e96c767376b5f6636f62497844db326477"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/libpmp4010_velocity.so.1.0.0",
+      "expected": "7f1cb4efb3c2861311abd46daaa352961a6ea66b18fe615c2636516685d358a8",
+      "actual": "7f1cb4efb3c2861311abd46daaa352961a6ea66b18fe615c2636516685d358a8",
+      "after": "7f1cb4efb3c2861311abd46daaa352961a6ea66b18fe615c2636516685d358a8"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/drivers/pmp4010/tests/test_pmp4010",
+      "expected": "098af7d1b748e6017dc213e113c181075a51eb00871a08c2e11db743a4e5f8be",
+      "actual": "098af7d1b748e6017dc213e113c181075a51eb00871a08c2e11db743a4e5f8be",
+      "after": "098af7d1b748e6017dc213e113c181075a51eb00871a08c2e11db743a4e5f8be"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/drivers/pmp4010/tests/test_pmp4010_verified",
+      "expected": "bdad0b57d9d131b1e835c3d16bb8595ce5b3604b532012789895b23a727702e7",
+      "actual": "bdad0b57d9d131b1e835c3d16bb8595ce5b3604b532012789895b23a727702e7",
+      "after": "bdad0b57d9d131b1e835c3d16bb8595ce5b3604b532012789895b23a727702e7"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-host/drivers/pmp4010/tests/test_pmp4010_velocity",
+      "expected": "c001972669de61b5d43c0bab3f769427f37562dc84432dc467c7c0f32b022e01",
+      "actual": "c001972669de61b5d43c0bab3f769427f37562dc84432dc467c7c0f32b022e01",
+      "after": "c001972669de61b5d43c0bab3f769427f37562dc84432dc467c7c0f32b022e01"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_spsc_ring",
+      "expected": "1460ce13e9fac30bd7d5a0ce4c11e216a6d3685a7dc06665bb9848e59f54017a",
+      "actual": "1460ce13e9fac30bd7d5a0ce4c11e216a6d3685a7dc06665bb9848e59f54017a",
+      "after": "1460ce13e9fac30bd7d5a0ce4c11e216a6d3685a7dc06665bb9848e59f54017a"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_error_code",
+      "expected": "46154f60b013f00622e32c085a19e733ee254e0e110f0cf58f2e2c33c00ccb0a",
+      "actual": "46154f60b013f00622e32c085a19e733ee254e0e110f0cf58f2e2c33c00ccb0a",
+      "after": "46154f60b013f00622e32c085a19e733ee254e0e110f0cf58f2e2c33c00ccb0a"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_frame",
+      "expected": "ca9ada9a1e0b0723a98685d4a2da3a752c1bc8a4a8c619897049287406b80721",
+      "actual": "ca9ada9a1e0b0723a98685d4a2da3a752c1bc8a4a8c619897049287406b80721",
+      "after": "ca9ada9a1e0b0723a98685d4a2da3a752c1bc8a4a8c619897049287406b80721"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_config",
+      "expected": "7c10f74c04356692eb9e85b9d106a349bc6e1c40041f4b62de9052b647382623",
+      "actual": "7c10f74c04356692eb9e85b9d106a349bc6e1c40041f4b62de9052b647382623",
+      "after": "7c10f74c04356692eb9e85b9d106a349bc6e1c40041f4b62de9052b647382623"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_hal",
+      "expected": "9f4c7457754ecf3b4e360d2b57a470f24b9017712dc50c53a611b9574b9c099a",
+      "actual": "9f4c7457754ecf3b4e360d2b57a470f24b9017712dc50c53a611b9574b9c099a",
+      "after": "9f4c7457754ecf3b4e360d2b57a470f24b9017712dc50c53a611b9574b9c099a"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_socketcan",
+      "expected": "a5e73cb64786717a025843a833cfc07ace265cc77d36b161bde89953f2623b15",
+      "actual": "a5e73cb64786717a025843a833cfc07ace265cc77d36b161bde89953f2623b15",
+      "after": "a5e73cb64786717a025843a833cfc07ace265cc77d36b161bde89953f2623b15"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_pdo",
+      "expected": "8c49cee1bf3742c6e412d8cb41903c7ac56fe673d0fc724b5ecca6f6955ee7f8",
+      "actual": "8c49cee1bf3742c6e412d8cb41903c7ac56fe673d0fc724b5ecca6f6955ee7f8",
+      "after": "8c49cee1bf3742c6e412d8cb41903c7ac56fe673d0fc724b5ecca6f6955ee7f8"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_sync",
+      "expected": "478c61ce413d681fd06c47f3ad2568dd71c69dd396402765c4b871bb40126bf6",
+      "actual": "478c61ce413d681fd06c47f3ad2568dd71c69dd396402765c4b871bb40126bf6",
+      "after": "478c61ce413d681fd06c47f3ad2568dd71c69dd396402765c4b871bb40126bf6"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_clock",
+      "expected": "adfe7913178b8b657854fae551c8b605294557bfd9f1630adf0ee64a5222fbb4",
+      "actual": "adfe7913178b8b657854fae551c8b605294557bfd9f1630adf0ee64a5222fbb4",
+      "after": "adfe7913178b8b657854fae551c8b605294557bfd9f1630adf0ee64a5222fbb4"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/test_rt_control",
+      "expected": "9a7b6c6eeef586223edc3e009e63d599339c70bb84f6ea03086e4b146fae7f5f",
+      "actual": "9a7b6c6eeef586223edc3e009e63d599339c70bb84f6ea03086e4b146fae7f5f",
+      "after": "9a7b6c6eeef586223edc3e009e63d599339c70bb84f6ea03086e4b146fae7f5f"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/km3-rt-controller",
+      "expected": "bed415ff56b79e52622114e6eb39d5a0f0a827a1925b194cf0b6fe1f939e5666",
+      "actual": "bed415ff56b79e52622114e6eb39d5a0f0a827a1925b194cf0b6fe1f939e5666",
+      "after": "bed415ff56b79e52622114e6eb39d5a0f0a827a1925b194cf0b6fe1f939e5666"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/libpmp4010_velocity.so.1.0.0",
+      "expected": "ada5fca720da310fe2ae3ec65c2618b0bd12c7844dc4d1321299bcfd48f59170",
+      "actual": "ada5fca720da310fe2ae3ec65c2618b0bd12c7844dc4d1321299bcfd48f59170",
+      "after": "ada5fca720da310fe2ae3ec65c2618b0bd12c7844dc4d1321299bcfd48f59170"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/drivers/pmp4010/tests/test_pmp4010",
+      "expected": "86abdfee9e0d520b2abba24b5d70a6df0bd82a468fe24a60baa80a0fe3f1c29a",
+      "actual": "86abdfee9e0d520b2abba24b5d70a6df0bd82a468fe24a60baa80a0fe3f1c29a",
+      "after": "86abdfee9e0d520b2abba24b5d70a6df0bd82a468fe24a60baa80a0fe3f1c29a"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/drivers/pmp4010/tests/test_pmp4010_verified",
+      "expected": "4dfbc9e2b372ea36eb84bac3917ef93744b65fa322b77f09328b84bbab7edb7e",
+      "actual": "4dfbc9e2b372ea36eb84bac3917ef93744b65fa322b77f09328b84bbab7edb7e",
+      "after": "4dfbc9e2b372ea36eb84bac3917ef93744b65fa322b77f09328b84bbab7edb7e"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-asan/drivers/pmp4010/tests/test_pmp4010_velocity",
+      "expected": "0365e7e865fe2e1a9ffb72c3ca8abe0ce414a7a07de26638beb66ed3a2877be0",
+      "actual": "0365e7e865fe2e1a9ffb72c3ca8abe0ce414a7a07de26638beb66ed3a2877be0",
+      "after": "0365e7e865fe2e1a9ffb72c3ca8abe0ce414a7a07de26638beb66ed3a2877be0"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_spsc_ring",
+      "expected": "36a05dfd329aa1c0e913e761e848a7a7c0c5628a98030960417b31342bc2613c",
+      "actual": "36a05dfd329aa1c0e913e761e848a7a7c0c5628a98030960417b31342bc2613c",
+      "after": "36a05dfd329aa1c0e913e761e848a7a7c0c5628a98030960417b31342bc2613c"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_error_code",
+      "expected": "100d3af85beb96618d349684f580b8d89ec2a70bdec6d66ebd8ba065d2a0d3d3",
+      "actual": "100d3af85beb96618d349684f580b8d89ec2a70bdec6d66ebd8ba065d2a0d3d3",
+      "after": "100d3af85beb96618d349684f580b8d89ec2a70bdec6d66ebd8ba065d2a0d3d3"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_frame",
+      "expected": "8c99358185628568dd3d8a408a72082f884f0b9dd993605232743da8fc485f5a",
+      "actual": "8c99358185628568dd3d8a408a72082f884f0b9dd993605232743da8fc485f5a",
+      "after": "8c99358185628568dd3d8a408a72082f884f0b9dd993605232743da8fc485f5a"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_config",
+      "expected": "81d68d4949b7207c5af64c0055c671841a0e60da7a2e17902ab5e8fb213b530a",
+      "actual": "81d68d4949b7207c5af64c0055c671841a0e60da7a2e17902ab5e8fb213b530a",
+      "after": "81d68d4949b7207c5af64c0055c671841a0e60da7a2e17902ab5e8fb213b530a"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_hal",
+      "expected": "a952103d1916b9a7747df175be06ef83b205b0d409a9af48faa8de545a6c2962",
+      "actual": "a952103d1916b9a7747df175be06ef83b205b0d409a9af48faa8de545a6c2962",
+      "after": "a952103d1916b9a7747df175be06ef83b205b0d409a9af48faa8de545a6c2962"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_socketcan",
+      "expected": "8e6b0539afb71319b992ca449e91e10c414b25e36f617c7d03bcb8e8a34436ac",
+      "actual": "8e6b0539afb71319b992ca449e91e10c414b25e36f617c7d03bcb8e8a34436ac",
+      "after": "8e6b0539afb71319b992ca449e91e10c414b25e36f617c7d03bcb8e8a34436ac"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_pdo",
+      "expected": "fb5d5147c4d24d7aeaede329bba84fdb2ee7f71a1edabe1b082a5b581de6b34b",
+      "actual": "fb5d5147c4d24d7aeaede329bba84fdb2ee7f71a1edabe1b082a5b581de6b34b",
+      "after": "fb5d5147c4d24d7aeaede329bba84fdb2ee7f71a1edabe1b082a5b581de6b34b"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_sync",
+      "expected": "0e3c90ffb5a95223c4f3b8a5a7570ad5d6b6fb708a7a92b5c0411397a6938369",
+      "actual": "0e3c90ffb5a95223c4f3b8a5a7570ad5d6b6fb708a7a92b5c0411397a6938369",
+      "after": "0e3c90ffb5a95223c4f3b8a5a7570ad5d6b6fb708a7a92b5c0411397a6938369"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_clock",
+      "expected": "dbbe93170541c4e04413679cedc1039ecd94fbfda7de8c51b97f487ead7925b9",
+      "actual": "dbbe93170541c4e04413679cedc1039ecd94fbfda7de8c51b97f487ead7925b9",
+      "after": "dbbe93170541c4e04413679cedc1039ecd94fbfda7de8c51b97f487ead7925b9"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/test_rt_control",
+      "expected": "b9db09a4437bbf7969ff01567d194dd2079a87f7cbeebae682284bdefd3b8deb",
+      "actual": "b9db09a4437bbf7969ff01567d194dd2079a87f7cbeebae682284bdefd3b8deb",
+      "after": "b9db09a4437bbf7969ff01567d194dd2079a87f7cbeebae682284bdefd3b8deb"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/km3-rt-controller",
+      "expected": "843729859f4d55d5acca945510f7596ed6d41b790af77ca4997d20a594742339",
+      "actual": "843729859f4d55d5acca945510f7596ed6d41b790af77ca4997d20a594742339",
+      "after": "843729859f4d55d5acca945510f7596ed6d41b790af77ca4997d20a594742339"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/libpmp4010_velocity.so.1.0.0",
+      "expected": "2f7ac139f7957d2b44c8761a9595420a2d2d3290656a7d409ce7672af75a1ea4",
+      "actual": "2f7ac139f7957d2b44c8761a9595420a2d2d3290656a7d409ce7672af75a1ea4",
+      "after": "2f7ac139f7957d2b44c8761a9595420a2d2d3290656a7d409ce7672af75a1ea4"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/drivers/pmp4010/tests/test_pmp4010",
+      "expected": "0916cbd60e4df13ce96c634c63bb62fa756cd2350929cba5346c656f94e2cf38",
+      "actual": "0916cbd60e4df13ce96c634c63bb62fa756cd2350929cba5346c656f94e2cf38",
+      "after": "0916cbd60e4df13ce96c634c63bb62fa756cd2350929cba5346c656f94e2cf38"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/drivers/pmp4010/tests/test_pmp4010_verified",
+      "expected": "c68dd9484b86a34d7720497a964f14f76bf5fce2e5c6f452d4798173753b618a",
+      "actual": "c68dd9484b86a34d7720497a964f14f76bf5fce2e5c6f452d4798173753b618a",
+      "after": "c68dd9484b86a34d7720497a964f14f76bf5fce2e5c6f452d4798173753b618a"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-tsan/drivers/pmp4010/tests/test_pmp4010_velocity",
+      "expected": "f03f7566b5eed0281f5c604c2744ae613a8f4e04e358fb7a6aaf5c08545cd1ab",
+      "actual": "f03f7566b5eed0281f5c604c2744ae613a8f4e04e358fb7a6aaf5c08545cd1ab",
+      "after": "f03f7566b5eed0281f5c604c2744ae613a8f4e04e358fb7a6aaf5c08545cd1ab"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_spsc_ring",
+      "expected": "42d2bba46fd8c57740d4c73b5b7eac5c3670e700c6a4aff3ea929e293f2eafb9",
+      "actual": "42d2bba46fd8c57740d4c73b5b7eac5c3670e700c6a4aff3ea929e293f2eafb9",
+      "after": "42d2bba46fd8c57740d4c73b5b7eac5c3670e700c6a4aff3ea929e293f2eafb9"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_error_code",
+      "expected": "7e0fa520c43c5bece403d6401c4a7c1313efaf5b35ed922f7fd5a052bce4b91c",
+      "actual": "7e0fa520c43c5bece403d6401c4a7c1313efaf5b35ed922f7fd5a052bce4b91c",
+      "after": "7e0fa520c43c5bece403d6401c4a7c1313efaf5b35ed922f7fd5a052bce4b91c"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_frame",
+      "expected": "2a2f0698f20da2fa2e341aa7e199adb4b4069a5a13756300d60b30522938e0b3",
+      "actual": "2a2f0698f20da2fa2e341aa7e199adb4b4069a5a13756300d60b30522938e0b3",
+      "after": "2a2f0698f20da2fa2e341aa7e199adb4b4069a5a13756300d60b30522938e0b3"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_config",
+      "expected": "c3f01cb08ca2c9734bb9eae66d0a04ebb0c9be92b8cebfa10c1eed029bacc0c9",
+      "actual": "c3f01cb08ca2c9734bb9eae66d0a04ebb0c9be92b8cebfa10c1eed029bacc0c9",
+      "after": "c3f01cb08ca2c9734bb9eae66d0a04ebb0c9be92b8cebfa10c1eed029bacc0c9"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_hal",
+      "expected": "0d9cabfab55ad95211cf77b2201b737e5e38cdac3f1dd276310b07c78de7bb3d",
+      "actual": "0d9cabfab55ad95211cf77b2201b737e5e38cdac3f1dd276310b07c78de7bb3d",
+      "after": "0d9cabfab55ad95211cf77b2201b737e5e38cdac3f1dd276310b07c78de7bb3d"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_socketcan",
+      "expected": "456a67153ea4220650e4fdf009f6addf5c2baf774adb3d328d3ffa99acd41093",
+      "actual": "456a67153ea4220650e4fdf009f6addf5c2baf774adb3d328d3ffa99acd41093",
+      "after": "456a67153ea4220650e4fdf009f6addf5c2baf774adb3d328d3ffa99acd41093"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_pdo",
+      "expected": "75e32b42ce366bfe7d21af02560d23ab8ae4f054036645982cf0f5975741e8ff",
+      "actual": "75e32b42ce366bfe7d21af02560d23ab8ae4f054036645982cf0f5975741e8ff",
+      "after": "75e32b42ce366bfe7d21af02560d23ab8ae4f054036645982cf0f5975741e8ff"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_sync",
+      "expected": "1a99512ab91bcc8bba0847f5d7ae871162512dfe5ff2012b100bb1cda398fbfa",
+      "actual": "1a99512ab91bcc8bba0847f5d7ae871162512dfe5ff2012b100bb1cda398fbfa",
+      "after": "1a99512ab91bcc8bba0847f5d7ae871162512dfe5ff2012b100bb1cda398fbfa"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_clock",
+      "expected": "7768167891fba5442731b760182e6d087cc82916fc9dd10cf200f39784593d7f",
+      "actual": "7768167891fba5442731b760182e6d087cc82916fc9dd10cf200f39784593d7f",
+      "after": "7768167891fba5442731b760182e6d087cc82916fc9dd10cf200f39784593d7f"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/test_rt_control",
+      "expected": "67b578efbb624324b705212331a4dcd1bde6d41fa9bda2937ebeef7898a433a4",
+      "actual": "67b578efbb624324b705212331a4dcd1bde6d41fa9bda2937ebeef7898a433a4",
+      "after": "67b578efbb624324b705212331a4dcd1bde6d41fa9bda2937ebeef7898a433a4"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/km3-rt-controller",
+      "expected": "af3a5d43750d21ca885d9a0ec7b39c7c7508cbc5f54bb99b03c2f23fd731f845",
+      "actual": "af3a5d43750d21ca885d9a0ec7b39c7c7508cbc5f54bb99b03c2f23fd731f845",
+      "after": "af3a5d43750d21ca885d9a0ec7b39c7c7508cbc5f54bb99b03c2f23fd731f845"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/libpmp4010_velocity.so.1.0.0",
+      "expected": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+      "actual": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+      "after": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/drivers/pmp4010/tests/test_pmp4010",
+      "expected": "72748c159762466e7e707a84372be162d261070789318f4cca02280e5a6ec3d8",
+      "actual": "72748c159762466e7e707a84372be162d261070789318f4cca02280e5a6ec3d8",
+      "after": "72748c159762466e7e707a84372be162d261070789318f4cca02280e5a6ec3d8"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/drivers/pmp4010/tests/test_pmp4010_verified",
+      "expected": "ff3cddf5ae0c500b40f74be2accef3b4f0b2234144e8ef890392e6cf07a479b7",
+      "actual": "ff3cddf5ae0c500b40f74be2accef3b4f0b2234144e8ef890392e6cf07a479b7",
+      "after": "ff3cddf5ae0c500b40f74be2accef3b4f0b2234144e8ef890392e6cf07a479b7"
+    },
+    {
+      "group": "artifact_hashes_captured_after_stage1_before_stage2_freeze",
+      "path": "build-arm64/drivers/pmp4010/tests/test_pmp4010_velocity",
+      "expected": "74fa85196a2c113a1f3a251049ac50d0ee81ba2952c122194b98f83984f01567",
+      "actual": "74fa85196a2c113a1f3a251049ac50d0ee81ba2952c122194b98f83984f01567",
+      "after": "74fa85196a2c113a1f3a251049ac50d0ee81ba2952c122194b98f83984f01567"
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 """Non-RT bench model. One serialized bus, independent telemetry/action clients.
 
-All object addresses/types come from the checked OD, all PP validation and
-execution come from the CLI's position module. This module opens no bus until
+All object addresses/types come from the checked OD; PP motion reuses the CLI
+position module. Disabled preparation is a separate two-object transaction. This module opens no bus until
 an explicitly acknowledged background operation asks for it.
 """
 import copy
@@ -12,6 +12,7 @@ import uuid
 from pathlib import Path
 
 import pmp4010_position as position
+from pmp4010_faults import format_fault
 from pmp4010_params import TYPES
 
 # One policy is consumed by both entry and review. Read-only navigation never
@@ -19,8 +20,11 @@ from pmp4010_params import TYPES
 ACTION_POLICY = {
     'absolute': dict(label='绝对位置', confirm=True, od=True, settings=True, batch=False, input=True),
     'relative': dict(label='相对位置', confirm=True, od=True, settings=True, batch=False, input=True),
+    'prepare_pp': dict(label='失能准备', confirm=True, od=True, settings=True, batch=False, input=False),
+    'probe_pp_start': dict(label='未使能起步核证', confirm=True, od=True, settings=True, batch=False, input=False),
     'zero': dict(label='设零点', confirm=True, od=True, settings=True, batch=False, input=False),
     'enable': dict(label='使能', confirm=True, od=True, settings=True, batch=False, input=False),
+    'go': dict(label='解除Halt执行已提交目标', confirm=True, od=True, settings=True, batch=False, input=False),
     'disable': dict(label='失能', confirm=True, od=True, settings=False, batch=False, input=False),
     'stop': dict(label='快停', confirm=True, od=True, settings=False, batch=False, input=False),
     'disable_all': dict(label='全部失能', confirm=True, od=True, settings=False, batch=True, input=False, member='disable'),
@@ -33,7 +37,7 @@ ACTIONS = {key: policy['label'] for key, policy in ACTION_POLICY.items() if poli
 
 def action_policy(action):
     if action not in ACTION_POLICY:
-        raise ValueError('不支持的动作；速度模式未开放')
+        raise ValueError('不支持的动作；非零速度运动未开放')
     return ACTION_POLICY[action]
 
 
@@ -45,7 +49,10 @@ def write_text(item):
 TELEMETRY = ('statusword', 'actual_position', 'actual_velocity',
              'modes_of_operation_display', 'error_code_object', 'torque_feedback',
              'velocity_feedback_unit', 'profile_velocity', 'profile_acceleration',
-             'profile_deceleration', 'home_offset')
+             'profile_deceleration', 'home_offset', 'control_mode_select',
+             'modes_of_operation', 'target_position', 'profile_end_velocity',
+             'software_position_limit', 'software_position_limit_max', 'controlword',
+             'halt_option', 'position_demand') + position.LIMITS
 
 
 def state_text(row):
@@ -74,6 +81,14 @@ def velocity_unit(values):
 class SilentOutput:
     def __getattr__(self, name):
         return lambda *args, **kwargs: None
+
+
+class PrepareReview(dict):
+    """Origin survives field deletion, cancellation, consumption and deepcopy."""
+
+
+class DisabledStartReview(dict):
+    """A strict-disabled PP review cannot become an ordinary action by editing fields."""
 
 
 class BenchController:
@@ -107,6 +122,8 @@ class BenchController:
         self.enabled_sessions = {}
         self.shutdown_lines = []
         self.shutdown_results = None
+        self._prepare_review = None
+        self._disabled_start_review = None
 
     @staticmethod
     def _empty(node=None):
@@ -288,19 +305,32 @@ class BenchController:
     def _stationary(self, values, reached=True):
         p = self.tool._canopen
         if values['actual_velocity'] != 0:
-            raise ValueError('电机在动：速度非零，拒绝操作')
+            raise ValueError('实际速度非零，拒绝操作')
         if reached and not values['statusword'] & p.CIA402_HOMING_TARGET_REACHED:
-            raise ValueError('电机未确认静止：target reached 未置位')
+            raise ValueError('目标到达标志未置位（target reached/bit10）；当前实际速度为零')
         if values['statusword'] & p.CIA402_FAULT:
-            raise ValueError('存在故障；测试台不自动复位')
+            raise ValueError('存在故障；603F={}；测试台不自动复位'.format(format_fault(values.get('error_code_object'))))
 
     def review(self, action, node, value, out, check_gate=True):
-        if action not in ACTIONS or action_policy(action)['batch']:
-            raise ValueError('不支持的动作；速度模式未开放')
+        if check_gate:
+            self.discard_prepare()
+        if action not in ACTIONS or action == 'go' or action_policy(action)['batch']:
+            raise ValueError('不支持的动作；非零速度运动未开放')
         row = self._fresh(node)
         start = row['values']['actual_position']
         target = start + int(value) if action == 'relative' else int(value) if action == 'absolute' else 0 if action == 'zero' else start
         a = self._args(row, start if action == 'zero' else target)
+        p = self.tool._canopen
+        disabled_start = (action == 'probe_pp_start' or action in ('absolute', 'relative')
+                          and row['values']['statusword'] & p.CIA402_DISABLED_MASK == p.CIA402_DISABLED)
+        if disabled_start:
+            # Private provenance remains in a shallow dict copy as well as in
+            # the Review subtype. It is never a caller-controlled bypass flag.
+            a._disabled_start_origin = True
+            a._disabled_start_action = action
+            a.velocity = min(row['values']['profile_velocity'], 100)
+        if action == 'prepare_pp':
+            a.velocity = 100
         if check_gate:
             if not self.tool.refuse_motion(out, ACTIONS[action], a):
                 raise ValueError('OD 闸门关闭：默认只读，须显式会话确认')
@@ -312,24 +342,41 @@ class BenchController:
             position.validate(a, self.specs)
             position.check_envelope(a, start, start)
             position.check_budget(a, row['calibration'])
-            self._stationary(row['values'], reached=action in ('relative', 'absolute', 'zero'))
+            self._stationary(row['values'], reached=action in ('relative', 'absolute', 'zero') and not disabled_start)
             if action in ('absolute', 'relative'):
                 position.check_start(a, start, row['calibration'])
-            if action == 'enable' and row['values']['modes_of_operation_display'] != self.specs['pp_protocol']['mode']:
-                raise ValueError('位置测试台只允许 PP 模式使能；其它模式须独立验收')
+            if action == 'enable':
+                mode = row['values']['modes_of_operation_display']
+                if mode not in (self.specs['pp_protocol']['mode'], 3, 9):
+                    raise ValueError('测试台只允许 PP 或预写零速度后的 PV/CSV 模式使能')
+                if mode in (3, 9):
+                    position.require_velocity_library()
             if action == 'zero' and row['values']['home_offset'] != 0:
                 raise ValueError('607Ch 非零；设零点拒绝，须人工核对原点偏移')
+        if action == 'prepare_pp':
+            self._prepare_values(row['values'], a, row['calibration'])
+        if disabled_start:
+            self._disabled_start_values(row['values'], a, row['calibration'])
         writes = []
         def planned(key, value, note=''):
             spec = self.objects[key]
             writes.append(dict(key=key, index=spec['index_value'], sub=spec['sub'],
                 type=('int' if spec['signed'] else 'uint') + str(spec['size']*8), value=value, note=note))
-        if action in ('absolute', 'relative'):
+        if action in ('absolute', 'relative', 'probe_pp_start'):
+            if disabled_start:
+                planned('target_position', start, '先对齐当前位置；未使能新ACK与6062核验')
             for key, value in [('profile_end_velocity', 0), ('profile_velocity', a.velocity),
                                ('profile_acceleration', a.acceleration), ('profile_deceleration', a.deceleration),
-                               ('target_position', a.target)]:
+                               *([] if disabled_start else [('target_position', a.target)])]:
                 planned(key, value, '用户单位' if key == 'target_position' else '')
+            if disabled_start and action in ('absolute', 'relative'):
+                planned('target_position', a.target, '当前位置握手、Halt使能零漂移及释放核验后才写最终目标')
+        elif action == 'prepare_pp':
+            planned('target_position', start, '仅对齐本次实读起点；不触发轨迹')
+            planned('profile_velocity', 100, '固定100用户单位/s；仅降速')
         else:
+            if action == 'enable' and row['values']['modes_of_operation_display'] in (3, 9):
+                planned('target_velocity', 0, '先预写零速度并读回，再执行使能序列')
             planned('controlword', {'zero': self.tool._canopen.CIA402_START_HOMING,
                 'enable': self.tool._canopen.CIA402_ENABLE, 'disable': self.tool._canopen.CIA402_DISABLE,
                 'stop': self.tool._canopen.CIA402_QUICK_STOP_COMMAND}[action], '触发回零' if action == 'zero' else '')
@@ -346,18 +393,379 @@ class BenchController:
                       '归零是坐标重置；完成后必须重新输入脚本行程与位移预算。']
         if action in ('absolute', 'relative'):
             lines.append('PP速度/加减速度取设备实读：{}/{}/{}；日志 {}'.format(a.velocity, a.acceleration, a.deceleration, a.motion_log))
+        if disabled_start and action == 'probe_pp_start':
+            lines += ['未使能起步核证：保持Halt；不解除暂停；结束失能。计划位移0，不代表真实位移验收。',
+                      '执行前5次新鲜采样速度0、位置不变，间隔0.2秒；启动bit10不作静止判据。',
+                      '6081 {} → {} U/s（现值与100取较小正值）；保留正预算、1度、脚本及设备行程。'.format(
+                          row['values']['profile_velocity'], a.velocity),
+                      '先607A对齐起点并读回；0106→0107→0127→0137→0127，所有业务控制字bit3=0、Halt=1。',
+                      '仅至Switched on；固件能力核证可能拒绝。失败不升级到010F/012F/013F，不接受任何位置漂移。',
+                      '须新ACK 0→1→0、607A=6062=起点、位置/零速/Halt保持5次采样；Halt中bit10仅表示零速。',
+                      '不写605Dh；要求实读1或2。写607A不保证清旧轨迹；核证失败立即有界快停/失能，不重试。',
+                      '日志 ' + a.motion_log]
+        elif disabled_start:
+            lines += ['严格失能PP起步：启动bit10不作静止判据；每次重做未使能当前位置握手，不缓存历史核证。',
+                      '6081 {} → {} U/s（现值与100取较小正值，不升速）；起点、脚本行程、正预算及1度硬顶不重设。'.format(
+                          row['values']['profile_velocity'], a.velocity),
+                      '先607A=起点；0106→0107→0127→0137→0127，新ACK 0→1→0、607A=6062=起点及5次零漂移采样。',
+                      '再012F保持Halt使能，5次零速/位置不变采样（间隔0.2秒）；任何漂移立即快停失能，不等待稳定。',
+                      '释放Halt前联合核验当前位置/ACK0/模式/标定/轮廓；002F释放后仍须起点/零速/ACK0。',
+                      '之后才607A=最终目标并读回；003F新ACK1→002F新ACK0，非Halt bit10+6064=6062=目标+零速才算完成。',
+                      '总时限不超过15秒；结束有界快停/失能，完成或失败都不回写旧目标。',
+                      '写607A本身不能证明旧轨迹清除；每阶段实读守卫，失败不重试、不自动复位。']
+        if action == 'enable' and row['values']['modes_of_operation_display'] in (3, 9):
+            lines.append('PV/CSV 仅按本次审阅显式准备 60FFh=0；不执行非零速度运动。')
+        if action == 'prepare_pp':
+            v = row['values']
+            rpm = Fraction(100) * Fraction(row['calibration']['gear_ratio']) * 60 / Fraction(row['calibration']['resolution'])
+            reached = bool(v['statusword'] & self.tool._canopen.CIA402_HOMING_TARGET_REACHED)
+            lines += ['失能准备：607A {} → {} U；6081 {} → 100 U/s（{:.6f} rpm轮廓值）'.format(
+                          v['target_position'], start, v['profile_velocity'], float(rpm)),
+                      '实际速度0（约0 rpm），计划位移0 U；执行前5次采样，间隔0.2秒。',
+                      '保持失能；不发控制字/NMT，不触发轨迹；target reached当前={}。'.format(reached),
+                      '准备完成不代表可运动，也不保证bit10置位；运动须重新静止检查和两段确认。',
+                      '日志 ' + a.motion_log]
         lines += [write_text(item) for item in writes]
         token = '{} {} {} {}'.format(action.upper(), self.context[0], node, target)
-        return dict(action=action, node=node, target=target, start=start,
+        review = dict(action=action, node=node, target=target, start=start,
                     context=self.context, args=a, lines=lines, token=token,
-                    od=copy.deepcopy(self.od), calibration=row['calibration'], writes=writes)
+                    od=copy.deepcopy(self.od), calibration=row['calibration'], writes=writes,
+                    mode=row['values']['modes_of_operation_display'])
+        if action == 'prepare_pp':
+            review = PrepareReview(review)
+            review['prepare_before'] = copy.deepcopy(row['values'])
+            review['settings'] = copy.deepcopy(self.settings)
+            if check_gate:
+                self.freeze_prepare(review)
+        elif disabled_start:
+            review = DisabledStartReview(review)
+            review['disabled_start_before'] = copy.deepcopy(row['values'])
+            review['settings'] = copy.deepcopy(self.settings)
+            if check_gate:
+                self.freeze_prepare(review)
+        return review
+
+    def discard_prepare(self):
+        self._prepare_review = None
+        self._disabled_start_review = None
+
+    def freeze_prepare(self, review):
+        # Preview is pure cached rendering. Only F5 (or an explicit model review)
+        # registers a single-use, complete copy; execution never trusts edits.
+        self.discard_prepare()
+        if isinstance(review, DisabledStartReview):
+            review['disabled_start_id'] = uuid.uuid4().hex
+            self._disabled_start_review = (review, copy.deepcopy(review))
+        elif review['action'] == 'prepare_pp':
+            review['prepare_id'] = uuid.uuid4().hex
+            self._prepare_review = (review, copy.deepcopy(review))
+
+    def _disabled_start_values(self, values, args, cal):
+        # The sole exception to startup bit10 applies to this sealed PP action.
+        # It is not used by zero, ordinary enabled starts, or the CLI.
+        p = self.tool._canopen
+        self._stationary(values, reached=False)
+        if values['statusword'] & p.CIA402_PP_FOLLOWING_ERROR:
+            raise ValueError('PP跟随误差；拒绝严格失能起步')
+        if values['statusword'] & p.CIA402_DISABLED_MASK != p.CIA402_DISABLED:
+            raise ValueError('起步核证要求严格disabled')
+        if values['control_mode_select'] != 0 or values['modes_of_operation'] != 1 or values['modes_of_operation_display'] != 1:
+            raise ValueError('起步核证要求CiA402控制、6060/6061均为PP1')
+        if values['home_offset'] != 0:
+            raise ValueError('607Ch非零；拒绝起步核证')
+        if values['controlword'] & 0x100:
+            raise ValueError('起步核证要求初始6040h bit8=0，以建立新Halt边沿')
+        if values['halt_option'] not in (1, 2):
+            raise ValueError('605Dh暂停方式必须实读为1或2')
+        position.validate(args, self.specs)
+        position.check_envelope(args, args.target, values['actual_position'])
+        position.check_budget(args, cal)
+        if args.velocity != min(values['profile_velocity'], 100) or args.velocity <= 0:
+            raise ValueError('起步核证6081必须是现值与100中较小正值，不得升速')
+        if (args.velocity > values['max_velocity'] or position.unit_to_velocity(args.velocity, cal) > values['max_motor_speed']
+                or args.acceleration > values['max_profile_acceleration'] or args.deceleration > values['max_deceleration']):
+            raise ValueError('起步核证轮廓超过设备607F/6080/60C5/60C6上限')
+        low, high = values['software_position_limit'], values['software_position_limit_max']
+        if not low <= values['actual_position'] <= high or not low <= args.target <= high:
+            raise ValueError('起点/目标超出设备607Dh实读行程，或设备上下限倒置')
+
+    def _disabled_start_guard(self, review, args, client, out, journal):
+        """Re-read the sealed setup before *each* pretrigger transition.
+
+        State/position/velocity reads are observations, not a guarantee that an
+        old trajectory cannot run when enabled. The execution strategy must
+        separately establish that its controlword sequence is acceptable.
+        """
+        expected = copy.deepcopy(review['disabled_start_before'])
+        p = self.tool._canopen
+        fixed = ('control_mode_select', 'modes_of_operation', 'modes_of_operation_display',
+                 'home_offset', 'profile_velocity', 'profile_end_velocity', 'target_position',
+                 'profile_acceleration', 'profile_deceleration', 'velocity_feedback_unit',
+                 'software_position_limit', 'software_position_limit_max') + position.LIMITS
+        fixed += ('controlword', 'halt_option')
+
+        def guard(session, phase, states=None, updates=None, moving=False):
+            states = (p.CIA402_DISABLED,) if states is None else tuple(states)
+            out.check_cancel()
+            self._configuration(out)
+            self._allowed(review['node'])
+            if (self.context != review['context'] or self.od != review['od']
+                    or self.settings != review['settings'] or self.od_reason != args.od_gaps_bypass):
+                raise ValueError('严格失能起步接口/OD/设置/确认理由已变化')
+            if updates:
+                expected.update(updates)
+
+            def state_ok(sw):
+                # Validate immediately: a later normal status must never hide
+                # an earlier fault or following-error observation.
+                if sw & p.CIA402_MASK == p.CIA402_ENABLED:
+                    session._probe_operation_enabled_observed = True
+                    if not getattr(session, '_disabled_start_enable_authorized', False):
+                        session.needs_stop = True
+                        raise ValueError('未使能起步核证意外观察到Operation enabled；立即收尾')
+                if sw & (p.CIA402_FAULT | p.CIA402_PP_FOLLOWING_ERROR):
+                    raise ValueError('严格失能起步检测到故障或PP跟随误差')
+                if getattr(session, '_probe_require_ack_zero', False) and sw & p.CIA402_PP_SETPOINT_ACK:
+                    raise ValueError('当前位置新命令前ACK提前置位；拒绝复用陈旧ACK')
+                allowed = any((sw & p.CIA402_DISABLED_MASK == state if state == p.CIA402_DISABLED
+                               else sw & p.CIA402_MASK == state) for state in states)
+                if not allowed:
+                    raise ValueError('严格失能起步状态迁移不符: 0x{:04X}'.format(sw))
+
+            first = self._read(client, 'statusword', session)
+            state_ok(first)
+            current = {'statusword': first}
+            current.update({k: self._read(client, k, session) for k in TELEMETRY if k != 'statusword'})
+            cal = position.calibration([self._read(client, k, session) for k in position.CALIBRATION])
+
+            def values_ok():
+                if not moving:
+                    self._stationary(current, reached=False)
+                state_ok(current['statusword'])
+                if not moving and current['actual_position'] != review['start']:
+                    raise ValueError('严格失能起步位置漂移；拒绝继续')
+                if (getattr(session, '_disabled_start_current_demand_expected', False)
+                        and current['position_demand'] != review['start']):
+                    raise ValueError('当前位置握手后607A/6062活动目标未保持起点；拒绝继续')
+                if cal != review['calibration']:
+                    raise ValueError('严格失能起步标定已变化')
+                if any(current[k] != expected[k] for k in fixed):
+                    raise ValueError('严格失能起步模式/原点偏移/轮廓/设备上限已变化')
+                position.validate(args, self.specs)
+                position.check_budget(args, cal)
+                if args._disabled_start_action in ('absolute', 'relative'):
+                    position.check_start(args, review['start'], cal)
+                position.check_envelope(args, review['start'], current['actual_position'])
+                low, high = current['software_position_limit'], current['software_position_limit_max']
+                if not low <= current['actual_position'] <= high or not low <= args.target <= high:
+                    raise ValueError('严格失能起步起点/目标不在设备607Dh实读行程内')
+
+            values_ok()
+            # Bracket the longer settings/calibration reads. Validate every
+            # fresh critical value before replacing its earlier observation.
+            for key in ('statusword', 'actual_position', 'actual_velocity', 'control_mode_select',
+                        'modes_of_operation', 'modes_of_operation_display', 'home_offset',
+                        'controlword', 'target_position', 'position_demand', 'halt_option'):
+                value = self._read(client, key, session)
+                if key == 'statusword':
+                    state_ok(value)
+                elif moving and key in ('actual_position', 'actual_velocity', 'position_demand'):
+                    # Motion changes only these observations, never the sealed
+                    # origin or its envelope. Validate each fresh position.
+                    if key == 'actual_position':
+                        position.check_envelope(args, review['start'], value)
+                elif value != current[key]:
+                    raise ValueError('严格失能起步采样期间关键值变化: ' + key)
+                current[key] = value
+            values_ok()
+            out.check_cancel()
+            journal.event('disabled_start_sample', phase=phase, values=current, calibration=cal)
+            out.check_cancel()
+            return dict(current, calibration=cal)
+
+        return guard
+
+    @staticmethod
+    def _disabled_start_samples(session, guard, overall=None):
+        for i in range(5):
+            if i:
+                deadline = time.monotonic() + .2
+                if overall is not None and deadline > overall:
+                    raise ValueError('严格失能起步五采样整体时限不足')
+                while time.monotonic() < deadline:
+                    session.pause(deadline)
+            guard(session, '稳定采样{}/5'.format(i + 1))
+
+    def _claim_disabled_start(self, review):
+        sealed = self._disabled_start_review
+        self._disabled_start_review = None
+        if sealed is None or review is not sealed[0] or review != sealed[1]:
+            raise ValueError('严格失能起步审阅已失效、复用或被修改；请重新审阅')
+        return sealed[1]
+
+    def _prepare_values(self, values, args, cal):
+        p = self.tool._canopen
+        self._stationary(values, reached=False)  # Exception belongs only to disabled preparation.
+        if values['statusword'] & p.CIA402_DISABLED_MASK != p.CIA402_DISABLED:
+            raise ValueError('失能准备要求严格disabled；当前未确认失能')
+        if values['control_mode_select'] != 0:
+            raise ValueError('失能准备要求CiA402控制模式')
+        if values['modes_of_operation'] != 1 or values['modes_of_operation_display'] != 1:
+            raise ValueError('失能准备要求6060/6061均为PP模式1')
+        if values['home_offset'] != 0:
+            raise ValueError('607Ch非零；拒绝失能准备')
+        if values['profile_velocity'] < 100:
+            raise ValueError('原6081小于100；失能准备不得擅自升速')
+        position.validate(args, self.specs)
+        position.check_envelope(args, args.target, values['actual_position'])
+        position.check_budget(args, cal)
+        rpm = Fraction(100) * Fraction(cal['gear_ratio']) * 60 / Fraction(cal['resolution'])
+        if (100 > values['max_velocity'] or rpm > values['max_motor_speed']
+                or args.acceleration > values['max_profile_acceleration']
+                or args.deceleration > values['max_deceleration']):
+            raise ValueError('失能准备超过设备607F/6080/60C5/60C6上限')
+
+    def _execute_prepare(self, review, out):
+        # Caller owns the bus lock. No enable/stop/disable cleanup is appropriate
+        # for this two-object disabled transaction, even after a partial write.
+        sealed = self._prepare_review
+        self._prepare_review = None
+        if sealed is None or review is not sealed[0] or review != sealed[1]:
+            raise ValueError('失能准备审阅已失效、复用或被修改；请重新审阅')
+        review = sealed[1]
+        node, a = review['node'], review['args']
+        self._configuration(out)
+        self._allowed(node)
+        if (self.context != review['context'] or self.od != review['od']
+                or self.settings != review['settings'] or self.od_reason != a.od_gaps_bypass):
+            raise ValueError('失能准备接口/OD/设置在审阅后已变化')
+        if not self.tool.refuse_motion(out, ACTIONS['prepare_pp'], a):
+            raise ValueError('OD闸门拒绝失能准备')
+        # Reconstruct the complete narrow plan from sealed start and fixed speed.
+        # Never interpret user input or a review writes list as arbitrary writes.
+        plan = [('target_position', review['start']), ('profile_velocity', 100)]
+        expected = copy.deepcopy(review['prepare_before'])
+        client = self.tool._canopen.SdoClient(self.bus, node, timeout=self.args.timeout)
+        session = self.tool.MotionSession(client, out, a.state_timeout)
+        session.cancel_event = out.cancel_event
+        journal = None
+        attempts = []
+        last = None
+        success = False
+        def sample(phase):
+            nonlocal last
+            out.check_cancel()
+            self._configuration(out)
+            self._allowed(node)
+            current = {k: self._read(client, k, session) for k in TELEMETRY}
+            cal = position.calibration([self._read(client, k, session) for k in position.CALIBRATION])
+            # Validate the first observed state before a later read can replace it.
+            self._prepare_values(current, a, cal)
+            # Bracket the longer configuration reads with fresh critical state.
+            for k in ('control_mode_select', 'modes_of_operation', 'modes_of_operation_display',
+                      'home_offset', 'actual_velocity', 'actual_position', 'statusword'):
+                again = self._read(client, k, session)
+                changed = again ^ current[k] if k == 'statusword' else again != current[k]
+                if k == 'statusword':
+                    changed &= ~self.tool._canopen.CIA402_HOMING_TARGET_REACHED
+                if changed:
+                    raise ValueError('失能准备采样期间状态变化；请重新审阅')
+                current[k] = again
+            last = current
+            journal.event('prepare_sample', phase=phase, values=current, calibration=cal)
+            self._prepare_values(current, a, cal)
+            if current['actual_position'] != review['start']:
+                raise ValueError('失能准备位置漂移；请重新审阅')
+            if cal != review['calibration']:
+                raise ValueError('失能准备标定已变化；请重新审阅')
+            keys = ('control_mode_select', 'modes_of_operation', 'modes_of_operation_display',
+                    'home_offset', 'profile_velocity', 'target_position', 'profile_acceleration',
+                    'profile_deceleration', 'velocity_feedback_unit') + position.LIMITS
+            if any(current[k] != expected[k] for k in keys):
+                raise ValueError('失能准备关键设置已变化；请重新审阅')
+            if self.settings != review['settings'] or self.od_reason != a.od_gaps_bypass:
+                raise ValueError('失能准备人工设置或OD确认已变化')
+            return current
+        try:
+            journal = position.Journal(a.motion_log, 'device', dict(action='prepare_pp', node=node,
+                reviewed_start=review['start'], planned_displacement=0,
+                settings=review['settings'], od_gaps_bypass=a.od_gaps_bypass), observer=out.event)
+            for i in range(5):
+                if i:
+                    deadline = time.monotonic() + .2
+                    while time.monotonic() < deadline:
+                        session.pause(deadline)
+                sample('稳定采样{}/5'.format(i + 1))
+            for key, value in plan:
+                sample('写前' + key)
+                spec = self.specs[key]
+                attempt = dict(object=key, before=expected[key], expected=value,
+                               write_attempted=True, readback=None)
+                attempts.append(attempt)
+                journal.event('prepare_write_attempt', **attempt)
+                session.call(session.deadline(), '失能准备写入 ' + key, client.write,
+                    spec['index_value'], spec['sub'], position.encode(spec, value))
+                actual = self._read(client, key, session)
+                attempt['readback'] = actual
+                journal.event('write_readback', **attempt)
+                out.info('失能准备 {}：{} → {}；读回 {}'.format(key, attempt['before'], value, actual))
+                if actual != value:
+                    raise ValueError('失能准备 ' + key + ' 写读回不一致；停止，保留部分写入证据')
+                expected[key] = value
+                sample('写后' + key)
+            success = True
+            reached = bool(last['statusword'] & self.tool._canopen.CIA402_HOMING_TARGET_REACHED)
+            out.info('失能准备完成：仅两处写读回，仍失能，实际速度0、位移0 U；target reached={}。须重新运动审阅与两段确认。'.format(reached))
+        except BaseException as exc:
+            self._latch(client, node, '失能准备', exc, out)
+            last = None  # A pre-write snapshot cannot prove the final state.
+            if journal:
+                journal.event('prepare_exception', message=str(exc), attempts=attempts,
+                              quarantined=bool(getattr(client, 'quarantined', False)))
+            out.bad('失能准备失败；保留已写证据，不回滚、不重试、不发控制字：' + str(exc))
+            raise
+        finally:
+            row = self.row(node)
+            if row:
+                row.update(updated=0, lost=True)
+                self._put(row)
+            result = dict(action='prepare_pp', node=node, success=success, attempts=attempts,
+                readback=last, disabled_confirmed=True if success else None,
+                target_reached=bool(last['statusword'] & self.tool._canopen.CIA402_HOMING_TARGET_REACHED) if last else None,
+                mechanical_stop_confirmed=False, state_unknown=not success)
+            if journal:
+                try:
+                    journal.event('bench_result', **result)
+                finally:
+                    journal.close()
+            else:
+                out.event('bench_result', result)
+        return 0
 
     def execute(self, review, out):
         with self.lock:
+            disabled_start = (isinstance(review, DisabledStartReview)
+                or review.get('action') == 'probe_pp_start'
+                or 'disabled_start_id' in review or 'disabled_start_before' in review
+                or getattr(review.get('args'), '_disabled_start_origin', False))
+            if disabled_start:
+                review = self._claim_disabled_start(review)
+            if (isinstance(review, PrepareReview) or review.get('action') == 'prepare_pp'
+                    or 'prepare_id' in review or 'prepare_before' in review
+                    or self._prepare_review is not None and review is self._prepare_review[0]):
+                return self._execute_prepare(review, out)
             self._configuration(out)
             node, action, a = review['node'], review['action'], copy.copy(review['args'])
             if self.context != review['context'] or self.od != review['od']:
                 raise ValueError('接口或 OD 在审阅后已变化；请重新审阅')
+            if disabled_start and (self.settings != review['settings'] or self.od_reason != a.od_gaps_bypass):
+                raise ValueError('严格失能起步设置或OD确认在审阅后已变化')
+            if disabled_start:
+                targets = [item['value'] for item in review['writes'] if item['key'] == 'target_position']
+                expected_targets = [review['start']] + ([review['target']] if action in ('absolute', 'relative') else [])
+                if (a._disabled_start_action != action or a.target != review['target']
+                        or targets != expected_targets):
+                    raise ValueError('严格失能起步双目标有序计划或来源动作不符')
             self._allowed(node)
             if not self.tool.refuse_motion(out, ACTIONS[action], a):
                 raise ValueError('OD 闸门拒绝')
@@ -382,11 +790,16 @@ class BenchController:
             error = None
             values = None
             disabled = None
+            position_unchanged = position_target_confirmed = zero_velocity_confirmed = None
+            unexpected_enabled_after_cleanup = False
             zero_attempted = False
             try:
-                if action_policy(action)['settings']:
+                if action_policy(action)['settings'] and not disabled_start:
                     def guard(s, phase):
                         current = {k: self._read(client, k, s) for k in ('statusword', 'actual_velocity', 'actual_position')}
+                        if (phase == 'before_setup' and action in ('absolute', 'relative')
+                                and current['statusword'] & self.tool._canopen.CIA402_DISABLED_MASK == self.tool._canopen.CIA402_DISABLED):
+                            raise ValueError('当前为严格disabled；须重新审阅单次封存起步事务，禁止普通PP路径')
                         self._stationary(current, reached=phase == 'before_setup' and action in ('absolute', 'relative', 'zero'))
                         if current['actual_position'] != review['start']:
                             raise ValueError('审阅后起点已变化；拒绝执行，请重新审阅')
@@ -395,7 +808,21 @@ class BenchController:
                     cal = position.calibration([self._read(client, k, session) for k in position.CALIBRATION])
                     if cal != review['calibration']:
                         raise ValueError('审阅后标定已变化；拒绝执行')
-                if action in ('absolute', 'relative'):
+                if disabled_start:
+                    a._bench_expected_start = review['start']
+                    journal = position.Journal(a.motion_log, 'device',
+                        dict(node=node, action=action, reviewed_start=review['start'],
+                             planned_displacement=review['target']-review['start'], halt_released=False, settings=review['settings'],
+                             target=review['target'], ordered_writes=review['writes'],
+                             od_gaps_bypass=a.od_gaps_bypass), observer=out.event)
+                    probe_guard = self._disabled_start_guard(review, a, client, out, journal)
+                    if action == 'probe_pp_start':
+                        position.run_disabled_start_probe(session, a, self.specs, journal, probe_guard)
+                        out.info('未使能起步核证取得Switched on当前位置新ACK与Halt保持证据；已收尾失能，不代表真实位移验收。')
+                    else:
+                        position.run_disabled_start_move(session, a, self.specs, journal, probe_guard)
+                        out.info('严格失能PP起步：当前位置预装载、Halt使能零漂移及最终目标新ACK/到位/零速完成；已收尾失能。')
+                elif action in ('absolute', 'relative'):
                     # The reviewed integers are the execution inputs, including
                     # a relative action's already-resolved absolute coordinate.
                     plan = {item['key']: item['value'] for item in review['writes']}
@@ -423,8 +850,17 @@ class BenchController:
                     out.info('方法35完成：新bit10+bit12；6064=0；bit15仅为手册散见说法，未作判据')
                 else:
                     if action == 'enable':
-                        if self._read(client, 'modes_of_operation_display', session) != self.specs['pp_protocol']['mode']:
-                            raise ValueError('只允许 PP 模式使能')
+                        mode = self._read(client, 'modes_of_operation_display', session)
+                        if mode != review['mode'] or mode not in (self.specs['pp_protocol']['mode'], 3, 9):
+                            raise ValueError('使能模式在审阅后已变化；请重新审阅')
+                        if mode in (3, 9):
+                            targets = [item for item in review['writes'] if item['key'] == 'target_velocity']
+                            if len(targets) != 1 or targets[0]['value'] != 0:
+                                raise ValueError('速度模式使能必须审阅并预写 60FFh=0')
+                            session.set_target_velocity(0)
+                            cal_now = position.calibration([self._read(client, k, session) for k in position.CALIBRATION])
+                            if cal_now != review['calibration']:
+                                raise ValueError('速度准备后标定与审阅不符；请重新审阅')
                         session.needs_stop = True
                     # An interrupted stop/disable also owes bounded cleanup.
                     session.needs_stop = True
@@ -434,7 +870,7 @@ class BenchController:
                 self._latch(client, node, '运动', exc, out)
             finally:
                 session.cancel_event = None
-                if (error is not None or action == 'zero') and session.needs_stop:
+                if (error is not None or action == 'zero') and session.needs_stop and not disabled_start:
                     disabled = session.stop_after_failure()
                     if disabled is False and error is None:
                         error = ValueError('失能未确认；状态未知，须独立急停')
@@ -443,16 +879,36 @@ class BenchController:
                 if journal:
                     journal.close()
                 try:
-                    values = {key: self._read(client, key, session) for key in ('statusword', 'actual_position', 'actual_velocity', 'modes_of_operation_display')}
+                    values = {}
+                    for key in ('statusword', 'actual_position', 'actual_velocity', 'modes_of_operation_display'):
+                        values[key] = self._read(client, key, session)
+                        if disabled_start:
+                            if key == 'statusword':
+                                sw = values[key]
+                                disabled = sw & self.tool._canopen.CIA402_DISABLED_MASK == self.tool._canopen.CIA402_DISABLED
+                                if sw & self.tool._canopen.CIA402_MASK == self.tool._canopen.CIA402_ENABLED:
+                                    unexpected_enabled_after_cleanup = True
+                                    session._probe_operation_enabled_observed = True
+                                    session.needs_stop = True
+                                    raise ValueError('未使能核证最终读回意外Operation enabled；立即收尾')
+                                if sw & (self.tool._canopen.CIA402_FAULT | self.tool._canopen.CIA402_PP_FOLLOWING_ERROR):
+                                    raise ValueError('起步核证最终读回出现故障或PP跟随误差；不得报告成功')
+                            elif key == 'actual_position':
+                                position_unchanged = values[key] == review['start']
+                                position_target_confirmed = values[key] == review['target']
+                            elif key == 'actual_velocity':
+                                zero_velocity_confirmed = values[key] == 0
                     sw = values['statusword']
                     disabled = sw & self.tool._canopen.CIA402_DISABLED_MASK == self.tool._canopen.CIA402_DISABLED
                     if action != 'zero' and all(getattr(a, k, None) is not None for k in ('soft_min', 'soft_max', 'max_displacement')):
                         position.check_envelope(a, review['start'], values['actual_position'])
-                    if action in ('zero', 'absolute', 'relative', 'disable') and not disabled:
+                    if action in ('zero', 'absolute', 'relative', 'disable', 'probe_pp_start') and not disabled:
                         session.needs_stop = True
                         raise ValueError('操作后未确认失能；状态未知')
                     if action == 'zero' and values['actual_position'] != 0:
                         raise ValueError('清理后6064已偏离0；设零点未确认')
+                    if disabled_start and (values['actual_position'] != review['target'] or values['actual_velocity'] != 0):
+                        raise ValueError('起步核证结果读回不是起点/零速；不得报告成功')
                     out.info('结果读回：节点 {} 位置 {} U 状态 0x{:04X}；机械停止状态未知'.format(node, values['actual_position'], sw))
                 except BaseException as exc:
                     self._latch(client, node, '结果读回', exc, out)
@@ -461,16 +917,34 @@ class BenchController:
                     # Postflight errors carry exactly the same cleanup obligation
                     # as an interrupted write. In particular E must not be left
                     # enabled when its final envelope/readback check fails.
-                    if session.needs_stop:
+                    if session.needs_stop and not disabled_start:
                         disabled = session.stop_after_failure()
+                    elif disabled_start and unexpected_enabled_after_cleanup:
+                        # A newly observed enabled state after a confirmed
+                        # cleanup is a new stop obligation, never a retry of a
+                        # failed/uncertain cleanup or a replacement client.
+                        confirmed = position.stop_disabled_start_new_enabled(session)
+                        if confirmed is not None:
+                            disabled = confirmed
+                            position_unchanged = position_target_confirmed = zero_velocity_confirmed = None
                     values = None
                 row = self.row(node)
                 if row:
                     row.update(updated=0, lost=True)
                     self._put(row)
-                out.event('bench_result', dict(node=node, success=error is None, readback=values,
+                result = dict(node=node, success=error is None, readback=values,
                     disabled_confirmed=disabled, mechanical_stop_confirmed=False,
-                    state_unknown=values is None or disabled is False))
+                    state_unknown=values is None or disabled is False)
+                if disabled_start:
+                    result.update(action=action, strict_disabled_start=True, position_unchanged=position_unchanged,
+                                  position_target_confirmed=position_target_confirmed,
+                                  zero_velocity_confirmed=zero_velocity_confirmed,
+                                  operation_enable_requested=getattr(session, '_disabled_start_operation_enable_requested', False),
+                                  operation_enable_attempted=getattr(session, '_disabled_start_operation_enable_requested', False),
+                                  travel_trigger_attempted=getattr(session, '_disabled_start_travel_trigger_attempted', False),
+                                  completed_motion=error is None and action in ('absolute', 'relative'),
+                                  operation_enabled_observed=getattr(session, '_probe_operation_enabled_observed', False))
+                out.event('bench_result', result)
             if error is not None:
                 raise error
             return 0

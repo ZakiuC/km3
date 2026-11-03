@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "file",
+    "-L",
+    "/home/zakiu/km3/build-host/libpmp4010_velocity.so"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

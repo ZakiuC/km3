@@ -1,0 +1,1 @@
+{"result": "DRIVER_COMPLETE", "scenario": "success", "driver_rc": 0, "child_rc": 0, "tokens": ["DISABLE mock-bench 1 -1470", "PROBE_PP_START mock-bench 1 -1470"], "output": "/tmp/km3-pp-disabled-start-20261019-board/stage2/pty-probe-success"}

@@ -1,0 +1,18 @@
+{
+  "name": "core-source-sha256",
+  "argv": [
+    "sha256sum",
+    "device/drivers/pmp4010/tools/pmp4010_bench.py",
+    "device/drivers/pmp4010/tools/pmp4010_position.py",
+    "device/drivers/pmp4010/tools/pmp4010_tui.py"
+  ],
+  "shell_command": "sha256sum device/drivers/pmp4010/tools/pmp4010_bench.py device/drivers/pmp4010/tools/pmp4010_position.py device/drivers/pmp4010/tools/pmp4010_tui.py",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:14:55.355123+00:00",
+  "duration_seconds": 0.0013163940000140428,
+  "returncode": 0,
+  "stdout": "core-source-sha256.stdout.log",
+  "stderr": "core-source-sha256.stderr.log",
+  "stdout_sha256": "66c2a559b596bcce37263b0c69eb49cc25eed52a7061f9f208a27e1a19e09b6a",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

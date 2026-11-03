@@ -1,0 +1,108 @@
+{
+  "result": "RESET_OBSERVATION_COMPLETED_CLEAR_IN_FOUR_OBSERVATIONS",
+  "script_sha256": "d8c96c340d7c64c2a7380ef2bb96221159248819cd0d1ad7772cb3f2961ff367",
+  "classification": "cleared_at_final_observation",
+  "probe_rc": 0,
+  "passive_rc": 0,
+  "TX": 24,
+  "RX": 24,
+  "control_writes": 3,
+  "retries": 0,
+  "motion_operations": 0,
+  "ssh_utc": [
+    "2026-10-19T09:32:52.931616+00:00",
+    "2026-10-19T09:32:54.895184+00:00"
+  ],
+  "CAN_utc": [
+    "2026-10-19T09:32:53.263760+00:00",
+    "2026-10-19T09:32:54.872754+00:00"
+  ],
+  "initial_low_ACK_to_high_TX_seconds": 0.100734072,
+  "high_TX_to_final_zero_TX_seconds": 1.003252081,
+  "high_ACK_to_final_zero_TX_seconds": 1.002886036,
+  "high_ACK_to_final_zero_ACK_seconds": 1.0032684139987396,
+  "samples": [
+    {
+      "phase": "high",
+      "target_offset_seconds": 0.2,
+      "actual_start_offset_seconds": 0.2002125029976014,
+      "actual_end_offset_seconds": 0.20164431099692592,
+      "statusword": 576,
+      "warning": false,
+      "fault": false,
+      "error_code": 0,
+      "error_register": 0
+    },
+    {
+      "phase": "high",
+      "target_offset_seconds": 1.0,
+      "actual_start_offset_seconds": 1.0008143029990606,
+      "actual_end_offset_seconds": 1.002363070998399,
+      "statusword": 576,
+      "warning": false,
+      "fault": false,
+      "error_code": 0,
+      "error_register": 0
+    },
+    {
+      "phase": "low",
+      "target_offset_seconds": 0.05,
+      "actual_start_offset_seconds": 0.050064865998137975,
+      "actual_end_offset_seconds": 0.05146750700077973,
+      "statusword": 576,
+      "warning": false,
+      "fault": false,
+      "error_code": 0,
+      "error_register": 0
+    },
+    {
+      "phase": "low",
+      "target_offset_seconds": 0.5,
+      "actual_start_offset_seconds": 0.5004599439998856,
+      "actual_end_offset_seconds": 0.5019567950002966,
+      "statusword": 576,
+      "warning": false,
+      "fault": false,
+      "error_code": 0,
+      "error_register": 0
+    }
+  ],
+  "final_6040": "0x0000",
+  "final_6041": "0x0240",
+  "final_603F": "0x0000",
+  "final_1001": "0x00",
+  "bit7_may_remain_set": false,
+  "passive_equal": {
+    "hostname": true,
+    "model": true,
+    "boot_id": true,
+    "device_id": true,
+    "config_sha": true,
+    "can_env_sha": true,
+    "current": true,
+    "services": true,
+    "related_processes_excluding_snapshot_pid": true,
+    "can_rcvlists": true
+  },
+  "can_state_equal": true,
+  "interface_counter_delta": {
+    "rx": {
+      "bytes": 192,
+      "packets": 24,
+      "errors": 0,
+      "dropped": 0,
+      "over_errors": 0,
+      "multicast": 0
+    },
+    "tx": {
+      "bytes": 0,
+      "packets": 24,
+      "errors": 0,
+      "dropped": 0,
+      "carrier_errors": 0,
+      "collisions": 0
+    }
+  },
+  "old_short_pulse_cause_proven": false,
+  "limitation": "Timestamps measure host send and response events, not oscilloscope measurement of device bit7. No enable or motion test occurred."
+}

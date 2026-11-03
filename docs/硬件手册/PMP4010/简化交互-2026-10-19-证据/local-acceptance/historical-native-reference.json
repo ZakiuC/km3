@@ -1,0 +1,110 @@
+{
+  "scope": "historical commands only; not rerun in simple-UI round; input comparison limited to velocity library and build inputs",
+  "index": "/home/zakiu/km3/docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/local-acceptance/native-command-index.json",
+  "records": [
+    {
+      "name": "host-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build-host",
+        "-j4"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "returncode": 0,
+      "duration_seconds": 0.1252304589997948,
+      "stdout": "host-build.stdout.log",
+      "stdout_sha256": "1f0834fccf94ddf4fb6dce906e82e6ce3d3556ebefec70719fcc94ac1ca54d1b",
+      "stderr": "host-build.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "host-ctest",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build-host",
+        "--output-on-failure"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "returncode": 0,
+      "duration_seconds": 11.487272214000768,
+      "stdout": "host-ctest.stdout.log",
+      "stdout_sha256": "e2e5efc871d068c7978e08ab79df4ea6efb0fc246469e3c1df7368e4bc821ece",
+      "stderr": "host-ctest.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "asan-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build-asan",
+        "-j4"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "returncode": 0,
+      "duration_seconds": 0.12814647999948647,
+      "stdout": "asan-build.stdout.log",
+      "stdout_sha256": "dae7826a1b77c482c233e0c75821fd9587b057568fc646bd3c9e5275b30cf717",
+      "stderr": "asan-build.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "asan-ctest",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build-asan",
+        "--output-on-failure"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "returncode": 0,
+      "duration_seconds": 12.200444609999977,
+      "stdout": "asan-ctest.stdout.log",
+      "stdout_sha256": "cb123ac544b1d2432173a6ec8b475bbbb81a75ce2c0093dbdfdbdaf2187604f8",
+      "stderr": "asan-ctest.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "tsan-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build-tsan",
+        "-j4"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "returncode": 0,
+      "duration_seconds": 0.1332592159997148,
+      "stdout": "tsan-build.stdout.log",
+      "stdout_sha256": "3926891881db3dd53c5c9b50c2e120f89bd945758801a5ba0ce326305e08932f",
+      "stderr": "tsan-build.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "tsan-ctest",
+      "argv": [
+        "setarch",
+        "-R",
+        "ctest",
+        "--test-dir",
+        "build-tsan",
+        "--output-on-failure"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "returncode": 0,
+      "duration_seconds": 12.145702161999907,
+      "stdout": "tsan-ctest.stdout.log",
+      "stdout_sha256": "8d72909f64e300606762768a6341f7f391193e0d74473017dfb0c043f1dca8ad",
+      "stderr": "tsan-ctest.stderr.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "ctest_summary": {
+    "host": "17/17",
+    "asan": "17/17",
+    "tsan": "17/17"
+  },
+  "fresh_cpp_execution": false
+}

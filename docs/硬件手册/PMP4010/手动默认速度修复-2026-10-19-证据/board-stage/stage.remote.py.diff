@@ -1,0 +1,11 @@
+--- docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/board-stage/stage.remote.py
++++ /home/zakiu/km3/docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/board-stage/stage.remote.py
+@@ -15,7 +15,7 @@
+ expected_sha, stage_name = sys.argv[1:]
+ assert len(expected_sha) == 64 and all(c in '0123456789abcdef' for c in expected_sha)
+ base = Path(stage_name)
+-prefix = 'km3-pmp4010-rewrite-20261019-'
++prefix = 'km3-pmp4010-manual-final-20261019-'
+ assert base.parent == Path('/var/tmp') and base.name.startswith(prefix)
+ suffix = base.name[len(prefix):]
+ assert 12 <= len(suffix) <= 64 and expected_sha.startswith(suffix)

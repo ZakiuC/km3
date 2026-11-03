@@ -1,0 +1,7 @@
+{
+  "argv": [
+    "sha256sum",
+    "/tmp/km3-pp-disabled-start-stage2-package-20261019/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

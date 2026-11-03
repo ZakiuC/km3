@@ -69,6 +69,10 @@ endif()
 # 绕过了它，故障就从编译期搬到了现场。
 option(KM3_ALLOW_UNVERIFIED_OD "允许未核对的对象字典参与构建（仅 CI 与回环验证）" OFF)
 
+if(NOT TARGET pmp4010_velocity)
+  add_subdirectory(native)
+endif()
+
 add_library(${KM3_DRV_TARGET}
   driver/pmp4010_driver.cpp
 )
@@ -77,7 +81,7 @@ target_include_directories(${KM3_DRV_TARGET}
   PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/driver
 )
 
-target_link_libraries(${KM3_DRV_TARGET} PUBLIC ${KM3_DRV_RESOLVED_DEPS})
+target_link_libraries(${KM3_DRV_TARGET} PUBLIC ${KM3_DRV_RESOLVED_DEPS} pmp4010_velocity)
 
 if(KM3_ALLOW_UNVERIFIED_OD)
   target_compile_definitions(${KM3_DRV_TARGET} PUBLIC KM3_ALLOW_UNVERIFIED_OD=1)

@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "cmake",
+    "--build",
+    "build-arm64",
+    "-j8"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-20T00:51:08.828462+00:00"
+}

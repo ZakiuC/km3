@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B -"
+  ],
+  "stdin_file": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-live/cold-load.stdin.py",
+  "stdin_sha256": "829d096e6eda80c4de0d12224696b03ce2b7c38aecf71baf3e4a54ea2e92f5a9",
+  "start_utc": "2026-10-20T00:36:43.019511+00:00",
+  "automatic_retries": 0,
+  "timeout_seconds": 35,
+  "end_utc": "2026-10-20T00:36:43.497112+00:00",
+  "rc": 0
+}

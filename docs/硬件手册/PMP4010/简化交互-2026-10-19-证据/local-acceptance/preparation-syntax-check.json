@@ -1,0 +1,4 @@
+{
+  "local-acceptance/run_acceptance.py": "syntax valid; no execution",
+  "package/build_package.py": "syntax valid; no execution"
+}

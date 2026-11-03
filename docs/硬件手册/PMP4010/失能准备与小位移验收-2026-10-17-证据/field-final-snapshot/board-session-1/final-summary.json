@@ -1,0 +1,338 @@
+{
+  "result": "PREPARE_PASSED_PP_GUARD_REFUSED_NO_MOTION",
+  "hardware_motion_executed": false,
+  "prepare_hardware_success": true,
+  "prepare_execute_count": 1,
+  "prepare_form_token": "PREPARE_PP can1 1 -1465",
+  "real_TUI_F5_freeze_Form_token_F5_verified": true,
+  "stationary_samples": [
+    {
+      "timestamp_utc": "2026-10-17T08:31:34.564739+00:00",
+      "source": "device",
+      "event": "prepare_sample",
+      "phase": "稳定采样1/5",
+      "values": {
+        "statusword": 608,
+        "actual_position": -1465,
+        "actual_velocity": 0,
+        "modes_of_operation_display": 1,
+        "error_code_object": 0,
+        "torque_feedback": -1,
+        "velocity_feedback_unit": 0,
+        "profile_velocity": 500000,
+        "profile_acceleration": 5000000,
+        "profile_deceleration": 5000000,
+        "home_offset": 0,
+        "control_mode_select": 0,
+        "modes_of_operation": 1,
+        "target_position": 7800,
+        "max_velocity": 9000000,
+        "max_motor_speed": 4000,
+        "max_profile_acceleration": 2147483647,
+        "max_deceleration": 2147483647
+      },
+      "calibration": {
+        "values": [
+          131072,
+          1,
+          1,
+          1
+        ],
+        "resolution": "131072",
+        "gear_ratio": "1",
+        "motor_degrees_per_user_unit": "45/16384",
+        "output_degrees_per_user_unit": "45/16384"
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-17T08:31:34.882853+00:00",
+      "source": "device",
+      "event": "prepare_sample",
+      "phase": "稳定采样2/5",
+      "values": {
+        "statusword": 608,
+        "actual_position": -1465,
+        "actual_velocity": 0,
+        "modes_of_operation_display": 1,
+        "error_code_object": 0,
+        "torque_feedback": -1,
+        "velocity_feedback_unit": 0,
+        "profile_velocity": 500000,
+        "profile_acceleration": 5000000,
+        "profile_deceleration": 5000000,
+        "home_offset": 0,
+        "control_mode_select": 0,
+        "modes_of_operation": 1,
+        "target_position": 7800,
+        "max_velocity": 9000000,
+        "max_motor_speed": 4000,
+        "max_profile_acceleration": 2147483647,
+        "max_deceleration": 2147483647
+      },
+      "calibration": {
+        "values": [
+          131072,
+          1,
+          1,
+          1
+        ],
+        "resolution": "131072",
+        "gear_ratio": "1",
+        "motor_degrees_per_user_unit": "45/16384",
+        "output_degrees_per_user_unit": "45/16384"
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-17T08:31:35.193575+00:00",
+      "source": "device",
+      "event": "prepare_sample",
+      "phase": "稳定采样3/5",
+      "values": {
+        "statusword": 608,
+        "actual_position": -1465,
+        "actual_velocity": 0,
+        "modes_of_operation_display": 1,
+        "error_code_object": 0,
+        "torque_feedback": -2,
+        "velocity_feedback_unit": 0,
+        "profile_velocity": 500000,
+        "profile_acceleration": 5000000,
+        "profile_deceleration": 5000000,
+        "home_offset": 0,
+        "control_mode_select": 0,
+        "modes_of_operation": 1,
+        "target_position": 7800,
+        "max_velocity": 9000000,
+        "max_motor_speed": 4000,
+        "max_profile_acceleration": 2147483647,
+        "max_deceleration": 2147483647
+      },
+      "calibration": {
+        "values": [
+          131072,
+          1,
+          1,
+          1
+        ],
+        "resolution": "131072",
+        "gear_ratio": "1",
+        "motor_degrees_per_user_unit": "45/16384",
+        "output_degrees_per_user_unit": "45/16384"
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-17T08:31:35.525776+00:00",
+      "source": "device",
+      "event": "prepare_sample",
+      "phase": "稳定采样4/5",
+      "values": {
+        "statusword": 608,
+        "actual_position": -1465,
+        "actual_velocity": 0,
+        "modes_of_operation_display": 1,
+        "error_code_object": 0,
+        "torque_feedback": -4,
+        "velocity_feedback_unit": 0,
+        "profile_velocity": 500000,
+        "profile_acceleration": 5000000,
+        "profile_deceleration": 5000000,
+        "home_offset": 0,
+        "control_mode_select": 0,
+        "modes_of_operation": 1,
+        "target_position": 7800,
+        "max_velocity": 9000000,
+        "max_motor_speed": 4000,
+        "max_profile_acceleration": 2147483647,
+        "max_deceleration": 2147483647
+      },
+      "calibration": {
+        "values": [
+          131072,
+          1,
+          1,
+          1
+        ],
+        "resolution": "131072",
+        "gear_ratio": "1",
+        "motor_degrees_per_user_unit": "45/16384",
+        "output_degrees_per_user_unit": "45/16384"
+      }
+    },
+    {
+      "timestamp_utc": "2026-10-17T08:31:35.854263+00:00",
+      "source": "device",
+      "event": "prepare_sample",
+      "phase": "稳定采样5/5",
+      "values": {
+        "statusword": 608,
+        "actual_position": -1465,
+        "actual_velocity": 0,
+        "modes_of_operation_display": 1,
+        "error_code_object": 0,
+        "torque_feedback": 1,
+        "velocity_feedback_unit": 0,
+        "profile_velocity": 500000,
+        "profile_acceleration": 5000000,
+        "profile_deceleration": 5000000,
+        "home_offset": 0,
+        "control_mode_select": 0,
+        "modes_of_operation": 1,
+        "target_position": 7800,
+        "max_velocity": 9000000,
+        "max_motor_speed": 4000,
+        "max_profile_acceleration": 2147483647,
+        "max_deceleration": 2147483647
+      },
+      "calibration": {
+        "values": [
+          131072,
+          1,
+          1,
+          1
+        ],
+        "resolution": "131072",
+        "gear_ratio": "1",
+        "motor_degrees_per_user_unit": "45/16384",
+        "output_degrees_per_user_unit": "45/16384"
+      }
+    }
+  ],
+  "all_prepare_phases": [
+    "稳定采样1/5",
+    "稳定采样2/5",
+    "稳定采样3/5",
+    "稳定采样4/5",
+    "稳定采样5/5",
+    "写前target_position",
+    "写后target_position",
+    "写前profile_velocity",
+    "写后profile_velocity"
+  ],
+  "readback": {
+    "statusword": 608,
+    "actual_position": -1465,
+    "actual_velocity": 0,
+    "modes_of_operation_display": 1,
+    "error_code_object": 0,
+    "torque_feedback": -1,
+    "velocity_feedback_unit": 0,
+    "profile_velocity": 100,
+    "profile_acceleration": 5000000,
+    "profile_deceleration": 5000000,
+    "home_offset": 0,
+    "control_mode_select": 0,
+    "modes_of_operation": 1,
+    "target_position": -1465,
+    "max_velocity": 9000000,
+    "max_motor_speed": 4000,
+    "max_profile_acceleration": 2147483647,
+    "max_deceleration": 2147483647
+  },
+  "disabled_confirmed": true,
+  "target_reached": false,
+  "mechanical_stop_confirmed": false,
+  "total_SDO_downloads": 2,
+  "completed_SDO_downloads": 2,
+  "total_controlword_downloads": 0,
+  "exit_additional_downloads": 0,
+  "NMT_actions": 0,
+  "NMT_sends": 0,
+  "NMT_evidence_basis": "fixed reviewed production PmpApp/BenchController SDO-only path; no raw CAN socket/sniffer added",
+  "prepare_write_client_ids": [
+    548204835360
+  ],
+  "same_prepare_client_for_both_writes": true,
+  "SDO_exceptions": 0,
+  "quarantine": false,
+  "blocked": [],
+  "enabled_sessions_ever": [],
+  "PP_review_count": 1,
+  "PP_execute_count": 0,
+  "PP_refusal": "电机未确认静止：target reached 未置位",
+  "PP_requested_delta": 36,
+  "PP_candidate_target": -1429,
+  "final_preexit_telemetry": {
+    "statusword": 608,
+    "actual_position": -1465,
+    "actual_velocity": 0,
+    "modes_of_operation_display": 1,
+    "error_code_object": 0,
+    "torque_feedback": -3,
+    "velocity_feedback_unit": 0,
+    "profile_velocity": 100,
+    "profile_acceleration": 5000000,
+    "profile_deceleration": 5000000,
+    "home_offset": 0,
+    "control_mode_select": 0,
+    "modes_of_operation": 1,
+    "target_position": -1465,
+    "max_velocity": 9000000,
+    "max_motor_speed": 4000,
+    "max_profile_acceleration": 2147483647,
+    "max_deceleration": 2147483647
+  },
+  "postexit_SDO_read": false,
+  "postexit_CAN_open": false,
+  "child_rc": 0,
+  "forced_kill": false,
+  "all_control_requests_node1": true,
+  "actual_upload_requests": 5634,
+  "source_hashes": {
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/drivers/pmp4010/pmp4010.py": "2fca0b103544c29f78a79b9e349ec841db0e39abf8f39d9d910e57e47b1e0a1a",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/drivers/pmp4010/pmp4010_bench.py": "fbe69ec63e58fb30f49866f48f93d01e14c15a8b129866c9fba6f292fa7c974f",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/drivers/pmp4010/pmp4010_tui.py": "6ef77e2edbbfea5f579fa5db0996472a9932c9a1ddc3bd0118abd1a5ab7654b8",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/drivers/pmp4010/pmp4010_position.py": "2b66e24bd8f96a1438cfa2078e8517da5069da9071bbc498d7e18d8ff72a1886",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/drivers/pmp4010/pmp4010_params.py": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/drivers/pmp4010/pmp4010_velocity.py": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/hwtui/canopen.py": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/hwtui/canbus.py": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/hwtui/canopen_consts.py": "318e0a76ac7c96856be6ca55b7a99fd12d64913eed9e5cb23b10dff3b9372e1c",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/hwtui/canopen_wire.py": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/hwtui/tui.py": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb"
+  },
+  "prepost_identity_current_config_35_file_hashes_services_identical": true,
+  "post_RT_PID": 3283,
+  "post_RT_FDs": {
+    "0": "/dev/null",
+    "1": "socket:[34177]",
+    "2": "socket:[34177]"
+  },
+  "post_CAN_receive_lists": {
+    "rcvlist_all": "\nreceive list 'rx_all':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_eff": "\nreceive list 'rx_eff':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_err": "\nreceive list 'rx_err':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_fil": "\nreceive list 'rx_fil':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_inv": "\nreceive list 'rx_inv':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_sff": "\nreceive list 'rx_sff':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n"
+  },
+  "raw_files": {
+    "terminal.raw": {
+      "bytes": 33212,
+      "sha256": "ed184f919105990817d6c413de53b09cc7ce29d0f1a950053f487497c674a53a"
+    },
+    "keys.jsonl": {
+      "bytes": 2958,
+      "sha256": "d3d3d9c27b12b7a7ac92c31a31cad248f590c1a0863a131fe873c3a090d363aa"
+    },
+    "remote-final/app-audit.jsonl": {
+      "bytes": 2551609,
+      "sha256": "d087c82296339d4af1da75c640d4681c3b1766b58f6cf75ff4fc7a278d133e43"
+    },
+    "remote-final/pmp4010-motion-dbd6e9dafa4840a4b562d429f302c33b.jsonl": {
+      "bytes": 9409,
+      "sha256": "0eeddc8b6e79b69c0252e4f4befcc2bb862dbaf18fbffe376c33ae7a6789a440"
+    },
+    "prepare-frozen.screen.txt": {
+      "bytes": 7125,
+      "sha256": "cc0dd7c525eb7977d8f03d144a09d3251b3240b51581d04769768f2bf4e3e660"
+    },
+    "pp-refused-bit10-zero.screen.txt": {
+      "bytes": 7001,
+      "sha256": "02fa0b6da187c990c3fd7562947c19f4bdf94a743e18173697f33d2159ad5b7a"
+    },
+    "final-disabled-detail.screen.txt": {
+      "bytes": 7053,
+      "sha256": "62bbe110951f15bec53ac7b91ae6dce82097785a5444a09088adc918b5c23bbb"
+    }
+  }
+}

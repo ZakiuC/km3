@@ -1,0 +1,52 @@
+{
+  "result": "PASS",
+  "mode": "offline_verify_only",
+  "manifest_sha256": "df8b54706fcba922f03c8f06ab03c32fe14c813998febd3b72883b0e4b4d8357",
+  "sources": [
+    {
+      "path": "/tmp/km3-pp-disabled-start-20261019-board/local-probe-payload/drivers/pmp4010/pmp4010.py",
+      "sha256": "2fca0b103544c29f78a79b9e349ec841db0e39abf8f39d9d910e57e47b1e0a1a"
+    },
+    {
+      "path": "/tmp/km3-pp-disabled-start-20261019-board/local-probe-payload/drivers/pmp4010/pmp4010_bench.py",
+      "sha256": "193a1f1281765933524995ee2548d0d3dda62946245b2c7ff7a7a3c0c1549bc5"
+    },
+    {
+      "path": "/tmp/km3-pp-disabled-start-20261019-board/local-probe-payload/drivers/pmp4010/pmp4010_tui.py",
+      "sha256": "54083e18f01a5d114aa1ae98725b6f05ca0cdda34537a517e6c2e0a67317cb78"
+    },
+    {
+      "path": "/tmp/km3-pp-disabled-start-20261019-board/local-probe-payload/drivers/pmp4010/pmp4010_position.py",
+      "sha256": "ecca73a35494bb5bbb36222b0e5dda8b1d08110ddfb2035f4aa8a737f551b7ac"
+    },
+    {
+      "path": "/tmp/km3-pp-disabled-start-20261019-board/local-probe-payload/drivers/pmp4010/pmp4010_params.py",
+      "sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec"
+    },
+    {
+      "path": "/tmp/km3-pp-disabled-start-20261019-board/local-probe-payload/drivers/pmp4010/pmp4010_velocity.py",
+      "sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96"
+    },
+    {
+      "path": "/tmp/km3-pp-disabled-start-20261019-board/local-probe-payload/hwtui/canopen.py",
+      "sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf"
+    },
+    {
+      "path": "/tmp/km3-pp-disabled-start-20261019-board/local-probe-payload/hwtui/canbus.py",
+      "sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300"
+    },
+    {
+      "path": "/tmp/km3-pp-disabled-start-20261019-board/local-probe-payload/hwtui/canopen_consts.py",
+      "sha256": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c"
+    },
+    {
+      "path": "/tmp/km3-pp-disabled-start-20261019-board/local-probe-payload/hwtui/canopen_wire.py",
+      "sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885"
+    },
+    {
+      "path": "/tmp/km3-pp-disabled-start-20261019-board/local-probe-payload/hwtui/tui.py",
+      "sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb"
+    }
+  ],
+  "actual_CAN_opens": 0
+}

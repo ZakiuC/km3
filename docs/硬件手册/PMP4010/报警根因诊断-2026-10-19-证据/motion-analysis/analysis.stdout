@@ -1,0 +1,1 @@
+{"result": "PASS", "raw_json_events": 711, "batches": 21, "Go_batches": 20, "diagnostic_reads": 260, "feedback_samples": 20, "all_603F_1001_zero": true, "last_feedback_net_units": -1513, "last_feedback_net_mm": -0.046173095703125, "physical_CAN_opens": 0, "physical_CAN_sends": 0}

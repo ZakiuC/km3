@@ -1,0 +1,193 @@
+{
+  "session_id": 17054,
+  "exit_code": 1,
+  "business_payload": "/var/tmp/km3-pmp4010-trigger-20261019-c20f27992759/payload",
+  "runner_sha256": "54c5cb091b32c42663ca35933e3a6dd7e98eb9bcd3118f1c436e1da0ded7f7c5",
+  "frozen": {
+    "start": -1480,
+    "target": -1444,
+    "displacement": 36,
+    "speed": 100,
+    "production_budget": 364,
+    "soft_min": -1844,
+    "soft_max": -1116
+  },
+  "trigger": {
+    "protocol_success": true,
+    "enabled_CW": [
+      "002F",
+      "003F",
+      "002F"
+    ],
+    "ACK": [
+      {
+        "utc": "2026-10-19T06:43:34.833388+00:00",
+        "CW": "0x2f",
+        "SW": "0x637",
+        "samples": [
+          false,
+          false
+        ],
+        "position": -1471
+      },
+      {
+        "utc": "2026-10-19T06:43:34.859969+00:00",
+        "CW": "0x3f",
+        "SW": "0x1637",
+        "samples": [
+          true,
+          true
+        ],
+        "position": -1471
+      },
+      {
+        "utc": "2026-10-19T06:43:34.886473+00:00",
+        "CW": "0x2f",
+        "SW": "0x637",
+        "samples": [
+          true,
+          false
+        ],
+        "position": -1471
+      },
+      {
+        "utc": "2026-10-19T06:43:34.919090+00:00",
+        "CW": "0x2f",
+        "SW": "0x637",
+        "samples": [
+          false,
+          false
+        ],
+        "position": -1471
+      }
+    ]
+  },
+  "release_baseline": {
+    "utc": "2026-10-19T06:43:34.819547+00:00",
+    "position": -1471,
+    "delta_from_review": 9,
+    "note": "The +9U was already observed before the first release write."
+  },
+  "post_go": {
+    "count": 95,
+    "position_min": -1481,
+    "position_max": -1471,
+    "relative_to_release_min": -10,
+    "relative_to_release_max": 0,
+    "last_position": -1480,
+    "net_relative_release": -9,
+    "positive_following_proven": false,
+    "actual_velocity_counts": {
+      "0": 95
+    },
+    "statusword_counts": {
+      "0x637": 95
+    },
+    "fault_counts": {
+      "0": 95
+    },
+    "target_counts": {
+      "-1444": 95
+    },
+    "demand_counts": {
+      "-1444": 95
+    },
+    "torque_min": -42,
+    "torque_max": -5,
+    "torque_first": -5,
+    "torque_last": -25,
+    "exact_target_samples": 0,
+    "bit10_true_samples": 95
+  },
+  "precision": {
+    "success": false,
+    "reason": "10s deadline; zero exact-target snapshots"
+  },
+  "cleanup": {
+    "utc": "2026-10-19T06:43:44.986656+00:00",
+    "event": "FINAL",
+    "data": {
+      "completed": false,
+      "failure": "ValueError: 动作监测超时；没有两份到达目标/零速度/bit10一致快照",
+      "output_error": null,
+      "hardware_motion_acceptance": false,
+      "mock_only": false,
+      "cleanup": [
+        {
+          "action": "stop",
+          "values": {
+            "statusword": 576,
+            "actual_position": -1473,
+            "actual_velocity": 0,
+            "modes_of_operation_display": 1,
+            "error_code_object": 0,
+            "torque_feedback": -5,
+            "velocity_feedback_unit": 0,
+            "profile_velocity": 100,
+            "profile_acceleration": 5000000,
+            "profile_deceleration": 5000000,
+            "home_offset": 0,
+            "control_mode_select": 0,
+            "modes_of_operation": 1,
+            "target_position": -1444,
+            "profile_end_velocity": 0,
+            "software_position_limit": -2147483628,
+            "software_position_limit_max": 2147483627,
+            "controlword": 2,
+            "halt_option": 1,
+            "position_demand": -1444,
+            "max_velocity": 9000000,
+            "max_motor_speed": 4000,
+            "max_profile_acceleration": 2147483647,
+            "max_deceleration": 2147483647
+          }
+        },
+        {
+          "action": "disable",
+          "values": {
+            "statusword": 576,
+            "actual_position": -1476,
+            "actual_velocity": 0,
+            "modes_of_operation_display": 1,
+            "error_code_object": 0,
+            "torque_feedback": -1,
+            "velocity_feedback_unit": 0,
+            "profile_velocity": 100,
+            "profile_acceleration": 5000000,
+            "profile_deceleration": 5000000,
+            "home_offset": 0,
+            "control_mode_select": 0,
+            "modes_of_operation": 1,
+            "target_position": -1444,
+            "profile_end_velocity": 0,
+            "software_position_limit": -2147483628,
+            "software_position_limit_max": 2147483627,
+            "controlword": 0,
+            "halt_option": 1,
+            "position_demand": -1444,
+            "max_velocity": 9000000,
+            "max_motor_speed": 4000,
+            "max_profile_acceleration": 2147483647,
+            "max_deceleration": 2147483647
+          }
+        }
+      ],
+      "close_results": [
+        {
+          "node": 1,
+          "disabled_confirmed": true
+        }
+      ],
+      "close_lines": [
+        "节点 1 已发失能 6040h=0x0006，6041h=0x0231，operation enabled=0，失能已确认",
+        "总线已关闭（失能确认流程之后）"
+      ],
+      "final_velocity_note": "606C实读在disable0完整快照中；close6后只再读6041并关闭总线",
+      "mechanical_stop_confirmed": false
+    }
+  },
+  "root_cause_proven": false,
+  "normal_drive_accepted": false,
+  "uncertain_sdo_observed": false,
+  "remote_collection_rc": 0
+}

@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "tools/hwdriver/gen-od.py",
+    "--model",
+    "pmp4010",
+    "--check"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-20T00:57:13.312739+00:00"
+}

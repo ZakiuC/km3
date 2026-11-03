@@ -1,0 +1,23 @@
+{
+  "classification": "HUMAN REPORTED",
+  "user_quote_exact": "松开同步带之后可以转动了。我现在在排查机械问题。",
+  "checked_at_utc": "2026-10-20T01:46:32Z",
+  "checked_at_Asia_Shanghai": "2026-10-20T09:46:32+08:00",
+  "clock_source": "clock.curr_time",
+  "time_semantics": "Archival check time, not authenticated message receipt time or physical test time.",
+  "actual_test_time": null,
+  "exact_message_receipt_time": null,
+  "physical_displacement": null,
+  "speed": null,
+  "running_software_version": null,
+  "firmware_version": null,
+  "raw_device_readings": null,
+  "belt_condition": "User said 松开同步带; complete removal and fully unloaded condition not established.",
+  "same_parameter_control_comparison_established": false,
+  "supports": "Mechanical coupling/load-related investigation.",
+  "specific_physical_root_cause_identified": false,
+  "brake_100_percent_healthy_proven": false,
+  "alarm_2312_root_cause_resolved": false,
+  "human_current_activity": "我现在在排查机械问题。",
+  "agent_hardware_or_network_actions": false
+}

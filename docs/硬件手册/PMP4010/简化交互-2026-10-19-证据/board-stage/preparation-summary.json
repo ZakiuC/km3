@@ -1,0 +1,53 @@
+{
+  "status": "LOCAL_PREPARATION_ONLY_WAIT_FINAL_SIMPLE_PACKAGE",
+  "utc": "2026-10-19T05:26:31.283628+00:00",
+  "files": [
+    {
+      "source": "docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/board-stage/stage.remote.py",
+      "target": "stage.remote.py",
+      "source_sha256": "d614a9eb1c2e7a128f1267131451f0570d8905f0e6c4cf02dd3671985891d3b3",
+      "target_sha256": "638a3878617954829b0be8182fccd025f972f5eea997aa00617685f32ecffbd2",
+      "ast_parse": "PASS"
+    },
+    {
+      "source": "docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/board-stage/pureload.remote.py",
+      "target": "pureload.remote.py",
+      "source_sha256": "16a93d591fb6b56c6aed9d1d9d2535d2956b644d3652b20bd6bebb964ddc80a7",
+      "target_sha256": "91942eb49cb902e894ffd0c139d35269e43080de3fb9420dbe58eb58d0e12929",
+      "ast_parse": "PASS"
+    },
+    {
+      "source": "docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/board-stage/stage_manual.py",
+      "target": "stage_simple.py",
+      "source_sha256": "4ef00e8c851444e0f18d1794c79f520f18f10d47efc33609ebdee5716539e90a",
+      "target_sha256": "029357f305f2895df291be97326771d2d1f60988455a5e93b01d9edb0e0c5d42",
+      "ast_parse": "PASS"
+    }
+  ],
+  "local_help_rc": 0,
+  "expected_package_import_count": 18,
+  "expected_import_count_is_verified": false,
+  "proposed_stage_prefix": "/var/tmp/km3-pmp4010-simple-20261019-",
+  "package_path": null,
+  "package_sha256": null,
+  "manifest_sha256": null,
+  "actual_ssh_calls": 0,
+  "actual_CAN_operations": 0,
+  "remote_writes": 0,
+  "manual_or_simple_app_runs": 0,
+  "business_source_changed": false,
+  "report_changed": false,
+  "ownership": "Only simplified interaction evidence/board-stage; prior package and all prior evidence preserved.",
+  "pending": [
+    "Root supplies final archive path/SHA/manifest and execution authorization.",
+    "Reconcile actual manifest members and load_smoke import count with final package.",
+    "Only then one exclusive upload, pureload/import/math/help/sh-n and before/after passive snapshots.",
+    "Leave any user-running old tool untouched; no kill/stop and no CAN connection."
+  ],
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "conservative_input_estimate_from_parent": 170000,
+  "estimate_is_actual": false,
+  "cleanup": "Local scripts/diffs/help evidence retained; no board action performed."
+}

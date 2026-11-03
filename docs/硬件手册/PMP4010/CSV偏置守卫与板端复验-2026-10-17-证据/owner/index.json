@@ -1,0 +1,17 @@
+{
+  "requested_role": "sentry",
+  "requested_model": "gpt-6.1-sol",
+  "requested_effort": "medium",
+  "resolved_model": "unknown",
+  "resolved_effort": "unknown",
+  "last_token_usage.input_tokens": "unknown",
+  "estimated_input_upper_bound": 40000,
+  "estimate_source": "reused relevant bounded thread plus concise task packet; runtime usage unavailable",
+  "snapshot": "01-owner-snapshot.json",
+  "conclusion": "At the observed fd snapshot PID3283 has only /dev/null and one AF_UNIX socket duplicated to stdout/stderr; no CAN fd observed. Neither systemd ExecStart nor live argv supplies --enable-sync. Empty receive lists are namespace snapshots, not exclusive-bus or no-transmission proof.",
+  "limitations": [
+    "Installed binary release0.1.1 was not matched to current checkout; current source defaults cannot prove its exact internal implementation.",
+    "This is a point-in-time non-atomic passive observation; future opens, other processes, other namespaces, external nodes and interface traffic are not excluded.",
+    "No hardware action, CAN socket creation or frame transmission performed."
+  ]
+}

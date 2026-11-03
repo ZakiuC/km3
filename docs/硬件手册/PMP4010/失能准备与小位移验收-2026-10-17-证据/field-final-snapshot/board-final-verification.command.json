@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pp-motion-20261017/verify_board.py"
+  ],
+  "utc": "2026-10-17T08:33:22.789989+00:00"
+}

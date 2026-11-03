@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/second-trip-local/verify_local.py"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

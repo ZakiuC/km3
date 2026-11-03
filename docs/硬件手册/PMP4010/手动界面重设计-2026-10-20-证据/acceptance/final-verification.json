@@ -1,0 +1,16 @@
+{
+  "preview_generation_matches_freeze": true,
+  "original_hwtui_61_test_function_bytes_unchanged": true,
+  "payload_and_roundtrip_and_arm_smoke_actual": {
+    "imported_modules": 21,
+    "native_vectors": 33,
+    "python_vectors": 33,
+    "int32_vectors": 14,
+    "forbidden_io_attempts": 0
+  },
+  "freeze_still_current": true,
+  "own_bytecode_dirs": [],
+  "final_docs_rc": 0,
+  "all_old_board_versions_preserved": true,
+  "own_upload_temporary_directory_removed": true
+}

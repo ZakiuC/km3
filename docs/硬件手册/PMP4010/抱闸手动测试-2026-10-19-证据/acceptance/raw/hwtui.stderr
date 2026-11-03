@@ -1,0 +1,292 @@
+test_abort_exception_carries_index_and_subindex (test_canopen.TestGoldenAborts) ... ok
+test_abort_frame_echoes_index (test_canopen.TestGoldenAborts)
+abort 帧里的索引是**被拒的那个**，不是 0。 ... ok
+test_abort_index_comes_from_the_frame (test_canopen.TestGoldenAborts) ... ok
+test_abort_object_not_exist (test_canopen.TestGoldenAborts) ... ok
+test_abort_unknown_code_is_shown_as_hex (test_canopen.TestGoldenAborts)
+未知 abort code 必须原样显示十六进制，不得编造含义。 ... ok
+test_abort_write_readonly (test_canopen.TestGoldenAborts) ... ok
+test_decode_distinguishes_known_from_unknown (test_canopen.TestGoldenAborts) ... ok
+test_every_known_code_decodes_to_its_table_entry (test_canopen.TestGoldenAborts) ... ok
+test_known_abort_table_entries (test_canopen.TestGoldenAborts) ... ok
+test_cob_id_bases_do_not_collide (test_canopen.TestGoldenCobId)
+五组基址互不重叠。 ... ok
+test_cob_id_mapping (test_canopen.TestGoldenCobId) ... ok
+test_cob_id_rejects_out_of_range_node (test_canopen.TestGoldenCobId) ... ok
+test_all_vectors_are_asserted_by_some_test (test_canopen.TestGoldenCorpus)
+每条语料都必须被某个测试用到。 ... ok
+test_corpus_contains_no_vendor_specific_index (test_canopen.TestGoldenCorpus)
+语料里的索引必须都是规范公共对象。 ... ok
+test_every_frame_in_corpus_is_well_formed (test_canopen.TestGoldenCorpus)
+语料里的每个帧都要能解析成合法帧（长度、ID 范围）。 ... ok
+test_every_kind_required_by_spec_is_present (test_canopen.TestGoldenCorpus)
+规范点名的场景都必须有语料覆盖。 ... ok
+test_minimum_vector_count (test_canopen.TestGoldenCorpus)
+任务要求至少 12 条序列；现在远多于这个数。 ... ok
+test_vector_names_are_unique (test_canopen.TestGoldenCorpus) ... ok
+test_emcy_clear_has_zero_error_code (test_canopen.TestGoldenEmcy)
+错误码 0x0000 是"错误已消除"的清除报文，不是错误上报。 ... ok
+test_emcy_cob_id_is_node_plus_0x80 (test_canopen.TestGoldenEmcy)
+EMCY 的基址是 0x080 —— 比 SDO 应答 0x580 靠前得多。 ... ok
+test_emcy_report_and_clear (test_canopen.TestGoldenEmcy) ... ok
+test_non_emcy_frame_is_not_parsed (test_canopen.TestGoldenEmcy)
+0x080 以外的帧不得被当成 EMCY。 ... ok
+test_expedited_read_identity_subindex (test_canopen.TestGoldenExpedited) ... ok
+test_expedited_read_uint16 (test_canopen.TestGoldenExpedited) ... ok
+test_expedited_read_uint32 (test_canopen.TestGoldenExpedited) ... ok
+test_expedited_read_uint8 (test_canopen.TestGoldenExpedited) ... ok
+test_expedited_write_uint16_command_word (test_canopen.TestGoldenExpedited)
+写 2 字节的命令字是 0x2B，不是 0x23 也不是 0x27。 ... ok
+test_expedited_write_uint32_has_no_followup_segment (test_canopen.TestGoldenExpedited)
+写 4 字节必须是"一帧请求一帧确认"就结束。 ... ok
+test_expedited_write_uint8_command_word (test_canopen.TestGoldenExpedited) ... ok
+test_heartbeat_accepts_extended_frames_off_the_heartbeat_range (test_canopen.TestGoldenHeartbeat) ... ok
+test_heartbeat_ignores_non_heartbeat_frames (test_canopen.TestGoldenHeartbeat)
+别的帧不能污染心跳计时。 ... ok
+test_heartbeat_range_judgement_cannot_be_widened (test_canopen.TestGoldenHeartbeat) ... ok
+test_heartbeat_requires_single_data_byte (test_canopen.TestGoldenHeartbeat) ... ok
+test_heartbeat_state_names_include_unknown (test_canopen.TestGoldenHeartbeat)
+未知状态值原样十六进制，不编造状态名。 ... ok
+test_heartbeat_timeout_detection (test_canopen.TestGoldenHeartbeat) ... ok
+test_heartbeat_timeout_is_not_silence_error (test_canopen.TestGoldenHeartbeat)
+超时是**查询结果**，不是异常。 ... ok
+test_nmt_broadcast_reset_node (test_canopen.TestGoldenNmt)
+广播 reset：节点先回 Initialising(0)，再回 Pre-operational(127)。 ... ok
+test_nmt_command_values (test_canopen.TestGoldenNmt)
+NMT 命令字的规范取值。写错一个位就是"电机不动"这类难查的现场问题。 ... ok
+test_nmt_rejects_unknown_command (test_canopen.TestGoldenNmt) ... ok
+test_nmt_start_stop_via_heartbeat (test_canopen.TestGoldenNmt) ... ok
+test_nmt_targets_only_its_own_node (test_canopen.TestGoldenNmt)
+发给 2 号节点的命令不得改变 1 号节点的状态。 ... ok
+test_scan_finds_only_live_nodes (test_canopen.TestGoldenNodeScan)
+只有 3 号和 5 号活着时必须**恰好**扫到 [3, 5]。 ... ok
+test_scan_silent_bus_does_not_raise (test_canopen.TestGoldenNodeScan)
+静默不是错误：扫描必须正常返回空列表，不抛异常。 ... ok
+test_scan_silent_bus_finds_nothing (test_canopen.TestGoldenNodeScan) ... ok
+test_scan_uses_sdo_not_heartbeat (test_canopen.TestGoldenNodeScan)
+默认探测手段是 SDO 读 0x1000，不是靠心跳。 ... ok
+test_mapping_nonzero_subindex_uses_cia301_bit_layout (test_canopen.TestGoldenPdo) ... ok
+test_pdo_comm_read_tpdo1 (test_canopen.TestGoldenPdo) ... ok
+test_pdo_comm_rejects_non_comm_index (test_canopen.TestGoldenPdo) ... ok
+test_pdo_comm_valid_bit (test_canopen.TestGoldenPdo)
+bit31 = 1 表示该 PDO 被禁用。这个位不看，就会把禁用的 PDO 当活的。 ... ok
+test_pdo_mapping_entry_encoding (test_canopen.TestGoldenPdo)
+映射条目的 32 位布局：索引<<16 | 子索引<<8 | 位长。 ... ok
+test_pdo_mapping_read_rpdo1 (test_canopen.TestGoldenPdo) ... ok
+test_pdo_mapping_rejects_non_mapping_index (test_canopen.TestGoldenPdo)
+0x1000 不是映射对象，必须报错而不是读出垃圾。 ... ok
+test_rpdo_does_not_read_tpdo_only_inhibit_time (test_canopen.TestGoldenPdo) ... ok
+test_tpdo_cob_id_bit30_means_rtr_disallowed (test_canopen.TestGoldenPdo) ... ok
+test_tpdo_event_and_inhibit_time_are_independent (test_canopen.TestGoldenPdo) ... ok
+test_tpdo_inhibit_time_is_subindex_three_even_without_event_timer (test_canopen.TestGoldenPdo) ... ok
+test_download_ack_command_words (test_canopen.TestGoldenSegmented) ... ok
+test_expedited_download_ack_is_0x60 (test_canopen.TestGoldenSegmented) ... ok
+test_rejects_malformed_segment_ack (test_canopen.TestGoldenSegmented) ... ok
+test_rejects_segment_ack_with_wrong_toggle (test_canopen.TestGoldenSegmented) ... ok
+test_segmented_read_64_bytes (test_canopen.TestGoldenSegmented)
+64 字节分段读：首帧带长度指示，段请求 toggle 交替 0x60/0x70。 ... ok
+test_segmented_read_9_bytes (test_canopen.TestGoldenSegmented) ... ok
+test_segmented_read_three_segments_toggle0 (test_canopen.TestGoldenSegmented) ... ok
+test_segmented_read_toggle1_last_full_segment (test_canopen.TestGoldenSegmented) ... ok
+test_segmented_read_toggle_alternation (test_canopen.TestGoldenSegmented)
+实测段请求的 toggle 必须从 0（0x60）起交替到 1（0x70）。 ... ok
+test_segmented_read_without_size_indicator (test_canopen.TestGoldenSegmented)
+八字节 0x40 首帧不带总长度，须读到最后一个数据段的 c 位。 ... ok
+test_segmented_write_64_bytes (test_canopen.TestGoldenSegmented)
+64 字节分段写：断言首帧、末帧与 toggle 交替。 ... ok
+test_segmented_write_9_bytes (test_canopen.TestGoldenSegmented) ... ok
+test_segmented_write_9_bytes_last_segment_nbits (test_canopen.TestGoldenSegmented)
+末段命令字 0x1B = toggle 1 | c 1 | n 位 0x0A（空 5 字节，2 字节有效）。 ... ok
+test_upload_segment_mask_accepts_only_server_segment_family (test_canopen.TestGoldenSegmented) ... ok
+test_continuous_unrelated_traffic_obeys_total_deadline (test_canopen.TestGoldenTimeout) ... ok
+test_sdo_timeout_no_response (test_canopen.TestGoldenTimeout) ... ok
+test_silence_is_not_abort (test_canopen.TestGoldenTimeout)
+静默 ≠ abort。分清这两者决定现场查总线还是查对象字典。 ... ok
+test_unrelated_frames_do_not_replace_the_target_response (test_canopen.TestGoldenTimeout) ... ok
+test_all_256_initiate_commands_agree_with_expedited_family (test_canopen.TestSdoWireInteroperability) ... ok
+test_declared_length_is_enforced_before_and_at_last_segment (test_canopen.TestSdoWireInteroperability) ... ok
+test_differential_command_golden_vectors (test_canopen.TestSdoWireInteroperability) ... ok
+test_empty_segmented_upload_is_valid (test_canopen.TestSdoWireInteroperability) ... ok
+test_endless_nonfinal_segments_fail_with_bounded_storage_and_requests (test_canopen.TestSdoWireInteroperability) ... ok
+test_interrupt_during_segmented_transfer_preserves_quarantine (test_canopen.TestSdoWireInteroperability) ... ok
+test_interrupt_during_send_or_ack_wait_quarantines_and_blocks_cleanup (test_canopen.TestSdoWireInteroperability) ... ok
+test_rejects_old_wrong_segment_response_family (test_canopen.TestSdoWireInteroperability) ... ok
+test_rejects_short_initiate_and_segment_responses (test_canopen.TestSdoWireInteroperability) ... ok
+test_rejects_wrong_upload_toggle (test_canopen.TestSdoWireInteroperability) ... ok
+test_same_node_wrong_object_is_rejected (test_canopen.TestSdoWireInteroperability) ... ok
+test_segment_abort_for_different_object_is_rejected (test_canopen.TestSdoWireInteroperability) ... ok
+test_segment_abort_preserves_object_and_unknown_code (test_canopen.TestSdoWireInteroperability) ... ok
+test_segmented_capacity_boundary_and_oversized_announcement (test_canopen.TestSdoWireInteroperability) ... ok
+test_segmented_transfer_has_one_deadline_and_quarantines_on_expiry (test_canopen.TestSdoWireInteroperability) ... ok
+test_standard_upload_replay_with_and_without_declared_size (test_canopen.TestSdoWireInteroperability) ... ok
+test_timeout_late_reply_cannot_pollute_any_followup_transaction (test_canopen.TestSdoWireInteroperability) ... ok
+test_no_bus_specific_import (test_canopen.TestStandardLayerDiscipline)
+标准层不得反向依赖具体的传输实现。 ... ok
+test_no_hardcoded_vendor_motor_indices (test_canopen.TestStandardLayerDiscipline)
+源码里不得出现"看着像厂家索引"的字面量。 ... ok
+test_object_index_table_is_standard_only (test_canopen.TestStandardLayerDiscipline)
+对象索引表里的每个索引都必须落在 CiA 301 公共对象区。 ... ok
+test_only_standard_library_imports (test_canopen.TestStandardLayerDiscipline)
+只用 Python 3 标准库。 ... ok
+test_shared_wire_import_works_in_both_entry_modes (test_canopen.TestStandardLayerDiscipline) ... ok
+test_record_then_replay (test_canopen.TestTraceReplay)
+录一段真实对话，再用回放总线重跑，帧序列必须一致。 ... ok
+test_replay_detects_divergent_request (test_canopen.TestTraceReplay)
+回放时请求帧不同必须报错，而不是默默给一份对不上的应答。 ... ok
+test_trace_json_shape_is_stable (test_canopen.TestTraceReplay)
+录制的 JSON 形状与金标语料一致——现场录的片段能直接当语料用。 ... ok
+test_af_can_bind_address_is_single_element_tuple (test_canopen.TestTransportDiscipline) ... ok
+test_canbus_classic_frame_roundtrip (test_canopen.TestTransportDiscipline)
+经典帧打包/解包是二进制一致的。 ... ok
+test_canbus_rejects_fd_open_flag (test_canopen.TestTransportDiscipline)
+请求 FD 模式直接报错——本板主板 CAN 没这个能力。 ... ok
+test_canbus_rejects_fd_send (test_canopen.TestTransportDiscipline)
+真总线：FD 帧显式报错，绝不静默丢弃。 ... ok
+test_canbus_rejects_oversized_classic_frame (test_canopen.TestTransportDiscipline)
+经典帧不能带超过 8 字节——不能悄悄截断。 ... ok
+test_canbus_unpack_rejects_fd_mtu (test_canopen.TestTransportDiscipline)
+收到 72 字节（FD）时明确报错，不按经典帧错位解析。 ... ok
+test_ifindex_uses_siocgifindex (test_canopen.TestTransportDiscipline) ... ok
+test_mockbus_rejects_fd_send (test_canopen.TestTransportDiscipline)
+模拟总线与真总线的 FD 行为必须一致，否则回归结论不可移植。 ... ok
+test_bad_kind_is_explicit_error (test_form.TestField) ... ok
+test_cursor_insertion_delete_backspace_and_bounds (test_form.TestField) ... ok
+test_cursor_stays_visible_when_value_scrolls (test_form.TestField) ... ok
+test_edit_is_draft_until_enter (test_form.TestField) ... ok
+test_escape_discards_draft (test_form.TestField) ... ok
+test_input_length_is_bounded (test_form.TestField) ... ok
+test_numeric_commits_finite_decimal_without_device_policy (test_form.TestField) ... ok
+test_numeric_failure_can_be_corrected_or_cancelled (test_form.TestField) ... ok
+test_numeric_rejects_invalid_empty_and_nonfinite (test_form.TestField) ... ok
+test_readonly_cannot_start_editing (test_form.TestField) ... ok
+test_unsupported_input_is_consumed_without_insertion (test_form.TestField) ... ok
+test_duplicate_names_are_rejected (test_form.TestForm) ... ok
+test_editing_owns_navigation_and_global_letters (test_form.TestForm) ... ok
+test_empty_and_degenerate_forms_are_safe (test_form.TestForm) ... ok
+test_exact_grid_snapshot_and_sanitized_readonly (test_form.TestForm) ... ok
+test_invalid_number_keeps_visible_cursor_and_error_marker (test_form.TestForm) ... ok
+test_navigation_clamps_and_tab_selects (test_form.TestForm) ... ok
+test_scroll_keeps_selected_field_visible (test_form.TestForm) ... ok
+test_ctrl_c_exits_with_form_focus (test_form.TestViewNavigation) ... ok
+test_curses_already_resized_only_updates_cached_layout (test_form.TestViewNavigation) ... ok
+test_empty_menu_and_unregistered_views (test_form.TestViewNavigation) ... ok
+test_escape_cancels_edit_before_returning_to_menu (test_form.TestViewNavigation) ... ok
+test_focus_precedes_subclass_actions (test_form.TestViewNavigation) ... ok
+test_loop_flushes_curses_before_ansi_and_restores_signal_on_ctrl_c (test_form.TestViewNavigation) ... ok
+test_loop_restores_cursor_when_poll_raises (test_form.TestViewNavigation) ... ok
+test_menu_enter_and_escape_preserve_selection (test_form.TestViewNavigation) ... ok
+test_old_apps_keep_escape_quit_and_demo_enter_log (test_form.TestViewNavigation) ... ok
+test_replacing_focus_or_view_cancels_previous_draft (test_form.TestViewNavigation) ... ok
+test_resize_notification_queued_by_resizeterm_does_not_starve_quit (test_form.TestViewNavigation) ... ok
+test_discover_detects_entry_point_shapes (test_tui.TestDiscoverExistence)
+has_main 判据必须认全三种入口写法。 ... ok
+test_discover_module_importable (test_tui.TestDiscoverExistence) ... ok
+test_discover_parses_a_synthetic_driver_tool (test_tui.TestDiscoverExistence)
+造一棵临时 driver 树，验证 glob 形状与 docstring 摘录。 ... ok
+test_discover_returns_list_without_drivers_dir (test_tui.TestDiscoverExistence) ... ok
+test_discover_survives_unreadable_or_broken_tool (test_tui.TestDiscoverExistence)
+坏文件（非法 UTF-8 / 语法错）不得让 --list 整个挂掉。 ... ok
+test_summary_truncation_marks_itself (test_tui.TestDiscoverExistence)
+摘要过长要带省略号，让人看出"这是被截断的"，而不是像没写摘要。 ... ok
+test_table_lists_multibyte_summary_without_mangling (test_tui.TestDiscoverExistence)
+中文摘要（PMP4010 那条就是）必须完整出现在表里——它不该被砍成空。 ... ok
+test_underscore_dirs_are_not_hardware (test_tui.TestDiscoverExistence)
+device/drivers/_template 是脚手架，不是硬件；默认不得列进"硬件工具"。 ... ok
+test_app_quit_keys (test_tui.TestKeyDecoding) ... ok
+test_basic_keys (test_tui.TestKeyDecoding) ... ok
+test_control_keys_are_not_letters (test_tui.TestKeyDecoding) ... ok
+test_special_keys_when_curses_available (test_tui.TestKeyDecoding) ... ok
+test_unknown_key_returns_empty (test_tui.TestKeyDecoding) ... ok
+test_app_first_frame_at_24x80_is_stable (test_tui.TestLayoutAndWidgets)
+首屏必须画满、不抛、行宽一致——render() 的 diff 依赖等宽。 ... ok
+test_app_renders_at_degenerate_sizes (test_tui.TestLayoutAndWidgets) ... ok
+test_empty_menu_is_safe (test_tui.TestLayoutAndWidgets) ... ok
+test_empty_table_is_safe (test_tui.TestLayoutAndWidgets) ... ok
+test_fit_hints_edge_cases (test_tui.TestLayoutAndWidgets) ... ok
+test_fit_hints_is_monotonic_in_width (test_tui.TestLayoutAndWidgets)
+窗口变宽时，显示的提示条数不得反而变少。 ... ok
+test_fit_never_exceeds_width (test_tui.TestLayoutAndWidgets) ... ok
+test_layout_degenerate_sizes (test_tui.TestLayoutAndWidgets) ... ok
+test_layout_normal (test_tui.TestLayoutAndWidgets) ... ok
+test_logview_ring_buffer_is_bounded (test_tui.TestLayoutAndWidgets)
+板端根分区小 → 日志窗必须有上限，不能是无限 list。 ... ok
+test_logview_wraps_and_follows_tail (test_tui.TestLayoutAndWidgets) ... ok
+test_logview_wraps_long_lines_by_cells (test_tui.TestLayoutAndWidgets) ... ok
+test_logview_zero_size_is_safe (test_tui.TestLayoutAndWidgets) ... ok
+test_menu_selection_is_clamped_and_scrolls (test_tui.TestLayoutAndWidgets) ... ok
+test_put_clips_negative_and_overflow (test_tui.TestLayoutAndWidgets) ... ok
+test_put_sanitizes_by_default (test_tui.TestLayoutAndWidgets) ... ok
+test_row_width_is_always_consistent (test_tui.TestLayoutAndWidgets)
+宽度不一致会让 render() 每帧退化成全量重绘——这里钉住它不发生。 ... ok
+test_sanitize_replaces_wide_characters_by_default (test_tui.TestLayoutAndWidgets)
+不做 wcwidth：非 ASCII 非制表符号一律降级，否则必然静默错位。 ... ok
+test_sanitize_strips_control_characters (test_tui.TestLayoutAndWidgets)
+网格里会出现报文/文件名/环境变量里的字节：ESC 放行等于让数据改写终端。 ... ok
+test_status_hints_all_fit_when_wide (test_tui.TestLayoutAndWidgets) ... ok
+test_status_hints_never_truncate_a_key_name (test_tui.TestLayoutAndWidgets)
+提示行必须整条整条地丢，不能出现 "? he~" 这种半截键名。 ... ok
+test_status_hints_report_overflow_instead_of_silence (test_tui.TestLayoutAndWidgets) ... ok
+test_table_columns_fit_available_width (test_tui.TestLayoutAndWidgets) ... ok
+test_table_renders_selection_marker (test_tui.TestLayoutAndWidgets) ... ok
+test_table_truncates_overlong_cell (test_tui.TestLayoutAndWidgets) ... ok
+test_grid_zero_size_put_and_box_are_noops (test_tui.TestRenderPureFunction) ... ok
+test_identical_frames_emit_nothing (test_tui.TestRenderPureFunction) ... ok
+test_incremental_equals_full_repaint_result (test_tui.TestRenderPureFunction)
+增量渲染积累后，终端上呈现的内容必须与全量重绘一致。 ... ok
+test_multiple_rows_use_absolute_positioning (test_tui.TestRenderPureFunction)
+每行/每个区间自带绝对定位：输出只取决于两帧之差，不取决于光标在哪。 ... ok
+test_prev_none_is_full_repaint (test_tui.TestRenderPureFunction) ... ok
+test_render_is_deterministic_and_pure (test_tui.TestRenderPureFunction)
+同一对帧渲染两次必须逐字节相同；且不得改动入参。 ... ok
+test_round_trip_single_frame_is_identity (test_tui.TestRenderPureFunction)
+全量重绘 + 按行还原 == 目标帧（这是渲染正确性的最小证据）。 ... ok
+test_shape_change_forces_full_repaint (test_tui.TestRenderPureFunction)
+行数变了、列数变了、行宽不齐了——都必须退化成全量重绘。 ... ok
+test_three_contiguous_changed_cells_exact_bytes (test_tui.TestRenderPureFunction)
+改了 3 个格子（同一行、连续）-> 精确等于 10 字节。 ... ok
+test_three_scattered_changed_cells_exact_bytes (test_tui.TestRenderPureFunction)
+改了 3 个格子（同一行、互不相邻）-> 精确等于 22 字节。 ... ok
+test_two_runs_merge_only_when_adjacent (test_tui.TestRenderPureFunction)
+相邻变化必须合并成一条，隔一格的必须拆成两条——省字节靠这条。 ... ok
+test_zero_size_frame_does_not_raise (test_tui.TestRenderPureFunction)
+板端首屏 0x0：stty size 返回 0 0 时不得崩，且不产生任何字节。 ... ok
+test_zero_size_grid_renders_to_empty (test_tui.TestRenderPureFunction)
+0x0 的 Grid 也必须能安全地走到 render()。 ... ok
+test_app_constructs_at_zero_size_without_polling_tty (test_tui.TestSizeResolution)
+构造时不做 ioctl 也要能起来（测试与 CI 无 tty）。 ... ok
+test_bad_env_values_are_ignored (test_tui.TestSizeResolution) ... ok
+test_board_stty_size_zero_zero_falls_through_to_env (test_tui.TestSizeResolution)
+板端实测：ssh -tt 下 stty size 返回 0 0。此时必须往下走，不能当成合法尺寸。 ... ok
+test_env_whitespace_is_tolerated (test_tui.TestSizeResolution) ... ok
+test_fallback_when_nothing_available (test_tui.TestSizeResolution) ... ok
+test_ioctl_exception_falls_back (test_tui.TestSizeResolution) ... ok
+test_ioctl_wins (test_tui.TestSizeResolution) ... ok
+test_partial_dimensions_resolve_independently (test_tui.TestSizeResolution)
+终端报了行、列是 0：行取 ioctl，列继续往下找。 ... ok
+test_resize_recomputes_layout (test_tui.TestSizeResolution) ... ok
+test_zero_zero_falls_through_to_cli (test_tui.TestSizeResolution) ... ok
+test_control_and_zero_width_injection_is_blocked_in_every_mode (test_tui_unicode.TestUnicodeColumns) ... ok
+test_diff_after_unchanged_wide_prefix_uses_column_position (test_tui_unicode.TestUnicodeColumns) ... ok
+test_diff_start_expands_to_both_old_and_new_glyph_boundaries (test_tui_unicode.TestUnicodeColumns) ... ok
+test_equal_terminal_width_different_character_count_is_incremental (test_tui_unicode.TestUnicodeColumns) ... ok
+test_field_cursor_uses_columns_but_edits_character_indices (test_tui_unicode.TestUnicodeColumns) ... ok
+test_fill_and_hline_respect_requested_columns (test_tui_unicode.TestUnicodeColumns) ... ok
+test_fit_chinese_and_mixed_never_splits_glyph (test_tui_unicode.TestUnicodeColumns) ... ok
+test_fit_hints_counts_columns_and_retains_whole_hints (test_tui_unicode.TestUnicodeColumns) ... ok
+test_form_chinese_label_does_not_displace_value (test_tui_unicode.TestUnicodeColumns) ... ok
+test_grid_clips_negative_x_and_both_wide_edges (test_tui_unicode.TestUnicodeColumns) ... ok
+test_initial_curses_size_matches_fallback_before_first_frame (test_tui_unicode.TestUnicodeColumns) ... ok
+test_logview_wraps_without_losing_chinese_glyphs (test_tui_unicode.TestUnicodeColumns) ... ok
+test_mixed_widgets_preserve_fixed_terminal_width (test_tui_unicode.TestUnicodeColumns) ... ok
+test_sanitize_explicit_wide_and_legacy_compatibility (test_tui_unicode.TestUnicodeColumns) ... ok
+test_shifted_boundary_chain_expands_until_common_boundary (test_tui_unicode.TestUnicodeColumns) ... ok
+test_table_natural_column_widths_measure_chinese (test_tui_unicode.TestUnicodeColumns) ... ok
+test_unicode_diff_roundtrips_and_boundary_alignment (test_tui_unicode.TestUnicodeColumns) ... ok
+test_wide_overwrite_clears_other_half_on_either_side (test_tui_unicode.TestUnicodeColumns) ... ok
+test_width_and_shape_are_terminal_columns (test_tui_unicode.TestUnicodeColumns) ... ok
+test_zero_dimensions_remain_safe (test_tui_unicode.TestUnicodeColumns) ... ok
+
+----------------------------------------------------------------------
+Ran 217 tests in 0.373s
+
+OK

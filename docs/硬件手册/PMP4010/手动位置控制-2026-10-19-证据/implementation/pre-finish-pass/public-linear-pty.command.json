@@ -1,0 +1,17 @@
+{
+  "name": "public-linear-pty",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "device/drivers/pmp4010/tools/_test_simple_pty.py",
+    "--run-linear",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/手动位置控制-2026-10-19-证据/implementation/public-linear-pty"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T07:29:29.412831+00:00",
+  "stdout": "public-linear-pty.stdout.log",
+  "stderr": "public-linear-pty.stderr.log",
+  "rc": 0,
+  "finished_utc": "2026-10-19T07:29:31.941402+00:00"
+}

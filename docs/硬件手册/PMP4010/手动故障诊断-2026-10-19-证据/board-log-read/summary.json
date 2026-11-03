@@ -1,0 +1,105 @@
+{
+  "result": "READ_COMPLETED_FAULT_CODE_NOT_RECORDED",
+  "ssh_calls": 2,
+  "automatic_retries": 0,
+  "return_codes": {
+    "read": 0,
+    "supplement": 0
+  },
+  "sample_utc": [
+    "2026-10-19T08:09:26.996538+00:00",
+    "2026-10-19T08:09:43.062988+00:00"
+  ],
+  "matching_current_processes": [],
+  "latest_two_runs_empty": true,
+  "latest_nonempty_run": "/var/tmp/km3-pmp4010-linear-20261019-c91126d7f56a/payload/logs/manual-Sz7Sf2wW",
+  "files": [
+    {
+      "path": "/var/tmp/km3-pmp4010-linear-20261019-c91126d7f56a/payload/logs/manual-Sz7Sf2wW/motion-absolute-ed24cfb2cb464c3e9c0ac42879c3e70a.jsonl",
+      "size": 29925,
+      "mtime_ns": 1792397163929642146,
+      "sha256": "17e5804d89721069b03f00278ea49c2c043e8f74ceea59cb1e20062914898600",
+      "lines": 39,
+      "exact_local_copy": "motion-absolute-ed24cfb2cb464c3e9c0ac42879c3e70a.jsonl",
+      "first_utc": "2026-10-19T08:06:03.601298+00:00",
+      "last_utc": "2026-10-19T08:06:03.930921+00:00"
+    },
+    {
+      "path": "/var/tmp/km3-pmp4010-linear-20261019-c91126d7f56a/payload/logs/manual-Sz7Sf2wW/motion-enable-6a8dd1e2ed3f4c41b5c4558daed27cbc.jsonl",
+      "size": 5528,
+      "mtime_ns": 1792397164137644595,
+      "sha256": "4844c8a5bf56b07f6f3cfef90c1ac3d064ead8bc9ac09cc8e584f495b2209a9a",
+      "lines": 7,
+      "exact_local_copy": "motion-enable-6a8dd1e2ed3f4c41b5c4558daed27cbc.jsonl",
+      "first_utc": "2026-10-19T08:06:04.101204+00:00",
+      "last_utc": "2026-10-19T08:06:04.139425+00:00"
+    },
+    {
+      "path": "/var/tmp/km3-pmp4010-linear-20261019-c91126d7f56a/payload/logs/manual-Sz7Sf2wW/motion-go-828fdd4ca6dc43b984cdebabb73e0468.jsonl",
+      "size": 27008,
+      "mtime_ns": 1792397164564649623,
+      "sha256": "4365a1807379247f650c6acb9e097692b0f30d2e3d4709f05a91766409373392",
+      "lines": 35,
+      "exact_local_copy": "motion-go-828fdd4ca6dc43b984cdebabb73e0468.jsonl",
+      "first_utc": "2026-10-19T08:06:04.304203+00:00",
+      "last_utc": "2026-10-19T08:06:04.566455+00:00"
+    }
+  ],
+  "confirmed_user_move": {
+    "start_U": -1402,
+    "target_U": 326278,
+    "delta_U": 327680,
+    "mm_per_motor_revolution": 4,
+    "counts_per_motor_revolution": 131072,
+    "inferred_delta_mm": 10,
+    "profile_velocity_U_per_s": 218453,
+    "user_reported_rpm": 100
+  },
+  "observed_fault_codes": [
+    0
+  ],
+  "nonzero_603f_code_recorded": false,
+  "failure_or_manual_result_or_cleanup_events": [],
+  "last_record": {
+    "timestamp_utc": "2026-10-19T08:06:04.566455+00:00",
+    "source": "manual",
+    "event": "manual_stage_complete",
+    "message": "使能后新ACK 0→1→0已确认；人工目标执行中，请观察反馈",
+    "values": {
+      "statusword": 567,
+      "actual_position": -500,
+      "actual_velocity": 2,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": 999,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 218453,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": 326278,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 47,
+      "halt_option": 1,
+      "position_demand": 326278,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    }
+  },
+  "raw_sdo_receive_frames_recorded": false,
+  "limitations": [
+    "No file records the later nonzero603F report or stop confirmation result.",
+    "Last logged movement state is historical, not current device state.",
+    "No further remote acquisition or CAN/SDO probing performed."
+  ],
+  "remote_writes": 0,
+  "CAN_opens": 0,
+  "CAN_sends": 0,
+  "process_control_operations": 0
+}

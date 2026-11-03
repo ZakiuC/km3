@@ -1,0 +1,11 @@
+{
+  "name": "11-final-check-deps",
+  "argv": [
+    "bash",
+    "tools/check-deps.sh"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 0.013417260255664587,
+  "stdout": "/tmp/km3-csv-guard-final-20261017/11-final-check-deps.stdout.log",
+  "stderr": "/tmp/km3-csv-guard-final-20261017/11-final-check-deps.stderr.log"
+}

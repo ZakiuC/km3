@@ -1,0 +1,17 @@
+import base64,datetime,hashlib,json,pathlib,sys
+stage=pathlib.Path('/var/tmp/km3-pmp4010-alarm-20261019-735538978204/motion-compare-proposal')
+expected={'motion_compare_once.py': 'e530b81f231d3ccccca5df741ccc0f79ec410b9cf5569e517d14428ca7151202', 'pinned_payload.py': 'd8d99ccffdf1b1cb3fc02669af2627243f9801b4fe8861cc39f18692af954a62'}
+for name,sha in expected.items():
+ assert not (stage/name).is_symlink()
+ assert hashlib.sha256((stage/name).read_bytes()).hexdigest()==sha
+with (stage/'execution.attempt').open('x') as stream:
+ stream.write(datetime.datetime.now(datetime.timezone.utc).isoformat()+'\n')
+script=stage/'motion_compare_once.py'
+sys.argv=[str(script)]+['--execute-once', '--od-session-ack', '接受本会话OD缺口和独立停机责任', '--motion-confirm', '确认仅一次相对-10mm_100rpm_低加速度对照']
+print(json.dumps(dict(event='remote_execution_start',utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),argv=sys.argv,sha256=expected)),flush=True)
+try:
+ bootstrap=base64.b64decode('IiIi5LuF5L6b5qC55a6h5ZCO55qE54us56uL546w5Zy65Lu75Yqh6YCa6L+Hc3RkaW7ov5DooYzvvJvmnKzmlofku7bmnKrmiafooYzjgIIiIiIKaW1wb3J0IGhhc2hsaWIKZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCmltcG9ydCBydW5weQppbXBvcnQgc3lzCnN5cy5kb250X3dyaXRlX2J5dGVjb2RlID0gVHJ1ZQpQUk9QT1NBTCA9IFBhdGgoJy92YXIvdG1wL2ttMy1wbXA0MDEwLWFsYXJtLTIwMjYxMDE5LTczNTUzODk3ODIwNC9tb3Rpb24tY29tcGFyZS1wcm9wb3NhbCcpCkVYUEVDVEVEID0geydwaW5uZWRfcGF5bG9hZC5weSc6ICdkOGQ5OWNjZmZkZjFiMWNiM2ZjMDI2NjlhZjI2MjcyNDNmOTgwMWI0ZmU4ODYxY2MzOWYxODY5MmFmOTU0YTYyJywgJ21vdGlvbl9jb21wYXJlX29uY2UucHknOiAnZTUzMGI4MWYyMzFkM2NjY2NjYTVkZjc0MWNjYzBmNzllYzQxMGI5Y2Y1NTY5ZTUxN2QxNDQyOGNhNzE1MTIwMid9CmlmIFBST1BPU0FMLnJlc29sdmUoc3RyaWN0PVRydWUpICE9IFBST1BPU0FMOgogICAgcmFpc2UgVmFsdWVFcnJvcign6K+K5pat6ISa5pys55uu5b2V5Y+Y5YyW5oiW56ym5Y+36ZO+5o6lJykKZm9yIG5hbWUsIGV4cGVjdGVkIGluIEVYUEVDVEVELml0ZW1zKCk6CiAgICBwYXRoID0gUFJPUE9TQUwvbmFtZQogICAgaWYgcGF0aC5yZXNvbHZlKHN0cmljdD1UcnVlKS5wYXJlbnQgIT0gUFJPUE9TQUwgb3IgaGFzaGxpYi5zaGEyNTYocGF0aC5yZWFkX2J5dGVzKCkpLmhleGRpZ2VzdCgpICE9IGV4cGVjdGVkOgogICAgICAgIHJhaXNlIFZhbHVlRXJyb3IoJ+W3suWuoemYhei/kOihjOaWh+S7tuWPmOWMlu+8micrbmFtZSkKc3lzLmFyZ3YgPSBbJ21vdGlvbl9jb21wYXJlX29uY2UucHknLCAnLS1leGVjdXRlLW9uY2UnLAogICAgICAgICAgICAnLS1vZC1zZXNzaW9uLWFjaycsICfmjqXlj5fmnKzkvJror51PROe8uuWPo+WSjOeLrOeri+WBnOacuui0o+S7uycsCiAgICAgICAgICAgICctLW1vdGlvbi1jb25maXJtJywgJ+ehruiupOS7heS4gOasoeebuOWvuS0xMG1tXzEwMHJwbV/kvY7liqDpgJ/luqblr7nnhacnXQpydW5weS5ydW5fcGF0aChzdHIoUFJPUE9TQUwvJ21vdGlvbl9jb21wYXJlX29uY2UucHknKSwgcnVuX25hbWU9J19fbWFpbl9fJykK',validate=True)
+ assert hashlib.sha256(bootstrap).hexdigest()=='6a7b205c47923e95860646c21241d15975a9423e027ecfe864348d391eafea96'
+ exec(compile(bootstrap,'<frozen-bootstrap>','exec'),dict(__name__='__main__',__file__='<frozen-bootstrap>'))
+finally:
+ print(json.dumps(dict(event='remote_execution_end',utc=datetime.datetime.now(datetime.timezone.utc).isoformat())),flush=True)

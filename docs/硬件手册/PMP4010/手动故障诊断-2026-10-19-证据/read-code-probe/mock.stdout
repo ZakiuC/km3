@@ -1,0 +1,47 @@
+{"utc": "2026-10-19T08:23:50.502164+00:00", "event": "tx", "cob_id": "601", "raw_hex": "403f600000000000", "attempt": 1}
+{"utc": "2026-10-19T08:23:50.502191+00:00", "event": "rx", "cob_id": "581", "raw_hex": "803f600000000000", "extended": false, "remote": false, "frame_type": "classic"}
+{"utc": "2026-10-19T08:23:50.502202+00:00", "event": "failed", "exception": "RuntimeError", "message": "response must be node1 matching index/sub expedited uint16", "attempted_requests": 1, "later_requests": 0, "retries": 0, "recovery_operations": 0}
+{"utc": "2026-10-19T08:23:50.502717+00:00", "event": "tx", "cob_id": "601", "raw_hex": "403f600000000000", "attempt": 1}
+{"utc": "2026-10-19T08:23:50.502940+00:00", "event": "tx", "cob_id": "601", "raw_hex": "403f600000000000", "attempt": 1}
+{"utc": "2026-10-19T08:23:50.502953+00:00", "event": "rx", "cob_id": "581", "raw_hex": "4b3f600000000000", "extended": true, "remote": false, "frame_type": "classic"}
+{"utc": "2026-10-19T08:23:50.502965+00:00", "event": "failed", "exception": "RuntimeError", "message": "response must be node1 matching index/sub expedited uint16", "attempted_requests": 1, "later_requests": 0, "retries": 0, "recovery_operations": 0}
+{"utc": "2026-10-19T08:23:50.502992+00:00", "event": "tx", "cob_id": "601", "raw_hex": "403f600000000000", "attempt": 1}
+{"utc": "2026-10-19T08:23:50.502999+00:00", "event": "rx", "cob_id": "581", "raw_hex": "4b3f600000000000", "extended": false, "remote": true, "frame_type": "classic"}
+{"utc": "2026-10-19T08:23:50.503007+00:00", "event": "failed", "exception": "RuntimeError", "message": "response must be node1 matching index/sub expedited uint16", "attempted_requests": 1, "later_requests": 0, "retries": 0, "recovery_operations": 0}
+{"utc": "2026-10-19T08:23:50.503028+00:00", "event": "tx", "cob_id": "601", "raw_hex": "403f600000000000", "attempt": 1}
+{"utc": "2026-10-19T08:23:50.503036+00:00", "event": "rx", "cob_id": "581", "raw_hex": "4b3f600000000000", "extended": false, "remote": false, "frame_type": "fd"}
+{"utc": "2026-10-19T08:23:50.503042+00:00", "event": "failed", "exception": "RuntimeError", "message": "response must be node1 matching index/sub expedited uint16", "attempted_requests": 1, "later_requests": 0, "retries": 0, "recovery_operations": 0}
+{"utc": "2026-10-19T08:23:50.503244+00:00", "event": "tx", "cob_id": "601", "raw_hex": "403f600000000000", "attempt": 1}
+{"utc": "2026-10-19T08:23:50.503255+00:00", "event": "failed", "exception": "TimeoutError", "message": "first receive timed out; no retry or later request", "attempted_requests": 1, "later_requests": 0, "retries": 0, "recovery_operations": 0}
+{"utc": "2026-10-19T08:23:50.503489+00:00", "event": "tx", "cob_id": "601", "raw_hex": "403f600000000000", "attempt": 1}
+{"utc": "2026-10-19T08:23:50.503501+00:00", "event": "failed", "exception": "KeyboardInterrupt", "message": "", "attempted_requests": 1, "later_requests": 0, "retries": 0, "recovery_operations": 0}
+{"utc": "2026-10-19T08:23:50.503691+00:00", "event": "tx", "cob_id": "601", "raw_hex": "403f600000000000", "attempt": 1}
+{"utc": "2026-10-19T08:23:50.503701+00:00", "event": "rx", "cob_id": "581", "raw_hex": "4b3f600034120000", "extended": false, "remote": false, "frame_type": "classic"}
+{"utc": "2026-10-19T08:23:50.503711+00:00", "event": "value", "index": "603F", "sub": 0, "type": "uint16", "value": 4660, "hex": "0x1234", "raw_hex": "3412"}
+{"utc": "2026-10-19T08:23:50.503721+00:00", "event": "tx", "cob_id": "601", "raw_hex": "4041600000000000", "attempt": 2}
+{"utc": "2026-10-19T08:23:50.503727+00:00", "event": "rx", "cob_id": "581", "raw_hex": "4b41600037020000", "extended": false, "remote": false, "frame_type": "classic"}
+{"utc": "2026-10-19T08:23:50.503734+00:00", "event": "value", "index": "6041", "sub": 0, "type": "uint16", "value": 567, "hex": "0x0237", "raw_hex": "3702"}
+{"utc": "2026-10-19T08:23:50.503739+00:00", "event": "complete", "values": {"603F:00": 4660, "6041:00": 567}, "requests": 2, "writes": 0, "retries": 0, "recovery_operations": 0, "meaning": "historical read only; no stop or recovery confirmation"}
+{"utc": "2026-10-19T08:23:50.504121+00:00", "event": "tx", "cob_id": "601", "raw_hex": "403f600000000000", "attempt": 1}
+{"utc": "2026-10-19T08:23:50.504132+00:00", "event": "rx", "cob_id": "581", "raw_hex": "4b3f600000000000", "extended": false, "remote": false, "frame_type": "classic"}
+{"utc": "2026-10-19T08:23:50.504141+00:00", "event": "value", "index": "603F", "sub": 0, "type": "uint16", "value": 0, "hex": "0x0000", "raw_hex": "0000"}
+{"utc": "2026-10-19T08:23:50.504150+00:00", "event": "tx", "cob_id": "601", "raw_hex": "4041600000000000", "attempt": 2}
+{"utc": "2026-10-19T08:23:50.504157+00:00", "event": "failed", "exception": "TimeoutError", "message": "first receive timed out; no retry or later request", "attempted_requests": 2, "later_requests": 0, "retries": 0, "recovery_operations": 0}
+{"utc": "2026-10-19T08:23:50.504371+00:00", "event": "tx", "cob_id": "601", "raw_hex": "403f600000000000", "attempt": 1}
+{"utc": "2026-10-19T08:23:50.504382+00:00", "event": "failed", "exception": "OSError", "message": "mock send failure", "attempted_requests": 1, "later_requests": 0, "retries": 0, "recovery_operations": 0}
+{"utc": "2026-10-19T08:23:50.504576+00:00", "event": "tx", "cob_id": "601", "raw_hex": "403f600000000000", "attempt": 1}
+{"utc": "2026-10-19T08:23:50.504587+00:00", "event": "rx", "cob_id": "581", "raw_hex": "4b3f600000000000", "extended": false, "remote": false, "frame_type": "classic"}
+{"utc": "2026-10-19T08:23:50.504597+00:00", "event": "tx", "cob_id": "601", "raw_hex": "4041600000000000", "attempt": 2}
+{"utc": "2026-10-19T08:23:50.504604+00:00", "event": "rx", "cob_id": "581", "raw_hex": "4b41600000000000", "extended": false, "remote": false, "frame_type": "classic"}
+{"utc": "2026-10-19T08:23:50.505005+00:00", "event": "tx", "cob_id": "601", "raw_hex": "403f600000000000", "attempt": 1}
+{"utc": "2026-10-19T08:23:50.505015+00:00", "event": "rx", "cob_id": "581", "raw_hex": "4b41600000000000", "extended": false, "remote": false, "frame_type": "classic"}
+{"utc": "2026-10-19T08:23:50.505023+00:00", "event": "failed", "exception": "RuntimeError", "message": "response must be node1 matching index/sub expedited uint16", "attempted_requests": 1, "later_requests": 0, "retries": 0, "recovery_operations": 0}
+{"utc": "2026-10-19T08:23:50.505196+00:00", "event": "tx", "cob_id": "601", "raw_hex": "403f600000000000", "attempt": 1}
+{"utc": "2026-10-19T08:23:50.505205+00:00", "event": "rx", "cob_id": "582", "raw_hex": "4b3f600000000000", "extended": false, "remote": false, "frame_type": "classic"}
+{"utc": "2026-10-19T08:23:50.505212+00:00", "event": "failed", "exception": "RuntimeError", "message": "response must be node1 matching index/sub expedited uint16", "attempted_requests": 1, "later_requests": 0, "retries": 0, "recovery_operations": 0}
+{"utc": "2026-10-19T08:23:50.505437+00:00", "event": "tx", "cob_id": "601", "raw_hex": "403f600000000000", "attempt": 1}
+{"utc": "2026-10-19T08:23:50.505449+00:00", "event": "rx", "cob_id": "581", "raw_hex": "4b3f600100000000", "extended": false, "remote": false, "frame_type": "classic"}
+{"utc": "2026-10-19T08:23:50.505457+00:00", "event": "failed", "exception": "RuntimeError", "message": "response must be node1 matching index/sub expedited uint16", "attempted_requests": 1, "later_requests": 0, "retries": 0, "recovery_operations": 0}
+{"utc": "2026-10-19T08:23:50.505648+00:00", "event": "tx", "cob_id": "601", "raw_hex": "403f600000000000", "attempt": 1}
+{"utc": "2026-10-19T08:23:50.505659+00:00", "event": "rx", "cob_id": "581", "raw_hex": "433f600000000000", "extended": false, "remote": false, "frame_type": "classic"}
+{"utc": "2026-10-19T08:23:50.505667+00:00", "event": "failed", "exception": "RuntimeError", "message": "response must be node1 matching index/sub expedited uint16", "attempted_requests": 1, "later_requests": 0, "retries": 0, "recovery_operations": 0}

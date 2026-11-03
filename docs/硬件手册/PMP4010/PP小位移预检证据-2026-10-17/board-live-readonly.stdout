@@ -1,0 +1,146 @@
+{"utc": "2026-10-17T08:05:17.398509+00:00", "event": "source", "path": "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/drivers/pmp4010/pmp4010.py", "sha256": "2fca0b103544c29f78a79b9e349ec841db0e39abf8f39d9d910e57e47b1e0a1a"}
+{"utc": "2026-10-17T08:05:17.398832+00:00", "event": "source", "path": "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/drivers/pmp4010/pmp4010_bench.py", "sha256": "0bbb6f23d668ca92a4846275295cf6c32671333edaae1a200349f57c91cdb248"}
+{"utc": "2026-10-17T08:05:17.399029+00:00", "event": "source", "path": "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/drivers/pmp4010/pmp4010_position.py", "sha256": "2b66e24bd8f96a1438cfa2078e8517da5069da9071bbc498d7e18d8ff72a1886"}
+{"utc": "2026-10-17T08:05:17.399209+00:00", "event": "source", "path": "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/drivers/pmp4010/pmp4010_params.py", "sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec"}
+{"utc": "2026-10-17T08:05:17.399393+00:00", "event": "source", "path": "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/drivers/pmp4010/pmp4010_velocity.py", "sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96"}
+{"utc": "2026-10-17T08:05:17.399596+00:00", "event": "source", "path": "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/hwtui/canopen.py", "sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf"}
+{"utc": "2026-10-17T08:05:17.399760+00:00", "event": "source", "path": "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/hwtui/canbus.py", "sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300"}
+{"utc": "2026-10-17T08:05:17.399938+00:00", "event": "source", "path": "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/hwtui/canopen_consts.py", "sha256": "318e0a76ac7c96856be6ca55b7a99fd12d64913eed9e5cb23b10dff3b9372e1c"}
+{"utc": "2026-10-17T08:05:17.400079+00:00", "event": "source", "path": "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/hwtui/canopen_wire.py", "sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885"}
+{"utc": "2026-10-17T08:05:17.402347+00:00", "event": "od_source", "path": "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/drivers/pmp4010/od.json", "sha256": "5bf6c7bbd73c1c6ef3855fb9ef104d8b6d72ecec8a598eeff16f71682934e58f"}
+{"utc": "2026-10-17T08:05:17.402430+00:00", "event": "plan", "node": 1, "interface": "can1", "bitrate": 1000000, "identity": [{"index": "1000", "sub": 0, "size": 4}, {"index": "1008", "sub": 0, "size": null}, {"index": "100A", "sub": 0, "size": null}, {"index": "1018", "sub": 0, "size": 1}, {"index": "1018", "sub": 1, "size": 4}, {"index": "1018", "sub": 2, "size": 4}, {"index": "1018", "sub": 3, "size": 4}, {"index": "1018", "sub": 4, "size": 4}], "objects": {"control_mode_select": {"index_value": 8194, "sub": 1, "size": 2, "signed": false, "ranges": [[0, 65535]]}, "controlword": {"index_value": 24640, "sub": 0, "size": 2, "signed": false, "ranges": [[0, 65535]]}, "statusword": {"index_value": 24641, "sub": 0, "size": 2, "signed": false, "ranges": [[0, 65535]]}, "modes_of_operation": {"index_value": 24672, "sub": 0, "size": 1, "signed": true, "ranges": [[-128, 127]]}, "modes_of_operation_display": {"index_value": 24673, "sub": 0, "size": 1, "signed": true, "ranges": [[-128, 127]]}, "velocity_feedback_unit": {"index_value": 8198, "sub": 18, "size": 2, "signed": false}, "actual_position": {"index_value": 24676, "sub": 0, "size": 4, "signed": true, "ranges": [[-2147483648, 2147483647]]}, "actual_velocity": {"index_value": 24684, "sub": 0, "size": 4, "signed": true}, "encoder_increments": {"index_value": 24719, "sub": 1, "size": 4, "signed": false, "ranges": [[0, 4294967295]]}, "encoder_motor_revolutions": {"index_value": 24719, "sub": 2, "size": 4, "signed": false, "ranges": [[0, 4294967295]]}, "gear_motor_revolutions": {"index_value": 24721, "sub": 1, "size": 4, "signed": false, "ranges": [[0, 4294967295]]}, "gear_output_revolutions": {"index_value": 24721, "sub": 2, "size": 4, "signed": false, "ranges": [[0, 4294967295]]}, "software_position_limit": {"index_value": 24701, "sub": 1, "size": 4, "signed": true}, "software_position_limit_max": {"index_value": 24701, "sub": 2, "size": 4, "signed": true}, "home_offset": {"index_value": 24700, "sub": 0, "size": 4, "signed": true}, "max_velocity": {"index_value": 24703, "sub": 0, "size": 4, "signed": false, "ranges": [[0, 4294967295]]}, "max_motor_speed": {"index_value": 24704, "sub": 0, "size": 4, "signed": false, "ranges": [[0, 4294967295]]}, "max_profile_acceleration": {"index_value": 24773, "sub": 0, "size": 4, "signed": false, "ranges": [[0, 4294967295]]}, "max_deceleration": {"index_value": 24774, "sub": 0, "size": 4, "signed": false, "ranges": [[0, 4294967295]]}, "target_position": {"index_value": 24698, "sub": 0, "size": 4, "signed": true, "ranges": [[-2147483648, 2147483647]]}, "profile_velocity": {"index_value": 24705, "sub": 0, "size": 4, "signed": false, "ranges": [[0, 4294967295]]}, "profile_end_velocity": {"index_value": 24706, "sub": 0, "size": 4, "signed": false, "ranges": [[0, 4294967295]]}, "profile_acceleration": {"index_value": 24707, "sub": 0, "size": 4, "signed": false, "ranges": [[0, 4294967295]]}, "profile_deceleration": {"index_value": 24708, "sub": 0, "size": 4, "signed": false, "ranges": [[0, 4294967295]]}}, "stationary_samples": 5, "interval_seconds": 0.2, "od_gaps": [{"key": "node_guard", "status": "unverified", "reason": "**条目的含义要改写：不是「未确认」，而是「本设备不支持」。** E06:3.5.2 正面写明「NMT 错误控制……包括节点保护、寿命保护和心跳。本设备只支持心跳。」10.1 表10-5 的 1000h 组通篇没有 1016H（消费者心跳时间）行。因此 0x100C / 0x100D 那一套设计断线检测的做法在这里无依据、也不适用。要断线检测只有两条路：显式写 1017h 并监视 0x700+节点ID 的心跳（见 heartbeat_time），或用厂商通信看门狗 0x200C:1Bh（见 device.comm_watchdog）。**保持 unverified / cite=null 的理由**：手册说的是「没有这个能力」，而不是「有，取值是某个数」；把一个否定性结论写成 verified 会让人以为这里有可填的值。**本条的 index 只能是 null**：给一个「不支持」的条目填上 CiA 301 惯例的 0x1016，正是本项目最贵的那类错误 —— 惯例不是来源。"}, {"key": "emcy_cob_id", "status": "unverified", "reason": "E06:3.4 图3-12 确实写着「紧急报文的COB-ID（1014h）」，表3-7 给出报文格式：COB-ID = 0x80+节点ID，byte0-1 错误码、byte2 错误寄存器、byte3 保留、byte4-7 辅助字节（「辅助字节显示用户指定错误码」），并注明「本设备只作为紧急报文生产者，不处理其它节点紧急报文」。**但 10.1 表10-5 的 1000h 通信参数组没有 1014H 这一行** —— 没有数据类型、没有默认值、没有访问权限、没有生效方式。因此「索引有正文依据、属性无对象字典背书」，本条目保持 unverified / cite=null。报文框架本身（0x80+节点ID）在 3.4 表3-7 里是有的，接收侧可以据此过滤；**能否改写 1014h、能否读回，手册没有答案**。辅助字节与 9 章 32 位报警码的对应关系，9 章也没有建立。"}, {"key": "sync_period", "status": "unverified", "reason": "**手册确实承认同步报文的存在，但没有给它的对象与取值。** 有依据的部分：3.5.1 表3-10 把「同步报文」列在预操作与操作态均支持（**停止态不可用**）；3.3.3 表3-4 与正文让 TPDO 传输类型 1~240 按收到的同步帧计数、RPDO 类型 0~240 按同步帧节拍更新 —— 注意 **RPDO 的 0~240 全部等价于「收到一个同步帧才把最新数据更新到应用」**，只有 254/255 才是收到即更新；6.9.5 / 6.10.5 / 6.11.5 三处以「上位机按照同步周期发送目标位置/目标速度/目标转矩」描述 CSP/CSV/CST。**缺的部分：对象字典里根本没有 0x1005、0x1006、0x1007 任何一行**（10.1 表10-5 的 1000h 组全部行已逐行核对；手册全文 `SYNC`/`sync` 出现 0 次），也没有 SYNC 的 COB-ID，设备作为 SYNC 生产者的能力也未记载。**本机实测（2026-10-16 板端只读探测）给出了手册没有的信息**：`1005h` = 0x80（存在）、`1007h` = 0（存在）、`1006h` **中止 0x06020000（对象不存在）**。**「手册没写」与「本机没有」是两件事**，本条保留 unverified 是因为**手册没有给出可引用的 SYNC 配置依据**，而不是因为设备不支持同步。**⚠ 关键后果（两条，方向相反）**：①**设备的 PDO 出厂是异步的**（1400h:02h 等 8 个对象全部实测 0xFF，见 pdo_transmission_type_measured）—— 所以厂家要求「把 PDO 设定为同步模式」是**需要做的配置改动**，不是既成事实；改成同步（写 0~240）之后，**不发 SYNC 帧则 RPDO 数据不按节拍生效**。②**1006h 不存在**，因此同步周期**无法由从站配置**，只能由主站定时器保证。两条合起来：**SYNC 生产者必须由 km3 设备端自己实现**。**本条目保持 unverified / cite=null 的理由不变**：写一个 CiA 301 惯例的 0x1005/0x1006 进来，正是「惯例当来源」。相关：pdo_transmission_types、pdo_transmission_type_measured、vendor_factory_value_policy。"}, {"key": "sdo_timeout", "status": "unverified", "reason": "**手册没有给出任何毫秒数值。** 3.2.2 表3-2 只在 SDO 中止代码表里列了 `05 04 00 00`「SDO 协议超时」，那是**从站侧**上报的错误码，不是主站该等多久。示例代码里有一个值（SdoClient 构造默认 timeout_ms = 500），但那是示例作者自定的，不是手册值；示例还自己规定了「超时后 poisoned_ 置位、永久禁止重试直到重建连接」与「每次事务前先排空 RX 队列」，这两条手册也都没有。因此本条目保持 unverified / cite=null —— 拍一个值进来，它会伪装成厂家事实。"}, {"key": "stop_option_605BC_missing", "status": "unverified", "reason": "4.1.4 正文与表4-8/表4-9 出现这两个编号：表4-8「失能运行停机方式通过对象字典605Ch 选择」、表4-9「停机停机通过对象字典605Bh 选择」，两张表的取值都只有 0x00（自由停机）、0x01（以 6084 减速度斜坡停机后保持自由运行）。**但 10.3 表10-7 只收录了 605A/605D/605E 三行，没有 605B/605C 行** —— 没有数据类型、没有数据范围、没有访问权限、没有出厂值、没有生效方式。因此本条目保持 unverified / cite=null，**不许给它们填 CiA 402 惯例的 605Bh=Shutdown option code / 605Ch=Disable operation option code**。若按惯例，E06 正文这两处编号在 605B/605C 之间疑似对调了，但手册在块内无法定论。实现时应先 SDO 读探，不要盲写。"}, {"key": "brake_failsafe_behaviour", "status": "assumed", "reason": "**来源：厂家微信答复（2026-10-16），无书面文件，故记为 assumed 而非 verified。** 厂家原话：「抱闸不需要你们设置，出厂会配置好，抱闸断电，失能，报警都会抱紧。」三条独立触发条件都抱紧：**断电**、**失能（断使能）**、**报警**。对「机身抬降」这种垂直轴的含义：**这是失电抱紧的 fail-safe 设计**——主站不通信、驱动失能、母线掉电，这三种情况都不会让负载自由坠落。**为什么记 assumed**：仓库的 verified 必须给出手册出处且能解析成仓库相对路径；本条来自口头答复，没有文档可引。assumed 不是 verified 的弱化版，而是「有人口头说过」这一独立类别（见 gen-od.py 的 STATUS_ASSUMED 注释）。**⚠ 行为 ≠ 能力，这一条不等于负载安全性**：厂家说的是抱闸**会动作**，不是**能撑住**。保持力矩见 brake_holding_torque；负载是否在能力范围内必须由人按实际机械计算。**未做的事**：未现场验证（未做断电试验、未做失能试验、未做报警触发试验）。三类试验应列入现场验收清单。**与其它条目的关系**：本条使 brake_duty_cycle / brake_release_delay / brake_detection_enable / brake_load_gravity 从「待配置」变为「出厂已配、只需知情」；brake_output_function 里的 2004h:05h 冲突**不再需要解**（既然不由我们配置）。"}, {"key": "vendor_factory_value_policy", "status": "assumed", "reason": "**来源：厂家微信答复（2026-10-16），无书面文件，故记为 assumed 而非 verified。** 厂家原话：「厂商资料这块正常是不去做比对的，软件更新后会有变化。出厂值以实际软件读出为准，不要看通讯手册里的值，手册是通用的，对应很多型号。」**这条改变的是台账整体的阅读方式，不是一个数值**：①**手册的「出厂设定」列不可用作本机比对基准** —— 那一列是跨型号的通用值，且会随固件更新变化。②**元数据仍然可信**：数据类型、数据宽度、数据范围、访问权限、能否映射、生效方式这些**不随型号变**，因此本库全部 verified 条目的**结构性字段**不受影响，不需要重写。③**因此产生一条规则**：凡涉及「本机该是多少」的判断，一律以**现场读回值**为准，手册出厂值只作参考。④**受影响的条目举例**：607Dh 出厂值 ±65535 对不上实测 ±21 亿（见 software_position_limit）；1018h:01h 厂商 ID 0x509 对不上手册 0x2D —— **后者很可能不是「手册不配套」，而是同一个「通用手册」的原因**，故该疑点从「必须由厂家澄清的兼容性阻塞」降级为「已知的解释」。**⑤最小正确动作**：不重写 89 条条目（结构性字段依然有效）；改为在**涉及出厂值的条目上逐条加注**，并在 README 的资料消解表里写明这条口径。**未做的事**：没有机械地把所有含「出厂值」的 note 都改一遍——只改了本轮实际涉及本机判断的条目（607Dh 两项）。其余条目的出厂值若将来用于本机判断，须同样先读回。"}], "writes": 0, "nmt": 0, "new_client_on_failure": false, "live_read_only": true}
+{"utc": "2026-10-17T08:05:17.405156+00:00", "event": "velocity_library", "path": "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0", "abi": 1, "sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404"}
+{"utc": "2026-10-17T08:05:17.441115+00:00", "event": "tool_warn", "message": "km3-rt-controller.service 处于 active —— 它正在使用这条总线"}
+{"utc": "2026-10-17T08:05:17.441196+00:00", "event": "tool_info", "message": "已给出 --i-know-rt-is-running，继续。"}
+{"utc": "2026-10-17T08:05:17.443489+00:00", "event": "upload_begin", "ordinal": 1, "index": "1000", "sub": 0}
+{"utc": "2026-10-17T08:05:17.444006+00:00", "event": "upload_done", "ordinal": 1, "index": "1000", "sub": 0, "raw_hex": "92010200"}
+{"utc": "2026-10-17T08:05:17.444048+00:00", "event": "upload_begin", "ordinal": 2, "index": "1008", "sub": 0}
+{"utc": "2026-10-17T08:05:17.445543+00:00", "event": "upload_done", "ordinal": 2, "index": "1008", "sub": 0, "raw_hex": "4e694d6f74696f6e20536572766f00"}
+{"utc": "2026-10-17T08:05:17.445582+00:00", "event": "upload_begin", "ordinal": 3, "index": "100A", "sub": 0}
+{"utc": "2026-10-17T08:05:17.446349+00:00", "event": "upload_done", "ordinal": 3, "index": "100A", "sub": 0, "raw_hex": "56332e3300"}
+{"utc": "2026-10-17T08:05:17.446400+00:00", "event": "upload_begin", "ordinal": 4, "index": "1018", "sub": 0}
+{"utc": "2026-10-17T08:05:17.446787+00:00", "event": "upload_done", "ordinal": 4, "index": "1018", "sub": 0, "raw_hex": "04"}
+{"utc": "2026-10-17T08:05:17.446817+00:00", "event": "upload_begin", "ordinal": 5, "index": "1018", "sub": 1}
+{"utc": "2026-10-17T08:05:17.447195+00:00", "event": "upload_done", "ordinal": 5, "index": "1018", "sub": 1, "raw_hex": "09050000"}
+{"utc": "2026-10-17T08:05:17.447223+00:00", "event": "upload_begin", "ordinal": 6, "index": "1018", "sub": 2}
+{"utc": "2026-10-17T08:05:17.447597+00:00", "event": "upload_done", "ordinal": 6, "index": "1018", "sub": 2, "raw_hex": "01000003"}
+{"utc": "2026-10-17T08:05:17.447627+00:00", "event": "upload_begin", "ordinal": 7, "index": "1018", "sub": 3}
+{"utc": "2026-10-17T08:05:17.447999+00:00", "event": "upload_done", "ordinal": 7, "index": "1018", "sub": 3, "raw_hex": "275a3030"}
+{"utc": "2026-10-17T08:05:17.448026+00:00", "event": "upload_begin", "ordinal": 8, "index": "1018", "sub": 4}
+{"utc": "2026-10-17T08:05:17.448401+00:00", "event": "upload_done", "ordinal": 8, "index": "1018", "sub": 4, "raw_hex": "88740300"}
+{"utc": "2026-10-17T08:05:17.448434+00:00", "event": "upload_begin", "ordinal": 9, "index": "2002", "sub": 1}
+{"utc": "2026-10-17T08:05:17.448829+00:00", "event": "upload_done", "ordinal": 9, "index": "2002", "sub": 1, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:05:17.448860+00:00", "event": "upload_begin", "ordinal": 10, "index": "6040", "sub": 0}
+{"utc": "2026-10-17T08:05:17.449242+00:00", "event": "upload_done", "ordinal": 10, "index": "6040", "sub": 0, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:05:17.449270+00:00", "event": "upload_begin", "ordinal": 11, "index": "6041", "sub": 0}
+{"utc": "2026-10-17T08:05:17.449720+00:00", "event": "upload_done", "ordinal": 11, "index": "6041", "sub": 0, "raw_hex": "6002"}
+{"utc": "2026-10-17T08:05:17.449748+00:00", "event": "upload_begin", "ordinal": 12, "index": "6060", "sub": 0}
+{"utc": "2026-10-17T08:05:17.450157+00:00", "event": "upload_done", "ordinal": 12, "index": "6060", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:05:17.450183+00:00", "event": "upload_begin", "ordinal": 13, "index": "6061", "sub": 0}
+{"utc": "2026-10-17T08:05:17.450577+00:00", "event": "upload_done", "ordinal": 13, "index": "6061", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:05:17.450605+00:00", "event": "upload_begin", "ordinal": 14, "index": "2006", "sub": 18}
+{"utc": "2026-10-17T08:05:17.451003+00:00", "event": "upload_done", "ordinal": 14, "index": "2006", "sub": 18, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:05:17.451030+00:00", "event": "upload_begin", "ordinal": 15, "index": "6064", "sub": 0}
+{"utc": "2026-10-17T08:05:17.451434+00:00", "event": "upload_done", "ordinal": 15, "index": "6064", "sub": 0, "raw_hex": "47faffff"}
+{"utc": "2026-10-17T08:05:17.451462+00:00", "event": "upload_begin", "ordinal": 16, "index": "606C", "sub": 0}
+{"utc": "2026-10-17T08:05:17.451869+00:00", "event": "upload_done", "ordinal": 16, "index": "606C", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:05:17.451896+00:00", "event": "upload_begin", "ordinal": 17, "index": "608F", "sub": 1}
+{"utc": "2026-10-17T08:05:17.452290+00:00", "event": "upload_done", "ordinal": 17, "index": "608F", "sub": 1, "raw_hex": "00000200"}
+{"utc": "2026-10-17T08:05:17.452329+00:00", "event": "upload_begin", "ordinal": 18, "index": "608F", "sub": 2}
+{"utc": "2026-10-17T08:05:17.452727+00:00", "event": "upload_done", "ordinal": 18, "index": "608F", "sub": 2, "raw_hex": "01000000"}
+{"utc": "2026-10-17T08:05:17.452754+00:00", "event": "upload_begin", "ordinal": 19, "index": "6091", "sub": 1}
+{"utc": "2026-10-17T08:05:17.453139+00:00", "event": "upload_done", "ordinal": 19, "index": "6091", "sub": 1, "raw_hex": "01000000"}
+{"utc": "2026-10-17T08:05:17.453166+00:00", "event": "upload_begin", "ordinal": 20, "index": "6091", "sub": 2}
+{"utc": "2026-10-17T08:05:17.453548+00:00", "event": "upload_done", "ordinal": 20, "index": "6091", "sub": 2, "raw_hex": "01000000"}
+{"utc": "2026-10-17T08:05:17.453575+00:00", "event": "upload_begin", "ordinal": 21, "index": "607D", "sub": 1}
+{"utc": "2026-10-17T08:05:17.453984+00:00", "event": "upload_done", "ordinal": 21, "index": "607D", "sub": 1, "raw_hex": "14000080"}
+{"utc": "2026-10-17T08:05:17.454011+00:00", "event": "upload_begin", "ordinal": 22, "index": "607D", "sub": 2}
+{"utc": "2026-10-17T08:05:17.454397+00:00", "event": "upload_done", "ordinal": 22, "index": "607D", "sub": 2, "raw_hex": "ebffff7f"}
+{"utc": "2026-10-17T08:05:17.454426+00:00", "event": "upload_begin", "ordinal": 23, "index": "607C", "sub": 0}
+{"utc": "2026-10-17T08:05:17.454811+00:00", "event": "upload_done", "ordinal": 23, "index": "607C", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:05:17.454837+00:00", "event": "upload_begin", "ordinal": 24, "index": "607F", "sub": 0}
+{"utc": "2026-10-17T08:05:17.455234+00:00", "event": "upload_done", "ordinal": 24, "index": "607F", "sub": 0, "raw_hex": "40548900"}
+{"utc": "2026-10-17T08:05:17.455261+00:00", "event": "upload_begin", "ordinal": 25, "index": "6080", "sub": 0}
+{"utc": "2026-10-17T08:05:17.455650+00:00", "event": "upload_done", "ordinal": 25, "index": "6080", "sub": 0, "raw_hex": "a00f0000"}
+{"utc": "2026-10-17T08:05:17.455678+00:00", "event": "upload_begin", "ordinal": 26, "index": "60C5", "sub": 0}
+{"utc": "2026-10-17T08:05:17.456061+00:00", "event": "upload_done", "ordinal": 26, "index": "60C5", "sub": 0, "raw_hex": "ffffff7f"}
+{"utc": "2026-10-17T08:05:17.456087+00:00", "event": "upload_begin", "ordinal": 27, "index": "60C6", "sub": 0}
+{"utc": "2026-10-17T08:05:17.456488+00:00", "event": "upload_done", "ordinal": 27, "index": "60C6", "sub": 0, "raw_hex": "ffffff7f"}
+{"utc": "2026-10-17T08:05:17.456516+00:00", "event": "upload_begin", "ordinal": 28, "index": "607A", "sub": 0}
+{"utc": "2026-10-17T08:05:17.456981+00:00", "event": "upload_done", "ordinal": 28, "index": "607A", "sub": 0, "raw_hex": "781e0000"}
+{"utc": "2026-10-17T08:05:17.457008+00:00", "event": "upload_begin", "ordinal": 29, "index": "6081", "sub": 0}
+{"utc": "2026-10-17T08:05:17.457394+00:00", "event": "upload_done", "ordinal": 29, "index": "6081", "sub": 0, "raw_hex": "20a10700"}
+{"utc": "2026-10-17T08:05:17.457421+00:00", "event": "upload_begin", "ordinal": 30, "index": "6082", "sub": 0}
+{"utc": "2026-10-17T08:05:17.457806+00:00", "event": "upload_done", "ordinal": 30, "index": "6082", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:05:17.457834+00:00", "event": "upload_begin", "ordinal": 31, "index": "6083", "sub": 0}
+{"utc": "2026-10-17T08:05:17.458239+00:00", "event": "upload_done", "ordinal": 31, "index": "6083", "sub": 0, "raw_hex": "404b4c00"}
+{"utc": "2026-10-17T08:05:17.458267+00:00", "event": "upload_begin", "ordinal": 32, "index": "6084", "sub": 0}
+{"utc": "2026-10-17T08:05:17.458652+00:00", "event": "upload_done", "ordinal": 32, "index": "6084", "sub": 0, "raw_hex": "404b4c00"}
+{"utc": "2026-10-17T08:05:17.458679+00:00", "event": "snapshot", "identity": {"1000:00": 131474, "1008:00": "4e694d6f74696f6e20536572766f00", "100A:00": "56332e3300", "1018:00": 4, "1018:01": 1289, "1018:02": 50331649, "1018:03": 808475175, "1018:04": 226440}, "values": {"control_mode_select": 0, "controlword": 0, "statusword": 608, "modes_of_operation": 1, "modes_of_operation_display": 1, "velocity_feedback_unit": 0, "actual_position": -1465, "actual_velocity": 0, "encoder_increments": 131072, "encoder_motor_revolutions": 1, "gear_motor_revolutions": 1, "gear_output_revolutions": 1, "software_position_limit": -2147483628, "software_position_limit_max": 2147483627, "home_offset": 0, "max_velocity": 9000000, "max_motor_speed": 4000, "max_profile_acceleration": 2147483647, "max_deceleration": 2147483647, "target_position": 7800, "profile_velocity": 500000, "profile_end_velocity": 0, "profile_acceleration": 5000000, "profile_deceleration": 5000000}}
+{"utc": "2026-10-17T08:05:17.458804+00:00", "event": "upload_begin", "ordinal": 33, "index": "6041", "sub": 0}
+{"utc": "2026-10-17T08:05:17.459222+00:00", "event": "upload_done", "ordinal": 33, "index": "6041", "sub": 0, "raw_hex": "6002"}
+{"utc": "2026-10-17T08:05:17.459252+00:00", "event": "upload_begin", "ordinal": 34, "index": "6060", "sub": 0}
+{"utc": "2026-10-17T08:05:17.459637+00:00", "event": "upload_done", "ordinal": 34, "index": "6060", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:05:17.459666+00:00", "event": "upload_begin", "ordinal": 35, "index": "6061", "sub": 0}
+{"utc": "2026-10-17T08:05:17.460053+00:00", "event": "upload_done", "ordinal": 35, "index": "6061", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:05:17.460080+00:00", "event": "upload_begin", "ordinal": 36, "index": "2006", "sub": 18}
+{"utc": "2026-10-17T08:05:17.460465+00:00", "event": "upload_done", "ordinal": 36, "index": "2006", "sub": 18, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:05:17.460493+00:00", "event": "upload_begin", "ordinal": 37, "index": "6064", "sub": 0}
+{"utc": "2026-10-17T08:05:17.460955+00:00", "event": "upload_done", "ordinal": 37, "index": "6064", "sub": 0, "raw_hex": "47faffff"}
+{"utc": "2026-10-17T08:05:17.460982+00:00", "event": "upload_begin", "ordinal": 38, "index": "606C", "sub": 0}
+{"utc": "2026-10-17T08:05:17.461387+00:00", "event": "upload_done", "ordinal": 38, "index": "606C", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:05:17.461413+00:00", "event": "stationary_sample", "ordinal": 1, "values": {"statusword": 608, "modes_of_operation": 1, "modes_of_operation_display": 1, "velocity_feedback_unit": 0, "actual_position": -1465, "actual_velocity": 0}}
+{"utc": "2026-10-17T08:05:17.661667+00:00", "event": "upload_begin", "ordinal": 39, "index": "6041", "sub": 0}
+{"utc": "2026-10-17T08:05:17.662122+00:00", "event": "upload_done", "ordinal": 39, "index": "6041", "sub": 0, "raw_hex": "6002"}
+{"utc": "2026-10-17T08:05:17.662220+00:00", "event": "upload_begin", "ordinal": 40, "index": "6060", "sub": 0}
+{"utc": "2026-10-17T08:05:17.662639+00:00", "event": "upload_done", "ordinal": 40, "index": "6060", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:05:17.662671+00:00", "event": "upload_begin", "ordinal": 41, "index": "6061", "sub": 0}
+{"utc": "2026-10-17T08:05:17.663066+00:00", "event": "upload_done", "ordinal": 41, "index": "6061", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:05:17.663095+00:00", "event": "upload_begin", "ordinal": 42, "index": "2006", "sub": 18}
+{"utc": "2026-10-17T08:05:17.663570+00:00", "event": "upload_done", "ordinal": 42, "index": "2006", "sub": 18, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:05:17.663609+00:00", "event": "upload_begin", "ordinal": 43, "index": "6064", "sub": 0}
+{"utc": "2026-10-17T08:05:17.664015+00:00", "event": "upload_done", "ordinal": 43, "index": "6064", "sub": 0, "raw_hex": "47faffff"}
+{"utc": "2026-10-17T08:05:17.664046+00:00", "event": "upload_begin", "ordinal": 44, "index": "606C", "sub": 0}
+{"utc": "2026-10-17T08:05:17.664442+00:00", "event": "upload_done", "ordinal": 44, "index": "606C", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:05:17.664471+00:00", "event": "stationary_sample", "ordinal": 2, "values": {"statusword": 608, "modes_of_operation": 1, "modes_of_operation_display": 1, "velocity_feedback_unit": 0, "actual_position": -1465, "actual_velocity": 0}}
+{"utc": "2026-10-17T08:05:17.864721+00:00", "event": "upload_begin", "ordinal": 45, "index": "6041", "sub": 0}
+{"utc": "2026-10-17T08:05:17.865157+00:00", "event": "upload_done", "ordinal": 45, "index": "6041", "sub": 0, "raw_hex": "6002"}
+{"utc": "2026-10-17T08:05:17.865191+00:00", "event": "upload_begin", "ordinal": 46, "index": "6060", "sub": 0}
+{"utc": "2026-10-17T08:05:17.865629+00:00", "event": "upload_done", "ordinal": 46, "index": "6060", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:05:17.865658+00:00", "event": "upload_begin", "ordinal": 47, "index": "6061", "sub": 0}
+{"utc": "2026-10-17T08:05:17.866051+00:00", "event": "upload_done", "ordinal": 47, "index": "6061", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:05:17.866078+00:00", "event": "upload_begin", "ordinal": 48, "index": "2006", "sub": 18}
+{"utc": "2026-10-17T08:05:17.866482+00:00", "event": "upload_done", "ordinal": 48, "index": "2006", "sub": 18, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:05:17.866509+00:00", "event": "upload_begin", "ordinal": 49, "index": "6064", "sub": 0}
+{"utc": "2026-10-17T08:05:17.866932+00:00", "event": "upload_done", "ordinal": 49, "index": "6064", "sub": 0, "raw_hex": "47faffff"}
+{"utc": "2026-10-17T08:05:17.866958+00:00", "event": "upload_begin", "ordinal": 50, "index": "606C", "sub": 0}
+{"utc": "2026-10-17T08:05:17.867346+00:00", "event": "upload_done", "ordinal": 50, "index": "606C", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:05:17.867373+00:00", "event": "stationary_sample", "ordinal": 3, "values": {"statusword": 608, "modes_of_operation": 1, "modes_of_operation_display": 1, "velocity_feedback_unit": 0, "actual_position": -1465, "actual_velocity": 0}}
+{"utc": "2026-10-17T08:05:18.067617+00:00", "event": "upload_begin", "ordinal": 51, "index": "6041", "sub": 0}
+{"utc": "2026-10-17T08:05:18.068042+00:00", "event": "upload_done", "ordinal": 51, "index": "6041", "sub": 0, "raw_hex": "6002"}
+{"utc": "2026-10-17T08:05:18.068076+00:00", "event": "upload_begin", "ordinal": 52, "index": "6060", "sub": 0}
+{"utc": "2026-10-17T08:05:18.068468+00:00", "event": "upload_done", "ordinal": 52, "index": "6060", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:05:18.068499+00:00", "event": "upload_begin", "ordinal": 53, "index": "6061", "sub": 0}
+{"utc": "2026-10-17T08:05:18.068912+00:00", "event": "upload_done", "ordinal": 53, "index": "6061", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:05:18.068940+00:00", "event": "upload_begin", "ordinal": 54, "index": "2006", "sub": 18}
+{"utc": "2026-10-17T08:05:18.069427+00:00", "event": "upload_done", "ordinal": 54, "index": "2006", "sub": 18, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:05:18.069456+00:00", "event": "upload_begin", "ordinal": 55, "index": "6064", "sub": 0}
+{"utc": "2026-10-17T08:05:18.069908+00:00", "event": "upload_done", "ordinal": 55, "index": "6064", "sub": 0, "raw_hex": "47faffff"}
+{"utc": "2026-10-17T08:05:18.069936+00:00", "event": "upload_begin", "ordinal": 56, "index": "606C", "sub": 0}
+{"utc": "2026-10-17T08:05:18.070322+00:00", "event": "upload_done", "ordinal": 56, "index": "606C", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:05:18.070349+00:00", "event": "stationary_sample", "ordinal": 4, "values": {"statusword": 608, "modes_of_operation": 1, "modes_of_operation_display": 1, "velocity_feedback_unit": 0, "actual_position": -1465, "actual_velocity": 0}}
+{"utc": "2026-10-17T08:05:18.270652+00:00", "event": "upload_begin", "ordinal": 57, "index": "6041", "sub": 0}
+{"utc": "2026-10-17T08:05:18.271093+00:00", "event": "upload_done", "ordinal": 57, "index": "6041", "sub": 0, "raw_hex": "6002"}
+{"utc": "2026-10-17T08:05:18.271128+00:00", "event": "upload_begin", "ordinal": 58, "index": "6060", "sub": 0}
+{"utc": "2026-10-17T08:05:18.271582+00:00", "event": "upload_done", "ordinal": 58, "index": "6060", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:05:18.271611+00:00", "event": "upload_begin", "ordinal": 59, "index": "6061", "sub": 0}
+{"utc": "2026-10-17T08:05:18.271990+00:00", "event": "upload_done", "ordinal": 59, "index": "6061", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:05:18.272017+00:00", "event": "upload_begin", "ordinal": 60, "index": "2006", "sub": 18}
+{"utc": "2026-10-17T08:05:18.272395+00:00", "event": "upload_done", "ordinal": 60, "index": "2006", "sub": 18, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:05:18.272422+00:00", "event": "upload_begin", "ordinal": 61, "index": "6064", "sub": 0}
+{"utc": "2026-10-17T08:05:18.272878+00:00", "event": "upload_done", "ordinal": 61, "index": "6064", "sub": 0, "raw_hex": "47faffff"}
+{"utc": "2026-10-17T08:05:18.272905+00:00", "event": "upload_begin", "ordinal": 62, "index": "606C", "sub": 0}
+{"utc": "2026-10-17T08:05:18.273295+00:00", "event": "upload_done", "ordinal": 62, "index": "606C", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:05:18.273325+00:00", "event": "stationary_sample", "ordinal": 5, "values": {"statusword": 608, "modes_of_operation": 1, "modes_of_operation_display": 1, "velocity_feedback_unit": 0, "actual_position": -1465, "actual_velocity": 0}}
+{"utc": "2026-10-17T08:05:18.273906+00:00", "event": "preflight_result", "calibration": {"values": [131072, 1, 1, 1], "resolution": "131072", "gear_ratio": "1", "motor_degrees_per_user_unit": "45/16384", "output_degrees_per_user_unit": "45/16384"}, "start": -1465, "candidate_delta": 36, "candidate_target": -1429, "candidate_motor_degrees": "405/4096", "hard_one_degree_max_units": 364, "existing_profile_motor_rpm": "234375/1024", "live_read_count": 62, "rejection_reasons": ["故障或target reached未置位"], "motion_authorized": false, "requires_human_script_limits": true, "requires_explicit_od_reason": true, "requires_review_current_profile": true, "writes": 0, "nmt": 0}
+{"utc": "2026-10-17T08:05:18.274062+00:00", "event": "tool_info", "message": "总线已关闭（失能确认流程之后）"}

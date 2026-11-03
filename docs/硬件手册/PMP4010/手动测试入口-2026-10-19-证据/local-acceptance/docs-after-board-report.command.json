@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "bash",
+    "tools/check-docs.sh"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "returncode": 0,
+  "stdout": "docs-after-board-report.stdout.log",
+  "stdout_sha256": "77c82cf860f35064ae2252589fce74a49214d9ed3019a15cd8d930eb1456af20",
+  "stderr": "docs-after-board-report.stderr.log",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

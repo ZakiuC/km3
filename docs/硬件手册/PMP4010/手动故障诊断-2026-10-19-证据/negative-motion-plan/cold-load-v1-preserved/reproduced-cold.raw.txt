@@ -1,0 +1,9 @@
+{"event": "cold_load_begin", "helper": "/home/zakiu/km3/docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/negative-motion-plan/cold-load-v1-preserved/pinned_payload.py", "helper_sha256": "e8a98830191da64cce22422b3bb9540f68049b5907ae35b9ad259268855c6205", "root": "/home/zakiu/km3/docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/package/payload", "production_modules_before": []}
+Traceback (most recent call last):
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/negative-motion-plan/verify_cold_load_v2.py", line 71, in <module>
+    raise SystemExit(main())
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/negative-motion-plan/verify_cold_load_v2.py", line 46, in main
+    tool, controller_type = helper.load_pinned()
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/negative-motion-plan/cold-load-v1-preserved/pinned_payload.py", line 53, in load_pinned
+    if not Path(sys.modules[name].__file__).resolve().is_relative_to(ROOT):
+KeyError: 'canopen'

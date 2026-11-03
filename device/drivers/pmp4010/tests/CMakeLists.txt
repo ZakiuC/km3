@@ -23,6 +23,9 @@ endif()
 
 get_filename_component(PMP4010_REPO_ROOT "${CMAKE_CURRENT_SOURCE_DIR}/../../../.." ABSOLUTE)
 find_package(Threads REQUIRED)
+if(NOT TARGET pmp4010_velocity)
+  add_subdirectory(../native "${CMAKE_CURRENT_BINARY_DIR}/velocity-native")
+endif()
 
 # 旁路宏只作用于隔离 mock 目标，不传播到生产 km3_drv_pmp4010。
 # OD 运行时守卫仍然为 false；不需要真实 CAN 后端。
@@ -38,7 +41,7 @@ target_include_directories(km3_pmp4010_mock PUBLIC
   ${PMP4010_REPO_ROOT}/common/include
 )
 target_compile_definitions(km3_pmp4010_mock PRIVATE KM3_ALLOW_UNVERIFIED_OD=1)
-target_link_libraries(km3_pmp4010_mock PUBLIC Threads::Threads)
+target_link_libraries(km3_pmp4010_mock PUBLIC Threads::Threads pmp4010_velocity)
 
 add_executable(test_pmp4010 test_pmp4010.cpp)
 target_include_directories(test_pmp4010 PRIVATE ${PMP4010_REPO_ROOT}/device/tests)
@@ -69,12 +72,23 @@ target_include_directories(test_pmp4010_verified PRIVATE
   ${PMP4010_REPO_ROOT}/device/tests
 )
 target_compile_definitions(test_pmp4010_verified PRIVATE PMP4010_OD_VERIFIED=1)
-target_link_libraries(test_pmp4010_verified PRIVATE Threads::Threads)
+target_link_libraries(test_pmp4010_verified PRIVATE Threads::Threads pmp4010_velocity)
 add_test(NAME pmp4010_verified_fixture COMMAND test_pmp4010_verified)
 set_tests_properties(pmp4010_verified_fixture PROPERTIES LABELS "pmp4010;mock" TIMEOUT 30)
 
 # Fail CI when either language wire metadata/golden fixture or OD access metadata drifts.
 find_package(Python3 REQUIRED COMPONENTS Interpreter)
+add_custom_command(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/velocity_vectors_generated.hpp"
+  COMMAND ${Python3_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/gen_velocity_vectors.py"
+    "${CMAKE_CURRENT_SOURCE_DIR}/velocity_vectors.json"
+    "${CMAKE_CURRENT_BINARY_DIR}/velocity_vectors_generated.hpp"
+  DEPENDS velocity_vectors.json gen_velocity_vectors.py)
+add_executable(test_pmp4010_velocity test_pmp4010_velocity.cpp
+  "${CMAKE_CURRENT_BINARY_DIR}/velocity_vectors_generated.hpp")
+target_include_directories(test_pmp4010_velocity PRIVATE
+  "${CMAKE_CURRENT_BINARY_DIR}" "${PMP4010_REPO_ROOT}/device/tests")
+target_link_libraries(test_pmp4010_velocity PRIVATE pmp4010_velocity)
+add_test(NAME pmp4010_velocity_shared_vectors COMMAND test_pmp4010_velocity)
 add_test(NAME pmp4010_protocol_generated_check
   COMMAND ${Python3_EXECUTABLE} ${PMP4010_REPO_ROOT}/tools/hwdriver/gen-canopen.py --check)
 add_test(NAME pmp4010_access_generated_check

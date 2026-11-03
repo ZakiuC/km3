@@ -1,0 +1,33 @@
+{
+  "result": "PASS",
+  "compared_to": "/tmp/km3-pp-prepare-load-20261017/07-after.json",
+  "file_count": 35,
+  "checks": {
+    "device_id": true,
+    "hostname": true,
+    "model": true,
+    "current": true,
+    "file_sha256": true,
+    "services": true
+  },
+  "owner": {
+    "CAN_receive_lists": {
+      "rcvlist_all": "\nreceive list 'rx_all':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+      "rcvlist_eff": "\nreceive list 'rx_eff':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+      "rcvlist_err": "\nreceive list 'rx_err':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+      "rcvlist_fil": "\nreceive list 'rx_fil':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+      "rcvlist_inv": "\nreceive list 'rx_inv':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+      "rcvlist_sff": "\nreceive list 'rx_sff':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n"
+    },
+    "argv_matches_expected": true,
+    "enable_sync": false,
+    "exe": "/opt/km3/releases/0.1.1/km3-rt-controller",
+    "fds": {
+      "0": "/dev/null",
+      "1": "socket:[34177]",
+      "2": "socket:[34177]"
+    },
+    "pid": 3283
+  },
+  "actual_CAN_opens": 0
+}

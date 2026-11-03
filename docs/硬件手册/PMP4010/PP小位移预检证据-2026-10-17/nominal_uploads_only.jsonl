@@ -1,0 +1,134 @@
+{"utc": "2026-10-17T08:06:14.911299+00:00", "event": "tool_warn", "message": "km3-rt-controller.service 处于 active —— 它正在使用这条总线"}
+{"utc": "2026-10-17T08:06:14.911326+00:00", "event": "tool_info", "message": "已给出 --i-know-rt-is-running，继续。"}
+{"utc": "2026-10-17T08:06:14.912064+00:00", "event": "upload_begin", "ordinal": 1, "index": "1000", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912102+00:00", "event": "upload_done", "ordinal": 1, "index": "1000", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.912111+00:00", "event": "upload_begin", "ordinal": 2, "index": "1008", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912162+00:00", "event": "upload_done", "ordinal": 2, "index": "1008", "sub": 0, "raw_hex": "504d505034303130422d43414e6f70656e2d304845422d303034"}
+{"utc": "2026-10-17T08:06:14.912170+00:00", "event": "upload_begin", "ordinal": 3, "index": "100A", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912183+00:00", "event": "upload_done", "ordinal": 3, "index": "100A", "sub": 0, "raw_hex": "56332e33"}
+{"utc": "2026-10-17T08:06:14.912189+00:00", "event": "upload_begin", "ordinal": 4, "index": "1018", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912200+00:00", "event": "upload_done", "ordinal": 4, "index": "1018", "sub": 0, "raw_hex": "04"}
+{"utc": "2026-10-17T08:06:14.912205+00:00", "event": "upload_begin", "ordinal": 5, "index": "1018", "sub": 1}
+{"utc": "2026-10-17T08:06:14.912215+00:00", "event": "upload_done", "ordinal": 5, "index": "1018", "sub": 1, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.912221+00:00", "event": "upload_begin", "ordinal": 6, "index": "1018", "sub": 2}
+{"utc": "2026-10-17T08:06:14.912230+00:00", "event": "upload_done", "ordinal": 6, "index": "1018", "sub": 2, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.912235+00:00", "event": "upload_begin", "ordinal": 7, "index": "1018", "sub": 3}
+{"utc": "2026-10-17T08:06:14.912245+00:00", "event": "upload_done", "ordinal": 7, "index": "1018", "sub": 3, "raw_hex": "00000100"}
+{"utc": "2026-10-17T08:06:14.912251+00:00", "event": "upload_begin", "ordinal": 8, "index": "1018", "sub": 4}
+{"utc": "2026-10-17T08:06:14.912260+00:00", "event": "upload_done", "ordinal": 8, "index": "1018", "sub": 4, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.912267+00:00", "event": "upload_begin", "ordinal": 9, "index": "2002", "sub": 1}
+{"utc": "2026-10-17T08:06:14.912279+00:00", "event": "upload_done", "ordinal": 9, "index": "2002", "sub": 1, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:06:14.912285+00:00", "event": "upload_begin", "ordinal": 10, "index": "6040", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912296+00:00", "event": "upload_done", "ordinal": 10, "index": "6040", "sub": 0, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:06:14.912301+00:00", "event": "upload_begin", "ordinal": 11, "index": "6041", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912312+00:00", "event": "upload_done", "ordinal": 11, "index": "6041", "sub": 0, "raw_hex": "4004"}
+{"utc": "2026-10-17T08:06:14.912316+00:00", "event": "upload_begin", "ordinal": 12, "index": "6060", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912326+00:00", "event": "upload_done", "ordinal": 12, "index": "6060", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:06:14.912331+00:00", "event": "upload_begin", "ordinal": 13, "index": "6061", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912341+00:00", "event": "upload_done", "ordinal": 13, "index": "6061", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:06:14.912346+00:00", "event": "upload_begin", "ordinal": 14, "index": "2006", "sub": 18}
+{"utc": "2026-10-17T08:06:14.912356+00:00", "event": "upload_done", "ordinal": 14, "index": "2006", "sub": 18, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:06:14.912360+00:00", "event": "upload_begin", "ordinal": 15, "index": "6064", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912370+00:00", "event": "upload_done", "ordinal": 15, "index": "6064", "sub": 0, "raw_hex": "48faffff"}
+{"utc": "2026-10-17T08:06:14.912374+00:00", "event": "upload_begin", "ordinal": 16, "index": "606C", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912384+00:00", "event": "upload_done", "ordinal": 16, "index": "606C", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.912389+00:00", "event": "upload_begin", "ordinal": 17, "index": "608F", "sub": 1}
+{"utc": "2026-10-17T08:06:14.912399+00:00", "event": "upload_done", "ordinal": 17, "index": "608F", "sub": 1, "raw_hex": "00000200"}
+{"utc": "2026-10-17T08:06:14.912403+00:00", "event": "upload_begin", "ordinal": 18, "index": "608F", "sub": 2}
+{"utc": "2026-10-17T08:06:14.912413+00:00", "event": "upload_done", "ordinal": 18, "index": "608F", "sub": 2, "raw_hex": "01000000"}
+{"utc": "2026-10-17T08:06:14.912417+00:00", "event": "upload_begin", "ordinal": 19, "index": "6091", "sub": 1}
+{"utc": "2026-10-17T08:06:14.912426+00:00", "event": "upload_done", "ordinal": 19, "index": "6091", "sub": 1, "raw_hex": "01000000"}
+{"utc": "2026-10-17T08:06:14.912432+00:00", "event": "upload_begin", "ordinal": 20, "index": "6091", "sub": 2}
+{"utc": "2026-10-17T08:06:14.912442+00:00", "event": "upload_done", "ordinal": 20, "index": "6091", "sub": 2, "raw_hex": "01000000"}
+{"utc": "2026-10-17T08:06:14.912446+00:00", "event": "upload_begin", "ordinal": 21, "index": "607D", "sub": 1}
+{"utc": "2026-10-17T08:06:14.912456+00:00", "event": "upload_done", "ordinal": 21, "index": "607D", "sub": 1, "raw_hex": "15000080"}
+{"utc": "2026-10-17T08:06:14.912462+00:00", "event": "upload_begin", "ordinal": 22, "index": "607D", "sub": 2}
+{"utc": "2026-10-17T08:06:14.912472+00:00", "event": "upload_done", "ordinal": 22, "index": "607D", "sub": 2, "raw_hex": "ebffff7f"}
+{"utc": "2026-10-17T08:06:14.912479+00:00", "event": "upload_begin", "ordinal": 23, "index": "607C", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912489+00:00", "event": "upload_done", "ordinal": 23, "index": "607C", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.912493+00:00", "event": "upload_begin", "ordinal": 24, "index": "607F", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912504+00:00", "event": "upload_done", "ordinal": 24, "index": "607F", "sub": 0, "raw_hex": "10270000"}
+{"utc": "2026-10-17T08:06:14.912508+00:00", "event": "upload_begin", "ordinal": 25, "index": "6080", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912519+00:00", "event": "upload_done", "ordinal": 25, "index": "6080", "sub": 0, "raw_hex": "e8030000"}
+{"utc": "2026-10-17T08:06:14.912523+00:00", "event": "upload_begin", "ordinal": 26, "index": "60C5", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912533+00:00", "event": "upload_done", "ordinal": 26, "index": "60C5", "sub": 0, "raw_hex": "10270000"}
+{"utc": "2026-10-17T08:06:14.912537+00:00", "event": "upload_begin", "ordinal": 27, "index": "60C6", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912546+00:00", "event": "upload_done", "ordinal": 27, "index": "60C6", "sub": 0, "raw_hex": "10270000"}
+{"utc": "2026-10-17T08:06:14.912550+00:00", "event": "upload_begin", "ordinal": 28, "index": "607A", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912560+00:00", "event": "upload_done", "ordinal": 28, "index": "607A", "sub": 0, "raw_hex": "48faffff"}
+{"utc": "2026-10-17T08:06:14.912564+00:00", "event": "upload_begin", "ordinal": 29, "index": "6081", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912575+00:00", "event": "upload_done", "ordinal": 29, "index": "6081", "sub": 0, "raw_hex": "64000000"}
+{"utc": "2026-10-17T08:06:14.912579+00:00", "event": "upload_begin", "ordinal": 30, "index": "6082", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912588+00:00", "event": "upload_done", "ordinal": 30, "index": "6082", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.912593+00:00", "event": "upload_begin", "ordinal": 31, "index": "6083", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912602+00:00", "event": "upload_done", "ordinal": 31, "index": "6083", "sub": 0, "raw_hex": "64000000"}
+{"utc": "2026-10-17T08:06:14.912606+00:00", "event": "upload_begin", "ordinal": 32, "index": "6084", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912616+00:00", "event": "upload_done", "ordinal": 32, "index": "6084", "sub": 0, "raw_hex": "64000000"}
+{"utc": "2026-10-17T08:06:14.912621+00:00", "event": "snapshot", "identity": {"1000:00": 0, "1008:00": "504d505034303130422d43414e6f70656e2d304845422d303034", "100A:00": "56332e33", "1018:00": 4, "1018:01": 0, "1018:02": 0, "1018:03": 65536, "1018:04": 0}, "values": {"control_mode_select": 0, "controlword": 0, "statusword": 1088, "modes_of_operation": 1, "modes_of_operation_display": 1, "velocity_feedback_unit": 0, "actual_position": -1464, "actual_velocity": 0, "encoder_increments": 131072, "encoder_motor_revolutions": 1, "gear_motor_revolutions": 1, "gear_output_revolutions": 1, "software_position_limit": -2147483627, "software_position_limit_max": 2147483627, "home_offset": 0, "max_velocity": 10000, "max_motor_speed": 1000, "max_profile_acceleration": 10000, "max_deceleration": 10000, "target_position": -1464, "profile_velocity": 100, "profile_end_velocity": 0, "profile_acceleration": 100, "profile_deceleration": 100}}
+{"utc": "2026-10-17T08:06:14.912650+00:00", "event": "upload_begin", "ordinal": 33, "index": "6041", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912665+00:00", "event": "upload_done", "ordinal": 33, "index": "6041", "sub": 0, "raw_hex": "4004"}
+{"utc": "2026-10-17T08:06:14.912670+00:00", "event": "upload_begin", "ordinal": 34, "index": "6060", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912681+00:00", "event": "upload_done", "ordinal": 34, "index": "6060", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:06:14.912685+00:00", "event": "upload_begin", "ordinal": 35, "index": "6061", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912696+00:00", "event": "upload_done", "ordinal": 35, "index": "6061", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:06:14.912704+00:00", "event": "upload_begin", "ordinal": 36, "index": "2006", "sub": 18}
+{"utc": "2026-10-17T08:06:14.912714+00:00", "event": "upload_done", "ordinal": 36, "index": "2006", "sub": 18, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:06:14.912720+00:00", "event": "upload_begin", "ordinal": 37, "index": "6064", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912732+00:00", "event": "upload_done", "ordinal": 37, "index": "6064", "sub": 0, "raw_hex": "48faffff"}
+{"utc": "2026-10-17T08:06:14.912736+00:00", "event": "upload_begin", "ordinal": 38, "index": "606C", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912746+00:00", "event": "upload_done", "ordinal": 38, "index": "606C", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.912750+00:00", "event": "stationary_sample", "ordinal": 1, "values": {"statusword": 1088, "modes_of_operation": 1, "modes_of_operation_display": 1, "velocity_feedback_unit": 0, "actual_position": -1464, "actual_velocity": 0}}
+{"utc": "2026-10-17T08:06:14.912758+00:00", "event": "upload_begin", "ordinal": 39, "index": "6041", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912769+00:00", "event": "upload_done", "ordinal": 39, "index": "6041", "sub": 0, "raw_hex": "4004"}
+{"utc": "2026-10-17T08:06:14.912773+00:00", "event": "upload_begin", "ordinal": 40, "index": "6060", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912783+00:00", "event": "upload_done", "ordinal": 40, "index": "6060", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:06:14.912788+00:00", "event": "upload_begin", "ordinal": 41, "index": "6061", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912797+00:00", "event": "upload_done", "ordinal": 41, "index": "6061", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:06:14.912801+00:00", "event": "upload_begin", "ordinal": 42, "index": "2006", "sub": 18}
+{"utc": "2026-10-17T08:06:14.912812+00:00", "event": "upload_done", "ordinal": 42, "index": "2006", "sub": 18, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:06:14.912817+00:00", "event": "upload_begin", "ordinal": 43, "index": "6064", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912827+00:00", "event": "upload_done", "ordinal": 43, "index": "6064", "sub": 0, "raw_hex": "48faffff"}
+{"utc": "2026-10-17T08:06:14.912831+00:00", "event": "upload_begin", "ordinal": 44, "index": "606C", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912841+00:00", "event": "upload_done", "ordinal": 44, "index": "606C", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.912845+00:00", "event": "stationary_sample", "ordinal": 2, "values": {"statusword": 1088, "modes_of_operation": 1, "modes_of_operation_display": 1, "velocity_feedback_unit": 0, "actual_position": -1464, "actual_velocity": 0}}
+{"utc": "2026-10-17T08:06:14.912851+00:00", "event": "upload_begin", "ordinal": 45, "index": "6041", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912861+00:00", "event": "upload_done", "ordinal": 45, "index": "6041", "sub": 0, "raw_hex": "4004"}
+{"utc": "2026-10-17T08:06:14.912865+00:00", "event": "upload_begin", "ordinal": 46, "index": "6060", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912875+00:00", "event": "upload_done", "ordinal": 46, "index": "6060", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:06:14.912880+00:00", "event": "upload_begin", "ordinal": 47, "index": "6061", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912889+00:00", "event": "upload_done", "ordinal": 47, "index": "6061", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:06:14.912893+00:00", "event": "upload_begin", "ordinal": 48, "index": "2006", "sub": 18}
+{"utc": "2026-10-17T08:06:14.912903+00:00", "event": "upload_done", "ordinal": 48, "index": "2006", "sub": 18, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:06:14.912908+00:00", "event": "upload_begin", "ordinal": 49, "index": "6064", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912919+00:00", "event": "upload_done", "ordinal": 49, "index": "6064", "sub": 0, "raw_hex": "48faffff"}
+{"utc": "2026-10-17T08:06:14.912924+00:00", "event": "upload_begin", "ordinal": 50, "index": "606C", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912934+00:00", "event": "upload_done", "ordinal": 50, "index": "606C", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.912939+00:00", "event": "stationary_sample", "ordinal": 3, "values": {"statusword": 1088, "modes_of_operation": 1, "modes_of_operation_display": 1, "velocity_feedback_unit": 0, "actual_position": -1464, "actual_velocity": 0}}
+{"utc": "2026-10-17T08:06:14.912945+00:00", "event": "upload_begin", "ordinal": 51, "index": "6041", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912956+00:00", "event": "upload_done", "ordinal": 51, "index": "6041", "sub": 0, "raw_hex": "4004"}
+{"utc": "2026-10-17T08:06:14.912960+00:00", "event": "upload_begin", "ordinal": 52, "index": "6060", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912970+00:00", "event": "upload_done", "ordinal": 52, "index": "6060", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:06:14.912975+00:00", "event": "upload_begin", "ordinal": 53, "index": "6061", "sub": 0}
+{"utc": "2026-10-17T08:06:14.912984+00:00", "event": "upload_done", "ordinal": 53, "index": "6061", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:06:14.912988+00:00", "event": "upload_begin", "ordinal": 54, "index": "2006", "sub": 18}
+{"utc": "2026-10-17T08:06:14.912998+00:00", "event": "upload_done", "ordinal": 54, "index": "2006", "sub": 18, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:06:14.913003+00:00", "event": "upload_begin", "ordinal": 55, "index": "6064", "sub": 0}
+{"utc": "2026-10-17T08:06:14.913012+00:00", "event": "upload_done", "ordinal": 55, "index": "6064", "sub": 0, "raw_hex": "48faffff"}
+{"utc": "2026-10-17T08:06:14.913017+00:00", "event": "upload_begin", "ordinal": 56, "index": "606C", "sub": 0}
+{"utc": "2026-10-17T08:06:14.913027+00:00", "event": "upload_done", "ordinal": 56, "index": "606C", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.913032+00:00", "event": "stationary_sample", "ordinal": 4, "values": {"statusword": 1088, "modes_of_operation": 1, "modes_of_operation_display": 1, "velocity_feedback_unit": 0, "actual_position": -1464, "actual_velocity": 0}}
+{"utc": "2026-10-17T08:06:14.913039+00:00", "event": "upload_begin", "ordinal": 57, "index": "6041", "sub": 0}
+{"utc": "2026-10-17T08:06:14.913052+00:00", "event": "upload_done", "ordinal": 57, "index": "6041", "sub": 0, "raw_hex": "4004"}
+{"utc": "2026-10-17T08:06:14.913056+00:00", "event": "upload_begin", "ordinal": 58, "index": "6060", "sub": 0}
+{"utc": "2026-10-17T08:06:14.913066+00:00", "event": "upload_done", "ordinal": 58, "index": "6060", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:06:14.913071+00:00", "event": "upload_begin", "ordinal": 59, "index": "6061", "sub": 0}
+{"utc": "2026-10-17T08:06:14.913080+00:00", "event": "upload_done", "ordinal": 59, "index": "6061", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:06:14.913084+00:00", "event": "upload_begin", "ordinal": 60, "index": "2006", "sub": 18}
+{"utc": "2026-10-17T08:06:14.913094+00:00", "event": "upload_done", "ordinal": 60, "index": "2006", "sub": 18, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:06:14.913098+00:00", "event": "upload_begin", "ordinal": 61, "index": "6064", "sub": 0}
+{"utc": "2026-10-17T08:06:14.913109+00:00", "event": "upload_done", "ordinal": 61, "index": "6064", "sub": 0, "raw_hex": "48faffff"}
+{"utc": "2026-10-17T08:06:14.913113+00:00", "event": "upload_begin", "ordinal": 62, "index": "606C", "sub": 0}
+{"utc": "2026-10-17T08:06:14.913123+00:00", "event": "upload_done", "ordinal": 62, "index": "606C", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.913127+00:00", "event": "stationary_sample", "ordinal": 5, "values": {"statusword": 1088, "modes_of_operation": 1, "modes_of_operation_display": 1, "velocity_feedback_unit": 0, "actual_position": -1464, "actual_velocity": 0}}
+{"utc": "2026-10-17T08:06:14.913842+00:00", "event": "preflight_result", "calibration": {"values": [131072, 1, 1, 1], "resolution": "131072", "gear_ratio": "1", "motor_degrees_per_user_unit": "45/16384", "output_degrees_per_user_unit": "45/16384"}, "start": -1464, "candidate_delta": 36, "candidate_target": -1428, "candidate_motor_degrees": "405/4096", "hard_one_degree_max_units": 364, "existing_profile_motor_rpm": "375/8192", "live_read_count": 62, "rejection_reasons": [], "motion_authorized": false, "requires_human_script_limits": true, "requires_explicit_od_reason": true, "requires_review_current_profile": true, "writes": 0, "nmt": 0}
+{"utc": "2026-10-17T08:06:14.913879+00:00", "event": "tool_info", "message": "总线已关闭（失能确认流程之后）"}

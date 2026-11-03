@@ -1,0 +1,18 @@
+{
+  "old_entries": 94,
+  "new_entries": 95,
+  "existing_status_changes": {},
+  "added": {
+    "velocity_offset": "verified"
+  },
+  "old_counts": {
+    "verified": 87,
+    "unverified": 5,
+    "assumed": 2
+  },
+  "new_counts": {
+    "verified": 88,
+    "unverified": 5,
+    "assumed": 2
+  }
+}

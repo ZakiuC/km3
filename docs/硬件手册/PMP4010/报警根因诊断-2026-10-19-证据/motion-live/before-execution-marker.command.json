@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B -"
+  ],
+  "stdin_file": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-live/before-execution-marker.stdin.py",
+  "stdin_sha256": "0e6fc42288b556c05115123bd7330fc454149e99cfca77886c97e187199594cc",
+  "start_utc": "2026-10-20T00:39:19.454898+00:00",
+  "automatic_retries": 0,
+  "timeout_seconds": 15,
+  "end_utc": "2026-10-20T00:39:19.720523+00:00",
+  "rc": 0
+}

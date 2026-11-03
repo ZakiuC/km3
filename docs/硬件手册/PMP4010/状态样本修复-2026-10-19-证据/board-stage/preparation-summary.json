@@ -1,0 +1,70 @@
+{
+  "status": "LOCAL_TEMPLATES_ONLY_WAIT_STATE_FIX_PACKAGE_AND_ROOT_AUTHORIZATION",
+  "utc": "2026-10-19T05:49:48.446404+00:00",
+  "files": [
+    {
+      "source": "docs/硬件手册/PMP4010/简化交互-2026-10-19-证据/board-stage/stage.remote.py",
+      "file": "stage.remote.py",
+      "source_sha256": "638a3878617954829b0be8182fccd025f972f5eea997aa00617685f32ecffbd2",
+      "sha256": "1735b52a1fd31f4c079692e59650009fdbb5b04224b1a9176955f7c54ee65889",
+      "ast_parse": "PASS",
+      "changes": "stage prefix only"
+    },
+    {
+      "source": "docs/硬件手册/PMP4010/简化交互-2026-10-19-证据/board-stage/pureload.remote.py",
+      "file": "pureload.remote.py",
+      "source_sha256": "91942eb49cb902e894ffd0c139d35269e43080de3fb9420dbe58eb58d0e12929",
+      "sha256": "91942eb49cb902e894ffd0c139d35269e43080de3fb9420dbe58eb58d0e12929",
+      "ast_parse": "PASS",
+      "changes": "unchanged validated pureload"
+    },
+    {
+      "source": "docs/硬件手册/PMP4010/简化交互-2026-10-19-证据/board-stage/stage_simple.py",
+      "file": "stage_state.py",
+      "source_sha256": "029357f305f2895df291be97326771d2d1f60988455a5e93b01d9edb0e0c5d42",
+      "sha256": "e9594ae021c24affb1d03abb8722d9cf3a7da374998b309a911a12c27bad8398",
+      "ast_parse": "PASS",
+      "changes": "stage prefix only"
+    },
+    {
+      "source": "docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/board-passive/passive.remote.py",
+      "file": "passive.remote.py",
+      "source_sha256": "666e749b81def372122f3f29e23e4031852658959a2f24099ffc10f798ed35a2",
+      "sha256": "d09826b86c6645a30e81529cca208341d50776c84de49197a69792f9bbd3fc62",
+      "ast_parse": "PASS",
+      "changes": "stage argument restricted to new state prefix; passive path existence fields added"
+    }
+  ],
+  "local_help_rc": 0,
+  "stage_prefix": "/var/tmp/km3-pmp4010-state-20261019-",
+  "expected_suffix": "approved archive SHA first 12 characters",
+  "expected_package_imports": 18,
+  "import_count_verified_in_this_task": false,
+  "archive_path": null,
+  "archive_sha256": null,
+  "manifest_sha256": null,
+  "actual_ssh_calls": 0,
+  "archive_uploads": 0,
+  "CAN_operations": 0,
+  "TUI_runs": 0,
+  "process_stop_kill_operations": 0,
+  "quarantine_recovery_operations": 0,
+  "remote_writes": 0,
+  "local_write_scope": "docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/board-stage",
+  "previous_readonly_and_simple_evidence_changed": false,
+  "business_source_changed": false,
+  "formal_current_services_config_changed": false,
+  "pending": [
+    "Frozen repair implementation and final full acceptance from root.",
+    "Root supplies approved archive/hash/manifest and explicit execution authorization.",
+    "Reconcile actual final package schema/hash/source and localplan before SSH.",
+    "Then one new isolated stage upload/pureload/18imports/math/help/sh-n and before/after passive snapshots only.",
+    "If a prior user tool is running, record it and leave it untouched; do not use CAN or clear isolation."
+  ],
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "conservative_input_estimate_from_parent": 200000,
+  "estimate_is_actual": false,
+  "cleanup": "Local templates/diffs/help evidence retained; no board connection, remote artifact, app or CAN operation created."
+}

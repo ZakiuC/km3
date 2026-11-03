@@ -1,0 +1,8 @@
+{
+  "remote_payload": "/tmp/km3-pp-disabled-start-stage2-20261019-e0fhd4gp/payload",
+  "manifest_sha256": "5b1c1e1aae87afa8f239bd8c5b8231b8c1b604063cbd4a76f3b27569d2fd18cc",
+  "offline_source_root": "/tmp/km3-pp-disabled-start-20261019-board/stage2/local-probe-payload",
+  "wrapper_sha256": "9c16dc48706ec16a62841c2e59080bf4f18c7198a80baef0a4e72e6f2a17072e",
+  "runner_sha256": "406bfd2a68cea4c5cfd2963d462b5851d11ebaaee43831d087bad732559aa5f5",
+  "CAN_opens": 0
+}

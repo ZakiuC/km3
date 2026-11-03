@@ -1,0 +1,2 @@
+{"utc": "2026-10-19T08:23:50.537790+00:00", "event": "plan", "interface": "can1", "node": 1, "request_id": "601", "response_id": "581", "requests": ["40 3F 60 00 00 00 00 00", "40 41 60 00 00 00 00 00"], "ordered_uint16_objects": ["603F:00", "6041:00"], "max_requests": 2, "per_request_timeout": 0.25, "total_transaction_deadline": 1.0, "writes": 0, "retries": 0, "recovery_operations": 0, "live_requested": false}
+{"utc": "2026-10-19T08:23:50.537841+00:00", "event": "offline_plan_only", "CAN_opens": 0, "CAN_sends": 0}

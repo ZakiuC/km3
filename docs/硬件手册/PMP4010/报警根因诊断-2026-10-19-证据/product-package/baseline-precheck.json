@@ -1,0 +1,8 @@
+{
+  "python": "3.10.12 (main, Aug 31 2026, 10:18:17) [GCC 11.4.0]",
+  "repo_root_resolution": "PASS",
+  "baseline_manifest_and_archive_sha256": "PASS",
+  "baseline_inventory": "23 regular files + 2 symlinks",
+  "tar_extract_filter_supported": true,
+  "no_payload_generated": true
+}

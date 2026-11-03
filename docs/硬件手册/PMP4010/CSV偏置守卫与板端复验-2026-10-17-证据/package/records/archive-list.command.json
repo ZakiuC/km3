@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "tar",
+    "-tvzf",
+    "/tmp/km3-pmp4010-board-20261017-csvguard-final-package/pmp4010-board-payload.tar.gz"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

@@ -1,0 +1,2 @@
+{"case": "zero-counter-before-open-and-before-execute", "result": "PASS"}
+{"case": "known-external-candump-rejected", "result": "PASS", "error": "存在外部测试进程: [{'pid': 987654321, 'cmdline': '/usr/bin/candump can1 '}]"}

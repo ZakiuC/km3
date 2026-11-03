@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "ssh",
+    "-T",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B -"
+  ],
+  "stdin_file": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/board-live/live-03/collect.remote.py",
+  "utc": "2026-10-19T06:45:32.653020+00:00"
+}

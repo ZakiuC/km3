@@ -1,0 +1,508 @@
+{
+  "comparisons": {
+    "approved_six": [
+      {
+        "path": "device/drivers/pmp4010/tools/pmp4010_manual.py",
+        "expected_sha256": "e03704a93873dad486f3d4ab75eb0b5bd7c1561d5189b3aa2643834a5123702d",
+        "actual_sha256": "e03704a93873dad486f3d4ab75eb0b5bd7c1561d5189b3aa2643834a5123702d",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/tools/pmp4010_simple.py",
+        "expected_sha256": "377e5fc54691aee3e7449f8a4d9c1caaf6d3bc771288880e5ffb3e6793933fe2",
+        "actual_sha256": "377e5fc54691aee3e7449f8a4d9c1caaf6d3bc771288880e5ffb3e6793933fe2",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/tools/_test_manual.py",
+        "expected_sha256": "b8137138968e0cb827604acbc91dedbc3164280b1f7d24a193b50c49b8e2ba50",
+        "actual_sha256": "b8137138968e0cb827604acbc91dedbc3164280b1f7d24a193b50c49b8e2ba50",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/tools/_test_simple.py",
+        "expected_sha256": "39056be909b738fb0f2da1aaff959fc66e7d8b08d3d7fc21e6fc7e74f85dbd26",
+        "actual_sha256": "39056be909b738fb0f2da1aaff959fc66e7d8b08d3d7fc21e6fc7e74f85dbd26",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/tools/_test_simple_pty.py",
+        "expected_sha256": "67fa81441555fdf40db1de789e71ba5a116976f5f0f9abb9388d740aad746038",
+        "actual_sha256": "67fa81441555fdf40db1de789e71ba5a116976f5f0f9abb9388d740aad746038",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/tools/_test_manual_pty.py",
+        "expected_sha256": "f39bd906acdcd5af306499603e43e546518e3a4816cfd20dde5337f7e9de26fc",
+        "actual_sha256": "f39bd906acdcd5af306499603e43e546518e3a4816cfd20dde5337f7e9de26fc",
+        "match": true
+      }
+    ],
+    "native_current_77": [
+      {
+        "path": "common/CMakeLists.txt",
+        "expected_sha256": "f8e5bcfc83c5b052e4bc3ed9e9d151bb05822f341c32325cba4f87ca0be8a571",
+        "actual_sha256": "f8e5bcfc83c5b052e4bc3ed9e9d151bb05822f341c32325cba4f87ca0be8a571",
+        "match": true
+      },
+      {
+        "path": "common/README.md",
+        "expected_sha256": "3d991fdaf2db360d32606a05f7117ea017443742760247b723aea6aa173c34c9",
+        "actual_sha256": "3d991fdaf2db360d32606a05f7117ea017443742760247b723aea6aa173c34c9",
+        "match": true
+      },
+      {
+        "path": "common/include/km3/error_code.hpp",
+        "expected_sha256": "28d90ea2f6ea9fc1ae5b2f4c576f6965618b162eb6d912efa42a075b6bc12a4a",
+        "actual_sha256": "28d90ea2f6ea9fc1ae5b2f4c576f6965618b162eb6d912efa42a075b6bc12a4a",
+        "match": true
+      },
+      {
+        "path": "common/include/km3/result.hpp",
+        "expected_sha256": "3d90579f7f7f12753f5798f556709a083538ab013c30d5762c55f21804a5a76c",
+        "actual_sha256": "3d90579f7f7f12753f5798f556709a083538ab013c30d5762c55f21804a5a76c",
+        "match": true
+      },
+      {
+        "path": "common/src/error_code.cpp",
+        "expected_sha256": "0211f18483695264b8ceeb8c03d5bd03b02145f1d00ae187a10542ad82175afc",
+        "actual_sha256": "0211f18483695264b8ceeb8c03d5bd03b02145f1d00ae187a10542ad82175afc",
+        "match": true
+      },
+      {
+        "path": "device/CMakeLists.txt",
+        "expected_sha256": "26ba92de0f6e7204919950943fa5fea0ca48e86d4aff50dc1a3ca17e5b3e42a6",
+        "actual_sha256": "26ba92de0f6e7204919950943fa5fea0ca48e86d4aff50dc1a3ca17e5b3e42a6",
+        "match": true
+      },
+      {
+        "path": "device/cmake/aarch64-linux-gnu.cmake",
+        "expected_sha256": "14214184d3518b85b432ad6684bfc6a122a1f9355fd8b5a5fb74c2b2e267af46",
+        "actual_sha256": "14214184d3518b85b432ad6684bfc6a122a1f9355fd8b5a5fb74c2b2e267af46",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/CMakeLists.txt",
+        "expected_sha256": "c9d8e84f9c09f4e831f3267feac4663b466428aaffbe4ac48bd95ecc64c7cf41",
+        "actual_sha256": "c9d8e84f9c09f4e831f3267feac4663b466428aaffbe4ac48bd95ecc64c7cf41",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/driver/od.json",
+        "expected_sha256": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e",
+        "actual_sha256": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/driver/od_access_generated.hpp",
+        "expected_sha256": "5144ed5e763beab5004d225e215fc76707a7f4cb42d222eb2da473bb594a33fb",
+        "actual_sha256": "5144ed5e763beab5004d225e215fc76707a7f4cb42d222eb2da473bb594a33fb",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/driver/od_generated.hpp",
+        "expected_sha256": "b726bf604ce42c91ce048dfdb2891dde23e374ce9234cabe0416172ffaea5d40",
+        "actual_sha256": "b726bf604ce42c91ce048dfdb2891dde23e374ce9234cabe0416172ffaea5d40",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/driver/pdo_config.hpp",
+        "expected_sha256": "ce29b7442e9487d2b5b5e8b4c947f2db1bc8d7c71c1022bac4affb7bc198a229",
+        "actual_sha256": "ce29b7442e9487d2b5b5e8b4c947f2db1bc8d7c71c1022bac4affb7bc198a229",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/driver/pmp4010_driver.cpp",
+        "expected_sha256": "7ef4f5adb42c77e5b6ae18afb56ab1482c0108dae270e0e60dcb05bc81ee5182",
+        "actual_sha256": "7ef4f5adb42c77e5b6ae18afb56ab1482c0108dae270e0e60dcb05bc81ee5182",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/driver/pmp4010_driver.hpp",
+        "expected_sha256": "3b2131c2076f5a241285abf5852c22f689fdd81bd6f24d36980fc7208bdc5c6c",
+        "actual_sha256": "3b2131c2076f5a241285abf5852c22f689fdd81bd6f24d36980fc7208bdc5c6c",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/driver/pmp4010_velocity.cpp",
+        "expected_sha256": "dd922c91bfd04c55a2a3ef5dfd72424f0ef9faee30c4f9225a38640f82b2546c",
+        "actual_sha256": "dd922c91bfd04c55a2a3ef5dfd72424f0ef9faee30c4f9225a38640f82b2546c",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/driver/pmp4010_velocity.hpp",
+        "expected_sha256": "6e4f08e0f3c381fbedc016f456c860dfdb631971cb1a2462c493187ce0b769bc",
+        "actual_sha256": "6e4f08e0f3c381fbedc016f456c860dfdb631971cb1a2462c493187ce0b769bc",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/driver/pmp4010_velocity_c.cpp",
+        "expected_sha256": "e70b72b671e17e578ad27199913fbbb89d6e97e4dbbbcd07be4fba3321629de7",
+        "actual_sha256": "e70b72b671e17e578ad27199913fbbb89d6e97e4dbbbcd07be4fba3321629de7",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/driver/pmp4010_velocity_c.h",
+        "expected_sha256": "a051aa656583cdb97030bbdc86f9da0c9e725352fa3e54bab0e9999dbdae1856",
+        "actual_sha256": "a051aa656583cdb97030bbdc86f9da0c9e725352fa3e54bab0e9999dbdae1856",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/native/CMakeLists.txt",
+        "expected_sha256": "7d5cc42f78fc76b7c8ddb999e98d77cbc3b4bc260a55db7e79c74f44c3c0dffc",
+        "actual_sha256": "7d5cc42f78fc76b7c8ddb999e98d77cbc3b4bc260a55db7e79c74f44c3c0dffc",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/native/README.md",
+        "expected_sha256": "4972c83516eaf711eba2ba0628003b0b52fd1d628a700478cafc692770058b31",
+        "actual_sha256": "4972c83516eaf711eba2ba0628003b0b52fd1d628a700478cafc692770058b31",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/tests/CMakeLists.txt",
+        "expected_sha256": "3ef3fd0088db4377dd404437e2c5f4d5e22dfe0590cb89aac18fd20f3afb8042",
+        "actual_sha256": "3ef3fd0088db4377dd404437e2c5f4d5e22dfe0590cb89aac18fd20f3afb8042",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/tests/canopen_vectors_generated.hpp",
+        "expected_sha256": "24b4157dc692f419db728eff6bbeff4935db599de261d756e20dea04de0df0e0",
+        "actual_sha256": "24b4157dc692f419db728eff6bbeff4935db599de261d756e20dea04de0df0e0",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/tests/gen_velocity_vectors.py",
+        "expected_sha256": "e3e8cf509f236b0ee672ea520337c425f8b4bfca816176287308e406bec95442",
+        "actual_sha256": "e3e8cf509f236b0ee672ea520337c425f8b4bfca816176287308e406bec95442",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/tests/test_od_guard.cmake",
+        "expected_sha256": "e5392653ff3949469f2e2d8cab35efee36e11588b82ad760345b375881597eb2",
+        "actual_sha256": "e5392653ff3949469f2e2d8cab35efee36e11588b82ad760345b375881597eb2",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/tests/test_pmp4010.cpp",
+        "expected_sha256": "07ee9585ccd6da51edcfea38869b96c3dad2cf78128496975096c63d163e445d",
+        "actual_sha256": "07ee9585ccd6da51edcfea38869b96c3dad2cf78128496975096c63d163e445d",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/tests/test_pmp4010_velocity.cpp",
+        "expected_sha256": "fb59d5c0db056790d9cb9e352c99133a9b5d5726bdcb3818da446264f9191ec7",
+        "actual_sha256": "fb59d5c0db056790d9cb9e352c99133a9b5d5726bdcb3818da446264f9191ec7",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/tests/test_pmp4010_verified.cpp",
+        "expected_sha256": "6dceedae4ca6aa369570c50018ec2c84f4ec41e39c8ce9846f1f8c80aee4ef3b",
+        "actual_sha256": "6dceedae4ca6aa369570c50018ec2c84f4ec41e39c8ce9846f1f8c80aee4ef3b",
+        "match": true
+      },
+      {
+        "path": "device/drivers/pmp4010/tests/velocity_vectors.json",
+        "expected_sha256": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644",
+        "actual_sha256": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/canopen.hpp",
+        "expected_sha256": "08a3ba9405e9d2363badae6a94085c7fdf33bf13f1e5b5024614aee4fa1285d6",
+        "actual_sha256": "08a3ba9405e9d2363badae6a94085c7fdf33bf13f1e5b5024614aee4fa1285d6",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/canopen_pdo.hpp",
+        "expected_sha256": "5103a22322f3f6121b9ce9623e57e622a7365c382bf5c51f3f5795ae67e0286f",
+        "actual_sha256": "5103a22322f3f6121b9ce9623e57e622a7365c382bf5c51f3f5795ae67e0286f",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/canopen_sync.hpp",
+        "expected_sha256": "c69f3667e20ed1309600393aa73fbedc73d88ad5ea14e997e4a4f79da5b56cbe",
+        "actual_sha256": "c69f3667e20ed1309600393aa73fbedc73d88ad5ea14e997e4a4f79da5b56cbe",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/canopen_wire_generated.hpp",
+        "expected_sha256": "30d9d9a2b1bce76cbf00841b59fc66459bfabcd671c794e7aae6b748069bf132",
+        "actual_sha256": "30d9d9a2b1bce76cbf00841b59fc66459bfabcd671c794e7aae6b748069bf132",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/clock.hpp",
+        "expected_sha256": "37fa26dafb2014b88ff0779f3f1a2154a4f5eeadc237a8b091701f61523c96f5",
+        "actual_sha256": "37fa26dafb2014b88ff0779f3f1a2154a4f5eeadc237a8b091701f61523c96f5",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/config.hpp",
+        "expected_sha256": "a2ba8ee626406f7b62d0632fee130dacd5602ceb8276fb4add21ade51329b5e9",
+        "actual_sha256": "a2ba8ee626406f7b62d0632fee130dacd5602ceb8276fb4add21ade51329b5e9",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/config_snapshot.hpp",
+        "expected_sha256": "ce9db5369c6a3f46312210d18c92417e23df8f7eb5b7628c0f279110524d3136",
+        "actual_sha256": "ce9db5369c6a3f46312210d18c92417e23df8f7eb5b7628c0f279110524d3136",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/deadline.hpp",
+        "expected_sha256": "0e0a47b78c572aa1c43624b37d26bdaab4db9229ba0ba954048918ea379555dc",
+        "actual_sha256": "0e0a47b78c572aa1c43624b37d26bdaab4db9229ba0ba954048918ea379555dc",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/frame.hpp",
+        "expected_sha256": "d964912eeb26c188fe093e7578ab712bc3c4388edca479101819734a0d0eaded",
+        "actual_sha256": "d964912eeb26c188fe093e7578ab712bc3c4388edca479101819734a0d0eaded",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/hal/can_device.hpp",
+        "expected_sha256": "20653119f506092a6298a5d42d927dd9868dd3448d8ce201be8714c48ee23501",
+        "actual_sha256": "20653119f506092a6298a5d42d927dd9868dd3448d8ce201be8714c48ee23501",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/hal/device.hpp",
+        "expected_sha256": "6e6acce746bd0ea8192e646ac8afad6d3c97ca9cd8513bfc8e396f37cd0b8b5f",
+        "actual_sha256": "6e6acce746bd0ea8192e646ac8afad6d3c97ca9cd8513bfc8e396f37cd0b8b5f",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/hal/mock_devices.hpp",
+        "expected_sha256": "e7d7f1b71d4bb21de3f7a49b7b22f209412841923b26315a27db3a278346871e",
+        "actual_sha256": "e7d7f1b71d4bb21de3f7a49b7b22f209412841923b26315a27db3a278346871e",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/hal/rs485_device.hpp",
+        "expected_sha256": "fbd0b58d0a5f5d05833d05ef65899a96ca067d83d5824a05729d329e96a458be",
+        "actual_sha256": "fbd0b58d0a5f5d05833d05ef65899a96ca067d83d5824a05729d329e96a458be",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/hal/socketcan_device.hpp",
+        "expected_sha256": "9bae451d898ec71f590337f8b7e7ca0ffa61d9083106cefc06a69df3e825e26c",
+        "actual_sha256": "9bae451d898ec71f590337f8b7e7ca0ffa61d9083106cefc06a69df3e825e26c",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/rt_control/motion_controller.hpp",
+        "expected_sha256": "8d3e2c75c614881251f0dea2d1b185bba6c86f33bb9ed088440ad49be3438d57",
+        "actual_sha256": "8d3e2c75c614881251f0dea2d1b185bba6c86f33bb9ed088440ad49be3438d57",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/rt_control/safety_monitor.hpp",
+        "expected_sha256": "44e2e15391b1740599a8595b200ff4f98be1a65eab92a1335e9d19330dea11b3",
+        "actual_sha256": "44e2e15391b1740599a8595b200ff4f98be1a65eab92a1335e9d19330dea11b3",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/rt_types.hpp",
+        "expected_sha256": "6459556ab997f5a883a48fcc842c60bb060abc78d5067b27a6836d03d5a8fa8a",
+        "actual_sha256": "6459556ab997f5a883a48fcc842c60bb060abc78d5067b27a6836d03d5a8fa8a",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/rt_util.hpp",
+        "expected_sha256": "18cc8e9d36805bfd5a0cb00e0636e801ef4ba9a4a79c3a01d47023d371c1ccb7",
+        "actual_sha256": "18cc8e9d36805bfd5a0cb00e0636e801ef4ba9a4a79c3a01d47023d371c1ccb7",
+        "match": true
+      },
+      {
+        "path": "device/include/km3/spsc_ring.hpp",
+        "expected_sha256": "35af3325625f4d43e54c415e439a98d01e52dfbf2a759fbbe20c9c0f2a7f2c7f",
+        "actual_sha256": "35af3325625f4d43e54c415e439a98d01e52dfbf2a759fbbe20c9c0f2a7f2c7f",
+        "match": true
+      },
+      {
+        "path": "device/proto/km3.proto",
+        "expected_sha256": "6a6f647c3aa8a37e25f7e1c1684dd43ff106f187cdf3b1b0ac17add50cfd4964",
+        "actual_sha256": "6a6f647c3aa8a37e25f7e1c1684dd43ff106f187cdf3b1b0ac17add50cfd4964",
+        "match": true
+      },
+      {
+        "path": "device/src/apps/core/main.cpp",
+        "expected_sha256": "9d8126dca1b7ccd0cf17bfbc413adac019a1ee0177d80f351bc61d415c5283bf",
+        "actual_sha256": "9d8126dca1b7ccd0cf17bfbc413adac019a1ee0177d80f351bc61d415c5283bf",
+        "match": true
+      },
+      {
+        "path": "device/src/apps/rt-controller/main.cpp",
+        "expected_sha256": "e850cd7f4255ceec35c5d9f376dffdd80f5590431d53258a00aca967b385b032",
+        "actual_sha256": "e850cd7f4255ceec35c5d9f376dffdd80f5590431d53258a00aca967b385b032",
+        "match": true
+      },
+      {
+        "path": "device/src/apps/video/main.cpp",
+        "expected_sha256": "80b1941af0a0fae4a2594800b2e7af852dbe8f18295ab601289f480e37288bf1",
+        "actual_sha256": "80b1941af0a0fae4a2594800b2e7af852dbe8f18295ab601289f480e37288bf1",
+        "match": true
+      },
+      {
+        "path": "device/src/canopen/pdo.cpp",
+        "expected_sha256": "d140588c967ade14573e114aa601124b70eda6b034ace865d3eca0369222a518",
+        "actual_sha256": "d140588c967ade14573e114aa601124b70eda6b034ace865d3eca0369222a518",
+        "match": true
+      },
+      {
+        "path": "device/src/canopen/sync.cpp",
+        "expected_sha256": "56393f31f836955c0c553260eed778a1ff2de5a76c494803fbfd2d4b4af566ca",
+        "actual_sha256": "56393f31f836955c0c553260eed778a1ff2de5a76c494803fbfd2d4b4af566ca",
+        "match": true
+      },
+      {
+        "path": "device/src/common/clock.cpp",
+        "expected_sha256": "6844e765403380501343d4bd383ffb43b40405a34db1252277000e1f93116767",
+        "actual_sha256": "6844e765403380501343d4bd383ffb43b40405a34db1252277000e1f93116767",
+        "match": true
+      },
+      {
+        "path": "device/src/common/config.cpp",
+        "expected_sha256": "3c0418dede2322255af6e8ab2a342dc95103b89e69a8f317c768117a01de76ff",
+        "actual_sha256": "3c0418dede2322255af6e8ab2a342dc95103b89e69a8f317c768117a01de76ff",
+        "match": true
+      },
+      {
+        "path": "device/src/common/deadline.cpp",
+        "expected_sha256": "31bd002a454230fa1dec80b0119b2892d50d08a0fa4b214bda6b6371593312ce",
+        "actual_sha256": "31bd002a454230fa1dec80b0119b2892d50d08a0fa4b214bda6b6371593312ce",
+        "match": true
+      },
+      {
+        "path": "device/src/common/device_kind.cpp",
+        "expected_sha256": "5809ee048a71278494508860146310a5c77f5efe322f52ceff8210997bd951ad",
+        "actual_sha256": "5809ee048a71278494508860146310a5c77f5efe322f52ceff8210997bd951ad",
+        "match": true
+      },
+      {
+        "path": "device/src/common/rt_types.cpp",
+        "expected_sha256": "185175a140b35cedb76a2c1e086def3d22e5e7fc9b2429fef6e62571addae595",
+        "actual_sha256": "185175a140b35cedb76a2c1e086def3d22e5e7fc9b2429fef6e62571addae595",
+        "match": true
+      },
+      {
+        "path": "device/src/common/rt_util.cpp",
+        "expected_sha256": "85c10a227238ca1e92b1983c4756c7014ae852fc9b95f00726e611a96e804a4f",
+        "actual_sha256": "85c10a227238ca1e92b1983c4756c7014ae852fc9b95f00726e611a96e804a4f",
+        "match": true
+      },
+      {
+        "path": "device/src/hal/mock_devices.cpp",
+        "expected_sha256": "2391288d5e3af402d6a79e49925a7d46ee2a1d69ced18e22044046d95ed28c43",
+        "actual_sha256": "2391288d5e3af402d6a79e49925a7d46ee2a1d69ced18e22044046d95ed28c43",
+        "match": true
+      },
+      {
+        "path": "device/src/hal/socketcan_device.cpp",
+        "expected_sha256": "e7a60969c7551e9614902227da038b32385d0a37a33c069e22775da6eddeeda6",
+        "actual_sha256": "e7a60969c7551e9614902227da038b32385d0a37a33c069e22775da6eddeeda6",
+        "match": true
+      },
+      {
+        "path": "device/src/middleware/frame.cpp",
+        "expected_sha256": "682f7493c6ad1cf966d31962be1be9991f0166344837c4c9b0ae689a7bf8faa1",
+        "actual_sha256": "682f7493c6ad1cf966d31962be1be9991f0166344837c4c9b0ae689a7bf8faa1",
+        "match": true
+      },
+      {
+        "path": "device/src/middleware/placeholder.cpp",
+        "expected_sha256": "64b41eb8ff891116e4201454f94ef9ad6d3672774be0c129ef138ed0d32b0540",
+        "actual_sha256": "64b41eb8ff891116e4201454f94ef9ad6d3672774be0c129ef138ed0d32b0540",
+        "match": true
+      },
+      {
+        "path": "device/src/rt-control/motion_controller.cpp",
+        "expected_sha256": "4333a7b59fc33c43fddba3398a25a8b39bf0fd60673599fb9b76063df1c6a632",
+        "actual_sha256": "4333a7b59fc33c43fddba3398a25a8b39bf0fd60673599fb9b76063df1c6a632",
+        "match": true
+      },
+      {
+        "path": "device/src/rt-control/safety_monitor.cpp",
+        "expected_sha256": "8549bacdc2dd2f1b12ac8d4e09c77143fae29c86f356366e622c45fe2636f6e6",
+        "actual_sha256": "8549bacdc2dd2f1b12ac8d4e09c77143fae29c86f356366e622c45fe2636f6e6",
+        "match": true
+      },
+      {
+        "path": "device/tests/test_clock.cpp",
+        "expected_sha256": "3bfd26398d256bc95c77cfc4451d1e4586b5ebf760c184d5e5d8950b3bf1fe83",
+        "actual_sha256": "3bfd26398d256bc95c77cfc4451d1e4586b5ebf760c184d5e5d8950b3bf1fe83",
+        "match": true
+      },
+      {
+        "path": "device/tests/test_config.cpp",
+        "expected_sha256": "7873c42fbe3346b7cfceab5aebd2c9435b7969b093e8e04180e9e89d4d8bc829",
+        "actual_sha256": "7873c42fbe3346b7cfceab5aebd2c9435b7969b093e8e04180e9e89d4d8bc829",
+        "match": true
+      },
+      {
+        "path": "device/tests/test_error_code.cpp",
+        "expected_sha256": "5289c5da819d28cb769118f4ef658ac58d329474dc961dffa9d96185dc3d9e36",
+        "actual_sha256": "5289c5da819d28cb769118f4ef658ac58d329474dc961dffa9d96185dc3d9e36",
+        "match": true
+      },
+      {
+        "path": "device/tests/test_frame.cpp",
+        "expected_sha256": "66ca139c20e2dab8d0b84c76f10dd0d6f3b86c3637e621ede389a6fd92fe48c5",
+        "actual_sha256": "66ca139c20e2dab8d0b84c76f10dd0d6f3b86c3637e621ede389a6fd92fe48c5",
+        "match": true
+      },
+      {
+        "path": "device/tests/test_hal.cpp",
+        "expected_sha256": "623a0514e5c4086017843d09d2b102471345d6660f17a58624fa1d2632edb33d",
+        "actual_sha256": "623a0514e5c4086017843d09d2b102471345d6660f17a58624fa1d2632edb33d",
+        "match": true
+      },
+      {
+        "path": "device/tests/test_harness.hpp",
+        "expected_sha256": "38dab6ea416d5d18c118ab597f61eff38b206c73aa2e99e05fa3dcc4e7496dcd",
+        "actual_sha256": "38dab6ea416d5d18c118ab597f61eff38b206c73aa2e99e05fa3dcc4e7496dcd",
+        "match": true
+      },
+      {
+        "path": "device/tests/test_pdo.cpp",
+        "expected_sha256": "f7007e6f13a477cc36029c27c33fb9c5b6d2f73ece6882b41119e4adf61c4fc3",
+        "actual_sha256": "f7007e6f13a477cc36029c27c33fb9c5b6d2f73ece6882b41119e4adf61c4fc3",
+        "match": true
+      },
+      {
+        "path": "device/tests/test_rt_control.cpp",
+        "expected_sha256": "eda77df74e1c1a1e1e0b59df56a53395244e4187cf6566a75e0bb32efa10aff7",
+        "actual_sha256": "eda77df74e1c1a1e1e0b59df56a53395244e4187cf6566a75e0bb32efa10aff7",
+        "match": true
+      },
+      {
+        "path": "device/tests/test_socketcan.cpp",
+        "expected_sha256": "ff4086a24537c845418f5f6cdf8859db08b859b7624844f9a17edd50747ac597",
+        "actual_sha256": "ff4086a24537c845418f5f6cdf8859db08b859b7624844f9a17edd50747ac597",
+        "match": true
+      },
+      {
+        "path": "device/tests/test_spsc_ring.cpp",
+        "expected_sha256": "d91246a3302986afd6a112e33f7313ae8102609336f77cd6c35714163db62d29",
+        "actual_sha256": "d91246a3302986afd6a112e33f7313ae8102609336f77cd6c35714163db62d29",
+        "match": true
+      },
+      {
+        "path": "device/tests/test_sync.cpp",
+        "expected_sha256": "aa880e205658d74eee713d2108b08f3a1a5bd5a0a0beb94e696d622f718d1bdc",
+        "actual_sha256": "aa880e205658d74eee713d2108b08f3a1a5bd5a0a0beb94e696d622f718d1bdc",
+        "match": true
+      },
+      {
+        "path": "device/tests/test_sync_cli.py",
+        "expected_sha256": "fd8cd5c1d45a75eea8fe6b35c71b5ddb04be36b84f32f2f844c87521f1127984",
+        "actual_sha256": "fd8cd5c1d45a75eea8fe6b35c71b5ddb04be36b84f32f2f844c87521f1127984",
+        "match": true
+      }
+    ]
+  },
+  "native_source_files": 77,
+  "all_match": true
+}

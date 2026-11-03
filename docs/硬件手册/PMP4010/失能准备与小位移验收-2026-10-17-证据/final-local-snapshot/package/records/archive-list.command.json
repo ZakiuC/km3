@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "tar",
+    "-tvzf",
+    "/tmp/km3-pp-prepare-package-20261017/pmp4010-board-payload.tar.gz"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

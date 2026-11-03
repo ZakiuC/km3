@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "tools/hwtui/verify_pmp4010_bench_pty.py",
+    "--output-dir",
+    "/tmp/km3-pp-prepare-impl-20261017/bench-pty-final"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "utc": "2026-10-17T08:22:21.954209+00:00"
+}

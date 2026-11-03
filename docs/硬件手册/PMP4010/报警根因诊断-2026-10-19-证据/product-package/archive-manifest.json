@@ -1,0 +1,154 @@
+{
+  "archive": "pmp4010-manual-reset-offline-payload.tar.gz",
+  "sha256": "ca634a034cc538a5a0eee819404404da89a950a803a1b4a6d29c9aabd85e5ad2",
+  "bytes": 229326,
+  "members": [
+    {
+      "path": "hwtui/canopen.py",
+      "provenance": "unchanged trusted old package",
+      "size": 46663,
+      "sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf"
+    },
+    {
+      "path": "hwtui/canopen_consts.py",
+      "provenance": "unchanged trusted old package",
+      "size": 35789,
+      "sha256": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c"
+    },
+    {
+      "path": "hwtui/canopen_wire.py",
+      "provenance": "unchanged trusted old package",
+      "size": 3029,
+      "sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885"
+    },
+    {
+      "path": "hwtui/canbus.py",
+      "provenance": "unchanged trusted old package",
+      "size": 17147,
+      "sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300"
+    },
+    {
+      "path": "hwtui/discover.py",
+      "provenance": "unchanged trusted old package",
+      "size": 15360,
+      "sha256": "1a2efb5efd8a6b7c96eec36dd926605cf2097e6bdcabb3865fc2c99415708ad3"
+    },
+    {
+      "path": "hwtui/mockbus.py",
+      "provenance": "unchanged trusted old package",
+      "size": 33545,
+      "sha256": "8fe9da8ea4e4d6f37e65820d54256432bc2ddc01649997e217c51428d284e044"
+    },
+    {
+      "path": "hwtui/tui.py",
+      "provenance": "unchanged trusted old package",
+      "size": 58467,
+      "sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb"
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010.py",
+      "provenance": "unchanged trusted old package",
+      "size": 122499,
+      "sha256": "009091e3b1de3f9c9eda51fb22495d9e84296a85819b42adbd5d58825976cc05"
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_bench.py",
+      "provenance": "unchanged trusted old package",
+      "size": 64793,
+      "sha256": "c48c798694d1dc4122ea2b3844deeae4900af6d0a42e3329495574d855eea7e5"
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_params.py",
+      "provenance": "unchanged trusted old package",
+      "size": 15268,
+      "sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec"
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_position.py",
+      "provenance": "unchanged trusted old package",
+      "size": 34872,
+      "sha256": "fe8299deb3fe52dc3f8d2cfd91383129274579e93b4a0a1ac9ffd09eab2b7668"
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_tui.py",
+      "provenance": "unchanged trusted old package",
+      "size": 33165,
+      "sha256": "115885f16bad2580428ceb52ac1f1311d4f62cc3a257ec7c703da77c402fb0e7"
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_velocity.py",
+      "provenance": "unchanged trusted old package",
+      "size": 6146,
+      "sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96"
+    },
+    {
+      "path": "drivers/pmp4010/od.json",
+      "provenance": "unchanged trusted old package",
+      "size": 135320,
+      "sha256": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e"
+    },
+    {
+      "path": "drivers/pmp4010/velocity_vectors.json",
+      "provenance": "unchanged trusted old package",
+      "size": 9396,
+      "sha256": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644"
+    },
+    {
+      "path": "drivers/pmp4010/libpmp4010_velocity.so.1.0.0",
+      "provenance": "unchanged trusted old package",
+      "size": 18560,
+      "sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404"
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_manual.py",
+      "origin": "device/drivers/pmp4010/tools/pmp4010_manual.py",
+      "provenance": "parent-frozen local manual reset/close fix",
+      "size": 82233,
+      "sha256": "ca37ecb04116d8a08b279f1ea9964c9374dda411504c4e91479bc5bf09c110b9"
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_simple.py",
+      "origin": "device/drivers/pmp4010/tools/pmp4010_simple.py",
+      "provenance": "parent-frozen local manual reset/close fix",
+      "size": 44960,
+      "sha256": "d1d277431b014fcc888dc16fa994a8b16f2d7e060f384f55c1db431317a166f5"
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_faults.py",
+      "provenance": "unchanged trusted old package",
+      "size": 7842,
+      "sha256": "11841fa92269d95af48f0e24817b469915731e9f09e72fd4b719fe4d1792b148"
+    },
+    {
+      "path": "drivers/pmp4010/libpmp4010_velocity.so.1",
+      "symlink": "libpmp4010_velocity.so.1.0.0"
+    },
+    {
+      "path": "drivers/pmp4010/libpmp4010_velocity.so",
+      "symlink": "libpmp4010_velocity.so.1"
+    },
+    {
+      "path": "load_smoke.py",
+      "provenance": "unchanged trusted old package",
+      "size": 7140,
+      "sha256": "00abf0d120248da12aa0d6d3418b6b912cdb0e3fabe55dc593c4297175c1a6f5"
+    },
+    {
+      "path": "run-manual.sh",
+      "provenance": "unchanged trusted old package",
+      "size": 2215,
+      "sha256": "56641a72621da4fbc831e047437fe1a668dbf9de60380d0334a2234a1f40d1c1"
+    },
+    {
+      "path": "README-手动入口.md",
+      "provenance": "current offline candidate instructions",
+      "size": 1951,
+      "sha256": "29a552e334c6d718912175402ab2525498446942e7479303fb628f66c3223cb1"
+    },
+    {
+      "path": "payload-manifest.json",
+      "size": 7142,
+      "sha256": "0922f0ecacd08f856b2c213e5c737e78fa41c005917f8584c2ad7d5d85f5d3f0"
+    }
+  ]
+}

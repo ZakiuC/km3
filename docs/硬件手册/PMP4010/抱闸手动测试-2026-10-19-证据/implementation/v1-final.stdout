@@ -1,0 +1,4 @@
+BRAKE 80x24 screens: startup/OD/main/help/confirm/enabled/disabled; request state is not mechanical feedback
+BRAKE hold: old607A=90000 -> fresh6064=-1452 -> 607A readback; CW=0106/0107/0127/0137/0127/012F; no Go
+BRAKE enable ACK loss: last CW012F once; same-client quarantine; refresh/d/reset/close zero extra frames
+BRAKE startup/authorization/cancel/unused close: uploads only, zero enable

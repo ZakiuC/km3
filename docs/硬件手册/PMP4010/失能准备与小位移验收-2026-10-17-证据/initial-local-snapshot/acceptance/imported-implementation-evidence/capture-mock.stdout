@@ -1,0 +1,2 @@
+nominal requests= 265 error= None exit_frames= 0
+lost-first-ack requests= 175 error= {'type': 'MotionError', 'message': '失能准备写入 target_position：node 1: 0.015s 内未收到 SDO 应答（请求 601  [8]  23 7A 60 00 48 FA FF FF）'} exit_frames= 0

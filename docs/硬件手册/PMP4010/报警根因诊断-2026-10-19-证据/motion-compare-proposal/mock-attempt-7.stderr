@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py", line 366, in <module>
+    case('main_return1_when_shutdown_unconfirmed',hook=drop_normal_shutdown,
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py", line 235, in case
+    assert failure is None, (name, failure)
+AssertionError: ('main_return1_when_shutdown_unconfirmed', {'type': 'ValueError', 'message': '无法加载本地速度换算库 /home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0；请检查文件、二进制架构及依赖：/home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0: cannot open shared object file: No such file or directory'})

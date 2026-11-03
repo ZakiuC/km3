@@ -1,0 +1,43 @@
+{
+  "utc": "2026-10-19T03:11:48.537651+00:00",
+  "status": "COMPLETE_FAILED_MOTION_ACCEPTANCE_GUARD_STOPPED_AND_CLOSED",
+  "passive_initial_summary": "passive-preparation-summary.json",
+  "package_load_summary": "load-summary.json",
+  "motion_evidence_summary": "motion-evidence-summary.json",
+  "halt_raw_sequence": "halt-enable-upload-sequence.json",
+  "final_raw_audit": "after-q-final-app-audit.jsonl",
+  "final_raw_motion": "after-q-final-pmp4010-motion-168074b07518464b8aeb300f13b26c1f.jsonl",
+  "postcheck_summary": "postcheck-summary.json",
+  "load_command_rcs": {
+    "before-stage": 0,
+    "stage-package": 0,
+    "stage-wrappers": 0,
+    "pure-load": 0,
+    "offline-wrapper": 0,
+    "after-load": 0
+  },
+  "first_motion_drift_position": -1457,
+  "first_motion_drift_units": 13,
+  "cleanup_position": -1467,
+  "last_polled_position": -1470,
+  "motion_completed": false,
+  "motion_final_disabled_confirmed": true,
+  "zero_velocity_confirmed": true,
+  "post_q_statusword": "0x0231",
+  "q_exit_rc": 0,
+  "source_files_modified": [],
+  "local_write_scope": "docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/second-trip-board",
+  "remote_write_scope": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2 only: isolated package/wrappers/logs",
+  "CAN_operations": "One original TUI session. Initial scan/detail/review uploads; one approved relative action, then original q cleanup. No subsequent action or retry.",
+  "cleanup": "Original q completed rc0; no runner/CAN receiver remains; isolated b2 remote package and logs intentionally retained; no source/config/services/current changed.",
+  "limits": [
+    "Observed encoder position discrepancy after Halt enable does not establish physical root cause or mechanical stop/brake behavior.",
+    "No final target -1434 was written; no Halt release or final trigger attempted; requested move did not complete.",
+    "Previous interrupted boot session completion remains unknown.",
+    "/var/tmp ext4 and local retrieval improve evidence retention; abrupt power loss could still lose buffered tail lines."
+  ],
+  "local_extraction_failure": "Initial helper SyntaxError (duplicate keyword) preserved in extract-halt-initial-syntax-failed.*; corrected local parser rerun rc0 in extract-halt-final.*. No hardware effect.",
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown"
+}

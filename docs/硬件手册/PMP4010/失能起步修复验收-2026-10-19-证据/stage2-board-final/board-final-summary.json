@@ -1,0 +1,170 @@
+{
+  "result": "EVIDENCE_VERIFIED_REAL_STAGE2_PROBE_PASS",
+  "hardware_probe_success": true,
+  "hardware_travel_acceptance": false,
+  "application_exit_rc": 0,
+  "review_count": 2,
+  "execute_count": 2,
+  "tokens": [
+    "DISABLE can1 1 -1470",
+    "PROBE_PP_START can1 1 -1470"
+  ],
+  "reviewed_start": -1470,
+  "soft_limits": [
+    -1506,
+    -1434
+  ],
+  "max_displacement": 36,
+  "planned_probe_travel": 0,
+  "controlwords": [
+    "0000",
+    "0106",
+    "0107",
+    "0127",
+    "0137",
+    "0127",
+    "0002",
+    "0000",
+    "0006"
+  ],
+  "all_controlwords_bit3_clear": true,
+  "business_controlwords_Halt_held": true,
+  "operation_enabled_fallback": false,
+  "parameter_downloads": [
+    {
+      "index": "607A",
+      "sub": 0,
+      "value": -1470
+    },
+    {
+      "index": "6082",
+      "sub": 0,
+      "value": 0
+    },
+    {
+      "index": "6081",
+      "sub": 0,
+      "value": 100
+    },
+    {
+      "index": "6083",
+      "sub": 0,
+      "value": 5000000
+    },
+    {
+      "index": "6084",
+      "sub": 0,
+      "value": 5000000
+    }
+  ],
+  "total_downloads": 14,
+  "D_downloads": 1,
+  "B_including_cleanup_downloads": 12,
+  "exit_downloads": 1,
+  "same_client_for_B_cleanup_exit": true,
+  "initial_stationary_samples": 5,
+  "Halt_hold_samples": 5,
+  "ACK_readback_windows": [
+    {
+      "controlword": "0127",
+      "statuswords": [
+        "0233"
+      ],
+      "ACK12": 0,
+      "position_demand": 7800
+    },
+    {
+      "controlword": "0137",
+      "statuswords": [
+        "1233"
+      ],
+      "ACK12": 1,
+      "position_demand": -1470
+    },
+    {
+      "controlword": "0127",
+      "statuswords": [
+        "0233"
+      ],
+      "ACK12": 0,
+      "position_demand": -1470
+    }
+  ],
+  "current_new_ACK_obtained": true,
+  "internal_demand_before": 7800,
+  "internal_demand_after": -1470,
+  "observed_position_min": -1470,
+  "observed_position_max": -1470,
+  "all_observed_velocities_zero": true,
+  "observed_position_read_count": 402,
+  "observed_velocity_read_count": 402,
+  "result_event": {
+    "action": "probe_pp_start",
+    "completed": true,
+    "disabled_confirmed": true,
+    "position_unchanged": true,
+    "zero_velocity_confirmed": true,
+    "cleanup_confirmed": true,
+    "no_fault_following_error_confirmed": true,
+    "mechanical_stop_confirmed": false,
+    "halt_released": false,
+    "operation_enable_requested": false,
+    "operation_enabled_observed": false,
+    "travel_executed": false,
+    "independent_estop_required": false
+  },
+  "bench_result_events": [
+    {
+      "node": 1,
+      "success": true,
+      "readback": {
+        "statusword": 608,
+        "actual_position": -1470,
+        "actual_velocity": 0,
+        "modes_of_operation_display": 1
+      },
+      "disabled_confirmed": true,
+      "mechanical_stop_confirmed": false,
+      "state_unknown": false
+    },
+    {
+      "node": 1,
+      "success": true,
+      "readback": {
+        "statusword": 608,
+        "actual_position": -1470,
+        "actual_velocity": 0,
+        "modes_of_operation_display": 1
+      },
+      "disabled_confirmed": true,
+      "mechanical_stop_confirmed": false,
+      "state_unknown": false,
+      "action": "probe_pp_start",
+      "position_unchanged": true,
+      "zero_velocity_confirmed": true,
+      "operation_enable_requested": false,
+      "operation_enabled_observed": false
+    }
+  ],
+  "probe_final_statusword": "0260",
+  "probe_strict_disabled": true,
+  "probe_duration_seconds": 7.138779209999939,
+  "SDO_exceptions": 0,
+  "retries": 0,
+  "exit_last_statusword": "0231",
+  "exit_operation_enabled": false,
+  "exit_strict_disabled": false,
+  "exit_status_source": "last original same-client upload before CAN close",
+  "normal_q_exit": true,
+  "CAN_closed": true,
+  "postexit_CAN_open": false,
+  "passive_before_after_changed_keys": [],
+  "mechanical_stop_confirmed": false,
+  "limitations": [
+    "This proves SwitchedOn current-setpoint preload/ACK under Halt, not Halt OperationEnabled stability or real travel acceptance.",
+    "All sampled position and speed values were unchanged/zero; sampling cannot establish unobserved mechanical movement or brake state.",
+    "No independent raw CAN sniffer was opened; SDO evidence is from original standard-client observer calls.",
+    "Ready SW0231 after original exit-only Shutdown6 differs from strictdisabled SW0260 at probe completion."
+  ],
+  "cleanup": "Original D then B executed once each; original q exited0 and closed CAN; no retry, additional probe or movement. New temporary files and all stage1/stage2 evidence retained; current/config/services unchanged."
+}

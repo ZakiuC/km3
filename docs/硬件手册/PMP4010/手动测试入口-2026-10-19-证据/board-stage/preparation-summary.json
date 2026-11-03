@@ -1,0 +1,40 @@
+{
+  "status": "LOCAL_PREPARATION_ONLY_WAITING_APPROVED_PACKAGE",
+  "files": [
+    {
+      "path": "stage.remote.py",
+      "sha256": "d614a9eb1c2e7a128f1267131451f0570d8905f0e6c4cf02dd3671985891d3b3",
+      "ast_parse": "PASS"
+    },
+    {
+      "path": "pureload.remote.py",
+      "sha256": "16a93d591fb6b56c6aed9d1d9d2535d2956b644d3652b20bd6bebb964ddc80a7",
+      "ast_parse": "PASS"
+    },
+    {
+      "path": "stage_manual.py",
+      "sha256": "4ef00e8c851444e0f18d1794c79f520f18f10d47efc33609ebdee5716539e90a",
+      "ast_parse": "PASS"
+    }
+  ],
+  "local_cli_help_rc": 0,
+  "actual_ssh_calls": 0,
+  "actual_CAN_operations": 0,
+  "remote_files_written": 0,
+  "remote_payload_imports": 0,
+  "remote_manual_app_runs": 0,
+  "pending": [
+    "Final package path and archive SHA from root.",
+    "Confirm archive schema includes payload-manifest.json/files, load_smoke.py, run-manual.sh and drivers/pmp4010/pmp4010_manual.py.",
+    "Root approval before --apply; no remote execution is authorized yet.",
+    "Before/final passive reconciliation can be run only if root authorizes it with the package packet."
+  ],
+  "source_files_changed": [],
+  "report_changed": false,
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "conservative_input_estimate_from_parent": 120000,
+  "estimate_is_actual": false,
+  "cleanup": "Only local prepared scripts and verification records retained; no network connection or remote artifact created."
+}

@@ -1,0 +1,10 @@
+{
+  "command": [
+    "python3",
+    "-I",
+    "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_brake.py",
+    "--help"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "returncode": 0
+}

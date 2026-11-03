@@ -1,0 +1,87 @@
+{
+  "device/drivers/pmp4010/tools/pmp4010.py": {
+    "sha256": "2fca0b103544c29f78a79b9e349ec841db0e39abf8f39d9d910e57e47b1e0a1a",
+    "source": "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010.py",
+    "frozen": false
+  },
+  "device/drivers/pmp4010/tools/pmp4010_bench.py": {
+    "sha256": "193a1f1281765933524995ee2548d0d3dda62946245b2c7ff7a7a3c0c1549bc5",
+    "source": "/tmp/km3-pp-disabled-start-20261019-impl/probe-freeze/source/device/drivers/pmp4010/tools/pmp4010_bench.py",
+    "frozen": true
+  },
+  "device/drivers/pmp4010/tools/pmp4010_position.py": {
+    "sha256": "ecca73a35494bb5bbb36222b0e5dda8b1d08110ddfb2035f4aa8a737f551b7ac",
+    "source": "/tmp/km3-pp-disabled-start-20261019-impl/probe-freeze/source/device/drivers/pmp4010/tools/pmp4010_position.py",
+    "frozen": true
+  },
+  "device/drivers/pmp4010/tools/pmp4010_tui.py": {
+    "sha256": "54083e18f01a5d114aa1ae98725b6f05ca0cdda34537a517e6c2e0a67317cb78",
+    "source": "/tmp/km3-pp-disabled-start-20261019-impl/probe-freeze/source/device/drivers/pmp4010/tools/pmp4010_tui.py",
+    "frozen": true
+  },
+  "device/drivers/pmp4010/tools/pmp4010_params.py": {
+    "sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec",
+    "source": "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_params.py",
+    "frozen": false
+  },
+  "device/drivers/pmp4010/tools/pmp4010_velocity.py": {
+    "sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96",
+    "source": "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_velocity.py",
+    "frozen": false
+  },
+  "device/drivers/pmp4010/tools/_test_bench_support.py": {
+    "sha256": "61185ab79743fa328380d8230c81ce3c643bf4a89348c954b90104ba125343e4",
+    "source": "/tmp/km3-pp-disabled-start-20261019-impl/probe-freeze/source/device/drivers/pmp4010/tools/_test_bench_support.py",
+    "frozen": true
+  },
+  "tools/hwtui/canbus.py": {
+    "sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300",
+    "source": "/home/zakiu/km3/tools/hwtui/canbus.py",
+    "frozen": false
+  },
+  "tools/hwtui/canopen.py": {
+    "sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf",
+    "source": "/home/zakiu/km3/tools/hwtui/canopen.py",
+    "frozen": false
+  },
+  "tools/hwtui/canopen_wire.py": {
+    "sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885",
+    "source": "/home/zakiu/km3/tools/hwtui/canopen_wire.py",
+    "frozen": false
+  },
+  "tools/hwtui/canopen_consts.py": {
+    "sha256": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c",
+    "source": "/tmp/km3-pp-disabled-start-20261019-impl/probe-freeze/source/tools/hwtui/canopen_consts.py",
+    "frozen": true
+  },
+  "tools/hwtui/mockbus.py": {
+    "sha256": "8fe9da8ea4e4d6f37e65820d54256432bc2ddc01649997e217c51428d284e044",
+    "source": "/home/zakiu/km3/tools/hwtui/mockbus.py",
+    "frozen": false
+  },
+  "tools/hwtui/tui.py": {
+    "sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb",
+    "source": "/home/zakiu/km3/tools/hwtui/tui.py",
+    "frozen": false
+  },
+  "tools/hwtui/discover.py": {
+    "sha256": "1a2efb5efd8a6b7c96eec36dd926605cf2097e6bdcabb3865fc2c99415708ad3",
+    "source": "/home/zakiu/km3/tools/hwtui/discover.py",
+    "frozen": false
+  },
+  "tools/hwtui/verify_pmp4010_pty.py": {
+    "sha256": "99c9c0a376bd98656823a8e2ec492fe3eef2dc025b44de2ceb272e4ae568b442",
+    "source": "/home/zakiu/km3/tools/hwtui/verify_pmp4010_pty.py",
+    "frozen": false
+  },
+  "device/drivers/pmp4010/driver/od.json": {
+    "sha256": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e",
+    "source": "/tmp/km3-pp-disabled-start-20261019-impl/probe-freeze/source/device/drivers/pmp4010/driver/od.json",
+    "frozen": true
+  },
+  "build-host/libpmp4010_velocity.so": {
+    "sha256": "7f1cb4efb3c2861311abd46daaa352961a6ea66b18fe615c2636516685d358a8",
+    "source": "/home/zakiu/km3/build-host/libpmp4010_velocity.so",
+    "frozen": false
+  }
+}

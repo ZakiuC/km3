@@ -1,0 +1,155 @@
+{
+  "head": "7541b67edad414ef9b12999dd615f5ea228ed101",
+  "stage": "manual_linear_position_2026_10_19",
+  "approved_source_freeze": {
+    "device/drivers/pmp4010/tools/pmp4010_simple.py": "1587e02dcc681c35ebb46406649a6be70729a5385bcb84e5acef876817c7fdc4",
+    "device/drivers/pmp4010/tools/pmp4010_manual.py": "7e85924b4f4ec8597b51c80c42c81af190d8c0be17bf99c31c0257cc6ea9d564",
+    "device/drivers/pmp4010/tools/pmp4010.py": "009091e3b1de3f9c9eda51fb22495d9e84296a85819b42adbd5d58825976cc05",
+    "device/drivers/pmp4010/tools/_test_simple.py": "b42748e7f7d936bf3020c70e8c58be7d80fd9bbe6bf8ff6da24edcdfb0276f51",
+    "device/drivers/pmp4010/tools/_test_simple_pty.py": "d053772efb914accbc855dd96244bcbee82cf0b89bf4ac9f0721063982868668",
+    "device/drivers/pmp4010/tools/_test_manual.py": "3a33d4c2b56fb6b9c20f466d297533c7f32f861af2a0c48dd61490551e4b3e69",
+    "device/drivers/pmp4010/tools/_test_manual_pty.py": "f39bd906acdcd5af306499603e43e546518e3a4816cfd20dde5337f7e9de26fc"
+  },
+  "python_test_counts": {
+    "model": 401,
+    "hwtui": 217,
+    "tools-tests": 8
+  },
+  "files": [
+    {
+      "path": "hwtui/canopen.py",
+      "source": "tools/hwtui/canopen.py",
+      "size": 46663,
+      "sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf"
+    },
+    {
+      "path": "hwtui/canopen_consts.py",
+      "source": "tools/hwtui/canopen_consts.py",
+      "size": 35789,
+      "sha256": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c"
+    },
+    {
+      "path": "hwtui/canopen_wire.py",
+      "source": "tools/hwtui/canopen_wire.py",
+      "size": 3029,
+      "sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885"
+    },
+    {
+      "path": "hwtui/canbus.py",
+      "source": "tools/hwtui/canbus.py",
+      "size": 17147,
+      "sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300"
+    },
+    {
+      "path": "hwtui/discover.py",
+      "source": "tools/hwtui/discover.py",
+      "size": 15360,
+      "sha256": "1a2efb5efd8a6b7c96eec36dd926605cf2097e6bdcabb3865fc2c99415708ad3"
+    },
+    {
+      "path": "hwtui/mockbus.py",
+      "source": "tools/hwtui/mockbus.py",
+      "size": 33545,
+      "sha256": "8fe9da8ea4e4d6f37e65820d54256432bc2ddc01649997e217c51428d284e044"
+    },
+    {
+      "path": "hwtui/tui.py",
+      "source": "tools/hwtui/tui.py",
+      "size": 58467,
+      "sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb"
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010.py",
+      "source": "device/drivers/pmp4010/tools/pmp4010.py",
+      "size": 122499,
+      "sha256": "009091e3b1de3f9c9eda51fb22495d9e84296a85819b42adbd5d58825976cc05"
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_bench.py",
+      "source": "device/drivers/pmp4010/tools/pmp4010_bench.py",
+      "size": 64689,
+      "sha256": "80063d5448d1a5c42a0a241d29882d5e1485c010bad3128dd7c9bf338c10e73a"
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_params.py",
+      "source": "device/drivers/pmp4010/tools/pmp4010_params.py",
+      "size": 15268,
+      "sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec"
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_position.py",
+      "source": "device/drivers/pmp4010/tools/pmp4010_position.py",
+      "size": 34872,
+      "sha256": "fe8299deb3fe52dc3f8d2cfd91383129274579e93b4a0a1ac9ffd09eab2b7668"
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_tui.py",
+      "source": "device/drivers/pmp4010/tools/pmp4010_tui.py",
+      "size": 32687,
+      "sha256": "9d1e64e20e764471c84f76f6f6937941c28480e3a40b90e8203e7db5fa1190d1"
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_velocity.py",
+      "source": "device/drivers/pmp4010/tools/pmp4010_velocity.py",
+      "size": 6146,
+      "sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96"
+    },
+    {
+      "path": "drivers/pmp4010/od.json",
+      "source": "device/drivers/pmp4010/driver/od.json",
+      "size": 135320,
+      "sha256": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e"
+    },
+    {
+      "path": "drivers/pmp4010/velocity_vectors.json",
+      "source": "device/drivers/pmp4010/tests/velocity_vectors.json",
+      "size": 9396,
+      "sha256": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644"
+    },
+    {
+      "path": "drivers/pmp4010/libpmp4010_velocity.so.1.0.0",
+      "source": "build-arm64/libpmp4010_velocity.so.1.0.0",
+      "size": 18560,
+      "sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404"
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_manual.py",
+      "source": "device/drivers/pmp4010/tools/pmp4010_manual.py",
+      "size": 53645,
+      "sha256": "7e85924b4f4ec8597b51c80c42c81af190d8c0be17bf99c31c0257cc6ea9d564"
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_simple.py",
+      "source": "device/drivers/pmp4010/tools/pmp4010_simple.py",
+      "size": 42618,
+      "sha256": "1587e02dcc681c35ebb46406649a6be70729a5385bcb84e5acef876817c7fdc4"
+    },
+    {
+      "path": "drivers/pmp4010/libpmp4010_velocity.so.1",
+      "symlink": "libpmp4010_velocity.so.1.0.0"
+    },
+    {
+      "path": "drivers/pmp4010/libpmp4010_velocity.so",
+      "symlink": "libpmp4010_velocity.so.1"
+    },
+    {
+      "path": "load_smoke.py",
+      "size": 7122,
+      "sha256": "c822adc65e6d93bfc2e0848ea3ed5aa938cf80340856aa5f173b1c8dcd5e259f",
+      "origin": "package-generated"
+    },
+    {
+      "path": "run-manual.sh",
+      "size": 2215,
+      "sha256": "56641a72621da4fbc831e047437fe1a668dbf9de60380d0334a2234a1f40d1c1",
+      "origin": "package-generated"
+    },
+    {
+      "path": "README-手动入口.md",
+      "size": 1281,
+      "sha256": "c0dc3d5e36214bf719adfbb7bbcbeb79c8b33ae655f58e59b4193397dae3ac27",
+      "origin": "package-generated"
+    }
+  ],
+  "snapshot_utc": "2026-10-19T07:36:55.695752+00:00"
+}

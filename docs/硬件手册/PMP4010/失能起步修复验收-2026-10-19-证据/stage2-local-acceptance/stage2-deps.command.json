@@ -1,0 +1,16 @@
+{
+  "name": "stage2-deps",
+  "argv": [
+    "bash",
+    "tools/check-deps.sh"
+  ],
+  "shell_command": "bash tools/check-deps.sh",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T01:22:16.608298+00:00",
+  "duration_seconds": 0.02557280007749796,
+  "returncode": 0,
+  "stdout": "stage2-deps.stdout.log",
+  "stderr": "stage2-deps.stderr.log",
+  "stdout_sha256": "64c699c396e34f61f47aee249d1c4357dd63797c35e3c16eed061909a9669a06",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

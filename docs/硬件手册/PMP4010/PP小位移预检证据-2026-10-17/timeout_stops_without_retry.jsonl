@@ -1,0 +1,51 @@
+{"utc": "2026-10-17T08:06:14.915733+00:00", "event": "tool_warn", "message": "km3-rt-controller.service 处于 active —— 它正在使用这条总线"}
+{"utc": "2026-10-17T08:06:14.915748+00:00", "event": "tool_info", "message": "已给出 --i-know-rt-is-running，继续。"}
+{"utc": "2026-10-17T08:06:14.916307+00:00", "event": "upload_begin", "ordinal": 1, "index": "1000", "sub": 0}
+{"utc": "2026-10-17T08:06:14.916337+00:00", "event": "upload_done", "ordinal": 1, "index": "1000", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.916346+00:00", "event": "upload_begin", "ordinal": 2, "index": "1008", "sub": 0}
+{"utc": "2026-10-17T08:06:14.916392+00:00", "event": "upload_done", "ordinal": 2, "index": "1008", "sub": 0, "raw_hex": "504d505034303130422d43414e6f70656e2d304845422d303034"}
+{"utc": "2026-10-17T08:06:14.916399+00:00", "event": "upload_begin", "ordinal": 3, "index": "100A", "sub": 0}
+{"utc": "2026-10-17T08:06:14.916413+00:00", "event": "upload_done", "ordinal": 3, "index": "100A", "sub": 0, "raw_hex": "56332e33"}
+{"utc": "2026-10-17T08:06:14.916418+00:00", "event": "upload_begin", "ordinal": 4, "index": "1018", "sub": 0}
+{"utc": "2026-10-17T08:06:14.916429+00:00", "event": "upload_done", "ordinal": 4, "index": "1018", "sub": 0, "raw_hex": "04"}
+{"utc": "2026-10-17T08:06:14.916435+00:00", "event": "upload_begin", "ordinal": 5, "index": "1018", "sub": 1}
+{"utc": "2026-10-17T08:06:14.916446+00:00", "event": "upload_done", "ordinal": 5, "index": "1018", "sub": 1, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.916451+00:00", "event": "upload_begin", "ordinal": 6, "index": "1018", "sub": 2}
+{"utc": "2026-10-17T08:06:14.916461+00:00", "event": "upload_done", "ordinal": 6, "index": "1018", "sub": 2, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.916466+00:00", "event": "upload_begin", "ordinal": 7, "index": "1018", "sub": 3}
+{"utc": "2026-10-17T08:06:14.916476+00:00", "event": "upload_done", "ordinal": 7, "index": "1018", "sub": 3, "raw_hex": "00000100"}
+{"utc": "2026-10-17T08:06:14.916480+00:00", "event": "upload_begin", "ordinal": 8, "index": "1018", "sub": 4}
+{"utc": "2026-10-17T08:06:14.916490+00:00", "event": "upload_done", "ordinal": 8, "index": "1018", "sub": 4, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.916497+00:00", "event": "upload_begin", "ordinal": 9, "index": "2002", "sub": 1}
+{"utc": "2026-10-17T08:06:14.916508+00:00", "event": "upload_done", "ordinal": 9, "index": "2002", "sub": 1, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:06:14.916513+00:00", "event": "upload_begin", "ordinal": 10, "index": "6040", "sub": 0}
+{"utc": "2026-10-17T08:06:14.916523+00:00", "event": "upload_done", "ordinal": 10, "index": "6040", "sub": 0, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:06:14.916528+00:00", "event": "upload_begin", "ordinal": 11, "index": "6041", "sub": 0}
+{"utc": "2026-10-17T08:06:14.916540+00:00", "event": "upload_done", "ordinal": 11, "index": "6041", "sub": 0, "raw_hex": "4004"}
+{"utc": "2026-10-17T08:06:14.916544+00:00", "event": "upload_begin", "ordinal": 12, "index": "6060", "sub": 0}
+{"utc": "2026-10-17T08:06:14.916554+00:00", "event": "upload_done", "ordinal": 12, "index": "6060", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:06:14.916559+00:00", "event": "upload_begin", "ordinal": 13, "index": "6061", "sub": 0}
+{"utc": "2026-10-17T08:06:14.916569+00:00", "event": "upload_done", "ordinal": 13, "index": "6061", "sub": 0, "raw_hex": "01"}
+{"utc": "2026-10-17T08:06:14.916574+00:00", "event": "upload_begin", "ordinal": 14, "index": "2006", "sub": 18}
+{"utc": "2026-10-17T08:06:14.916584+00:00", "event": "upload_done", "ordinal": 14, "index": "2006", "sub": 18, "raw_hex": "0000"}
+{"utc": "2026-10-17T08:06:14.916588+00:00", "event": "upload_begin", "ordinal": 15, "index": "6064", "sub": 0}
+{"utc": "2026-10-17T08:06:14.916599+00:00", "event": "upload_done", "ordinal": 15, "index": "6064", "sub": 0, "raw_hex": "48faffff"}
+{"utc": "2026-10-17T08:06:14.916603+00:00", "event": "upload_begin", "ordinal": 16, "index": "606C", "sub": 0}
+{"utc": "2026-10-17T08:06:14.916613+00:00", "event": "upload_done", "ordinal": 16, "index": "606C", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.916618+00:00", "event": "upload_begin", "ordinal": 17, "index": "608F", "sub": 1}
+{"utc": "2026-10-17T08:06:14.916628+00:00", "event": "upload_done", "ordinal": 17, "index": "608F", "sub": 1, "raw_hex": "00000200"}
+{"utc": "2026-10-17T08:06:14.916633+00:00", "event": "upload_begin", "ordinal": 18, "index": "608F", "sub": 2}
+{"utc": "2026-10-17T08:06:14.916642+00:00", "event": "upload_done", "ordinal": 18, "index": "608F", "sub": 2, "raw_hex": "01000000"}
+{"utc": "2026-10-17T08:06:14.916647+00:00", "event": "upload_begin", "ordinal": 19, "index": "6091", "sub": 1}
+{"utc": "2026-10-17T08:06:14.916657+00:00", "event": "upload_done", "ordinal": 19, "index": "6091", "sub": 1, "raw_hex": "01000000"}
+{"utc": "2026-10-17T08:06:14.916661+00:00", "event": "upload_begin", "ordinal": 20, "index": "6091", "sub": 2}
+{"utc": "2026-10-17T08:06:14.916671+00:00", "event": "upload_done", "ordinal": 20, "index": "6091", "sub": 2, "raw_hex": "01000000"}
+{"utc": "2026-10-17T08:06:14.916676+00:00", "event": "upload_begin", "ordinal": 21, "index": "607D", "sub": 1}
+{"utc": "2026-10-17T08:06:14.916686+00:00", "event": "upload_done", "ordinal": 21, "index": "607D", "sub": 1, "raw_hex": "15000080"}
+{"utc": "2026-10-17T08:06:14.916690+00:00", "event": "upload_begin", "ordinal": 22, "index": "607D", "sub": 2}
+{"utc": "2026-10-17T08:06:14.916703+00:00", "event": "upload_done", "ordinal": 22, "index": "607D", "sub": 2, "raw_hex": "ebffff7f"}
+{"utc": "2026-10-17T08:06:14.916708+00:00", "event": "upload_begin", "ordinal": 23, "index": "607C", "sub": 0}
+{"utc": "2026-10-17T08:06:14.916719+00:00", "event": "upload_done", "ordinal": 23, "index": "607C", "sub": 0, "raw_hex": "00000000"}
+{"utc": "2026-10-17T08:06:14.916723+00:00", "event": "upload_begin", "ordinal": 24, "index": "607F", "sub": 0}
+{"utc": "2026-10-17T08:06:14.916771+00:00", "event": "tool_bad", "message": "节点 1 只读预检 SDO 已隔离：mock timeout；需外部恢复"}
+{"utc": "2026-10-17T08:06:14.916791+00:00", "event": "tool_info", "message": "总线已关闭（失能确认流程之后）"}

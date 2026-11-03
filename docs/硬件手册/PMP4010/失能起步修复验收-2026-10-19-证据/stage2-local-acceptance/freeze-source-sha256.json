@@ -1,0 +1,42 @@
+{
+  "stage": "switched_on_unenabled_probe_only",
+  "created_utc": "2026-10-19T01:21:10.878630+00:00",
+  "root": "/home/zakiu/km3",
+  "stage1_manifest_sha256": "a9750a6952ee851f502bd0bd59b7eedd2542d35c1f423503f1a75acc17c6e5ff",
+  "files": {
+    "device/drivers/pmp4010/tools/pmp4010_bench.py": "fa148ac236760646e684cd99ab4701c8ffe0e99fde592868b2f5d9086455d4c6",
+    "device/drivers/pmp4010/tools/pmp4010_position.py": "d2869ca584b416be58953dbae66922ce909d85ed559fd27cf90b8d7276421d8d",
+    "device/drivers/pmp4010/tools/pmp4010_tui.py": "48a416121d1e1d7ff3a055308b9a145195d701b6323e93198bab43f1201fe480",
+    "device/drivers/pmp4010/tools/_test_disabled_start.py": "1ea11b02ca336e9ba95e54a125acfd147fa21061195c3d0fe78e65f27365a6e6",
+    "device/drivers/pmp4010/tools/_test_bench_support.py": "61185ab79743fa328380d8230c81ce3c643bf4a89348c954b90104ba125343e4",
+    "device/drivers/pmp4010/driver/od.json": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e",
+    "device/drivers/pmp4010/driver/od_generated.hpp": "b726bf604ce42c91ce048dfdb2891dde23e374ce9234cabe0416172ffaea5d40",
+    "device/drivers/pmp4010/driver/od_access_generated.hpp": "5144ed5e763beab5004d225e215fc76707a7f4cb42d222eb2da473bb594a33fb",
+    "tools/hwtui/canopen_consts.py": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c",
+    "tools/hwdriver/gen-pmp4010-access.py": "b9d2c4c8406398562a25ef517cf99efd97d9f16ace6e07c9ccef39e07b36fd3d",
+    "device/drivers/pmp4010/tests/test_pmp4010_verified.cpp": "6dceedae4ca6aa369570c50018ec2c84f4ec41e39c8ce9846f1f8c80aee4ef3b"
+  },
+  "stage2_changed_files": [
+    "device/drivers/pmp4010/tools/pmp4010_bench.py",
+    "device/drivers/pmp4010/tools/pmp4010_position.py",
+    "device/drivers/pmp4010/tools/pmp4010_tui.py",
+    "device/drivers/pmp4010/tools/_test_disabled_start.py"
+  ],
+  "validation": {
+    "focused": "focused-postcleanup",
+    "focused_tests": 40,
+    "focused_rc": 0,
+    "model": "model-final",
+    "model_tests": 281,
+    "model_rc": 0,
+    "diff_check_rc": 0,
+    "py_compile_rc": 0
+  },
+  "limits": [
+    "No operation-enable business controlword; 106/107/127/137/127 only, then 2/0 cleanup",
+    "No full PP travel branch opened; no settling tolerance",
+    "No SSH/CAN/board actions by implementation worker",
+    "Stage1 source snapshot and failed hardware evidence preserved",
+    "No stage2 OD/C++/generated changes; local PTY and broader acceptance delegated"
+  ]
+}

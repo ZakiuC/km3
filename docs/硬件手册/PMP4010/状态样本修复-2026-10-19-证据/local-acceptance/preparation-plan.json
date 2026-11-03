@@ -1,0 +1,26 @@
+{
+  "status": "waiting_for_root_explicit_final_freeze",
+  "baseline": {
+    "model": 364,
+    "hwtui": 217,
+    "tools": 8
+  },
+  "expected_final_behavior": "bounded guarded previous-to-target state sampling; full manual delayed-transition sequence remains safe; diagnostic logs retain raw6041/CW/phase/cleanup",
+  "required_checks": [
+    "3 full Python suites",
+    "4 gates and 3 generators as individual explicit argv",
+    "production _test_simple_pty.py",
+    "implementation supplied delayed full manual flow",
+    "18 imports/missing-native/tamper/roundtrip/help/nonTTY/sh-n/launcher rejects",
+    "source before/after and root-approved source hashes"
+  ],
+  "hardware_actions": false,
+  "automatic_deployment": false,
+  "cpp": "unchanged; reference historical actual17/17 each, no rerun",
+  "arm_library_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "conservative_input_estimate": 150000,
+  "estimate_source": "parent task packet and bounded prior context; not measured"
+}

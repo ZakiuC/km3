@@ -1,0 +1,19 @@
+{
+  "name": "manual-help",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "device/drivers/pmp4010/tools/pmp4010.py",
+    "--manual",
+    "--help"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T03:32:49.416312+00:00",
+  "duration_seconds": 0.027232011000705825,
+  "returncode": 0,
+  "stdout": "manual-help.stdout.log",
+  "stdout_sha256": "6fbb7fb3c1705d94f8f8243136dd69311e3eee872f499ee14f9e983415b7503e",
+  "stderr": "manual-help.stderr.log",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,109 @@
+[
+  {
+    "name": "host-build",
+    "argv": [
+      "cmake",
+      "--build",
+      "build-host",
+      "--clean-first",
+      "-j4"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T06:06:47.661305+00:00",
+    "duration_seconds": 3.247649574999741,
+    "returncode": 0,
+    "stdout": "host-build.stdout.log",
+    "stdout_sha256": "f2b13786c52d34a37b2e4992980ed8a928ebadee67ca0a62ce1651a2d42cd5ab",
+    "stderr": "host-build.stderr.log",
+    "stderr_sha256": "c41f45a467df70d8be980c5d9ffcb88c92c0c9897846ae059df70c95d315d01f"
+  },
+  {
+    "name": "host-ctest",
+    "argv": [
+      "ctest",
+      "--test-dir",
+      "build-host",
+      "--output-on-failure"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T06:06:50.909233+00:00",
+    "duration_seconds": 11.613738804000604,
+    "returncode": 0,
+    "stdout": "host-ctest.stdout.log",
+    "stdout_sha256": "8eebac51c92d86af5102e62e85093b418d390c8b7afae5c32e89316e5ddf2a45",
+    "stderr": "host-ctest.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "asan-build",
+    "argv": [
+      "cmake",
+      "--build",
+      "build-asan",
+      "--clean-first",
+      "-j4"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T06:07:02.523249+00:00",
+    "duration_seconds": 5.567492910999135,
+    "returncode": 0,
+    "stdout": "asan-build.stdout.log",
+    "stdout_sha256": "39f54993f3df253f83be30958cd5b10890ace8f49452d468735d031f856e262d",
+    "stderr": "asan-build.stderr.log",
+    "stderr_sha256": "6ee8b83df798a0e9b6994ba32539e5afa36d207c8937ad0f1e35dd0b052ddefc"
+  },
+  {
+    "name": "asan-ctest",
+    "argv": [
+      "ctest",
+      "--test-dir",
+      "build-asan",
+      "--output-on-failure"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T06:07:08.091237+00:00",
+    "duration_seconds": 12.138629781999043,
+    "returncode": 0,
+    "stdout": "asan-ctest.stdout.log",
+    "stdout_sha256": "2fefedaf8d40cddb06e33cb14d956be5410634d8080e037383cb807822e77142",
+    "stderr": "asan-ctest.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "tsan-build",
+    "argv": [
+      "cmake",
+      "--build",
+      "build-tsan",
+      "--clean-first",
+      "-j4"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T06:07:20.230339+00:00",
+    "duration_seconds": 5.772989574999883,
+    "returncode": 0,
+    "stdout": "tsan-build.stdout.log",
+    "stdout_sha256": "8363750728cec67fc63db17629c03aadec7d4074bd5bed61b2b7588e4dca69c7",
+    "stderr": "tsan-build.stderr.log",
+    "stderr_sha256": "02d4af3f8d0e2f0d0e14dd9d73069f035d90d08ce08a84afd686d2203571023d"
+  },
+  {
+    "name": "tsan-ctest",
+    "argv": [
+      "setarch",
+      "-R",
+      "ctest",
+      "--test-dir",
+      "build-tsan",
+      "--output-on-failure"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T06:07:26.003827+00:00",
+    "duration_seconds": 12.161423527999432,
+    "returncode": 0,
+    "stdout": "tsan-ctest.stdout.log",
+    "stdout_sha256": "55fd0cb817f9efeeb5b5fc395eb4e910c2c0ce60c5726f54e3113720ae3d0797",
+    "stderr": "tsan-ctest.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

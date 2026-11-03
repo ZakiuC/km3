@@ -1,0 +1,18 @@
+{
+  "command": "cmake --build build-tsan -j\"$(nproc)\"",
+  "argv": [
+    "bash",
+    "-c",
+    "cmake --build build-tsan -j\"$(nproc)\""
+  ],
+  "cwd": "/home/zakiu/km3",
+  "env_overrides": {
+    "TMPDIR": "/tmp/km3-pmp4010-a-20261017-evidence/tmp"
+  },
+  "start_utc": "2026-10-17T07:16:40.066228+00:00",
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "exitcode": 0,
+  "end_utc": "2026-10-17T07:16:40.188380+00:00"
+}

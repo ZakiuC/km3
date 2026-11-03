@@ -1,0 +1,17 @@
+{
+  "name": "03-scp",
+  "argv": [
+    "scp",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "/tmp/km3-pp-prepare-package-20261017/pmp4010-board-payload.tar.gz",
+    "root@192.168.0.188:/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/pmp4010-board-payload.tar.gz"
+  ],
+  "stdin": null,
+  "started_utc": "2026-10-17T08:25:45.869088+00:00",
+  "exitcode": 0,
+  "stdout": "",
+  "stderr": ""
+}

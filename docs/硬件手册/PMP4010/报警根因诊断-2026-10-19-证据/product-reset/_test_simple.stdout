@@ -1,0 +1,11 @@
+RESET mutation matrix: 92 SDO boundaries x lost/malformed/cancel; no next request/new client/cleanup
+SIMPLE busy x: real delayed SDO worker cancelled; pending cleared; one quickstop2, no target/enable/release replay
+SIMPLE delayed SDO full f action: fixed start/target; write ACK/raw snapshots identify actual0106..012F..002F/003F/002F phases
+SIMPLE e: frozen current607A/new ACK/6062 then12F Halt, never2F; +13U inside original range accepted
+SIMPLE Ready0231/SwitchedOn0233: confirmed internal disable0 then sealed submission; externalEnabled0237 rejected
+SIMPLE locked80x24: last-valid telemetry explicitly historical; current state unknown; firstCW0106/raw0237 remains visible
+SIMPLE one confirmation: only Operation enabled new edge starts trajectory; original target reached; consumed review never replays
+SIMPLE forward: one immutable confirmation; CW106/107/127/137/127/12F/2F/3F/2F; +13U allowed; fixed start/target
+MANUAL production default: 1000U/s -> live608F/6091 0.457763671875rpm; explicit100 kept; step0.1deg unchanged
+SIMPLE refresh Space: control/status uploads only then cancellation; no remaining snapshot reads before quickstop2
+SIMPLE continuous f/b: zero speed permits next direction; draft s/a keep old proof; confirmed2/0 precede new6081/607A

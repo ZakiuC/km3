@@ -1,0 +1,21 @@
+{
+  "manifest": {
+    "device/drivers/pmp4010/tools/_test_prepare.py": {
+      "initial": null,
+      "final": "cb26184e523cfcab17fab08f2677c45c9ad3c496d993d56cc7b0ad03355757ec"
+    },
+    "device/drivers/pmp4010/tools/pmp4010_bench.py": {
+      "initial": "0bbb6f23d668ca92a4846275295cf6c32671333edaae1a200349f57c91cdb248",
+      "final": "fbe69ec63e58fb30f49866f48f93d01e14c15a8b129866c9fba6f292fa7c974f"
+    },
+    "device/drivers/pmp4010/tools/pmp4010_tui.py": {
+      "initial": "96ae30a8b9bfab81419d22eb95ab5a6af5603b45c4898837a031009eed37cbea",
+      "final": "6ef77e2edbbfea5f579fa5db0996472a9932c9a1ddc3bd0118abd1a5ab7654b8"
+    }
+  },
+  "verified": {
+    "device/drivers/pmp4010/tools/_test_prepare.py": true,
+    "device/drivers/pmp4010/tools/pmp4010_bench.py": true,
+    "device/drivers/pmp4010/tools/pmp4010_tui.py": true
+  }
+}

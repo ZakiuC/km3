@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "<string>", line 18, in <module>
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/手动位置控制-2026-10-19-证据/board-stage/pureload.remote.py", line 2, in <module>
+    import contextlib
+NameError: name 'importlib' is not defined

@@ -1,0 +1,1 @@
+{"result": "PASS", "kernel_vcan_test": true, "results": [{"mask": "FFFFFFFF", "received_hex": null}, {"mask": "C00007FF", "received_hex": "81050000080000004b416000c0020000"}], "physical_CAN_opens": 0}

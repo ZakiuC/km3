@@ -1,0 +1,57 @@
+payload_manifest=PASS source_head=7541b67edad414ef9b12999dd615f5ea228ed101
+import=canopen_consts path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/hwtui/canopen_consts.py
+import=canopen_wire path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/hwtui/canopen_wire.py
+import=canopen path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/hwtui/canopen.py
+import=canbus path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/hwtui/canbus.py
+import=mockbus path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/hwtui/mockbus.py
+import=tui path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/hwtui/tui.py
+import=discover path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/hwtui/discover.py
+import=hwtui.canopen path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/hwtui/canopen.py
+import=hwtui.tui path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/hwtui/tui.py
+import=hwtui.discover path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/hwtui/discover.py
+import=pmp4010_velocity path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/drivers/pmp4010/pmp4010_velocity.py
+import=pmp4010_params path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/drivers/pmp4010/pmp4010_params.py
+import=pmp4010_position path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/drivers/pmp4010/pmp4010_position.py
+import=pmp4010_bench path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/drivers/pmp4010/pmp4010_bench.py
+import=pmp4010_tui path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/drivers/pmp4010/pmp4010_tui.py
+import=pmp4010 path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/drivers/pmp4010/pmp4010.py
+import=pmp4010_manual path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/drivers/pmp4010/pmp4010_manual.py
+import=pmp4010_simple path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/drivers/pmp4010/pmp4010_simple.py
+import=pmp4010_faults path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/drivers/pmp4010/pmp4010_faults.py
+import=pmp4010_brake path=/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/drivers/pmp4010/pmp4010_brake.py
+{"library_realpath": "/home/zakiu/km3/build-host/libpmp4010_velocity.so.1.0.0", "library_sha256": "7f1cb4efb3c2861311abd46daaa352961a6ea66b18fe615c2636516685d358a8", "abi": 1, "machine": "x86_64", "python": "3.10.12", "mode": "explicit-library-logic-check"}
+vector=PASS manual_default_300rpm native_status=0 exact=300/1
+vector=PASS manual_default_inverse native_status=0 exact=50000/1
+vector=PASS measured_exact_46875_over_2048rpm native_status=0 exact=46875/2048
+vector=PASS measured_fraction_inverse native_status=0 exact=50000/1
+vector=PASS measured_rated_3000rpm native_status=0 exact=3000/1
+vector=PASS measured_rated_inverse native_status=0 exact=6553600/1
+vector=PASS zero_direction_0 native_status=0 exact=0/1
+vector=PASS zero_direction_1 native_status=0 exact=0/1
+vector=PASS gear3_forward native_status=0 exact=900/1
+vector=PASS gear3_inverse native_status=0 exact=50000/1
+vector=PASS signed_forward native_status=0 exact=-900/1
+vector=PASS signed_inverse native_status=0 exact=-50000/1
+vector=PASS negative_denominator_normalized native_status=0 exact=-300/1
+vector=PASS fractional_write_rejected native_status=0 exact=500/3
+vector=PASS positive_int32_overflow native_status=0 exact=2147483648/1
+vector=PASS negative_int32_overflow native_status=0 exact=-2147483649/1
+vector=PASS int32_minimum_inverse native_status=0 exact=-2147483648/1
+vector=PASS int32_maximum_inverse native_status=0 exact=2147483647/1
+vector=PASS wide_numerator native_status=0 exact=-2376844874321125483512594432000/1
+vector=PASS wide_numerator_inverse native_status=0 exact=-2147483648/1
+vector=PASS wide_denominator native_status=0 exact=-8589934592/1229782937674641135
+vector=PASS wide_denominator_inverse native_status=0 exact=-2147483648/1
+vector=PASS all_maximum native_status=0 exact=-128849018880/1
+vector=PASS all_maximum_inverse native_status=0 exact=-2147483648/1
+vector=PASS maximum128_cross_cancel native_status=0 exact=1/1
+vector=PASS maximum128_identity native_status=0 exact=340282366920938463463374607431768211455/1
+vector=PASS maximum128_negative native_status=0 exact=-340282366920938463463374607431768211455/1
+vector=PASS parse128_overflow native_status=6
+vector=PASS output128_overflow native_status=6
+vector=PASS zero_calibration_0 native_status=2
+vector=PASS zero_calibration_1 native_status=2
+vector=PASS zero_calibration_2 native_status=2
+vector=PASS zero_calibration_3 native_status=2
+missing_library=EXPECTED_REJECTION 缺少本地速度换算库；请安装 libpmp4010_velocity.so，或设置 PMP4010_VELOCITY_LIBRARY 为绝对路径。已检查：/home/zakiu/km3/docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/package/roundtrip/__intentionally_missing_velocity__.so
+{"result": "PASS", "native_vectors": 33, "python_vectors": 33, "native_int32_vectors": 14, "forbidden_io_attempts": 0, "hardware_acceptance": false}

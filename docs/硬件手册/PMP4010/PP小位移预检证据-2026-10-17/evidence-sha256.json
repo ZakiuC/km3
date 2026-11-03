@@ -1,0 +1,394 @@
+{
+  "created_utc": "2026-10-17T08:11:22.305659+00:00",
+  "files": [
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检-2026-10-17.md",
+      "size": 18602,
+      "sha256": "c512c04403cb9d9ca4fd50883d0c56299f63c8e5c86f71c549ae5ab697252826"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/analyze_existing_entries.py",
+      "size": 1951,
+      "sha256": "9eafb54ffd9df7de6da56c7b198db5c7f8028894ad940304f6ad7751ff7242c3"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-live-readonly.command.json",
+      "size": 401,
+      "sha256": "b112b6b43215f22fd9bf49077427d9e2507f526e9c86296759a86d76a1cef940"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-live-readonly.rc",
+      "size": 2,
+      "sha256": "53c234e5e8472b6ac51c1ae1cab3fe06fad053beb8ebfd8977b010655bfdd3c3"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-live-readonly.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-live-readonly.stdout",
+      "size": 32920,
+      "sha256": "7343294e6b5f033ed40eeb10be314e7b96f35ec959f450f7e6a9c8e7a184c8ec"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-payload-no-can-smoke.command.json",
+      "size": 293,
+      "sha256": "a984bce27fb569619e1df102d977184d4d65b5d6ea349621dd14db67ecf55951"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-payload-no-can-smoke.rc",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-payload-no-can-smoke.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-payload-no-can-smoke.stdout",
+      "size": 4197,
+      "sha256": "05f9b84319295f07f2b2dbf2edbbc54f092fde22134f6491626576ee4894e7c5"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-pre-read-sha256.command.json",
+      "size": 501,
+      "sha256": "99d381c8b501504a9b66d65c67a9870621310b2c586bc8d4095b241a80f1d419"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-pre-read-sha256.rc",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-pre-read-sha256.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-pre-read-sha256.stdout",
+      "size": 540,
+      "sha256": "a6b89e59436065e43b8284a9e08451db0eec813574f7656715e0bc6e542c1dc1"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-preflight-offline.command.json",
+      "size": 346,
+      "sha256": "c3f7c65b703f74101c89b9fe37aca699d40ae9669e83ad47b82680a64a8b3e32"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-preflight-offline.rc",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-preflight-offline.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-preflight-offline.stdout",
+      "size": 14442,
+      "sha256": "078903c97b4aed48908d97bbe7d407c7ae442c81717fe0a1738274a46793b5a9"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-script-upload.command.json",
+      "size": 312,
+      "sha256": "443385a70ddb9368ebb6bdef86bae3e0cdfc8501dbdce269e02ab6448308d2a9"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-script-upload.rc",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-script-upload.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-script-upload.stdout",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-stage-create.command.json",
+      "size": 265,
+      "sha256": "a0d30ebbfc4a58f0f4d6ac55b4a51505409f10f987b3d2176b7c46c33575d924"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-stage-create.rc",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-stage-create.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/board-stage-create.stdout",
+      "size": 40,
+      "sha256": "1d10c7546a082d2e6e0abb9112266026c38f9aedf64d4f9c7e3576cd846b59fd"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/final-mock-verification.command.json",
+      "size": 152,
+      "sha256": "4543de3fef91aeac9846d590f7b1c2b9bb595cf6e97ee868022cde16fa08b4eb"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/final-mock-verification.rc",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/final-mock-verification.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/final-mock-verification.stdout",
+      "size": 527,
+      "sha256": "a962e3a5c8f65e613b0f8e9edeb87ba5c4fb9248f7bb7ad5544d1ba38e5983c6"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/local-entry-analysis.command.json",
+      "size": 164,
+      "sha256": "7e2ecdaa9223299482270917ba103e43cbe9ce9f50277777d1b9d33cfd1c7d7c"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/local-entry-analysis.rc",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/local-entry-analysis.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/local-entry-analysis.stdout",
+      "size": 6592,
+      "sha256": "f9d0ca1d2997f81fe292c582b68029feec22776a037c6eef9128ea6cdfec07c4"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/local-payload-host-math.command.json",
+      "size": 287,
+      "sha256": "3fd3a00269ae1e8977d21dea95d453da284ea1288fa6c21e5baa485d27f19e53"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/local-payload-host-math.rc",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/local-payload-host-math.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/local-payload-host-math.stdout",
+      "size": 4643,
+      "sha256": "d48eac2b2f5a3533f0557718aafe39c4822c7f6005d8cf5ce1c160b32bc786d5"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/local-payload-plan.command.json",
+      "size": 240,
+      "sha256": "7ec905cb9177b7f5ddfb914abcb319967068d2b7f464734e3c02dee546cfdc80"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/local-payload-plan.rc",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/local-payload-plan.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/local-payload-plan.stdout",
+      "size": 14572,
+      "sha256": "eb54c201adab315cd7f870b0f2784852f2bedf6bb36f46bb2384c73ccd1eeaec"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/local-real-snapshot-review.command.json",
+      "size": 153,
+      "sha256": "5612b45da03ef27834504997afd933cc047f688c18b3c3c6e76d7db1292b8427"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/local-real-snapshot-review.rc",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/local-real-snapshot-review.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/local-real-snapshot-review.stdout",
+      "size": 3711,
+      "sha256": "4835bfeb67b5de61862d52128d2c404d6f75586f587889062c33c0074de3a46b"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/nominal_uploads_only.jsonl",
+      "size": 18294,
+      "sha256": "98dbd780b8e9323b81e40664c2451730831747502544df9b19ebecaad476abd0"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/offline-plan.jsonl",
+      "size": 13170,
+      "sha256": "e23e7a90ecb8a4c4b0a07f155475c4aff129c70d1b03aed1e1fe06860a965583"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/offline-plan.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/payload-manifest.json",
+      "size": 4142,
+      "sha256": "df7588af7102192aa81f0621288613c5ca2bc3ac3fe72d3c4c6eacd1ca3390ac"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/preflight.py",
+      "size": 11565,
+      "sha256": "ce236a85959f0178a6471f6502ed37e09a70053f1be3d81c1c5b6b901aa4d75b"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/reads-decoded.json",
+      "size": 12677,
+      "sha256": "da37c72c56bcc66e9a430316dafce9d301d1bb36f18c70fab60d7ffdc6ecb725"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/record.py",
+      "size": 696,
+      "sha256": "b2fb040feb4a6a85afbca1eceec7d33e10bb52bc5d3b51335d8897c42c0d0bef"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/replay_review.py",
+      "size": 1973,
+      "sha256": "1ad565627d55656ee5e19ee94c0f920aae13705d67d081c06c4cb33c432471f1"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/report-check-docs.command.json",
+      "size": 102,
+      "sha256": "be81e374f9c3ccba665b77a87df04a9cef94c84b7f92c5b675a1687dcd39412d"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/report-check-docs.rc",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/report-check-docs.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/report-check-docs.stdout",
+      "size": 528,
+      "sha256": "ecb575f6e68bd4e720546861f467c0ce88d8e4d2fc24ea2459e4d9a62b533bdd"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/report-check-manual-citations.command.json",
+      "size": 114,
+      "sha256": "ab1b939706a7f1b199754775e59995b85720eae4f6fd42bba67552120b8d374c"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/report-check-manual-citations.rc",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/report-check-manual-citations.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/report-check-manual-citations.stdout",
+      "size": 209,
+      "sha256": "7eb04b681dbf2a0b44450b27b68fe91555e8fbad5fae1b682b3e63c174bbb004"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/report-final-check-docs.command.json",
+      "size": 102,
+      "sha256": "660fd0146ca0ca6ceb25f6c35264cfe844f8c2b36c4d3eecc44549b60a7f643d"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/report-final-check-docs.rc",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/report-final-check-docs.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/report-final-check-docs.stdout",
+      "size": 528,
+      "sha256": "ecb575f6e68bd4e720546861f467c0ce88d8e4d2fc24ea2459e4d9a62b533bdd"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/report-final-check-manual-citations.command.json",
+      "size": 114,
+      "sha256": "e96b4d33448e45f0fdd1bc2c43b45f6ca5eb82951fc995d6c648e0b9bcd2e977"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/report-final-check-manual-citations.rc",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/report-final-check-manual-citations.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/report-final-check-manual-citations.stdout",
+      "size": 209,
+      "sha256": "7eb04b681dbf2a0b44450b27b68fe91555e8fbad5fae1b682b3e63c174bbb004"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/result-summary.json",
+      "size": 7402,
+      "sha256": "688729963182755090200c0e3b10bee6e9e10f4c4b9f18c8bba3da3a981c0f00"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/stage_and_read.py",
+      "size": 2276,
+      "sha256": "b49df54321e26759d32bc17fc65d2a7330748e87df691c91b9a16d045505337c"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/timeout_stops_without_retry.jsonl",
+      "size": 6271,
+      "sha256": "8a1a92876378f4a9aa20582df9a624751febdd0e6f2de7d78a14c17ba874e5e5"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/verify-local.json",
+      "size": 527,
+      "sha256": "a962e3a5c8f65e613b0f8e9edeb87ba5c4fb9248f7bb7ad5544d1ba38e5983c6"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/verify-local.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/PP小位移预检证据-2026-10-17/verify_local.py",
+      "size": 3157,
+      "sha256": "3a1b41e3ed0731991201cd3730bc4decb131185d6e5e52584907c8d1cffa0c78"
+    }
+  ],
+  "hash_manifest_excludes_itself": true,
+  "expected_readonly_exit_code": 2,
+  "expected_replay_exit_code": 0,
+  "final_document_gates": {
+    "docs": 0,
+    "manual_citations": 0
+  },
+  "live_motion_executed": false,
+  "source_files_changed": false
+}

@@ -1,0 +1,29 @@
+--- tested-source
++++ final-source
+@@ -1243,8 +1243,10 @@
+             self._velocity_prepared = None
+             raise MotionError("{}：超时".format(label))
+         if (getattr(method, '__name__', '').startswith('write') and args
++                # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7
+                 and args[0] in (self.od.MODES_OF_OPERATION, self.od.CONTROL_MODE_SELECT, 0x60b1)):
+             self._velocity_prepared = None
++            # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7
+             if args[0] == 0x60b1:
+                 # Device RW permission does not authorize offset control here.
+                 raise MotionError('本工具不支持写入 CSV 速度偏置 60B1h')
+@@ -1274,6 +1276,7 @@
+             raise MotionError("{}：超时".format(label))
+         if (self._velocity_prepared is not None and self._velocity_prepared[2] == 9
+                 and getattr(method, '__name__', '').startswith('read') and args
++                # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7
+                 and args[0] == 0x60b1 and result not in (0, bytes(4))):
+             self._velocity_prepared = None
+         return result
+@@ -1368,6 +1371,7 @@
+         # 60FFh=0 不代表 CSV 静止；不得默认偏置为0，也不得擅自写零。
+         if mode != 9:
+             return
++        # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7
+         raw = self.call(deadline, '读取 CSV 速度偏置 60B1h', self.client.read, 0x60b1, 0)
+         if len(raw) != 4 or int.from_bytes(raw, 'little', signed=True) != 0:
+             self._velocity_prepared = None

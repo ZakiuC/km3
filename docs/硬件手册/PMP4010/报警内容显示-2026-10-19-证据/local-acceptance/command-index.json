@@ -1,0 +1,131 @@
+[
+  {
+    "name": "model",
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "device/drivers/pmp4010/tools",
+      "-p",
+      "_test_*.py"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T08:52:44.037409+00:00",
+    "duration_seconds": 40.45564960699994,
+    "returncode": 0,
+    "stdout": "model.stdout.log",
+    "stdout_sha256": "ad3a81bd5e2c0893e9fe3fef20a609fd317242dd74f1145d3b0856a872a6bf32",
+    "stderr": "model.stderr.log",
+    "stderr_sha256": "0396c4a5e9539db7a74e8bfcb08eec43fe8b3ca130f578bd3f934cf24877a079"
+  },
+  {
+    "name": "hwtui",
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tools/hwtui",
+      "-p",
+      "test_*.py"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T08:53:24.493389+00:00",
+    "duration_seconds": 0.3895910419996653,
+    "returncode": 0,
+    "stdout": "hwtui.stdout.log",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "hwtui.stderr.log",
+    "stderr_sha256": "33f6f705dbb8fb88842acbc81d0f740ea55c1dc79a06e1bbce64b250b188990f"
+  },
+  {
+    "name": "tools-tests",
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tools/tests",
+      "-p",
+      "test_*.py"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T08:53:24.883287+00:00",
+    "duration_seconds": 0.38229882399900816,
+    "returncode": 0,
+    "stdout": "tools-tests.stdout.log",
+    "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stderr": "tools-tests.stderr.log",
+    "stderr_sha256": "5a27ace593e1c038941ba1868ae46867cb3183efdb551a7ba07f6351a0a38ad3"
+  },
+  {
+    "name": "drivers",
+    "argv": [
+      "bash",
+      "tools/check-drivers.sh"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T08:53:25.265859+00:00",
+    "duration_seconds": 0.027617280000413302,
+    "returncode": 0,
+    "stdout": "drivers.stdout.log",
+    "stdout_sha256": "97089ae37d0b7df7f91afe640b1ebf1cdf849e4697a1946f75763b0173c9da7d",
+    "stderr": "drivers.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "docs",
+    "argv": [
+      "bash",
+      "tools/check-docs.sh"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T08:53:25.293913+00:00",
+    "duration_seconds": 0.5073261420002382,
+    "returncode": 0,
+    "stdout": "docs.stdout.log",
+    "stdout_sha256": "0f4c1242c6d6c80ba243b2eb36096e231a5092960a4772b874d0da37aa7cf801",
+    "stderr": "docs.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "deps",
+    "argv": [
+      "bash",
+      "tools/check-deps.sh"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T08:53:25.801600+00:00",
+    "duration_seconds": 0.015732985000795452,
+    "returncode": 0,
+    "stdout": "deps.stdout.log",
+    "stdout_sha256": "64c699c396e34f61f47aee249d1c4357dd63797c35e3c16eed061909a9669a06",
+    "stderr": "deps.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "manual-citations",
+    "argv": [
+      "bash",
+      "tools/check-manual-citations.sh"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T08:53:25.817645+00:00",
+    "duration_seconds": 0.1106338350000442,
+    "returncode": 1,
+    "stdout": "manual-citations.stdout.log",
+    "stdout_sha256": "b943ef39fbb6400caccd53b130d488092cf40ef230b8600b60389ec1d4fa9b97",
+    "stderr": "manual-citations.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+]

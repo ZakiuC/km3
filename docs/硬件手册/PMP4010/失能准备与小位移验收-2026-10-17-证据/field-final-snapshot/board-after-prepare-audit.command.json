@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "scp",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "root@192.168.0.188:/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/pp-session-1/app-audit.jsonl",
+    "/tmp/km3-pp-motion-20261017/board-session-1/after-prepare-audit.jsonl"
+  ],
+  "utc": "2026-10-17T08:31:44.932830+00:00"
+}

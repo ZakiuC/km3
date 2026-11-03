@@ -1,0 +1,23 @@
+{
+  "name": "tools-tests",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tools/tests",
+    "-p",
+    "test_*.py"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T07:36:40.052739+00:00",
+  "duration_seconds": 0.4097198479976214,
+  "returncode": 0,
+  "stdout": "tools-tests.stdout.log",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr": "tools-tests.stderr.log",
+  "stderr_sha256": "3432a73038cc385370a50e32e22984cb61d78f62eb3b7c6b7cfdcc7908977ee7"
+}

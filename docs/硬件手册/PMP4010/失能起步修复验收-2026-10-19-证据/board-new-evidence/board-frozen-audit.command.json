@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=8",
+    "root@192.168.0.188",
+    "python3 -I -B -c 'import pathlib,sys;d=pathlib.Path('\"'\"'/tmp/km3-pp-disabled-start-probe-20261019-rsyhxhdk/probe-session-1/app-audit.jsonl'\"'\"').read_bytes();sys.stdout.buffer.write(d[:d.rfind(b\"\\n\")+1])'"
+  ],
+  "stdin_sha256": null,
+  "stdin_bytes": 0,
+  "utc_start": "2026-10-19T01:09:56.360941+00:00",
+  "utc_end": "2026-10-19T01:09:56.763890+00:00",
+  "rc": 0
+}

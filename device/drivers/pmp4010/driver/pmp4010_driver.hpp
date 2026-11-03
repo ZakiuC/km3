@@ -16,16 +16,17 @@
 #include "km3/result.hpp"
 // 生成物是 OD 常量与置信度的唯一来源，不手写厂家索引或标度。
 #include "od_generated.hpp"
+#include "pmp4010_velocity.hpp"
 
 namespace km3::pmp4010 {
 
 constexpr bool kOdVerified = od::kOdVerified;
 
 // 节点号必须来自调用方加载的配置，0 表示尚未配置，不能作为节点地址。
-// 标度由调用方显式提供；当前没有物理量换算入口。
+// 位置标度由调用方显式提供；速度换算实读设备 608F/6091。
 struct NodeConfig {
     std::uint8_t node_id = 0;  // 必须由调用方显式给出；0 不是合法 CANopen 节点号
-    // 位置与速度标度（计数单位 → 物理量）与零位偏置，不猜测运行参数。
+    // 调用方的位置标度与零位偏置，不用于替代 608F/6091 速度标定。
     double counts_per_unit = 0.0;
     double zero_offset_counts = 0.0;
     // 仅 SetVelocity(Direction) 使用；必须由实机配置给出 +1 或 -1。
@@ -112,9 +113,14 @@ public:
     // ---- 运动（生产 OD 尚未核对，因此当前仍全部被守卫挡下）----
     // 一次性指令语义，**不是周期指令语义**。
     // 周期路径须经过标准层和 PDO 配置验证，本接口不承担周期调度。
+    // PV(3)/CSV(9): caller must first explicitly set a target (zero is valid)
+    // CSV additionally requires live 60B1h == 0 at preparation and each enable step.
+    // in this node/mode/open session. Revalidate live calibration/limits/target,
+    // rewrite+confirm before the sequence, then consume that proof once.
     Status Enable(std::uint8_t node_id);
     Status Disable(std::uint8_t node_id);
     Status MoveTo(std::uint8_t node_id, std::int32_t target_counts);
+    // Nonnegative magnitude in user units/s; direction uses configured sign.
     Status SetVelocity(std::uint8_t node_id, std::int32_t velocity_counts, Direction direction);
     Status Stop(std::uint8_t node_id);
     Status Home(std::uint8_t node_id);
@@ -143,8 +149,13 @@ public:
     Result<std::int8_t> GetOperationMode(std::uint8_t node_id);
     Status SetTargetPosition(std::uint8_t node_id, std::int32_t position);
     Result<std::int32_t> GetActualPosition(std::uint8_t node_id);
-    // EInvalidConfig until the manual-defined user units/s -> rpm conversion is wired.
+    // Signed user units/s, preserving the existing API contract. Each write
+    // reads all four 608F/6091 values and both 607F/6080 limits, then confirms
+    // 60FF readback. May preconfigure while disabled; never enables operation.
     Status SetTargetVelocity(std::uint8_t node_id, std::int32_t velocity);
+    // Explicit motor-rpm API. E06 gives only the forward equation; reverse
+    // conversion is algebraic. Fractional/out-of-Int32 60FF values are rejected.
+    Status SetTargetVelocityRpm(std::uint8_t node_id, std::int32_t motor_rpm);
     Result<std::int32_t> GetActualVelocity(std::uint8_t node_id);
     std::uint32_t LastSdoAbortCode() const noexcept { return preserved_abort_code_ ? preserved_abort_code_ : sdo_.LastAbortCode(); }
 
@@ -169,15 +180,31 @@ private:
     std::uint64_t Deadline() const noexcept;
     Result<SdoBuffer> ReadRaw(std::uint8_t node, std::uint16_t index, std::uint8_t sub, std::uint64_t deadline);
     Result<std::uint32_t> ReadValue(std::uint8_t node, const char* key, std::uint64_t deadline);
-    Status WriteValue(std::uint8_t node, const char* key, std::uint32_t value, std::uint64_t deadline);
+    Status WriteValue(std::uint8_t node, const char* key, std::uint32_t value,
+        std::uint64_t deadline, bool preserve_preparation = false, bool* download_attempted = nullptr,
+        std::int8_t expected_mode = 0);
     Status WaitState(std::uint8_t node, std::uint16_t expected, std::uint64_t deadline);
-    Status Control(std::uint8_t node, std::uint16_t value, std::uint64_t deadline);
+    Status Control(std::uint8_t node, std::uint16_t value, std::uint64_t deadline,
+        bool preserve_preparation = false, bool* download_attempted = nullptr, std::int8_t expected_mode = 0);
     Status Reset(std::uint8_t node, std::uint64_t deadline);
     void CleanupStop(std::uint8_t node);
     Status EnableSequence(std::uint8_t node, std::uint64_t deadline);
     Status RequireCia402(std::uint8_t node, std::uint64_t deadline);
     Status RequirePositionInRange(std::uint8_t node, std::int32_t value, std::uint64_t deadline);
     Status RequireEnabled(std::uint8_t node, std::uint64_t deadline);
+    Result<VelocityCalibration> ReadVelocityCalibration(std::uint8_t node, std::uint64_t deadline);
+    Status WriteTargetVelocity(std::uint8_t node, std::int32_t value, std::uint64_t deadline);
+    Status WriteCalibratedTargetVelocity(std::uint8_t node, std::int32_t value,
+        const VelocityCalibration& calibration, std::uint64_t deadline, std::int8_t expected_mode = 0);
+    void InvalidateVelocityPreparation(std::uint8_t node) noexcept;
+    Status PrepareVelocityEnable(std::uint8_t node, std::int8_t mode, std::uint64_t deadline);
+    Status RequireCsvZeroOffset(std::uint8_t node, std::int8_t mode, std::uint64_t deadline);
+    struct VelocityPreparation {
+        bool valid = false;
+        std::int8_t mode = 0;
+        std::int32_t target = 0;
+        VelocityCalibration calibration{};
+    };
 
     ICanDevice& device_;
     DriverConfig config_;
@@ -185,6 +212,9 @@ private:
     bool open_ = false;
     DriverStats stats_{};
     std::uint32_t preserved_abort_code_ = 0;
+    // One-shot proof of an explicit, readback-confirmed target in this open
+    // session. Never authorize enable from an arbitrary residual 60FF value.
+    std::array<VelocityPreparation, 128> velocity_preparations_{};
 };
 
 }  // namespace km3::pmp4010

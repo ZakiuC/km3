@@ -1,0 +1,17 @@
+[
+  {
+    "source": "docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u624b\u52a8\u4f4d\u7f6e\u63a7\u5236-2026-10-19-\u8bc1\u636e/local-acceptance/attempt-1-failed/model.stderr.log",
+    "retained": "first-acceptance-model.stderr.log",
+    "sha256": "312aa8231a9f353295066927a9d3d5ac4e3a7885d866efbc0abb09a8b623729c"
+  },
+  {
+    "source": "docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u624b\u52a8\u4f4d\u7f6e\u63a7\u5236-2026-10-19-\u8bc1\u636e/local-acceptance/attempt-1-failed/model.stdout.log",
+    "retained": "first-acceptance-model.stdout.log",
+    "sha256": "713bc63e94e322cacfb0128f0999a05b88136cfb424d3909a4b0955af4057e55"
+  },
+  {
+    "source": "docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u624b\u52a8\u4f4d\u7f6e\u63a7\u5236-2026-10-19-\u8bc1\u636e/local-acceptance/attempt-1-failed/model.command.json",
+    "retained": "first-acceptance-model.command.json",
+    "sha256": "2ae87969fb8d168e3f5eca5e2e148b3241c04cac6e178226b99efc9edd6cd1a8"
+  }
+]

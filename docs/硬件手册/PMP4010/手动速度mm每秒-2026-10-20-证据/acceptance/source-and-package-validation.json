@@ -1,0 +1,36 @@
+{
+  "time": "2026-10-20T11:06:36.885387+08:00",
+  "source_files_per_snapshot": 47,
+  "frozen_source_current": true,
+  "all_command_source_snapshots_identical": true,
+  "records": [
+    "acceptance/build-package.json",
+    "acceptance/gate-citations.json",
+    "acceptance/gate-deps.json",
+    "acceptance/gate-docs.json",
+    "acceptance/gate-drivers.json",
+    "acceptance/generator-access.json",
+    "acceptance/generator-canopen.json",
+    "acceptance/generator-od.json",
+    "acceptance/python-hwtui.json",
+    "acceptance/python-tools.json",
+    "package/host-load-smoke.json",
+    "package/launcher-syntax.json",
+    "package/roundtrip-smoke.json",
+    "package/source-head.json",
+    "deployment/arm-load-smoke.json",
+    "deployment/direct-help.json",
+    "deployment/install-and-manifest.json",
+    "deployment/launcher-syntax.json",
+    "deployment/preflight.json",
+    "deployment/switch-aliases.json",
+    "deployment/upload.json"
+  ],
+  "package_delta": [
+    "README-手动入口.md",
+    "payload-manifest.json",
+    "drivers/pmp4010/pmp4010.py",
+    "drivers/pmp4010/pmp4010_simple.py"
+  ],
+  "all_other_payload_bytes_identical": true
+}

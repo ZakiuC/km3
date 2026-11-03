@@ -1,0 +1,20 @@
+{
+  "mock_case": "uncertain",
+  "runner_rc": 1,
+  "assertions": "PASS",
+  "controlwords": [],
+  "writes": [
+    [
+      24705,
+      0,
+      100
+    ],
+    [
+      24698,
+      0,
+      4294965862
+    ]
+  ],
+  "read_phase_writes": [],
+  "hardware_acceptance": false
+}

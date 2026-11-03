@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pp-motion-20261017/mock_app.py",
+    "--output-dir",
+    "/tmp/km3-pp-motion-20261017/rehearsal-1"
+  ],
+  "cwd": "/tmp/km3-pp-motion-20261017/rehearsal-1",
+  "environment": {
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "TERM": "xterm",
+    "ESCDELAY": "25"
+  },
+  "mode": "local_mock_only",
+  "utc": "2026-10-17T08:19:51.082062+00:00",
+  "monotonic": 4081063.144373051
+}

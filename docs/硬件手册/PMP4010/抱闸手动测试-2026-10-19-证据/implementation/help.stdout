@@ -1,0 +1,13 @@
+usage: pmp4010_brake.py [-h] [--node NODE] [--motion-log MOTION_LOG]
+                        [--rows ROWS] [--cols COLS] [--ascii]
+
+PMP4010抱闸手动听声TUI：1/e使能保持须Enter确认，2/d立即失能。使能会产生保持力矩；机械抱闸需听声确认。
+
+options:
+  -h, --help            show this help message and exit
+  --node NODE           单节点1..127，默认1
+  --motion-log MOTION_LOG
+                        新建JSONL日志路径，动作必须记录，不覆盖已有文件
+  --rows ROWS           终端行数
+  --cols COLS           终端列数
+  --ascii               使用ASCII边框

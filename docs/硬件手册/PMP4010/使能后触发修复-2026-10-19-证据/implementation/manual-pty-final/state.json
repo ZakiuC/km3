@@ -1,0 +1,1 @@
+{"view": "detail", "action": "disable", "busy": false, "rt_ack": true, "od_ack": true, "phases": {}, "token": null, "settings": {"soft_min": -2000, "soft_max": 500, "max_displacement": 364}, "controls": [262, 263, 295, 311, 295, 303, 47, 63, 47, 2, 0, 6], "position": -1420, "recovery": "退出失能确认=True；机械停止与抱闸仍须独立确认", "progress": "动作已完成；见结果读回", "blocked": false}

@@ -1,0 +1,325 @@
+{
+  "status": "LOCAL_PROPOSAL_NOT_AUTHORIZED_FOR_CAN",
+  "manual_path": "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md",
+  "manual_sha256": "4aeaa29434780c7efa42921530ef306fc82b84efdfc838e350ff9cea200f2653",
+  "root_live": "/var/tmp/km3-pmp4010-alarm-20261019-735538978204/payload",
+  "manifest_sha256": "5072e207253957356b28f03d989efa3b798efa85b240e196060d6eb40495e40b",
+  "archive_sha256": "7355389782042fdc3baa7d1ddc114cc2e11df14fa304293f8b1683037bde1d72",
+  "request_timeout_seconds": 0.25,
+  "total_live_socket_seconds": 10,
+  "final_delay_seconds": 0.5,
+  "maximum_requests": 22,
+  "maximum_native_sockets": 1,
+  "device_writes": 0,
+  "retries": 0,
+  "reads": [
+    {
+      "ordinal": 1,
+      "object": "6041:00",
+      "type": "U16",
+      "label": "disabled_guard",
+      "manual_lines": [
+        4618
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "4041600000000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "4B"
+    },
+    {
+      "ordinal": 2,
+      "object": "2002:01",
+      "type": "U16",
+      "label": "control_mode",
+      "manual_lines": [
+        4192
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "4002200100000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "4B"
+    },
+    {
+      "ordinal": 3,
+      "object": "603F:00",
+      "type": "U16",
+      "label": "error_before",
+      "manual_lines": [
+        4616
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "403f600000000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "4B"
+    },
+    {
+      "ordinal": 4,
+      "object": "1001:00",
+      "type": "U8",
+      "label": "error_register",
+      "manual_lines": [
+        4032
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "4001100000000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "4F"
+    },
+    {
+      "ordinal": 5,
+      "object": "200E:02",
+      "type": "I32",
+      "label": "stall_reaction_raw",
+      "manual_lines": [
+        4397
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "400e200200000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "43"
+    },
+    {
+      "ordinal": 6,
+      "object": "2000:09",
+      "type": "U16",
+      "label": "rated_current_raw",
+      "manual_lines": [
+        4153
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "4000200900000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "4B"
+    },
+    {
+      "ordinal": 7,
+      "object": "2000:0A",
+      "type": "U16",
+      "label": "max_current_raw",
+      "manual_lines": [
+        4154
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "4000200a00000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "4B"
+    },
+    {
+      "ordinal": 8,
+      "object": "2000:0B",
+      "type": "U16",
+      "label": "max_current_duration_raw",
+      "manual_lines": [
+        4155
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "4000200b00000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "4B"
+    },
+    {
+      "ordinal": 9,
+      "object": "6072:00",
+      "type": "U16",
+      "label": "max_torque_raw",
+      "manual_lines": [
+        4652
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "4072600000000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "4B"
+    },
+    {
+      "ordinal": 10,
+      "object": "6073:00",
+      "type": "U16",
+      "label": "current_limit_raw_unit_unresolved",
+      "manual_lines": [
+        4653
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "4073600000000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "4B"
+    },
+    {
+      "ordinal": 11,
+      "object": "2007:0A",
+      "type": "U16",
+      "label": "positive_torque_limit_raw",
+      "manual_lines": [
+        4284
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "4007200a00000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "4B"
+    },
+    {
+      "ordinal": 12,
+      "object": "2007:0B",
+      "type": "U16",
+      "label": "negative_torque_limit_raw",
+      "manual_lines": [
+        4285
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "4007200b00000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "4B"
+    },
+    {
+      "ordinal": 13,
+      "object": "2002:04",
+      "type": "U16",
+      "label": "brake_pwm_raw",
+      "manual_lines": [
+        4193
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "4002200400000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "4B"
+    },
+    {
+      "ordinal": 14,
+      "object": "2004:05",
+      "type": "U16",
+      "label": "do3_function_raw",
+      "manual_lines": [
+        4238
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "4004200500000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "4B"
+    },
+    {
+      "ordinal": 15,
+      "object": "6086:00",
+      "type": "I16",
+      "label": "profile_ramp_type",
+      "manual_lines": [
+        4671
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "4086600000000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "4B"
+    },
+    {
+      "ordinal": 16,
+      "object": "60A4:01",
+      "type": "U32",
+      "label": "profile_acceleration_jerk_raw",
+      "manual_lines": [
+        4683
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "40a4600100000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "43"
+    },
+    {
+      "ordinal": 17,
+      "object": "60A4:02",
+      "type": "U32",
+      "label": "profile_deceleration_jerk_raw",
+      "manual_lines": [
+        4684
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "40a4600200000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "43"
+    },
+    {
+      "ordinal": 18,
+      "object": "1003:00",
+      "type": "U8",
+      "label": "history_count",
+      "manual_lines": [
+        4033
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "4003100000000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "4F"
+    },
+    {
+      "ordinal": 19,
+      "object": "1003:01",
+      "type": "U32",
+      "label": "history_slot_01_raw",
+      "manual_lines": [
+        4034
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "4003100100000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "43"
+    },
+    {
+      "ordinal": 20,
+      "object": "1003:02",
+      "type": "U32",
+      "label": "history_slot_02_raw",
+      "manual_lines": [
+        4035
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "4003100200000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "43"
+    },
+    {
+      "ordinal": 21,
+      "object": "603F:00",
+      "type": "U16",
+      "label": "error_after",
+      "manual_lines": [
+        4616
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "403f600000000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "4B"
+    },
+    {
+      "ordinal": 22,
+      "object": "6041:00",
+      "type": "U16",
+      "label": "status_after",
+      "manual_lines": [
+        4618
+      ],
+      "tx_cob_id": "601",
+      "tx_data_hex": "4041600000000000",
+      "expected_rx_cob_id": "581",
+      "expected_rx_command": "4B"
+    }
+  ],
+  "notes": [
+    "6073 raw value only; manual units conflict.",
+    "1003 slots are not labelled newest or oldest.",
+    "Any abort, timeout, malformed response or unexpected object/ID stops immediately.",
+    "First and final 6041 must satisfy (value & 0x6F) == 0x40.",
+    "finally only closes socket.",
+    "No 6040,1003,603F,200E or brake/current/limit writes."
+  ],
+  "exact_local_plan_argv": [
+    "/usr/bin/python3",
+    "-I",
+    "-B",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/readonly-probe/readonly_once.py"
+  ],
+  "exact_local_verify_argv": [
+    "/usr/bin/python3",
+    "-I",
+    "-B",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/readonly-probe/verify_mock.py"
+  ],
+  "proposed_live_command": "ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectionAttempts=1 -o ConnectTimeout=5 root@192.168.0.188 'python3 -I -B - --execute-readonly-once' < readonly_once.py",
+  "live_execution_performed": false
+}

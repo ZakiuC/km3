@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py", line 339, in <module>
+    case('normal_target_reached_shutdown_unconfirmed_is_failure',hook=drop_normal_shutdown,
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py", line 214, in case
+    if verify: verify(node,bus,ctl,record)
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py", line 333, in shutdown_unconfirmed
+    assert record['result']['operation_enabled_cleared'] is False
+AssertionError

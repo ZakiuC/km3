@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B - /var/tmp/km3-pmp4010-alarm-20261019-735538978204"
+  ],
+  "stdin_script": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/passive/passive.remote.py",
+  "stdin_sha256": "754d31f4d7aa83fe62bd6c2d977177fb5202262f9134ffed3717f6fc996bad97",
+  "start_utc": "2026-10-19T09:21:41.011422+00:00",
+  "automatic_retries": 0,
+  "end_utc": "2026-10-19T09:21:41.422656+00:00",
+  "rc": 0
+}

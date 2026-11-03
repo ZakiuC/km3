@@ -1,0 +1,37 @@
+{
+  "phase": "PASSIVE_COMPLETE_DIAGNOSTIC_AWAITING_REVIEW",
+  "scope": "can1 node1 upload-only diagnostic only after parent approval and fresh approved source staging",
+  "passive_command": "passive-01.command.json",
+  "passive_original_script": "passive-01.script.py",
+  "passive_rc": 0,
+  "payload_missing": true,
+  "diagnostic_script": "diagnose.py",
+  "diagnostic_guard_test": "guard-check.json",
+  "diagnostic_executed": false,
+  "real_CAN_opens": 0,
+  "real_CAN_sends": 0,
+  "local_PTY": {
+    "state": "framework copied; final protocol semantics not frozen",
+    "runner": "pty_runner.py",
+    "mock_app": "not yet created",
+    "require_original_Form": true,
+    "require_frozen_review_parent_pause": true,
+    "require_exact_token_then_F5": true,
+    "required_differences_from_old_fixture": [
+      "607A alignment must not synthesize bit10",
+      "607A alignment must not update internal6062",
+      "pretrigger internal6062 and bit10 must persist",
+      "old trajectory resume hazard must be modeled for final enable sequence"
+    ],
+    "allow_direct_execute": false
+  },
+  "route": {
+    "requested_role": "laborer",
+    "requested_model": "gpt-6.1-sol",
+    "requested_effort": "high",
+    "runtime_metadata": "unknown",
+    "last_token_usage_input_tokens": "unknown",
+    "estimate": "<23K at task dispatch per parent; not measured"
+  },
+  "cleanup": "retained evidence intentionally; no board files created; no business source edited; no commit"
+}

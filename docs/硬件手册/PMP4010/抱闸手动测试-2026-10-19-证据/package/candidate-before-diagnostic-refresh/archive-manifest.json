@@ -1,0 +1,172 @@
+{
+  "archive": "pmp4010-brake-offline-payload.tar.gz",
+  "sha256": "fef9986a7d1ec92dfad843f82de673f5580ca7bf5476b0442fe1d825416dcfc5",
+  "members": [
+    {
+      "path": "hwtui/canopen.py",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf",
+      "size": 46663
+    },
+    {
+      "path": "hwtui/canopen_consts.py",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c",
+      "size": 35789
+    },
+    {
+      "path": "hwtui/canopen_wire.py",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885",
+      "size": 3029
+    },
+    {
+      "path": "hwtui/canbus.py",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300",
+      "size": 17147
+    },
+    {
+      "path": "hwtui/discover.py",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "1a2efb5efd8a6b7c96eec36dd926605cf2097e6bdcabb3865fc2c99415708ad3",
+      "size": 15360
+    },
+    {
+      "path": "hwtui/mockbus.py",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "8fe9da8ea4e4d6f37e65820d54256432bc2ddc01649997e217c51428d284e044",
+      "size": 33545
+    },
+    {
+      "path": "hwtui/tui.py",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb",
+      "size": 58467
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010.py",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "009091e3b1de3f9c9eda51fb22495d9e84296a85819b42adbd5d58825976cc05",
+      "size": 122499
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_bench.py",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "c48c798694d1dc4122ea2b3844deeae4900af6d0a42e3329495574d855eea7e5",
+      "size": 64793
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_params.py",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec",
+      "size": 15268
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_position.py",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "fe8299deb3fe52dc3f8d2cfd91383129274579e93b4a0a1ac9ffd09eab2b7668",
+      "size": 34872
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_tui.py",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "115885f16bad2580428ceb52ac1f1311d4f62cc3a257ec7c703da77c402fb0e7",
+      "size": 33165
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_velocity.py",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96",
+      "size": 6146
+    },
+    {
+      "path": "drivers/pmp4010/od.json",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e",
+      "size": 135320
+    },
+    {
+      "path": "drivers/pmp4010/velocity_vectors.json",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644",
+      "size": 9396
+    },
+    {
+      "path": "drivers/pmp4010/libpmp4010_velocity.so.1.0.0",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+      "size": 18560
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_manual.py",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "ca37ecb04116d8a08b279f1ea9964c9374dda411504c4e91479bc5bf09c110b9",
+      "size": 82233
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_simple.py",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "d1d277431b014fcc888dc16fa994a8b16f2d7e060f384f55c1db431317a166f5",
+      "size": 44960
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_faults.py",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "11841fa92269d95af48f0e24817b469915731e9f09e72fd4b719fe4d1792b148",
+      "size": 7842
+    },
+    {
+      "path": "drivers/pmp4010/libpmp4010_velocity.so.1",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "symlink": "libpmp4010_velocity.so.1.0.0"
+    },
+    {
+      "path": "drivers/pmp4010/libpmp4010_velocity.so",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "symlink": "libpmp4010_velocity.so.1"
+    },
+    {
+      "path": "load_smoke.py",
+      "provenance": "baseline loader; only added pmp4010_brake import under same I/O audit",
+      "baseline_sha256": "00abf0d120248da12aa0d6d3418b6b912cdb0e3fabe55dc593c4297175c1a6f5",
+      "sha256": "c4cd595e5776601bbcc3af68f81203c64d2d73d721473fbbcfbfebde05379e10",
+      "size": 7157
+    },
+    {
+      "path": "run-manual.sh",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "56641a72621da4fbc831e047437fe1a668dbf9de60380d0334a2234a1f40d1c1",
+      "size": 2215
+    },
+    {
+      "path": "README-手动入口.md",
+      "provenance": "unchanged trusted manual-reset baseline",
+      "sha256": "29a552e334c6d718912175402ab2525498446942e7479303fb628f66c3223cb1",
+      "size": 1951
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_brake.py",
+      "sha256": "9f66f210e9e97ef9bc611e8d07c821a52d3417c733ba713623297e3b3098c2b7",
+      "size": 12398,
+      "provenance": "device/drivers/pmp4010/tools/pmp4010_brake.py"
+    },
+    {
+      "path": "run-brake.sh",
+      "sha256": "fadc48a16d33cc0e7bf898468a6cc37a957e92d401816fb8ca6c1db44934a603",
+      "size": 746,
+      "provenance": "docs/硬件手册/PMP4010/抱闸手动测试-2026-10-19-证据/package/run-brake.sh"
+    },
+    {
+      "path": "README-抱闸测试.md",
+      "sha256": "f94d78a7c660a6bfe40048b0227f2533175801557dc3fc6ba1e3c8524bd42533",
+      "size": 1685,
+      "provenance": "docs/硬件手册/PMP4010/抱闸手动测试-2026-10-19-证据/package/README-抱闸测试.md"
+    },
+    {
+      "path": "payload-manifest.json",
+      "sha256": "1622a21cc3417af1e38af6ab28bb60a8a8e8e538b54ee52c8bc24234b6388270",
+      "size": 7797
+    }
+  ]
+}

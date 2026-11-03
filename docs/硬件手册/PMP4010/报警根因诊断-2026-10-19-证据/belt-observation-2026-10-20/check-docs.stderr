@@ -1,0 +1,1 @@
+CAPTURE LIMITATION: stderr was not separately captured by exec_command. The unmodified combined stdout/stderr tool output is in check-docs.stdout. No claim of empty stderr is made.

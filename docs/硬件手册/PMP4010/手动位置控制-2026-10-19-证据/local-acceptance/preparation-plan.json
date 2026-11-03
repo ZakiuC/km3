@@ -1,0 +1,25 @@
+{
+  "status": "waiting_final_freeze",
+  "test_or_package_executed": false,
+  "writable_scopes": [
+    "手动位置控制-2026-10-19.md",
+    "手动位置控制-2026-10-19-证据/local-acceptance",
+    "手动位置控制-2026-10-19-证据/package"
+  ],
+  "requested_role": "light_worker",
+  "requested_model": "GPT-6.1 Sol",
+  "requested_effort": "medium",
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "input_estimate_only": "below20K initial concise packet, not measured",
+  "expected_python_baseline": [
+    387,
+    217,
+    8
+  ],
+  "native_77_hash_reuse": true,
+  "cpp_rebuild": false,
+  "arm_library_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+  "pending": "final source freeze and linear PTY argv"
+}

@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B - --execute-readonly-once"
+  ],
+  "stdin_script": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/readonly-probe/v2/readonly_once.py",
+  "stdin_sha256": "8706cfa703015c589ebaec9f50acb354d20b527ddfb15a090b2affa0fc184891",
+  "start_utc": "2026-10-19T09:21:40.123816+00:00",
+  "automatic_retries": 0,
+  "end_utc": "2026-10-19T09:21:41.010926+00:00",
+  "rc": 0
+}

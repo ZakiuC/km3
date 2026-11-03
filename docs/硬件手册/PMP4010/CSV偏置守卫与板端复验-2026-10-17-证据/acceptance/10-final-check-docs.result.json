@@ -1,0 +1,11 @@
+{
+  "name": "10-final-check-docs",
+  "argv": [
+    "bash",
+    "tools/check-docs.sh"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 0.44324899883940816,
+  "stdout": "/tmp/km3-csv-guard-final-20261017/10-final-check-docs.stdout.log",
+  "stderr": "/tmp/km3-csv-guard-final-20261017/10-final-check-docs.stderr.log"
+}

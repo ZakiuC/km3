@@ -1,0 +1,36 @@
+{
+  "source": "/tmp/pmp4010-transition-frozen-sha256.txt",
+  "all_match": true,
+  "files": [
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_manual.py",
+      "expected_sha256": "bee76eaeed270e6d66d1b2d4791e6c5778305b246136ec4e90cd9788bf8642b9",
+      "current_sha256": "bee76eaeed270e6d66d1b2d4791e6c5778305b246136ec4e90cd9788bf8642b9",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_simple.py",
+      "expected_sha256": "59c9a134b3ee080e73c99a46e2d835c06136132cb7a89bcea3272bdf63bba3a1",
+      "current_sha256": "59c9a134b3ee080e73c99a46e2d835c06136132cb7a89bcea3272bdf63bba3a1",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_manual.py",
+      "expected_sha256": "2608c8187da15076a9bf36a82f388be0c2977a30107db98d2529f136e3bebf1c",
+      "current_sha256": "2608c8187da15076a9bf36a82f388be0c2977a30107db98d2529f136e3bebf1c",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_simple.py",
+      "expected_sha256": "6480477172c761c6f54762fd688dbced19d3adff0c91b8ffb4c612200a20ebcb",
+      "current_sha256": "6480477172c761c6f54762fd688dbced19d3adff0c91b8ffb4c612200a20ebcb",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_simple_pty.py",
+      "expected_sha256": "2f3a46306a5164cef043dd225c2be2fc08b68487ef1f82cf2ee11834e9b8bb98",
+      "current_sha256": "2f3a46306a5164cef043dd225c2be2fc08b68487ef1f82cf2ee11834e9b8bb98",
+      "match": true
+    }
+  ]
+}

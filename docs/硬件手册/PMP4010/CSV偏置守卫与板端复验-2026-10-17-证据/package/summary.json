@@ -1,0 +1,27 @@
+{
+  "archive": "/tmp/km3-pmp4010-board-20261017-csvguard-final-package/pmp4010-board-payload.tar.gz",
+  "archive_bytes": 182701,
+  "archive_sha256": "ab853ce5565e55cc76c9782617f826a60c547d05339dc5c252f16e85eb1c3c39",
+  "payload_regular_files": 19,
+  "payload_symlinks": 2,
+  "payload_regular_bytes": 608648,
+  "arm_library_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+  "checks": {
+    "host_load_smoke_exitcode": 0,
+    "native_vectors": 33,
+    "python_vectors": 33,
+    "native_int32_vectors": 14,
+    "forbidden_io_attempts": 0,
+    "arm_execution": "not run",
+    "board_compatibility": "pending",
+    "source_snapshot_stable_during_capture": true,
+    "archive_roundtrip_host_smoke_exitcode": 0,
+    "tampered_payload_exitcode": 1,
+    "tamper_refused_before_import_or_library_load": true,
+    "archive_safe_relative_members": 21,
+    "final_comment_freeze_compare_exitcode": 0,
+    "comment_only_AST_equal": true,
+    "comment_only_noncomment_tokens_equal": true
+  },
+  "pmp4010_python_sha256": "2fca0b103544c29f78a79b9e349ec841db0e39abf8f39d9d910e57e47b1e0a1a"
+}

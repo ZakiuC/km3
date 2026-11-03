@@ -1,0 +1,7 @@
+{
+  "argv": [
+    "sha256sum",
+    "/home/zakiu/km3/build-host/libpmp4010_velocity.so.1.0.0"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

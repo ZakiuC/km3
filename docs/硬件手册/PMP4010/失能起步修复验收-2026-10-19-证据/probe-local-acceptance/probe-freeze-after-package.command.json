@@ -1,0 +1,19 @@
+{
+  "name": "probe-freeze-after-package",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pp-disabled-start-20261019-acceptance/freeze_check.py",
+    "probe-freeze-after-package-verification"
+  ],
+  "shell_command": "python3 -I -B /tmp/km3-pp-disabled-start-20261019-acceptance/freeze_check.py probe-freeze-after-package-verification",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T01:05:26.726472+00:00",
+  "duration_seconds": 0.016183704137802124,
+  "returncode": 0,
+  "stdout": "probe-freeze-after-package.stdout.log",
+  "stderr": "probe-freeze-after-package.stderr.log",
+  "stdout_sha256": "b1545ebb3afe07ea78aa4a7645399f879dd9d1cc48f64ceaccb0e753f7847882",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

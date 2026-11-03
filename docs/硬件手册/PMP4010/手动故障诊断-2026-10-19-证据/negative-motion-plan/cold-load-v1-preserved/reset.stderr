@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/var/tmp/km3-pmp4010-diag-20261019-0218ab4207eb/reset-only-plan/reset_only_once.py", line 167, in <module>
+    raise SystemExit(main())
+  File "/var/tmp/km3-pmp4010-diag-20261019-0218ab4207eb/reset-only-plan/reset_only_once.py", line 154, in main
+    tool,controller_type=load_pinned()
+  File "/var/tmp/km3-pmp4010-diag-20261019-0218ab4207eb/reset-only-plan/pinned_payload.py", line 53, in load_pinned
+    if not Path(sys.modules[name].__file__).resolve().is_relative_to(ROOT):
+KeyError: 'canopen'

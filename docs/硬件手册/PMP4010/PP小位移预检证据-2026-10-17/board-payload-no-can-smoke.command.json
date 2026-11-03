@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=8",
+    "root@192.168.0.188",
+    "python3 -I -B /tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/load_smoke.py"
+  ],
+  "utc": "2026-10-17T08:05:16.040007+00:00"
+}

@@ -1,0 +1,269 @@
+--- baseline/pmp4010_manual.py
++++ current/pmp4010_manual.py
+@@ -6,6 +6,7 @@
+ reason to silently rebase a target or resume the old automatic transaction.
+ """
+ import copy
++import sys
+ import time
+ import uuid
+ from pathlib import Path
+@@ -32,6 +33,10 @@
+         self.proofs = {}
+         self._manual_review = None
+         self.failure_diagnostics = {}
++        self.cleanup_diagnostics = {}
++        self.diagnostic_paths = {}
++        self._diagnostic_run = uuid.uuid4().hex
++        self._snapshot_serial = 0
+ 
+     def _configuration(self, out):
+         if self.shutdown_results is not None:
+@@ -116,11 +121,15 @@
+             raise
+ 
+     def _snapshot(self, session, envelope=None, states=None, observer=None):
++        self._snapshot_serial += 1
++        snapshot_serial = self._snapshot_serial
+         proof = self.proofs.get(session.client.node_id)
++        samples = {}
+         if envelope is None and proof:
+             envelope = (proof['args'], proof['start'])
+         def observed(key):
+             value = self._read(session.client, key, session)
++            samples[key] = value
+             if observer is not None:
+                 observer(key, value)
+             p = self.tool._canopen
+@@ -133,18 +142,104 @@
+                     raise ValueError('关键状态样本异常，禁止隐含使能；6041=0x{:04X}，允许状态={}'.format(
+                         value, ','.join('0x{:04X}'.format(s) for s in states)))
+             if key == 'error_code_object' and value:
+-                raise ValueError('603Fh故障码非零')
++                raise ValueError('603Fh故障码非零：0x{:04X}（最后错误低16bit，不能据此判断当前Fault或根因）'.format(value))
+             if key == 'actual_position' and envelope:
+                 position.check_envelope(envelope[0], envelope[1], value)
+                 if proof and not proof['expected']['software_position_limit'] <= value <= proof['expected']['software_position_limit_max']:
+                     raise ValueError('实际位置越过设备607Dh行程')
+             return value
+-        values = {k: observed(k) for k in TELEMETRY}
+-        cal = position.calibration([self._read(session.client, k, session) for k in position.CALIBRATION])
+-        # Bracket the slower protected-parameter reads with the latest state.
+-        for key in ('statusword', 'actual_position', 'actual_velocity'):
+-            values[key] = observed(key)
++        try:
++            values = {k: observed(k) for k in TELEMETRY}
++            cal = position.calibration([self._read(session.client, k, session) for k in position.CALIBRATION])
++            # Bracket the slower protected-parameter reads with the latest state.
++            for key in ('statusword', 'actual_position', 'actual_velocity'):
++                values[key] = observed(key)
++        except BaseException as exc:
++            # Only values already returned in this attempt: never complete a
++            # failed snapshot with more reads or prior successful telemetry.
++            raw = samples.get('statusword')
++            p = self.tool._canopen
++            state = None if raw is None else (p.CIA402_DISABLED if raw & p.CIA402_DISABLED_MASK == p.CIA402_DISABLED else raw & p.CIA402_MASK)
++            exc.manual_partial_diagnostic = dict(node=session.client.node_id,
++                snapshot_serial=snapshot_serial,
++                phase='持续保护/刷新（目标阶段：{}）'.format(proof['phase']) if proof else '初始/动作前采样',
++                snapshot_complete=False, point='partial', raw_statusword=raw, state=state,
++                decoded_state={p.CIA402_DISABLED:'Switch on disabled',p.CIA402_READY:'Ready to switch on',
++                    p.CIA402_SWITCHED_ON:'Switched on',p.CIA402_ENABLED:'Operation enabled',
++                    p.CIA402_QUICK_STOP:'Quick stop active'}.get(state,'Other' if raw is not None else None),
++                controlword=samples.get('controlword'), controlword_source='本轮实读' if 'controlword' in samples else '未知（本轮尚未读到6040h）',
++                actual_position=samples.get('actual_position'), actual_velocity=samples.get('actual_velocity'),
++                fault_code=samples.get('error_code_object'),
++                fault_code_hex=None if samples.get('error_code_object') is None else '0x{:04X}'.format(samples['error_code_object']),
++                observed_controlword=samples.get('controlword'), observed_fields=list(samples), reason=str(exc))
++            raise
+         return values, cal
++
++    def _remember_partial(self, node, exc, context=None):
++        partial = getattr(exc, 'manual_partial_diagnostic', {})
++        reason = str(exc) or ('等待期间已取消' if isinstance(exc,KeyboardInterrupt) else type(exc).__name__)
++        if node not in self.failure_diagnostics:
++            # This attempt's actual fields (including unknown/None) take
++            # precedence over a previous successful transaction sample.
++            first = copy.deepcopy(partial or context or {})
++            if partial and context:
++                word = context.get('controlword')
++                first['expected_controlword'] = word
++                if context.get('snapshot_serial') == partial['snapshot_serial']:
++                    for key in ('phase','allowed_states','expected_state','point'):
++                        if key in context:
++                            first[key] = copy.deepcopy(context[key])
++                    # Preserve the existing phase-CW field and make its
++                    # planned provenance explicit beside observed_controlword.
++                    first['controlword'] = word
++                    first['controlword_source'] = '阶段控制字（非本轮6040h实读）'
++                else:
++                    first['previous_phase'] = context.get('phase')
++                    first['expected_controlword_source'] = '前一阶段上下文，非本轮实读'
++            first['reason'] = reason
++            self.failure_diagnostics[node] = first
++        first = self.failure_diagnostics[node]
++        if first.get('controlword') is not None and 'controlword_source' not in first:
++            first['controlword_source'] = '阶段控制字（非本轮6040h实读）'
++            first['expected_controlword'] = first['controlword']
++        # A phase observer's first failure has richer transaction evidence.
++        # Fill missing data only; cleanup cannot overwrite that first sample.
++        if first.get('snapshot_serial') == partial.get('snapshot_serial'):
++            for key, value in partial.items():
++                if first.get(key) is None:
++                    first[key] = copy.deepcopy(value)
++        first.setdefault('node', node)
++        first.setdefault('reason', reason)
++        first.setdefault('controlword_source', '阶段控制字（非本轮6040h实读）' if first.get('controlword') is not None else '未知')
++        return first
++
++    def _persist_failure(self, node, first, cleanup, out):
++        if node in self.diagnostic_paths:
++            return
++        base = getattr(self.args, 'motion_log', None)
++        if not base:
++            out.bad('诊断日志缺失：未指定--motion-log；首次失败仍保留在本会话内存')
++            return
++        path = Path(base)
++        path = path.with_name(path.stem + '-diagnostics-' + self._diagnostic_run + '-node-' + str(node) + '.jsonl')
++        self.diagnostic_paths[node] = str(path)
++        journal = None
++        try:
++            journal = position.Journal(str(path), 'manual_diagnostics', dict(node=node,
++                motion_log_base=str(base)), observer=None)
++            journal.event('manual_first_failure', first_failure=first)
++            journal.event('manual_cleanup', first_failure=first, **cleanup)
++            journal.close()
++            journal = None
++            out.info('故障诊断日志：' + str(path))
++        except BaseException as log_exc:
++            out.bad('诊断日志缺失或不完整：{}；{}；原始失败：{}'.format(path,log_exc,first.get('reason')))
++        finally:
++            if journal is not None:
++                try:
++                    journal.close()
++                except BaseException:
++                    pass
+ 
+     def _validate(self, values, cal, a, start, stationary=False, allow_hold=False):
+         p = self.tool._canopen
+@@ -277,14 +372,30 @@
+         session.cancel_event = None
+         self._latch(session.client, node, '手动动作', exc, out)
+         confirmed = None
+-        if owned and not getattr(session.client, 'quarantined', False):
+-            confirmed = session.stop_after_failure()
+-        first_failure = self.failure_diagnostics.get(node) or {}
++        attempted = owned and not getattr(session.client, 'quarantined', False)
++        skip = None if attempted else 'client_quarantined' if getattr(session.client, 'quarantined', False) else 'no_control_responsibility'
++        cleanup_error = None
++        first_failure = self._remember_partial(node, exc)
++        if attempted:
++            try:
++                confirmed = session.stop_after_failure()
++            except BaseException as cleanup_exc:
++                confirmed = False
++                cleanup_error = str(cleanup_exc) or type(cleanup_exc).__name__
++        cleanup = dict(stop_attempted=bool(attempted), skip_reason=skip, disabled_confirmed=confirmed,
++            cleanup_error=cleanup_error, state_unknown=confirmed is not True, mechanical_stop_confirmed=False)
++        self.cleanup_diagnostics.setdefault(node, copy.deepcopy(cleanup))
+         raw = first_failure.get('raw_statusword')
+         word = first_failure.get('controlword')
+         detail = ('CW=0x{:04X} 6041=0x{:04X} {}；'.format(word,raw,first_failure.get('decoded_state',''))
+                   if word is not None and raw is not None else '')
+-        reason = '手动保护锁定：{}{}；停止确认={}'.format(detail,str(exc) or first_failure.get('reason','动作已中止'),confirmed)
++        if first_failure.get('fault_code') is not None:
++            detail += '603F=0x{:04X}；'.format(first_failure['fault_code'])
++        skip_text = {'client_quarantined':'通信已隔离', 'no_control_responsibility':'本会话尚未控制电机'}.get(skip,skip)
++        result = '已确认失能' if confirmed is True else '已执行但失能未确认' if attempted else '未执行停止（{}）'.format(skip_text)
++        reason = '手动保护锁定：{}{}；{}；停止确认={}'.format(detail,first_failure.get('reason') or str(exc),result,confirmed)
++        if cleanup_error:
++            reason += '；清理错误：' + cleanup_error
+         if confirmed is not True:
+             reason += '；停止未确认，请使用独立急停'
+         self.blocked[(self.context[0], node)] = reason
+@@ -292,11 +403,12 @@
+         if row:
+             row.update(lost=True, quarantined=True, quarantine_reason=reason,
+                        failure_diagnostic=copy.deepcopy(self.failure_diagnostics.get(node)))
++            row['cleanup_diagnostic'] = copy.deepcopy(cleanup)
+             self._put(row)
+         out.bad(reason)
+-        out.event('bench_result', dict(action='manual_protection', node=node, success=False,
+-                  disabled_confirmed=confirmed, state_unknown=confirmed is not True,
+-                  mechanical_stop_confirmed=False))
++        out.event('bench_result', dict(action='manual_protection', node=node, success=False, **cleanup))
++        # All potentially failing file I/O is after the existing cleanup rule.
++        self._persist_failure(node, first_failure, cleanup, out)
+         return confirmed
+ 
+     def _refresh_locked(self, out):
+@@ -363,7 +475,8 @@
+                     decoded = {p.CIA402_DISABLED:'Switch on disabled',p.CIA402_READY:'Ready to switch on',
+                         p.CIA402_SWITCHED_ON:'Switched on',p.CIA402_ENABLED:'Operation enabled',
+                         p.CIA402_QUICK_STOP:'Quick stop active'}.get(normalized,'Other')
+-                return dict(phase=phase, controlword=word, raw_statusword=raw, decoded_state=decoded,
++                return dict(phase=phase, snapshot_serial=self._snapshot_serial,
++                    controlword=word, raw_statusword=raw, decoded_state=decoded,
+                     state=normalized, allowed_states=list(allowed), expected_state=state, point=point,
+                     actual_position=values.get('actual_position'), actual_velocity=values.get('actual_velocity'),
+                     fault_code=values.get('error_code_object'), observed_fields=list(values), reason=reason)
+@@ -371,11 +484,7 @@
+             def remember_failure(exc):
+                 # Preserve evidence before attempting any more journal I/O.
+                 # Cleanup telemetry must never replace the first failing raw.
+-                if node not in self.failure_diagnostics:
+-                    failure = copy.deepcopy(last_diagnostic)
+-                    failure['reason'] = str(exc) or ('等待期间已取消' if isinstance(exc,KeyboardInterrupt) else type(exc).__name__)
+-                    self.failure_diagnostics[node] = failure
+-                return self.failure_diagnostics[node]
++                return self._remember_partial(node, exc, last_diagnostic)
+ 
+             def transition_snapshot(phase, word, allowed, state):
+                 nonlocal last_diagnostic
+@@ -683,31 +792,36 @@
+                     journal.event('manual_stage_complete', message=message, values=values)
+             except BaseException as exc:
+                 first_failure = remember_failure(exc)
++                if wrote or node in self.proofs or getattr(session.client, 'quarantined', False):
++                    session.deadline = original_deadline
++                    confirmed = self._cleanup_failure(node, session, exc, out)
++                else:
++                    confirmed = None
++                    self._persist_failure(node, first_failure, dict(stop_attempted=False,
++                        skip_reason='no_control_responsibility', disabled_confirmed=None,
++                        state_unknown=True, mechanical_stop_confirmed=False, cleanup_error=None), out)
+                 if journal:
+                     try:
+                         journal.event('exception', message=str(exc), write_attempted=wrote, first_failure=first_failure)
+-                    except BaseException:
+-                        pass  # Recording failure must never skip stop/disable.
+-                if wrote or node in self.proofs or getattr(session.client, 'quarantined', False):
+-                    session.deadline = original_deadline
+-                    confirmed = self._cleanup_failure(node, session, exc, out)
+-                    if journal:
+-                        try:
++                        if wrote or node in self.cleanup_diagnostics:
+                             journal.event('manual_cleanup',disabled_confirmed=confirmed,
+                                 mechanical_stop_confirmed=False,first_failure=first_failure)
+-                        except BaseException:
+-                            pass
++                    except BaseException as log_exc:
++                        out.bad('动作日志缺失或不完整：{}；原始失败：{}'.format(log_exc,first_failure.get('reason')))
+                 raise
+             finally:
+                 session.deadline = original_deadline
+                 session.cancel_event = None
+                 if journal:
++                    failing = sys.exc_info()[0] is not None
+                     try:
+                         journal.close()
+                     except BaseException as exc:
+                         if (self.context[0], node) not in self.blocked and (wrote or node in self.proofs):
+                             self._cleanup_failure(node, session, exc, out)
+-                        raise
++                        if not failing:
++                            raise
++                        out.bad('动作日志关闭失败：{}；原始失败保留'.format(exc))
+             return 0
+ 
+ 

@@ -1,0 +1,29 @@
+[
+  {
+    "path": "/var/tmp/km3-pmp4010-simple-20261019-b579f3d5d3ab/payload/logs/manual-JpJbKdTb/motion-absolute-fc4866f836a64297bebd203407f99ad1.jsonl",
+    "size": 888,
+    "sha256": "e7897d5485818d73d90c838a654e31a4de45c0350bbaa6e7472de2526381e618",
+    "mtime_ns": 1792388471901184021,
+    "mtime_utc": "2026-10-19T05:41:11.901184+00:00",
+    "changed_during_read": false,
+    "local_path": "docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/board-readonly/sessions/manual-JpJbKdTb/motion-absolute-fc4866f836a64297bebd203407f99ad1.jsonl"
+  },
+  {
+    "path": "/var/tmp/km3-pmp4010-simple-20261019-b579f3d5d3ab/payload/logs/manual-5BQ8TdzB/motion-absolute-d4b6ca7077e948cba2ae49428eb6f273.jsonl",
+    "size": 897,
+    "sha256": "5193b81a4c2db2f651cd60f1e78cd0fd19b0858b3be896b3eec46849a5c2b49d",
+    "mtime_ns": 1792388549233085601,
+    "mtime_utc": "2026-10-19T05:42:29.233086+00:00",
+    "changed_during_read": false,
+    "local_path": "docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/board-readonly/sessions/manual-5BQ8TdzB/motion-absolute-d4b6ca7077e948cba2ae49428eb6f273.jsonl"
+  },
+  {
+    "path": "/var/tmp/km3-pmp4010-simple-20261019-b579f3d5d3ab/payload/logs/manual-IgxS6Xwl/motion-absolute-27ee2c1af9d7430a9c49730cccbf49c8.jsonl",
+    "size": 888,
+    "sha256": "547cce5ca6b3093d2b7f3da91b57b91e91065fedc5be2bc9f912307f80f3824b",
+    "mtime_ns": 1792388584535496592,
+    "mtime_utc": "2026-10-19T05:43:04.535496+00:00",
+    "changed_during_read": false,
+    "local_path": "docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/board-readonly/sessions/manual-IgxS6Xwl/motion-absolute-27ee2c1af9d7430a9c49730cccbf49c8.jsonl"
+  }
+]

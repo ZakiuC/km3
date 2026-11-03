@@ -1,0 +1,20 @@
+{
+  "name": "probe-gen-od",
+  "argv": [
+    "python3",
+    "-I",
+    "tools/hwdriver/gen-od.py",
+    "--model",
+    "pmp4010",
+    "--check"
+  ],
+  "shell_command": "python3 -I tools/hwdriver/gen-od.py --model pmp4010 --check",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T01:05:15.147015+00:00",
+  "duration_seconds": 0.024592850357294083,
+  "returncode": 0,
+  "stdout": "probe-gen-od.stdout.log",
+  "stderr": "probe-gen-od.stderr.log",
+  "stdout_sha256": "1fb8101f983b222bf8ece7312432fc4a34725ad3422420032c2ca0bd09a77b16",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

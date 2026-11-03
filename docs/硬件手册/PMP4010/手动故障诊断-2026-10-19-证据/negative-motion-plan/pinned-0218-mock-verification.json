@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/negative-motion-plan/verify_pinned_0218_mock.py"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "rc": 0,
+  "raw_combined_stdout_stderr": "pinned-0218-mock.raw.txt",
+  "structured_result": "pinned-0218-mock-result.json",
+  "first_attempt": true,
+  "tests_run": 13,
+  "failures": 0,
+  "errors": 0,
+  "skipped": 0,
+  "hardware_execution": false,
+  "production_python_source": "All shipped production Python files and the two fixture tool aliases verified by __file__ and SHA256 against the 0218 payload manifest; workspace files provide test fixtures only.",
+  "native_limit": "ARM64 packaged velocity library was verified but not executed; the existing ABI-v1 x86_64 build-host library was substituted only for native mathematics. This is local Mock acceptance, not board or hardware acceptance.",
+  "socket_and_process_protection": "Process-wide audit hook rejects socket.__new__, subprocess.Popen, os.system and os.posix_spawn before any production import; fixture MockBus remains the sole transport.",
+  "sha256": {
+    "verify_pinned_0218_mock.py": "a6d4ae4fbf05b7f51358e9484334aad61c2e5703e9cd61156da6aef9995fc229",
+    "pinned-0218-mock-result.json": "6b7a032c793f19406377b4215fb620448ceab3bc11479e6990a0e57c7e2466a3",
+    "pinned-0218-mock.raw.txt": "f4b36e2f942476b952f13db0de6890e5e9ed7b89fa250b276830d4d3731a9990"
+  },
+  "unchanged_movement_wrapper_sha256": "04a97fd5118b9caa0130b3c7c232770b4d26fcd69dc82e1f2d1bc68bb60630d0",
+  "unchanged_reset_wrapper_sha256": "6176b8d66ab93fcb232aed8bb15e095bfc05bb27fe7b43de0be392dfe5ec021d"
+}

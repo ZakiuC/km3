@@ -1,0 +1,17 @@
+{
+  "result": "PASS",
+  "python_syntax_only": true,
+  "pty_started": false,
+  "ssh_calls": 0,
+  "real_can_opens": 0,
+  "files": [
+    {
+      "path": "/tmp/km3-pp-motion-20261017/pty_runner.py",
+      "sha256": "b6f93b20bd75be5840e9383e80891a5cec9b0f45ffc38f70a9222857cc56ff0a"
+    },
+    {
+      "path": "/tmp/km3-pp-motion-20261017/mock_app.py",
+      "sha256": "28942a910e58134f7ca58df4c0b0cad6362837c9a08bdfca0c76a341c1c600aa"
+    }
+  ]
+}

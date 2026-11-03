@@ -1,0 +1,231 @@
+{
+  "status": "LOCAL_PROPOSAL_NO_LIVE_RESET_AUTHORIZATION",
+  "source_sha256": "d8c96c340d7c64c2a7380ef2bb96221159248819cd0d1ad7772cb3f2961ff367",
+  "manifest_sha256": "5072e207253957356b28f03d989efa3b798efa85b240e196060d6eb40495e40b",
+  "library_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+  "manual_path": "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md",
+  "maximum_requests": 24,
+  "control_writes": 3,
+  "sequence": [
+    {
+      "ordinal": 1,
+      "operation": "read",
+      "index": "2002",
+      "subindex": 1,
+      "size_bytes": 2,
+      "word": null
+    },
+    {
+      "ordinal": 2,
+      "operation": "read",
+      "index": "6041",
+      "subindex": 0,
+      "size_bytes": 2,
+      "word": null
+    },
+    {
+      "ordinal": 3,
+      "operation": "read",
+      "index": "603F",
+      "subindex": 0,
+      "size_bytes": 2,
+      "word": null
+    },
+    {
+      "ordinal": 4,
+      "operation": "read",
+      "index": "1001",
+      "subindex": 0,
+      "size_bytes": 1,
+      "word": null
+    },
+    {
+      "ordinal": 5,
+      "operation": "read",
+      "index": "200E",
+      "subindex": 2,
+      "size_bytes": 4,
+      "word": null
+    },
+    {
+      "ordinal": 6,
+      "operation": "write",
+      "index": "6040",
+      "subindex": 0,
+      "size_bytes": 2,
+      "word": 0
+    },
+    {
+      "ordinal": 7,
+      "operation": "read",
+      "index": "6041",
+      "subindex": 0,
+      "size_bytes": 2,
+      "word": null
+    },
+    {
+      "ordinal": 8,
+      "operation": "read",
+      "index": "2002",
+      "subindex": 1,
+      "size_bytes": 2,
+      "word": null
+    },
+    {
+      "ordinal": 9,
+      "operation": "write",
+      "index": "6040",
+      "subindex": 0,
+      "size_bytes": 2,
+      "word": 128
+    },
+    {
+      "ordinal": 10,
+      "operation": "read",
+      "index": "6041",
+      "subindex": 0,
+      "size_bytes": 2,
+      "word": null
+    },
+    {
+      "ordinal": 11,
+      "operation": "read",
+      "index": "603F",
+      "subindex": 0,
+      "size_bytes": 2,
+      "word": null
+    },
+    {
+      "ordinal": 12,
+      "operation": "read",
+      "index": "1001",
+      "subindex": 0,
+      "size_bytes": 1,
+      "word": null
+    },
+    {
+      "ordinal": 13,
+      "operation": "read",
+      "index": "6041",
+      "subindex": 0,
+      "size_bytes": 2,
+      "word": null
+    },
+    {
+      "ordinal": 14,
+      "operation": "read",
+      "index": "603F",
+      "subindex": 0,
+      "size_bytes": 2,
+      "word": null
+    },
+    {
+      "ordinal": 15,
+      "operation": "read",
+      "index": "1001",
+      "subindex": 0,
+      "size_bytes": 1,
+      "word": null
+    },
+    {
+      "ordinal": 16,
+      "operation": "read",
+      "index": "2002",
+      "subindex": 1,
+      "size_bytes": 2,
+      "word": null
+    },
+    {
+      "ordinal": 17,
+      "operation": "write",
+      "index": "6040",
+      "subindex": 0,
+      "size_bytes": 2,
+      "word": 0
+    },
+    {
+      "ordinal": 18,
+      "operation": "read",
+      "index": "6040",
+      "subindex": 0,
+      "size_bytes": 2,
+      "word": null
+    },
+    {
+      "ordinal": 19,
+      "operation": "read",
+      "index": "6041",
+      "subindex": 0,
+      "size_bytes": 2,
+      "word": null
+    },
+    {
+      "ordinal": 20,
+      "operation": "read",
+      "index": "603F",
+      "subindex": 0,
+      "size_bytes": 2,
+      "word": null
+    },
+    {
+      "ordinal": 21,
+      "operation": "read",
+      "index": "1001",
+      "subindex": 0,
+      "size_bytes": 1,
+      "word": null
+    },
+    {
+      "ordinal": 22,
+      "operation": "read",
+      "index": "6041",
+      "subindex": 0,
+      "size_bytes": 2,
+      "word": null
+    },
+    {
+      "ordinal": 23,
+      "operation": "read",
+      "index": "603F",
+      "subindex": 0,
+      "size_bytes": 2,
+      "word": null
+    },
+    {
+      "ordinal": 24,
+      "operation": "read",
+      "index": "1001",
+      "subindex": 0,
+      "size_bytes": 1,
+      "word": null
+    }
+  ],
+  "low_hold_minimum_experiment_seconds": 0.1,
+  "high_sample_offsets_from_ACK_seconds": [
+    0.2,
+    1.0
+  ],
+  "low_sample_offsets_from_final_zero_ACK_seconds": [
+    0.05,
+    0.5
+  ],
+  "request_timeout_seconds": 0.25,
+  "total_socket_seconds": 10,
+  "no_retry": true,
+  "cleanup": "socket close only",
+  "possible_high_bit7_reported_on_failure": true,
+  "exact_proposed_execution_argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/reset-observe-proposal/execute_authorized_once.py",
+    "--parent-authorized-d8c96c-once"
+  ],
+  "physical_CAN_opens": 0,
+  "physical_CAN_sends": 0,
+  "classification_requires_both_low_samples": true,
+  "new_nonzero_1001_stops_immediately": true,
+  "final_6040_must_equal_zero": true,
+  "pulse_width_not_vendor_minimum": true,
+  "old_pulse_root_cause_not_proven_by_success": true
+}

@@ -1,0 +1,15 @@
+{
+  "path": "device/drivers/pmp4010/tools/pmp4010.py",
+  "tested_sha256": "b15b4b281578c49066108a45515d78c738afb9d19e1f24aa0944cee3b045f73d",
+  "final_sha256": "2fca0b103544c29f78a79b9e349ec841db0e39abf8f39d9d910e57e47b1e0a1a",
+  "ast_equal": true,
+  "non_comment_tokens_equal": true,
+  "added_lines": [
+    "+                # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7\n",
+    "+            # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7\n",
+    "+                # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7\n",
+    "+        # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7\n"
+  ],
+  "removed_lines": [],
+  "only_four_comment_lines_added": true
+}

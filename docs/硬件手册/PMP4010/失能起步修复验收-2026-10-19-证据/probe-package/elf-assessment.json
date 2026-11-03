@@ -1,0 +1,20 @@
+{
+  "arm_library_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+  "architecture": "AArch64",
+  "needed": [
+    "libstdc++.so.6",
+    "libgcc_s.so.1",
+    "libc.so.6",
+    "ld-linux-aarch64.so.1"
+  ],
+  "version_needs": [
+    "CXXABI_1.3",
+    "CXXABI_1.3.9",
+    "GCC_3.0",
+    "GLIBCXX_3.4.21",
+    "GLIBC_2.17"
+  ],
+  "sanitizer_runtime_reference_count": 0,
+  "exports_checked": 3,
+  "runtime_resolution_on_board": "pending; static ELF inspection cannot establish board library availability"
+}

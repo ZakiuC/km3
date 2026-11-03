@@ -1,0 +1,16 @@
+{
+  "name": "probe-citations",
+  "argv": [
+    "bash",
+    "tools/check-manual-citations.sh"
+  ],
+  "shell_command": "bash tools/check-manual-citations.sh",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T01:05:15.040640+00:00",
+  "duration_seconds": 0.08180275280028582,
+  "returncode": 0,
+  "stdout": "probe-citations.stdout.log",
+  "stderr": "probe-citations.stderr.log",
+  "stdout_sha256": "ba38c7c8a511c8cfc09005f6127702c827646ce3dc676f1f15ab9cde7cb33a10",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

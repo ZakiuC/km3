@@ -1,0 +1,1 @@
+160404 execve("/home/zakiu/km3/build-pmp4010-cpp-host/pmp4010_manual_test", ["/home/zakiu/km3/build-pmp4010-cp"..., "--rpm", "nan"], 0x7ffd78c8bcf0 /* 62 vars */) = 0

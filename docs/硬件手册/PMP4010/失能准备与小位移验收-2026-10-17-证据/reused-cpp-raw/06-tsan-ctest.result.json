@@ -1,0 +1,15 @@
+{
+  "name": "06-tsan-ctest",
+  "argv": [
+    "setarch",
+    "-R",
+    "ctest",
+    "--test-dir",
+    "build-tsan",
+    "--output-on-failure"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 12.136402688920498,
+  "stdout": "/tmp/km3-csv-guard-final-20261017/06-tsan-ctest.stdout.log",
+  "stderr": "/tmp/km3-csv-guard-final-20261017/06-tsan-ctest.stderr.log"
+}

@@ -1,0 +1,13 @@
+{
+  "command": "bash tools/check-docs.sh",
+  "cwd": "/home/zakiu/km3",
+  "start_clock_utc": "2026-10-20T01:46:57Z",
+  "end_clock_utc": "2026-10-20T01:47:01Z",
+  "checked_at_utc": "2026-10-20T01:47:01Z",
+  "checked_at_Asia_Shanghai": "2026-10-20T09:47:01+08:00",
+  "clock_source": "clock.curr_time",
+  "actual_exit_code": 0,
+  "wall_time_seconds": 0.420968036,
+  "executions": 1,
+  "capture_note": "exec_command returned one combined stdout/stderr output stream; preserved verbatim in check-docs.stdout for the existing document link. stderr was not separately captured; check-docs.stderr contains an explicit capture limitation, not a fabricated empty stderr."
+}

@@ -1,0 +1,1 @@
+{"result": "DRIVER_COMPLETE", "scenario": "success", "driver_rc": 0, "child_rc": 0, "tokens": ["DISABLE mock-bench 1 -1470", "RELATIVE mock-bench 1 -1434"], "output": "/home/zakiu/km3/docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u5931\u80fd\u8d77\u6b65\u4fee\u590d\u9a8c\u6536-2026-10-19-\u8bc1\u636e/post-power-board/pty-move-success-v2"}

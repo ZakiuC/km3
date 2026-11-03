@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/local-acceptance/locked-repro.py",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/local-acceptance/independent-locked-recorded"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "returncode": 0,
+  "utc": "2026-10-19T05:56:49.192620+00:00",
+  "note": "Repeated focused repro to retain raw stdout/stderr/rc; initial independent run rc0 was tool-output only at independent-locked.",
+  "stdout": "locked-repro.stdout.log",
+  "stdout_sha256": "0ca00155166aa0e25a800621a572b76359067ee2b1c76c3856c79266612d0755",
+  "stderr": "locked-repro.stderr.log",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

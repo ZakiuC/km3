@@ -1,0 +1,8 @@
+{
+  "device/drivers/pmp4010/tools/pmp4010_manual.py": "e03704a93873dad486f3d4ab75eb0b5bd7c1561d5189b3aa2643834a5123702d",
+  "device/drivers/pmp4010/tools/pmp4010_simple.py": "377e5fc54691aee3e7449f8a4d9c1caaf6d3bc771288880e5ffb3e6793933fe2",
+  "device/drivers/pmp4010/tools/_test_manual.py": "b8137138968e0cb827604acbc91dedbc3164280b1f7d24a193b50c49b8e2ba50",
+  "device/drivers/pmp4010/tools/_test_simple.py": "39056be909b738fb0f2da1aaff959fc66e7d8b08d3d7fc21e6fc7e74f85dbd26",
+  "device/drivers/pmp4010/tools/_test_simple_pty.py": "67fa81441555fdf40db1de789e71ba5a116976f5f0f9abb9388d740aad746038",
+  "device/drivers/pmp4010/tools/_test_manual_pty.py": "f39bd906acdcd5af306499603e43e546518e3a4816cfd20dde5337f7e9de26fc"
+}

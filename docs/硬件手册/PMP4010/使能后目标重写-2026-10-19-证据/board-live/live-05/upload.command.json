@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "ssh",
+    "-T",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B -"
+  ],
+  "stdin_file": "docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u4f7f\u80fd\u540e\u76ee\u6807\u91cd\u5199-2026-10-19-\u8bc1\u636e/board-live/live-05/upload.remote.py",
+  "started_utc": "2026-10-19T06:59:33.735271+00:00",
+  "rc": 0
+}

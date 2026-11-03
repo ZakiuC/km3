@@ -1,0 +1,17 @@
+{
+  "equal": {
+    "hostname": true,
+    "model": true,
+    "boot_id": true,
+    "device_id": true,
+    "config_sha": true,
+    "can_env_sha": true,
+    "current": true,
+    "services": true,
+    "can_rcvlists": true,
+    "related_processes_excluding_snapshot_pid": true,
+    "can_link": true
+  },
+  "all_equal": true,
+  "baseline": "docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/board-stage/after-passive.stdout"
+}

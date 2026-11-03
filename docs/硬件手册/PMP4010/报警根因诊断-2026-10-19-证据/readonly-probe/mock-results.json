@@ -1,0 +1,2163 @@
+{
+  "result": "PASS",
+  "checks": 358,
+  "cases": [
+    {
+      "name": "cold_payload_load_native_socket_blocked",
+      "result": "PASS"
+    },
+    {
+      "name": "normal_all_22_uploads",
+      "result": "PASS",
+      "sent": 22,
+      "failure": null
+    },
+    {
+      "name": "timeout_at_1",
+      "result": "PASS",
+      "sent": 1,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_1",
+      "result": "PASS",
+      "sent": 1,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_1",
+      "result": "PASS",
+      "sent": 1,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_1",
+      "result": "PASS",
+      "sent": 1,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_1",
+      "result": "PASS",
+      "sent": 1,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_1",
+      "result": "PASS",
+      "sent": 1,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_1",
+      "result": "PASS",
+      "sent": 1,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_1",
+      "result": "PASS",
+      "sent": 1,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_1",
+      "result": "PASS",
+      "sent": 1,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_1",
+      "result": "PASS",
+      "sent": 1,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_1",
+      "result": "PASS",
+      "sent": 1,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_1",
+      "result": "PASS",
+      "sent": 1,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_1",
+      "result": "PASS",
+      "sent": 1,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_1",
+      "result": "PASS",
+      "sent": 1,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_1",
+      "result": "PASS",
+      "sent": 1,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_1",
+      "result": "PASS",
+      "sent": 1,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_2",
+      "result": "PASS",
+      "sent": 2,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_2",
+      "result": "PASS",
+      "sent": 2,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_2",
+      "result": "PASS",
+      "sent": 2,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_2",
+      "result": "PASS",
+      "sent": 2,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_2",
+      "result": "PASS",
+      "sent": 2,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_2",
+      "result": "PASS",
+      "sent": 2,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_2",
+      "result": "PASS",
+      "sent": 2,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_2",
+      "result": "PASS",
+      "sent": 2,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_2",
+      "result": "PASS",
+      "sent": 2,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_2",
+      "result": "PASS",
+      "sent": 2,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_2",
+      "result": "PASS",
+      "sent": 2,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_2",
+      "result": "PASS",
+      "sent": 2,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_2",
+      "result": "PASS",
+      "sent": 2,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_2",
+      "result": "PASS",
+      "sent": 2,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_2",
+      "result": "PASS",
+      "sent": 2,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_2",
+      "result": "PASS",
+      "sent": 2,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_3",
+      "result": "PASS",
+      "sent": 3,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_3",
+      "result": "PASS",
+      "sent": 3,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_3",
+      "result": "PASS",
+      "sent": 3,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_3",
+      "result": "PASS",
+      "sent": 3,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_3",
+      "result": "PASS",
+      "sent": 3,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_3",
+      "result": "PASS",
+      "sent": 3,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_3",
+      "result": "PASS",
+      "sent": 3,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_3",
+      "result": "PASS",
+      "sent": 3,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_3",
+      "result": "PASS",
+      "sent": 3,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_3",
+      "result": "PASS",
+      "sent": 3,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_3",
+      "result": "PASS",
+      "sent": 3,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_3",
+      "result": "PASS",
+      "sent": 3,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_3",
+      "result": "PASS",
+      "sent": 3,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_3",
+      "result": "PASS",
+      "sent": 3,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_3",
+      "result": "PASS",
+      "sent": 3,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_3",
+      "result": "PASS",
+      "sent": 3,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_4",
+      "result": "PASS",
+      "sent": 4,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_4",
+      "result": "PASS",
+      "sent": 4,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_4",
+      "result": "PASS",
+      "sent": 4,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_4",
+      "result": "PASS",
+      "sent": 4,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_4",
+      "result": "PASS",
+      "sent": 4,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_4",
+      "result": "PASS",
+      "sent": 4,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_4",
+      "result": "PASS",
+      "sent": 4,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_4",
+      "result": "PASS",
+      "sent": 4,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_4",
+      "result": "PASS",
+      "sent": 4,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_4",
+      "result": "PASS",
+      "sent": 4,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_4",
+      "result": "PASS",
+      "sent": 4,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_4",
+      "result": "PASS",
+      "sent": 4,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_4",
+      "result": "PASS",
+      "sent": 4,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_4",
+      "result": "PASS",
+      "sent": 4,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_4",
+      "result": "PASS",
+      "sent": 4,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_4",
+      "result": "PASS",
+      "sent": 4,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_5",
+      "result": "PASS",
+      "sent": 5,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_5",
+      "result": "PASS",
+      "sent": 5,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_5",
+      "result": "PASS",
+      "sent": 5,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_5",
+      "result": "PASS",
+      "sent": 5,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_5",
+      "result": "PASS",
+      "sent": 5,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_5",
+      "result": "PASS",
+      "sent": 5,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_5",
+      "result": "PASS",
+      "sent": 5,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_5",
+      "result": "PASS",
+      "sent": 5,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_5",
+      "result": "PASS",
+      "sent": 5,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_5",
+      "result": "PASS",
+      "sent": 5,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_5",
+      "result": "PASS",
+      "sent": 5,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_5",
+      "result": "PASS",
+      "sent": 5,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_5",
+      "result": "PASS",
+      "sent": 5,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_5",
+      "result": "PASS",
+      "sent": 5,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_5",
+      "result": "PASS",
+      "sent": 5,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_5",
+      "result": "PASS",
+      "sent": 5,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_6",
+      "result": "PASS",
+      "sent": 6,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_6",
+      "result": "PASS",
+      "sent": 6,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_6",
+      "result": "PASS",
+      "sent": 6,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_6",
+      "result": "PASS",
+      "sent": 6,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_6",
+      "result": "PASS",
+      "sent": 6,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_6",
+      "result": "PASS",
+      "sent": 6,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_6",
+      "result": "PASS",
+      "sent": 6,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_6",
+      "result": "PASS",
+      "sent": 6,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_6",
+      "result": "PASS",
+      "sent": 6,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_6",
+      "result": "PASS",
+      "sent": 6,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_6",
+      "result": "PASS",
+      "sent": 6,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_6",
+      "result": "PASS",
+      "sent": 6,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_6",
+      "result": "PASS",
+      "sent": 6,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_6",
+      "result": "PASS",
+      "sent": 6,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_6",
+      "result": "PASS",
+      "sent": 6,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_6",
+      "result": "PASS",
+      "sent": 6,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_7",
+      "result": "PASS",
+      "sent": 7,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_7",
+      "result": "PASS",
+      "sent": 7,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_7",
+      "result": "PASS",
+      "sent": 7,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_7",
+      "result": "PASS",
+      "sent": 7,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_7",
+      "result": "PASS",
+      "sent": 7,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_7",
+      "result": "PASS",
+      "sent": 7,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_7",
+      "result": "PASS",
+      "sent": 7,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_7",
+      "result": "PASS",
+      "sent": 7,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_7",
+      "result": "PASS",
+      "sent": 7,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_7",
+      "result": "PASS",
+      "sent": 7,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_7",
+      "result": "PASS",
+      "sent": 7,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_7",
+      "result": "PASS",
+      "sent": 7,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_7",
+      "result": "PASS",
+      "sent": 7,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_7",
+      "result": "PASS",
+      "sent": 7,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_7",
+      "result": "PASS",
+      "sent": 7,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_7",
+      "result": "PASS",
+      "sent": 7,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_8",
+      "result": "PASS",
+      "sent": 8,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_8",
+      "result": "PASS",
+      "sent": 8,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_8",
+      "result": "PASS",
+      "sent": 8,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_8",
+      "result": "PASS",
+      "sent": 8,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_8",
+      "result": "PASS",
+      "sent": 8,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_8",
+      "result": "PASS",
+      "sent": 8,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_8",
+      "result": "PASS",
+      "sent": 8,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_8",
+      "result": "PASS",
+      "sent": 8,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_8",
+      "result": "PASS",
+      "sent": 8,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_8",
+      "result": "PASS",
+      "sent": 8,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_8",
+      "result": "PASS",
+      "sent": 8,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_8",
+      "result": "PASS",
+      "sent": 8,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_8",
+      "result": "PASS",
+      "sent": 8,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_8",
+      "result": "PASS",
+      "sent": 8,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_8",
+      "result": "PASS",
+      "sent": 8,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_8",
+      "result": "PASS",
+      "sent": 8,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_9",
+      "result": "PASS",
+      "sent": 9,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_9",
+      "result": "PASS",
+      "sent": 9,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_9",
+      "result": "PASS",
+      "sent": 9,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_9",
+      "result": "PASS",
+      "sent": 9,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_9",
+      "result": "PASS",
+      "sent": 9,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_9",
+      "result": "PASS",
+      "sent": 9,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_9",
+      "result": "PASS",
+      "sent": 9,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_9",
+      "result": "PASS",
+      "sent": 9,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_9",
+      "result": "PASS",
+      "sent": 9,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_9",
+      "result": "PASS",
+      "sent": 9,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_9",
+      "result": "PASS",
+      "sent": 9,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_9",
+      "result": "PASS",
+      "sent": 9,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_9",
+      "result": "PASS",
+      "sent": 9,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_9",
+      "result": "PASS",
+      "sent": 9,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_9",
+      "result": "PASS",
+      "sent": 9,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_9",
+      "result": "PASS",
+      "sent": 9,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_10",
+      "result": "PASS",
+      "sent": 10,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_10",
+      "result": "PASS",
+      "sent": 10,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_10",
+      "result": "PASS",
+      "sent": 10,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_10",
+      "result": "PASS",
+      "sent": 10,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_10",
+      "result": "PASS",
+      "sent": 10,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_10",
+      "result": "PASS",
+      "sent": 10,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_10",
+      "result": "PASS",
+      "sent": 10,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_10",
+      "result": "PASS",
+      "sent": 10,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_10",
+      "result": "PASS",
+      "sent": 10,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_10",
+      "result": "PASS",
+      "sent": 10,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_10",
+      "result": "PASS",
+      "sent": 10,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_10",
+      "result": "PASS",
+      "sent": 10,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_10",
+      "result": "PASS",
+      "sent": 10,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_10",
+      "result": "PASS",
+      "sent": 10,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_10",
+      "result": "PASS",
+      "sent": 10,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_10",
+      "result": "PASS",
+      "sent": 10,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_11",
+      "result": "PASS",
+      "sent": 11,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_11",
+      "result": "PASS",
+      "sent": 11,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_11",
+      "result": "PASS",
+      "sent": 11,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_11",
+      "result": "PASS",
+      "sent": 11,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_11",
+      "result": "PASS",
+      "sent": 11,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_11",
+      "result": "PASS",
+      "sent": 11,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_11",
+      "result": "PASS",
+      "sent": 11,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_11",
+      "result": "PASS",
+      "sent": 11,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_11",
+      "result": "PASS",
+      "sent": 11,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_11",
+      "result": "PASS",
+      "sent": 11,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_11",
+      "result": "PASS",
+      "sent": 11,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_11",
+      "result": "PASS",
+      "sent": 11,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_11",
+      "result": "PASS",
+      "sent": 11,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_11",
+      "result": "PASS",
+      "sent": 11,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_11",
+      "result": "PASS",
+      "sent": 11,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_11",
+      "result": "PASS",
+      "sent": 11,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_12",
+      "result": "PASS",
+      "sent": 12,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_12",
+      "result": "PASS",
+      "sent": 12,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_12",
+      "result": "PASS",
+      "sent": 12,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_12",
+      "result": "PASS",
+      "sent": 12,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_12",
+      "result": "PASS",
+      "sent": 12,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_12",
+      "result": "PASS",
+      "sent": 12,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_12",
+      "result": "PASS",
+      "sent": 12,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_12",
+      "result": "PASS",
+      "sent": 12,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_12",
+      "result": "PASS",
+      "sent": 12,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_12",
+      "result": "PASS",
+      "sent": 12,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_12",
+      "result": "PASS",
+      "sent": 12,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_12",
+      "result": "PASS",
+      "sent": 12,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_12",
+      "result": "PASS",
+      "sent": 12,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_12",
+      "result": "PASS",
+      "sent": 12,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_12",
+      "result": "PASS",
+      "sent": 12,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_12",
+      "result": "PASS",
+      "sent": 12,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_13",
+      "result": "PASS",
+      "sent": 13,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_13",
+      "result": "PASS",
+      "sent": 13,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_13",
+      "result": "PASS",
+      "sent": 13,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_13",
+      "result": "PASS",
+      "sent": 13,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_13",
+      "result": "PASS",
+      "sent": 13,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_13",
+      "result": "PASS",
+      "sent": 13,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_13",
+      "result": "PASS",
+      "sent": 13,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_13",
+      "result": "PASS",
+      "sent": 13,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_13",
+      "result": "PASS",
+      "sent": 13,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_13",
+      "result": "PASS",
+      "sent": 13,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_13",
+      "result": "PASS",
+      "sent": 13,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_13",
+      "result": "PASS",
+      "sent": 13,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_13",
+      "result": "PASS",
+      "sent": 13,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_13",
+      "result": "PASS",
+      "sent": 13,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_13",
+      "result": "PASS",
+      "sent": 13,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_13",
+      "result": "PASS",
+      "sent": 13,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_14",
+      "result": "PASS",
+      "sent": 14,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_14",
+      "result": "PASS",
+      "sent": 14,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_14",
+      "result": "PASS",
+      "sent": 14,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_14",
+      "result": "PASS",
+      "sent": 14,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_14",
+      "result": "PASS",
+      "sent": 14,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_14",
+      "result": "PASS",
+      "sent": 14,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_14",
+      "result": "PASS",
+      "sent": 14,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_14",
+      "result": "PASS",
+      "sent": 14,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_14",
+      "result": "PASS",
+      "sent": 14,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_14",
+      "result": "PASS",
+      "sent": 14,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_14",
+      "result": "PASS",
+      "sent": 14,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_14",
+      "result": "PASS",
+      "sent": 14,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_14",
+      "result": "PASS",
+      "sent": 14,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_14",
+      "result": "PASS",
+      "sent": 14,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_14",
+      "result": "PASS",
+      "sent": 14,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_14",
+      "result": "PASS",
+      "sent": 14,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_15",
+      "result": "PASS",
+      "sent": 15,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_15",
+      "result": "PASS",
+      "sent": 15,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_15",
+      "result": "PASS",
+      "sent": 15,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_15",
+      "result": "PASS",
+      "sent": 15,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_15",
+      "result": "PASS",
+      "sent": 15,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_15",
+      "result": "PASS",
+      "sent": 15,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_15",
+      "result": "PASS",
+      "sent": 15,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_15",
+      "result": "PASS",
+      "sent": 15,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_15",
+      "result": "PASS",
+      "sent": 15,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_15",
+      "result": "PASS",
+      "sent": 15,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_15",
+      "result": "PASS",
+      "sent": 15,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_15",
+      "result": "PASS",
+      "sent": 15,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_15",
+      "result": "PASS",
+      "sent": 15,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_15",
+      "result": "PASS",
+      "sent": 15,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_15",
+      "result": "PASS",
+      "sent": 15,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_15",
+      "result": "PASS",
+      "sent": 15,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_16",
+      "result": "PASS",
+      "sent": 16,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_16",
+      "result": "PASS",
+      "sent": 16,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_16",
+      "result": "PASS",
+      "sent": 16,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_16",
+      "result": "PASS",
+      "sent": 16,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_16",
+      "result": "PASS",
+      "sent": 16,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_16",
+      "result": "PASS",
+      "sent": 16,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_16",
+      "result": "PASS",
+      "sent": 16,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_16",
+      "result": "PASS",
+      "sent": 16,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_16",
+      "result": "PASS",
+      "sent": 16,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_16",
+      "result": "PASS",
+      "sent": 16,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_16",
+      "result": "PASS",
+      "sent": 16,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_16",
+      "result": "PASS",
+      "sent": 16,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_16",
+      "result": "PASS",
+      "sent": 16,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_16",
+      "result": "PASS",
+      "sent": 16,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_16",
+      "result": "PASS",
+      "sent": 16,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_16",
+      "result": "PASS",
+      "sent": 16,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_17",
+      "result": "PASS",
+      "sent": 17,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_17",
+      "result": "PASS",
+      "sent": 17,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_17",
+      "result": "PASS",
+      "sent": 17,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_17",
+      "result": "PASS",
+      "sent": 17,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_17",
+      "result": "PASS",
+      "sent": 17,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_17",
+      "result": "PASS",
+      "sent": 17,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_17",
+      "result": "PASS",
+      "sent": 17,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_17",
+      "result": "PASS",
+      "sent": 17,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_17",
+      "result": "PASS",
+      "sent": 17,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_17",
+      "result": "PASS",
+      "sent": 17,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_17",
+      "result": "PASS",
+      "sent": 17,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_17",
+      "result": "PASS",
+      "sent": 17,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_17",
+      "result": "PASS",
+      "sent": 17,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_17",
+      "result": "PASS",
+      "sent": 17,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_17",
+      "result": "PASS",
+      "sent": 17,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_17",
+      "result": "PASS",
+      "sent": 17,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_18",
+      "result": "PASS",
+      "sent": 18,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_18",
+      "result": "PASS",
+      "sent": 18,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_18",
+      "result": "PASS",
+      "sent": 18,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_18",
+      "result": "PASS",
+      "sent": 18,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_18",
+      "result": "PASS",
+      "sent": 18,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_18",
+      "result": "PASS",
+      "sent": 18,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_18",
+      "result": "PASS",
+      "sent": 18,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_18",
+      "result": "PASS",
+      "sent": 18,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_18",
+      "result": "PASS",
+      "sent": 18,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_18",
+      "result": "PASS",
+      "sent": 18,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_18",
+      "result": "PASS",
+      "sent": 18,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_18",
+      "result": "PASS",
+      "sent": 18,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_18",
+      "result": "PASS",
+      "sent": 18,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_18",
+      "result": "PASS",
+      "sent": 18,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_18",
+      "result": "PASS",
+      "sent": 18,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_18",
+      "result": "PASS",
+      "sent": 18,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_19",
+      "result": "PASS",
+      "sent": 19,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_19",
+      "result": "PASS",
+      "sent": 19,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_19",
+      "result": "PASS",
+      "sent": 19,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_19",
+      "result": "PASS",
+      "sent": 19,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_19",
+      "result": "PASS",
+      "sent": 19,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_19",
+      "result": "PASS",
+      "sent": 19,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_19",
+      "result": "PASS",
+      "sent": 19,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_19",
+      "result": "PASS",
+      "sent": 19,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_19",
+      "result": "PASS",
+      "sent": 19,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_19",
+      "result": "PASS",
+      "sent": 19,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_19",
+      "result": "PASS",
+      "sent": 19,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_19",
+      "result": "PASS",
+      "sent": 19,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_19",
+      "result": "PASS",
+      "sent": 19,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_19",
+      "result": "PASS",
+      "sent": 19,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_19",
+      "result": "PASS",
+      "sent": 19,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_19",
+      "result": "PASS",
+      "sent": 19,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_20",
+      "result": "PASS",
+      "sent": 20,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_20",
+      "result": "PASS",
+      "sent": 20,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_20",
+      "result": "PASS",
+      "sent": 20,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_20",
+      "result": "PASS",
+      "sent": 20,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_20",
+      "result": "PASS",
+      "sent": 20,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_20",
+      "result": "PASS",
+      "sent": 20,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_20",
+      "result": "PASS",
+      "sent": 20,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_20",
+      "result": "PASS",
+      "sent": 20,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_20",
+      "result": "PASS",
+      "sent": 20,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_20",
+      "result": "PASS",
+      "sent": 20,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_20",
+      "result": "PASS",
+      "sent": 20,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_20",
+      "result": "PASS",
+      "sent": 20,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_20",
+      "result": "PASS",
+      "sent": 20,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_20",
+      "result": "PASS",
+      "sent": 20,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_20",
+      "result": "PASS",
+      "sent": 20,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_20",
+      "result": "PASS",
+      "sent": 20,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_21",
+      "result": "PASS",
+      "sent": 21,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_21",
+      "result": "PASS",
+      "sent": 21,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_21",
+      "result": "PASS",
+      "sent": 21,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_21",
+      "result": "PASS",
+      "sent": 21,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_21",
+      "result": "PASS",
+      "sent": 21,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_21",
+      "result": "PASS",
+      "sent": 21,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_21",
+      "result": "PASS",
+      "sent": 21,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_21",
+      "result": "PASS",
+      "sent": 21,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_21",
+      "result": "PASS",
+      "sent": 21,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_21",
+      "result": "PASS",
+      "sent": 21,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_21",
+      "result": "PASS",
+      "sent": 21,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_21",
+      "result": "PASS",
+      "sent": 21,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_21",
+      "result": "PASS",
+      "sent": 21,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_21",
+      "result": "PASS",
+      "sent": 21,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_21",
+      "result": "PASS",
+      "sent": 21,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_21",
+      "result": "PASS",
+      "sent": 21,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "timeout_at_22",
+      "result": "PASS",
+      "sent": 22,
+      "failure": "mock silence"
+    },
+    {
+      "name": "abort_at_22",
+      "result": "PASS",
+      "sent": 22,
+      "failure": "SDO abort 0x06020000"
+    },
+    {
+      "name": "wrong_width_at_22",
+      "result": "PASS",
+      "sent": 22,
+      "failure": "SDO expedited width/command mismatch"
+    },
+    {
+      "name": "wrong_object_at_22",
+      "result": "PASS",
+      "sent": 22,
+      "failure": "unexpected SDO object"
+    },
+    {
+      "name": "wrong_id_at_22",
+      "result": "PASS",
+      "sent": 22,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "wrong_dlc_at_22",
+      "result": "PASS",
+      "sent": 22,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "short_receive_at_22",
+      "result": "PASS",
+      "sent": 22,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "fd_receive_at_22",
+      "result": "PASS",
+      "sent": 22,
+      "failure": "malformed classic CAN size"
+    },
+    {
+      "name": "late_receive_at_22",
+      "result": "PASS",
+      "sent": 22,
+      "failure": "per-request deadline after receive"
+    },
+    {
+      "name": "send_error_at_22",
+      "result": "PASS",
+      "sent": 22,
+      "failure": "mock send"
+    },
+    {
+      "name": "short_send_at_22",
+      "result": "PASS",
+      "sent": 22,
+      "failure": "short CAN send"
+    },
+    {
+      "name": "late_send_at_22",
+      "result": "PASS",
+      "sent": 22,
+      "failure": "per-request deadline after send"
+    },
+    {
+      "name": "recv_error_at_22",
+      "result": "PASS",
+      "sent": 22,
+      "failure": "mock recv"
+    },
+    {
+      "name": "error_frame_at_22",
+      "result": "PASS",
+      "sent": 22,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "rtr_frame_at_22",
+      "result": "PASS",
+      "sent": 22,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "extended_frame_at_22",
+      "result": "PASS",
+      "sent": 22,
+      "failure": "unexpected CAN ID/flags/DLC"
+    },
+    {
+      "name": "not_disabled_at_1",
+      "result": "PASS",
+      "sent": 1,
+      "failure": "drive not switch-on-disabled; no control action allowed"
+    },
+    {
+      "name": "not_disabled_at_22",
+      "result": "PASS",
+      "sent": 22,
+      "failure": "drive not switch-on-disabled; no control action allowed"
+    },
+    {
+      "name": "failure_finally_socket_close_only",
+      "result": "PASS",
+      "closes": 1,
+      "sent": 1
+    },
+    {
+      "name": "isolated_cold_process",
+      "result": "PASS",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/readonly-probe/readonly_once.py",
+        "--cold-load",
+        "--payload-root",
+        "/home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload"
+      ],
+      "rc": 0
+    }
+  ],
+  "live_CAN_opens": 0,
+  "live_CAN_sends": 0,
+  "source_sha256": "294626057423c4361a2b776b092aceacb5afa7476b48eb830ecb249c9054916a"
+}

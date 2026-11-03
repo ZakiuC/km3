@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=8",
+    "root@192.168.0.188",
+    "python3 -I -B -c '\"\"\"Stage the approved historical archive into a new /tmp; do not execute payload.\"\"\"\nimport hashlib,io,json,os,pathlib,posixpath,sys,tarfile,tempfile\nraw=sys.stdin.buffer.read()\nsha=hashlib.sha256(raw).hexdigest()\nassert sha=='\"'\"'a1bfb7b491ec1ff0509992db6ecae3b68c80384d4db59d068cffa47960f31f6c'\"'\"','\"'\"'archive sha mismatch'\"'\"'\nt=tarfile.open(fileobj=io.BytesIO(raw),mode='\"'\"'r:gz'\"'\"')\nmembers=t.getmembers()\nassert len(members)==21\nnames=[m.name for m in members]\nassert len(names)==len(set(names))\nfor m in members:\n p=pathlib.PurePosixPath(m.name)\n assert not p.is_absolute() and str(p)==m.name and '\"'\"'..'\"'\"' not in p.parts and '\"'\"'.'\"'\"' not in p.parts\n assert m.isfile() or m.issym()\n if m.issym():\n  assert not pathlib.PurePosixPath(m.linkname).is_absolute()\n  resolved=posixpath.normpath(posixpath.join(str(p.parent),m.linkname))\n  assert resolved in names and not resolved.startswith('\"'\"'../'\"'\"')\nmanifest=json.loads(t.extractfile('\"'\"'payload-manifest.json'\"'\"').read())\nassert set(names)=={x['\"'\"'path'\"'\"'] for x in manifest['\"'\"'files'\"'\"']}|{'\"'\"'payload-manifest.json'\"'\"'}\nfor item in manifest['\"'\"'files'\"'\"']:\n member=t.getmember(item['\"'\"'path'\"'\"'])\n if '\"'\"'symlink'\"'\"' in item:\n  assert member.issym() and member.linkname==item['\"'\"'symlink'\"'\"']\n else:\n  data=t.extractfile(member).read()\n  assert member.isfile() and len(data)==item['\"'\"'size'\"'\"'] and hashlib.sha256(data).hexdigest()==item['\"'\"'sha256'\"'\"']\nbase=pathlib.Path(tempfile.mkdtemp(prefix='\"'\"'km3-pp-disabled-start-probe-20261019-'\"'\"',dir='\"'\"'/tmp'\"'\"'))\n(base/'\"'\"'frozen-payload.tar.gz'\"'\"').write_bytes(raw)\nroot=base/'\"'\"'payload'\"'\"';root.mkdir()\nfor member in members:\n if member.isfile():\n  dest=root/member.name;dest.parent.mkdir(parents=True,exist_ok=True)\n  with dest.open('\"'\"'xb'\"'\"') as f:f.write(t.extractfile(member).read())\n  dest.chmod(0o644)\nfor member in members:\n if member.issym():os.symlink(member.linkname,root/member.name)\nchecks=[]\nfor item in manifest['\"'\"'files'\"'\"']:\n dest=root/item['\"'\"'path'\"'\"']\n if '\"'\"'symlink'\"'\"' in item:assert dest.is_symlink() and os.readlink(dest)==item['\"'\"'symlink'\"'\"']\n else:assert dest.stat().st_size==item['\"'\"'size'\"'\"'] and hashlib.sha256(dest.read_bytes()).hexdigest()==item['\"'\"'sha256'\"'\"']\n checks.append(item['\"'\"'path'\"'\"'])\nprint(json.dumps(dict(result='\"'\"'PASS'\"'\"',base=str(base),payload_root=str(root),archive_sha256=sha,safe_members=len(members),manifest_members_verified=len(checks),source_head=manifest['\"'\"'source_head'\"'\"'],CAN_opens=0,CAN_sends=0,payload_executed=False),ensure_ascii=False))\n'"
+  ],
+  "stdin_sha256": "a1bfb7b491ec1ff0509992db6ecae3b68c80384d4db59d068cffa47960f31f6c",
+  "stdin_bytes": 189489,
+  "utc_start": "2026-10-19T01:07:19.439504+00:00",
+  "utc_end": "2026-10-19T01:07:19.789597+00:00",
+  "rc": 0
+}

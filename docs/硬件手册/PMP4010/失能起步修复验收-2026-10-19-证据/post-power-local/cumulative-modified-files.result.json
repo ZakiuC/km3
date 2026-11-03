@@ -1,0 +1,22 @@
+{
+  "name": "cumulative-modified-files",
+  "argv": [
+    "git",
+    "diff",
+    "--name-only",
+    "HEAD",
+    "--",
+    "device/drivers/pmp4010",
+    "tools/hwtui",
+    "tools/hwdriver"
+  ],
+  "shell_command": "git diff --name-only HEAD -- device/drivers/pmp4010 tools/hwtui tools/hwdriver",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:17:15.032254+00:00",
+  "duration_seconds": 0.008422692999943138,
+  "returncode": 0,
+  "stdout": "cumulative-modified-files.stdout.log",
+  "stderr": "cumulative-modified-files.stderr.log",
+  "stdout_sha256": "add6409c22772c549ad60348ab23c04d34c122a08f88e3c778bf9ac09fce55b5",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

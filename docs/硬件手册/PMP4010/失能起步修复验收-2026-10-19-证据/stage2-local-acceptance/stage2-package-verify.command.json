@@ -1,0 +1,18 @@
+{
+  "name": "stage2-package-verify",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pp-disabled-start-stage2-package-20261019/verify_and_archive.py"
+  ],
+  "shell_command": "python3 -I -B /tmp/km3-pp-disabled-start-stage2-package-20261019/verify_and_archive.py",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T01:22:20.288482+00:00",
+  "duration_seconds": 0.25681891571730375,
+  "returncode": 0,
+  "stdout": "stage2-package-verify.stdout.log",
+  "stderr": "stage2-package-verify.stderr.log",
+  "stdout_sha256": "238b5c83299afe3d1415f785172240549a66c3abec994a6e415b25ec2629e1f0",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,19 @@
+{
+  "revision": 3,
+  "supersedes": "source-manifest-v2-13-files-pre-citations.json",
+  "previous_file_count": 13,
+  "corrected_file_count": 13,
+  "changed_file": "device/drivers/pmp4010/tools/pmp4010.py",
+  "change": "Four manual citation comments only; AST unchanged",
+  "old_sha256": "b15b4b281578c49066108a45515d78c738afb9d19e1f24aa0944cee3b045f73d",
+  "new_sha256": "2fca0b103544c29f78a79b9e349ec841db0e39abf8f39d9d910e57e47b1e0a1a",
+  "literal_source_lines_after": [
+    1247,
+    1250,
+    1280,
+    1375
+  ],
+  "all_0x60b1_literals_have_adjacent_citation": true,
+  "tests_repeated": false,
+  "citation_gate_owner": "/root/csv_guard_acceptance"
+}

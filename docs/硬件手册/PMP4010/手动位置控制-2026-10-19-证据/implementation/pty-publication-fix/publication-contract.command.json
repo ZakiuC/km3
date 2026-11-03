@@ -1,0 +1,16 @@
+{
+  "name": "publication-contract",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "device/drivers/pmp4010/tools/_test_simple_pty.py",
+    "SnapshotPublicationTests"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T07:34:44.103550+00:00",
+  "stdout": "publication-contract.stdout.log",
+  "stderr": "publication-contract.stderr.log",
+  "rc": 0,
+  "finished_utc": "2026-10-19T07:34:44.141740+00:00"
+}

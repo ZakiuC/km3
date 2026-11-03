@@ -1,0 +1,69 @@
+{
+  "scope": "saved local files only; no fresh board IO",
+  "controls_hex": [
+    "0x106",
+    "0x107",
+    "0x127",
+    "0x137",
+    "0x127",
+    "0x12f",
+    "0x2",
+    "0x0",
+    "0x6"
+  ],
+  "actual_target_downloads": [
+    -1470
+  ],
+  "preload_stable_samples": 5,
+  "first_post_12f_position": -1457,
+  "first_offset_u": 13,
+  "first_read_ms_after_12f": 100.47042899986991,
+  "cleanup": {
+    "timestamp_utc": "2026-10-19T03:08:33.819993+00:00",
+    "source": "device",
+    "event": "after_cleanup",
+    "statusword": 576,
+    "actual_position": -1467,
+    "actual_velocity": 0,
+    "disabled_confirmed": true,
+    "position_unchanged": false,
+    "position_target_confirmed": false,
+    "zero_velocity_confirmed": true
+  },
+  "result": {
+    "timestamp_utc": "2026-10-19T03:08:33.820545+00:00",
+    "source": "device",
+    "event": "result",
+    "action": "relative",
+    "strict_disabled_start": true,
+    "completed": false,
+    "disabled_confirmed": true,
+    "position_unchanged": false,
+    "position_target_confirmed": false,
+    "zero_velocity_confirmed": true,
+    "cleanup_confirmed": true,
+    "no_fault_following_error_confirmed": true,
+    "mechanical_stop_confirmed": false,
+    "halt_released": false,
+    "operation_enable_requested": true,
+    "halt_release_attempted": false,
+    "operation_enable_attempted": true,
+    "travel_trigger_attempted": false,
+    "completed_motion": false,
+    "operation_enabled_observed": true,
+    "travel_executed": false,
+    "travel_executed_semantics": "legacy protocol trigger attempt, not physical displacement evidence",
+    "independent_estop_required": true
+  },
+  "q_exit": {
+    "utc": "2026-10-19T03:09:00.397404+00:00",
+    "monotonic": 3704.460473299,
+    "child_rc": 0,
+    "forced_kill": false
+  },
+  "raw_sha256": {
+    "second-trip-board/immediately-after-once-pmp4010-motion-168074b07518464b8aeb300f13b26c1f.jsonl": "fe42def6329ffcfd9303c5176eb43191ec8cdce59110ff3ac50c81fd33aa23b3",
+    "second-trip-board/after-q-final-app-audit.jsonl": "61ff3a7fbabdb316461584e889ce01f7a56e9b310c35c19ca6c8d18f15ad358d",
+    "second-trip-board/postcheck-summary.json": "5f653be2b3f3a5bc91ce967299996092f34b1da4554fd3a8bfd582b2316ca3cc"
+  }
+}

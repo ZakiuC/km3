@@ -1,0 +1,16 @@
+{"timestamp_utc": "2026-10-17T08:25:42.132948+00:00", "source": "device", "event": "begin", "node": 1, "target": -1429, "action": "relative", "reviewed_start": -1465, "soft_min": -1465, "soft_max": -1429, "max_displacement": 36, "od_gaps_bypass": "测试台会话显式确认：OD mock-bench 1"}
+{"timestamp_utc": "2026-10-17T08:25:42.133798+00:00", "source": "device", "event": "before", "statusword": 1632, "statusword_hex": "0x0660", "actual_position": -1465}
+{"timestamp_utc": "2026-10-17T08:25:42.133992+00:00", "source": "device", "event": "calibration", "values": [131072, 1, 1, 1], "resolution": "131072", "gear_ratio": "1", "motor_degrees_per_user_unit": "45/16384", "output_degrees_per_user_unit": "45/16384"}
+{"timestamp_utc": "2026-10-17T08:25:42.134143+00:00", "source": "device", "event": "limits", "max_velocity": 9000000, "max_motor_speed": 4000, "max_profile_acceleration": 2147483647, "max_deceleration": 2147483647}
+{"timestamp_utc": "2026-10-17T08:25:42.134573+00:00", "source": "device", "event": "write_readback", "object": "modes_of_operation", "expected": 1, "actual": 1}
+{"timestamp_utc": "2026-10-17T08:25:42.134674+00:00", "source": "device", "event": "write_readback", "object": "profile_end_velocity", "expected": 0, "actual": 0}
+{"timestamp_utc": "2026-10-17T08:25:42.134748+00:00", "source": "device", "event": "write_readback", "object": "profile_velocity", "expected": 100, "actual": 100}
+{"timestamp_utc": "2026-10-17T08:25:42.134815+00:00", "source": "device", "event": "write_readback", "object": "profile_acceleration", "expected": 5000000, "actual": 5000000}
+{"timestamp_utc": "2026-10-17T08:25:42.134885+00:00", "source": "device", "event": "write_readback", "object": "profile_deceleration", "expected": 5000000, "actual": 5000000}
+{"timestamp_utc": "2026-10-17T08:25:42.135028+00:00", "source": "device", "event": "write_readback", "object": "target_position", "expected": -1429, "actual": -1429}
+{"timestamp_utc": "2026-10-17T08:25:42.135427+00:00", "source": "device", "event": "ready_for_setpoint", "statusword": 1063, "statusword_hex": "0x0427", "actual_position": -1465}
+{"timestamp_utc": "2026-10-17T08:25:42.135673+00:00", "source": "device", "event": "setpoint_ack", "statusword": 4135, "statusword_hex": "0x1027", "actual_position": -1465}
+{"timestamp_utc": "2026-10-17T08:25:42.135846+00:00", "source": "device", "event": "target_completion", "statusword": 1063, "statusword_hex": "0x0427", "actual_position": -1429}
+{"timestamp_utc": "2026-10-17T08:25:42.135935+00:00", "source": "device", "event": "target_reached", "statusword": 1063, "statusword_hex": "0x0427", "actual_position": -1429}
+{"timestamp_utc": "2026-10-17T08:25:42.136184+00:00", "source": "device", "event": "after_cleanup", "statusword": 1088, "statusword_hex": "0x0440", "actual_position": -1429}
+{"timestamp_utc": "2026-10-17T08:25:42.136202+00:00", "source": "device", "event": "result", "completed": true, "disabled_confirmed": true, "mechanical_stop_confirmed": false, "independent_estop_required": false}

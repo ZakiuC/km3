@@ -1,0 +1,29 @@
+{
+  "mock_case": "drift",
+  "runner_rc": 1,
+  "assertions": "PASS",
+  "controlwords": [
+    2,
+    0,
+    6
+  ],
+  "writes": [
+    [
+      24640,
+      0,
+      2
+    ],
+    [
+      24640,
+      0,
+      0
+    ],
+    [
+      24640,
+      0,
+      6
+    ]
+  ],
+  "read_phase_writes": [],
+  "hardware_acceptance": false
+}

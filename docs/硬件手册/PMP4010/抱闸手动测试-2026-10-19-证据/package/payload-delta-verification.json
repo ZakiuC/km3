@@ -1,0 +1,14 @@
+{
+  "changed_baseline_files": [
+    "load_smoke.py"
+  ],
+  "new_files": [
+    "README-抱闸测试.md",
+    "drivers/pmp4010/pmp4010_brake.py",
+    "run-brake.sh"
+  ],
+  "all_other_manifest_listed_files_unchanged": true,
+  "candidate_archive_hash_preserved": true,
+  "baseline_archive_hash_preserved": true,
+  "tests_excluded": true
+}

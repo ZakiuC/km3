@@ -1,0 +1,23 @@
+{
+  "name": "tools-tests",
+  "argv": [
+    "python3",
+    "-I",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tools/tests",
+    "-p",
+    "test_*.py"
+  ],
+  "shell_command": "python3 -I -m unittest discover -s tools/tests -p 'test_*.py'",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:12:58.589227+00:00",
+  "duration_seconds": 0.5075985390000142,
+  "returncode": 0,
+  "stdout": "tools-tests.stdout.log",
+  "stderr": "tools-tests.stderr.log",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "919c9d0a2c229f644af682a179a9212efb67d8565f8c4f8e75320566b6cbc911"
+}

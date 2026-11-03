@@ -1,0 +1,7 @@
+{
+  "assertions": 104,
+  "status": "passed",
+  "scope": "local PTY + protocol mock only; no hardware acceptance",
+  "output_dir": "/tmp/pmp4010-cpp-pty-fourth",
+  "syscall_audit": true
+}

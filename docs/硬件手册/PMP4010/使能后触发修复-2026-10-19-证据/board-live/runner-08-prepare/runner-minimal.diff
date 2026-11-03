@@ -1,0 +1,47 @@
+--- 54c5/controlled-forward.runner.py
++++ runner-08/controlled-forward.runner.py
+@@ -162,6 +162,18 @@
+             raise KeyboardInterrupt('验收已中止')
+ 
+ 
++def read_motion_details(session, deadline, out):
++    # Same ManualClient and MotionSession deadline/cancellation/quarantine path.
++    for index in (0x606b, 0x6069, 0x6063, 0x60f4):
++        started = datetime.datetime.now(datetime.timezone.utc).isoformat()
++        label = '监测只读 {:04X}:00'.format(index)
++        raw = session.call(deadline, label, session.client.read, index, 0)
++        session.call(deadline, label+'宽度', session.client._as_int, raw, 4)
++        out.event('动作后细速与偏差', dict(index=hex(index), subindex=0,
++                  started_utc=started, raw_hex=raw.hex(), width=len(raw),
++                  value=int.from_bytes(raw, 'little', signed=True)))
++
++
+ def run_transaction(modules, output_dir, rt_reason, od_reason, owner_check,
+                     approve, observe_seconds=10, hardware=False):
+     tool = modules['pmp4010']
+@@ -187,12 +199,15 @@
+         ctl.rt_ack = True  # Explicit nonempty coordinator reason recorded above.
+         require(ctl.scan(out) == [1], '仅节点1，扫描不符')
+         ctl.authorize()
++        ctl.settings.update(soft_min=max(ctl.settings['soft_min'], -1847),
++                            soft_max=min(ctl.settings['soft_max'], -1119))
++        ctl.set_value('step', '0.8')
+         ctl.od_reason = od_reason
+         row = ctl.row(1)
+         step, degrees, rpm = ctl.quantities(row)
+-        require(step >= 1 and 0 < degrees <= Fraction('0.1'), '量化0.1度预算不符')
++        require(step >= 1 and 0 < degrees <= Fraction('0.8'), '量化0.8度预算不符')
+         # Keep the production authorize() one-degree budget and origin limits.
+-        # Only the commanded step is 0.1deg; tracking may vary inside its guards.
++        # Only the commanded step is 0.8deg; retain the original-session envelope.
+         review = ctl.review_action('forward', out)
+         session = review['session']
+         require(ctl.context == ('can1', 1000000), '实际controller接口不符')
+@@ -242,6 +257,7 @@
+             require(not row['lost'] and not row['quarantined'], '监测失联/隔离')
+             values = row['values']
+             out.event('动作后实读', values)
++            read_motion_details(session, deadline, out)
+             reached = (values['actual_position'] == review['target'] and
+                        values['position_demand'] == review['target'] and
+                        values['target_position'] == review['target'] and

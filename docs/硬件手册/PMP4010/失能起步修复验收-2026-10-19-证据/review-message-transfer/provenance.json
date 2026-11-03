@@ -1,0 +1,13 @@
+{
+  "source": "review子线程消息转存，子线程未落盘",
+  "sender": "/root/pp_disabled_start_review",
+  "original_cwd": "/home/zakiu/km3",
+  "original_command": "python3 -B - < replay.py (reviewer originally supplied a heredoc containing replay.py verbatim)",
+  "reviewer_reported_exit_code": 0,
+  "reviewer_reported_wall_time_seconds": 0.337970778,
+  "reviewer_reported_stderr": "empty",
+  "first_audit_case_count": 12,
+  "first_audit_naming_error": "seal_args_tampering_zero_IO was mislabeled whole_deadline_includes_initial_sampling",
+  "correction": "Separate actual 0.5s and 1.0s global-deadline runs and integrated 14-case replay test actual deadlines. This is an integrated replay, not 14 additional cases. Original first-audit raw was not supplied to acceptance; preserve this naming-error provenance.",
+  "acceptance_independent_replay": "recorded separately"
+}

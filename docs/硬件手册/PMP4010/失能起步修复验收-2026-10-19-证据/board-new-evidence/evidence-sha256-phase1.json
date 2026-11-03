@@ -1,0 +1,15 @@
+{
+  "baseline-passive-01.json": "5b78e6927d34ff963a899d39fc13e92d38b5b5c7ed41c15b1d35c906bbea7514",
+  "diagnose.py": "298c937b6341d1c4e63d4f92b01f7c44ddee8ba9bdfec6d38da475e58d1cc473",
+  "guard-check.json": "40b2dd21a1464580c55a8b1aa97c4fdc9fb1c32cfe27f00181eec5662c2eccdb",
+  "guard_check.py": "bf2262568b4b22429529d2a708b8beaa185c7f20dde97bb771a500d23161cedc",
+  "local-initial-source-sha256.json": "2d36f709b8523e0dc1286db1c277f13a817bce2b17c9e5d0bb19ab3b0a15277f",
+  "passive-01.command.json": "0b8f3b8ed8fa4bfe3e0d24efed4a6f580135aae10c2575c03420c773d55307b1",
+  "passive-01.script.py": "f506882dd01f3bc28f956dccd16231d91bf1a850e39f40e31de291d8abe7ff8c",
+  "passive-01.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "passive-01.stdout": "5b78e6927d34ff963a899d39fc13e92d38b5b5c7ed41c15b1d35c906bbea7514",
+  "passive.py": "9ba92d2915606a16b284f72368e30608910df26ffccefd9302f5c5c682f23cc8",
+  "phase-1-plan.json": "ae5dfd284b1d5d9ad40613760ed7c6588def6c3d8df506accd2a95be3144bf2e",
+  "pty_runner.py": "a61bc37d9991671906748dd4c074a5d5ccfd0760cd6ccaf029bfa1e9c0ec916d",
+  "record.py": "034cef919380cb8752d52cadf3fdee142c16db584434a6f03090dd01c674aed8"
+}

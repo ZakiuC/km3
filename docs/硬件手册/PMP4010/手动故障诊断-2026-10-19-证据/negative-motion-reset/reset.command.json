@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B -c 'import base64,hashlib,json,pathlib,subprocess,sys\nP=pathlib.Path\nexpected={'\"'\"'reset_only_once.py'\"'\"':'\"'\"'6176b8d66ab93fcb232aed8bb15e095bfc05bb27fe7b43de0be392dfe5ec021d'\"'\"','\"'\"'pinned_payload.py'\"'\"':'\"'\"'e8a98830191da64cce22422b3bb9540f68049b5907ae35b9ad259268855c6205'\"'\"'}\nfiles=json.loads(sys.stdin.buffer.read());assert set(files)==set(expected)\ndata={name:base64.b64decode(value,validate=True) for name,value in files.items()}\nfor name,h in expected.items():assert hashlib.sha256(data[name]).hexdigest()==h\nparent=P('\"'\"'/var/tmp/km3-pmp4010-diag-20261019-0218ab4207eb'\"'\"');assert parent.resolve(strict=True)==parent\nstage=parent/'\"'\"'reset-only-plan'\"'\"';assert not stage.exists() and not stage.is_symlink()\nstage.mkdir(mode=0o700,exist_ok=False)\nfor name,raw in data.items():\n with (stage/name).open('\"'\"'xb'\"'\"') as stream:stream.write(raw)\n assert hashlib.sha256((stage/name).read_bytes()).hexdigest()==expected[name]\nargv=['\"'\"'python3'\"'\"','\"'\"'-I'\"'\"','\"'\"'-B'\"'\"',str(stage/'\"'\"'reset_only_once.py'\"'\"'),'\"'\"'--execute-reset-only-once'\"'\"','\"'\"'--manual-session-reason'\"'\"',sys.argv[1]]\nprint(json.dumps(dict(event='\"'\"'exact_reset_execution'\"'\"',argv=argv,source_sha256=expected,timeout_seconds=10),ensure_ascii=False),flush=True)\ntry:\n p=subprocess.run(argv,capture_output=True,timeout=10);rc,stdout,stderr=p.returncode,p.stdout,p.stderr\nexcept subprocess.TimeoutExpired as exc:rc,stdout,stderr=124,exc.stdout or b'\"'\"''\"'\"',(exc.stderr or b'\"'\"''\"'\"')+b'\"'\"'\\nRemote10s timeout; no retry.\\n'\"'\"'\nsys.stdout.buffer.write(stdout);sys.stdout.buffer.flush();sys.stderr.buffer.write(stderr);sys.stderr.buffer.flush()\nprint(json.dumps(dict(event='\"'\"'reset_process_exit'\"'\"',rc=rc,automatic_retries=0,motion_executed=False)),flush=True)\nsys.exit(rc)\n' '用户已确认设备停止，并明确允许本次失能单次手动复位及随后相对-10mm、100rpm观察；沿用现场已确认的OD缺口范围，仅本次会话'"
+  ],
+  "start_utc": "2026-10-19T08:54:14.252785+00:00",
+  "end_utc": "2026-10-19T08:54:14.858640+00:00",
+  "rc": 1,
+  "stdin_size": 14747,
+  "stdin_sha256": "324d0864a5ba6412d51d8526c2793b49916bd29dd3f9149586de4ea025699f49",
+  "script_sha256": "52faf6647a550c6e381e70b965d6906292bf6031cec1c632c6b2602e21b40cea",
+  "source_sha256": {
+    "reset_only_once.py": "6176b8d66ab93fcb232aed8bb15e095bfc05bb27fe7b43de0be392dfe5ec021d",
+    "pinned_payload.py": "e8a98830191da64cce22422b3bb9540f68049b5907ae35b9ad259268855c6205"
+  },
+  "automatic_retries": 0,
+  "timeout_seconds": 15,
+  "remote_process_timeout_seconds": 10
+}

@@ -1,0 +1,61 @@
+{
+  "inputs": [
+    {
+      "path": "device/drivers/pmp4010/driver/pmp4010_velocity.cpp",
+      "previous_sha256": "dd922c91bfd04c55a2a3ef5dfd72424f0ef9faee30c4f9225a38640f82b2546c",
+      "current_sha256": "dd922c91bfd04c55a2a3ef5dfd72424f0ef9faee30c4f9225a38640f82b2546c",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/driver/pmp4010_velocity.hpp",
+      "previous_sha256": "6e4f08e0f3c381fbedc016f456c860dfdb631971cb1a2462c493187ce0b769bc",
+      "current_sha256": "6e4f08e0f3c381fbedc016f456c860dfdb631971cb1a2462c493187ce0b769bc",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/driver/pmp4010_velocity_c.cpp",
+      "previous_sha256": "e70b72b671e17e578ad27199913fbbb89d6e97e4dbbbcd07be4fba3321629de7",
+      "current_sha256": "e70b72b671e17e578ad27199913fbbb89d6e97e4dbbbcd07be4fba3321629de7",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/driver/pmp4010_velocity_c.h",
+      "previous_sha256": "a051aa656583cdb97030bbdc86f9da0c9e725352fa3e54bab0e9999dbdae1856",
+      "current_sha256": "a051aa656583cdb97030bbdc86f9da0c9e725352fa3e54bab0e9999dbdae1856",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/native/CMakeLists.txt",
+      "previous_sha256": "7d5cc42f78fc76b7c8ddb999e98d77cbc3b4bc260a55db7e79c74f44c3c0dffc",
+      "current_sha256": "7d5cc42f78fc76b7c8ddb999e98d77cbc3b4bc260a55db7e79c74f44c3c0dffc",
+      "match": true
+    },
+    {
+      "path": "device/cmake/aarch64-linux-gnu.cmake",
+      "previous_sha256": "14214184d3518b85b432ad6684bfc6a122a1f9355fd8b5a5fb74c2b2e267af46",
+      "current_sha256": "14214184d3518b85b432ad6684bfc6a122a1f9355fd8b5a5fb74c2b2e267af46",
+      "match": true
+    },
+    {
+      "path": "tools/deploy_hwtools.sh",
+      "previous_sha256": "b287b1c3e7d09140d53f7c152dbe85d8a6775f1e23e434ce27ea9e7036c8383a",
+      "current_sha256": "b287b1c3e7d09140d53f7c152dbe85d8a6775f1e23e434ce27ea9e7036c8383a",
+      "match": true
+    },
+    {
+      "path": "build-arm64/libpmp4010_velocity.so.1.0.0",
+      "previous_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+      "current_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+      "match": true
+    }
+  ],
+  "all_match": true,
+  "scope": "native velocity library/build inputs only; does not establish all C++ test input equality",
+  "prior_actual_index": "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/post-power-local/index-final.json",
+  "current_arm_build": false,
+  "current_arm_execution": false,
+  "cpp_execution_at_initial_hash_capture": false,
+  "current_cpp_execution": true,
+  "current_cpp_command_index": "native-command-index.json",
+  "cpp_note": "Host/ASan/TSan builds and tests actually rerun after initial hash capture; 17/17 each"
+}

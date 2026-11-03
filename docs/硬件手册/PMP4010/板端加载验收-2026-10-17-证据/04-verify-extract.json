@@ -1,0 +1,17 @@
+{
+  "name": "04-verify-extract",
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "root@192.168.0.188",
+    "python3 -I -B - /tmp/km3-pmp4010-load-20261017-qOtHjpDU"
+  ],
+  "stdin": "\nimport hashlib,json,pathlib,sys,tarfile,posixpath,os\nroot=pathlib.Path(sys.argv[1]); archive=root/'pmp4010-board-payload.tar.gz'\ndigest=hashlib.sha256(archive.read_bytes()).hexdigest()\nassert archive.stat().st_size==181950\nassert digest=='2ba7166685c78ec29c6d46bbf20671ee983d648631ddbb1d72b24ac047868df0'\ndest=root/'payload'\nassert not dest.exists()\nwith tarfile.open(archive,'r:gz') as tar:\n members=tar.getmembers(); seen=set(); symlinks=set()\n for m in members:\n  p=pathlib.PurePosixPath(m.name)\n  assert not p.is_absolute() and '..' not in p.parts and str(p) not in ('','.','/')\n  assert m.name not in seen; seen.add(m.name)\n  assert m.isfile() or m.isdir() or m.issym()\n  if m.issym():\n   target=pathlib.PurePosixPath(m.linkname)\n   assert not target.is_absolute()\n   resolved=posixpath.normpath(posixpath.join(str(p.parent),m.linkname))\n   assert resolved!='..' and not resolved.startswith('../')\n   symlinks.add(p)\n for m in members:\n  assert not any(parent in symlinks for parent in pathlib.PurePosixPath(m.name).parents)\n dest.mkdir(mode=0o700)\n for m in members:\n  p=dest/m.name; p.parent.mkdir(parents=True,exist_ok=True)\n  if m.isdir(): p.mkdir(exist_ok=True)\n  elif m.issym(): p.symlink_to(m.linkname)\n  else:\n   with p.open('xb') as out: out.write(tar.extractfile(m).read())\n for p in dest.rglob('*'):\n  if p.is_symlink(): assert p.resolve(strict=True).is_relative_to(dest.resolve())\nprint(json.dumps({'archive_size':archive.stat().st_size,'archive_sha256':digest,'members':len(members),'safe_extract':True,'destination':str(dest)},indent=2))\n",
+  "started_utc": "2026-10-17T07:49:17.747009+00:00",
+  "exitcode": 0,
+  "stdout": "{\n  \"archive_size\": 181950,\n  \"archive_sha256\": \"2ba7166685c78ec29c6d46bbf20671ee983d648631ddbb1d72b24ac047868df0\",\n  \"members\": 21,\n  \"safe_extract\": true,\n  \"destination\": \"/tmp/km3-pmp4010-load-20261017-qOtHjpDU/payload\"\n}\n",
+  "stderr": ""
+}

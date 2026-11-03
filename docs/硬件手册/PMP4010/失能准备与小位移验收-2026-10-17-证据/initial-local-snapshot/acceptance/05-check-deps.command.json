@@ -1,0 +1,7 @@
+{
+  "argv": [
+    "bash",
+    "tools/check-deps.sh"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

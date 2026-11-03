@@ -1,0 +1,98 @@
+--- previous/controlled-forward.runner.py
++++ current/controlled-forward.runner.py
+@@ -86,13 +86,34 @@
+     def __init__(self, path):
+         self.cancel_event = threading.Event()
+         self.stream = path.open('x', encoding='utf-8')
++        self.first_error = None
++    def _remember_error(self, destination, exc):
++        if self.first_error is None:
++            self.first_error = dict(destination=destination, type=type(exc).__name__, message=str(exc))
+     def event(self, name, data):
+         row = dict(utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                    event=name, data=data)
+         line = json.dumps(row, ensure_ascii=False, default=str)
+-        self.stream.write(line+'\n')
+-        self.stream.flush()
+-        print(line, flush=True)
++        try:
++            self.stream.write(line+'\n')
++            self.stream.flush()
++        except OSError as exc:
++            self._remember_error('file', exc)
++        try:
++            print(line, flush=True)
++        except OSError as exc:
++            self._remember_error('stdout', exc)
++    def close(self):
++        try:
++            self.stream.close()
++        except OSError as exc:
++            self._remember_error('file_close', exc)
++        if self.first_error is not None:
++            try:
++                print(json.dumps(dict(event='OUTPUT_FAILURE', output_error=self.first_error,
++                         hardware_motion_acceptance=False), ensure_ascii=False), flush=True)
++            except OSError as exc:
++                self._remember_error('stdout', exc)
+     def info(self, text): self.event('信息', str(text))
+     plain = title = cmd = info
+     def warn(self, text): self.event('警告', str(text))
+@@ -168,8 +189,11 @@
+         require(ctl.refresh(out), '执行前刷新失败')
+         fresh = ctl.row(1)
+         require(not fresh['lost'] and not fresh['quarantined'], '执行前已失联/隔离')
+-        require(fresh['values']['actual_position'] == review['start'] and
+-                fresh['values']['actual_velocity'] == 0, '审阅暂停期间起点漂移/速度非零')
++        out.event('执行前实读位置', dict(actual_position=fresh['values']['actual_position'],
++                  frozen_start=review['start'], frozen_target=review['target'],
++                  delta_from_start=fresh['values']['actual_position']-review['start']))
++        require(fresh['values']['actual_velocity'] == 0, '执行前实际速度非零')
++        require(out.first_error is None, '输出失败；拒绝开始动作')
+         require(ctl.manual_sessions[1] is session, '禁止替换SDO会话')
+         executing = True
+         ctl.execute_action(review, out)
+@@ -217,14 +241,23 @@
+         close_result = ctl.close(out)
+         if any(not result['disabled_confirmed'] for result in close_result):
+             failure = failure or '退出失能未确认'
+-        out.event('FINAL', dict(completed=completed, failure=failure,
++        if out.first_error is not None:
++            failure = failure or '日志输出失败；验收证据不完整'
++        final = dict(completed=completed, failure=failure, output_error=out.first_error,
+                   hardware_motion_acceptance=hardware and completed and failure is None,
+                   mock_only=not hardware,
+                   cleanup=cleanup, close_results=close_result,
+                   close_lines=ctl.shutdown_lines,
+                   final_velocity_note='606C实读在disable0完整快照中；close6后只再读6041并关闭总线',
+-                  mechanical_stop_confirmed=False))
+-        out.stream.close()
++                  mechanical_stop_confirmed=False)
++        out.event('FINAL', final)
++        if out.first_error is not None:
++            failure = failure or '日志输出失败；验收证据不完整'
++            out.event('FINAL_OUTPUT_FAILURE', dict(final, failure=failure,
++                      output_error=out.first_error, hardware_motion_acceptance=False))
++        out.close()
++        if out.first_error is not None:
++            return 1
+     return 0 if completed and failure is None else 1
+ 
+ 
+@@ -237,7 +270,7 @@
+     parser.add_argument('--od-reason', required=True)
+     parser.add_argument('--mock-repo', type=Path)
+     parser.add_argument('--mock-library', type=Path)
+-    parser.add_argument('--mock-case', choices=('success', 'abort', 'drift', 'fault', 'uncertain'), default='success')
++    parser.add_argument('--mock-case', choices=('success', 'abort', 'drift', 'within-budget', 'fault', 'uncertain', 'output-failure'), default='success')
+     args = parser.parse_args()
+     require(args.rt_reason.strip() and args.od_reason.strip(), '须显式提供会话理由')
+     root = args.payload.resolve(strict=True)
+@@ -260,6 +293,7 @@
+         raise KeyboardInterrupt('收到中止信号 '+str(signum))
+     signal.signal(signal.SIGTERM, interrupted)
+     signal.signal(signal.SIGINT, interrupted)
++    signal.signal(signal.SIGHUP, interrupted)
+     def approval(digest):
+         ready, _, _ = select.select([sys.stdin], [], [], 300)
+         if not ready:

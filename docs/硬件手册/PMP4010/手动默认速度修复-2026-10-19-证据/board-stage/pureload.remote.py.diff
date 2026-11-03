@@ -1,0 +1,56 @@
+--- docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/board-stage/pureload.remote.py
++++ /home/zakiu/km3/docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/board-stage/pureload.remote.py
+@@ -14,6 +14,7 @@
+ root = Path(sys.argv[1]).resolve(strict=True)
+ assert platform.machine() == 'aarch64', 'board native math must execute on AArch64'
+ attempts = []
++default_check_active = False
+ 
+ def audit(event, args):
+     forbidden = event in ('socket.__new__','socket.connect','socket.bind','subprocess.Popen',
+@@ -29,6 +30,13 @@
+         raise RuntimeError('manual pureload audit rejected '+event)
+ 
+ def reject_manual_run(frame, event, arg):
++    if event == 'call' and default_check_active:
++        filename = Path(frame.f_code.co_filename).name
++        name = frame.f_code.co_name
++        if ((filename in ('pmp4010_bench.py','pmp4010_manual.py','pmp4010_simple.py') and name not in ('__init__','_empty','<listcomp>','<dictcomp>','<genexpr>')) or
++                (filename == 'pmp4010.py' and name in ('load_device_json','_std_open_active'))):
++            attempts.append('default_check_controller_io:'+filename+':'+name)
++            raise RuntimeError('default check forbids controller operations')
+     if event == 'call' and frame.f_code.co_name == 'run' and Path(frame.f_code.co_filename).name in ('pmp4010_manual.py','pmp4010_simple.py'):
+         attempts.append('manual_app_run')
+         raise RuntimeError('simple/manual pureload forbids app.run')
+@@ -50,6 +58,31 @@
+ assert simple_path.is_relative_to(root), 'simple import escaped package'
+ print(json.dumps(dict(simple_import='PASS',path=str(simple_path),
+                      sha256=hashlib.sha256(simple_path.read_bytes()).hexdigest())))
++# Constructors inspected: Bench -> Manual -> Simple initializes memory only.
++# Run the actual packaged parser and constructors under the same audit guard.
++from fractions import Fraction
++tool = importlib.import_module('pmp4010')
++assert Path(tool.__file__).resolve(strict=True).is_relative_to(root)
++default_check_active = True
++args_default = tool.build_parser().parse_args(['--manual'])
++controller_default = simple.SimpleController(tool, args_default)
++assert args_default.manual_velocity is None
++assert controller_default.manual_velocity == controller_default.next_velocity == 1000
++assert controller_default.step_degrees == Fraction('0.1')
++args_override = tool.build_parser().parse_args(['--manual','--manual-velocity','100'])
++controller_override = simple.SimpleController(tool, args_override)
++assert controller_override.manual_velocity == controller_override.next_velocity == 100
++assert controller_override.step_degrees == Fraction('0.1')
++for controller in (controller_default,controller_override):
++    assert controller.bus is None and controller.context is None
++    assert not controller.manual_sessions and not controller.refresh_clients and not controller.scan_clients
++    assert not controller.proofs and not controller.rt_ack and controller.od_reason is None
++default_check_active = False
++print(json.dumps(dict(default_parameter_check='PASS',default_parser_manual_velocity=args_default.manual_velocity,
++    manual_velocity=controller_default.manual_velocity,next_velocity=controller_default.next_velocity,
++    step_degrees=str(controller_default.step_degrees),explicit_override_manual_velocity=controller_override.manual_velocity,
++    explicit_override_next_velocity=controller_override.next_velocity,controller_bus_opened=False,
++    controller_scan_called=False,load_device_json_called=False,forbidden_attempts=len(attempts))))
+ sys.argv = [str(root/'drivers/pmp4010/pmp4010.py'),'--help']
+ help_output = io.StringIO()
+ with contextlib.redirect_stdout(help_output):

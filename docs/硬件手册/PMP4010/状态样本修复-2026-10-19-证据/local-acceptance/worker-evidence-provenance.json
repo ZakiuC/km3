@@ -1,0 +1,42 @@
+{
+  "records": [
+    {
+      "original": "/tmp/pmp4010-delayed-old-failure.log",
+      "retained": "docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/local-acceptance/pmp4010-delayed-old-failure.log",
+      "sha256": "2ce8be159045091937e66a44c14fcb8057ebe4591e1f5832e754ec078aade468",
+      "origin": "implementation worker execution; not acceptance worker rerun"
+    },
+    {
+      "original": "/tmp/pmp4010-delayed-new-pass.log",
+      "retained": "docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/local-acceptance/pmp4010-delayed-new-pass.log",
+      "sha256": "a232ee7b9f8be78567056b5a29a8b159746db89a8a0c294f2654f74a96eb6d6c",
+      "origin": "implementation worker execution; not acceptance worker rerun"
+    },
+    {
+      "original": "/tmp/pmp4010-transition-manual-final2.log",
+      "retained": "docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/local-acceptance/pmp4010-transition-manual-final2.log",
+      "sha256": "b418beb3056e6b5ccda2d18088381d199b5590b4046a92d97fc231ae051026f7",
+      "origin": "implementation worker execution; not acceptance worker rerun"
+    },
+    {
+      "original": "/tmp/pmp4010-transition-simple-final2.log",
+      "retained": "docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/local-acceptance/pmp4010-transition-simple-final2.log",
+      "sha256": "14d50ec0eacc7fe973fb79af878c8cb2a80e1b971dafb9f23314a553aa3a7bf1",
+      "origin": "implementation worker execution; not acceptance worker rerun"
+    },
+    {
+      "original": "/tmp/pmp4010-transition-frozen-pty.log",
+      "retained": "docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/local-acceptance/pmp4010-transition-frozen-pty.log",
+      "sha256": "ae6063f19967885ece2d6f76ee192bd82750ed2afcbb5960e1399f9dc69734a7",
+      "origin": "implementation worker execution; not acceptance worker rerun"
+    }
+  ],
+  "old_manual_sha256": "cd17750a16fdc185fd5a45ea5182c7405fa6397b5932d0ae34c9e7337b1af1c8",
+  "old_manual_origin": "preserved previous b579 package; root/implementation execution evidence",
+  "old_returncode_reported_by_parent": 1,
+  "new_returncode_reported_by_parent": 0,
+  "old_manual_local_reference": "/home/zakiu/km3/docs/硬件手册/PMP4010/简化交互-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_manual.py",
+  "old_manual_current_reference_sha256": "cd17750a16fdc185fd5a45ea5182c7405fa6397b5932d0ae34c9e7337b1af1c8",
+  "test_method": "_test_manual.ManualTests.test_controlled_106_107_accept_delayed_previous_first_and_last_samples",
+  "old_failure_scope": "Original worker run against old manual source before repair; current source must not be described as reproducing old rc1."
+}

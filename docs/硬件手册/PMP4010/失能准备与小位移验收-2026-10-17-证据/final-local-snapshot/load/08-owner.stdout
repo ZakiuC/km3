@@ -1,0 +1,66 @@
+MainPID=3283
+ExecStart.filtered=["/opt/km3/current/km3-rt-controller", "--config", "/etc/km3/device.json", "--require-config"]
+argv.filtered=["/opt/km3/current/km3-rt-controller", "--config", "/etc/km3/device.json", "--require-config"]
+argv.enable_sync=False
+exe=/opt/km3/releases/0.1.1/km3-rt-controller
+exe.sha256=68a978d6c63763e53b4fe33eb4ec844a85267c22ddcfe0efdc3b669678005570
+fd.0=/dev/null
+fd.1=socket:[34177]
+fd.2=socket:[34177]
+socket.34177.table_matches=["unix"]
+socket.34177.table_matches=["unix"]
+MainPID.after=3283
+
+/proc/3283/net/can/rcvlist_all
+
+receive list 'rx_all':
+  (any: no entry)
+  (can0: no entry)
+  (can1: no entry)
+
+
+
+/proc/3283/net/can/rcvlist_eff
+
+receive list 'rx_eff':
+  (any: no entry)
+  (can0: no entry)
+  (can1: no entry)
+
+
+
+/proc/3283/net/can/rcvlist_err
+
+receive list 'rx_err':
+  (any: no entry)
+  (can0: no entry)
+  (can1: no entry)
+
+
+
+/proc/3283/net/can/rcvlist_fil
+
+receive list 'rx_fil':
+  (any: no entry)
+  (can0: no entry)
+  (can1: no entry)
+
+
+
+/proc/3283/net/can/rcvlist_inv
+
+receive list 'rx_inv':
+  (any: no entry)
+  (can0: no entry)
+  (can1: no entry)
+
+
+
+/proc/3283/net/can/rcvlist_sff
+
+receive list 'rx_sff':
+  (any: no entry)
+  (can0: no entry)
+  (can1: no entry)
+
+

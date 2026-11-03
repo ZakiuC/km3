@@ -1,0 +1,4 @@
+{"timestamp_utc": "2026-10-19T05:43:04.433007+00:00", "source": "manual", "event": "begin", "node": 1, "action": "absolute", "start": -1483, "target": -1447, "settings": {"soft_min": -1847, "soft_max": -1119, "max_displacement": 364}, "velocity": 100, "od_gaps_bypass": "操作者明确确认：本会话小角度人工测试，接受所列OD未核对项及独立停机责任"}
+{"timestamp_utc": "2026-10-19T05:43:04.500197+00:00", "source": "manual", "event": "write_readback", "object": "profile_velocity", "expected": 100, "actual": 100}
+{"timestamp_utc": "2026-10-19T05:43:04.517147+00:00", "source": "manual", "event": "write_readback", "object": "target_position", "expected": -1447, "actual": -1447}
+{"timestamp_utc": "2026-10-19T05:43:04.535806+00:00", "source": "manual", "event": "exception", "message": "关键状态样本异常，禁止隐含使能", "write_attempted": true}

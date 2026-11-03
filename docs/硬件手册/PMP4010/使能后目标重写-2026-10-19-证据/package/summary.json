@@ -1,0 +1,28 @@
+{
+  "stage": "enabled_target_rewrite_2026_10_19",
+  "python_test_counts": {
+    "model": 386,
+    "hwtui": 217,
+    "tools-tests": 8
+  },
+  "archive": "/home/zakiu/km3/docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/package/pmp4010-manual-board-payload.tar.gz",
+  "archive_bytes": 214335,
+  "archive_sha256": "d875f7bee872ef722df5387c1203dcf403a33ebeeaf84ddb42a4f00761a438f0",
+  "manifest": "/home/zakiu/km3/docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/package/payload/payload-manifest.json",
+  "manifest_sha256": "157e8d0d0bc9bdd8ffd1788b1ab574c9893856f530d8775ccee01015b1509e3f",
+  "archive_members": 24,
+  "regular_files": 22,
+  "symlinks": 2,
+  "imports": 18,
+  "native_vectors": 33,
+  "python_vectors": 33,
+  "int32_vectors": 14,
+  "forbidden_io_attempts": 0,
+  "tamper_refused_before_import": true,
+  "arm_library_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+  "arm_library_build": "reused previous artifact after matching SHA256",
+  "arm_execution": false,
+  "hardware_acceptance": false,
+  "board_pureload": "pending",
+  "launcher": "/home/zakiu/km3/docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/package/payload/run-manual.sh"
+}

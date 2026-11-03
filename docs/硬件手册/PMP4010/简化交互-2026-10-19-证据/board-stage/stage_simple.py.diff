@@ -1,0 +1,29 @@
+--- manual-board-stage/stage_manual.py
++++ simple-board-stage/stage_simple.py
+@@ -22,9 +22,9 @@
+     args = parser.parse_args()
+     raw = args.archive.read_bytes()
+     assert hashlib.sha256(raw).hexdigest() == args.sha256
+-    stage = args.stage or '/var/tmp/km3-pmp4010-manual-20261019-'+args.sha256
++    stage = args.stage or '/var/tmp/km3-pmp4010-simple-20261019-'+args.sha256
+     plan = dict(archive=str(args.archive),archive_sha256=args.sha256,stage=stage,
+-                steps=['archive_manifest_verified_exclusive_stage','AArch64_pureload_math_manual_import_CLI_help','launcher_sh_n_only'],
++                steps=['archive_manifest_verified_exclusive_stage','AArch64_pureload_math_simple_manual_import_CLI_help','launcher_sh_n_only'],
+                 manual_launcher_executed=False,CAN_operations=0)
+     if not args.apply:
+         print(json.dumps(dict(mode='local_plan_only',actual_ssh_calls=0,**plan),indent=2))
+@@ -60,12 +60,12 @@
+             try: summaries.append(json.loads(line))
+             except json.JSONDecodeError: pass
+     assert any(s.get('native_vectors')==33 and s.get('python_vectors')==33 and s.get('native_int32_vectors')==14 and s.get('forbidden_io_attempts')==0 for s in summaries)
+-    assert any(s.get('manual_import') is True and s.get('cli_help') is True and s.get('forbidden_IO_write_or_run_attempts')==0 for s in summaries)
++    assert any(s.get('manual_import') is True and s.get('simple_import') is True and s.get('cli_help') is True and s.get('forbidden_IO_write_or_run_attempts')==0 for s in summaries)
+     syntax=B/'launcher-syntax.remote.py'
+     syntax.write_text("import json,pathlib,subprocess,sys\np=pathlib.Path(sys.argv[1]);assert p.is_file()\nx=subprocess.run(['sh','-n',str(p)],capture_output=True,text=True,timeout=5)\nprint(json.dumps(dict(argv=['sh','-n',str(p)],rc=x.returncode,stdout=x.stdout,stderr=x.stderr,launcher_executed=False,CAN_opens=0,CAN_sends=0)))\nsys.exit(x.returncode)\n")
+     remote('launcher-syntax',syntax,(stage+'/payload/run-manual.sh',))
+     (B/'stage-summary.json').write_text(json.dumps(dict(result='PASS',**plan,
+-        archive_uploads=1,manual_import=True,native_vectors=33,python_vectors=33,
++        archive_uploads=1,manual_import=True,simple_import=True,native_vectors=33,python_vectors=33,
+         native_int32_vectors=14,forbidden_attempts=0,launcher_syntax=True),indent=2)+'\n')
+ 
+ if __name__=='__main__':

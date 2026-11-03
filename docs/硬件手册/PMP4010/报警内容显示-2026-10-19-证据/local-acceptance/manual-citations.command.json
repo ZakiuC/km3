@@ -1,0 +1,15 @@
+{
+  "name": "manual-citations",
+  "argv": [
+    "bash",
+    "tools/check-manual-citations.sh"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T08:53:25.817645+00:00",
+  "duration_seconds": 0.1106338350000442,
+  "returncode": 1,
+  "stdout": "manual-citations.stdout.log",
+  "stdout_sha256": "b943ef39fbb6400caccd53b130d488092cf40ef230b8600b60389ec1d4fa9b97",
+  "stderr": "manual-citations.stderr.log",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,115 @@
+{
+  "utc": "2026-10-19T03:01:39.512393+00:00",
+  "status": "passive_complete_preparation_only",
+  "ssh_calls": 2,
+  "ssh_rcs": [
+    0,
+    0
+  ],
+  "new_boot_id": "dc67bdcd-fa50-4927-8f9b-7207359c70af",
+  "old_boot_id": "bacd8411-f822-4f19-b7cb-8bcbf755b54a",
+  "boot_changed": true,
+  "original_stage_exists": false,
+  "original_logs_survived": {
+    "move-session-1/app-audit.jsonl": false,
+    "move-session-1/pmp4010-motion-650a90d3d1544412ad5c152ef6566fed.jsonl": false,
+    "pmp4010-motion-650a90d3d1544412ad5c152ef6566fed.jsonl": false
+  },
+  "related_process_pids": [
+    600
+  ],
+  "config_sha_unchanged": true,
+  "formal_current_unchanged": true,
+  "new_stage": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2",
+  "new_stage_exists": false,
+  "var_tmp_filesystem": {
+    "filesystems": [
+      {
+        "target": "/",
+        "source": "/dev/mmcblk0p6",
+        "fstype": "ext4",
+        "options": "rw,relatime"
+      }
+    ]
+  },
+  "prepared_files": [
+    {
+      "file": "board_app.py",
+      "old_sha256": "d0115a4feb6ff7a9f9e4fa4f5908dd193621b15497c071c95a7a2a4c007ea675",
+      "new_sha256": "aeca9b5d7afbe61b68c15fb4fb4befd01b6ee7dab6191b8f00bc0fb98626ca42",
+      "replacements": [
+        {
+          "old": "/tmp/km3-pp-disabled-start-stage3-recovery-20261019-0213",
+          "new": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2",
+          "count": 1
+        },
+        {
+          "old": "bacd8411-f822-4f19-b7cb-8bcbf755b54a",
+          "new": "dc67bdcd-fa50-4927-8f9b-7207359c70af",
+          "count": 1
+        },
+        {
+          "old": "/proc/558/",
+          "new": "/proc/600/",
+          "count": 2
+        }
+      ],
+      "ast_parse": "PASS"
+    },
+    {
+      "file": "board_pty_runner.py",
+      "old_sha256": "60f1c9aa28cb3ad325291a64703ffe0abc474aa282aa3945e979525e200c3412",
+      "new_sha256": "041c579435776aa3243db5a4dae62477690df6d7d88907262d193d0ae99973c2",
+      "replacements": [
+        {
+          "old": "/tmp/km3-pp-disabled-start-stage3-recovery-20261019-0213",
+          "new": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2",
+          "count": 1
+        },
+        {
+          "old": "ROOT=Path(__file__).parent/'pty-source'",
+          "new": "ROOT=Path(__file__).parent.parent/'post-power-board'/'pty-source'",
+          "count": 1
+        }
+      ],
+      "ast_parse": "PASS"
+    },
+    {
+      "file": "stage-package.remote.py",
+      "old_sha256": "20a36e6dc9025af5f1198e83a404067c221cb417c98036b477e9a50a5b647647",
+      "new_sha256": "b8d0d6e22c6faaa631277bbe3dea3d4860ef2002e1eb8a7844b8b654f2bce2fc",
+      "replacements": [
+        {
+          "old": "/tmp/km3-pp-disabled-start-stage3-recovery-20261019-0213",
+          "new": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2",
+          "count": 1
+        },
+        {
+          "old": "into a new /tmp",
+          "new": "into a new isolated /var/tmp",
+          "count": 1
+        }
+      ],
+      "ast_parse": "PASS"
+    }
+  ],
+  "payload_archive_sha256": "b70396b228cb594793b44ad6d6f4dfc65a0167fd0efd90325d8feec276f69c5e",
+  "payload_manifest_sha256": "280884d0e1cf519675a590aa053dc16419d0266555683f61d93fcef6bcce0c5c",
+  "prepared_files_executed": false,
+  "prepared_files_transferred": false,
+  "remote_files_written": 0,
+  "CAN_socket_opens": 0,
+  "CAN_sends": 0,
+  "source_edits": 0,
+  "commit_push": false,
+  "cleanup": "Nothing remote created or killed; local evidence and prepared scripts retained.",
+  "limits": [
+    "No SDO or drive state observed this turn.",
+    "Previous interrupted motion completion, displacement, disable and final cleanup remain unknown.",
+    "Persistent ext4 /var/tmp does not guarantee last buffered log lines survive abrupt power loss; wrapper currently preserves previous flush-only logging.",
+    "Systemd /usr/lib/tmpfiles.d/tmp.conf clears /tmp at boot; /var/tmp cleanup line commented; custom overrides not exhaustively reviewed."
+  ],
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown"
+}

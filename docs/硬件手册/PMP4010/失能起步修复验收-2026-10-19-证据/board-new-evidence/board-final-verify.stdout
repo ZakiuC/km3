@@ -1,0 +1,1 @@
+{"evidence_verification": "PASS", "real_probe": "FAILED_POSITION_DRIFT", "controls": ["0106", "0107", "010F", "0002", "0000", "0006"], "first_drift": {"utc": "2026-10-19T01:10:30.486403+00:00", "monotonic": 1956.00096676, "value": -1457}, "q_exit_status": "0231", "CAN_closed": true, "passive_changes": []}

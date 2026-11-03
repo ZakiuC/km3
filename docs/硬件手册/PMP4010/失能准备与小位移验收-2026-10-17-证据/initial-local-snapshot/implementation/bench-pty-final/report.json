@@ -1,0 +1,52 @@
+{
+  "command": [
+    "/usr/bin/python3",
+    "-I",
+    "/home/zakiu/km3/tools/hwtui/verify_pmp4010_bench_pty.py",
+    "--mock-child",
+    "--output-dir",
+    "/tmp/km3-pp-prepare-impl-20261017/bench-pty-final"
+  ],
+  "locale": "zh_CN.UTF-8",
+  "term": "xterm",
+  "exit_code": 0,
+  "failure": null,
+  "keys": [
+    "f5",
+    "enter",
+    "a",
+    "OD mock-bench 1",
+    "f5",
+    "f5",
+    "f5",
+    "364",
+    "f5",
+    "replace target -1414",
+    "f5",
+    "esc",
+    "esc",
+    "?",
+    "esc",
+    "esc",
+    "q"
+  ],
+  "screens": [
+    "startup-rt",
+    "overview-1online-3offline",
+    "detail",
+    "action-preview",
+    "confirmation",
+    "help-during-delayed-sdo",
+    "detail-quarantined-preserves-last-data"
+  ],
+  "raw_bytes": 21826,
+  "unknown_escapes": [],
+  "all_requests_upload_only": true,
+  "mock_closed": true,
+  "delay_proof": {
+    "key": "?",
+    "latency_seconds": 0.20100223924964666,
+    "worker_delay_seconds": 0.8,
+    "worker_still_waiting": true
+  }
+}

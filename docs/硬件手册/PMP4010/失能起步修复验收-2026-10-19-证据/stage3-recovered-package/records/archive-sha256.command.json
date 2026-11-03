@@ -1,0 +1,7 @@
+{
+  "argv": [
+    "sha256sum",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/stage3-recovered-package/pmp4010-board-payload.tar.gz"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

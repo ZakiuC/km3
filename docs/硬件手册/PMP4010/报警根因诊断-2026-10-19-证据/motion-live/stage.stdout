@@ -1,0 +1,1 @@
+{"event": "staged_exact_files", "utc": "2026-10-20T00:36:42.976535+00:00", "stage": "/var/tmp/km3-pmp4010-alarm-20261019-735538978204/motion-compare-proposal", "sha256": {"motion_compare_once.py": "e530b81f231d3ccccca5df741ccc0f79ec410b9cf5569e517d14428ca7151202", "pinned_payload.py": "d8d99ccffdf1b1cb3fc02669af2627243f9801b4fe8861cc39f18692af954a62"}}

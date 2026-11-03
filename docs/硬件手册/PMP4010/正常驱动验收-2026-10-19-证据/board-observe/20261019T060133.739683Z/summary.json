@@ -1,0 +1,258 @@
+{
+  "result": "PASSIVE_OBSERVATION_ONLY_NO_NEW_DRIVE_EVIDENCE",
+  "utc": "2026-10-19T06:01:34.039136+00:00",
+  "ssh_commands": 2,
+  "ssh_rc": [
+    0,
+    0
+  ],
+  "new_stage_exists": true,
+  "new_stage_logs": "directory_missing",
+  "new_user_session_evidence": false,
+  "stage_source_hashes": {
+    "/var/tmp/km3-pmp4010-state-20261019-43b0b2355c3b/payload/drivers/pmp4010/pmp4010_manual.py": "bee76eaeed270e6d66d1b2d4791e6c5778305b246136ec4e90cd9788bf8642b9",
+    "/var/tmp/km3-pmp4010-state-20261019-43b0b2355c3b/payload/drivers/pmp4010/pmp4010_simple.py": "59c9a134b3ee080e73c99a46e2d835c06136132cb7a89bcea3272bdf63bba3a1",
+    "/var/tmp/km3-pmp4010-state-20261019-43b0b2355c3b/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+    "/var/tmp/km3-pmp4010-state-20261019-43b0b2355c3b/payload/payload-manifest.json": "26c7f2bdcc7e3b79e899ab06b703561e6dca2c377983ab7454908de6d01c3e0d"
+  },
+  "stage_hashes_match_expected": true,
+  "previous_stage_snapshot_equal": {
+    "hostname": true,
+    "model": true,
+    "boot_id": true,
+    "device_id": true,
+    "config_sha": true,
+    "can_env_sha": true,
+    "current": true,
+    "services": true,
+    "can_rcvlists": true,
+    "related_processes_excluding_snapshot_pid": true,
+    "can_link": true
+  },
+  "old_sessions": [
+    {
+      "path": "/var/tmp/km3-pmp4010-simple-20261019-b579f3d5d3ab/payload/logs/manual-5BQ8TdzB/motion-absolute-d4b6ca7077e948cba2ae49428eb6f273.jsonl",
+      "sha256": "5193b81a4c2db2f651cd60f1e78cd0fd19b0858b3be896b3eec46849a5c2b49d",
+      "bytes": 897,
+      "events": 4,
+      "begin": {
+        "timestamp_utc": "2026-10-19T05:42:29.094518+00:00",
+        "source": "manual",
+        "event": "begin",
+        "node": 1,
+        "action": "absolute",
+        "start": -1482,
+        "target": -1118,
+        "settings": {
+          "soft_min": -1846,
+          "soft_max": -1118,
+          "max_displacement": 364
+        },
+        "velocity": 218453,
+        "od_gaps_bypass": "操作者明确确认：本会话小角度人工测试，接受所列OD未核对项及独立停机责任"
+      },
+      "exception": {
+        "timestamp_utc": "2026-10-19T05:42:29.234019+00:00",
+        "source": "manual",
+        "event": "exception",
+        "message": "关键状态样本异常，禁止隐含使能",
+        "write_attempted": true
+      },
+      "raw_6041_present": false,
+      "phase_present": false,
+      "cleanup_present": false
+    },
+    {
+      "path": "/var/tmp/km3-pmp4010-simple-20261019-b579f3d5d3ab/payload/logs/manual-IgxS6Xwl/motion-absolute-27ee2c1af9d7430a9c49730cccbf49c8.jsonl",
+      "sha256": "547cce5ca6b3093d2b7f3da91b57b91e91065fedc5be2bc9f912307f80f3824b",
+      "bytes": 888,
+      "events": 4,
+      "begin": {
+        "timestamp_utc": "2026-10-19T05:43:04.433007+00:00",
+        "source": "manual",
+        "event": "begin",
+        "node": 1,
+        "action": "absolute",
+        "start": -1483,
+        "target": -1447,
+        "settings": {
+          "soft_min": -1847,
+          "soft_max": -1119,
+          "max_displacement": 364
+        },
+        "velocity": 100,
+        "od_gaps_bypass": "操作者明确确认：本会话小角度人工测试，接受所列OD未核对项及独立停机责任"
+      },
+      "exception": {
+        "timestamp_utc": "2026-10-19T05:43:04.535806+00:00",
+        "source": "manual",
+        "event": "exception",
+        "message": "关键状态样本异常，禁止隐含使能",
+        "write_attempted": true
+      },
+      "raw_6041_present": false,
+      "phase_present": false,
+      "cleanup_present": false
+    },
+    {
+      "path": "/var/tmp/km3-pmp4010-simple-20261019-b579f3d5d3ab/payload/logs/manual-JpJbKdTb/motion-absolute-fc4866f836a64297bebd203407f99ad1.jsonl",
+      "sha256": "e7897d5485818d73d90c838a654e31a4de45c0350bbaa6e7472de2526381e618",
+      "bytes": 888,
+      "events": 4,
+      "begin": {
+        "timestamp_utc": "2026-10-19T05:41:11.800963+00:00",
+        "source": "manual",
+        "event": "begin",
+        "node": 1,
+        "action": "absolute",
+        "start": -1482,
+        "target": -1446,
+        "settings": {
+          "soft_min": -1846,
+          "soft_max": -1118,
+          "max_displacement": 364
+        },
+        "velocity": 100,
+        "od_gaps_bypass": "操作者明确确认：本会话小角度人工测试，接受所列OD未核对项及独立停机责任"
+      },
+      "exception": {
+        "timestamp_utc": "2026-10-19T05:41:11.902145+00:00",
+        "source": "manual",
+        "event": "exception",
+        "message": "关键状态样本异常，禁止隐含使能",
+        "write_attempted": true
+      },
+      "raw_6041_present": false,
+      "phase_present": false,
+      "cleanup_present": false
+    }
+  ],
+  "related_processes": [
+    {
+      "pid": 600,
+      "cmdline": "/opt/km3/current/km3-rt-controller --config /etc/km3/device.json --require-config ",
+      "fds": {
+        "0": "/dev/null",
+        "1": "socket:[3640]",
+        "2": "socket:[3640]"
+      }
+    }
+  ],
+  "CAN_receive_entries": 0,
+  "CAN_owner_assessment": "No related active tester or registered CAN receive entries observed; this passive evidence cannot exclude every unregistered or transmit-only socket.",
+  "can_link": [
+    {
+      "ifindex": 3,
+      "ifname": "can1",
+      "flags": [
+        "NOARP",
+        "UP",
+        "LOWER_UP",
+        "ECHO"
+      ],
+      "mtu": 16,
+      "qdisc": "pfifo_fast",
+      "operstate": "UP",
+      "linkmode": "DEFAULT",
+      "group": "default",
+      "txqlen": 10,
+      "link_type": "can",
+      "promiscuity": 0,
+      "min_mtu": 0,
+      "max_mtu": 0,
+      "linkinfo": {
+        "info_kind": "can",
+        "info_data": {
+          "state": "ERROR-ACTIVE",
+          "restart_ms": 0,
+          "bittiming": {
+            "bitrate": 1000000,
+            "sample_point": 0.75,
+            "tq": 125,
+            "prop_seg": 2,
+            "phase_seg1": 3,
+            "phase_seg2": 2,
+            "sjw": 1
+          },
+          "bittiming_const": {
+            "name": "mcp251x",
+            "tseg1": {
+              "min": 3,
+              "max": 16
+            },
+            "tseg2": {
+              "min": 2,
+              "max": 8
+            },
+            "sjw": {
+              "min": 1,
+              "max": 4
+            },
+            "brp": {
+              "min": 1,
+              "max": 64
+            },
+            "brp_inc": 1
+          },
+          "clock": 8000000
+        },
+        "info_xstats": {
+          "restarts": 0,
+          "bus_error": 0,
+          "arbitration_lost": 0,
+          "error_warning": 0,
+          "error_passive": 0,
+          "bus_off": 0
+        }
+      },
+      "num_tx_queues": 1,
+      "num_rx_queues": 1,
+      "gso_max_size": 65536,
+      "gso_max_segs": 65535,
+      "parentbus": "spi",
+      "parentdev": "spi0.1",
+      "stats64": {
+        "rx": {
+          "bytes": 373025,
+          "packets": 46629,
+          "errors": 0,
+          "dropped": 0,
+          "over_errors": 0,
+          "multicast": 0
+        },
+        "tx": {
+          "bytes": 0,
+          "packets": 46624,
+          "errors": 0,
+          "dropped": 0,
+          "carrier_errors": 0,
+          "collisions": 0
+        }
+      }
+    }
+  ],
+  "raw_statusword_current": "unknown_not_read",
+  "hardware_motion_acceptance": false,
+  "physical_root_cause": "not established by available old logs",
+  "forbidden_operations": {
+    "remote_file_writes": 0,
+    "CAN_socket_opens": 0,
+    "CAN_sends": 0,
+    "SDO_operations": 0,
+    "TUI_or_runner_starts": 0,
+    "process_control": 0
+  },
+  "retained_initial_error": "observe.stdout source hash requested non-existent extra tools/ path; corrected without execution in read-logs.stdout; original output retained.",
+  "cleanup": "No remote process or files created; no cleanup needed remotely. Local evidence retained; prior evidence untouched.",
+  "route": {
+    "requested_role": "laborer",
+    "requested_model": "GPT-6.1 Sol",
+    "requested_effort": "high",
+    "fork_turns": "none",
+    "last_token_usage_input_tokens": "unknown",
+    "estimate_only_input_tokens_lt": 30000,
+    "estimate_source": "focused task packet and bounded required documents",
+    "runtime_model": "unknown",
+    "runtime_effort": "unknown"
+  }
+}

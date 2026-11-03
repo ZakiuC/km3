@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-I",
+    "-B",
+    "/home/zakiu/km3/docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u62a5\u8b66\u6839\u56e0\u8bca\u65ad-2026-10-19-\u8bc1\u636e/reset-observe-proposal/verify_reset_observe.py"
+  ],
+  "start_utc": "2026-10-19T09:28:56.785766+00:00",
+  "end_utc": "2026-10-19T09:28:56.950257+00:00",
+  "rc": 0
+}

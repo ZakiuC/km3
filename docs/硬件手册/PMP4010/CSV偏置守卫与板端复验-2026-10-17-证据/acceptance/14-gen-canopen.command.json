@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "tools/hwdriver/gen-canopen.py",
+    "--check"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-17T07:57:15.494528+00:00"
+}

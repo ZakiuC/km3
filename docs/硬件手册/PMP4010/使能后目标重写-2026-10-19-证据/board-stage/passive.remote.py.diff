@@ -1,0 +1,11 @@
+--- docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/board-stage/passive.remote.py
++++ /home/zakiu/km3/docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/board-stage/passive.remote.py
+@@ -2,7 +2,7 @@
+ import datetime,hashlib,json,os,pathlib,socket,subprocess,sys
+ P=pathlib.Path
+ stage=P(sys.argv[1])
+-assert stage.parent==P("/var/tmp") and stage.name.startswith("km3-pmp4010-trigger-20261019-")
++assert stage.parent==P("/var/tmp") and stage.name.startswith("km3-pmp4010-rewrite-20261019-")
+ def run(args):
+  try:
+   p=subprocess.run(args,capture_output=True,text=True,timeout=5)

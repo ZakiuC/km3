@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B - --live-read-only-once"
+  ],
+  "stdin_file": "/home/zakiu/km3/docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/read-code-probe/probe.py",
+  "stdin_sha256": "5f95ddd9532cc34f9d60b61a0e070e991b83e676e4f9368d2c45f1ba16801c47",
+  "start_utc": "2026-10-19T08:31:37.081151+00:00",
+  "end_utc": "2026-10-19T08:31:37.439989+00:00",
+  "timeout_seconds": 15,
+  "rc": 0,
+  "automatic_retries": 0,
+  "user_reported_device_stopped": true
+}

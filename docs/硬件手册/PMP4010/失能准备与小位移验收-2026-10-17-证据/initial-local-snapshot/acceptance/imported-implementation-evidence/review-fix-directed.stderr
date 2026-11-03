@@ -1,0 +1,29 @@
+test_ui_real_two_stage_success (_test_prepare.PrepareInteractionTests) ... ok
+test_ui_wrong_token_and_cancel_do_not_write (_test_prepare.PrepareInteractionTests) ... ok
+test_bit10_zero_success_exact_two_writes_and_no_exit_control (_test_prepare.PrepareTests) ... ok
+test_cancel_after_first_write_does_not_send_cleanup (_test_prepare.PrepareTests) ... ok
+test_cancelled_consumed_or_superseded_prepare_cannot_become_enable (_test_prepare.PrepareTests) ... ok
+test_drift_enable_mode_or_offset_after_first_write_blocks_second (_test_prepare.PrepareTests) ... ok
+test_execute_rechecks_each_frozen_critical_value (_test_prepare.PrepareTests) ... ok
+test_fault_observed_at_either_status_read_is_not_overwritten (_test_prepare.PrepareTests) ... ok
+test_first_write_timeout_quarantines_without_second_write_or_retry (_test_prepare.PrepareTests) ... ok
+test_independent_peer_matches_complete_mockbus_wire (_test_prepare.PrepareTests) ... ok
+test_only_target_reached_may_change_between_bracket_status_reads (_test_prepare.PrepareTests) ... ok
+test_original_movements_still_require_target_reached (_test_prepare.PrepareTests) ... ok
+test_position_drift_during_five_sample_window_refuses_all_writes (_test_prepare.PrepareTests) ... ok
+test_prepare_keeps_od_positive_budget_envelope_and_one_degree_guards (_test_prepare.PrepareTests) ... ok
+test_prepare_plain_dict_copy_cannot_become_enable (_test_prepare.PrepareTests) ... ok
+test_read_timeout_before_writes_quarantines_once (_test_prepare.PrepareTests) ... ok
+test_readback_mismatch_stops_after_first_write_keeps_evidence (_test_prepare.PrepareTests) ... ok
+test_review_copy_forgery_and_superseded_review_rejected (_test_prepare.PrepareTests) ... ok
+test_review_tampering_rejected_before_io (_test_prepare.PrepareTests) ... ok
+test_review_wrong_state_mode_offset_speed_and_limits_are_refused (_test_prepare.PrepareTests) ... ok
+test_second_write_mismatch_preserves_both_attempts_without_cleanup (_test_prepare.PrepareTests) ... ok
+test_settings_changed_after_review_refused (_test_prepare.PrepareTests) ... ok
+test_single_use_success_and_failure (_test_prepare.PrepareTests) ... ok
+test_target_readback_timeout_never_sends_second_write (_test_prepare.PrepareTests) ... ok
+
+----------------------------------------------------------------------
+Ran 24 tests in 14.771s
+
+OK

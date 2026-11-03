@@ -1,0 +1,72 @@
+[
+  {
+    "path": "check-owner-fix.py",
+    "bytes": 1936,
+    "sha256": "406224c3ec1b86c6379637761ab2868a7065b59592c8a55348a6c6c5739354c8"
+  },
+  {
+    "path": "controlled-forward.runner.py",
+    "bytes": 16210,
+    "sha256": "7b8338a4a43623673d9d2cd38ff173f3d2c75783f393398a26c85aa90a1a8b02"
+  },
+  {
+    "path": "controlled-forward.runner.py.diff",
+    "bytes": 3231,
+    "sha256": "82bf01855cb78edcd92af8ecdf9b60026f572e472879b8c7e74224659fceeefe"
+  },
+  {
+    "path": "counter-only-2f27e37b.diff",
+    "bytes": 3115,
+    "sha256": "813e86eaf05018afda93b7e2d9e2b64cd533b95d46dfef0a2601482d28eeaa71"
+  },
+  {
+    "path": "counter-only-2f27e37b.runner.py",
+    "bytes": 16178,
+    "sha256": "2f27e37bcf965979bd46464bd28e3d57eab8610e5a3c6a58061f2175d05af604"
+  },
+  {
+    "path": "counter-only-evidence-manifest.json",
+    "bytes": 1024,
+    "sha256": "89fc2218a75ec512b682a1d1f6a5bee20b18a4fec270d0585ca220a7031729f5"
+  },
+  {
+    "path": "final-owner-check.command.json",
+    "bytes": 445,
+    "sha256": "21fdb0af88ccff30b5aeb331646c06f024aed04bae9aed15f11fd23761755678"
+  },
+  {
+    "path": "final-owner-check.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  {
+    "path": "final-owner-check.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "final-owner-check.stdout",
+    "bytes": 232,
+    "sha256": "c53ffe810044e6571a09ece3982e19b2c0490abc174e15521928d8651c98c8dd"
+  },
+  {
+    "path": "owner-check.command.json",
+    "bytes": 445,
+    "sha256": "d1ae70f12198f8087cd7047c6df14fc4ed018fd8cb2791a0229df4128c46156c"
+  },
+  {
+    "path": "owner-check.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  {
+    "path": "owner-check.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "owner-check.stdout",
+    "bytes": 232,
+    "sha256": "c53ffe810044e6571a09ece3982e19b2c0490abc174e15521928d8651c98c8dd"
+  }
+]

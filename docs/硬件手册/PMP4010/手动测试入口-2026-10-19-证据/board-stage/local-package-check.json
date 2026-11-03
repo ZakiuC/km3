@@ -1,0 +1,14 @@
+{
+  "archive": "/home/zakiu/km3/docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u624b\u52a8\u6d4b\u8bd5\u5165\u53e3-2026-10-19-\u8bc1\u636e/package/pmp4010-manual-board-payload.tar.gz",
+  "archive_size": 202494,
+  "archive_sha256": "fd97308d751fbb2ef4ddbc472bdbe1bf8f5eabe81b77d3bad0e9d598f6e1060e",
+  "manifest_sha256": "c2e3f5b6b551b2ebbb487e6db966ab81bbefe3caae897844438676476366edf0",
+  "manual_sha256": "d43c8950aaa8052e7c1a17aefa8aec1b12e0a0f8fd5198555eafff489fb7f460",
+  "launcher_sha256": "ed269d7704493702988b89581e5b320cbd1cce04406e49363738300580a512d5",
+  "members": 23,
+  "regular": 21,
+  "links": 2,
+  "source_manual_matches_package": true,
+  "plan_rc": 0,
+  "actual_ssh_calls": 0
+}

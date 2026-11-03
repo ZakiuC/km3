@@ -1,0 +1,20 @@
+{
+  "status": "LOCAL_MOCK_PASS_AWAITING_EXPLICIT_USER_EXCEPTION",
+  "script_sha256": "5f95ddd9532cc34f9d60b61a0e070e991b83e676e4f9368d2c45f1ba16801c47",
+  "mock_tests": 16,
+  "mock_rc": 0,
+  "plan_rc": 0,
+  "actual_ssh_calls": 0,
+  "actual_CAN_opens": 0,
+  "actual_CAN_sends": 0,
+  "guard_checks": [
+    "normal2uploads",
+    "firstTimeoutNoLaterRequest",
+    "wrongNodeIndexSubWidthRejected",
+    "abortExtendedRemoteFDRejected",
+    "writesNonAllowlistDuplicateThirdRequestRejected",
+    "sendFailureAndKeyboardInterruptCloseOnly",
+    "requestAndTotalDeadline"
+  ],
+  "payload_manifest_sha256": "8cc82c8aa29b82d62bcd055f54a691ac781198640233b8066a9bd1423cf564d6"
+}

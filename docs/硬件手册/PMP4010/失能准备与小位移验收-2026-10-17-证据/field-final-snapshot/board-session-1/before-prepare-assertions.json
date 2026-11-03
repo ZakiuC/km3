@@ -1,0 +1,29 @@
+{
+  "result": "PASS",
+  "last_utc": "2026-10-17T08:31:28.033323+00:00",
+  "snapshot_age_sec": 0.03909661900252104,
+  "values": {
+    "statusword": 608,
+    "actual_position": -1465,
+    "actual_velocity": 0,
+    "modes_of_operation_display": 1,
+    "error_code_object": 0,
+    "torque_feedback": 0,
+    "velocity_feedback_unit": 0,
+    "profile_velocity": 500000,
+    "profile_acceleration": 5000000,
+    "profile_deceleration": 5000000,
+    "home_offset": 0,
+    "control_mode_select": 0,
+    "modes_of_operation": 1,
+    "target_position": 7800,
+    "max_velocity": 9000000,
+    "max_motor_speed": 4000,
+    "max_profile_acceleration": 2147483647,
+    "max_deceleration": 2147483647
+  },
+  "SDO_exceptions": 0,
+  "SDO_downloads": 0,
+  "blocked": [],
+  "quarantined": false
+}

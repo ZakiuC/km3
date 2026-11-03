@@ -1,0 +1,66 @@
+{
+  "current": "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29",
+  "device_id": "km3-test-001",
+  "file_sha256": {
+    "/etc/km3/can.env": "9253d719d847eed56ea7ef768985c0215faf0f78dfc98838152c734a0feff407",
+    "/etc/km3/device.json": "96a15d8d28f760ab9c5b8f43f6b5ddccc667c77f89413fcd9c3201aa9ddbb205",
+    "/etc/km3/device.json.bak-500k-20261015-105348": "c02d32a6186f40d974546af035578e20cfe2a8f8b679f253170df8f064dfbea4",
+    "/etc/km3/device.json.bak-before-identity-fix": "be4909672c4cd27baea9f43d95996688ff8e3831a39ade04643b86979de0f0d2",
+    "/etc/km3/device.json.bak-before-rename": "c425615f869f5fad2b42805a2feedb56e39aba27828ec5a7fa11a45ee28a143c",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/drivers/pmp4010/__pycache__/pmp4010_params.cpython-310.pyc": "a511b437abcbb13dd725ede8d297c8dc9ca78693fd613f69884603409de1b747",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/drivers/pmp4010/__pycache__/pmp4010_position.cpython-310.pyc": "ec0d8a2bee765acdceba8a09bc534d45f2600ca2bef51ca4e22356af77b0dc02",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/drivers/pmp4010/__pycache__/pmp4010_tui.cpython-310.pyc": "7bfba91aceb2964df2c7237a4b93dc43002d967df4849c9ec2057259668c1d05",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/drivers/pmp4010/_test_params.py": "3e6634829f6ce6a833bc1eb6714112042ff1b3f2f47c17b96cdfe00e8a2d9b06",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/drivers/pmp4010/_test_pmp4010.py": "791cf09662f6f3aa4b1ff863ac4d01c2bc9a86e9eaf01911354b7d3ca2a08a3c",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/drivers/pmp4010/_test_position.py": "029097562e09fa86ebb8ce399233b730f14c87b4da879271937e5544602fe6d7",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/drivers/pmp4010/_test_tui.py": "ff88f538fe5e825711dc82c31840e6e733ff6ac85e6c4ab28173a462c3667cc1",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/drivers/pmp4010/_test_tui_chinese_help.py": "b3cab8c428bf4a1ff45628be7f8ca9258433dcbe6575f657b66313b332e8a58e",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/drivers/pmp4010/od.json": "61efa0185e09d467388c1aefa6cb81e4768e963eb38afde4da258a61143ed2ce",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/drivers/pmp4010/pmp4010.py": "27d284a8d92019191a98766ed6f3c1acfc3ed58dbaa5076f234b9c7e67ead243",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/drivers/pmp4010/pmp4010_params.py": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/drivers/pmp4010/pmp4010_position.py": "8b293179baa18a317b8d93b1cae4402771300fe215cd02f35486af9a3a8ddae5",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/drivers/pmp4010/pmp4010_tui.py": "b398f1d38cbdf22e1c0092c2ffee5f9402e5a28cde1829bd69920e4eeb2f1431",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/hwtui/__pycache__/canbus.cpython-310.pyc": "8e7ce4483ab22dbf95294e3281da476f64ea5bca668b82b4a3441601e0ab6a23",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/hwtui/__pycache__/canopen.cpython-310.pyc": "4ee30e0658675ac27b6b79a315b2b9aad1c3ea6a9e0f9ab4e74b7625af1aa4ae",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/hwtui/__pycache__/canopen_wire.cpython-310.pyc": "f6142c0bb274f29d0fae7bb2a741936d6a7fb83ffb140346c2f97923b570c90a",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/hwtui/__pycache__/discover.cpython-310.pyc": "10c54d12885b20b8d5304378e4a8e7ae777ddfdeda26259cfc1f95ef7eab5210",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/hwtui/__pycache__/tui.cpython-310.pyc": "2d9903f73302375d01b3dce66122df9685f4d26815538e81378e8f58de1fa5fd",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/hwtui/canbus.py": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/hwtui/canopen.py": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/hwtui/canopen_consts.py": "3079a6a9554ce858f71dc288cf0feda5004aaddd0b2c05b0cc94422ab4da759b",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/hwtui/canopen_wire.py": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/hwtui/discover.py": "1a2efb5efd8a6b7c96eec36dd926605cf2097e6bdcabb3865fc2c99415708ad3",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/hwtui/mockbus.py": "8fe9da8ea4e4d6f37e65820d54256432bc2ddc01649997e217c51428d284e044",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/hwtui/test_canopen.py": "1c0e7a54b2c62ebefcf2d3ead8a74502f19b87113e5fb5c193086523a2bf231e",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/hwtui/test_form.py": "3493c97cea9f67ad84626412555c6b7bc364dd3eeeca0eed880daeac9a3e99b4",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/hwtui/test_tui.py": "96f006b04838da0ed89245418809fbf18b682a98da20ec0c31fd42f6843ecb9f",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/hwtui/test_tui_unicode.py": "adf6d58647699b3283428405f7eda2af548d697fb4c512f27e47e02940e8d81f",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/hwtui/tui.py": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb",
+    "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29/hwtui/verify_pmp4010_pty.py": "99c9c0a376bd98656823a8e2ec492fe3eef2dc025b44de2ceb272e4ae568b442"
+  },
+  "hostname": "RK3588-Tronlong",
+  "model": "TL3588-EVM",
+  "services": {
+    "km3-core": {
+      "ActiveEnterTimestampMonotonic": "11333298",
+      "ActiveState": "active",
+      "ExecMainStartTimestampMonotonic": "11333053",
+      "MainPID": "1867",
+      "SubState": "running"
+    },
+    "km3-rt-controller": {
+      "ActiveEnterTimestampMonotonic": "906410977",
+      "ActiveState": "active",
+      "ExecMainStartTimestampMonotonic": "906410168",
+      "MainPID": "3283",
+      "SubState": "running"
+    },
+    "km3-video": {
+      "ActiveEnterTimestampMonotonic": "11335727",
+      "ActiveState": "active",
+      "ExecMainStartTimestampMonotonic": "11335478",
+      "MainPID": "1868",
+      "SubState": "running"
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "bash",
+    "tools/check-docs.sh"
+  ],
+  "shell_command": "bash tools/check-docs.sh",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:13:36.239892+00:00"
+}

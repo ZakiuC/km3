@@ -1,0 +1,10 @@
+{
+  "file": "device/drivers/pmp4010/tools/pmp4010_faults.py",
+  "modified_comment_lines": 49,
+  "before_sha256": "1aec9a89582f14dc67cf694b8db50eeea618e12e6206279cbc66628f08e96123",
+  "after_sha256": "11841fa92269d95af48f0e24817b469915731e9f09e72fd4b719fe4d1792b148",
+  "ast_include_attributes": false,
+  "ast_equal": true,
+  "before_ast_sha256": "b6fcc14c81d074f044deab520e5bb7aa7b34a6ccf7c1eec389945b081f4154b8",
+  "after_ast_sha256": "b6fcc14c81d074f044deab520e5bb7aa7b34a6ccf7c1eec389945b081f4154b8"
+}

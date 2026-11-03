@@ -1,0 +1,2165 @@
+{
+  "scope": "local acceptance and package evidence only; excludes this index and report to prevent self hashes; includes preserved candidate rounds",
+  "files": [
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/board-report-update-proof.json",
+      "size": 382,
+      "sha256": "2d453c8f67d71438d1ea811998a33fd35b9b731d66416c30c06aed9241cab0d5"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/candidate-status.json",
+      "size": 475,
+      "sha256": "8671e7a776f6cb4270e9e9dfd565ae073b6f859dd5640e5cfd4335174d00970c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/command-index.json",
+      "size": 6831,
+      "sha256": "e8516059281b3ff8e3b6c8f8fad061898c7e18b7de7176e9b35c8cf621e98924"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/deps.command.json",
+      "size": 456,
+      "sha256": "0e272ac4cca1309488e2e77d45e3d60b0d9c831dd9449cc20f37437552082abe"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/deps.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/deps.stdout.log",
+      "size": 632,
+      "sha256": "64c699c396e34f61f47aee249d1c4357dd63797c35e3c16eed061909a9669a06"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/docs-after-report.command.json",
+      "size": 420,
+      "sha256": "aec58d1c0eb474a7ae8cb78aae810f5e68e0ba98840a15160403e540947f5205"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/docs-after-report.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/docs-after-report.stdout.log",
+      "size": 528,
+      "sha256": "30bd0230d28c75bf543900177e30272381fbb38f58a5ef10e8e90a70489a5748"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/docs.command.json",
+      "size": 454,
+      "sha256": "75abd53f35ebba8ee86e029b3461e7a0daa59c5424817a366b6644e947e0b3db"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/docs.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/docs.stdout.log",
+      "size": 528,
+      "sha256": "27efa9aa1e31961abb6f043692b9c02467f43b43742fdc4315784ed039bdb174"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/drivers.command.json",
+      "size": 468,
+      "sha256": "47d851ee1326817ae2fc31710533536e4a8bccccbaa057a0bfdb66b9bf19015e"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/drivers.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/drivers.stdout.log",
+      "size": 476,
+      "sha256": "97089ae37d0b7df7f91afe640b1ebf1cdf849e4697a1946f75763b0173c9da7d"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/finalize_evidence.py",
+      "size": 1441,
+      "sha256": "f4e09f04c44437fe2373ebce769c184ddebf4cb6ea59e2467ddc5afa092ddb14"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/freeze-source-sha256.json",
+      "size": 4526,
+      "sha256": "7de858b03e0bb93146b6fb78dc31237aaa07d152c006a0c42bd0c39fbd62ca7f"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/gen-access.command.json",
+      "size": 529,
+      "sha256": "1aab994d5ec33fe1b89a6682f6f5975b929400a0ad210869112107ece4a2e745"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/gen-access.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/gen-access.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/gen-canopen.command.json",
+      "size": 525,
+      "sha256": "ab9f1a379b60ecb766d2a7c6a0d29a9c4b137dad2d55ce96a18232e64869d58d"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/gen-canopen.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/gen-canopen.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/gen-od.command.json",
+      "size": 534,
+      "sha256": "aaa67ee199c47d4aebd7ebe0673ffe3f40f39582d4f5cf8007dee2b6e09155d2"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/gen-od.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/gen-od.stdout.log",
+      "size": 228,
+      "sha256": "1fb8101f983b222bf8ece7312432fc4a34725ad3422420032c2ca0bd09a77b16"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/historical-native-reference.json",
+      "size": 3513,
+      "sha256": "6240040071e7eb5f92e8e8a8634a60b7dd69617d9b660e51d1c5ecce9c1ee91b"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/hwtui.command.json",
+      "size": 551,
+      "sha256": "9bb859f872b5c5780060b7646494de5482b3d5923de7f0611e5a9f244e8a13e6"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/hwtui.stderr.log",
+      "size": 317,
+      "sha256": "08248da75e486f91f1bec712d60bf47ce3a6f117b5059677ba5c76ccc397b189"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/hwtui.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/authorize-80x24.txt",
+      "size": 2626,
+      "sha256": "1a83474d77ee5909e418930cfc33729ac7feb6ce945275e5332d397eb867194c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/confirm-80x24.txt",
+      "size": 2646,
+      "sha256": "60e5dc002984b85360f0788b6513ee6357997be7b9d4b7ddc1c15ddffd23ac41"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/connected-main-80x24.txt",
+      "size": 2617,
+      "sha256": "9dc49dd393a201dc574bfcfb82138c462e550174954a0242873fc88a1f9b1e4b"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/help-80x24.txt",
+      "size": 2807,
+      "sha256": "d1a982ad4863613f23d55de3c3d70a227a65891f9c458878f1a4c3d3ae4ebf47"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/jog-confirm-80x24.txt",
+      "size": 2637,
+      "sha256": "36d3acb0fe11833da698e222457d8486c4b427034a31da9a871c1a842e7a0bab"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/main-80x24.txt",
+      "size": 2593,
+      "sha256": "ce5453647fed23d31817fa0e1d2cb7db265f1ab71600be74a8b4ca626f8aa87b"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/motion-absolute-2e6b292c230a435c90650987b33d4b55.jsonl",
+      "size": 1537,
+      "sha256": "034d3a32e8d2f6a6d0be6bb391facb8d7bacef7e43f00f827cf8ce3b3d8836f9"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/motion-absolute-ade3a0c11e6e45baa960c528b1705d03.jsonl",
+      "size": 1537,
+      "sha256": "b9177833674933d8b1677e23d75f695ef60bbc00cfc2d4b4662fdbe620e01b82"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/motion-absolute-d502e62bae2c4469b4c1b1968fe9275b.jsonl",
+      "size": 1537,
+      "sha256": "2d3e5e3cc6b05094b3536ccc0073fc8c2d9ac2bfc324dbac0b9b666ad481faf6"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/motion-enable-6b7659e020d647e9b0fe5ed42d34583a.jsonl",
+      "size": 1181,
+      "sha256": "be13c18e22fde32fb6971f71b350e4fcc92ed37bc3780f38f2fc4e287cd96ff6"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/motion-enable-d02fc69a5d584f9a88778ceac2cde86e.jsonl",
+      "size": 1181,
+      "sha256": "17125f5f2d1be197a88a879afb91f2b2a92c054894864101dd54ad594de60b4b"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/motion-enable-ec9389b1472440c989418fb864205d1f.jsonl",
+      "size": 1181,
+      "sha256": "5d1b9999eba8c7a1deb957c87ae532ed075ad75e2574032103f95af7b7065086"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/motion-go-4e846eb88101407fa4ace5f4e921864a.jsonl",
+      "size": 1201,
+      "sha256": "3b578dfc747eee526b26879396a4507ccda68c86d985ffeb2e52d1c12f3ebdb7"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/motion-go-78372ceb4e9e46bfa5c2847004246d15.jsonl",
+      "size": 1201,
+      "sha256": "cb1cd919e2bdfc9c36f024fe111b8d313d76c77ecea175a691935e63c5a078c2"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/state.json",
+      "size": 514,
+      "sha256": "bc94443ee4061b45c893029c2207fde66be7075a035bb74e8ebf5e32056f0fea"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/summary.json",
+      "size": 1282,
+      "sha256": "5b4f8318cb19985be3cfa03f42bb28d562a287b459f0b6f4ce0c6967876e6c9a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/terminal.ansi",
+      "size": 14657,
+      "sha256": "885fd79a6ea0276a93cb0dc1fa45a1fc591ed1d83d1491b498cdcb1059906640"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty/trace.json",
+      "size": 91078,
+      "sha256": "7b930e6685f81bcf9008fe33019bba0ccc085d71fc45fe6385bfe194f9f735d4"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty.command.json",
+      "size": 664,
+      "sha256": "064a45b003f8a132f54f9b69c8b6e33b37994e9fb913e1f2f4527dd9863300ac"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/independent-pty.stdout.log",
+      "size": 1021,
+      "sha256": "89766e5bd4dc7358adf9685bdc40524b561daf62a0876a6ff5cd001ac47d55a2"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/index-final.json",
+      "size": 7591,
+      "sha256": "6a60e0a5a6d881592bb0fef5b44be046b3f9dc520a0b8edeb8e336910699fd39"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/command-index.json",
+      "size": 6830,
+      "sha256": "d0df9f9c01311d0dc732fc42feca6e6b56c2f9a302b94b83f2e44a95af6bee54"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/deps.command.json",
+      "size": 456,
+      "sha256": "33389a8c024c9fe31cb15837bb81f33527c29c7f8efb55d556c0fc90ca7bacd8"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/deps.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/deps.stdout.log",
+      "size": 632,
+      "sha256": "64c699c396e34f61f47aee249d1c4357dd63797c35e3c16eed061909a9669a06"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/docs.command.json",
+      "size": 454,
+      "sha256": "d8ad57abb5d7e5a972e657ecd41923c58e541ada6f8df442a234314b83bfd7ad"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/docs.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/docs.stdout.log",
+      "size": 528,
+      "sha256": "57c6ab8c524beca5da9b6d382410a09110cb4cc426a844ff39d5f42568cf193a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/drivers.command.json",
+      "size": 468,
+      "sha256": "77e976a68724b7ee37a9169d580b0cdf6d93bba5bc34028e812613a2923dc009"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/drivers.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/drivers.stdout.log",
+      "size": 476,
+      "sha256": "97089ae37d0b7df7f91afe640b1ebf1cdf849e4697a1946f75763b0173c9da7d"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/freeze-source-sha256.json",
+      "size": 4526,
+      "sha256": "9a2de352aabcef0a503bea37fc8f8ca0a3db8739a5d8f55038443384eee0cfcf"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/gen-access.command.json",
+      "size": 529,
+      "sha256": "76c093ff503f3eaf6f0913e71535e975282d8281a147e37128e59ca1c3f7460e"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/gen-access.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/gen-access.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/gen-canopen.command.json",
+      "size": 524,
+      "sha256": "a0b907687d1cce745e045c5f8ce962891f0fd5f9ec9475aee6c249c3bfc8312f"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/gen-canopen.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/gen-canopen.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/gen-od.command.json",
+      "size": 534,
+      "sha256": "95fcd9029a08c4f6f33fd95fbc576ad4e2382c9f1ecd64cdcb64ce723b7958d0"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/gen-od.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/gen-od.stdout.log",
+      "size": 228,
+      "sha256": "1fb8101f983b222bf8ece7312432fc4a34725ad3422420032c2ca0bd09a77b16"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/hwtui.command.json",
+      "size": 551,
+      "sha256": "55d7c2d611c3cfe3a41501f47b7c028b709054ef7b486aaeb8fd60c4fb7a54f2"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/hwtui.stderr.log",
+      "size": 317,
+      "sha256": "9bd1c97e6dce69441c437777e37fa16e3fe047741e8e2c4352f4822551d20e6b"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/hwtui.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/independent-pty/motion-absolute-af1c51a8bd7d46df8424f29d2b422adb.jsonl",
+      "size": 1472,
+      "sha256": "488fd6481d5ca9123d66987394003e3afdb86e6bb506a1e5cff57f90f910e550"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/independent-pty/motion-enable-06f50d8ebfa945dfa6082c29a2b91878.jsonl",
+      "size": 1118,
+      "sha256": "69d1edcd6fea5a894451ebb0d02530f1611810a23f007c24963df2acb429ac49"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/independent-pty/motion-go-80c227154bf14d58a8f694d2aee3da62.jsonl",
+      "size": 1136,
+      "sha256": "bbb8c94cebca6c0122639065c7138770d3a59431fda88736db0d12dc78f9a7c6"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/independent-pty/state.json",
+      "size": 414,
+      "sha256": "5c4aae9a1863289899fe44d12e41ad3818de20f6e63b80f322930e58864f4d2b"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/independent-pty/summary.json",
+      "size": 916,
+      "sha256": "5dfeba154f5056c644c800309fc067df9a7ab8fa31e1c2fffa82fe50964642f0"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/independent-pty/terminal.ansi",
+      "size": 31857,
+      "sha256": "a3d9442a5e64307b35ab69cbc4a75fabb64ade7efa146d813408cb2b63125ec6"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/independent-pty/trace.json",
+      "size": 44861,
+      "sha256": "b1f4dad51e572ac1a930514694a6aef3a2adf2b63040ffa0211ddc2bb145e97c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/independent-pty.command.json",
+      "size": 664,
+      "sha256": "e3f6ea7c499dca02c5ca1b0767e990625261ea79134b77bd07b53ba33fb4a789"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/independent-pty.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/independent-pty.stdout.log",
+      "size": 749,
+      "sha256": "5ca68258c7c9d4db43b71197f1e6fc72937fbe5fe7acaaf8d18ca893dc1408a0"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/index-final.json",
+      "size": 7591,
+      "sha256": "5cd2aa3aa7dc25dd612c407c233b2adbdb4cf51391d723ad5ab8d628d8b2f7f5"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/manual-citations.command.json",
+      "size": 503,
+      "sha256": "9a530bbf374d9663de0a05e23ffdcb4ddec2dcf557e6635b3943166be34ec520"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/manual-citations.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/manual-citations.stdout.log",
+      "size": 209,
+      "sha256": "ba38c7c8a511c8cfc09005f6127702c827646ce3dc676f1f15ab9cde7cb33a10"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/manual-help.command.json",
+      "size": 549,
+      "sha256": "b86377d0306eb43b43fe2ce87f5e085c420b9745ea5096673e79243630d93df2"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/manual-help.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/manual-help.stdout.log",
+      "size": 8682,
+      "sha256": "0a0fb9c73e4fedd29870e21ec15f91c7719f009347c6e7f1e657ea780480d8e1"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/model.command.json",
+      "size": 568,
+      "sha256": "4eccfa38ff835e9abd18f37344c792ad958d869b7fa78b01c3221ba73aaf2b76"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/model.stderr.log",
+      "size": 464,
+      "sha256": "125d164dffcdc5ba4775ef7018442b7fe289c32f43393105b78e42ce005c3f7c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/model.stdout.log",
+      "size": 7686,
+      "sha256": "45b375b073fe10104137ba8e5e36f48c9068d1b0dfe0f1effa7677d6f57c1a6d"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/native-arm-hash-reuse.json",
+      "size": 2665,
+      "sha256": "0c1508bac45fc4cd4e177a74dc121d724e887efc4db08e3cd5dac1ee3dec2562"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/tools-tests.command.json",
+      "size": 569,
+      "sha256": "1aefc50830f2796dfd7f9332a1791d5cfb11b560d264bafac1c0ce151e6f9837"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/tools-tests.stderr.log",
+      "size": 106,
+      "sha256": "348ac8ee27a1253fc123dcf54f622844ec0688786b5547379da4aa6db955ce8a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/initial-source-raced/tools-tests.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/manual-citations.command.json",
+      "size": 503,
+      "sha256": "90bc102f48836d47f2efdd5fa40cb443bbf4b7f1de7de2978cb4b97867686151"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/manual-citations.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/manual-citations.stdout.log",
+      "size": 209,
+      "sha256": "ba38c7c8a511c8cfc09005f6127702c827646ce3dc676f1f15ab9cde7cb33a10"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/manual-help.command.json",
+      "size": 549,
+      "sha256": "9160c8a2ea68142a02b2af2d6b2ce6bc0411016d896bd305ad645bc5cdcf9de8"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/manual-help.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/manual-help.stdout.log",
+      "size": 8682,
+      "sha256": "0a0fb9c73e4fedd29870e21ec15f91c7719f009347c6e7f1e657ea780480d8e1"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/model.command.json",
+      "size": 568,
+      "sha256": "855b162570b6152f286442c28baea1ad2989f295641537189d2640e260baf931"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/model.stderr.log",
+      "size": 465,
+      "sha256": "cc34e729ba1a3580392b465b51d92f0927db3324a62c99b9ffac62b678573ff8"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/model.stdout.log",
+      "size": 7801,
+      "sha256": "8b57e1f301462f0f324716e83179115bfc3a601a524fc763ae3f2d79529b8d84"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/native-arm-hash-reuse.json",
+      "size": 2665,
+      "sha256": "0c1508bac45fc4cd4e177a74dc121d724e887efc4db08e3cd5dac1ee3dec2562"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/command-index.json",
+      "size": 6829,
+      "sha256": "9f0f3669f81762e0921355ef893d7a929e5a9c9aa5a0d14bb2b7d2b8291e2a40"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/deps.command.json",
+      "size": 454,
+      "sha256": "78b410ae5bfb389d64609d2b4080ea351dfda0f8154e001ca477155d1beedb47"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/deps.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/deps.stdout.log",
+      "size": 632,
+      "sha256": "64c699c396e34f61f47aee249d1c4357dd63797c35e3c16eed061909a9669a06"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/docs.command.json",
+      "size": 453,
+      "sha256": "8b64a7e7408d8375a028d247379c18a62dcd67bad4eb98325431f7dec759cd5a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/docs.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/docs.stdout.log",
+      "size": 528,
+      "sha256": "f959482abd396f101a060a16819cd91616fad96039e307ce568ae16dcd50a08e"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/drivers.command.json",
+      "size": 467,
+      "sha256": "1a0d3fc802a717905cc50322c8adc4220e9aff886cd378a3e2ce9e1ee78ebbe1"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/drivers.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/drivers.stdout.log",
+      "size": 476,
+      "sha256": "97089ae37d0b7df7f91afe640b1ebf1cdf849e4697a1946f75763b0173c9da7d"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/freeze-source-sha256.json",
+      "size": 4526,
+      "sha256": "d9cbc90ac479f43a154c000e80dcaa4852423deff4189a4874abf851a3bd4136"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/gen-access.command.json",
+      "size": 529,
+      "sha256": "d39350bc9994caabeb5ca1d51fda46a6e5e0cf1c4e1e1ae8f308beabdc29dc97"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/gen-access.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/gen-access.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/gen-canopen.command.json",
+      "size": 525,
+      "sha256": "334c4479d5537eff9d695dcebfa630305a62e4dc1c4103d2d1f61d0bcdf4b76c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/gen-canopen.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/gen-canopen.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/gen-od.command.json",
+      "size": 534,
+      "sha256": "8d5210f65e8c6956b89a5a1cc2d0b41d6563e3fa2e78fda0d455bdcac074088c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/gen-od.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/gen-od.stdout.log",
+      "size": 228,
+      "sha256": "1fb8101f983b222bf8ece7312432fc4a34725ad3422420032c2ca0bd09a77b16"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/hwtui.command.json",
+      "size": 551,
+      "sha256": "1fee93893c6bfa63631914baa9cd1421e666e59d3da4875eb6d8455b9e7616d6"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/hwtui.stderr.log",
+      "size": 317,
+      "sha256": "39468efa6313aafb392c96fe2ac2ee59423c1cc296fedcebe3010be8c6551acb"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/hwtui.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/independent-pty/motion-absolute-56676ac807fc44b98479ce596938b257.jsonl",
+      "size": 1472,
+      "sha256": "ea212fcbd7d6c053294c3067de8769a2bae0bf542828a387b38879c7103a3de0"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/independent-pty/motion-enable-674618690faf493a953dbfc47ac66a2b.jsonl",
+      "size": 1118,
+      "sha256": "aab93c61c6804dedee7ca2515a0a6c64f21ccfa9e270dd6b7eb2efa546171645"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/independent-pty/motion-go-0a0f54274b014c6f82621ba6c944e3f3.jsonl",
+      "size": 1136,
+      "sha256": "2dbf212a0db5f097a0cb536ff425633b66d779eeaee2611bff6b9cecb4ba33a2"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/independent-pty/state.json",
+      "size": 414,
+      "sha256": "5c4aae9a1863289899fe44d12e41ad3818de20f6e63b80f322930e58864f4d2b"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/independent-pty/summary.json",
+      "size": 916,
+      "sha256": "5dfeba154f5056c644c800309fc067df9a7ab8fa31e1c2fffa82fe50964642f0"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/independent-pty/terminal.ansi",
+      "size": 31348,
+      "sha256": "5dde9f0e725bb09e82b96a9e20e653656912b100d4957df8bd74fa59dba60e05"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/independent-pty/trace.json",
+      "size": 44861,
+      "sha256": "b1f4dad51e572ac1a930514694a6aef3a2adf2b63040ffa0211ddc2bb145e97c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/independent-pty.command.json",
+      "size": 664,
+      "sha256": "706fa0377a85c834da4113fe38420cfdedb8920ff80396d8cf201ae004443f10"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/independent-pty.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/independent-pty.stdout.log",
+      "size": 749,
+      "sha256": "5ca68258c7c9d4db43b71197f1e6fc72937fbe5fe7acaaf8d18ca893dc1408a0"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/index-final.json",
+      "size": 7590,
+      "sha256": "5995020d63feed65a0a5a14e6a6cd564a760bf1e8665292af6ee06d7aeca12e7"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/manual-citations.command.json",
+      "size": 503,
+      "sha256": "fdcebc1999333f1159049f3dd4c6d804b5c5d769bc7dfa46880acc69a07db1ce"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/manual-citations.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/manual-citations.stdout.log",
+      "size": 209,
+      "sha256": "ba38c7c8a511c8cfc09005f6127702c827646ce3dc676f1f15ab9cde7cb33a10"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/manual-help.command.json",
+      "size": 550,
+      "sha256": "e4634013e80b20a40f1deaeb4a323f74d9ebb8da1a6bb9585c3ba7b9cee9d5e4"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/manual-help.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/manual-help.stdout.log",
+      "size": 8682,
+      "sha256": "0a0fb9c73e4fedd29870e21ec15f91c7719f009347c6e7f1e657ea780480d8e1"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/model.command.json",
+      "size": 569,
+      "sha256": "4f10152c3517c765e9f5b40d65932f18834dc7765234b4a5a4b5209efdc9af60"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/model.stderr.log",
+      "size": 464,
+      "sha256": "2590370bd230eabe8cb36b0098c222d4fe1e5f80d983e0ec2fe0b2e15cb3d303"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/model.stdout.log",
+      "size": 7686,
+      "sha256": "cfef1fdea66eab6c684faae6e702aae7a746e902b1f009d7d12a0e2e8a734fc2"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/native-arm-hash-reuse.json",
+      "size": 2665,
+      "sha256": "0c1508bac45fc4cd4e177a74dc121d724e887efc4db08e3cd5dac1ee3dec2562"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/tools-tests.command.json",
+      "size": 569,
+      "sha256": "5b234340d8fa1e42c629171355dca5da3803abae53cf10d3e36782cd580a5bab"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/tools-tests.stderr.log",
+      "size": 106,
+      "sha256": "78827a4bee704b1f81326987f5a4accab10620d74ef0f7a86dc793fbc97e2b0d"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/pre-refresh-cancel-fix/tools-tests.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/preparation-plan.json",
+      "size": 548,
+      "sha256": "4efccf186168499d022cceeb315611fc44b9b787662e85c7c7fccab8f772e89b"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/preparation-syntax-check.json",
+      "size": 133,
+      "sha256": "f1857f3daccd842ee1c2f76fe317fa8f2e99ca2f606fa66edf319a51c8d0444c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/root-approved-source-freeze.json",
+      "size": 2065,
+      "sha256": "887412c5a0e1aff1ed37b6f44db21c04d895444c8f9e98cc87824a2186e17443"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/run_acceptance.py",
+      "size": 4148,
+      "sha256": "36f674134afb40799a66920bb07898a647b4f3653e85de8aafb8ee65e21a6499"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/screen-80x24-check.json",
+      "size": 893,
+      "sha256": "ea349f15adc6041ae23e26e0db710f8e6a728087b3442f1b4ef4a6175a55e853"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/tools-tests.command.json",
+      "size": 569,
+      "sha256": "2c74b286473770b2aaedf60537e2a20b093a62aa158e09fd689da36e7f5e82d8"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/tools-tests.stderr.log",
+      "size": 106,
+      "sha256": "2d98196f59c92826b8d357968728303756bb95957a10e0a70661baf723a04dd0"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/tools-tests.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/update_board_report.py",
+      "size": 3480,
+      "sha256": "c56462e1bcf85eb9f3dae71ee92abd064abe7542b3a51abfbe4c589c0621472b"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/local-acceptance/write_report.py",
+      "size": 5385,
+      "sha256": "a8af29d69c7ca7d847f63fba71211e1d71c64c16d1fb61926c93e186fe396111"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/archive-list.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/archive-list.stdout.log",
+      "size": 1864,
+      "sha256": "9f1c52b21593656ffdce79893108b2b6907dcdd2325fa2aa480ada7a14182933"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/arm-elf-header.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/arm-elf-header.stdout.log",
+      "size": 935,
+      "sha256": "2bb4cf3adde9b33b51b2b8e44baab6b0efa2030f9db325a557a601b9cd55695a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/arm-file.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/arm-file.stdout.log",
+      "size": 279,
+      "sha256": "69b671c16265a4c3fd136529764e8e32649d4745991fa5fca80bc34c919fe1cc"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/build_package.py",
+      "size": 9799,
+      "sha256": "aeab75779999827ad9a3e61e49670417069246aeb2e266c46a29a1e61a9c179d"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/archive-list.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/archive-list.stdout.log",
+      "size": 1864,
+      "sha256": "a55e3853983c141a7b0bd1ecaf3533b2686cb98ce380fd0f3c46c545db880bf8"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/arm-elf-header.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/arm-elf-header.stdout.log",
+      "size": 935,
+      "sha256": "2bb4cf3adde9b33b51b2b8e44baab6b0efa2030f9db325a557a601b9cd55695a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/arm-file.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/arm-file.stdout.log",
+      "size": 279,
+      "sha256": "69b671c16265a4c3fd136529764e8e32649d4745991fa5fca80bc34c919fe1cc"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/command-index.json",
+      "size": 10601,
+      "sha256": "eaeb4106fa7de2cd99edd0afd745edad2090f8a2a2564ad11c88f1241fcdf58c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/host-load-smoke.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/host-load-smoke.stdout.log",
+      "size": 5385,
+      "sha256": "5d2cb12422020e7f02de9109e870b87bde11e0a1af4b6a96667100be0235c90a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-help.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-help.stdout.log",
+      "size": 8874,
+      "sha256": "f5539c887f2ff461cc652ff2a6d723918c9f6572bf4e98b7256c012308f5556e"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-motion-argument-refused.stderr.log",
+      "size": 47,
+      "sha256": "dff33b085e9b0094edee3787fb57c6e2ddc9e45ab1b15e6a67d6c8b96a0a0c94"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-motion-argument-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-no-tty-refused.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-no-tty-refused.stdout.log",
+      "size": 205,
+      "sha256": "ea181f5fd68322981652e218ff3234522cc64f21cfce73a2dae05fc996d6e6d8"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-node-override-refused.stderr.log",
+      "size": 46,
+      "sha256": "425dea22cdedc921d39752d23c158987493ad3ea24b500df20d1d2f0072ebb21"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-node-override-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-od-argument-refused.stderr.log",
+      "size": 56,
+      "sha256": "1c70a723fe5cd58b52146a51f7f08f52bad5e401494e85ecd377ef52957c6160"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-od-argument-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-range-override-refused.stderr.log",
+      "size": 52,
+      "sha256": "fccbb1b4e0aacaef058c7a0295bc5a3d1b9b6a8363473589b3a06a0c3c14a3ef"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-range-override-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-rt-argument-refused.stderr.log",
+      "size": 62,
+      "sha256": "714b86e6d878186428aee8838a3bcd78809df3d3f04934d0de5a322c335659a3"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-rt-argument-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-setting-invalid-refused.stderr.log",
+      "size": 1724,
+      "sha256": "8e743360ab9ad4def560ee4949c45f36839d24c8370ddb04aaaabbf9a3d11117"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-setting-invalid-refused.stdout.log",
+      "size": 125,
+      "sha256": "c3c9d3d960b3ae9353da0cd381a77acca4ae8ba9fab22ff0506615893180d9d9"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-setting-missing-refused.stderr.log",
+      "size": 19,
+      "sha256": "f21fd02ece65130b0405f5ebb5265fbc80ca6963ed791751eca52136db21f161"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-setting-missing-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-shell-syntax.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-shell-syntax.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-timeout-invalid-refused.stderr.log",
+      "size": 1700,
+      "sha256": "5d89b5622bfb2a130f47c9dc7ddaeb43fbbe43c30cb524cfeb732708ffc9b8be"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/launcher-timeout-invalid-refused.stdout.log",
+      "size": 125,
+      "sha256": "6f4559605b8cbf96a90aa1c61c5c292ff2699b4be94bbbcc01c57d9b01223c00"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/README-手动入口.md",
+      "size": 1262,
+      "sha256": "482b09b55184bcc9327ff51f66cbcec4d6953ac0223a2fc69459f060f99c8ddc"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0",
+      "size": 18560,
+      "sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/drivers/pmp4010/od.json",
+      "size": 135320,
+      "sha256": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/drivers/pmp4010/pmp4010.py",
+      "size": 121585,
+      "sha256": "b3c6743f929284ce98ff052e92515f4515d28fde4035841a4bf9f74b24036e27"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/drivers/pmp4010/pmp4010_bench.py",
+      "size": 64689,
+      "sha256": "80063d5448d1a5c42a0a241d29882d5e1485c010bad3128dd7c9bf338c10e73a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/drivers/pmp4010/pmp4010_manual.py",
+      "size": 35910,
+      "sha256": "cd17750a16fdc185fd5a45ea5182c7405fa6397b5932d0ae34c9e7337b1af1c8"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/drivers/pmp4010/pmp4010_params.py",
+      "size": 15268,
+      "sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/drivers/pmp4010/pmp4010_position.py",
+      "size": 34872,
+      "sha256": "fe8299deb3fe52dc3f8d2cfd91383129274579e93b4a0a1ac9ffd09eab2b7668"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/drivers/pmp4010/pmp4010_simple.py",
+      "size": 27045,
+      "sha256": "4c6a3c8836a8ade1c3f7e8f45d7c1a371fd6aa81e0ab213459c0d598bb7fd5e9"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/drivers/pmp4010/pmp4010_tui.py",
+      "size": 32687,
+      "sha256": "9d1e64e20e764471c84f76f6f6937941c28480e3a40b90e8203e7db5fa1190d1"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/drivers/pmp4010/pmp4010_velocity.py",
+      "size": 6146,
+      "sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/drivers/pmp4010/velocity_vectors.json",
+      "size": 9396,
+      "sha256": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/hwtui/canbus.py",
+      "size": 17147,
+      "sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/hwtui/canopen.py",
+      "size": 46663,
+      "sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/hwtui/canopen_consts.py",
+      "size": 35789,
+      "sha256": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/hwtui/canopen_wire.py",
+      "size": 3029,
+      "sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/hwtui/discover.py",
+      "size": 15360,
+      "sha256": "1a2efb5efd8a6b7c96eec36dd926605cf2097e6bdcabb3865fc2c99415708ad3"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/hwtui/mockbus.py",
+      "size": 33545,
+      "sha256": "8fe9da8ea4e4d6f37e65820d54256432bc2ddc01649997e217c51428d284e044"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/hwtui/tui.py",
+      "size": 58467,
+      "sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/load_smoke.py",
+      "size": 7122,
+      "sha256": "c822adc65e6d93bfc2e0848ea3ed5aa938cf80340856aa5f173b1c8dcd5e259f"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/payload-manifest.json",
+      "size": 4838,
+      "sha256": "dae52e27ebf0ba13dc340dc446327303626323b51d375bfe88f6f3aaabc05dc2"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/payload/run-manual.sh",
+      "size": 834,
+      "sha256": "ed269d7704493702988b89581e5b320cbd1cce04406e49363738300580a512d5"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/pmp4010-manual-board-payload.tar.gz",
+      "size": 209484,
+      "sha256": "fc38c1a688666b24b8c70272c831986241fbaab480be649f73cd97a133e02b0e"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/README-手动入口.md",
+      "size": 1262,
+      "sha256": "482b09b55184bcc9327ff51f66cbcec4d6953ac0223a2fc69459f060f99c8ddc"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/drivers/pmp4010/libpmp4010_velocity.so.1.0.0",
+      "size": 18560,
+      "sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/drivers/pmp4010/od.json",
+      "size": 135320,
+      "sha256": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/drivers/pmp4010/pmp4010.py",
+      "size": 121585,
+      "sha256": "b3c6743f929284ce98ff052e92515f4515d28fde4035841a4bf9f74b24036e27"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/drivers/pmp4010/pmp4010_bench.py",
+      "size": 64689,
+      "sha256": "80063d5448d1a5c42a0a241d29882d5e1485c010bad3128dd7c9bf338c10e73a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/drivers/pmp4010/pmp4010_manual.py",
+      "size": 35910,
+      "sha256": "cd17750a16fdc185fd5a45ea5182c7405fa6397b5932d0ae34c9e7337b1af1c8"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/drivers/pmp4010/pmp4010_params.py",
+      "size": 15268,
+      "sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/drivers/pmp4010/pmp4010_position.py",
+      "size": 34872,
+      "sha256": "fe8299deb3fe52dc3f8d2cfd91383129274579e93b4a0a1ac9ffd09eab2b7668"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/drivers/pmp4010/pmp4010_simple.py",
+      "size": 27045,
+      "sha256": "4c6a3c8836a8ade1c3f7e8f45d7c1a371fd6aa81e0ab213459c0d598bb7fd5e9"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/drivers/pmp4010/pmp4010_tui.py",
+      "size": 32687,
+      "sha256": "9d1e64e20e764471c84f76f6f6937941c28480e3a40b90e8203e7db5fa1190d1"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/drivers/pmp4010/pmp4010_velocity.py",
+      "size": 6146,
+      "sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/drivers/pmp4010/velocity_vectors.json",
+      "size": 9396,
+      "sha256": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/hwtui/canbus.py",
+      "size": 17147,
+      "sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/hwtui/canopen.py",
+      "size": 46663,
+      "sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/hwtui/canopen_consts.py",
+      "size": 35789,
+      "sha256": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/hwtui/canopen_wire.py",
+      "size": 3029,
+      "sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/hwtui/discover.py",
+      "size": 15360,
+      "sha256": "1a2efb5efd8a6b7c96eec36dd926605cf2097e6bdcabb3865fc2c99415708ad3"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/hwtui/mockbus.py",
+      "size": 33545,
+      "sha256": "8fe9da8ea4e4d6f37e65820d54256432bc2ddc01649997e217c51428d284e044"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/hwtui/tui.py",
+      "size": 58467,
+      "sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/load_smoke.py",
+      "size": 7122,
+      "sha256": "c822adc65e6d93bfc2e0848ea3ed5aa938cf80340856aa5f173b1c8dcd5e259f"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/payload-manifest.json",
+      "size": 4838,
+      "sha256": "dae52e27ebf0ba13dc340dc446327303626323b51d375bfe88f6f3aaabc05dc2"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip/run-manual.sh",
+      "size": 834,
+      "sha256": "ed269d7704493702988b89581e5b320cbd1cce04406e49363738300580a512d5"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip-smoke.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/roundtrip-smoke.stdout.log",
+      "size": 5423,
+      "sha256": "771a0136d1c15f0762449f56e23699e61cefa6ad0d4339bbed72a3b3e45149fe"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/source-head.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/source-head.stdout.log",
+      "size": 41,
+      "sha256": "03e291363c563239e3289c85e1fad057dc4a0ac06550de33e2eacc66d68c3fff"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/source-manifest.json",
+      "size": 4840,
+      "sha256": "706975618ec21da2a08db3f2de3c0fa1a7295a9e83dcaac769d51a3d8d4c8949"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/summary.json",
+      "size": 1065,
+      "sha256": "4f3dd6e603a3e5201e6fab8f7ebcd8fa6dbab3e0f29a8d38b49026a53d4a818c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/tampered-simple-refused.stderr.log",
+      "size": 705,
+      "sha256": "6a4ac80377ba1efdff08787dbd2b7a4182ffc9655460b65ca11226554cd8075a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/candidate-pre-refresh-cancel-fix/tampered-simple-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/command-index.json",
+      "size": 12433,
+      "sha256": "e3e7a73e7347c78f6b8c27a64e4ffee31391ac461b9ae558526acd0bf3d96a1f"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/host-load-smoke.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/host-load-smoke.stdout.log",
+      "size": 5385,
+      "sha256": "5d2cb12422020e7f02de9109e870b87bde11e0a1af4b6a96667100be0235c90a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-cols-invalid-refused.stderr.log",
+      "size": 28,
+      "sha256": "7ba4511fd2431f777b4b77dff93050dd1ae15ed942bef6ba07870226b9f571e5"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-cols-invalid-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-help.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-help.stdout.log",
+      "size": 8874,
+      "sha256": "bcc1a7499a86163c030ff06458852229531fed82eca061eaed9683048093beb8"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-motion-argument-refused.stderr.log",
+      "size": 47,
+      "sha256": "dff33b085e9b0094edee3787fb57c6e2ddc9e45ab1b15e6a67d6c8b96a0a0c94"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-motion-argument-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-move-timeout-invalid-refused.stderr.log",
+      "size": 37,
+      "sha256": "d73fa902c0c9377e99f23f9e4e16f0a97ed6d6c7d739ba800b2ba4a6a07d306a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-move-timeout-invalid-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-no-tty-refused.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-no-tty-refused.stdout.log",
+      "size": 205,
+      "sha256": "fedb6e442389b511c1bb1ed98a59311835d0f8633fa59272b02e59065f7f27af"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-node-override-refused.stderr.log",
+      "size": 46,
+      "sha256": "425dea22cdedc921d39752d23c158987493ad3ea24b500df20d1d2f0072ebb21"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-node-override-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-od-argument-refused.stderr.log",
+      "size": 56,
+      "sha256": "1c70a723fe5cd58b52146a51f7f08f52bad5e401494e85ecd377ef52957c6160"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-od-argument-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-range-override-refused.stderr.log",
+      "size": 52,
+      "sha256": "fccbb1b4e0aacaef058c7a0295bc5a3d1b9b6a8363473589b3a06a0c3c14a3ef"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-range-override-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-rows-invalid-refused.stderr.log",
+      "size": 27,
+      "sha256": "c6608792bca4bfcbb074dd55a646abefe72b95cc31762df7dfccb459379e93d9"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-rows-invalid-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-rt-argument-refused.stderr.log",
+      "size": 62,
+      "sha256": "714b86e6d878186428aee8838a3bcd78809df3d3f04934d0de5a322c335659a3"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-rt-argument-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-setting-invalid-refused.stderr.log",
+      "size": 38,
+      "sha256": "33f956f07780106a2cf2c52e2166e81c5676f021d46fd066358aea8d396df7fb"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-setting-invalid-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-setting-missing-refused.stderr.log",
+      "size": 19,
+      "sha256": "f21fd02ece65130b0405f5ebb5265fbc80ca6963ed791751eca52136db21f161"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-setting-missing-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-shell-syntax.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-shell-syntax.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-timeout-invalid-refused.stderr.log",
+      "size": 32,
+      "sha256": "daebd977abe26086d0c6b234eceaf05434247df6740e30b698a32b7429932c29"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/launcher-timeout-invalid-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/README-手动入口.md",
+      "size": 1262,
+      "sha256": "482b09b55184bcc9327ff51f66cbcec4d6953ac0223a2fc69459f060f99c8ddc"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0",
+      "size": 18560,
+      "sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/drivers/pmp4010/od.json",
+      "size": 135320,
+      "sha256": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010.py",
+      "size": 121585,
+      "sha256": "b3c6743f929284ce98ff052e92515f4515d28fde4035841a4bf9f74b24036e27"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_bench.py",
+      "size": 64689,
+      "sha256": "80063d5448d1a5c42a0a241d29882d5e1485c010bad3128dd7c9bf338c10e73a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_manual.py",
+      "size": 35910,
+      "sha256": "cd17750a16fdc185fd5a45ea5182c7405fa6397b5932d0ae34c9e7337b1af1c8"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_params.py",
+      "size": 15268,
+      "sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_position.py",
+      "size": 34872,
+      "sha256": "fe8299deb3fe52dc3f8d2cfd91383129274579e93b4a0a1ac9ffd09eab2b7668"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_simple.py",
+      "size": 28562,
+      "sha256": "e8478bfd4604aaee839d386f49777f7dbb31cb5588f4408ba9f6e7daacf40a2b"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_tui.py",
+      "size": 32687,
+      "sha256": "9d1e64e20e764471c84f76f6f6937941c28480e3a40b90e8203e7db5fa1190d1"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_velocity.py",
+      "size": 6146,
+      "sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/drivers/pmp4010/velocity_vectors.json",
+      "size": 9396,
+      "sha256": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/hwtui/canbus.py",
+      "size": 17147,
+      "sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/hwtui/canopen.py",
+      "size": 46663,
+      "sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/hwtui/canopen_consts.py",
+      "size": 35789,
+      "sha256": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/hwtui/canopen_wire.py",
+      "size": 3029,
+      "sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/hwtui/discover.py",
+      "size": 15360,
+      "sha256": "1a2efb5efd8a6b7c96eec36dd926605cf2097e6bdcabb3865fc2c99415708ad3"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/hwtui/mockbus.py",
+      "size": 33545,
+      "sha256": "8fe9da8ea4e4d6f37e65820d54256432bc2ddc01649997e217c51428d284e044"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/hwtui/tui.py",
+      "size": 58467,
+      "sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/load_smoke.py",
+      "size": 7122,
+      "sha256": "c822adc65e6d93bfc2e0848ea3ed5aa938cf80340856aa5f173b1c8dcd5e259f"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/payload-manifest.json",
+      "size": 4839,
+      "sha256": "9c62ac397ecc7c03c8d1f0bc69330d4092c8867f64b699a20ac8011ddbb2947f"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/payload/run-manual.sh",
+      "size": 1548,
+      "sha256": "51f5fe07233bc9d9d6a5ecb3ea2a7dd4c5ae7e403e628f95f783ef2e0352076c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/pmp4010-manual-board-payload.tar.gz",
+      "size": 210146,
+      "sha256": "b579f3d5d3ab47e16fa94d436f6896239454cec51160860f9c8dc81eca953402"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/README-手动入口.md",
+      "size": 1262,
+      "sha256": "482b09b55184bcc9327ff51f66cbcec4d6953ac0223a2fc69459f060f99c8ddc"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/drivers/pmp4010/libpmp4010_velocity.so.1.0.0",
+      "size": 18560,
+      "sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/drivers/pmp4010/od.json",
+      "size": 135320,
+      "sha256": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/drivers/pmp4010/pmp4010.py",
+      "size": 121585,
+      "sha256": "b3c6743f929284ce98ff052e92515f4515d28fde4035841a4bf9f74b24036e27"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/drivers/pmp4010/pmp4010_bench.py",
+      "size": 64689,
+      "sha256": "80063d5448d1a5c42a0a241d29882d5e1485c010bad3128dd7c9bf338c10e73a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/drivers/pmp4010/pmp4010_manual.py",
+      "size": 35910,
+      "sha256": "cd17750a16fdc185fd5a45ea5182c7405fa6397b5932d0ae34c9e7337b1af1c8"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/drivers/pmp4010/pmp4010_params.py",
+      "size": 15268,
+      "sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/drivers/pmp4010/pmp4010_position.py",
+      "size": 34872,
+      "sha256": "fe8299deb3fe52dc3f8d2cfd91383129274579e93b4a0a1ac9ffd09eab2b7668"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/drivers/pmp4010/pmp4010_simple.py",
+      "size": 28562,
+      "sha256": "e8478bfd4604aaee839d386f49777f7dbb31cb5588f4408ba9f6e7daacf40a2b"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/drivers/pmp4010/pmp4010_tui.py",
+      "size": 32687,
+      "sha256": "9d1e64e20e764471c84f76f6f6937941c28480e3a40b90e8203e7db5fa1190d1"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/drivers/pmp4010/pmp4010_velocity.py",
+      "size": 6146,
+      "sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/drivers/pmp4010/velocity_vectors.json",
+      "size": 9396,
+      "sha256": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/hwtui/canbus.py",
+      "size": 17147,
+      "sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/hwtui/canopen.py",
+      "size": 46663,
+      "sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/hwtui/canopen_consts.py",
+      "size": 35789,
+      "sha256": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/hwtui/canopen_wire.py",
+      "size": 3029,
+      "sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/hwtui/discover.py",
+      "size": 15360,
+      "sha256": "1a2efb5efd8a6b7c96eec36dd926605cf2097e6bdcabb3865fc2c99415708ad3"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/hwtui/mockbus.py",
+      "size": 33545,
+      "sha256": "8fe9da8ea4e4d6f37e65820d54256432bc2ddc01649997e217c51428d284e044"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/hwtui/tui.py",
+      "size": 58467,
+      "sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/load_smoke.py",
+      "size": 7122,
+      "sha256": "c822adc65e6d93bfc2e0848ea3ed5aa938cf80340856aa5f173b1c8dcd5e259f"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/payload-manifest.json",
+      "size": 4839,
+      "sha256": "9c62ac397ecc7c03c8d1f0bc69330d4092c8867f64b699a20ac8011ddbb2947f"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip/run-manual.sh",
+      "size": 1548,
+      "sha256": "51f5fe07233bc9d9d6a5ecb3ea2a7dd4c5ae7e403e628f95f783ef2e0352076c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip-smoke.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/roundtrip-smoke.stdout.log",
+      "size": 5423,
+      "sha256": "771a0136d1c15f0762449f56e23699e61cefa6ad0d4339bbed72a3b3e45149fe"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/source-head.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/source-head.stdout.log",
+      "size": 41,
+      "sha256": "03e291363c563239e3289c85e1fad057dc4a0ac06550de33e2eacc66d68c3fff"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/source-manifest.json",
+      "size": 4841,
+      "sha256": "2c96732ca03cb3868e491e257a0be50348f04f5ce9450a0bf60e69215c5e0fbb"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/summary.json",
+      "size": 1065,
+      "sha256": "9cb3ae370252abfdb9f576ab16fc6b1e01999050e96950759b385ea0ae31af2a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/tampered-simple-refused.stderr.log",
+      "size": 705,
+      "sha256": "6a4ac80377ba1efdff08787dbd2b7a4182ffc9655460b65ca11226554cd8075a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/tampered-simple-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/archive-list.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/archive-list.stdout.log",
+      "size": 1864,
+      "sha256": "61e0e034526cc2cc17c2ffb450ecc9ed51089aa9709e06c0a7cc2f1d97bc2799"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/arm-elf-header.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/arm-elf-header.stdout.log",
+      "size": 935,
+      "sha256": "2bb4cf3adde9b33b51b2b8e44baab6b0efa2030f9db325a557a601b9cd55695a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/arm-file.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/arm-file.stdout.log",
+      "size": 279,
+      "sha256": "69b671c16265a4c3fd136529764e8e32649d4745991fa5fca80bc34c919fe1cc"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/command-index.json",
+      "size": 12433,
+      "sha256": "66cc4f9c00c48a0f928a69bee6547a6aba9e2a8d44ce09102b1c889a6344f550"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/host-load-smoke.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/host-load-smoke.stdout.log",
+      "size": 5385,
+      "sha256": "5d2cb12422020e7f02de9109e870b87bde11e0a1af4b6a96667100be0235c90a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-cols-invalid-refused.stderr.log",
+      "size": 27,
+      "sha256": "c984f055cb72da6c71c3b80eb0a624584f08f214d5b235e2b45756ea7c47b8b8"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-cols-invalid-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-help.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-help.stdout.log",
+      "size": 8874,
+      "sha256": "0c68f70c1f81ff332da47bc5daea91cb822684bcaf835ee4271155424539e4a1"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-motion-argument-refused.stderr.log",
+      "size": 47,
+      "sha256": "dff33b085e9b0094edee3787fb57c6e2ddc9e45ab1b15e6a67d6c8b96a0a0c94"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-motion-argument-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-move-timeout-invalid-refused.stderr.log",
+      "size": 36,
+      "sha256": "6df33051e007eb438608d5e7b0d693542d8458664c73ee2f6c4f27c9bce13c1c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-move-timeout-invalid-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-no-tty-refused.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-no-tty-refused.stdout.log",
+      "size": 205,
+      "sha256": "10c79c9cc08b3cbeb8b9456ac6af9c8c9149a749bae05fca76b7d6009b1e0444"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-node-override-refused.stderr.log",
+      "size": 46,
+      "sha256": "425dea22cdedc921d39752d23c158987493ad3ea24b500df20d1d2f0072ebb21"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-node-override-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-od-argument-refused.stderr.log",
+      "size": 56,
+      "sha256": "1c70a723fe5cd58b52146a51f7f08f52bad5e401494e85ecd377ef52957c6160"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-od-argument-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-range-override-refused.stderr.log",
+      "size": 52,
+      "sha256": "fccbb1b4e0aacaef058c7a0295bc5a3d1b9b6a8363473589b3a06a0c3c14a3ef"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-range-override-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-rows-invalid-refused.stderr.log",
+      "size": 26,
+      "sha256": "2776797c0ec2e29a190b86db5ddd15a0ee1ef1e4b9fca983bef6fe2defeb033e"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-rows-invalid-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-rt-argument-refused.stderr.log",
+      "size": 62,
+      "sha256": "714b86e6d878186428aee8838a3bcd78809df3d3f04934d0de5a322c335659a3"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-rt-argument-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-setting-invalid-refused.stderr.log",
+      "size": 37,
+      "sha256": "715a805938edbc541d61aac1b57bcd518e8333a874338f7d8e0b386f15eae3bc"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-setting-invalid-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-setting-missing-refused.stderr.log",
+      "size": 19,
+      "sha256": "f21fd02ece65130b0405f5ebb5265fbc80ca6963ed791751eca52136db21f161"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-setting-missing-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-shell-syntax.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-shell-syntax.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-timeout-invalid-refused.stderr.log",
+      "size": 31,
+      "sha256": "45edead5d9fb8f90d7155c5ac77b5d2281eeadab9fb03dda0574ddce12033a89"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/launcher-timeout-invalid-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/README-手动入口.md",
+      "size": 1262,
+      "sha256": "482b09b55184bcc9327ff51f66cbcec4d6953ac0223a2fc69459f060f99c8ddc"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0",
+      "size": 18560,
+      "sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/drivers/pmp4010/od.json",
+      "size": 135320,
+      "sha256": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/drivers/pmp4010/pmp4010.py",
+      "size": 121585,
+      "sha256": "b3c6743f929284ce98ff052e92515f4515d28fde4035841a4bf9f74b24036e27"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/drivers/pmp4010/pmp4010_bench.py",
+      "size": 64689,
+      "sha256": "80063d5448d1a5c42a0a241d29882d5e1485c010bad3128dd7c9bf338c10e73a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/drivers/pmp4010/pmp4010_manual.py",
+      "size": 35910,
+      "sha256": "cd17750a16fdc185fd5a45ea5182c7405fa6397b5932d0ae34c9e7337b1af1c8"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/drivers/pmp4010/pmp4010_params.py",
+      "size": 15268,
+      "sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/drivers/pmp4010/pmp4010_position.py",
+      "size": 34872,
+      "sha256": "fe8299deb3fe52dc3f8d2cfd91383129274579e93b4a0a1ac9ffd09eab2b7668"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/drivers/pmp4010/pmp4010_simple.py",
+      "size": 28562,
+      "sha256": "e8478bfd4604aaee839d386f49777f7dbb31cb5588f4408ba9f6e7daacf40a2b"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/drivers/pmp4010/pmp4010_tui.py",
+      "size": 32687,
+      "sha256": "9d1e64e20e764471c84f76f6f6937941c28480e3a40b90e8203e7db5fa1190d1"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/drivers/pmp4010/pmp4010_velocity.py",
+      "size": 6146,
+      "sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/drivers/pmp4010/velocity_vectors.json",
+      "size": 9396,
+      "sha256": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/hwtui/canbus.py",
+      "size": 17147,
+      "sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/hwtui/canopen.py",
+      "size": 46663,
+      "sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/hwtui/canopen_consts.py",
+      "size": 35789,
+      "sha256": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/hwtui/canopen_wire.py",
+      "size": 3029,
+      "sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/hwtui/discover.py",
+      "size": 15360,
+      "sha256": "1a2efb5efd8a6b7c96eec36dd926605cf2097e6bdcabb3865fc2c99415708ad3"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/hwtui/mockbus.py",
+      "size": 33545,
+      "sha256": "8fe9da8ea4e4d6f37e65820d54256432bc2ddc01649997e217c51428d284e044"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/hwtui/tui.py",
+      "size": 58467,
+      "sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/load_smoke.py",
+      "size": 7122,
+      "sha256": "c822adc65e6d93bfc2e0848ea3ed5aa938cf80340856aa5f173b1c8dcd5e259f"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/payload-manifest.json",
+      "size": 4839,
+      "sha256": "2fed972fc6bcf76647cbbbd65bbc8b80ef7edafc8769b7fd9b2c9fd898580aef"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/payload/run-manual.sh",
+      "size": 1547,
+      "sha256": "3b543add3a9fc64ae72e246e4ce8320722f6b98226eacb4d1ac40ad358eccf56"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/pmp4010-manual-board-payload.tar.gz",
+      "size": 210145,
+      "sha256": "eaeb23d5844ea15739816f7f547a8fd8d0d526ef01400536090b68827efbbb5f"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/README-手动入口.md",
+      "size": 1262,
+      "sha256": "482b09b55184bcc9327ff51f66cbcec4d6953ac0223a2fc69459f060f99c8ddc"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/drivers/pmp4010/libpmp4010_velocity.so.1.0.0",
+      "size": 18560,
+      "sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/drivers/pmp4010/od.json",
+      "size": 135320,
+      "sha256": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/drivers/pmp4010/pmp4010.py",
+      "size": 121585,
+      "sha256": "b3c6743f929284ce98ff052e92515f4515d28fde4035841a4bf9f74b24036e27"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/drivers/pmp4010/pmp4010_bench.py",
+      "size": 64689,
+      "sha256": "80063d5448d1a5c42a0a241d29882d5e1485c010bad3128dd7c9bf338c10e73a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/drivers/pmp4010/pmp4010_manual.py",
+      "size": 35910,
+      "sha256": "cd17750a16fdc185fd5a45ea5182c7405fa6397b5932d0ae34c9e7337b1af1c8"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/drivers/pmp4010/pmp4010_params.py",
+      "size": 15268,
+      "sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/drivers/pmp4010/pmp4010_position.py",
+      "size": 34872,
+      "sha256": "fe8299deb3fe52dc3f8d2cfd91383129274579e93b4a0a1ac9ffd09eab2b7668"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/drivers/pmp4010/pmp4010_simple.py",
+      "size": 28562,
+      "sha256": "e8478bfd4604aaee839d386f49777f7dbb31cb5588f4408ba9f6e7daacf40a2b"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/drivers/pmp4010/pmp4010_tui.py",
+      "size": 32687,
+      "sha256": "9d1e64e20e764471c84f76f6f6937941c28480e3a40b90e8203e7db5fa1190d1"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/drivers/pmp4010/pmp4010_velocity.py",
+      "size": 6146,
+      "sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/drivers/pmp4010/velocity_vectors.json",
+      "size": 9396,
+      "sha256": "b16e9958855c1d79034c78f22ffe5bb30c7d782eed17076d1c956a7729ca4644"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/hwtui/canbus.py",
+      "size": 17147,
+      "sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/hwtui/canopen.py",
+      "size": 46663,
+      "sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/hwtui/canopen_consts.py",
+      "size": 35789,
+      "sha256": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/hwtui/canopen_wire.py",
+      "size": 3029,
+      "sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/hwtui/discover.py",
+      "size": 15360,
+      "sha256": "1a2efb5efd8a6b7c96eec36dd926605cf2097e6bdcabb3865fc2c99415708ad3"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/hwtui/mockbus.py",
+      "size": 33545,
+      "sha256": "8fe9da8ea4e4d6f37e65820d54256432bc2ddc01649997e217c51428d284e044"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/hwtui/tui.py",
+      "size": 58467,
+      "sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/load_smoke.py",
+      "size": 7122,
+      "sha256": "c822adc65e6d93bfc2e0848ea3ed5aa938cf80340856aa5f173b1c8dcd5e259f"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/payload-manifest.json",
+      "size": 4839,
+      "sha256": "2fed972fc6bcf76647cbbbd65bbc8b80ef7edafc8769b7fd9b2c9fd898580aef"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip/run-manual.sh",
+      "size": 1547,
+      "sha256": "3b543add3a9fc64ae72e246e4ce8320722f6b98226eacb4d1ac40ad358eccf56"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip-smoke.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/roundtrip-smoke.stdout.log",
+      "size": 5423,
+      "sha256": "771a0136d1c15f0762449f56e23699e61cefa6ad0d4339bbed72a3b3e45149fe"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/source-head.stderr.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/source-head.stdout.log",
+      "size": 41,
+      "sha256": "03e291363c563239e3289c85e1fad057dc4a0ac06550de33e2eacc66d68c3fff"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/source-manifest.json",
+      "size": 4841,
+      "sha256": "e2191b0bffc95aef4b6160799ad2f6d3711f524765cc526a8c2a43d3ea88b083"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/summary.json",
+      "size": 1065,
+      "sha256": "2a551aa226546d5cf622ff9cdd4da3790d4ca2aa39cf6e63bbab8caa05344651"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/tampered-simple-refused.stderr.log",
+      "size": 705,
+      "sha256": "6a4ac80377ba1efdff08787dbd2b7a4182ffc9655460b65ca11226554cd8075a"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/tampered-simple-refused.stdout.log",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "简化交互-2026-10-19-证据/package/withdrawn-eaeb23d5844e/withdrawn-status.json",
+      "size": 226,
+      "sha256": "a58b65126215ef812a39f3a16bee2d297d1333cb6a433c13632481cfcf3925c9"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "archive": "/home/zakiu/km3/docs/硬件手册/PMP4010/手动界面重设计-2026-10-20-证据/package/pmp4010-manual-ui-payload.tar.gz",
+  "archive_sha256": "3970cf6241a05348d5abe5efde59039178f2b41144de5c7fb24358538f3d57bd",
+  "manifest_sha256": "ce2dfed84643fd5ac30d83b194cf32ca6d25a5a2559d676e4710403696b20875",
+  "archive_members": 29,
+  "manifest_entries": 28,
+  "regular_files": 26,
+  "symlinks": 2,
+  "production_files_replaced": [
+    "tools/hwtui/tui.py",
+    "device/drivers/pmp4010/tools/pmp4010_simple.py"
+  ],
+  "production_files_added": [
+    "device/drivers/pmp4010/tools/pmp4010_simple_view.py"
+  ],
+  "arm_library_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+  "launcher_sha256": "56641a72621da4fbc831e047437fe1a668dbf9de60380d0334a2234a1f40d1c1",
+  "source_freeze": {
+    "device/drivers/pmp4010/tools/pmp4010_simple.py": "386d6c8e743d7e338152541cc820a54d6dadb4460d320cbafa84c39c2bb8fd0d",
+    "device/drivers/pmp4010/tools/pmp4010_simple_view.py": "5855d8be7f779ff34f9f083d15ec29f905d10bb5858b47b6e48f2d2b6d77135b",
+    "device/drivers/pmp4010/tools/_test_simple.py": "a18bf90d1227a1e9d2d25f08693e493ada5622af3ba6d4b1a663ef4d5f8575b1",
+    "device/drivers/pmp4010/tools/_test_simple_pty.py": "0cb882c7aec04135a70bfa840fe63e90cada5ea694e425f947f4c13275991a28",
+    "tools/hwtui/tui.py": "8b9c5a06df76f420c6d4f7d0119f84867341166d55d1e9bb9220d2f16d6172f0",
+    "tools/hwtui/test_tui.py": "68f910e98d5b543b57d7d838f6dfe87e501fcd27325ec3b0e2f5778de97de257"
+  },
+  "hardware_acceptance": false
+}

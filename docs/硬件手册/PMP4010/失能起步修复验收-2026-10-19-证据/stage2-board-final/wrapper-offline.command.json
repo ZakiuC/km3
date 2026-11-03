@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pp-disabled-start-20261019-board/stage2/board_app.py",
+    "--offline-source-root",
+    "/tmp/km3-pp-disabled-start-20261019-board/stage2/local-probe-payload"
+  ],
+  "utc_start": "2026-10-19T01:26:01.230582+00:00",
+  "utc_end": "2026-10-19T01:26:01.303449+00:00",
+  "rc": 0
+}

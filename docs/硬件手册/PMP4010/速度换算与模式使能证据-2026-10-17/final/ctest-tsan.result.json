@@ -1,0 +1,18 @@
+{
+  "command": "setarch -R ctest --test-dir build-tsan",
+  "argv": [
+    "bash",
+    "-c",
+    "setarch -R ctest --test-dir build-tsan"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "env_overrides": {
+    "TMPDIR": "/tmp/km3-pmp4010-a-20261017-evidence/tmp"
+  },
+  "start_utc": "2026-10-17T07:33:42.558712+00:00",
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "exitcode": 0,
+  "end_utc": "2026-10-17T07:33:54.820023+00:00"
+}

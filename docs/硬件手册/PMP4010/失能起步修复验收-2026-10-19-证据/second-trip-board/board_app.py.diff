@@ -1,0 +1,25 @@
+--- post-power-board/board_app.py
++++ second-trip-board/board_app.py
+@@ -21,7 +21,7 @@
+ from unittest import mock
+ 
+ sys.dont_write_bytecode=True
+-PAYLOAD=Path('/tmp/km3-pp-disabled-start-stage3-recovery-20261019-0213/payload')
++PAYLOAD=Path('/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload')
+ EXPECTED_MANIFEST='280884d0e1cf519675a590aa053dc16419d0266555683f61d93fcef6bcce0c5c'
+ EXPECTED_CONFIG='96a15d8d28f760ab9c5b8f43f6b5ddccc667c77f89413fcd9c3201aa9ddbb205'
+ OUTPUT=PAYLOAD.parent/'move-session-1'
+@@ -80,10 +80,10 @@
+         print(json.dumps(dict(result='PASS',mode='offline_verify_only',manifest_sha256=EXPECTED_MANIFEST,sources=sources,actual_CAN_opens=0),ensure_ascii=False,indent=2))
+         return 0
+     assert root==PAYLOAD and root.resolve(strict=True)==PAYLOAD
+-    assert Path('/proc/sys/kernel/random/boot_id').read_text().strip()=='bacd8411-f822-4f19-b7cb-8bcbf755b54a','boot changed; new passive acceptance required'
+-    rt_cmdline=Path('/proc/558/cmdline').read_bytes().replace(b'\0',b' ').decode()
++    assert Path('/proc/sys/kernel/random/boot_id').read_text().strip()=='dc67bdcd-fa50-4927-8f9b-7207359c70af','boot changed; new passive acceptance required'
++    rt_cmdline=Path('/proc/600/cmdline').read_bytes().replace(b'\0',b' ').decode()
+     assert rt_cmdline=='/opt/km3/current/km3-rt-controller --config /etc/km3/device.json --require-config ','RT process changed'
+-    assert set(p.name for p in Path('/proc/558/fd').iterdir())=={'0','1','2'},'RT descriptors changed'
++    assert set(p.name for p in Path('/proc/600/fd').iterdir())=={'0','1','2'},'RT descriptors changed'
+     for p in Path('/proc/net/can').glob('rcvlist*'):
+         assert all(not line.strip() or line.startswith("receive list") or 'no entry' in line for line in p.read_text().splitlines()),'CAN receiver present'
+     cfgpath=Path('/etc/km3/device.json')

@@ -1,0 +1,189 @@
+{
+  "result": "TIMEOUT_NO_RETRY_NO_AFTER_COMMAND",
+  "motion_ssh_rc": 1,
+  "runner_rc": 1,
+  "raw_json_events": 711,
+  "event_counts": {
+    "remote_execution_start": 1,
+    "固定包已冷加载": 1,
+    "系统前置核对完成": 1,
+    "信息": 55,
+    "对照参数写前": 2,
+    "对照参数读回": 2,
+    "单次冻结审阅": 1,
+    "begin": 3,
+    "write_readback": 2,
+    "manual_transition_sample": 36,
+    "manual_controlword": 18,
+    "manual_transition_snapshot": 13,
+    "manual_result": 3,
+    "manual_stage_complete": 3,
+    "诊断读取前": 260,
+    "诊断实读": 260,
+    "诊断批次完成": 21,
+    "Halt观察结束": 1,
+    "manual_enabled_target": 3,
+    "Go观察计时起点": 1,
+    "原反馈判据采样": 20,
+    "bench_result": 1,
+    "单次退出": 1,
+    "结束且不重试": 1,
+    "remote_execution_end": 1
+  },
+  "enable_results": [
+    {
+      "event": "manual_result",
+      "utc": "2026-10-20T00:39:26.604589+00:00",
+      "monotonic_ns": 79573345958938,
+      "node": 1,
+      "action": "enable",
+      "success": true,
+      "message": "已使能且保持Halt；等待G",
+      "position": -1390,
+      "target": -329070
+    }
+  ],
+  "Go_timing_events": [
+    {
+      "event": "Go观察计时起点",
+      "utc": "2026-10-20T00:39:27.187616+00:00",
+      "monotonic_ns": 79573928985640,
+      "deadline_monotonic": 79583.928978057,
+      "definition": "首次002F写前；含原Go握手，最多10秒；清理另有原bounded期限"
+    }
+  ],
+  "acceleration_readback": [
+    {
+      "event": "对照参数读回",
+      "utc": "2026-10-20T00:39:26.206739+00:00",
+      "monotonic_ns": 79572948112538,
+      "index": "6083",
+      "actual": 131072,
+      "expected": 131072
+    },
+    {
+      "event": "对照参数读回",
+      "utc": "2026-10-20T00:39:26.219336+00:00",
+      "monotonic_ns": 79572960708008,
+      "index": "6084",
+      "actual": 131072,
+      "expected": 131072
+    }
+  ],
+  "frozen_review": [
+    {
+      "event": "单次冻结审阅",
+      "utc": "2026-10-20T00:39:26.270198+00:00",
+      "monotonic_ns": 79573011576685,
+      "start": -1390,
+      "target": -329070,
+      "delta": -327680,
+      "velocity": 218453,
+      "requested_mm": -10,
+      "requested_rpm": 100,
+      "mm_per_motor_revolution": 4,
+      "calibration": {
+        "values": [
+          131072,
+          1,
+          1,
+          1
+        ],
+        "resolution": "131072",
+        "gear_ratio": "1",
+        "motor_degrees_per_user_unit": "45/16384",
+        "output_degrees_per_user_unit": "45/16384"
+      },
+      "settings": {
+        "soft_min": -2147483628,
+        "soft_max": 2147483627,
+        "max_displacement": 4294967255
+      },
+      "lines": [
+        "相对位移",
+        "冻结起点 -1390 U -> 终点 -329070 U；位移 -327680 U = 900 电机轴度",
+        "请求 -10 mm -> 实际 -10 mm；软件目标 -10 mm",
+        "请求速度 100 rpm -> 实际 99.9998 rpm（218453 U/s）",
+        "使能后重写冻结目标并触发002F→003F→002F；核对ACK 0→1→0",
+        "Enter 确认这一次动作；Esc 取消；Space/x 随时快停"
+      ],
+      "two_phase_API": "review_action -> execute_action",
+      "single_factor_experiment": false,
+      "high_acceleration_cause_proven": false
+    }
+  ],
+  "feedback_first": {
+    "event": "原反馈判据采样",
+    "utc": "2026-10-20T00:39:27.353381+00:00",
+    "monotonic_ns": 79574094750064,
+    "position": -1474,
+    "velocity": 0,
+    "statusword": 567,
+    "target": -329070
+  },
+  "feedback_last": {
+    "event": "原反馈判据采样",
+    "utc": "2026-10-20T00:39:36.851807+00:00",
+    "monotonic_ns": 79583593177050,
+    "position": -2903,
+    "velocity": 0,
+    "statusword": 567,
+    "target": -329070
+  },
+  "cleanup_protection": [
+    {
+      "event": "bench_result",
+      "utc": "2026-10-20T00:39:36.875009+00:00",
+      "monotonic_ns": 79583616379385,
+      "action": "manual_protection",
+      "node": 1,
+      "success": false,
+      "stop_attempted": true,
+      "skip_reason": null,
+      "disabled_confirmed": true,
+      "cleanup_error": null,
+      "state_unknown": false,
+      "mechanical_stop_confirmed": false
+    }
+  ],
+  "final_exit": [
+    {
+      "event": "单次退出",
+      "utc": "2026-10-20T00:39:36.875611+00:00",
+      "monotonic_ns": 79583616981100,
+      "target_reached": false,
+      "mechanical_stop_confirmed": false,
+      "acceleration_restore_attempted": false,
+      "save_operations": 0,
+      "shutdown_results": [
+        {
+          "node": 1,
+          "disabled_confirmed": false
+        }
+      ],
+      "operation_enabled_cleared": false,
+      "automatic_retries": 0,
+      "second_target": false,
+      "RAM_acceleration_after_failure_may_be_partial": true,
+      "normal_exit": "原close=0006，仅确认operation enabled清零",
+      "exceptional_exit": "原cleanup=0002→0000；quarantine则零追加请求"
+    }
+  ],
+  "exceptions": [
+    {
+      "event": "结束且不重试",
+      "utc": "2026-10-20T00:39:36.875670+00:00",
+      "monotonic_ns": 79583617040309,
+      "exception": "TimeoutError",
+      "message": "首次002F写前起10秒/20批内未满足原exact目标+零速+bit10",
+      "mechanical_stop_confirmed": false,
+      "automatic_retries": 0
+    }
+  ],
+  "disable_evidence_conflicts": true,
+  "limitation": "cleanup bench_result confirms disabled before close reports unconfirmed; last health SW precedes cleanup, not a final post-cleanup sample. Mechanical stop not proven. No further board calls.",
+  "actual_after_motion_commands": 0,
+  "automatic_retries": 0,
+  "reset_operations": 0,
+  "save_operations": 0
+}

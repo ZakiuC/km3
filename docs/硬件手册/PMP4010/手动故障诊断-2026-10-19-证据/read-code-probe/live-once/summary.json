@@ -1,0 +1,71 @@
+{
+  "result": "PASS",
+  "script_sha256": "5f95ddd9532cc34f9d60b61a0e070e991b83e676e4f9368d2c45f1ba16801c47",
+  "ssh_calls": 1,
+  "return_code": 0,
+  "CAN_requests": 2,
+  "SDO_downloads": 0,
+  "retries": 0,
+  "recovery_operations": 0,
+  "remote_file_writes": 0,
+  "values": [
+    {
+      "utc": "2026-10-19T08:31:37.387748+00:00",
+      "event": "value",
+      "index": "603F",
+      "sub": 0,
+      "type": "uint16",
+      "value": 8978,
+      "hex": "0x2312",
+      "raw_hex": "1223"
+    },
+    {
+      "utc": "2026-10-19T08:31:37.388253+00:00",
+      "event": "value",
+      "index": "6041",
+      "sub": 0,
+      "type": "uint16",
+      "value": 704,
+      "hex": "0x02C0",
+      "raw_hex": "c002"
+    }
+  ],
+  "tx_frames": [
+    {
+      "utc": "2026-10-19T08:31:37.387258+00:00",
+      "event": "tx",
+      "cob_id": "601",
+      "raw_hex": "403f600000000000",
+      "attempt": 1
+    },
+    {
+      "utc": "2026-10-19T08:31:37.387788+00:00",
+      "event": "tx",
+      "cob_id": "601",
+      "raw_hex": "4041600000000000",
+      "attempt": 2
+    }
+  ],
+  "rx_frames": [
+    {
+      "utc": "2026-10-19T08:31:37.387697+00:00",
+      "event": "rx",
+      "cob_id": "581",
+      "raw_hex": "4b3f600012230000",
+      "extended": false,
+      "remote": false,
+      "frame_type": "classic"
+    },
+    {
+      "utc": "2026-10-19T08:31:37.388217+00:00",
+      "event": "rx",
+      "cob_id": "581",
+      "raw_hex": "4b416000c0020000",
+      "extended": false,
+      "remote": false,
+      "frame_type": "classic"
+    }
+  ],
+  "authorization": "User explicitly reported device stopped and allowed this one read-only diagnostic.",
+  "limitation": "Physical stop was user-reported; reads do not confirm mechanical stop or recovery. No diagnosis of0x2312 meaning performed here."
+}

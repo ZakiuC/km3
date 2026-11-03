@@ -1,0 +1,16 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectTimeout=5",
+    "-o",
+    "ConnectionAttempts=1",
+    "root@192.168.0.188",
+    "sha256sum /tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/board_app.py /tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/payload-manifest.json"
+  ],
+  "utc": "2026-10-17T08:29:38.487849+00:00"
+}

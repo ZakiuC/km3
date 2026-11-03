@@ -1,0 +1,24 @@
+  PMP4010  手动测程                                                             
+  节点 1  /  mock-bench  /  直线坐标                                            
+                                                                                
+  在线 / 未使能                                                                 
+                                                                                
+  软件位置                              实际速度                                
+  -- mm                                 -- mm/s                                 
+                                                                                
+  ── 会话授权 ────────────────────────────────────────────────────────────────  
+  接受以下 OD 未核对项及独立停机责任：                                          
+  node_guard, emcy_cob_id                                                       
+  sync_period, sdo_timeout                                                      
+  stop_option_605BC_missing, brake_failsafe_behaviour                           
+  vendor_factory_value_policy                                                   
+  软件行程未设限；驱动607Dh、Int32保护。                                        
+  Enter 授权本会话并初始化软件零点。                                            
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+                                                                                
+  只读连接完成；等待会话授权                                                    
+                                                                                
+  Space/x 快停    q 安全退出                                                    

@@ -1,0 +1,18 @@
+{
+  "name": "tsan-build",
+  "argv": [
+    "cmake",
+    "--build",
+    "build-tsan",
+    "--clean-first",
+    "-j4"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T06:07:20.230339+00:00",
+  "duration_seconds": 5.772989574999883,
+  "returncode": 0,
+  "stdout": "tsan-build.stdout.log",
+  "stdout_sha256": "8363750728cec67fc63db17629c03aadec7d4074bd5bed61b2b7588e4dca69c7",
+  "stderr": "tsan-build.stderr.log",
+  "stderr_sha256": "02d4af3f8d0e2f0d0e14dd9d73069f035d90d08ce08a84afd686d2203571023d"
+}

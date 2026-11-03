@@ -1,0 +1,20 @@
+{
+  "utc": "2026-10-19T05:36:25.786333+00:00",
+  "status": "WAIT_REPLACEMENT_PACKAGE_ROOT_PAUSED_BEFORE_SSH",
+  "reason": "Root found launcher English invalid-setting error text; acceptance is updating package-only Chinese wording.",
+  "candidate_archive_sha256": "eaeb23d5844ea15739816f7f547a8fd8d0d526ef01400536090b68827efbbb5f",
+  "candidate_archive_locally_retained": false,
+  "candidate_local_evidence_directory": "candidate-eaeb23d5844e-local-only",
+  "local_plan_rc": 0,
+  "actual_ssh_calls": 0,
+  "archive_uploads": 0,
+  "CAN_operations": 0,
+  "remote_new_stage_created": false,
+  "source_changed": false,
+  "next_step": "Wait for final replacement archive hash and root execution authorization; do not apply old candidate.",
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "conservative_input_estimate_from_parent": 175000,
+  "estimate_is_actual": false
+}

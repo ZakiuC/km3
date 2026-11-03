@@ -1,0 +1,58 @@
+{
+  "checks": [
+    {
+      "name": "plan",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "-",
+        "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/motion_compare_once.py"
+      ],
+      "stdin_bootstrap": "import runpy,sys\n\ndef offline(event,args):\n    if event in ('socket.__new__','subprocess.Popen','os.system','os.posix_spawn'):\n        raise AssertionError('forbidden real socket/process in local verification: '+event)\nsys.addaudithook(offline)\nsys.argv=sys.argv[1:]\nrunpy.run_path(sys.argv[0],run_name='__main__')\n",
+      "rc": 0,
+      "real_socket_process_audit_block": true
+    },
+    {
+      "name": "cold-load",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "-",
+        "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/motion_compare_once.py",
+        "--cold-load",
+        "--payload-root",
+        "/home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload"
+      ],
+      "stdin_bootstrap": "import runpy,sys\n\ndef offline(event,args):\n    if event in ('socket.__new__','subprocess.Popen','os.system','os.posix_spawn'):\n        raise AssertionError('forbidden real socket/process in local verification: '+event)\nsys.addaudithook(offline)\nsys.argv=sys.argv[1:]\nrunpy.run_path(sys.argv[0],run_name='__main__')\n",
+      "rc": 0,
+      "real_socket_process_audit_block": true
+    },
+    {
+      "name": "syntax_compile_without_bytecode",
+      "rc": 0,
+      "files": [
+        {
+          "path": "motion_compare_once.py",
+          "sha256": "e530b81f231d3ccccca5df741ccc0f79ec410b9cf5569e517d14428ca7151202"
+        },
+        {
+          "path": "pinned_payload.py",
+          "sha256": "d8d99ccffdf1b1cb3fc02669af2627243f9801b4fe8861cc39f18692af954a62"
+        },
+        {
+          "path": "verify_mock.py",
+          "sha256": "ae8f1e770987a6348c03769c69aae060fff046db50d5ca8b374dcdbb9631a894"
+        }
+      ]
+    },
+    {
+      "name": "stdin_runner_syntax_only_not_executed",
+      "rc": 0,
+      "sha256": "6a7b205c47923e95860646c21241d15975a9423e027ecfe864348d391eafea96"
+    }
+  ],
+  "result": "PASS",
+  "hardware_execution": false
+}

@@ -1,0 +1,19 @@
+{
+  "archive": "/home/zakiu/km3/docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u624b\u52a8\u4f4d\u7f6e\u63a7\u5236-2026-10-19-\u8bc1\u636e/package/pmp4010-manual-board-payload.tar.gz",
+  "members": [
+    {
+      "member": "drivers/pmp4010/pmp4010_manual.py",
+      "sha256": "7e85924b4f4ec8597b51c80c42c81af190d8c0be17bf99c31c0257cc6ea9d564",
+      "diff": "pmp4010_manual.py.diff"
+    },
+    {
+      "member": "drivers/pmp4010/pmp4010_simple.py",
+      "sha256": "1587e02dcc681c35ebb46406649a6be70729a5385bcb84e5acef876817c7fdc4",
+      "diff": "pmp4010_simple.py.diff"
+    }
+  ],
+  "missing": [
+    "_test_manual.py",
+    "_test_simple.py"
+  ]
+}

@@ -1,0 +1,15 @@
+--- pending-7167c8dd
++++ frozen-c20f-payload
+@@ -21,10 +21,8 @@
+ import uuid
+ 
+ sys.dont_write_bytecode = True
+-# Preparation only: fill both with the reviewed new package before live use.
+-# None intentionally rejects every live payload; never accept arbitrary paths.
+-EXPECTED_MANIFEST = None
+-EXPECTED_PAYLOAD = None
++EXPECTED_MANIFEST = '173e5a2ad1e59eb66b5b8a3622b2aa6c3fc6080d22fc872909c1551bbed1ed6c'
++EXPECTED_PAYLOAD = Path('/var/tmp/km3-pmp4010-trigger-20261019-c20f27992759/payload')
+ 
+ 
+ def require(value, message):

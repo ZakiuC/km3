@@ -1,0 +1,66 @@
+{
+  "action": "probe_pp_start",
+  "node": 1,
+  "target": -1470,
+  "start": -1470,
+  "token": "PROBE_PP_START mock-bench 1 -1470",
+  "lines": [
+    "接口 mock-bench  节点 1  动作 PP起步核证",
+    "目标 -1470 U = -4.037度 电机轴；相对当前位置 +0 U / +0.000度",
+    "单次位移上限 36 U (硬顶1度)；本次 0 U，剩余 36 U",
+    "起步核证：保持Halt；不解除暂停；结束失能。计划位移0，不代表真实位移验收。",
+    "执行前5次新鲜采样速度0、位置不变，间隔0.2秒；启动bit10不作静止判据。",
+    "6081 500000 → 100 U/s（现值与100取较小正值）；保留正预算、1度、脚本及设备行程。",
+    "先607A对齐起点并读回；Halt使能0106→0107→010F，再012F→013F→012F接收当前位置。",
+    "须新ACK 0→1→0、607A=6062=起点、位置/零速/Halt保持5次采样；Halt中bit10仅表示零速。",
+    "不写605Dh；要求实读1或2。写607A不保证清旧轨迹；核证失败立即有界快停/失能，不重试。",
+    "日志 /tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/motion.jsonl",
+    "写 607Ah = -1470（int32，只对齐当前位置；保持Halt核证，不写位移目标）",
+    "写 6082h = 0（uint32）",
+    "写 6081h = 100（uint32）",
+    "写 6083h = 5000000（uint32）",
+    "写 6084h = 5000000（uint32）"
+  ],
+  "writes": [
+    {
+      "key": "target_position",
+      "index": 24698,
+      "sub": 0,
+      "type": "int32",
+      "value": -1470,
+      "note": "只对齐当前位置；保持Halt核证，不写位移目标"
+    },
+    {
+      "key": "profile_end_velocity",
+      "index": 24706,
+      "sub": 0,
+      "type": "uint32",
+      "value": 0,
+      "note": ""
+    },
+    {
+      "key": "profile_velocity",
+      "index": 24705,
+      "sub": 0,
+      "type": "uint32",
+      "value": 100,
+      "note": ""
+    },
+    {
+      "key": "profile_acceleration",
+      "index": 24707,
+      "sub": 0,
+      "type": "uint32",
+      "value": 5000000,
+      "note": ""
+    },
+    {
+      "key": "profile_deceleration",
+      "index": 24708,
+      "sub": 0,
+      "type": "uint32",
+      "value": 5000000,
+      "note": ""
+    }
+  ]
+}

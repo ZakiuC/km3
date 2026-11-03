@@ -1,0 +1,449 @@
+{
+  "stage": "probe_no_travel",
+  "freeze_manifest_sha256": "a9750a6952ee851f502bd0bd59b7eedd2542d35c1f423503f1a75acc17c6e5ff",
+  "freeze_file_count": 11,
+  "tests": {
+    "model": 268,
+    "hwtui": 217,
+    "tools_tests": 8,
+    "host_ctest": 17,
+    "asan_ctest": 17,
+    "tsan_ctest": 17
+  },
+  "actual_builds": [
+    "host",
+    "asan",
+    "tsan",
+    "arm64"
+  ],
+  "independent_sequential_required_commands": 17,
+  "commands": [
+    {
+      "name": "probe-model",
+      "argv": [
+        "python3",
+        "-I",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "device/drivers/pmp4010/tools",
+        "-p",
+        "_test_*.py"
+      ],
+      "shell_command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p '_test_*.py'",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:04:13.201381+00:00",
+      "duration_seconds": 18.67810618225485,
+      "returncode": 0,
+      "stdout": "probe-model.stdout.log",
+      "stderr": "probe-model.stderr.log",
+      "stdout_sha256": "d4ddbeb85a93aaace5428138b7b8fbccdd4063b3959035e30539c1da79751660",
+      "stderr_sha256": "cf9773ed59544d95df0df81ce95717416ba271e79ae5f4c7fa2ecff179c5bf4f"
+    },
+    {
+      "name": "probe-hwtui",
+      "argv": [
+        "python3",
+        "-I",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools/hwtui",
+        "-p",
+        "test_*.py"
+      ],
+      "shell_command": "python3 -I -m unittest discover -s tools/hwtui -p 'test_*.py'",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:04:31.896596+00:00",
+      "duration_seconds": 0.39157326985150576,
+      "returncode": 0,
+      "stdout": "probe-hwtui.stdout.log",
+      "stderr": "probe-hwtui.stderr.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "7b489c25f7e8c4b63c108f319388731bfebe98b1af8a5b6d89b7584f25a4d238"
+    },
+    {
+      "name": "probe-tools-tests",
+      "argv": [
+        "python3",
+        "-I",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools/tests",
+        "-p",
+        "test_*.py"
+      ],
+      "shell_command": "python3 -I -m unittest discover -s tools/tests -p 'test_*.py'",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:04:32.307374+00:00",
+      "duration_seconds": 0.5110562406480312,
+      "returncode": 0,
+      "stdout": "probe-tools-tests.stdout.log",
+      "stderr": "probe-tools-tests.stderr.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "6fa469c029c7204c6921a21e40317bd1bd4da2b66a8e77fb17ba6fa3d9c05378"
+    },
+    {
+      "name": "probe-host-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build-host",
+        "-j4"
+      ],
+      "shell_command": "cmake --build build-host -j4",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:04:32.843697+00:00",
+      "duration_seconds": 0.8285369127988815,
+      "returncode": 0,
+      "stdout": "probe-host-build.stdout.log",
+      "stderr": "probe-host-build.stderr.log",
+      "stdout_sha256": "f1534be7a08f47afdf58cca93decde455ba6ec6d6a080f8e97682141958e93b1",
+      "stderr_sha256": "d2a7642c0525454c4b8245e10001595990734d806659b60b9cb53a57c6a5b754"
+    },
+    {
+      "name": "probe-host-ctest",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build-host",
+        "--output-on-failure"
+      ],
+      "shell_command": "ctest --test-dir build-host --output-on-failure",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:04:33.696804+00:00",
+      "duration_seconds": 11.588144076056778,
+      "returncode": 0,
+      "stdout": "probe-host-ctest.stdout.log",
+      "stderr": "probe-host-ctest.stderr.log",
+      "stdout_sha256": "13ba0e3eae66bfcd1a5b628c2bd8441f80b56b362029a2a87dc27877997e1469",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "probe-asan-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build-asan",
+        "-j4"
+      ],
+      "shell_command": "cmake --build build-asan -j4",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:04:45.305763+00:00",
+      "duration_seconds": 1.3106332905590534,
+      "returncode": 0,
+      "stdout": "probe-asan-build.stdout.log",
+      "stderr": "probe-asan-build.stderr.log",
+      "stdout_sha256": "74ce0965e569638389da043f04d271507b2667649dae58fa4b5c5bf82a2e19fd",
+      "stderr_sha256": "d2a7642c0525454c4b8245e10001595990734d806659b60b9cb53a57c6a5b754"
+    },
+    {
+      "name": "probe-asan-ctest",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build-asan",
+        "--output-on-failure"
+      ],
+      "shell_command": "ctest --test-dir build-asan --output-on-failure",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:04:46.633978+00:00",
+      "duration_seconds": 12.23535113222897,
+      "returncode": 0,
+      "stdout": "probe-asan-ctest.stdout.log",
+      "stderr": "probe-asan-ctest.stderr.log",
+      "stdout_sha256": "eba84f805886846b860665f84a84134dab346ce53a6f51b4a14f759de0cb52f3",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "probe-tsan-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build-tsan",
+        "-j4"
+      ],
+      "shell_command": "cmake --build build-tsan -j4",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:04:58.887367+00:00",
+      "duration_seconds": 1.560667833313346,
+      "returncode": 0,
+      "stdout": "probe-tsan-build.stdout.log",
+      "stderr": "probe-tsan-build.stderr.log",
+      "stdout_sha256": "860e31cfbb74a6c296ad8ce020cb09954ee93fc10ead964a153d4d5c2b35ca30",
+      "stderr_sha256": "d2a7642c0525454c4b8245e10001595990734d806659b60b9cb53a57c6a5b754"
+    },
+    {
+      "name": "probe-tsan-ctest",
+      "argv": [
+        "setarch",
+        "-R",
+        "ctest",
+        "--test-dir",
+        "build-tsan",
+        "--output-on-failure"
+      ],
+      "shell_command": "setarch -R ctest --test-dir build-tsan --output-on-failure",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:05:00.467842+00:00",
+      "duration_seconds": 12.215647976845503,
+      "returncode": 0,
+      "stdout": "probe-tsan-ctest.stdout.log",
+      "stderr": "probe-tsan-ctest.stderr.log",
+      "stdout_sha256": "ca7ecbcb3588d994f8fdcfc95c5363fba02bd7cc13fdbe5981f52b0dde8af772",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "probe-arm-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build-arm64",
+        "-j4"
+      ],
+      "shell_command": "cmake --build build-arm64 -j4",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:05:12.707313+00:00",
+      "duration_seconds": 1.7117948271334171,
+      "returncode": 0,
+      "stdout": "probe-arm-build.stdout.log",
+      "stderr": "probe-arm-build.stderr.log",
+      "stdout_sha256": "0cb65f3fc0dce5ace58bfc7ff94e67a76357977f65862e13866a754e95bd510c",
+      "stderr_sha256": "d2a7642c0525454c4b8245e10001595990734d806659b60b9cb53a57c6a5b754"
+    },
+    {
+      "name": "probe-drivers",
+      "argv": [
+        "bash",
+        "tools/check-drivers.sh"
+      ],
+      "shell_command": "bash tools/check-drivers.sh",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:05:14.445274+00:00",
+      "duration_seconds": 0.02578222192823887,
+      "returncode": 0,
+      "stdout": "probe-drivers.stdout.log",
+      "stderr": "probe-drivers.stderr.log",
+      "stdout_sha256": "97089ae37d0b7df7f91afe640b1ebf1cdf849e4697a1946f75763b0173c9da7d",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "probe-docs",
+      "argv": [
+        "bash",
+        "tools/check-docs.sh"
+      ],
+      "shell_command": "bash tools/check-docs.sh",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:05:14.493509+00:00",
+      "duration_seconds": 0.4737402116879821,
+      "returncode": 0,
+      "stdout": "probe-docs.stdout.log",
+      "stderr": "probe-docs.stderr.log",
+      "stdout_sha256": "220303b0fddc7e2c19309f6beb40dd2c65c6d9a3d4b4e84d875889260a4b412b",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "probe-deps",
+      "argv": [
+        "bash",
+        "tools/check-deps.sh"
+      ],
+      "shell_command": "bash tools/check-deps.sh",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:05:14.992158+00:00",
+      "duration_seconds": 0.022122791036963463,
+      "returncode": 0,
+      "stdout": "probe-deps.stdout.log",
+      "stderr": "probe-deps.stderr.log",
+      "stdout_sha256": "64c699c396e34f61f47aee249d1c4357dd63797c35e3c16eed061909a9669a06",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "probe-citations",
+      "argv": [
+        "bash",
+        "tools/check-manual-citations.sh"
+      ],
+      "shell_command": "bash tools/check-manual-citations.sh",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:05:15.040640+00:00",
+      "duration_seconds": 0.08180275280028582,
+      "returncode": 0,
+      "stdout": "probe-citations.stdout.log",
+      "stderr": "probe-citations.stderr.log",
+      "stdout_sha256": "ba38c7c8a511c8cfc09005f6127702c827646ce3dc676f1f15ab9cde7cb33a10",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "probe-gen-od",
+      "argv": [
+        "python3",
+        "-I",
+        "tools/hwdriver/gen-od.py",
+        "--model",
+        "pmp4010",
+        "--check"
+      ],
+      "shell_command": "python3 -I tools/hwdriver/gen-od.py --model pmp4010 --check",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:05:15.147015+00:00",
+      "duration_seconds": 0.024592850357294083,
+      "returncode": 0,
+      "stdout": "probe-gen-od.stdout.log",
+      "stderr": "probe-gen-od.stderr.log",
+      "stdout_sha256": "1fb8101f983b222bf8ece7312432fc4a34725ad3422420032c2ca0bd09a77b16",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "probe-gen-canopen",
+      "argv": [
+        "python3",
+        "-I",
+        "tools/hwdriver/gen-canopen.py",
+        "--check"
+      ],
+      "shell_command": "python3 -I tools/hwdriver/gen-canopen.py --check",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:05:15.195211+00:00",
+      "duration_seconds": 0.01717429794371128,
+      "returncode": 0,
+      "stdout": "probe-gen-canopen.stdout.log",
+      "stderr": "probe-gen-canopen.stderr.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "probe-gen-access",
+      "argv": [
+        "python3",
+        "-I",
+        "tools/hwdriver/gen-pmp4010-access.py",
+        "--check"
+      ],
+      "shell_command": "python3 -I tools/hwdriver/gen-pmp4010-access.py --check",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:05:15.228494+00:00",
+      "duration_seconds": 0.019621077924966812,
+      "returncode": 0,
+      "stdout": "probe-gen-access.stdout.log",
+      "stderr": "probe-gen-access.stderr.log",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "probe-freeze-after",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "/tmp/km3-pp-disabled-start-20261019-acceptance/freeze_check.py",
+        "probe-freeze-after-verification"
+      ],
+      "shell_command": "python3 -I -B /tmp/km3-pp-disabled-start-20261019-acceptance/freeze_check.py probe-freeze-after-verification",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:05:23.193865+00:00",
+      "duration_seconds": 0.013844646513462067,
+      "returncode": 0,
+      "stdout": "probe-freeze-after.stdout.log",
+      "stderr": "probe-freeze-after.stderr.log",
+      "stdout_sha256": "b1545ebb3afe07ea78aa4a7645399f879dd9d1cc48f64ceaccb0e753f7847882",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "probe-package-verify",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "/tmp/km3-pp-disabled-start-package-20261019/verify_and_archive.py"
+      ],
+      "shell_command": "python3 -I -B /tmp/km3-pp-disabled-start-package-20261019/verify_and_archive.py",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:05:23.225343+00:00",
+      "duration_seconds": 0.1918820310384035,
+      "returncode": 0,
+      "stdout": "probe-package-verify.stdout.log",
+      "stderr": "probe-package-verify.stderr.log",
+      "stdout_sha256": "db606a452d734befc657c30a0887ca346d8f995aa961bd1b434234fd09ff7109",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "probe-package-finalize",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "/tmp/km3-pp-disabled-start-package-20261019/finalize.py"
+      ],
+      "shell_command": "python3 -I -B /tmp/km3-pp-disabled-start-package-20261019/finalize.py",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:05:26.548941+00:00",
+      "duration_seconds": 0.16009761113673449,
+      "returncode": 0,
+      "stdout": "probe-package-finalize.stdout.log",
+      "stderr": "probe-package-finalize.stderr.log",
+      "stdout_sha256": "eb5b526059d1dd4176d39b535156785edf2f6d6d6438748ae817c82599dba140",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "probe-freeze-after-package",
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "/tmp/km3-pp-disabled-start-20261019-acceptance/freeze_check.py",
+        "probe-freeze-after-package-verification"
+      ],
+      "shell_command": "python3 -I -B /tmp/km3-pp-disabled-start-20261019-acceptance/freeze_check.py probe-freeze-after-package-verification",
+      "cwd": "/home/zakiu/km3",
+      "started_utc": "2026-10-19T01:05:26.726472+00:00",
+      "duration_seconds": 0.016183704137802124,
+      "returncode": 0,
+      "stdout": "probe-freeze-after-package.stdout.log",
+      "stderr": "probe-freeze-after-package.stderr.log",
+      "stdout_sha256": "b1545ebb3afe07ea78aa4a7645399f879dd9d1cc48f64ceaccb0e753f7847882",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "package": {
+    "archive": "/tmp/km3-pp-disabled-start-package-20261019/pmp4010-board-payload.tar.gz",
+    "archive_bytes": 189489,
+    "archive_sha256": "a1bfb7b491ec1ff0509992db6ecae3b68c80384d4db59d068cffa47960f31f6c",
+    "payload_regular_files": 19,
+    "payload_symlinks": 2,
+    "payload_regular_bytes": 641733,
+    "arm_library_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+    "checks": {
+      "host_load_smoke_exitcode": 0,
+      "native_vectors": 33,
+      "python_vectors": 33,
+      "native_int32_vectors": 14,
+      "forbidden_io_attempts": 0,
+      "arm_execution": "not run",
+      "board_compatibility": "pending",
+      "source_snapshot_stable_during_capture": true,
+      "archive_roundtrip_host_smoke_exitcode": 0,
+      "tampered_payload_exitcode": 1,
+      "tamper_refused_before_import_or_library_load": true,
+      "archive_safe_relative_members": 21
+    }
+  },
+  "frozen_source_stable": true,
+  "hardware_acceptance": false,
+  "warnings": [
+    "check-deps Python3 mapping unresolved, rc0",
+    "test builds retain KM3_ALLOW_UNVERIFIED_OD pragma; production guard CTest passed"
+  ],
+  "original_baseline": {
+    "model": 178,
+    "hwtui": 217,
+    "tools_tests": 8,
+    "cpp_each": 16
+  },
+  "previous_model_count": 241
+}

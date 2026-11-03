@@ -1,0 +1,1361 @@
+{
+  "result": "PASS",
+  "checks": 26,
+  "cases": [
+    {
+      "name": "normal_frozen_minus10_100rpm",
+      "error": null,
+      "writes": [
+        [
+          24707,
+          0,
+          131072
+        ],
+        [
+          24708,
+          0,
+          131072
+        ],
+        [
+          24705,
+          0,
+          218453
+        ],
+        [
+          24698,
+          0,
+          4294638152
+        ],
+        [
+          24640,
+          0,
+          262
+        ],
+        [
+          24640,
+          0,
+          263
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          311
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          303
+        ],
+        [
+          24698,
+          0,
+          4294638152
+        ],
+        [
+          24640,
+          0,
+          47
+        ],
+        [
+          24640,
+          0,
+          63
+        ],
+        [
+          24640,
+          0,
+          47
+        ],
+        [
+          24640,
+          0,
+          6
+        ]
+      ],
+      "controls": [
+        262,
+        263,
+        295,
+        311,
+        295,
+        303,
+        47,
+        63,
+        47,
+        6
+      ],
+      "requests": 1036,
+      "clock_elapsed_seconds": null,
+      "result": {
+        "target_reached": true,
+        "mechanical_stop_confirmed": false,
+        "acceleration_restore_attempted": false,
+        "save_operations": 0,
+        "target": -329144,
+        "position": -329144,
+        "runtime_batches": 1,
+        "observation_elapsed_seconds": 0.004963433002558304,
+        "shutdown_results": [
+          {
+            "node": 1,
+            "disabled_confirmed": true
+          }
+        ],
+        "operation_enabled_cleared": true
+      },
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/normal_frozen_minus10_100rpm"
+    },
+    {
+      "name": "guard_607C_nonzero",
+      "error": {
+        "type": "ValueError",
+        "message": "报警/2002:01/607C/608F/6091前置不符"
+      },
+      "writes": [],
+      "controls": [],
+      "requests": 69,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/guard_607C_nonzero"
+    },
+    {
+      "name": "guard_2002_not_CiA402",
+      "error": {
+        "type": "ValueError",
+        "message": "报警/2002:01/607C/608F/6091前置不符"
+      },
+      "writes": [],
+      "controls": [],
+      "requests": 69,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/guard_2002_not_CiA402"
+    },
+    {
+      "name": "guard_Warning",
+      "error": {
+        "type": "ValueError",
+        "message": "6041 Warning/Fault/PP跟随误差：0x04C0"
+      },
+      "writes": [],
+      "controls": [],
+      "requests": 69,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/guard_Warning"
+    },
+    {
+      "name": "guard_Fault",
+      "error": {
+        "type": "ValueError",
+        "message": "节点 1 已隔离；需外部恢复；手动保护锁定：首个或末个状态样本出现故障/PP跟随误差；6041=0x0448；未执行停止（本会话尚未控制电机）；停止确认=None；停止未确认，请使用独立急停"
+      },
+      "writes": [],
+      "controls": [],
+      "requests": 2,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/guard_Fault"
+    },
+    {
+      "name": "guard_603F_nonzero",
+      "error": {
+        "type": "ValueError",
+        "message": "节点 1 已隔离；需外部恢复；手动保护锁定：603F=0x2312（电机堵转）；603Fh故障码非零：0x2312（电机堵转）（最后错误低16bit，不能据此判断当前Fault或根因）；未执行停止（本会话尚未控制电机）；停止确认=None；停止未确认，请使用独立急停"
+      },
+      "writes": [],
+      "controls": [],
+      "requests": 6,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/guard_603F_nonzero"
+    },
+    {
+      "name": "guard_1001_nonzero",
+      "error": {
+        "type": "ValueError",
+        "message": "1001非零或OD宽度不符"
+      },
+      "writes": [],
+      "controls": [],
+      "requests": 70,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/guard_1001_nonzero"
+    },
+    {
+      "name": "guard_scale_changed",
+      "error": {
+        "type": "ValueError",
+        "message": "报警/2002:01/607C/608F/6091前置不符"
+      },
+      "writes": [],
+      "controls": [],
+      "requests": 69,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/guard_scale_changed"
+    },
+    {
+      "name": "guard_max_acceleration",
+      "error": {
+        "type": "ValueError",
+        "message": "131072超过60C5/60C6，零写拒绝"
+      },
+      "writes": [],
+      "controls": [],
+      "requests": 101,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/guard_max_acceleration"
+    },
+    {
+      "name": "guard_max_deceleration",
+      "error": {
+        "type": "ValueError",
+        "message": "131072超过60C5/60C6，零写拒绝"
+      },
+      "writes": [],
+      "controls": [],
+      "requests": 101,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/guard_max_deceleration"
+    },
+    {
+      "name": "guard_original_a_changed",
+      "error": {
+        "type": "ValueError",
+        "message": "6083/6084不是已审阅的5000000；禁止推测或重复对照"
+      },
+      "writes": [],
+      "controls": [],
+      "requests": 101,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/guard_original_a_changed"
+    },
+    {
+      "name": "guard_target_outside_device_limit",
+      "error": {
+        "type": "ValueError",
+        "message": "目标超出脚本软行程，或行程无效"
+      },
+      "writes": [],
+      "controls": [],
+      "requests": 101,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/guard_target_outside_device_limit"
+    },
+    {
+      "name": "readback_6083",
+      "error": {
+        "type": "ValueError",
+        "message": "6083/6084写读回不符；不盲目恢复5000000"
+      },
+      "writes": [
+        [
+          24707,
+          0,
+          131072
+        ],
+        [
+          24640,
+          0,
+          2
+        ],
+        [
+          24640,
+          0,
+          0
+        ]
+      ],
+      "controls": [
+        2,
+        0
+      ],
+      "requests": 140,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/readback_6083"
+    },
+    {
+      "name": "readback_6084",
+      "error": {
+        "type": "ValueError",
+        "message": "6083/6084写读回不符；不盲目恢复5000000"
+      },
+      "writes": [
+        [
+          24707,
+          0,
+          131072
+        ],
+        [
+          24708,
+          0,
+          131072
+        ],
+        [
+          24640,
+          0,
+          2
+        ],
+        [
+          24640,
+          0,
+          0
+        ]
+      ],
+      "controls": [
+        2,
+        0
+      ],
+      "requests": 173,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/readback_6084"
+    },
+    {
+      "name": "communication_loss_Halt",
+      "error": {
+        "type": "MotionError",
+        "message": "诊断 实时轨迹编码器单位：node 1: 0.250s 内未收到 SDO 应答（请求 601  [8]  40 FC 60 00 00 00 00 00）"
+      },
+      "writes": [
+        [
+          24707,
+          0,
+          131072
+        ],
+        [
+          24708,
+          0,
+          131072
+        ],
+        [
+          24705,
+          0,
+          218453
+        ],
+        [
+          24698,
+          0,
+          4294638152
+        ],
+        [
+          24640,
+          0,
+          262
+        ],
+        [
+          24640,
+          0,
+          263
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          311
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          303
+        ]
+      ],
+      "controls": [
+        262,
+        263,
+        295,
+        311,
+        295,
+        303
+      ],
+      "requests": 715,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/communication_loss_Halt"
+    },
+    {
+      "name": "communication_loss_Go",
+      "error": {
+        "type": "MotionError",
+        "message": "诊断 实时轨迹编码器单位：node 1: 0.250s 内未收到 SDO 应答（请求 601  [8]  40 FC 60 00 00 00 00 00）"
+      },
+      "writes": [
+        [
+          24707,
+          0,
+          131072
+        ],
+        [
+          24708,
+          0,
+          131072
+        ],
+        [
+          24705,
+          0,
+          218453
+        ],
+        [
+          24698,
+          0,
+          4294638152
+        ],
+        [
+          24640,
+          0,
+          262
+        ],
+        [
+          24640,
+          0,
+          263
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          311
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          303
+        ],
+        [
+          24698,
+          0,
+          4294638152
+        ],
+        [
+          24640,
+          0,
+          47
+        ],
+        [
+          24640,
+          0,
+          63
+        ],
+        [
+          24640,
+          0,
+          47
+        ]
+      ],
+      "controls": [
+        262,
+        263,
+        295,
+        311,
+        295,
+        303,
+        47,
+        63,
+        47
+      ],
+      "requests": 1021,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/communication_loss_Go"
+    },
+    {
+      "name": "alarm_enable_before_trace",
+      "error": {
+        "type": "ValueError",
+        "message": "首个或末个状态样本出现故障/PP跟随误差；6041=0x002F"
+      },
+      "writes": [
+        [
+          24707,
+          0,
+          131072
+        ],
+        [
+          24708,
+          0,
+          131072
+        ],
+        [
+          24705,
+          0,
+          218453
+        ],
+        [
+          24698,
+          0,
+          4294638152
+        ],
+        [
+          24640,
+          0,
+          262
+        ],
+        [
+          24640,
+          0,
+          263
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          311
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          303
+        ],
+        [
+          24640,
+          0,
+          2
+        ],
+        [
+          24640,
+          0,
+          0
+        ]
+      ],
+      "controls": [
+        262,
+        263,
+        295,
+        311,
+        295,
+        303,
+        2,
+        0
+      ],
+      "requests": 687,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/alarm_enable_before_trace"
+    },
+    {
+      "name": "observation_total_deadline_stuck",
+      "error": {
+        "type": "TimeoutError",
+        "message": "首次002F写前起10秒/20批内未满足原exact目标+零速+bit10"
+      },
+      "writes": [
+        [
+          24707,
+          0,
+          131072
+        ],
+        [
+          24708,
+          0,
+          131072
+        ],
+        [
+          24705,
+          0,
+          218453
+        ],
+        [
+          24698,
+          0,
+          4294638152
+        ],
+        [
+          24640,
+          0,
+          262
+        ],
+        [
+          24640,
+          0,
+          263
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          311
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          303
+        ],
+        [
+          24698,
+          0,
+          4294638152
+        ],
+        [
+          24640,
+          0,
+          47
+        ],
+        [
+          24640,
+          0,
+          63
+        ],
+        [
+          24640,
+          0,
+          47
+        ],
+        [
+          24640,
+          0,
+          2
+        ],
+        [
+          24640,
+          0,
+          0
+        ]
+      ],
+      "controls": [
+        262,
+        263,
+        295,
+        311,
+        295,
+        303,
+        47,
+        63,
+        47,
+        2,
+        0
+      ],
+      "requests": 1856,
+      "clock_elapsed_seconds": 10.0,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/observation_total_deadline_stuck"
+    },
+    {
+      "name": "Halt_inflight_late_reply_quarantine",
+      "error": {
+        "type": "MotionError",
+        "message": "诊断 实时轨迹编码器单位：node 1: 0.250s 内未收到 SDO 应答（请求 601  [8]  40 FC 60 00 00 00 00 00）"
+      },
+      "writes": [
+        [
+          24707,
+          0,
+          131072
+        ],
+        [
+          24708,
+          0,
+          131072
+        ],
+        [
+          24705,
+          0,
+          218453
+        ],
+        [
+          24698,
+          0,
+          4294638152
+        ],
+        [
+          24640,
+          0,
+          262
+        ],
+        [
+          24640,
+          0,
+          263
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          311
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          303
+        ]
+      ],
+      "controls": [
+        262,
+        263,
+        295,
+        311,
+        295,
+        303
+      ],
+      "requests": 715,
+      "clock_elapsed_seconds": 0.5999999999999943,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/Halt_inflight_late_reply_quarantine"
+    },
+    {
+      "name": "Halt_logical_half_second_budget_cleanup",
+      "error": {
+        "type": "TimeoutError",
+        "message": "诊断批次期限已到；不追加请求"
+      },
+      "writes": [
+        [
+          24707,
+          0,
+          131072
+        ],
+        [
+          24708,
+          0,
+          131072
+        ],
+        [
+          24705,
+          0,
+          218453
+        ],
+        [
+          24698,
+          0,
+          4294638152
+        ],
+        [
+          24640,
+          0,
+          262
+        ],
+        [
+          24640,
+          0,
+          263
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          311
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          303
+        ],
+        [
+          24640,
+          0,
+          2
+        ],
+        [
+          24640,
+          0,
+          0
+        ]
+      ],
+      "controls": [
+        262,
+        263,
+        295,
+        311,
+        295,
+        303,
+        2,
+        0
+      ],
+      "requests": 722,
+      "clock_elapsed_seconds": 0.5499999999999972,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/Halt_logical_half_second_budget_cleanup"
+    },
+    {
+      "name": "observer_exception_original_cleanup_once",
+      "error": {
+        "type": "RuntimeError",
+        "message": "Mock observer异常，禁止Go"
+      },
+      "writes": [
+        [
+          24707,
+          0,
+          131072
+        ],
+        [
+          24708,
+          0,
+          131072
+        ],
+        [
+          24705,
+          0,
+          218453
+        ],
+        [
+          24698,
+          0,
+          4294638152
+        ],
+        [
+          24640,
+          0,
+          262
+        ],
+        [
+          24640,
+          0,
+          263
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          311
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          303
+        ],
+        [
+          24640,
+          0,
+          2
+        ],
+        [
+          24640,
+          0,
+          0
+        ]
+      ],
+      "controls": [
+        262,
+        263,
+        295,
+        311,
+        295,
+        303,
+        2,
+        0
+      ],
+      "requests": 733,
+      "clock_elapsed_seconds": 0.5,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/observer_exception_original_cleanup_once"
+    },
+    {
+      "name": "trace_width_quarantine_no_later_SDO",
+      "error": {
+        "type": "ValueError",
+        "message": "诊断OD宽度不符；同client隔离"
+      },
+      "writes": [
+        [
+          24707,
+          0,
+          131072
+        ],
+        [
+          24708,
+          0,
+          131072
+        ],
+        [
+          24705,
+          0,
+          218453
+        ],
+        [
+          24698,
+          0,
+          4294638152
+        ],
+        [
+          24640,
+          0,
+          262
+        ],
+        [
+          24640,
+          0,
+          263
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          311
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          303
+        ]
+      ],
+      "controls": [
+        262,
+        263,
+        295,
+        311,
+        295,
+        303
+      ],
+      "requests": 715,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/trace_width_quarantine_no_later_SDO"
+    },
+    {
+      "name": "second_parameter_external_change_not_overwritten",
+      "error": {
+        "type": "ValueError",
+        "message": "本项6083/6084写前不再是已批准5000000；不覆盖外部变动"
+      },
+      "writes": [
+        [
+          24707,
+          0,
+          131072
+        ],
+        [
+          24640,
+          0,
+          2
+        ],
+        [
+          24640,
+          0,
+          0
+        ]
+      ],
+      "controls": [
+        2,
+        0
+      ],
+      "requests": 171,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/second_parameter_external_change_not_overwritten"
+    },
+    {
+      "name": "can0_rejected_before_any_request",
+      "error": {
+        "type": "ValueError",
+        "message": "本次只允许一次can1打开；禁止can0/重连"
+      },
+      "writes": [],
+      "controls": [],
+      "requests": 0,
+      "clock_elapsed_seconds": null,
+      "result": null,
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/can0_rejected_before_any_request"
+    },
+    {
+      "name": "normal_target_reached_shutdown_unconfirmed_is_failure",
+      "error": null,
+      "writes": [
+        [
+          24707,
+          0,
+          131072
+        ],
+        [
+          24708,
+          0,
+          131072
+        ],
+        [
+          24705,
+          0,
+          218453
+        ],
+        [
+          24698,
+          0,
+          4294638152
+        ],
+        [
+          24640,
+          0,
+          262
+        ],
+        [
+          24640,
+          0,
+          263
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          311
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          303
+        ],
+        [
+          24698,
+          0,
+          4294638152
+        ],
+        [
+          24640,
+          0,
+          47
+        ],
+        [
+          24640,
+          0,
+          63
+        ],
+        [
+          24640,
+          0,
+          47
+        ],
+        [
+          24640,
+          0,
+          6
+        ]
+      ],
+      "controls": [
+        262,
+        263,
+        295,
+        311,
+        295,
+        303,
+        47,
+        63,
+        47,
+        6
+      ],
+      "requests": 1035,
+      "clock_elapsed_seconds": null,
+      "result": {
+        "target_reached": true,
+        "mechanical_stop_confirmed": false,
+        "acceleration_restore_attempted": false,
+        "save_operations": 0,
+        "target": -329144,
+        "position": -329144,
+        "runtime_batches": 1,
+        "observation_elapsed_seconds": 0.005248636000033002,
+        "shutdown_results": [
+          {
+            "node": 1,
+            "disabled_confirmed": false
+          }
+        ],
+        "operation_enabled_cleared": false
+      },
+      "main_rc": null,
+      "raw_directory": "mock-runs-1792403183506908488/normal_target_reached_shutdown_unconfirmed_is_failure"
+    },
+    {
+      "name": "main_return1_when_shutdown_unconfirmed",
+      "error": null,
+      "writes": [
+        [
+          24707,
+          0,
+          131072
+        ],
+        [
+          24708,
+          0,
+          131072
+        ],
+        [
+          24705,
+          0,
+          218453
+        ],
+        [
+          24698,
+          0,
+          4294638152
+        ],
+        [
+          24640,
+          0,
+          262
+        ],
+        [
+          24640,
+          0,
+          263
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          311
+        ],
+        [
+          24640,
+          0,
+          295
+        ],
+        [
+          24640,
+          0,
+          303
+        ],
+        [
+          24698,
+          0,
+          4294638152
+        ],
+        [
+          24640,
+          0,
+          47
+        ],
+        [
+          24640,
+          0,
+          63
+        ],
+        [
+          24640,
+          0,
+          47
+        ],
+        [
+          24640,
+          0,
+          6
+        ]
+      ],
+      "controls": [
+        262,
+        263,
+        295,
+        311,
+        295,
+        303,
+        47,
+        63,
+        47,
+        6
+      ],
+      "requests": 1035,
+      "clock_elapsed_seconds": null,
+      "result": {
+        "event": "一次动作反馈完成",
+        "utc": "2026-10-19T09:46:25.973841+00:00",
+        "monotonic_ns": 27550036882717,
+        "target_reached": true,
+        "mechanical_stop_confirmed": false,
+        "acceleration_restore_attempted": false,
+        "save_operations": 0,
+        "target": -329144,
+        "position": -329144,
+        "runtime_batches": 1,
+        "observation_elapsed_seconds": 0.004876496001088526,
+        "shutdown_results": [
+          {
+            "node": 1,
+            "disabled_confirmed": false
+          }
+        ],
+        "operation_enabled_cleared": false,
+        "causal_conclusion": "仅此方向与此配置观察；未证明高加速度根因"
+      },
+      "main_rc": 1,
+      "raw_directory": "mock-runs-1792403183506908488/main_return1_when_shutdown_unconfirmed"
+    }
+  ],
+  "manifest_sha256": "5072e207253957356b28f03d989efa3b798efa85b240e196060d6eb40495e40b",
+  "production_modules": {
+    "pmp4010": {
+      "path": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010.py",
+      "sha256": "009091e3b1de3f9c9eda51fb22495d9e84296a85819b42adbd5d58825976cc05"
+    },
+    "pmp4010_simple": {
+      "path": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_simple.py",
+      "sha256": "572f4f5ff8cd630bffe6b2a0851b53eaa50a1e29478eeefa75300d1e347e4c87"
+    },
+    "pmp4010_manual": {
+      "path": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_manual.py",
+      "sha256": "08169bc2f6898f658e41c389ddd790eda40eb0b5dbacc078c628828ac6eeea0a"
+    },
+    "pmp4010_bench": {
+      "path": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_bench.py",
+      "sha256": "c48c798694d1dc4122ea2b3844deeae4900af6d0a42e3329495574d855eea7e5"
+    },
+    "pmp4010_position": {
+      "path": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_position.py",
+      "sha256": "fe8299deb3fe52dc3f8d2cfd91383129274579e93b4a0a1ac9ffd09eab2b7668"
+    },
+    "pmp4010_params": {
+      "path": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_params.py",
+      "sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec"
+    },
+    "pmp4010_tui": {
+      "path": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_tui.py",
+      "sha256": "115885f16bad2580428ceb52ac1f1311d4f62cc3a257ec7c703da77c402fb0e7"
+    },
+    "pmp4010_faults": {
+      "path": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_faults.py",
+      "sha256": "11841fa92269d95af48f0e24817b469915731e9f09e72fd4b719fe4d1792b148"
+    },
+    "pmp4010_velocity": {
+      "path": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_velocity.py",
+      "sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96"
+    },
+    "canopen": {
+      "path": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload/hwtui/canopen.py",
+      "sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf"
+    },
+    "canbus": {
+      "path": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload/hwtui/canbus.py",
+      "sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300"
+    },
+    "canopen_wire": {
+      "path": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload/hwtui/canopen_wire.py",
+      "sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885"
+    },
+    "canopen_consts": {
+      "path": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload/hwtui/canopen_consts.py",
+      "sha256": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c"
+    }
+  },
+  "host_library": {
+    "path": "/home/zakiu/km3/build-host/libpmp4010_velocity.so.1.0.0",
+    "sha256": "7f1cb4efb3c2861311abd46daaa352961a6ea66b18fe615c2636516685d358a8",
+    "reason": "仅x86 Mock代替ARM库；实际换算C ABI1"
+  },
+  "ARM_library_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+  "live_CAN_opens": 0,
+  "live_CAN_sends": 0,
+  "hardware_execution": false,
+  "actual_model": "unknown",
+  "actual_reasoning_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown"
+}

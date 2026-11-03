@@ -1,0 +1,28 @@
+[
+  {
+    "argv": [
+      "diff",
+      "-u",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_manual.py",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010_manual.py"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 1,
+    "expected_returncode": 1,
+    "diff": "pmp4010_manual.py.d875-to-default.diff",
+    "stderr": "pmp4010_manual.py.d875-to-default.stderr"
+  },
+  {
+    "argv": [
+      "diff",
+      "-u",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010.py",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/package/payload/drivers/pmp4010/pmp4010.py"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 1,
+    "expected_returncode": 1,
+    "diff": "pmp4010.py.d875-to-default.diff",
+    "stderr": "pmp4010.py.d875-to-default.stderr"
+  }
+]

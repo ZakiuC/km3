@@ -1,0 +1,29 @@
+[
+  {
+    "name": "manual-citations-comment-fix",
+    "argv": [
+      "bash",
+      "tools/check-manual-citations.sh"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "rc": 0,
+    "elapsed_seconds": 0.11302995681762695,
+    "stdout": "manual-citations-comment-fix.stdout.log",
+    "stderr": "manual-citations-comment-fix.stderr.log"
+  },
+  {
+    "name": "faults-comment-fix",
+    "argv": [
+      "python3",
+      "-m",
+      "unittest",
+      "-v",
+      "_test_faults"
+    ],
+    "cwd": "/home/zakiu/km3/device/drivers/pmp4010/tools",
+    "rc": 0,
+    "elapsed_seconds": 0.02519702911376953,
+    "stdout": "faults-comment-fix.stdout.log",
+    "stderr": "faults-comment-fix.stderr.log"
+  }
+]

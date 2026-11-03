@@ -1,0 +1,39 @@
+{
+  "mock_case": "fault",
+  "runner_rc": 1,
+  "assertions": "PASS",
+  "controlwords": [
+    262,
+    2,
+    0
+  ],
+  "writes": [
+    [
+      24705,
+      0,
+      100
+    ],
+    [
+      24698,
+      0,
+      4294965862
+    ],
+    [
+      24640,
+      0,
+      262
+    ],
+    [
+      24640,
+      0,
+      2
+    ],
+    [
+      24640,
+      0,
+      0
+    ]
+  ],
+  "read_phase_writes": [],
+  "hardware_acceptance": false
+}

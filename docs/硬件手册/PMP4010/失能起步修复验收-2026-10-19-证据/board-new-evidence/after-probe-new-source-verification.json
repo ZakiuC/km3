@@ -1,0 +1,8 @@
+{
+  "result": "PASS",
+  "rc": 0,
+  "new_payload_source_hashes_verified": 14,
+  "new_payload_unchanged": true,
+  "identity_config_services_CANlink_rcvlists_changed": [],
+  "CAN_opened": false
+}

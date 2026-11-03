@@ -1,0 +1,53 @@
+{
+  "utc": "2026-10-19T05:44:45.205548+00:00",
+  "hostname": "RK3588-Tronlong",
+  "boot_id": "dc67bdcd-fa50-4927-8f9b-7207359c70af\n",
+  "logs_root": "/var/tmp/km3-pmp4010-simple-20261019-b579f3d5d3ab/payload/logs",
+  "logs_root_exists": true,
+  "sessions": [
+    {
+      "path": "/var/tmp/km3-pmp4010-simple-20261019-b579f3d5d3ab/payload/logs/manual-5BQ8TdzB",
+      "files": [
+        {
+          "name": "motion-absolute-d4b6ca7077e948cba2ae49428eb6f273.jsonl",
+          "is_regular": true,
+          "is_symlink": false,
+          "size": 897,
+          "mtime_ns": 1792388549233085601,
+          "mtime_utc": "2026-10-19T05:42:29.233086+00:00"
+        }
+      ]
+    },
+    {
+      "path": "/var/tmp/km3-pmp4010-simple-20261019-b579f3d5d3ab/payload/logs/manual-IgxS6Xwl",
+      "files": [
+        {
+          "name": "motion-absolute-27ee2c1af9d7430a9c49730cccbf49c8.jsonl",
+          "is_regular": true,
+          "is_symlink": false,
+          "size": 888,
+          "mtime_ns": 1792388584535496592,
+          "mtime_utc": "2026-10-19T05:43:04.535496+00:00"
+        }
+      ]
+    },
+    {
+      "path": "/var/tmp/km3-pmp4010-simple-20261019-b579f3d5d3ab/payload/logs/manual-JpJbKdTb",
+      "files": [
+        {
+          "name": "motion-absolute-fc4866f836a64297bebd203407f99ad1.jsonl",
+          "is_regular": true,
+          "is_symlink": false,
+          "size": 888,
+          "mtime_ns": 1792388471901184021,
+          "mtime_utc": "2026-10-19T05:41:11.901184+00:00"
+        }
+      ]
+    }
+  ],
+  "related_processes": [],
+  "remote_file_writes": 0,
+  "CAN_socket_opens": 0,
+  "CAN_sends": 0,
+  "process_control_operations": 0
+}

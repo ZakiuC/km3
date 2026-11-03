@@ -1,0 +1,43 @@
+{
+  "frozen_source_current": true,
+  "production_files_replaced": [
+    "tools/hwtui/tui.py",
+    "device/drivers/pmp4010/tools/pmp4010_simple.py"
+  ],
+  "production_files_added": [
+    "device/drivers/pmp4010/tools/pmp4010_simple_view.py"
+  ],
+  "package_delta": [
+    "README-手动入口.md",
+    "payload-manifest.json",
+    "load_smoke.py",
+    "drivers/pmp4010/pmp4010_simple.py",
+    "hwtui/tui.py"
+  ],
+  "package_added": [
+    "drivers/pmp4010/pmp4010_simple_view.py"
+  ],
+  "other_payload_bytes_identical": true,
+  "records": [
+    "acceptance/build-package.json",
+    "acceptance/gate-citations.json",
+    "acceptance/gate-deps.json",
+    "acceptance/gate-docs.json",
+    "acceptance/gate-drivers.json",
+    "acceptance/generator-access.json",
+    "acceptance/generator-canopen.json",
+    "acceptance/generator-od.json",
+    "acceptance/python-tools.json",
+    "package/host-load-smoke.json",
+    "package/launcher-syntax.json",
+    "package/roundtrip-smoke.json",
+    "package/source-head.json",
+    "deployment/arm-load-smoke.json",
+    "deployment/direct-help.json",
+    "deployment/install-and-manifest.json",
+    "deployment/launcher-syntax.json",
+    "deployment/preflight.json",
+    "deployment/switch-aliases.json",
+    "deployment/upload.json"
+  ]
+}

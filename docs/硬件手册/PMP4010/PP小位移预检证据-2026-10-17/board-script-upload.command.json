@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "scp",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=8",
+    "/tmp/km3-pp-preflight-20261017/preflight.py",
+    "root@192.168.0.188:/tmp/km3-pp-preflight-20261017-zmdDzVF8/preflight.py"
+  ],
+  "utc": "2026-10-17T08:05:15.500671+00:00"
+}

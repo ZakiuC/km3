@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "bash",
+    "tools/check-docs.sh"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "start_utc": "2026-10-19T09:36:34.244196+00:00",
+  "end_utc": "2026-10-19T09:36:34.754888+00:00",
+  "rc": 0
+}

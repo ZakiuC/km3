@@ -1,0 +1,54 @@
+{
+  "result": "PASS",
+  "static_fields_equal": {
+    "hostname": true,
+    "model": true,
+    "boot_id": true,
+    "device_id": true,
+    "config_sha": true,
+    "can_env_sha": true,
+    "current": true,
+    "services": true,
+    "can_rcvlists": true,
+    "related_processes_excluding_snapshot_pid": true
+  },
+  "interface_excluding_counters_equal": true,
+  "previous_pre_reset_stats": {
+    "rx": {
+      "bytes": 691617,
+      "packets": 86453,
+      "errors": 0,
+      "dropped": 0,
+      "over_errors": 0,
+      "multicast": 0
+    },
+    "tx": {
+      "bytes": 0,
+      "packets": 86446,
+      "errors": 0,
+      "dropped": 0,
+      "carrier_errors": 0,
+      "collisions": 0
+    }
+  },
+  "fresh_post_reset_baseline_stats": {
+    "rx": {
+      "bytes": 691681,
+      "packets": 86461,
+      "errors": 0,
+      "dropped": 0,
+      "over_errors": 0,
+      "multicast": 0
+    },
+    "tx": {
+      "bytes": 0,
+      "packets": 86454,
+      "errors": 0,
+      "dropped": 0,
+      "carrier_errors": 0,
+      "collisions": 0
+    }
+  },
+  "known_reset_requests": 8,
+  "comparison_policy": "Use this fresh before snapshot for all11 after comparisons; prior pre-reset counters differ by8 expected requests and responses."
+}

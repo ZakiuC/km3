@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "bash",
+    "tools/check-drivers.sh"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-20T00:56:55.156398+00:00"
+}

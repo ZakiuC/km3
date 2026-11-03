@@ -1,0 +1,58 @@
+{
+  "result": "PASS",
+  "observation_taps_byte_identical_to_final_local_PTY_taps": true,
+  "board_wrapper_has_no_fixture_or_MockBus_import": true,
+  "imports": [
+    "argparse",
+    "canopen_consts",
+    "canopen_wire",
+    "contextlib",
+    "datetime",
+    "functools",
+    "hashlib",
+    "importlib.util",
+    "json",
+    "os",
+    "pathlib",
+    "pmp4010",
+    "pmp4010_bench",
+    "pmp4010_params",
+    "pmp4010_position",
+    "pmp4010_tui",
+    "pmp4010_velocity",
+    "socket",
+    "sys",
+    "threading",
+    "time",
+    "tui",
+    "unittest"
+  ],
+  "UI_seeding": "none; RT/OD/settings/token all entered through terminal",
+  "production_controller_calls": "PmpApp original run path only; no direct BenchController.execute",
+  "offline_check": {
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "/tmp/km3-pp-motion-20261017/board_app.py",
+      "--offline-source-root",
+      "/tmp/km3-pp-prepare-package-20261017/payload"
+    ],
+    "rc": 0,
+    "stdout": "board-wrapper-offline.stdout",
+    "stderr": "board-wrapper-offline.stderr"
+  },
+  "launch_plan_check": {
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "/tmp/km3-pp-motion-20261017/board_pty_runner.py",
+      "--output-dir",
+      "/tmp/km3-pp-motion-20261017/board-session-1"
+    ],
+    "rc": 0,
+    "stdout": "board-launch-plan.json",
+    "actual_ssh_calls": 0
+  }
+}

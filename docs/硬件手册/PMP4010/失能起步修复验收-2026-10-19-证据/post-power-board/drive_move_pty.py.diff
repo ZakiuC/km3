@@ -1,0 +1,30 @@
+--- stage2/drive_probe_pty.py
++++ post-power/drive_move_pty.py
+@@ -1,8 +1,8 @@
+-"""Real curses keyboard driver: Ready -> D two confirmations -> B two confirmations."""
++"""Real curses keyboard driver: Ready -> D two confirmations -> R +36 two confirmations."""
+ import importlib.util,json,pathlib,sys,time
+ B=pathlib.Path(__file__).parent
+ spec=importlib.util.spec_from_file_location('pty_runner',B/'pty_runner.py');r=importlib.util.module_from_spec(spec);spec.loader.exec_module(r)
+-scenario=sys.argv[1];out=B/('pty-probe-'+scenario);s=r.Session(out,scenario)
++scenario=sys.argv[1];out=B/('pty-move-'+scenario+'-v2');s=r.Session(out,scenario)
+ def cmd(item):return s.command_input(item)
+ def rows():
+  p=out/'app-audit.jsonl'
+@@ -47,11 +47,11 @@
+  capture('after-D-strictdisabled')
+  wait_for(lambda:state().get('row_values',{}).get('statusword')==0x240,'D refreshed')
+  assert state()['row_values']['controlword']==0
+- text('B');probe=freeze_and_confirm('probe_pp_start','B-probe')
+- assert probe['start']==probe['target']==-1470
+- assert probe['token']=='PROBE_PP_START mock-bench 1 -1470'
+- wait_for(lambda:result_count()==2 and not state().get('busy'),'B result',seconds=15)
+- capture('B-final-result-before-exit')
++ text('R');wait_for(lambda:state().get('view')=='action','R input');cmd({'action':'replace','text':'+36'});probe=freeze_and_confirm('relative','R-move')
++ assert probe['start']==-1470 and probe['target']==-1434
++ assert probe['token']=='RELATIVE mock-bench 1 -1434'
++ wait_for(lambda:result_count()==2 and not state().get('busy'),'R result',seconds=20)
++ capture('R-final-result-before-exit')
+  result=cmd({'action':'finish'});assert result['finished'] and result['child_rc']==0
+  print(json.dumps(dict(result='DRIVER_COMPLETE',scenario=scenario,driver_rc=0,child_rc=0,tokens=[disable['token'],probe['token']],output=str(out))))
+ except BaseException as exc:

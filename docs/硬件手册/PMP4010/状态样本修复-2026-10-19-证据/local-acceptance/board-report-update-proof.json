@@ -1,0 +1,9 @@
+{
+  "board_final_summary_sha256": "2600d884b18660da0f0ccd5fc9d089b512a66d102fefa0424031e45be3d6ff2d",
+  "board_postcheck_summary_sha256": "64989f5dd12094e81697ad90d16e78f133c85aaa17d0d011ddf5adb0ac02784b",
+  "board_archive_matches_local": true,
+  "board_manifest_matches_local": true,
+  "compared_keys": 11,
+  "local_evidence_read_only": true,
+  "author_SSH_or_CAN": false
+}

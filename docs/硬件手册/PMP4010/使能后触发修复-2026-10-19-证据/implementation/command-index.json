@@ -1,0 +1,65 @@
+{
+  "cwd": "/home/zakiu/km3",
+  "commands": [
+    {
+      "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p '_test_manual.py' -k enabled_edge_behavior",
+      "exit_code": 1,
+      "output": "oldfail.log",
+      "source": "pmp4010_manual.before.py",
+      "result": "PP feedback unchanged; zero Operation enabled rising edges"
+    },
+    {
+      "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p '_test_manual.py' -k enabled_edge_behavior",
+      "exit_code": 0,
+      "output": "newpass.log",
+      "result": "One enabled edge; real model feedback moves during new ACK handshake"
+    },
+    {
+      "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p '_test_manual.py'",
+      "exit_code": 0,
+      "output": "manual-final.log",
+      "tests": 48
+    },
+    {
+      "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p '_test_simple.py'",
+      "exit_code": 0,
+      "output": "simple-final.log",
+      "tests": 18
+    },
+    {
+      "command": "python3 -I device/drivers/pmp4010/tools/_test_simple_pty.py --run docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty",
+      "exit_code": 0,
+      "output": "simple-pty.log",
+      "checks": 34
+    },
+    {
+      "command": "python3 -I device/drivers/pmp4010/tools/_test_manual_pty.py --run docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-pty-final",
+      "exit_code": 0,
+      "output": "manual-pty-final.log",
+      "checks": 27
+    }
+  ],
+  "retained_failed_runs": {
+    "manual-first.log": 1,
+    "manual-second.log": 1,
+    "manual-third.log": 1,
+    "manual-fourth.log": 1,
+    "simple-first.log": 1,
+    "simple-second.log": 1,
+    "manual-pty-oldexpect-fail.log": 1
+  },
+  "limits": [
+    "Offline standard MockBus only; no board/CAN socket/SSH/deployment/commit performed",
+    "No full Python/C++ gates run by this worker; parent acceptance owns those",
+    "Legacy manual PTY keeps existing older movement fixture; public simple PTY uses EnabledEdgeNode and progressive feedback"
+  ],
+  "cleanup": "All test subprocesses exited; TemporaryDirectory unit fixtures cleaned by unittest; only requested evidence retained",
+  "isolated_old_reproduction": {
+    "command": "python3 -I docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/old-repro.py",
+    "expected_exit_code": 1,
+    "actual_exit_code": 1,
+    "output": "old-repro-expected-failure.log",
+    "mechanism": "Load saved pmp4010_manual.before.py with importlib under a separate module name; override only current _test_manual.ManualController in this process; run the enabled_edge_behavior singleton",
+    "classification": "Intentional pre-fix reproduction, not frozen-source acceptance failure; original oldfail.log preserved"
+  }
+}

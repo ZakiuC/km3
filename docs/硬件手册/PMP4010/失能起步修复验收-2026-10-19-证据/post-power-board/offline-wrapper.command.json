@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=10",
+    "root@192.168.0.188",
+    "python3 -I -B -c 'import os,pathlib,runpy,sys\nsys.dont_write_bytecode=True\nattempts=[]\ndef audit(event,args):\n forbidden=event in ('\"'\"'socket.__new__'\"'\"','\"'\"'socket.connect'\"'\"','\"'\"'socket.bind'\"'\"','\"'\"'subprocess.Popen'\"'\"','\"'\"'os.system'\"'\"','\"'\"'os.fork'\"'\"','\"'\"'os.forkpty'\"'\"','\"'\"'os.posix_spawn'\"'\"','\"'\"'os.exec'\"'\"','\"'\"'pty.spawn'\"'\"','\"'\"'os.remove'\"'\"','\"'\"'os.rename'\"'\"','\"'\"'os.mkdir'\"'\"','\"'\"'os.rmdir'\"'\"','\"'\"'os.symlink'\"'\"','\"'\"'os.link'\"'\"','\"'\"'os.truncate'\"'\"','\"'\"'os.chmod'\"'\"','\"'\"'os.chown'\"'\"')\n if event=='\"'\"'open'\"'\"':\n  mode=args[1];flags=args[2]\n  forbidden=bool(isinstance(mode,str) and any(x in mode for x in '\"'\"'wax+'\"'\"')) or bool(isinstance(flags,int) and flags & (os.O_WRONLY|os.O_RDWR|os.O_CREAT|os.O_TRUNC|os.O_APPEND))\n if forbidden:attempts.append(event);raise RuntimeError('\"'\"'offline wrapper audit rejected '\"'\"'+event)\nsys.addaudithook(audit)\nsys.argv=[sys.argv[1]]\ntry:runpy.run_path(sys.argv[0],run_name='\"'\"'__main__'\"'\"')\nexcept SystemExit as exc:assert exc.code in (0,None)\nassert not attempts\nprint('\"'\"'outer_audit_forbidden_write_or_io_attempts=0'\"'\"')\n' /tmp/km3-pp-disabled-start-stage3-recovery-20261019-0213/board_app.py"
+  ],
+  "utc_start": "2026-10-19T02:17:18.368611+00:00",
+  "utc_end": "2026-10-19T02:17:18.909507+00:00",
+  "stdin_bytes": 0,
+  "stdin_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "script_sha256": "ea9a402e1fdfdfd0dd54ecc8989b234da32712e82806c2150c0ce904e97e4577",
+  "rc": 0
+}

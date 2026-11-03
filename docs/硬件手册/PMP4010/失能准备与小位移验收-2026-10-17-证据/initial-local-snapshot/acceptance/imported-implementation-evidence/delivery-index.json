@@ -1,0 +1,68 @@
+{
+  "source_hash_verified": true,
+  "changed_files": [
+    "device/drivers/pmp4010/tools/_test_prepare.py",
+    "device/drivers/pmp4010/tools/pmp4010_bench.py",
+    "device/drivers/pmp4010/tools/pmp4010_tui.py"
+  ],
+  "final_model": {
+    "command": {
+      "argv": [
+        "python3",
+        "-I",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "device/drivers/pmp4010/tools",
+        "-p",
+        "_test_*.py"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "utc": "2026-10-17T08:23:06.234866+00:00"
+    },
+    "rc": 0,
+    "tests": 241,
+    "seconds": 16.501
+  },
+  "final_pty": {
+    "command": {
+      "argv": [
+        "python3",
+        "-I",
+        "tools/hwtui/verify_pmp4010_bench_pty.py",
+        "--output-dir",
+        "/tmp/km3-pp-prepare-impl-20261017/bench-pty-delivery"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "utc": "2026-10-17T08:23:35.463369+00:00"
+    },
+    "rc": 0,
+    "report": "bench-pty-delivery/report.json"
+  },
+  "raw_commands": {
+    "bench-pty-delivery": 0,
+    "bench-pty-final": 0,
+    "bench-pty-help-start": 1,
+    "bench-pty-retry": 1,
+    "bench-pty": 1,
+    "capture-delivery": 0,
+    "capture-mock": 0,
+    "first-full": 0,
+    "model-delivery-retry": 0,
+    "model-delivery": 1,
+    "model-final-after-help": 0,
+    "model-final": 0,
+    "model-frozen": 0,
+    "prepare-directed-final": 0,
+    "prepare-final": 0,
+    "prepare-first": 0,
+    "review-fix-directed": 0
+  },
+  "limits": [
+    "only offline MockBus and independent literal peer; no SSH or real CAN",
+    "no board or mechanical/brake/motion acceptance",
+    "no commit/push/deploy/docs changes"
+  ],
+  "cleanup": "test fixtures auto-cleaned; requested /tmp evidence intentionally retained"
+}

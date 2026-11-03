@@ -1,0 +1,44 @@
+--- c20f/pmp4010_manual.py
++++ after/pmp4010_manual.py
+@@ -243,7 +243,7 @@
+         if action == 'enable':
+             lines += ['仅012F；保持Halt。包络内反馈变化允许，绝不自动解除Halt。']
+         if action == 'go':
+-            lines += ['Operation enabled后002F→003F→002F；新ACK 0→1→0触发同一冻结绝对目标。',
++            lines += ['使能后重写冻结607A并读回，再002F→003F→002F；新ACK 0→1→0触发。',
+                       '002F起允许包络内正常移动；持续监测故障/通信/参数，目标不重算。']
+         lines += ['6040h计划：' + ' → '.join('0x{:04X}'.format(w) for w in controls),
+                   '软件X快停不能替代独立急停；q退出执行有界Shutdown。']
+@@ -515,6 +515,32 @@
+                         raise ValueError('阶段或单次目标证明失效')
+                     if review['start'] != proof['start'] or review['target'] != proof['target']:
+                         raise ValueError('原始起点/目标证明不符')
++                    # E06 table6-10 updates the position command before the
++                    # bit4 rising edge; §6.3.6 triggers after motor enable.
++                    # Refresh executable data while still enabled with Halt.
++                    # Re-download exactly the sealed absolute target: this is
++                    # a protocol ordering step, never a feedback-based rebase
++                    # or a claim about undocumented firmware invalidation.
++                    spec = self.objects['target_position']
++                    wrote = True  # Register responsibility BEFORE attempting.
++                    session.needs_stop = True
++                    deadline = session.deadline()
++                    transition_end = deadline
++                    if journal:
++                        journal.event('manual_enabled_target',point='before_write',
++                                      target=proof['target'],controlword=0x12f)
++                    session.call(deadline,'使能Halt重写冻结607A',session.client.write,
++                                 spec['index_value'],spec['sub'],position.encode(spec,proof['target']))
++                    if journal:
++                        journal.event('manual_enabled_target',point='write_ack',target=proof['target'])
++                    actual = self._read(session.client,'target_position',session)
++                    if journal:
++                        journal.event('manual_enabled_target',point='readback',target=proof['target'],actual=actual)
++                    if actual != proof['target']:
++                        raise ValueError('使能Halt冻结607A写读回不一致')
++                    values, cal = self._snapshot(session,states=(p.CIA402_ENABLED,))
++                    self._proof_guard(node,values,cal,stationary=True)
++                    transition_end = None
+                     # E06 §6.3.6 says to trigger after enabling the motor;
+                     # table6-10 accepts/executes a new bit4 rising edge. An
+                     # ACK obtained in Switched on is only preload evidence,

@@ -1,0 +1,39 @@
+[?1049h[?25l[2J[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 -- mm   raw 未知   软件零点 0
+[2K速度 -- rpm   状态 未知 --
+[2K603F 未知 [样本不完整/已失效]
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /dev/full
+[2K退出清理中；等待后台完成并恢复终端
+[2K--- 消息 ---
+[2K会话开始: 2026-10-20T02:16:34Z interface=can0 node=1 bitrate=1000000 mock=是
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /dev/full
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K操作日志写入失败；已取消未确认动作，受控退出（非通信隔离）
+[2K
+[2K[?25h[?1049l日志写入失败: /dev/full
+会话开始: 2026-10-20T02:16:34Z interface=can0 node=1 bitrate=1000000 mock=是
+初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+servo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+socketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed85
+od_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+日志路径: /dev/full
+会话OD人工理由: PTY人工校验
+启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+操作日志写入失败；已取消未确认动作，受控退出（非通信隔离）
+结果: 会话未发控制下载；关闭零帧；电气失能确认=否；机械停稳未确认
+不完整反馈: phase= 603F=未知 SW=未知 CW=未知 raw=未知 velocity_raw=未知 attempted_CW=无 download_ACK=否
+终端已恢复；机械停稳未由软件确认。
+e
+

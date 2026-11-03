@@ -1,0 +1,7 @@
+{
+  "assertions": 103,
+  "status": "passed",
+  "scope": "local PTY + protocol mock only; no hardware acceptance",
+  "output_dir": "/home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/pty-asan-final5",
+  "syscall_audit": false
+}

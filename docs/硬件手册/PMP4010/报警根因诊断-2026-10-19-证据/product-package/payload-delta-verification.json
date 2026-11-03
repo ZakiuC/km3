@@ -1,0 +1,13 @@
+{
+  "baseline_payload_paths_equal": true,
+  "changed_manifest_listed_files": [
+    "drivers/pmp4010/pmp4010_manual.py",
+    "drivers/pmp4010/pmp4010_simple.py",
+    "README-手动入口.md"
+  ],
+  "payload_manifest_updated_separately": true,
+  "unchanged_regular_files": 19,
+  "unchanged_symlinks": 2,
+  "frozen_four_source_hashes_after_package": "PASS",
+  "original_package_untouched": true
+}

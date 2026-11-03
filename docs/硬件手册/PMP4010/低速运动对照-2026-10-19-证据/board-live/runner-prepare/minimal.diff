@@ -1,0 +1,39 @@
+--- docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/board-live/runner-prepare/controlled-forward.runner.py
++++ docs/硬件手册/PMP4010/低速运动对照-2026-10-19-证据/board-live/runner-prepare/controlled-forward.runner.py
+@@ -181,7 +181,7 @@
+                     approve, observe_seconds=10, hardware=False):
+     tool = modules['pmp4010']
+     args = tool.build_parser().parse_args([
+-        '--manual', '--node', '1', '--node-range', '1', '--manual-velocity', '100',
++        '--manual', '--node', '1', '--node-range', '1', '--manual-velocity', '1000',
+         '--timeout', '0.1', '--state-timeout', '2', '--move-timeout', '10',
+         '--motion-log', str(output_dir/'motion.jsonl')])
+     out = Output(output_dir/'runner.jsonl')
+@@ -214,14 +214,14 @@
+         review = ctl.review_action('forward', out)
+         session = review['session']
+         require(ctl.context == ('can1', 1000000), '实际controller接口不符')
+-        require(review['target']-review['start'] == step and review['velocity'] == 100,
++        require(review['target']-review['start'] == step and review['velocity'] == 1000,
+                 '冻结动作不符')
+         require(not ctl.enabled_sessions and not session.needs_stop,
+                 '读阶段不可持有任何控制写责任')
+         snapshot = dict(review_nonce=uuid.uuid4().hex,
+                         node=1, interface='can1', mode='PP1', start=review['start'],
+                         target=review['target'], displacement=step,
+-                        motor_degrees=str(degrees), velocity_units_per_s=100,
++                        motor_degrees=str(degrees), velocity_units_per_s=1000,
+                         velocity_rpm=str(rpm), origin=ctl.origin,
+                         settings=review['settings'], calibration=review['calibration'],
+                         values=review['before'], lines=review['lines'],
+--- docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/board-live/runner-prepare/mock_runner_support.py
++++ docs/硬件手册/PMP4010/低速运动对照-2026-10-19-证据/board-live/runner-prepare/mock_runner_support.py
+@@ -65,7 +65,7 @@
+     assert all(frame.arbitration_id != 0 for frame in bus.sent)
+     review = json.loads((args.output/'review.json').read_text())['snapshot']
+     assert review['displacement'] == 291 and review['settings']['max_displacement'] == 364
+-    assert review['target']-review['start'] == 291 and review['velocity_units_per_s'] == 100
++    assert review['target']-review['start'] == 291 and review['velocity_units_per_s'] == 1000
+     assert review['settings']['soft_min'] >= -1847 and review['settings']['soft_max'] <= -1119
+     assert node.enabled_edges == [(0x2f, 0x3f, review['target'])], node.enabled_edges
+     assert node.value(0x6064, signed=True) == review['target']

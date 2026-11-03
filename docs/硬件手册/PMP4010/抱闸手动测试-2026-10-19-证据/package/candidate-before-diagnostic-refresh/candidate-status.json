@@ -1,0 +1,8 @@
+{
+  "status": "held, not final",
+  "reason": "Parent integration review requires brake diagnostic display fix and new source freeze",
+  "candidate_source_sha256": "9f66f210e9e97ef9bc611e8d07c821a52d3417c733ba713623297e3b3098c2b7",
+  "candidate_archive_sha256": "fef9986a7d1ec92dfad843f82de673f5580ca7bf5476b0442fe1d825416dcfc5",
+  "completed_package_checks": "passed; preserved",
+  "hardware_actions": false
+}

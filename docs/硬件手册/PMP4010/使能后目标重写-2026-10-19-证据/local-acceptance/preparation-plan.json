@@ -1,0 +1,10 @@
+{
+  "status": "waiting_final_freeze",
+  "acceptance_or_package_executed": false,
+  "hypothesis_not_confirmed": true,
+  "source": "previous round scripts adapted to new separate output roots",
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "input_tokens": "unknown",
+  "estimate_only": "below115K parent conservative estimate"
+}

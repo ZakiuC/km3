@@ -1,0 +1,10 @@
+==> 手册溯源检查
+  (1)(2) od.json：1 个驱动、97 个条目、90 条已核对引用
+  [违规] device/drivers/pmp4010/tools/pmp4010_manual.py:166 出现对象字典索引字面量但同行（或紧邻上一行）无引用：if key == and value and not ( allow_alarm and value == 0x2312 ) :
+  [违规] device/drivers/pmp4010/tools/pmp4010_manual.py:169 出现对象字典索引字面量但同行（或紧邻上一行）无引用：exc . manual_alarm_2312 = ( value == 0x2312 and bool ( sw & 0x80 )
+  [违规] device/drivers/pmp4010/tools/pmp4010_manual.py:483 出现对象字典索引字面量但同行（或紧邻上一行）无引用：or v [ ] not in ( 0 , 0x2312 ) ) :
+  [违规] device/drivers/pmp4010/tools/pmp4010_manual.py:486 出现对象字典索引字面量但同行（或紧邻上一行）无引用：v [ ] = raw ( 0x200e , 2 , 4 )
+  [违规] device/drivers/pmp4010/tools/pmp4010_manual.py:488 出现对象字典索引字面量但同行（或紧邻上一行）无引用：if not sw & 0x80 or v [ ] != 0x2312 or v [ ] != 0x03002312 or v [ ] !=
+  (3) 源码索引字面量：检查 59 处，全部同行带引用
+
+结果：发现违规（见上 [违规] 行）

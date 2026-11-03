@@ -1,0 +1,10 @@
+{
+  "command": [
+    "python3",
+    "-I",
+    "-c",
+    "import socket,sys; socket.socket=lambda *a,**k: (_ for _ in ()).throw(AssertionError('CAN forbidden')); sys.path.insert(0,'/home/zakiu/km3/device/drivers/pmp4010/tools'); import pmp4010_brake; print('import OK; socket opens=0')"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "returncode": 0
+}

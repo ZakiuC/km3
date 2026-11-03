@@ -1,0 +1,15 @@
+{
+  "archive_sha256": "7355389782042fdc3baa7d1ddc114cc2e11df14fa304293f8b1683037bde1d72",
+  "files": {
+    "pmp4010_manual.py": {
+      "baseline_sha256": "08169bc2f6898f658e41c389ddd790eda40eb0b5dbacc078c628828ac6eeea0a",
+      "archive_member": "drivers/pmp4010/pmp4010_manual.py",
+      "archive_matches_baseline": true
+    },
+    "pmp4010_simple.py": {
+      "baseline_sha256": "572f4f5ff8cd630bffe6b2a0851b53eaa50a1e29478eeefa75300d1e347e4c87",
+      "archive_member": "drivers/pmp4010/pmp4010_simple.py",
+      "archive_matches_baseline": true
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "hostname": true,
+  "model": true,
+  "boot_id": true,
+  "device_id": true,
+  "config_sha": true,
+  "can_env_sha": true,
+  "current": true,
+  "services": true,
+  "related_processes_excluding_snapshot_pid": true,
+  "can_rcvlists": true,
+  "can_linkinfo": true,
+  "can_flags": true
+}

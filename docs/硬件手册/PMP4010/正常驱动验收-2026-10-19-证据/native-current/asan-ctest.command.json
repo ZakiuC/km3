@@ -1,0 +1,17 @@
+{
+  "name": "asan-ctest",
+  "argv": [
+    "ctest",
+    "--test-dir",
+    "build-asan",
+    "--output-on-failure"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T06:07:08.091237+00:00",
+  "duration_seconds": 12.138629781999043,
+  "returncode": 0,
+  "stdout": "asan-ctest.stdout.log",
+  "stdout_sha256": "2fefedaf8d40cddb06e33cb14d956be5410634d8080e037383cb807822e77142",
+  "stderr": "asan-ctest.stderr.log",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

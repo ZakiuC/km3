@@ -1,0 +1,20 @@
+--- manual-board-stage/stage.remote.py
++++ simple-board-stage/stage.remote.py
+@@ -15,7 +15,7 @@
+ expected_sha, stage_name = sys.argv[1:]
+ assert len(expected_sha) == 64 and all(c in '0123456789abcdef' for c in expected_sha)
+ base = Path(stage_name)
+-prefix = 'km3-pmp4010-manual-20261019-'
++prefix = 'km3-pmp4010-simple-20261019-'
+ assert base.parent == Path('/var/tmp') and base.name.startswith(prefix)
+ suffix = base.name[len(prefix):]
+ assert 12 <= len(suffix) <= 64 and expected_sha.startswith(suffix)
+@@ -61,7 +61,7 @@
+     parents = PurePosixPath(name).parents
+     assert all(str(parent) not in file_names for parent in parents), 'file used as parent'
+ required = {'load_smoke.py', 'run-manual.sh', 'drivers/pmp4010/pmp4010.py',
+-            'drivers/pmp4010/pmp4010_manual.py'}
++            'drivers/pmp4010/pmp4010_manual.py', 'drivers/pmp4010/pmp4010_simple.py'}
+ assert required <= file_names, 'manual package schema incomplete'
+ # All archive bytes, manifest entries and symlink paths are checked before writes.
+ base.mkdir(mode=0o700, exist_ok=False)

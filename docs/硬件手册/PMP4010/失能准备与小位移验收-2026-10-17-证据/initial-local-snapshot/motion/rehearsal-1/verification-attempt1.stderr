@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/tmp/km3-pp-motion-20261017/verify_rehearsal.py", line 22, in <module>
+    assert len(pre_samples)==5,[r['phase'] for r in samples]
+AssertionError: ['稳定采样1/5', '稳定采样2/5', '稳定采样3/5', '稳定采样4/5', '稳定采样5/5', '写前target_position', '写后target_position', '写前profile_velocity', '写后profile_velocity']

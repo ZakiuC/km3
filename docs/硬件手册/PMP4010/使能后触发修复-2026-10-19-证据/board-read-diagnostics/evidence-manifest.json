@@ -1,0 +1,32 @@
+[
+  {
+    "path": "command.json",
+    "bytes": 527,
+    "sha256": "a62c0282b9bdda2c92046331c211fa08f66d6eede0aef5d71a9535e6126b636b"
+  },
+  {
+    "path": "diagnostic.remote.py",
+    "bytes": 3163,
+    "sha256": "8126ad95b7c017f4f69833b334a0dd6e9fcc3d6efd8023a84020a9903b6222d1"
+  },
+  {
+    "path": "rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  {
+    "path": "result-summary.json",
+    "bytes": 10249,
+    "sha256": "debde150a1bad09092a5f9d384c6380b4f9a17946a6dd3790eba490b33994ef3"
+  },
+  {
+    "path": "stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "stdout",
+    "bytes": 8767,
+    "sha256": "50d05b2a3687ecc92f4b44edf2ea90484db4f5574f66901aebf39838841247bb"
+  }
+]

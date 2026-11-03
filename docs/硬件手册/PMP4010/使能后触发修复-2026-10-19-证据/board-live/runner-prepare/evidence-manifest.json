@@ -1,0 +1,87 @@
+[
+  {
+    "path": "controlled-forward.runner.py",
+    "bytes": 16695,
+    "sha256": "54c5cb091b32c42663ca35933e3a6dd7e98eb9bcd3118f1c436e1da0ded7f7c5"
+  },
+  {
+    "path": "frozen-constants.diff",
+    "bytes": 529,
+    "sha256": "43630f2f79e646b40a757992a3a421ecba52e3ebe86521e5f66a6e8ef5ccaa11"
+  },
+  {
+    "path": "mock_runner_support.py",
+    "bytes": 4056,
+    "sha256": "7a988742957e2a8c7d3a635633eb9a5038389dd6759b073a6577e6123967fcd0"
+  },
+  {
+    "path": "new-package-normal-mock/mock-verdict.json",
+    "bytes": 2873,
+    "sha256": "10a0a85a729465d20739a75c9eb2544db9662d7ae9f87cad0585804726263b2b"
+  },
+  {
+    "path": "new-package-normal-mock/motion-absolute-9424c016c3f94b169797d15cb0f4afd5.jsonl",
+    "bytes": 34507,
+    "sha256": "6ff4655a88d36aa930c09b8feac874c64baa84c78afcc60da4da7818ef7db958"
+  },
+  {
+    "path": "new-package-normal-mock/motion-enable-5a41bb0d1ca84fb0bc105e39bea68223.jsonl",
+    "bytes": 5415,
+    "sha256": "971bac2d1ccb62e98ba9dd8249e213dd1f20a14c11410a78e436c463580d012f"
+  },
+  {
+    "path": "new-package-normal-mock/motion-go-6abcf1d44add464a88a91a51feb8b1c8.jsonl",
+    "bytes": 21507,
+    "sha256": "1d903ced7b6aec0889b57bad1715fe1f18da9cd8ce74fb9841e3920f8cc89ff3"
+  },
+  {
+    "path": "new-package-normal-mock/review.json",
+    "bytes": 2121,
+    "sha256": "aa150c1c990aed30977b0ba151a02f6f859f5239407e4d950024ef157e6a08b6"
+  },
+  {
+    "path": "new-package-normal-mock/runner.jsonl",
+    "bytes": 77382,
+    "sha256": "efbbb8e7375c3479d6732d6b41c57e86c1ef32ddb87e458d3174629d967cf051"
+  },
+  {
+    "path": "new-package-normal-mock.command.json",
+    "bytes": 1157,
+    "sha256": "2399a67388120e970dc0d2f98a9594c6139b953a2b84032de7b8d186098cbd25"
+  },
+  {
+    "path": "new-package-normal-mock.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  {
+    "path": "new-package-normal-mock.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "new-package-normal-mock.stdout",
+    "bytes": 79471,
+    "sha256": "61af2efd6c2feea9b614bdff33b6585cd8a8ae84edd7701ed932e7ee9cda1030"
+  },
+  {
+    "path": "pending-7167c8dd.runner.py",
+    "bytes": 16727,
+    "sha256": "7167c8ddcd9efce1a22bd31458143f4f3dd05735d8b45b017913ba85ead2e955"
+  },
+  {
+    "path": "pending-evidence-manifest.json",
+    "bytes": 441,
+    "sha256": "e9dba016396c50aed90a0e0f06737e3151e478c8ee153b1598553df367a1aeaa"
+  },
+  {
+    "path": "runner-minimal.diff",
+    "bytes": 2240,
+    "sha256": "4b80ee8bbf260af6e2c362cd6c128e72a4f6b3b77badab526e505d777587a618"
+  },
+  {
+    "path": "判据设计.md",
+    "bytes": 2845,
+    "sha256": "35865893be43b0b6620384fa6609623fb79e82618938f024eb0542713b4a07b8"
+  }
+]

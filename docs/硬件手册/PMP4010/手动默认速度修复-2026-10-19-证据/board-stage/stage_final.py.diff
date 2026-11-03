@@ -1,0 +1,11 @@
+--- docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/board-stage/stage_rewrite.py
++++ /home/zakiu/km3/docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/board-stage/stage_final.py
+@@ -22,7 +22,7 @@
+     args = parser.parse_args()
+     raw = args.archive.read_bytes()
+     assert hashlib.sha256(raw).hexdigest() == args.sha256
+-    stage = args.stage or '/var/tmp/km3-pmp4010-rewrite-20261019-'+args.sha256
++    stage = args.stage or '/var/tmp/km3-pmp4010-manual-final-20261019-'+args.sha256
+     plan = dict(archive=str(args.archive),archive_sha256=args.sha256,stage=stage,
+                 steps=['archive_manifest_verified_exclusive_stage','AArch64_pureload_math_simple_manual_import_CLI_help','launcher_sh_n_only'],
+                 manual_launcher_executed=False,CAN_operations=0)

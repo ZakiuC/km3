@@ -1,0 +1,18 @@
+{
+  "command": "ctest --test-dir build-host --output-on-failure",
+  "argv": [
+    "bash",
+    "-c",
+    "ctest --test-dir build-host --output-on-failure"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "env_overrides": {
+    "TMPDIR": "/tmp/km3-pmp4010-a-20261017-evidence/tmp"
+  },
+  "start_utc": "2026-10-17T07:24:02.958218+00:00",
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "exitcode": 0,
+  "end_utc": "2026-10-17T07:24:14.522739+00:00"
+}

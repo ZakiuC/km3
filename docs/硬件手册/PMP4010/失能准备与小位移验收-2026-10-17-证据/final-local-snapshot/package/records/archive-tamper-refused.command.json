@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pp-prepare-package-20261017/roundtrip/load_smoke.py",
+    "--library",
+    "/home/zakiu/km3/build-host/libpmp4010_velocity.so"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

@@ -1,0 +1,1 @@
+{"argv": ["python3", "-I", "-B", "/tmp/km3-pp-motion-20261017/verify_rehearsal.py"], "failure": "verification expected English phase label; real implementation emits Chinese phase labels; no operation rerun"}

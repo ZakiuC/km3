@@ -1,0 +1,7 @@
+{
+  "argv": [
+    "sha256sum",
+    "/tmp/km3-pp-disabled-start-stage2-package-20261019/pmp4010-board-payload.tar.gz"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

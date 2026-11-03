@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "setarch",
+    "-R",
+    "ctest",
+    "--test-dir",
+    "build-tsan",
+    "--output-on-failure"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-20T00:50:53.395521+00:00",
+  "returncode": 0,
+  "elapsed_seconds": 12.25566832300683,
+  "finished_utc": "2026-10-20T00:51:05.651304+00:00"
+}

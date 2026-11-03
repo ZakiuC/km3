@@ -1,0 +1,56 @@
+{
+  "checks": [
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-I",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "device/drivers/pmp4010/tools",
+        "-p",
+        "_test_manual.py",
+        "-v"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "rc": 1,
+      "raw_output": "manual-unittest.raw.txt"
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-I",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "device/drivers/pmp4010/tools",
+        "-p",
+        "_test_simple.py",
+        "-v"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "rc": 0,
+      "raw_output": "simple-unittest.raw.txt"
+    }
+  ],
+  "sha256": {
+    "device/drivers/pmp4010/tools/pmp4010_manual.py": "7c8bbd994977e0dffd7965c3ae9999eef7deb79f8d8c9584e4876f866ee132de",
+    "device/drivers/pmp4010/tools/pmp4010_simple.py": "b25b20905cdfcb2aa4c7d1dfcebd453d03ab1d5eab822b921e3631cbc704adcd",
+    "device/drivers/pmp4010/tools/_test_manual.py": "979431152bb59ebde99e4b22518fa9492e4a7a430b1b6c2f026319d148c0ff84",
+    "device/drivers/pmp4010/tools/_test_simple.py": "9586305f8f98510e51e80567520476b8bb6c95ea7c870bf8af3a0d0f315f5c99"
+  },
+  "route": {
+    "requested_role": "laborer",
+    "requested_model": "gpt-6.1-sol",
+    "requested_effort": "high",
+    "actual_model": "unknown",
+    "actual_effort": "unknown",
+    "last_token_usage_input_tokens": "unknown",
+    "fork_turns": "none",
+    "input_estimate": "<20K at dispatch; estimate from parent task packet, not measured"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "all_original_classes_byte_identical": true,
+  "classes": [
+    {
+      "name": "TestRenderPureFunction",
+      "tests": 13,
+      "bytes_unchanged": true,
+      "sha256": "44d06c7138d69cd432cda39d3c578abca02249ca8a43c30b2693c6f083100a1c"
+    },
+    {
+      "name": "_Screen",
+      "tests": 0,
+      "bytes_unchanged": true,
+      "sha256": "8d062487a504998a6a8826479ae4ae559106dfedcf0beb8e7ded2742c8c965a0"
+    },
+    {
+      "name": "TestSizeResolution",
+      "tests": 10,
+      "bytes_unchanged": true,
+      "sha256": "6a5785962cda8c023e3007ed2c582a4ba12efdcc5f2dbccf9ee0b6f49c778f2e"
+    },
+    {
+      "name": "TestLayoutAndWidgets",
+      "tests": 25,
+      "bytes_unchanged": true,
+      "sha256": "0ac1f70fe58e7c2e81694b912915c09a8bc86655baf7c5fa2e2b19faf8d92793"
+    },
+    {
+      "name": "TestKeyDecoding",
+      "tests": 5,
+      "bytes_unchanged": true,
+      "sha256": "a04449b00ab7e14c3b7d5531a19bc5926a6eb00a0aa1a1af888a3a04e3e850db"
+    },
+    {
+      "name": "TestDiscoverExistence",
+      "tests": 8,
+      "bytes_unchanged": true,
+      "sha256": "a0f442d6d18a821a9b926d23a3a2bb0132687afcf713ce3963011a11249a9cb7"
+    }
+  ],
+  "original_entire_file_restored_exactly_by_removing_new_test_insertion": true,
+  "insertion_offset_bytes": 32087,
+  "insertion_length_bytes": 389,
+  "original_entire_file_sha256": "96f006b04838da0ed89245418809fbf18b682a98da20ec0c31fd42f6843ecb9f",
+  "restored_file_sha256": "96f006b04838da0ed89245418809fbf18b682a98da20ec0c31fd42f6843ecb9f"
+}

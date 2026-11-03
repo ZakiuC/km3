@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "sha256sum",
+    "device/drivers/pmp4010/tools/pmp4010_bench.py",
+    "device/drivers/pmp4010/tools/pmp4010_position.py",
+    "device/drivers/pmp4010/tools/pmp4010_tui.py"
+  ],
+  "shell_command": "sha256sum device/drivers/pmp4010/tools/pmp4010_bench.py device/drivers/pmp4010/tools/pmp4010_position.py device/drivers/pmp4010/tools/pmp4010_tui.py",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:14:55.355123+00:00"
+}

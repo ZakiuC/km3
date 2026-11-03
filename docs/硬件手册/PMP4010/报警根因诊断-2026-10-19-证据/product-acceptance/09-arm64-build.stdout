@@ -1,0 +1,25 @@
+[  3%] Built target km3_common
+[  7%] Built target pmp4010_velocity
+[ 12%] Built target test_pmp4010_velocity
+[ 20%] Built target km3_core
+[ 29%] Built target test_pmp4010_verified
+[ 27%] Built target test_error_code
+[ 38%] Built target km3_pmp4010_mock
+[ 41%] Built target test_spsc_ring
+[ 44%] Built target km3_link
+[ 47%] Built target km3-video
+[ 50%] Built target km3_config
+[ 53%] Built target test_clock
+[ 56%] Built target test_pmp4010
+[ 60%] Built target km3-core
+[ 66%] Built target km3_hal
+[ 69%] Built target test_frame
+[ 72%] Built target test_config
+[ 75%] Built target test_socketcan
+[ 80%] Built target km3_rt_control
+[ 83%] Built target test_hal
+[ 87%] Built target km3_canopen
+[ 90%] Built target test_rt_control
+[ 93%] Built target km3-rt-controller
+[ 96%] Built target test_pdo
+[100%] Built target test_sync

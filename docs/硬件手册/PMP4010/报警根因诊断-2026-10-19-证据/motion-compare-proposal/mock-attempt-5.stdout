@@ -1,0 +1,24 @@
+{"name": "normal_frozen_minus10_100rpm", "result": "PASS", "requests": 1036, "failure": null, "controls": ["0106", "0107", "0127", "0137", "0127", "012F", "002F", "003F", "002F", "0006"]}
+{"name": "guard_607C_nonzero", "result": "PASS", "requests": 69, "failure": {"type": "ValueError", "message": "报警/2002:01/607C/608F/6091前置不符"}, "controls": []}
+{"name": "guard_2002_not_CiA402", "result": "PASS", "requests": 69, "failure": {"type": "ValueError", "message": "报警/2002:01/607C/608F/6091前置不符"}, "controls": []}
+{"name": "guard_Warning", "result": "PASS", "requests": 69, "failure": {"type": "ValueError", "message": "6041 Warning/Fault/PP跟随误差：0x04C0"}, "controls": []}
+{"name": "guard_Fault", "result": "PASS", "requests": 2, "failure": {"type": "ValueError", "message": "节点 1 已隔离；需外部恢复；手动保护锁定：首个或末个状态样本出现故障/PP跟随误差；6041=0x0448；未执行停止（本会话尚未控制电机）；停止确认=None；停止未确认，请使用独立急停"}, "controls": []}
+{"name": "guard_603F_nonzero", "result": "PASS", "requests": 6, "failure": {"type": "ValueError", "message": "节点 1 已隔离；需外部恢复；手动保护锁定：603F=0x2312（电机堵转）；603Fh故障码非零：0x2312（电机堵转）（最后错误低16bit，不能据此判断当前Fault或根因）；未执行停止（本会话尚未控制电机）；停止确认=None；停止未确认，请使用独立急停"}, "controls": []}
+{"name": "guard_1001_nonzero", "result": "PASS", "requests": 70, "failure": {"type": "ValueError", "message": "1001非零或OD宽度不符"}, "controls": []}
+{"name": "guard_scale_changed", "result": "PASS", "requests": 69, "failure": {"type": "ValueError", "message": "报警/2002:01/607C/608F/6091前置不符"}, "controls": []}
+{"name": "guard_max_acceleration", "result": "PASS", "requests": 101, "failure": {"type": "ValueError", "message": "131072超过60C5/60C6，零写拒绝"}, "controls": []}
+{"name": "guard_max_deceleration", "result": "PASS", "requests": 101, "failure": {"type": "ValueError", "message": "131072超过60C5/60C6，零写拒绝"}, "controls": []}
+{"name": "guard_original_a_changed", "result": "PASS", "requests": 101, "failure": {"type": "ValueError", "message": "6083/6084不是已审阅的5000000；禁止推测或重复对照"}, "controls": []}
+{"name": "guard_target_outside_device_limit", "result": "PASS", "requests": 101, "failure": {"type": "ValueError", "message": "目标超出脚本软行程，或行程无效"}, "controls": []}
+{"name": "readback_6083", "result": "PASS", "requests": 140, "failure": {"type": "ValueError", "message": "6083/6084写读回不符；不盲目恢复5000000"}, "controls": ["0002", "0000"]}
+{"name": "readback_6084", "result": "PASS", "requests": 173, "failure": {"type": "ValueError", "message": "6083/6084写读回不符；不盲目恢复5000000"}, "controls": ["0002", "0000"]}
+{"name": "communication_loss_Halt", "result": "PASS", "requests": 715, "failure": {"type": "MotionError", "message": "诊断 实时轨迹编码器单位：node 1: 0.250s 内未收到 SDO 应答（请求 601  [8]  40 FC 60 00 00 00 00 00）"}, "controls": ["0106", "0107", "0127", "0137", "0127", "012F"]}
+{"name": "communication_loss_Go", "result": "PASS", "requests": 1021, "failure": {"type": "MotionError", "message": "诊断 实时轨迹编码器单位：node 1: 0.250s 内未收到 SDO 应答（请求 601  [8]  40 FC 60 00 00 00 00 00）"}, "controls": ["0106", "0107", "0127", "0137", "0127", "012F", "002F", "003F", "002F"]}
+{"name": "alarm_enable_before_trace", "result": "PASS", "requests": 687, "failure": {"type": "ValueError", "message": "首个或末个状态样本出现故障/PP跟随误差；6041=0x002F"}, "controls": ["0106", "0107", "0127", "0137", "0127", "012F", "0002", "0000"]}
+{"name": "observation_total_deadline_stuck", "result": "PASS", "requests": 1856, "failure": {"type": "TimeoutError", "message": "首次002F写前起10秒/20批内未满足原exact目标+零速+bit10"}, "controls": ["0106", "0107", "0127", "0137", "0127", "012F", "002F", "003F", "002F", "0002", "0000"]}
+{"name": "Halt_inflight_late_reply_quarantine", "result": "PASS", "requests": 715, "failure": {"type": "MotionError", "message": "诊断 实时轨迹编码器单位：node 1: 0.250s 内未收到 SDO 应答（请求 601  [8]  40 FC 60 00 00 00 00 00）"}, "controls": ["0106", "0107", "0127", "0137", "0127", "012F"]}
+{"name": "Halt_logical_half_second_budget_cleanup", "result": "PASS", "requests": 722, "failure": {"type": "TimeoutError", "message": "诊断批次期限已到；不追加请求"}, "controls": ["0106", "0107", "0127", "0137", "0127", "012F", "0002", "0000"]}
+{"name": "observer_exception_original_cleanup_once", "result": "PASS", "requests": 733, "failure": {"type": "RuntimeError", "message": "Mock observer异常，禁止Go"}, "controls": ["0106", "0107", "0127", "0137", "0127", "012F", "0002", "0000"]}
+{"name": "trace_width_quarantine_no_later_SDO", "result": "PASS", "requests": 715, "failure": {"type": "ValueError", "message": "诊断OD宽度不符；同client隔离"}, "controls": ["0106", "0107", "0127", "0137", "0127", "012F"]}
+{"name": "second_parameter_external_change_not_overwritten", "result": "PASS", "requests": 171, "failure": {"type": "ValueError", "message": "本项6083/6084写前不再是已批准5000000；不覆盖外部变动"}, "controls": ["0002", "0000"]}
+{"name": "can0_rejected_before_any_request", "result": "PASS", "requests": 0, "failure": {"type": "ValueError", "message": "本次只允许一次can1打开；禁止can0/重连"}, "controls": []}

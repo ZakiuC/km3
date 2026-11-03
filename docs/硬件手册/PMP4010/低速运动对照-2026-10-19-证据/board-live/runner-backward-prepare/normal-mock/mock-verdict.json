@@ -1,0 +1,149 @@
+{
+  "result": "PASS_MOCK_ONLY",
+  "runner_rc": 0,
+  "review_writes": 0,
+  "commanded_displacement": -36,
+  "direction": "backward",
+  "production_budget": 364,
+  "motion_positions": [
+    -1459,
+    -1461,
+    -1463,
+    -1465,
+    -1467,
+    -1469,
+    -1471,
+    -1473,
+    -1475,
+    -1477,
+    -1479,
+    -1481,
+    -1483,
+    -1485,
+    -1487,
+    -1489,
+    -1491,
+    -1493,
+    -1495,
+    -1497,
+    -1499,
+    -1501,
+    -1503,
+    -1505,
+    -1506,
+    -1506,
+    -1506,
+    -1506
+  ],
+  "enabled_target_writes": [
+    -1506
+  ],
+  "controlwords": [
+    262,
+    263,
+    295,
+    311,
+    295,
+    303,
+    47,
+    63,
+    47,
+    2,
+    0,
+    6
+  ],
+  "enabled_edges": [
+    [
+      47,
+      63,
+      -1506
+    ]
+  ],
+  "new_ack": [
+    false,
+    true,
+    false
+  ],
+  "diagnostic_samples": 44,
+  "read_timeout_quarantined": true,
+  "requests_after_quarantine": 0,
+  "final": {
+    "completed": true,
+    "failure": null,
+    "output_error": null,
+    "hardware_motion_acceptance": false,
+    "mock_only": true,
+    "cleanup": [
+      {
+        "action": "stop",
+        "values": {
+          "statusword": 7,
+          "actual_position": -1506,
+          "actual_velocity": 0,
+          "modes_of_operation_display": 1,
+          "error_code_object": 0,
+          "torque_feedback": 0,
+          "velocity_feedback_unit": 0,
+          "profile_velocity": 1000,
+          "profile_acceleration": 100,
+          "profile_deceleration": 100,
+          "home_offset": 0,
+          "control_mode_select": 0,
+          "modes_of_operation": 1,
+          "target_position": -1506,
+          "profile_end_velocity": 0,
+          "software_position_limit": -2147483627,
+          "software_position_limit_max": 2147483627,
+          "controlword": 2,
+          "halt_option": 1,
+          "position_demand": -1506,
+          "max_velocity": 10000,
+          "max_motor_speed": 1000,
+          "max_profile_acceleration": 10000,
+          "max_deceleration": 10000
+        }
+      },
+      {
+        "action": "disable",
+        "values": {
+          "statusword": 64,
+          "actual_position": -1506,
+          "actual_velocity": 0,
+          "modes_of_operation_display": 1,
+          "error_code_object": 0,
+          "torque_feedback": 0,
+          "velocity_feedback_unit": 0,
+          "profile_velocity": 1000,
+          "profile_acceleration": 100,
+          "profile_deceleration": 100,
+          "home_offset": 0,
+          "control_mode_select": 0,
+          "modes_of_operation": 1,
+          "target_position": -1506,
+          "profile_end_velocity": 0,
+          "software_position_limit": -2147483627,
+          "software_position_limit_max": 2147483627,
+          "controlword": 0,
+          "halt_option": 1,
+          "position_demand": -1506,
+          "max_velocity": 10000,
+          "max_motor_speed": 1000,
+          "max_profile_acceleration": 10000,
+          "max_deceleration": 10000
+        }
+      }
+    ],
+    "close_results": [
+      {
+        "node": 1,
+        "disabled_confirmed": true
+      }
+    ],
+    "close_lines": [
+      "节点 1 已发失能 6040h=0x0006，6041h=0x0021，operation enabled=0，失能已确认",
+      "总线已关闭（失能确认流程之后）"
+    ],
+    "final_velocity_note": "606C实读在disable0完整快照中；close6后只再读6041并关闭总线",
+    "mechanical_stop_confirmed": false
+  }
+}

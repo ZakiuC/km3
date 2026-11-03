@@ -1,0 +1,68 @@
+{
+  "snapshot": {
+    "review_nonce": "a07ea97c5a724e58ae5326428d947548",
+    "node": 1,
+    "interface": "can1",
+    "mode": "PP1",
+    "start": -1483,
+    "target": -1447,
+    "displacement": 36,
+    "motor_degrees": "405/4096",
+    "velocity_units_per_s": 100,
+    "velocity_rpm": "375/8192",
+    "origin": -1483,
+    "settings": {
+      "soft_min": -1847,
+      "soft_max": -1119,
+      "max_displacement": 36
+    },
+    "calibration": {
+      "values": [
+        131072,
+        1,
+        1,
+        1
+      ],
+      "resolution": "131072",
+      "gear_ratio": "1",
+      "motor_degrees_per_user_unit": "45/16384",
+      "output_degrees_per_user_unit": "45/16384"
+    },
+    "values": {
+      "statusword": 608,
+      "actual_position": -1483,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": -2,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 100,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1447,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 0,
+      "halt_option": 1,
+      "position_demand": -1470,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    },
+    "lines": [
+      "正向点动",
+      "冻结起点 -1483 U -> 终点 -1447 U；位移 36 U = 0.0989 电机轴度",
+      "请求步长 0.1 -> 实际 0.0989 电机轴度（36 U）",
+      "请求速度 100 U/s -> 实际 0.0457764 rpm（100 U/s）",
+      "Enter 确认这一次动作；Esc 取消；Space/x 随时快停"
+    ],
+    "RT_reason": "沿用用户已确认到场接线急停的小角度现场授权；保留RT进程，接受本次同client测试的RT占用风险",
+    "OD_reason": "沿用用户已确认的小角度现场授权；仅本次PP1正向量化0.1度、100U/s；接受原OD未核对项及独立停机责任"
+  },
+  "digest": "1f72dc98204768a749769e73a0c6406b8ee1bc846b87caaded42e6a12ed208e4"
+}

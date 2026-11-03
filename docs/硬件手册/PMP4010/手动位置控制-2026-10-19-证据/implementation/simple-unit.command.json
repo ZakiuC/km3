@@ -1,0 +1,21 @@
+{
+  "name": "simple-unit",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "device/drivers/pmp4010/tools",
+    "-p",
+    "_test_simple.py"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T07:30:10.444461+00:00",
+  "stdout": "simple-unit.stdout.log",
+  "stderr": "simple-unit.stderr.log",
+  "rc": 0,
+  "finished_utc": "2026-10-19T07:30:11.811706+00:00"
+}

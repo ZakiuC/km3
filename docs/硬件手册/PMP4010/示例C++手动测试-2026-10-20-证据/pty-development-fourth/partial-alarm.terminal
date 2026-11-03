@@ -1,0 +1,432 @@
+[?1049h[?25l[2J[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 -- mm   raw 未知   软件零点 0
+[2K速度 -- rpm   状态 未知 --
+[2K603F 未知 [样本不完整/已失效]
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K会话开始: 2026-10-20T02:08:05Z interface=can0 node=1 bitrate=1000000 mock=是
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K
+[2K
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K会话开始: 2026-10-20T02:08:05Z interface=can0 node=1 bitrate=1000000 mock=是
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K会话开始: 2026-10-20T02:08:05Z interface=can0 node=1 bitrate=1000000 mock=是
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K会话开始: 2026-10-20T02:08:05Z interface=can0 node=1 bitrate=1000000 mock=是
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K会话开始: 2026-10-20T02:08:05Z interface=can0 node=1 bitrate=1000000 mock=是
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K会话开始: 2026-10-20T02:08:05Z interface=can0 node=1 bitrate=1000000 mock=是
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K会话开始: 2026-10-20T02:08:05Z interface=can0 node=1 bitrate=1000000 mock=是
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K会话开始: 2026-10-20T02:08:05Z interface=can0 node=1 bitrate=1000000 mock=是
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K会话开始: 2026-10-20T02:08:05Z interface=can0 node=1 bitrate=1000000 mock=是
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K会话开始: 2026-10-20T02:08:05Z interface=can0 node=1 bitrate=1000000 mock=是
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K会话开始: 2026-10-20T02:08:05Z interface=can0 node=1 bitrate=1000000 mock=是
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 0 mm   raw 0   软件零点 0
+[2K速度 0 rpm   状态 失能 Switch on disabled 0x0040
+[2K603F 0x0000 无错误码
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K使用前确认RT及其他CAN控制程序已停；独立停机已就绪
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2K会话开始: 2026-10-20T02:08:05Z interface=can0 node=1 bitrate=1000000 mock=是
+[2K初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+[2Kservo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 -- mm   raw 0   软件零点 0
+[2K速度 -- rpm   状态 失能 Switch on disabled 0x00C0
+[2K603F 0x2312 电机堵转 [样本不完整/已失效]
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K【隔离】不再轮询/重试；请退出排查，软件不能证明机械停稳
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K诊断: 持续保护与实时报警采样；首次失败：SDO总期限已到；隔离本会话；6041=0xc0；6
+[2K错误: SDO总期限已到；隔离本会话
+[2K不完整反馈: phase=持续保护与实时报警采样 603F=0x2312 SW=0x00C0 CW=0x0000 raw=0 
+[2K节点已隔离；停止后台轮询，不能在本会话重试。
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 -- mm   raw 0   软件零点 0
+[2K速度 -- rpm   状态 失能 Switch on disabled 0x00C0
+[2K603F 0x2312 电机堵转 [样本不完整/已失效]
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K【隔离】不再轮询/重试；请退出排查，软件不能证明机械停稳
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K诊断: 持续保护与实时报警采样；首次失败：SDO总期限已到；隔离本会话；6041=0xc0；6
+[2K错误: SDO总期限已到；隔离本会话
+[2K不完整反馈: phase=持续保护与实时报警采样 603F=0x2312 SW=0x00C0 CW=0x0000 raw=0 
+[2K节点已隔离；停止后台轮询，不能在本会话重试。
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 -- mm   raw 0   软件零点 0
+[2K速度 -- rpm   状态 失能 Switch on disabled 0x00C0
+[2K603F 0x2312 电机堵转 [样本不完整/已失效]
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K【隔离】不再轮询/重试；请退出排查，软件不能证明机械停稳
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K诊断: 持续保护与实时报警采样；首次失败：SDO总期限已到；隔离本会话；6041=0xc0；6
+[2K错误: SDO总期限已到；隔离本会话
+[2K不完整反馈: phase=持续保护与实时报警采样 603F=0x2312 SW=0x00C0 CW=0x0000 raw=0 
+[2K节点已隔离；停止后台轮询，不能在本会话重试。
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 -- mm   raw 0   软件零点 0
+[2K速度 -- rpm   状态 失能 Switch on disabled 0x00C0
+[2K603F 0x2312 电机堵转 [样本不完整/已失效]
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K【隔离】不再轮询/重试；请退出排查，软件不能证明机械停稳
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K诊断: 持续保护与实时报警采样；首次失败：SDO总期限已到；隔离本会话；6041=0xc0；6
+[2K错误: SDO总期限已到；隔离本会话
+[2K不完整反馈: phase=持续保护与实时报警采样 603F=0x2312 SW=0x00C0 CW=0x0000 raw=0 
+[2K节点已隔离；停止后台轮询，不能在本会话重试。
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 -- mm   raw 0   软件零点 0
+[2K速度 -- rpm   状态 失能 Switch on disabled 0x00C0
+[2K603F 0x2312 电机堵转 [样本不完整/已失效]
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K【隔离】不再轮询/重试；请退出排查，软件不能证明机械停稳
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K就绪：选择一个动作。启动及未确认的审阅仅进行读取。
+[2K--- 消息 ---
+[2Ksocketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K诊断: 持续保护与实时报警采样；首次失败：SDO总期限已到；隔离本会话；6041=0xc0；6
+[2K错误: SDO总期限已到；隔离本会话
+[2K不完整反馈: phase=持续保护与实时报警采样 603F=0x2312 SW=0x00C0 CW=0x0000 raw=0 
+[2K节点已隔离；停止后台轮询，不能在本会话重试。
+[2K[H[2KPMP4010 手动直线测试 | 本机MOCK | 节点 1
+[2K位置 -- mm   raw 0   软件零点 0
+[2K速度 -- rpm   状态 失能 Switch on disabled 0x00C0
+[2K603F 0x2312 电机堵转 [样本不完整/已失效]
+[2K轨迹 1 rpm | 步长 0.1 mm | 4 mm/转
+[2K【隔离】不再轮询/重试；请退出排查，软件不能证明机械停稳
+[2Kz 零点  r/j 相对  p 绝对  s 速度  a 步长  c mm/转
+[2Kf/b 单步  e 保持使能  d 立即失能  Space/x 停止  t 复位
+[2Kq 退出 | Esc 取消输入/审阅 | 输入Enter审阅，再Enter执行
+[2K日志 /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K退出清理中；等待后台完成并恢复终端
+[2K--- 消息 ---
+[2Kod_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+[2K日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+[2K会话OD人工理由: PTY人工校验
+[2K启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+[2K操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+[2K完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 ve
+[2K诊断: 持续保护与实时报警采样；首次失败：SDO总期限已到；隔离本会话；6041=0xc0；6
+[2K错误: SDO总期限已到；隔离本会话
+[2K不完整反馈: phase=持续保护与实时报警采样 603F=0x2312 SW=0x00C0 CW=0x0000 raw=0 
+[2K节点已隔离；停止后台轮询，不能在本会话重试。
+[2K退出请求：取消当前动作，执行受控清理
+[2K[?25h[?1049l会话开始: 2026-10-20T02:08:05Z interface=can0 node=1 bitrate=1000000 mock=是
+初始设置: mm_per_motor_turn=4 rpm=1 step_mm=0.1
+servo_sha256=c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e
+socketcan_sha256=f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed85
+od_sha256=1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
+日志路径: /tmp/pmp4010-cpp-pty-fourth/partial-alarm.log
+会话OD人工理由: PTY人工校验
+启动仅读；不自动使能、复位或写目标。速度为PP轨迹参数。
+操作者须确认RT及其他CAN控制程序已停止，独立停机措施已就绪。
+完整反馈: phase=持续保护与实时报警采样 603F=0x0000 SW=0x0040 CW=0x0000 raw=0 velocity_raw=0 attempted_CW=无 download_ACK=否；无错误码
+诊断: 持续保护与实时报警采样；首次失败：SDO总期限已到；隔离本会话；6041=0xc0；603F=0x2312（电机堵转）；6040实读=0x0；6064=0；606C=0；不完整快照，仅列本轮已观测字段
+错误: SDO总期限已到；隔离本会话
+不完整反馈: phase=持续保护与实时报警采样 603F=0x2312 SW=0x00C0 CW=0x0000 raw=0 velocity_raw=0 attempted_CW=无 download_ACK=否；电机堵转
+节点已隔离；停止后台轮询，不能在本会话重试。
+退出请求：取消当前动作，执行受控清理
+结果: 会话未发控制下载；关闭零帧；电气失能确认=否；机械停稳未确认
+不完整反馈: phase=持续保护与实时报警采样 603F=0x2312 SW=0x00C0 CW=0x0000 raw=0 velocity_raw=0 attempted_CW=无 download_ACK=否；电机堵转
+终端已恢复；机械停稳未由软件确认。

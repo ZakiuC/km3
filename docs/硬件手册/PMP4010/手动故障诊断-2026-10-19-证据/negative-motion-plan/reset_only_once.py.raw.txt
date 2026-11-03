@@ -1,0 +1,2 @@
+{"event": "待审复位计划", "payload": "/var/tmp/km3-pmp4010-diag-20261019-0218ab4207eb/payload", "manifest_sha256": "a41b88269819e718e1486876be8d99502a773a401ef084343b57d597fb818b71", "node": 1, "sequence": [["read", 8194, 1], ["read", 24641, 0], ["read", 24639, 0], ["write", 24640, 0], ["write", 24640, 128], ["write", 24640, 0], ["read", 24639, 0], ["read", 24641, 0]], "per_transaction_seconds": 0.25, "total_seconds": 3, "motion_operations": 0, "automatic_retries": 0, "live_requested": false}
+{"event": "仅本地计划", "CAN_opens": 0, "CAN_sends": 0}

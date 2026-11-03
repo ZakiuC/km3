@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=8",
+    "root@192.168.0.188",
+    "python3 -I -B -c 'import json,pathlib; root=pathlib.Path('\"'\"'/tmp/km3-pp-disabled-start-probe-20261019-rsyhxhdk/probe-session-1'\"'\"'); names=[\"app-audit.jsonl\"]+[p.name for p in root.glob(\"pmp4010-motion-*.jsonl\")]; print(json.dumps({n:(root/n).read_text() for n in names},ensure_ascii=False))'"
+  ],
+  "stdin_sha256": null,
+  "stdin_bytes": 0,
+  "utc_start": "2026-10-19T01:10:55.134001+00:00",
+  "utc_end": "2026-10-19T01:10:55.756658+00:00",
+  "rc": 0
+}

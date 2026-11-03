@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "cmake",
+    "--build",
+    "build-arm64",
+    "-j4"
+  ],
+  "shell_command": "cmake --build build-arm64 -j4",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:13:36.052143+00:00"
+}

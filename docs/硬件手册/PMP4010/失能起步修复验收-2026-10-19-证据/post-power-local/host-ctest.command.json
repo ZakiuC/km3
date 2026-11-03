@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "ctest",
+    "--test-dir",
+    "build-host",
+    "--output-on-failure"
+  ],
+  "shell_command": "ctest --test-dir build-host --output-on-failure",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:12:59.289333+00:00"
+}

@@ -1,0 +1,948 @@
+--- before/device/drivers/pmp4010/tools/pmp4010_simple.py
++++ after/device/drivers/pmp4010/tools/pmp4010_simple.py
+@@ -483,6 +483,9 @@
+         self.edit_kind = None
+         self.draft = ''
+         self.urgent = None
++        self.page_offset = 0
++        self._page_size = 1
++        self._row_styles = {}
+         self._help_return = 'main'
+         self.log = LogView(max_lines=2000)
+         self.protocol_log = LogView(max_lines=2000)
+@@ -520,14 +523,32 @@
+         if self.exit_after or self.urgent or self.busy:
+             return False
+         try:
+-            if name == 'esc':
++            if (self.rows < 20 or self.cols < 64) and name != 'esc':
++                self.progress = '请扩大终端至64x20后操作；Space/x仍可快停'
++                return False
++            if self.current_view in ('help','diagnostics') and name in ('esc','i','?','enter'):
++                self.current_view = self._help_return
++                self.page_offset = 0
++            elif name in ('up','down','pgup','pgdn','home','end') and self.current_view in ('help','diagnostics','confirm','authorize'):
++                self.page_offset = (0 if name == 'home' else 10**9 if name == 'end' else
++                    max(0,self.page_offset + (-1 if name == 'up' else 1 if name == 'down' else
++                        -self._page_size if name == 'pgup' else self._page_size)))
++            elif name == 'esc':
+                 self._clear()
++                self.page_offset = 0
++            elif name == 'i' and self.current_view != 'edit':
++                self._help_return = self.current_view
++                self.current_view = 'diagnostics'
++                self.page_offset = 0
++            elif self.current_view == 'diagnostics':
++                pass
+             elif name == '?':
+                 if self.current_view == 'help':
+                     self.current_view = self._help_return
+                 else:
+                     self._help_return = self.current_view
+                     self.current_view = 'help'
++                    self.page_offset = 0
+             elif self.current_view == 'help':
+                 if name == 'enter':
+                     self.current_view = self._help_return
+@@ -609,6 +630,7 @@
+                 elif label == 'review' and not self.urgent and not self.exit_after:
+                     self.pending = result
+                     self.current_view = 'confirm'
++                    self.page_offset = 0
+                     self.progress = '请核对本次动作；Enter确认，Esc取消'
+                 elif label == 'review':
+                     self.controller.cancel_review()
+@@ -649,7 +671,10 @@
+         if row and row['quarantined'] and not (self.action == 'reset' and (self.busy or self.pending is not None)):
+             self.pending = None
+             self.controller.cancel_review()
+-            self.current_view = 'main'
++            if self.current_view in ('help','diagnostics'):
++                self._help_return = 'main'
++            if self.current_view not in ('help','diagnostics'):
++                self.current_view = 'main'
+             self.progress = row['quarantine_reason']
+         if (self.controller.context is not None and not self.busy and self.refresh_worker is None and
+                 time.monotonic() >= self.next_refresh and not self.controller.blocked):
+@@ -661,142 +686,22 @@
+                 'p 绝对','z 软件零点','c 换算' if self.controller.linear else 'r 范围',
+                 'e 使能保持','f/b 点动','t 手动复位','Space/x 快停','d 失能','q 退出','? 帮助']
+ 
++    @staticmethod
++    def _number(value):
++        return number(value)
++
++    @staticmethod
++    def _signed(value):
++        return signed(value)
++
++    @staticmethod
++    def _sample_age(row):
++        return time.monotonic()-row.get('updated',0)
++
++    def render_frame(self, prev, lines):
++        from pmp4010_simple_view import frame, color_enabled
++        return frame(prev, lines, self._row_styles, color_enabled())
++
+     def build(self):
+-        grid = Grid(self.rows,self.cols,strict=(self.box!='ascii'))
+-        draw_box(grid,Rect(0,0,self.rows,self.cols),self.title,self.box)
+-        c = self.controller
+-        row = c.row(c.node)
+-        v = row['values'] if row else {}
+-        speed = c.feedback_speed(row)
+-        session = c.manual_sessions.get(c.node)
+-        isolation = 'SDO已隔离' if session and getattr(session.client, 'quarantined', False) else '保护锁定'
+-        online = isolation if row and row['quarantined'] else '在线' if row and row['online'] and not row['lost'] else '未连接'
+-        state = '未知'
+-        if v and row and not row['lost'] and not row['quarantined']:
+-            p = c.tool._canopen
+-            state = {p.CIA402_DISABLED:'未使能',p.CIA402_READY:'就绪，未使能',
+-                p.CIA402_SWITCHED_ON:'上电，未使能',p.CIA402_QUICK_STOP:'快停状态',
+-                p.CIA402_ENABLED:'使能，Halt保持' if v['controlword'] & 0x100 else
+-                '使能，运动中' if v['actual_velocity'] else '使能，零速'}.get(c._state(v),'未知')
+-            if v['statusword'] & p.CIA402_FAULT:
+-                state = '故障'
+-        historical = bool(row and (row['lost'] or row['quarantined']))
+-        lines = (['节点 {}  {}  当前实读状态未知'.format(c.node,online),
+-            '最后有效采样：位置 {} U  速度 {}  故障 {}'.format(v.get('actual_position','-'),speed,
+-                format_fault(v.get('error_code_object')))] if historical else
+-            ['节点 {}  {}  位置 {} U  实读：{}'.format(c.node,online,v.get('actual_position','-'),state),
+-             '实际速度 {}  故障 {}'.format(speed,format_fault(v.get('error_code_object')))])
+-        if row and row['calibration']:
+-            try:
+-                step,degrees,rpm = c.quantities(row)
+-                lines += ['下次步长 请求 {} -> 实际 {} {}（{} U）'.format(number(c.step),number(degrees),c.unit,step),
+-                    '下次速度 '+c.speed_line(row)]
+-            except ValueError as exc:
+-                lines += [str(exc)]
+-        if c.origin is not None:
+-            if c.linear:
+-                lines += ['软件行程未设限；驱动限位/Int32取交 [{}，{}] U'.format(c.settings['soft_min'],c.settings['soft_max'])]
+-            else:
+-                lines += ['会话原点 {} U；固定范围 [{}，{}] U（请求+/-{}度，与设备行程取交）'.format(c.origin,c.settings['soft_min'],c.settings['soft_max'],number(c.range_degrees))]
+-            try:
+-                scale = c.coordinate_scale(row['calibration'])
+-                lines += ['{}软件坐标 {} {}；零点 {} U{}'.format('历史' if historical else '当前',number((v['actual_position']-c.software_zero)*scale),c.unit,c.software_zero,
+-                        '；{} mm/电机轴转'.format(number(c.mm_per_motor_revolution)) if c.linear else ''),
+-                    '允许软件坐标 [{}，{}] {}'.format(number((c.settings['soft_min']-c.software_zero)*scale),number((c.settings['soft_max']-c.software_zero)*scale),c.unit)]
+-            except ValueError:
+-                lines += ['直线换算未设置；软件零点 {} U；c设置mm/电机轴转'.format(c.software_zero)]
+-        failure = (row or {}).get('failure_diagnostic')
+-        if historical and failure:
+-            def hex_word(value):
+-                return '未知' if value is None else '0x{:04X}'.format(value)
+-            lines += ['诊断样本（历史，{}）：603F={} 6041={}'.format(
+-                '非完整快照' if failure.get('snapshot_complete') is False else '阶段采样',
+-                format_fault(failure.get('fault_code')),hex_word(failure.get('raw_statusword'))),
+-                'CW={}（{}） {}'.format(hex_word(failure.get('controlword')),
+-                    failure.get('controlword_source','来源未知'),failure.get('decoded_state') or '状态未知')]
+-            cleanup = row.get('cleanup_diagnostic')
+-            if cleanup:
+-                lines += ['停止：'+('已确认失能；机械停止未知' if cleanup['disabled_confirmed'] is True else
+-                    '已执行但失能未确认；请使用独立急停' if cleanup['stop_attempted'] else
+-                    '未执行（{}）；机械停止未知，请使用独立急停'.format(
+-                        {'client_quarantined':'通信已隔离','no_control_responsibility':'本会话尚未控制电机'}.get(cleanup['skip_reason'],'原因未知')))]
+-        lines += ['提示：'+self.progress]
+-        if self.current_view == 'rt':
+-            lines += ['', '连接授权：现场人工直线机械测程；RT控制器可能占用总线。' if c.linear else
+-                '连接授权：现场人工小角度测试；RT控制器可能占用总线。',
+-                '请先协调总线占用与现场安全。Enter 同意本会话连接；q 退出。',
+-                '连接仅扫描节点并读取，不会自动使能或发送运动。']
+-        elif self.current_view == 'authorize':
+-            gaps = [e['key'] for e in (c.od or {}).get('entries',[]) if e['status']!='verified']
+-            lines += ['', '运动会话授权：接受以下OD未核对项及独立停机责任：']
+-            # Wrap by item, retaining identifiers and making every gap visible.
+-            lines += ['  '+', '.join(gaps[i:i+2]) for i in range(0,len(gaps),2)]
+-            if v:
+-                if c.linear:
+-                    lines += ['软件行程未设限；仅驱动607Dh、607A/6063 Int32保护。',
+-                        'Enter 授权人工测程并初始化软件零点；'+(
+-                            'c设置换算后才能动作。' if c.mm_per_motor_revolution is None else
+-                            '换算 {} mm/电机轴转。'.format(number(c.mm_per_motor_revolution)))]
+-                else:
+-                    units = int(Fraction(1)/Fraction(row['calibration']['motor_degrees_per_user_unit']))
+-                    lines += ['Enter 冻结当前原点 {} U；测试范围 [{}，{}] U（+/-1度与607Dh取交）。'.format(v['actual_position'],max(v['actual_position']-units,v['software_position_limit']),min(v['actual_position']+units,v['software_position_limit_max'])),
+-                        '确认仅限本会话人工点动；不修改OD可信度。q 退出。']
+-        elif self.current_view == 'confirm' and self.pending:
+-            if self.action == 'reset':
+-                # Keep the scoped approval and Enter/Esc visible at 80x24.
+-                # Historical diagnostics remain in the log/main screen.
+-                lines = lines[:2]+['']+self.pending['lines']
+-            else:
+-                lines += ['']+(['失能：确认后撤销当前使能/目标证明；机械停止仍未知。',
+-                    'Enter 确认失能；Esc 取消；Space/x 随时快停'] if self.action == 'disable' else self.pending['lines'])
+-        elif self.current_view == 'edit':
+-            label = {'speed':'速度 '+('mm/s' if c.linear else 'rpm'),'step':'步长 '+c.unit,'range':'原点两侧测试半范围 电机轴度（<=1）',
+-                'relative':'相对位移 '+c.unit,'absolute':'相对软件零点的绝对位置 '+c.unit,
+-                'conversion':'每电机轴转对应直线mm（正数，可用分数；先d失能）'}[self.edit_kind]
+-            lines += ['',label+'：'+self.draft+'_','Enter 审阅目标' if self.edit_kind in ('relative','absolute') else 'Enter 提交设置',
+-                'Esc 取消；位移量化向零取整；Space/x 随时快停。']
+-            if self.edit_kind in ('relative','absolute') and self.draft:
+-                try:
+-                    requested = signed(self.draft)
+-                    scale = c.coordinate_scale(row['calibration'])
+-                    base = v['actual_position'] if self.edit_kind == 'relative' else c.software_zero
+-                    target = base+int(requested/scale)
+-                    lines += ['草稿607A={} U；软件目标 {} {}'.format(target,number((target-c.software_zero)*scale),c.unit)]
+-                    if not c.settings['soft_min'] <= base+requested/scale <= c.settings['soft_max']:
+-                        lines += ['草稿超出允许行程，禁止执行。']
+-                    elif target == v['actual_position']:
+-                        lines += ['量化后位移为零，禁止执行。']
+-                except ValueError as exc:
+-                    lines += [str(exc)]
+-        elif self.current_view == 'help':
+-            lines = lines[:2]+['', 's：'+('直线mm/s' if c.linear else '电机轴rpm')+'；a：点动步长（默认0.1'+c.unit+'）。',
+-                'r/j：相对位移；p：软件绝对位置（mm）。c：mm/电机轴转，先d失能。' if c.linear else
+-                'j：相对位移；p：软件绝对位置（电机轴度）；r：固定原点半范围<=1度。',
+-                'z：新鲜采样设本会话软件零点；不运动、不写607Ch、不回零/保存。',
+-                'z只改坐标；原物理目标/保护继续监控，不能绕过限位。',
+-                '位移输入Enter审阅冻结目标，再Enter执行一次；Esc取消。',
+-                's/a/c/z改变使旧审阅失效；量化向零，零位移拒绝。',
+-                'e：冻结当前位置，确认后提交保持目标并使能，Halt保持。',
+-                'f/b：冻结正/反向终点，Enter只执行这一次；Esc取消。非零速先Space。',
+-                '动作：提交→012F保持Halt→重写冻结607A→002F/003F/002F。',
+-                'Space/x：任何页面立即请求快停；d失能；q安全退出。',
+-                't：审阅Warning 2312手动复位，Enter仅确认复位；不使能、不重放目标。',
+-                '其他保护/真实SDO隔离不复位；复位等待按已验证主机策略执行。',
+-                '故障/跟随误差/越界立即锁定；通信隔离后不重试。',
+-                '软件停止不能替代独立急停；机械停止/抱闸仍须现场确认。',
+-                'Enter/? 返回；Space/x/q始终可用。']
+-        elif self.current_view == 'main':
+-            proof = c.proofs.get(c.node)
+-            lines += ['','可操作：'+('保护已锁定；t审阅2312手动复位，其他保护须外部恢复' if c.blocked else
+-                '实际速度非零；请先Space/x停止' if v.get('actual_velocity') else
+-                '先按f/b/e或输入位置审阅，再Enter确认' if c.origin is not None else '等待连接/会话授权')]
+-        bottom = max(1,self.rows-7)
+-        for i,line in enumerate(lines[:max(0,bottom-1)]):
+-            grid.put(i+1,2,fit(line,max(0,self.cols-4)))
+-        if self.rows>=9:
+-            draw_hsep(grid,bottom,1,max(0,self.cols-2),self.box,'日志')
+-            self.log.render(grid,Rect(bottom+1,2,2,max(0,self.cols-4)),self.box)
+-            grid.put(self.rows-3,2,fit('f/b 点动  r/j 相对  p 绝对  z 软件零点  c 换算' if c.linear else
+-                'f/b 点动  j 相对  p 绝对  z 软件零点  r 范围',max(0,self.cols-4)))
+-            grid.put(self.rows-2,2,fit('s 速度 a 步长 e 保持 t 手动复位 d 失能 Space/x 快停 q 退出 ? 帮助',max(0,self.cols-4)))
+-        return grid
++        from pmp4010_simple_view import build
++        return build(self)
+--- before/device/drivers/pmp4010/tools/_test_simple.py
++++ after/device/drivers/pmp4010/tools/_test_simple.py
+@@ -29,6 +29,19 @@
+ 
+     def controls(self):
+         return [v for i,_,v in requests(self.bus,True) if i == 0x6040]
++
++    def diagnostic_text(self, app):
++        app.dispatch_key('i',ord('i'))
++        app.page_offset=0
++        pages=[]
++        for _ in range(500):
++            pages.extend(app.build().to_lines())
++            old=app.page_offset
++            app.dispatch_key('pgdn',0)
++            app.build()
++            if app.page_offset==old:break
++        app.dispatch_key('esc',27)
++        return '\n'.join(pages)
+ 
+     def action(self,kind):
+         review = self.ctl.review_action(kind,self.out)
+@@ -343,7 +356,7 @@
+             app.controller=self.ctl
+             app.current_view='main'
+             app.rows,app.cols=24,80
+-            self.assertIn('软件行程未设限','\n'.join(app.build().to_lines()))
++            self.assertIn('软件行程未设限',self.diagnostic_text(app))
+             with self.assertRaises(ValueError):self.ctl.review_action('forward',self.out)
+         self.assertFalse(requests(self.bus,True))
+ 
+@@ -470,7 +483,7 @@
+         text='\n'.join(app.build().to_lines())
+         self.assertIn('当前实读状态未知',text)
+         self.assertIn('最后有效采样',text)
+-        self.assertIn('6041=0x0237',text)
++        self.assertIn('6041=0x0237',self.diagnostic_text(app))
+         self.assertIn('Space/x 快停',text)
+         self.assertNotIn('实际速度 0 rpm  故障 0x0000',text)
+         print('SIMPLE locked80x24: last-valid telemetry explicitly historical; current state unknown; firstCW0106/raw0237 remains visible')
+@@ -481,7 +494,8 @@
+         app.controller=self.ctl
+         app.rows,app.cols=24,80
+         app.current_view='main'
+-        self.assertIn('0x0000（无错误码）', '\n'.join(app.build().to_lines()))
++        self.assertIn('在线 / 未使能', '\n'.join(app.build().to_lines()))
++        self.assertIn('0x0000（无错误码）',self.diagnostic_text(app))
+         row=self.ctl.row(1)
+         row['values']['error_code_object']=0x2312
+         self.ctl._put(row)
+@@ -505,6 +519,7 @@
+         app.poll()
+         text='\n'.join(app.build().to_lines())
+         self.assertIn('当前实读状态未知',text)
++        text += self.diagnostic_text(app)
+         self.assertIn('非完整快照',text)
+         self.assertIn('603F=0x2312（电机堵转）',text)
+         self.assertIn('CW=未知',text)
+@@ -528,7 +543,8 @@
+         app.poll()
+         text='\n'.join(app.build().to_lines())
+         self.assertIn('最后有效采样',text)
+-        self.assertIn('历史软件坐标',text)
++        self.assertIn('（历史）',text)
++        text += self.diagnostic_text(app)
+         self.assertIn('603F=0x6789（未知报警）',text)
+         self.assertIn('CW=未知',text)
+         self.assertEqual(self.ctl.row(1)['values'],previous)
+@@ -544,8 +560,8 @@
+         app.rows,app.cols=24,80
+         app.current_view='main'
+         text='\n'.join(app.build().to_lines())
+-        self.assertIn('603F=未知',text)
+-        self.assertIn('6041=0x002F',text)
++        self.assertIn('603F=未知',self.diagnostic_text(app))
++        self.assertIn('6041=0x002F',self.diagnostic_text(app))
+         self.assertNotIn('BEEF',text)
+ 
+     def test_known_ready_and_switched_on_prepare_internally_external_enable_refused(self):
+@@ -809,6 +825,134 @@
+         app.dispatch_key('esc',27)
+         self.assertIsNone(self.ctl._reset_review)
+ 
++
++
++    def ui(self, linear=True):
++        if linear:self.linear_ready('4')
++        else:self.ready()
++        app=SimpleApp(tool,self.args);app.controller=self.ctl
++        app.rows,app.cols=24,80;app.current_view='main'
++        return app
++
++    def test_redesign_sizes_plain_grid_no_io_and_physical_units(self):
++        from tui import _display_width
++        app=self.ui();before=len(self.bus.sent)
++        for rows,cols in ((24,80),(32,120),(20,64),(18,48),(12,38)):
++            app.rows,app.cols=rows,cols
++            screen=app.build().to_lines()
++            self.assertEqual(len(screen),rows)
++            self.assertTrue(all(_display_width(line)==cols for line in screen))
++            self.assertTrue(all('\x1b' not in line for line in screen))
++            self.assertIn('Space/x 快停','\n'.join(screen))
++            self.assertIn('q ','\n'.join(screen[-4:]))
++            if rows>=20:
++                self.assertIn('mm/s','\n'.join(screen))
++                self.assertIn('绝对移动','\n'.join(screen))
++                self.assertNotIn('6041=','\n'.join(screen))
++        self.assertEqual(len(self.bus.sent),before)
++
++    def test_redesign_confirmation_uses_review_not_live_target_or_speed(self):
++        app=self.ui();review=self.ctl.review_action('relative',self.out,'+1.2')
++        app.pending=review;app.action='relative';app.current_view='confirm'
++        before=len(self.bus.sent)
++        for rows,cols in ((24,80),(32,120),(20,64)):
++            app.rows,app.cols=rows,cols
++            text='\n'.join(app.build().to_lines())
++            for label in ('冻结起点','冻结目标','实际位移','输入请求','量化后速度','Enter 确认','Esc 取消','Space/x 快停'):
++                self.assertIn(label,text)
++        row=self.ctl.row(1);row['values']['actual_position']+=100;self.ctl._put(row)
++        self.ctl.next_velocity=2000  # UI must still show the sealed velocity.
++        self.ctl.software_zero=900
++        self.ctl.mm_per_motor_revolution=Fraction(40)
++        self.ctl.linear=False
++        text='\n'.join(app.build().to_lines())
++        self.assertIn('冻结目标  1.19998 mm',text)
++        self.assertIn('量化后速度 0.00305176 mm/s',text)
++        self.assertEqual(review['start'],-1470)
++        self.assertEqual(len(self.bus.sent),before)
++
++    def test_redesign_hold_never_suggests_displacement(self):
++        app=self.ui();app.pending=self.ctl.review_action('hold',self.out)
++        app.action='hold';app.current_view='confirm'
++        text='\n'.join(app.build().to_lines())
++        self.assertIn('保持冻结位置（不请求位移）',text)
++        self.assertIn('实际位移  0 mm',text)
++        self.assertNotIn('请求步长',text)
++
++    def test_redesign_tiny_confirmation_cannot_execute_unseen_target(self):
++        app=self.ui();review=self.ctl.review_action('relative',self.out,'1')
++        app.pending=review;app.action='relative';app.current_view='confirm'
++        app.rows,app.cols=19,63;before=len(self.bus.sent)
++        self.assertIn('Enter不可执行','\n'.join(app.build().to_lines()))
++        app.dispatch_key('enter',13);self.assertIsNone(app.worker)
++        self.assertIs(app.pending,review);self.assertEqual(len(self.bus.sent),before)
++        app.dispatch_key('x',ord('x'));self.assertIsNone(app.pending)
++        self.assertEqual(app.urgent,'stop')
++
++    def test_redesign_help_diagnostic_paging_no_writes_preserves_pending(self):
++        app=self.ui();review=self.ctl.review_action('relative',self.out,'+1.2')
++        app.pending=review;app.action='relative';app.current_view='confirm'
++        before=len(self.bus.sent)
++        app.dispatch_key('i',ord('i'));self.assertIs(app.pending,review)
++        app.dispatch_key('end',0);text='\n'.join(app.build().to_lines())
++        self.assertIn('协议日志',text)
++        app.dispatch_key('home',0);self.assertIn('603F=','\n'.join(app.build().to_lines()))
++        app.dispatch_key('esc',27);self.assertEqual(app.current_view,'confirm')
++        self.assertIs(app.pending,review)
++        app.dispatch_key('?',ord('?'));app.dispatch_key('end',0)
++        self.assertIn('ACK','\n'.join(app.build().to_lines()))
++        app.dispatch_key('esc',27);self.assertEqual(app.current_view,'confirm')
++        self.assertIs(app.pending,review);self.assertEqual(len(self.bus.sent),before)
++
++    def test_redesign_isolation_keeps_pages_open_and_zero_retry(self):
++        app=self.ui();self.node.drop_reads.add((0x6041,0))
++        self.ctl.refresh(self.out);count=len(self.bus.sent)
++        self.assertTrue(self.ctl.row(1)['quarantined'])
++        for key,view in (('i','diagnostics'),('?','help')):
++            app.current_view='main';app.dispatch_key(key,ord(key));app.poll()
++            self.assertEqual(app.current_view,view)
++            self.assertIsNone(app.pending)
++            text='\n'.join(app.build().to_lines())
++            self.assertIn('通信隔离',text);self.assertIn('（历史）',text)
++            self.assertIn('独立急停',text)
++            app.dispatch_key('esc',27);self.assertEqual(app.current_view,'main')
++        self.assertEqual(len(self.bus.sent),count)
++
++    def test_redesign_fault_and_unconfirmed_stop_visible_in_edit(self):
++        app=self.ui();self.node.set_value(0x603f,0x2312)
++        self.ctl.refresh(self.out)
++        app.current_view='edit';app.edit_kind='speed';app.draft='1'
++        app.progress='速度超过设备上限';app.log.append(app.progress,'err')
++        text='\n'.join(app.build().to_lines())
++        self.assertIn('0x2312（电机堵转）',text)
++        self.assertIn('速度超过设备上限',text)
++        app.current_view='main';screen='\n'.join(app.build().to_lines())
++        self.assertIn('运动操作（保护锁定）',screen)
++        for y,line in enumerate(app.build().to_lines()):
++            if '[ f ]' in line or '[ r/j ]' in line:self.assertEqual(app._row_styles[y],'muted')
++        self.assertIn('独立急停',text)
++        self.assertIn('Space/x 快停',text)
++
++    def test_redesign_no_color_is_shared_render_and_colored_rows_reset(self):
++        from unittest import mock
++        from tui import render
++        app=self.ui();lines=app.build().to_lines()
++        for env in ({'NO_COLOR':''},{'TERM':'dumb'}):
++            with mock.patch.dict('os.environ',env):
++                self.assertEqual(app.render_frame(None,lines),render(None,lines))
++        with mock.patch.dict('os.environ',{'TERM':'xterm-256color'},clear=True):
++            output=''.join(app.render_frame(None,lines))
++            self.assertIn('\x1b[1;36m',output)
++            self.assertTrue(output.endswith('\x1b[0m'))
++        self.assertEqual(app._row_styles[3],'warning')  # 未使能 is never green.
++
++    def test_redesign_ascii_view_and_expired_sample_are_explicit(self):
++        app=self.ui();app.box='ascii';row=self.ctl.row(1)
++        row['updated']=time.monotonic()-2;self.ctl._put(row)
++        text='\n'.join(app.build().to_lines())
++        self.assertIn('--- 运动操作',text);self.assertIn('当前实读状态未知',text)
++        self.assertIn('最后有效采样（历史）',text)
++        self.assertNotIn('在线 / 未使能',text)
+ 
+ 
+ class ResetNode(ManualNode):
+--- before/device/drivers/pmp4010/tools/_test_simple_pty.py
++++ after/device/drivers/pmp4010/tools/_test_simple_pty.py
+@@ -54,9 +54,14 @@
+     original=simple.SimpleApp
+     class ObservedApp(original):
+         def poll(self):
++            injection=output/'inject.json'
++            if injection.exists():
++                command=json.loads(injection.read_text());injection.unlink()
++                if command.get('kind')=='fault':node.set_value(0x603f,0x2312)
++                elif command.get('kind')=='isolate':node.drop_reads.add((0x6041,0))
+             super().poll()
+             values=requests(bus,True)
+-            data=dict(view=self.current_view,busy=self.busy,refresh_busy=self.refresh_worker is not None,
++            data=dict(rows=self.rows,cols=self.cols,view=self.current_view,busy=self.busy,refresh_busy=self.refresh_worker is not None,
+                 draft=self.draft,edit=self.edit_kind,action=self.action,
+                 rt_ack=self.controller.rt_ack,od_ack=bool(self.controller.od_reason),
+                 next_velocity=self.controller.next_velocity,
+@@ -71,9 +76,12 @@
+                 controls=[v for i,_,v in values if i==0x6040],
+                 requests=len(bus.sent),writes=len(values),progress=self.progress)
+             screen=None
+-            if self.current_view in ('main','confirm','authorize','help','edit'):
++            if self.current_view in ('main','confirm','authorize','help','edit','diagnostics','rt'):
+                 grid=self.build()
+                 screen='\n'.join(grid.to_lines())
++                data['styles']=self._row_styles
++                data['page_offset']=self.page_offset
++                data['screen']=screen
+             publish_snapshot(output,data,screen)
+     with ExitStack() as stack:
+         for patch in environment(bus):stack.enter_context(patch)
+@@ -172,7 +180,7 @@
+             send('1\r')
+             state=wait(lambda s:s.get('next_velocity')==364 and not s.get('busy'),'s1mm/s quantizes364U/s at mock360mm/rev')
+             assert state['writes']==0
+-            assert '实际 0.999756 mm/s（364 U/s）' in (output/'main-80x24.txt').read_text()
++            assert '实际 0.999756 mm/s' in (output/'main-80x24.txt').read_text()
+             (output/'main-80x24.txt').replace(output/'linear-speed-main-80x24.txt')
+             checks.append('linear s input and defaultU/s draft display mm/s; no velocity download before confirmation')
+             def move(key,text):
+@@ -184,7 +192,7 @@
+                 send(text+'\r')
+                 state=view('confirm')
+                 assert state['writes']==before,'numeric review must be read only'
+-                assert '实际 0.999756 mm/s（364 U/s）' in (output/'confirm-80x24.txt').read_text()
++                assert '量化后速度 0.999756 mm/s' in (output/'confirm-80x24.txt').read_text()
+                 from fractions import Fraction
+                 base=start if key in ('r','j') else zero
+                 target=base+int(Fraction(text)/Fraction(360,131072))
+@@ -328,6 +336,103 @@
+         (output/'terminal.ansi').write_bytes(transcript)
+ 
+ 
++def run_visual_pty(output, rows=24, cols=80, fault='fault', no_color=False):
++    """Real production curses + standard MockBus: view/resize/fault and tty exit."""
++    import fcntl, pty, select, struct, subprocess, termios, signal
++    from _test_bench_support import tool  # shared path bootstrap, no I/O
++    import pmp4010_simple
++    from tui import _display_width
++    output=Path(output);output.mkdir(parents=True,exist_ok=True)
++    master,slave=pty.openpty()
++    initial=termios.tcgetattr(slave)
++    fcntl.ioctl(slave,termios.TIOCSWINSZ,struct.pack('HHHH',rows,cols,0,0))
++    env=dict(os.environ,TERM='xterm-256color',LANG='C.UTF-8',LC_ALL='C.UTF-8')
++    if no_color:env['NO_COLOR']='1'
++    else:env.pop('NO_COLOR',None)
++    process=subprocess.Popen([sys.executable,'-I',str(Path(__file__).resolve()),'--child-linear',str(output)],
++        stdin=slave,stdout=slave,stderr=slave,env=env,start_new_session=True)
++    transcript=bytearray();state={};checks=[]
++    def drain(delay=.02):
++        if select.select([master],[],[],delay)[0]:
++            try:transcript.extend(os.read(master,65536))
++            except OSError:pass
++    def wait(predicate,label,timeout=8):
++        nonlocal state
++        end=time.monotonic()+timeout
++        while time.monotonic()<end:
++            drain()
++            try:state=json.loads((output/'state.json').read_text())
++            except (FileNotFoundError,json.JSONDecodeError):pass
++            if predicate(state):checks.append(label);return state
++            if process.poll() is not None:raise AssertionError((label,process.returncode,state))
++        raise AssertionError(('timeout',label,state))
++    def send(text):os.write(master,text.encode())
++    def view(name):return wait(lambda s:s.get('view')==name and not s.get('busy'),name)
++    def save(name):
++        screen=state['screen'];lines=screen.splitlines()
++        assert len(lines)==state['rows']
++        assert all(_display_width(line)==state['cols'] for line in lines)
++        assert 'Space/x 快停' in screen and 'q ' in screen
++        (output/(name+'.txt')).write_text(screen+'\n')
++        (output/(name+'.json')).write_text(json.dumps(dict(lines=lines,styles=state['styles']),ensure_ascii=False,indent=2))
++    try:
++        view('rt');send('\r');view('authorize');assert state['writes']==0
++        send('\r');view('main')
++        send('c');view('edit');send('4\r')
++        wait(lambda s:s.get('coefficient')=='4' and not s.get('busy'),'conversion committed')
++        send('s');view('edit');send('.01\r')
++        wait(lambda s:s.get('view')=='main' and s.get('next_velocity')==327,'physical speed committed')
++        save('main-{}x{}'.format(cols,rows))
++        send('r');view('edit');send('+1.2')
++        wait(lambda s:s.get('draft')=='+1.2','numeric edit retained');save('edit-{}x{}'.format(cols,rows))
++        send('\r');view('confirm');save('confirm-{}x{}'.format(cols,rows));before=state['writes']
++        assert all(label in state['screen'] for label in ('冻结起点','冻结目标','实际位移','量化后速度','Enter 确认','Esc 取消'))
++        send('i');view('diagnostics');assert state['writes']==before
++        send('\x1bOF');wait(lambda s:s.get('page_offset',0)>0,'diagnostic End pages');save('diagnostic-end')
++        send('i');view('confirm');assert state['writes']==before
++        send('?');view('help');send('\x1bOF');wait(lambda s:s.get('page_offset',0)>0,'help End pages');save('help-end')
++        send('?');view('confirm');assert state['writes']==before
++        # Resize while a frozen confirmation exists: never recompute its target.
++        target=state['target']
++        for new_rows,new_cols in ((32,120),(20,64),(24,80)):
++            fcntl.ioctl(slave,termios.TIOCSWINSZ,struct.pack('HHHH',new_rows,new_cols,0,0));os.kill(process.pid,signal.SIGWINCH)
++            wait(lambda s:s.get('rows')==new_rows and s.get('cols')==new_cols,'resize {}x{}'.format(new_cols,new_rows))
++            assert state['target']==target and state['writes']==before
++            assert '冻结目标' in state['screen'] and 'Enter 确认' in state['screen']
++            save('confirm-resize-{}x{}'.format(new_cols,new_rows))
++        send('x');wait(lambda s:s.get('controls')==[2] and not s.get('busy'),'stop preempts frozen confirmation')
++        send('\r');drain(.1);assert state['writes']==before+1
++        (output/'inject.json').write_text(json.dumps({'kind':fault}))
++        wait(lambda s:s.get('blocked') and not s.get('busy') and not s.get('refresh_busy'),'real SDO '+fault+' protected')
++        save(fault+'-80x24');count=state['requests'];writes=state['writes']
++        for key,name in (('i','diagnostics'),('?','help')):
++            send(key);view(name);send('\x1bOF');wait(lambda s:s.get('page_offset',0)>0,name+' scroll protected')
++            end=time.monotonic()+.65
++            while time.monotonic()<end:drain(.02)
++            wait(lambda s:s.get('view')==name and s.get('requests')==count,name+' stable protected zero retries')
++            save(fault+'-'+name);send(key);view('main')
++            assert state['writes']==writes
++        send('i');view('diagnostics');send('x')
++        wait(lambda s:s.get('view')=='main' and not s.get('busy'),'stop preempts protected diagnostic')
++        send('q');process.wait(8);drain(.02)
++        assert process.returncode==0
++        assert termios.tcgetattr(slave)==initial,'terminal flags not restored'
++        trace=json.loads((output/'trace.json').read_text())
++        assert not any(i in (0x607a,0x6081,0x607c,0x6098,0x1010) for i,_,_ in trace['writes'])
++        if fault=='isolate':assert len(trace['requests'])==count,'isolated exit retried SDO'
++        assert b'\x1b[?25h' in transcript or b'\x1b[?12l\x1b[?25h' in transcript,'cursor not restored'
++        if no_color:assert b'\x1b[1;36m' not in transcript
++        else:assert b'\x1b[1;36m' in transcript and b'\x1b[0m' in transcript
++        checks+=['no target/profile/home/save writes','termios restored exactly','cursor restored','application SGR policy correct']
++        result=dict(rc=process.returncode,checks=checks,passed=len(checks),initial_size=[rows,cols],fault=fault,no_color=no_color,
++            transport='production SimpleApp + standard MockBus, real sockets forbidden',terminal_restored=True)
++        (output/'visual-summary.json').write_text(json.dumps(result,ensure_ascii=False,indent=2));print(json.dumps(result,ensure_ascii=False));return result
++    finally:
++        if process.poll() is None:process.kill();process.wait(3)
++        drain(.01);os.close(master);os.close(slave)
++        (output/'terminal.ansi').write_bytes(transcript)
++
++
+ class SnapshotPublicationTests(unittest.TestCase):
+     def test_visible_state_has_complete_corresponding_screen(self):
+         from unittest import mock
+@@ -355,6 +460,14 @@
+ 
+ 
+ class SimplePtyTests(unittest.TestCase):
++    def test_real_curses_redesign_sizes_resize_fault_and_restore(self):
++        with tempfile.TemporaryDirectory(prefix='pmp4010-redesign-pty-') as output:
++            self.assertEqual(run_visual_pty(output,24,80)['rc'],0)
++
++    def test_real_curses_redesign_small_isolated_no_color_restore(self):
++        with tempfile.TemporaryDirectory(prefix='pmp4010-redesign-compact-') as output:
++            self.assertEqual(run_visual_pty(output,20,64,'isolate',True)['rc'],0)
++
+     def test_real_curses_production_manual_entry(self):
+         with tempfile.TemporaryDirectory(prefix='pmp4010-simple-pty-') as output:
+             result=run_pty(output)
+@@ -371,6 +484,8 @@
+ if __name__=='__main__':
+     if len(sys.argv)==3 and sys.argv[1]=='--child':raise SystemExit(child(sys.argv[2]))
+     if len(sys.argv)==3 and sys.argv[1]=='--child-linear':raise SystemExit(child(sys.argv[2],linear=True))
+-    if len(sys.argv)==3 and sys.argv[1]=='--run':run_pty(sys.argv[2])
++    if len(sys.argv)==3 and sys.argv[1]=='--run-visual':run_visual_pty(sys.argv[2])
++    elif len(sys.argv)==3 and sys.argv[1]=='--run-visual-small':run_visual_pty(sys.argv[2],20,64,'isolate',True)
++    elif len(sys.argv)==3 and sys.argv[1]=='--run':run_pty(sys.argv[2])
+     elif len(sys.argv)==3 and sys.argv[1]=='--run-linear':run_pty(sys.argv[2],linear=True)
+     else:unittest.main()
+--- before/tools/hwtui/tui.py
++++ after/tools/hwtui/tui.py
+@@ -19,11 +19,12 @@
+     因此它能在主机上逐字节断言——改了 3 个格子，输出的字节数是一个
+     可以写死的常数，不需要 pty、不需要真终端。这是本工具箱最强的回归手段。
+ 
+-不做颜色与属性
++默认不做颜色与属性
+     因为 render() 是**字符**网格的 diff，不是"格子"网格的 diff。
+     把属性算进去，网格就得变成 (字符, 属性) 的格子，纯函数的断言立刻
+     复杂一个量级。作为交换，本工具箱没有"重绘后 SGR 状态不同步"这类
+-    幽灵 bug：选中态用 '>'、失败用 'x' 这类标记字符表达。
++    幽灵 bug。个别应用可在 render_frame 边界选择行属性，Grid/render 保持纯文本。
++    默认选中态用 '>'、失败用 'x' 这类标记字符表达。
+ 
+ 用法（硬件工具侧）
+     from tui import TuiApp, Grid, Rect, Layout, Menu, Table, LogView
+@@ -1302,6 +1303,10 @@
+         for line in grid.to_lines():
+             sys.stdout.write(line.rstrip() + "\n")
+         sys.stdout.flush()
++
++    def render_frame(self, prev, lines):
++        """Optional terminal-boundary styling; default byte stream is unchanged."""
++        return render(prev, lines)
+ 
+     def _main(self, stdscr):  # pragma: no cover - 需要真终端
+         try:
+@@ -1334,7 +1339,7 @@
+                 self.poll()
+                 lines = self.build().to_lines()
+                 if lines != prev:
+-                    out = render(prev, lines)
++                    out = self.render_frame(prev, lines)
+                     if out:
+                         self._write("".join(out))
+                     prev = lines
+--- before/tools/hwtui/test_tui.py
++++ after/tools/hwtui/test_tui.py
+@@ -692,5 +692,14 @@
+                              ["broken.py", "empty.py", "syntaxerr.py"])
+ 
+ 
++class TestOptionalRenderFrame(unittest.TestCase):
++    def test_default_hook_preserves_render_bytes(self):
++        app=tui.TuiApp(rows=4,cols=8)
++        cases=[(None,['ab  ','cd  ']),(['ab  ','cd  '],['aZ  ','cd  ']),
++               (['中文    '],['中A     ']),([],[])]
++        for prev,lines in cases:
++            self.assertEqual(app.render_frame(prev,lines),tui.render(prev,lines))
++
++
+ if __name__ == "__main__":
+     unittest.main(verbosity=2)
+--- /dev/null
++++ after/device/drivers/pmp4010/tools/pmp4010_simple_view.py
+@@ -0,0 +1,271 @@
++"""Pure presentation for the manual tool; no transport, reads or control writes.
++
++Grid contains plain text only. Optional row attributes are applied at the final
++terminal boundary, never mixed into column measurement or the shared renderer.
++"""
++from fractions import Fraction
++import os
++from types import SimpleNamespace
++
++from tui import Grid, Rect, draw_box, fit, _display_width, render
++from pmp4010_faults import format_fault
++import pmp4010_position as position
++
++RESET = '\x1b[0m'
++PALETTE = {'title':'1;36', 'section':'36', 'metric':'1', 'ok':'32',
++           'warning':'1;33', 'danger':'1;31', 'muted':'2', 'action':'1;36'}
++
++
++def wrap(text, width):
++    """Wrap whole glyphs, including long protocol identifiers, without loss."""
++    width=max(1,width)
++    out=[]
++    for logical in str(text).split('\n'):
++        line=''
++        for glyph in logical:
++            if line and _display_width(line+glyph)>width:
++                out.append(line);line=''
++            line+=glyph
++        out.append(line)
++    return out
++
++
++def frame(prev, lines, styles, color=True):
++    if not color:
++        return render(prev,lines)
++    # Attributes are deliberately row based. Repaint changed rows completely so
++    # shrinking text and state-color changes cannot leave stale terminal style.
++    out=['\x1b[0m\x1b[2J\x1b[H'] if prev is None else []
++    for y,line in enumerate(lines):
++        if prev is None or y>=len(prev) or line!=prev[y]:
++            code=PALETTE.get(styles.get(y),'0')
++            out.append('\x1b[{};1H\x1b[{}m{}{}'.format(y+1,code,line,RESET))
++    return out
++
++
++def color_enabled():
++    return 'NO_COLOR' not in os.environ and os.environ.get('TERM','')!='dumb'
++
++
++def telemetry(app):
++    c=app.controller;row=c.row(c.node);v=(row or {}).get('values',{})
++    historical=bool(row and (row.get('lost') or row.get('quarantined') or
++                              not row.get('online') or not row.get('updated') or
++                              app._sample_age(row)>1.5))
++    state='未连接';tone='warning'
++    if row:
++        state='在线 / 未知';tone='warning'
++        if historical:
++            session=c.manual_sessions.get(c.node)
++            isolated=bool(session and getattr(session.client,'quarantined',False))
++            state='通信隔离 / 当前实读状态未知' if isolated else '保护锁定 / 当前实读状态未知' if row.get('quarantined') else '采样丢失 / 当前实读状态未知'
++            tone='danger'
++        elif v:
++            p=c.tool._canopen
++            state={p.CIA402_DISABLED:'在线 / 未使能',p.CIA402_READY:'在线 / 就绪，未使能',
++                p.CIA402_SWITCHED_ON:'在线 / 上电，未使能',p.CIA402_QUICK_STOP:'在线 / 快停状态',
++                p.CIA402_ENABLED:('在线 / 使能保持' if v.get('controlword',0)&0x100 else
++                                 '在线 / 运行' if v.get('actual_velocity') else '在线 / 使能，零速')}.get(c._state(v),'在线 / 状态未知')
++            tone='ok' if c._state(v)==p.CIA402_ENABLED else 'warning'
++            if v.get('statusword',0)&p.CIA402_FAULT or v.get('error_code_object'):
++                state='在线 / 故障';tone='danger'
++    coordinate='-- '+c.unit
++    try:
++        scale=c.coordinate_scale((row or {}).get('calibration'))
++        if c.software_zero is not None and 'actual_position' in v:
++            coordinate=app._number((v['actual_position']-c.software_zero)*scale)+' '+c.unit
++    except (ValueError,TypeError,KeyError):pass
++    speed=c.feedback_speed(row)
++    if speed.startswith('未可换算'):speed='-- '+('mm/s' if c.linear else 'rpm')
++    return row,v,historical,state,tone,coordinate,speed
++
++
++def stop_status(row):
++    cleanup=(row or {}).get('cleanup_diagnostic')
++    if not cleanup:return None
++    if cleanup.get('disabled_confirmed') is True:return '停止：已确认失能；机械停止未知'
++    if cleanup.get('stop_attempted'):return '停止：已执行但失能未确认；请使用独立急停'
++    return '停止：未执行；机械停止未知，请使用独立急停'
++
++
++def diagnostics(app,row,v,historical):
++    c=app.controller
++    def word(value):return '未知' if value is None else '0x{:04X}'.format(value)
++    result=['采样：'+('最后有效采样（历史）；当前实读状态未知' if historical else '当前完整采样'),
++        '603F='+format_fault(v.get('error_code_object'))+'  6041='+word(v.get('statusword')),
++        'CW='+word(v.get('controlword'))+'  原始位置 6064={} U'.format(v.get('actual_position','未知')),
++        '原始速度 606C={}；2006:12={}'.format(v.get('actual_velocity','未知'),v.get('velocity_feedback_unit','未知')),
++        '软件零点={} U；会话原点={} U'.format(c.software_zero,c.origin),
++        '驱动607Dh=[{}, {}] U'.format(v.get('software_position_limit','未知'),v.get('software_position_limit_max','未知')),
++        '本会话允许原始位置=[{}, {}] U'.format(c.settings.get('soft_min','未知'),c.settings.get('soft_max','未知'))]
++    if c.linear:result.append('换算：{} mm/电机轴转（c设置）'.format(c.mm_per_motor_revolution if c.mm_per_motor_revolution is not None else '未设置'))
++    if row and row.get('calibration'):
++        result+=['标定 '+key+'='+str(value) for key,value in sorted(row['calibration'].items())]
++        try:result.append('下次速度 '+c.speed_line(row))
++        except (ValueError,TypeError,KeyError):pass
++    failure=(row or {}).get('failure_diagnostic')
++    if failure:
++        result+=['历史失败诊断（'+('非完整快照' if failure.get('snapshot_complete') is False else '阶段采样')+'）',
++            '603F='+format_fault(failure.get('fault_code'))+'  6041='+word(failure.get('raw_statusword')),
++            'CW='+word(failure.get('controlword'))+'（'+failure.get('controlword_source','来源未知')+'） '+str(failure.get('decoded_state') or '状态未知')]
++    if stop_status(row):result.append(stop_status(row))
++    if c.blocked:result.append('保护锁定：'+str((row or {}).get('quarantine_reason') or c.blocked))
++    result+=['软件行程未设限；驱动607Dh与Int32保护。' if c.linear else '固定会话原点，单动作与半范围均受1度硬顶。']
++    result+=['OD 未核对项（会话授权不改变可信度）']
++    result += [e['key']+': '+e['status'] for e in (c.od or {}).get('entries',[]) if e['status']!='verified']
++    result+=['最近提示：'+app.progress,'操作与保护记录（旧记录保持）']
++    result += [tag+' '+line for tag,line in app.log._entries]
++    result+=['协议日志']+[tag+' '+line for tag,line in app.protocol_log._entries]
++    return result
++
++
++def help_lines(c):
++    return ['移动与坐标',
++        'r/j：相对位移；p：软件绝对位置（mm）。' if c.linear else 'j：相对位移；p：软件绝对位置（电机轴度）；r：固定原点半范围<=1度。',
++        '输入位移后 Enter 审阅冻结目标，再 Enter 执行这一次；Esc 取消。',
++        'f/b：正向/反向步进；e：保持当前位置并使能（Halt保持）。均需审阅确认。',
++        'z：新鲜采样设本会话软件零点；不运动、不写607Ch、不回零/保存。',
++        'z只改坐标；原物理目标与保护继续监控，不能绕过限位。',
++        '速度与设置', 's：'+('直线mm/s' if c.linear else '电机轴rpm')+'；a：点动步长（默认0.1'+c.unit+'）。',
++        'c：mm/电机轴转，先d失能。换算须来自现场实测。' if c.linear else 'r：设置固定原点两侧的测试半范围，须先失能，不超过1度。',
++        's/a/c/z改变使旧审阅失效；量化向零，零位移拒绝；设置不立即改变活动目标。',
++        '停止与保护', 'Space/x：任何页面立即请求快停；d：审阅失能；q：安全退出。',
++        't：审阅Warning 2312手动复位；Enter仅确认复位，不使能、不重放目标。',
++        '其他保护/真实SDO隔离不复位；复位等待按已验证主机策略执行。',
++        '故障/跟随误差/越界立即锁定；通信隔离后不重试。',
++        '软件停止不能替代独立急停；机械停止/抱闸仍须现场确认。',
++        '诊断', 'i：OD、603F、6041、CW、原始位置、设备限位、标定、失败与协议日志。',
++        '动作提交→012F保持Halt→重写冻结607A→002F/003F/002F，核对新ACK 0→1→0。',
++        '上下键逐行，PgUp/PgDn翻页，Home/End首尾；Esc/?返回。']
++
++
++def confirmation(app):
++    r=app.pending;c=app.controller
++    if app.action in ('reset','disable'):
++        return ([r['lines'][0]]+['  '+', '.join(line.strip() for line in r['lines'][1:-3][i:i+2]) for i in range(0,len(r['lines'][1:-3]),2)]+r['lines'][-3:] if app.action=='reset' else
++                ['失能：撤销当前使能/目标证明；机械停止仍未知。','Enter 确认失能；Esc 取消'])
++    # Every value is frozen in the sealed review. Never use live feedback,
++    # current settings, or c.speed_line() to reconstruct this target/speed.
++    frozen=SimpleNamespace(linear=r['linear'],mm_per_motor_revolution=r['conversion'])
++    scale=type(c).coordinate_scale(frozen,r['calibration'])
++    coordinate_unit='mm' if r['linear'] else '电机轴度'
++    n=app._number;zero=r['software_zero'];start=r['start'];target=r['target']
++    title={'forward':'正向步进','backward':'反向步进','hold':'使能保持','relative':'相对移动','absolute':'绝对移动'}[r['kind']]
++    request=r.get('requested_mm_s') if r['linear'] else r.get('requested_rpm')
++    actual=position.unit_to_velocity(r['velocity'],r['calibration'])
++    if r['linear']:actual=actual*r['conversion']/60
++    unit='mm/s' if r['linear'] else 'rpm'
++    speed='请求 '+n(request)+' '+unit if request is not None else '默认设置（原始速度见诊断）'
++    return [
++        '冻结起点  '+n((start-zero)*scale)+' '+coordinate_unit,
++        '冻结目标  '+n((target-zero)*scale)+' '+coordinate_unit,
++        '实际位移  '+n((target-start)*scale)+' '+coordinate_unit,
++        '输入请求  '+n(r['requested'])+' '+coordinate_unit if r.get('requested') is not None else
++        '保持冻结位置（不请求位移）' if r['kind']=='hold' else
++        '请求步长  '+n(r['step_mm'] if r['linear'] else r['step_degrees'])+' '+coordinate_unit,
++        '速度 '+speed, '量化后速度 '+n(actual)+' '+unit,
++        ]
++
++
++def build(app):
++    grid=Grid(app.rows,app.cols,strict=(app.box!='ascii'));app._row_styles={}
++    rows,cols=app.rows,app.cols;left=2 if cols>=40 else 1;width=max(1,cols-left*2)
++    def put(y,text,style=None):
++        if 0<=y<rows:
++            grid.put(y,left,fit(text,width))
++            if style:app._row_styles[y]=style
++    def section(y,text):
++        put(y,('--- ' if app.box=='ascii' else '── ') +text+' '+('-' if app.box=='ascii' else '─')*max(0,width-_display_width(text)-4),'section')
++    row,v,historical,state,tone,coordinate,speed=telemetry(app);c=app.controller
++    protected=bool(historical or c.blocked or v.get('error_code_object'))
++    title='PMP4010  手动测程' if c.linear else 'PMP4010  手动测试'
++    put(0,title,'title')
++    interface=c.context[0] if c.context else getattr(c.args,'interface','未连接')
++    put(1,'节点 {}  /  {}  /  {}'.format(c.node,interface,'直线坐标' if c.linear else '电机轴角度'),'muted')
++    put(3,state+('  '+format_fault((row or {}).get('failure_diagnostic',{}).get('fault_code',v.get('error_code_object'))) if (row or {}).get('failure_diagnostic') or v.get('error_code_object') else ''),tone)
++    if historical:put(4,'最后有效采样（历史），不可作为当前反馈','warning')
++    compact=rows<22
++    if cols>=72:
++        half=width//2
++        put(5,'软件位置'+('（历史）' if historical else '')+' '*(max(1,half-8-(8 if historical else 0)))+'实际速度'+('（历史）' if historical else ''),'muted')
++        put(6,fit(coordinate,half-1).ljust(half-_display_width(fit(coordinate,half-1))+len(fit(coordinate,half-1)))+speed,'metric')
++    else:
++        put(5,('历史软件坐标 ' if historical else '软件位置 ')+coordinate,'metric')
++        put(6,('历史速度 ' if historical else '实际速度 ')+speed,'metric')
++    if rows<20 or cols<64:
++        put(max(0,rows-4),'屏幕过小；请扩大至64x20后操作','warning')
++        put(max(0,rows-3),'请扩大终端，Enter不可执行','action')
++        put(max(0,rows-2),'Space/x 快停  q 退出' if cols>=38 else 'x 停止 q 退出' if cols>=16 else 'x q','danger')
++        return grid
++    # A previous stop uncertainty must not cover a newer real input/action error.
++    if app.log._entries and app.log._entries[-1]==('[x]',app.progress):
++        put(7,app.progress,'danger')
++    section(8, ({'forward':'正向步进','backward':'反向步进','hold':'使能保持','relative':'相对移动','absolute':'绝对移动','reset':'手动复位','disable':'失能'}.get(app.action,'')+' / 动作确认') if app.current_view=='confirm' else {'edit':'输入','confirm':'动作确认','help':'帮助','diagnostics':'诊断','rt':'连接授权','authorize':'会话授权'}.get(app.current_view,'运动操作（保护锁定）' if protected else '运动操作'))
++    end=rows-4
++    content=[]
++    if app.current_view in ('help','diagnostics'):
++        content=help_lines(c) if app.current_view=='help' else diagnostics(app,row,v,historical)
++    elif app.current_view=='confirm' and app.pending:content=confirmation(app)
++    elif app.current_view=='edit':
++        labels={'speed':'速度 '+('mm/s' if c.linear else 'rpm'),'step':'步长 '+c.unit,'range':'原点两侧半范围 电机轴度（<=1）',
++                'relative':'相对位移 '+c.unit,'absolute':'软件绝对位置 '+c.unit,'conversion':'每电机轴转对应 mm（先d失能）'}
++        content=[labels[app.edit_kind],'> '+(app.draft or '请输入数值')+' _',
++            '可用正负数或分数，例如 +1.2、-1/10。' if app.edit_kind in ('relative','absolute') else '可用正数或分数。',
++            'Enter 审阅目标；Esc 取消' if app.edit_kind in ('relative','absolute') else 'Enter 提交设置；Esc 取消']
++        if app.edit_kind in ('relative','absolute') and app.draft:
++            try:
++                requested=app._signed(app.draft);scale=c.coordinate_scale(row['calibration'])
++                base=v['actual_position'] if app.edit_kind=='relative' else c.software_zero
++                target=base+int(requested/scale)
++                content+=['草稿目标 '+app._number((target-c.software_zero)*scale)+' '+c.unit+'（尚未冻结）']
++                if not c.settings['soft_min']<=base+requested/scale<=c.settings['soft_max']:content+=['草稿超出允许行程，禁止执行。']
++                elif target==v['actual_position']:content+=['量化后位移为零，禁止执行。']
++            except (ValueError,KeyError,TypeError) as exc:content+=[str(exc)]
++    elif app.current_view=='rt':content=['请先协调 RT 控制器总线占用与现场安全。','连接仅扫描和读取，不会自动使能或运动。','Enter 同意本会话连接；q 退出。']
++    elif app.current_view=='authorize':
++        content=['接受以下 OD 未核对项及独立停机责任：']
++        gaps=[e['key'] for e in (c.od or {}).get('entries',[]) if e['status']!='verified']
++        content += [', '.join(gaps[i:i+2]) for i in range(0,len(gaps),2)]
++        content += ['软件行程未设限；驱动607Dh、Int32保护。' if c.linear else '本会话固定原点半范围<=1度，与驱动607Dh取交。',
++            'Enter 授权本会话并初始化软件零点。']
++    elif app.current_view=='connecting':content=['正在只读连接，请稍候…']
++    else:
++        content=['[ f ] 正向步进       [ b ] 反向步进',
++            '[ r/j ] 相对移动     [ p ] 绝对移动' if c.linear else '[ j ] 相对移动       [ p ] 绝对移动',
++            '[ z ] 设软件零点     每次运动均须 Enter 确认', '' if compact else '@settings']
++        try:
++            _,actual,_=c.quantities(row)
++            speedline=c.speed_line(row).split('（')[0]
++            if (c.requested_mm_s if c.linear else c.requested_rpm) is None:
++                speedline='设置 '+c.display_speed(position.unit_to_velocity(c.next_velocity,row['calibration']),row['calibration'])
++            content+=['s 速度  '+speedline,'a 步长  '+app._number(c.step)+' '+c.unit+'  /  量化 '+app._number(actual)+' '+c.unit]
++        except (ValueError,TypeError,KeyError):content+=['c 设置 mm/电机轴转，完成换算后才能运动' if c.linear else '等待完整标定采样']
++        if compact:content=[line for line in content if line]
++        content+=['e 使能保持    d 失能    t 手动复位',
++            'c 换算设置（mm/电机轴转）' if c.linear else 'r 测试范围（原点两侧）']
++    wrapped=[part for line in content for part in wrap(line,width)]
++    capacity=max(1,end-9)
++    app._page_size=capacity
++    maximum=max(0,len(wrapped)-capacity)
++    app.page_offset=max(0,min(app.page_offset,maximum))
++    # Main controls/settings are intrinsically short; paged views retain every
++    # line at small sizes instead of silently dropping confirmation or OD text.
++    start=app.page_offset if app.current_view in ('help','diagnostics','confirm','authorize') else 0
++    for y,line in enumerate(wrapped[start:start+capacity],9):
++        if line=='@settings':section(y,'下次动作设置')
++        else:put(y,line,'muted' if protected and line.startswith('[ ') else 'action' if line.startswith(('> ','Enter','冻结目标','[ ')) else None)
++    if len(wrapped)>capacity:
++        put(end,'{}/{}  上下/PgUp/PgDn 翻阅  Home/End 首尾'.format(start+1,len(wrapped)),'muted')
++    else:put(end,'','muted')
++    # Critical faults and stop uncertainty stay on every view, including modal
++    # inputs. Historic raw samples live in diagnostics, with this direct signal.
++    failure=(row or {}).get('failure_diagnostic');stop=stop_status(row)
++    fault=format_fault(failure.get('fault_code') if failure else v.get('error_code_object'))
++    quiet=app.progress.startswith(('等待连接授权','会话授权完成','会话已授权','请核对本次动作','本次指令已提交','软件坐标设置完成'))
++    alert=stop if stop else '故障 '+fault if failure or v.get('error_code_object') else '' if quiet else app.progress
++    put(rows-3,alert,'danger' if stop or failure or v.get('error_code_object') or historical else 'muted')
++    if app.current_view=='confirm':put(rows-2,'Enter 仅确认本次复位 / Esc 取消' if app.action=='reset' else 'Enter 确认 / Esc 取消','action')
++    elif app.current_view=='edit':put(rows-2,'Enter 审阅目标 / Esc 取消' if app.edit_kind in ('relative','absolute') else 'Enter 提交设置 / Esc 取消','action')
++    else:put(rows-2,'i 诊断    ? 帮助' if app.current_view=='main' else 'Esc / i 返回' if app.current_view=='diagnostics' else 'Esc / ? 返回' if app.current_view=='help' else '','muted')
++    put(rows-1,'Space/x 快停    q 安全退出','danger')
++    return grid

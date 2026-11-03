@@ -1,0 +1,7 @@
+{
+  "baseline_archive_sha256": "76f8db436ae8bc7201d2a015d896f3d864f40ebfd0fabea638c77dcced140bd8",
+  "baseline_manifest_sha256": "2903b456b07412c3cc4a69a2f018f786fa0bbebfc931862dfc407571ea4526b6",
+  "manifest_entries": 27,
+  "preparation_only": true,
+  "board_access": false
+}

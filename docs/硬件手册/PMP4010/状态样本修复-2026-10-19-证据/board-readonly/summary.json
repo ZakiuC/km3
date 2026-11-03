@@ -1,0 +1,341 @@
+{
+  "status": "READONLY_LOG_RECOVERY_COMPLETE_RAW_STATE_NOT_LOGGED",
+  "utc": "2026-10-19T05:46:17.448047+00:00",
+  "SSH_commands": 2,
+  "SSH_rcs": {
+    "list-sessions": 0,
+    "fetch-sessions": 0
+  },
+  "process_snapshot_utc": "2026-10-19T05:44:45.205548+00:00",
+  "boot_id": "dc67bdcd-fa50-4927-8f9b-7207359c70af",
+  "related_processes_at_snapshot": [],
+  "process_running_at_snapshot": false,
+  "sessions": [
+    {
+      "session": "manual-JpJbKdTb",
+      "local_path": "docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/board-readonly/sessions/manual-JpJbKdTb/motion-absolute-fc4866f836a64297bebd203407f99ad1.jsonl",
+      "remote_path": "/var/tmp/km3-pmp4010-simple-20261019-b579f3d5d3ab/payload/logs/manual-JpJbKdTb/motion-absolute-fc4866f836a64297bebd203407f99ad1.jsonl",
+      "sha256": "e7897d5485818d73d90c838a654e31a4de45c0350bbaa6e7472de2526381e618",
+      "size": 888,
+      "file_mtime_utc": "2026-10-19T05:41:11.901184+00:00",
+      "changed_during_read": false,
+      "event_count": 4,
+      "events": [
+        {
+          "line": 1,
+          "event": "begin",
+          "timestamp_utc": "2026-10-19T05:41:11.800963+00:00",
+          "offset_ms": 0.0,
+          "raw": {
+            "timestamp_utc": "2026-10-19T05:41:11.800963+00:00",
+            "source": "manual",
+            "event": "begin",
+            "node": 1,
+            "action": "absolute",
+            "start": -1482,
+            "target": -1446,
+            "settings": {
+              "soft_min": -1846,
+              "soft_max": -1118,
+              "max_displacement": 364
+            },
+            "velocity": 100,
+            "od_gaps_bypass": "操作者明确确认：本会话小角度人工测试，接受所列OD未核对项及独立停机责任"
+          }
+        },
+        {
+          "line": 2,
+          "event": "write_readback",
+          "timestamp_utc": "2026-10-19T05:41:11.835428+00:00",
+          "offset_ms": 34.465,
+          "raw": {
+            "timestamp_utc": "2026-10-19T05:41:11.835428+00:00",
+            "source": "manual",
+            "event": "write_readback",
+            "object": "profile_velocity",
+            "expected": 100,
+            "actual": 100
+          }
+        },
+        {
+          "line": 3,
+          "event": "write_readback",
+          "timestamp_utc": "2026-10-19T05:41:11.883468+00:00",
+          "offset_ms": 82.505,
+          "raw": {
+            "timestamp_utc": "2026-10-19T05:41:11.883468+00:00",
+            "source": "manual",
+            "event": "write_readback",
+            "object": "target_position",
+            "expected": -1446,
+            "actual": -1446
+          }
+        },
+        {
+          "line": 4,
+          "event": "exception",
+          "timestamp_utc": "2026-10-19T05:41:11.902145+00:00",
+          "offset_ms": 101.18199999999999,
+          "raw": {
+            "timestamp_utc": "2026-10-19T05:41:11.902145+00:00",
+            "source": "manual",
+            "event": "exception",
+            "message": "关键状态样本异常，禁止隐含使能",
+            "write_attempted": true
+          }
+        }
+      ],
+      "action": "absolute",
+      "node": 1,
+      "start_position": -1482,
+      "target": -1446,
+      "planned_offset": 36,
+      "velocity": 100,
+      "exception": "关键状态样本异常，禁止隐含使能",
+      "write_attempted": true,
+      "last_confirmed_logged_write": {
+        "timestamp_utc": "2026-10-19T05:41:11.883468+00:00",
+        "source": "manual",
+        "event": "write_readback",
+        "object": "target_position",
+        "expected": -1446,
+        "actual": -1446
+      },
+      "rawstatus_6041_hex": null,
+      "rawstatus_fields_present": [],
+      "controlwords_6040": null,
+      "controlword_fields_present": [],
+      "position_after_action": null,
+      "cleanup_stop_or_disable_sample_present": false,
+      "physical_motion_or_mechanical_root_cause": "unknown",
+      "keyboard_key": "not logged"
+    },
+    {
+      "session": "manual-5BQ8TdzB",
+      "local_path": "docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/board-readonly/sessions/manual-5BQ8TdzB/motion-absolute-d4b6ca7077e948cba2ae49428eb6f273.jsonl",
+      "remote_path": "/var/tmp/km3-pmp4010-simple-20261019-b579f3d5d3ab/payload/logs/manual-5BQ8TdzB/motion-absolute-d4b6ca7077e948cba2ae49428eb6f273.jsonl",
+      "sha256": "5193b81a4c2db2f651cd60f1e78cd0fd19b0858b3be896b3eec46849a5c2b49d",
+      "size": 897,
+      "file_mtime_utc": "2026-10-19T05:42:29.233086+00:00",
+      "changed_during_read": false,
+      "event_count": 4,
+      "events": [
+        {
+          "line": 1,
+          "event": "begin",
+          "timestamp_utc": "2026-10-19T05:42:29.094518+00:00",
+          "offset_ms": 0.0,
+          "raw": {
+            "timestamp_utc": "2026-10-19T05:42:29.094518+00:00",
+            "source": "manual",
+            "event": "begin",
+            "node": 1,
+            "action": "absolute",
+            "start": -1482,
+            "target": -1118,
+            "settings": {
+              "soft_min": -1846,
+              "soft_max": -1118,
+              "max_displacement": 364
+            },
+            "velocity": 218453,
+            "od_gaps_bypass": "操作者明确确认：本会话小角度人工测试，接受所列OD未核对项及独立停机责任"
+          }
+        },
+        {
+          "line": 2,
+          "event": "write_readback",
+          "timestamp_utc": "2026-10-19T05:42:29.151627+00:00",
+          "offset_ms": 57.109,
+          "raw": {
+            "timestamp_utc": "2026-10-19T05:42:29.151627+00:00",
+            "source": "manual",
+            "event": "write_readback",
+            "object": "profile_velocity",
+            "expected": 218453,
+            "actual": 218453
+          }
+        },
+        {
+          "line": 3,
+          "event": "write_readback",
+          "timestamp_utc": "2026-10-19T05:42:29.164267+00:00",
+          "offset_ms": 69.74900000000001,
+          "raw": {
+            "timestamp_utc": "2026-10-19T05:42:29.164267+00:00",
+            "source": "manual",
+            "event": "write_readback",
+            "object": "target_position",
+            "expected": -1118,
+            "actual": -1118
+          }
+        },
+        {
+          "line": 4,
+          "event": "exception",
+          "timestamp_utc": "2026-10-19T05:42:29.234019+00:00",
+          "offset_ms": 139.50099999999998,
+          "raw": {
+            "timestamp_utc": "2026-10-19T05:42:29.234019+00:00",
+            "source": "manual",
+            "event": "exception",
+            "message": "关键状态样本异常，禁止隐含使能",
+            "write_attempted": true
+          }
+        }
+      ],
+      "action": "absolute",
+      "node": 1,
+      "start_position": -1482,
+      "target": -1118,
+      "planned_offset": 364,
+      "velocity": 218453,
+      "exception": "关键状态样本异常，禁止隐含使能",
+      "write_attempted": true,
+      "last_confirmed_logged_write": {
+        "timestamp_utc": "2026-10-19T05:42:29.164267+00:00",
+        "source": "manual",
+        "event": "write_readback",
+        "object": "target_position",
+        "expected": -1118,
+        "actual": -1118
+      },
+      "rawstatus_6041_hex": null,
+      "rawstatus_fields_present": [],
+      "controlwords_6040": null,
+      "controlword_fields_present": [],
+      "position_after_action": null,
+      "cleanup_stop_or_disable_sample_present": false,
+      "physical_motion_or_mechanical_root_cause": "unknown",
+      "keyboard_key": "not logged"
+    },
+    {
+      "session": "manual-IgxS6Xwl",
+      "local_path": "docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/board-readonly/sessions/manual-IgxS6Xwl/motion-absolute-27ee2c1af9d7430a9c49730cccbf49c8.jsonl",
+      "remote_path": "/var/tmp/km3-pmp4010-simple-20261019-b579f3d5d3ab/payload/logs/manual-IgxS6Xwl/motion-absolute-27ee2c1af9d7430a9c49730cccbf49c8.jsonl",
+      "sha256": "547cce5ca6b3093d2b7f3da91b57b91e91065fedc5be2bc9f912307f80f3824b",
+      "size": 888,
+      "file_mtime_utc": "2026-10-19T05:43:04.535496+00:00",
+      "changed_during_read": false,
+      "event_count": 4,
+      "events": [
+        {
+          "line": 1,
+          "event": "begin",
+          "timestamp_utc": "2026-10-19T05:43:04.433007+00:00",
+          "offset_ms": 0.0,
+          "raw": {
+            "timestamp_utc": "2026-10-19T05:43:04.433007+00:00",
+            "source": "manual",
+            "event": "begin",
+            "node": 1,
+            "action": "absolute",
+            "start": -1483,
+            "target": -1447,
+            "settings": {
+              "soft_min": -1847,
+              "soft_max": -1119,
+              "max_displacement": 364
+            },
+            "velocity": 100,
+            "od_gaps_bypass": "操作者明确确认：本会话小角度人工测试，接受所列OD未核对项及独立停机责任"
+          }
+        },
+        {
+          "line": 2,
+          "event": "write_readback",
+          "timestamp_utc": "2026-10-19T05:43:04.500197+00:00",
+          "offset_ms": 67.19,
+          "raw": {
+            "timestamp_utc": "2026-10-19T05:43:04.500197+00:00",
+            "source": "manual",
+            "event": "write_readback",
+            "object": "profile_velocity",
+            "expected": 100,
+            "actual": 100
+          }
+        },
+        {
+          "line": 3,
+          "event": "write_readback",
+          "timestamp_utc": "2026-10-19T05:43:04.517147+00:00",
+          "offset_ms": 84.14,
+          "raw": {
+            "timestamp_utc": "2026-10-19T05:43:04.517147+00:00",
+            "source": "manual",
+            "event": "write_readback",
+            "object": "target_position",
+            "expected": -1447,
+            "actual": -1447
+          }
+        },
+        {
+          "line": 4,
+          "event": "exception",
+          "timestamp_utc": "2026-10-19T05:43:04.535806+00:00",
+          "offset_ms": 102.799,
+          "raw": {
+            "timestamp_utc": "2026-10-19T05:43:04.535806+00:00",
+            "source": "manual",
+            "event": "exception",
+            "message": "关键状态样本异常，禁止隐含使能",
+            "write_attempted": true
+          }
+        }
+      ],
+      "action": "absolute",
+      "node": 1,
+      "start_position": -1483,
+      "target": -1447,
+      "planned_offset": 36,
+      "velocity": 100,
+      "exception": "关键状态样本异常，禁止隐含使能",
+      "write_attempted": true,
+      "last_confirmed_logged_write": {
+        "timestamp_utc": "2026-10-19T05:43:04.517147+00:00",
+        "source": "manual",
+        "event": "write_readback",
+        "object": "target_position",
+        "expected": -1447,
+        "actual": -1447
+      },
+      "rawstatus_6041_hex": null,
+      "rawstatus_fields_present": [],
+      "controlwords_6040": null,
+      "controlword_fields_present": [],
+      "position_after_action": null,
+      "cleanup_stop_or_disable_sample_present": false,
+      "physical_motion_or_mechanical_root_cause": "unknown",
+      "keyboard_key": "not logged"
+    }
+  ],
+  "latest_session": "manual-IgxS6Xwl",
+  "latest_begin": "2026-10-19T05:43:04.433007+00:00",
+  "latest_exception": "2026-10-19T05:43:04.535806+00:00",
+  "confirmed_log_pattern": "absolute begin -> profile velocity write/readback -> target position write/readback -> critical-state exception",
+  "raw_status_6041_available": false,
+  "last_business_controlword_available": false,
+  "limitations": [
+    "None of the three logs contains statusword/6041, controlword/6040, raw SDO frames, per-stage snapshot, cleanup result, post-action position or terminal key sequence.",
+    "UI unknown state is a presentation result after isolation and cannot establish an unknown/invalid raw drive state.",
+    "The specific last controlword and first abnormal state cannot be asserted from these logs.",
+    "Motion completion, enable/controlword order, mechanical cause and independent stop/brake behavior are not measured by this read-only recovery.",
+    "No additional motor state request is authorized or performed."
+  ],
+  "recovered_files_stable_during_read": true,
+  "CAN_socket_opens": 0,
+  "CAN_sends": 0,
+  "SDO_operations": 0,
+  "TUI_runs": 0,
+  "process_stop_kill_operations": 0,
+  "quarantine_recovery_operations": 0,
+  "remote_files_changed": 0,
+  "local_write_scope": "docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/board-readonly",
+  "business_source_changed": false,
+  "cleanup": "Only local raw evidence and derived summaries created; no remote artifacts or processes changed.",
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "conservative_input_estimate_from_parent": 190000,
+  "estimate_is_actual": false
+}

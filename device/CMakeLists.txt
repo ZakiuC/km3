@@ -128,6 +128,9 @@ add_library(km3_canopen src/canopen/sync.cpp src/canopen/pdo.cpp)
 target_include_directories(km3_canopen PUBLIC include)
 target_link_libraries(km3_canopen PUBLIC km3_hal km3_core)
 
+# Shared exact arithmetic for C++ and the Python ctypes adapter; no CAN/OD gate.
+add_subdirectory(drivers/pmp4010/native)
+
 # ---- 硬件驱动（由 tools/hwdriver/new-driver.sh 追加）----
 #
 # 这一区由 tools/hwdriver/new-driver.sh 维护：新增型号时它在**结束标记之前**

@@ -1,0 +1,12 @@
+remote_directory=/opt/km3/hwtools/pmp4010-cpp-test-20261020-758f9107
+ELF_DEPENDENCIES.txt: OK
+README.md: OK
+SOURCE_SHA256.json: OK
+pmp4010_manual_test: OK
+使用说明.md: OK
+sha256sum_rc=0
+wrapper_sha256=7258a8c6819a15c437c3e0fdb0e70d13edc0ab2831b0d3c4a6f8e51c90aa6ce8
+binary_sha256=758f9107d372622f1104fd2d4972bcb22191f4da6d851913bbcae3ada15a26c2
+old_python_entry_sha256_before=56641a72621da4fbc831e047437fe1a668dbf9de60380d0334a2234a1f40d1c1
+old_python_entry_sha256_after=56641a72621da4fbc831e047437fe1a668dbf9de60380d0334a2234a1f40d1c1
+upload_stage_removed=True

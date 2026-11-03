@@ -1,0 +1,127 @@
+[
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/command-index.json",
+    "sha256": "a98be1aedde7f97e988cda348d99d9086656ad559f87bdd64adb278ff5610bfc",
+    "bytes": 2099
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/default-explicit-rpm.log",
+    "sha256": "a7fa8690781c4fd332358e9f071fcff6a6623b86ec5a41c258bf09fc4d97882d",
+    "bytes": 208
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/final-seven-files.patch",
+    "sha256": "7be12fb08b62812526bf2cf348d202f6c5714b2ccf30cb30b3706e246a11d4d6",
+    "bytes": 298480
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/final-source-sha256.json",
+    "sha256": "7cfa9301bdaf59ba3477f4f44dcd9f22bf93311b78637b1d43ebeffbb0790ded",
+    "bytes": 836
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/manual.log",
+    "sha256": "6ac9abc823a9a8200a6103f97b96feb3af8cf96bce57c1e794bf410b577e6ec3",
+    "bytes": 2231
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/authorize-80x24.txt",
+    "sha256": "461066244f4a60042c76a4fafc00a16a6662176fe8902fb8d5a74e50b0a5f3c6",
+    "bytes": 2626
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/confirm-80x24.txt",
+    "sha256": "088c2fd217a821b109e84a3eded74da73fb95d1541e74b92427a9a04c86660fa",
+    "bytes": 2657
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/connected-main-80x24.txt",
+    "sha256": "9d12a932f158b2d030f42e8b28dc61c0b507a46398bd15acf02accb3e6fe5a97",
+    "bytes": 2621
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/help-80x24.txt",
+    "sha256": "5b4d2ed18d1c8dcfafbcfe6e12a04f04ded91af97e50b2e4ba2ae7b15a4c91de",
+    "bytes": 2800
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/jog-confirm-80x24.txt",
+    "sha256": "ad18978be331bd0d034cda44514769a0e9dcdaea560f1c741c8ad4748a652c4b",
+    "bytes": 2652
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/main-80x24.txt",
+    "sha256": "ce5453647fed23d31817fa0e1d2cb7db265f1ab71600be74a8b4ca626f8aa87b",
+    "bytes": 2593
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/motion-absolute-a05f47de0af543438ff2e06648378514.jsonl",
+    "sha256": "897f1901cdb2864e1386eb146e92bb44b33390a35db18d19a4c5f4104f487794",
+    "bytes": 34569
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/motion-absolute-b5870d8ac22d43ea910dca1f2be71bfa.jsonl",
+    "sha256": "f96ca7f5e53e2f0bd31fd09c6a7ef0d47ad10d69cadea9375b0e42e387903ca5",
+    "bytes": 34579
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/motion-absolute-e89e6bfef96647b0b6bcf8723f84ebc9.jsonl",
+    "sha256": "6232eab5af1e7c9f08573c7316d7ab646d60140e938f8e2e1ae9c6a32f77a0da",
+    "bytes": 34579
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/motion-enable-20906dc2a3d94588887ff2665db44a84.jsonl",
+    "sha256": "8d9b5aa3f009c58e88a9a565ad2c851752e68e3c615c8a43c0b7ed29e28c912a",
+    "bytes": 5475
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/motion-enable-47e9ce01b5ac4e6bab6534102836494c.jsonl",
+    "sha256": "33d4bcd91ac50a0b27e25f7476691e437152b8ace8574c309e5ae3bc10e50829",
+    "bytes": 5475
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/motion-enable-c10fb7add7af4298b5ae686fed14bc18.jsonl",
+    "sha256": "862cdec3c393128bca0db456fc7c57dde476a8d1cf653efcc5b9e09f4c074399",
+    "bytes": 5475
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/motion-go-0662071c837542f5a36fd9430851c1d8.jsonl",
+    "sha256": "c79d374109689e9e7908208a1c605ecd92157b3e4a08932453966c45244307a7",
+    "bytes": 22047
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/motion-go-8525ba8badd4416cbff5eb0fce9ab7fa.jsonl",
+    "sha256": "837c64b359bd90d1aef8dc0f8645740f3b1c981ea8f59091b32fd05f132d6390",
+    "bytes": 22047
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/state.json",
+    "sha256": "9addb273934d73055c503ffcf1dd5bef8976d58507edbb8fa1a559e92a92a926",
+    "bytes": 553
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/summary.json",
+    "sha256": "b864e15622308507cbf9b405a06f18f9251a904780cef7693533c62a6260a65d",
+    "bytes": 1555
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/terminal.ansi",
+    "sha256": "c6ea0b8a0525c234d4f03c60bd4e3ba5ac2d1e4201cb5ac91dfdd783d592aef5",
+    "bytes": 16039
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty/trace.json",
+    "sha256": "a8c99dd3156ae1a85d72f53ab7708bd387ba76e511e6e34435fd9a62f300d8f0",
+    "bytes": 140140
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty.log",
+    "sha256": "bde6b5e72cee8af13a4ea77b6a0ba9ef2f21b3c276c7808ad5013552c894f283",
+    "bytes": 1266
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple.log",
+    "sha256": "99cc1ffc1881c12759b100c857fed7474a5fea4eab80cd4ac36d9964d4108e11",
+    "bytes": 1285
+  }
+]

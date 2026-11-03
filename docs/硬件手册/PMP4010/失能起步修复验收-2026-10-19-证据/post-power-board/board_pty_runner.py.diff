@@ -1,0 +1,11 @@
+--- stage2/board_pty_runner.py
++++ post-power/board_pty_runner.py
+@@ -30,7 +30,7 @@
+       'home':'\x1bOH','delete':'\x1b[3~','up':'\x1bOA','down':'\x1bOB'}
+ 
+ 
+-REMOTE_WRAPPER='/tmp/km3-pp-disabled-start-stage2-20261019-e0fhd4gp/board_app.py'
++REMOTE_WRAPPER='/tmp/km3-pp-disabled-start-stage3-recovery-20261019-0213/board_app.py'
+ 
+ def launch_command():
+     wrapper=Path(__file__).with_name('board_app.py')

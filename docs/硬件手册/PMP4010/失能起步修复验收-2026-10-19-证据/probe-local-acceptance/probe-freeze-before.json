@@ -1,0 +1,60 @@
+{
+  "manifest_sha256": "a9750a6952ee851f502bd0bd59b7eedd2542d35c1f423503f1a75acc17c6e5ff",
+  "files": [
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_bench.py",
+      "expected": "193a1f1281765933524995ee2548d0d3dda62946245b2c7ff7a7a3c0c1549bc5",
+      "actual": "193a1f1281765933524995ee2548d0d3dda62946245b2c7ff7a7a3c0c1549bc5"
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_position.py",
+      "expected": "ecca73a35494bb5bbb36222b0e5dda8b1d08110ddfb2035f4aa8a737f551b7ac",
+      "actual": "ecca73a35494bb5bbb36222b0e5dda8b1d08110ddfb2035f4aa8a737f551b7ac"
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_tui.py",
+      "expected": "54083e18f01a5d114aa1ae98725b6f05ca0cdda34537a517e6c2e0a67317cb78",
+      "actual": "54083e18f01a5d114aa1ae98725b6f05ca0cdda34537a517e6c2e0a67317cb78"
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_disabled_start.py",
+      "expected": "60143e345d9b6e6b6d3affdfce3bcf26db69f8fa5998dda43af014086096c969",
+      "actual": "60143e345d9b6e6b6d3affdfce3bcf26db69f8fa5998dda43af014086096c969"
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_bench_support.py",
+      "expected": "61185ab79743fa328380d8230c81ce3c643bf4a89348c954b90104ba125343e4",
+      "actual": "61185ab79743fa328380d8230c81ce3c643bf4a89348c954b90104ba125343e4"
+    },
+    {
+      "path": "device/drivers/pmp4010/driver/od.json",
+      "expected": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e",
+      "actual": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e"
+    },
+    {
+      "path": "device/drivers/pmp4010/driver/od_generated.hpp",
+      "expected": "b726bf604ce42c91ce048dfdb2891dde23e374ce9234cabe0416172ffaea5d40",
+      "actual": "b726bf604ce42c91ce048dfdb2891dde23e374ce9234cabe0416172ffaea5d40"
+    },
+    {
+      "path": "device/drivers/pmp4010/driver/od_access_generated.hpp",
+      "expected": "5144ed5e763beab5004d225e215fc76707a7f4cb42d222eb2da473bb594a33fb",
+      "actual": "5144ed5e763beab5004d225e215fc76707a7f4cb42d222eb2da473bb594a33fb"
+    },
+    {
+      "path": "tools/hwtui/canopen_consts.py",
+      "expected": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c",
+      "actual": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c"
+    },
+    {
+      "path": "tools/hwdriver/gen-pmp4010-access.py",
+      "expected": "b9d2c4c8406398562a25ef517cf99efd97d9f16ace6e07c9ccef39e07b36fd3d",
+      "actual": "b9d2c4c8406398562a25ef517cf99efd97d9f16ace6e07c9ccef39e07b36fd3d"
+    },
+    {
+      "path": "device/drivers/pmp4010/tests/test_pmp4010_verified.cpp",
+      "expected": "6dceedae4ca6aa369570c50018ec2c84f4ec41e39c8ce9846f1f8c80aee4ef3b",
+      "actual": "6dceedae4ca6aa369570c50018ec2c84f4ec41e39c8ce9846f1f8c80aee4ef3b"
+    }
+  ]
+}

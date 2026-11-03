@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py", line 224, in <module>
+    case('normal_frozen_minus10_100rpm',verify=normal)
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py", line 198, in case
+    assert failure is None, (name, failure)
+AssertionError: ('normal_frozen_minus10_100rpm', {'type': 'ValueError', 'message': '前置要求Switch on disabled'})

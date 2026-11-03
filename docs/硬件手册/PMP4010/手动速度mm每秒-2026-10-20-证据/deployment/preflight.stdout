@@ -1,0 +1,5 @@
+hostname=RK3588-Tronlong
+machine_id=b4b158c71fc04ebeb83d3a79a528a1de
+architecture=aarch64
+aliases_before={"pmp4010-manual-test": "/opt/km3/hwtools/manual-test-20261020-e137c603", "pmp4010-cpp-test": "/opt/km3/hwtools/manual-test-20261020-e137c603"}
+upload_stage=/opt/km3/hwtools/.manual-mmps-upload-_jiw8qev

@@ -1,0 +1,7 @@
+{"action":"capture","label":"initial-rt-risk"}
+{"action":"key","name":"f5"}
+{"action":"wait","seconds":0.8}
+{"action":"capture","label":"after-scan"}
+{"action":"key","name":"enter"}
+{"action":"text","text":"B"}
+{"action":"capture","label":"probe-prerequisites"}

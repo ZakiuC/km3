@@ -1,0 +1,56 @@
+{
+  "created_shanghai": "2026-10-20T09:34:50.451132+08:00",
+  "target": "root@192.168.0.188",
+  "remote_directory": "/opt/km3/hwtools/manual-test-20261020-e137c603",
+  "launch_command": "/opt/km3/hwtools/manual-test-20261020-e137c603/run-manual.sh",
+  "archive_sha256": "e137c603d57c584134f14f006bcae482d3b999ce1d2dda8dd25b19005a80b237",
+  "manifest_sha256": "8cf6fa0d6efdfb3831ff7e5397fd67314aa3ea433969e07d51478296634caa51",
+  "library": {
+    "library_realpath": "/opt/km3/hwtools/manual-test-20261020-e137c603/drivers/pmp4010/libpmp4010_velocity.so.1.0.0",
+    "library_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+    "abi": 1,
+    "machine": "aarch64",
+    "python": "3.10.12",
+    "mode": "packaged-library"
+  },
+  "import_count": 20,
+  "arm_load": {
+    "result": "PASS",
+    "native_vectors": 33,
+    "python_vectors": 33,
+    "native_int32_vectors": 14,
+    "forbidden_io_attempts": 0,
+    "hardware_acceptance": false
+  },
+  "commands_rc": {
+    "preflight": 1,
+    "upload": 0,
+    "extract": 0,
+    "arm-load-smoke": 0,
+    "launcher-syntax": 0,
+    "direct-help": 0,
+    "after-and-cleanup": 0,
+    "preflight-corrected": 0,
+    "create-stage": 0
+  },
+  "after": {
+    "result": "PASS",
+    "before_after_identical": {
+      "configs": {
+        "/etc/km3/device.json": "96a15d8d28f760ab9c5b8f43f6b5ddccc667c77f89413fcd9c3201aa9ddbb205",
+        "/etc/km3/can.env": "9253d719d847eed56ea7ef768985c0215faf0f78dfc98838152c734a0feff407"
+      },
+      "current_link": "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29",
+      "current_resolved": "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29"
+    },
+    "payload_entries": 28,
+    "file_sha_and_links": "PASS",
+    "launch": "/opt/km3/hwtools/manual-test-20261020-e137c603/run-manual.sh",
+    "launcher_sha256": "56641a72621da4fbc831e047437fe1a668dbf9de60380d0334a2234a1f40d1c1",
+    "temporary_stage_removed": "/opt/km3/hwtools/.manual-test-e137c603-f7ocslad",
+    "no_CAN_operations": true,
+    "physical_acceptance": false
+  },
+  "manual_TUI_run": false,
+  "physical_acceptance": false
+}

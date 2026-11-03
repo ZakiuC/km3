@@ -1,0 +1,6 @@
+payload_manifest=PASS entries=27
+launcher_sha256=56641a72621da4fbc831e047437fe1a668dbf9de60380d0334a2234a1f40d1c1
+hostname=RK3588-Tronlong
+architecture=aarch64
+pmp4010-manual-test=ABSENT
+pmp4010-cpp-test=/opt/km3/hwtools/pmp4010-cpp-test-20261020-488add26

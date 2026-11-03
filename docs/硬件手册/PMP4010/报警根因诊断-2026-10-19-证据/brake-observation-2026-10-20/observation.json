@@ -1,0 +1,46 @@
+{
+  "classification": "HUMAN REPORTED",
+  "question_exact": "运行抱闸测试后，按‘1 → Enter’和‘2’时分别有没有听到开合声？若界面出现报警，请同时填入报警码或提示文字。",
+  "answer_exact": "两次都听到声音",
+  "received_utc": null,
+  "received_asia_shanghai": null,
+  "actual_test_time": null,
+  "device_log_attached": false,
+  "audio_attached": false,
+  "cw": null,
+  "sw": null,
+  "error_603f": null,
+  "ui_enabled_hold_then_disabled_confirmed": "human reported",
+  "no_alarm_confirmed": "human reported; UI 603F reported as zero",
+  "firmware_version": null,
+  "actual_running_code_sha256": null,
+  "actual_running_package_sha256": null,
+  "full_mechanical_release_confirmed": false,
+  "sound_source_identified": false,
+  "followup_status": "UI follow-up answered; two repeated load-condition clarifications recorded; belt-disconnection feasibility question unanswered",
+  "interpretation": "Human reports audible responses, enabled hold then disabled UI states, and UI 603F zero. No raw CW/SW/603F log; full release, remaining drag, load and drive causes remain unresolved.",
+  "local_actions": "Documentation only; no hardware or deployment.",
+  "followup_question_exact": "听到声音时，界面是否同时显示：按1后‘已使能保持’、按2后‘已失能’，而且603F报警码一直是0？",
+  "followup_answer_exact": "是，两种状态正常，报警为0",
+  "followup_received_utc": null,
+  "error_603f_human_reported": 0,
+  "checked_at_utc": "2026-10-20T01:21:51Z",
+  "checked_at_asia_shanghai": "2026-10-20T09:21:51+08:00",
+  "checked_at_meaning": "Local archival clock verification time; not an authenticated message receipt time. Actual test and exact message receipt times are unknown.",
+  "example_load_clarifications": [
+    {
+      "classification": "HUMAN REPORTED",
+      "question_exact": "别人用示例程序成功转动时，是同一台电机，而且同步带和后级机构都像现在这样连接着吗？",
+      "answer_exact": "不清楚当时的连接情况"
+    },
+    {
+      "classification": "HUMAN REPORTED",
+      "question_exact": "别人用示例程序成功转动时，电机是否也连接着现在这条同步带和同一套机构？",
+      "answer_exact": "不清楚当时是否带负载"
+    }
+  ],
+  "example_load_clarifications_relationship": "Repeated clarification of the same connection/load comparison; not independent tests.",
+  "example_same_load_comparison_established": false,
+  "example_load_conclusion": "Example-program success cannot be treated as a confirmed same-load comparison; unloaded conditions are also unconfirmed.",
+  "belt_disconnection_status": "Feasibility asked for power-off and secured mechanism; no answer recorded; no disconnection or unloaded test confirmed; no new motion authorized."
+}

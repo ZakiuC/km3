@@ -1,0 +1,21 @@
+Source: /usr/include/linux/can.h
+SHA256: cd2ce7c60040752b84ab67a95fcada183c2a3faa704830e686982bf4e6f12d57
+216: };
+217: 
+218: /**
+219:  * struct can_filter - CAN ID based filter in can_register().
+220:  * @can_id:   relevant bits of CAN ID which are not masked out.
+221:  * @can_mask: CAN mask (see description)
+222:  *
+223:  * Description:
+224:  * A filter matches, when
+225:  *
+226:  *          <received_can_id> & mask == can_id & mask
+227:  *
+228:  * The filter can be inverted (CAN_INV_FILTER bit set in can_id) or it can
+229:  * filter for error message frames (CAN_ERR_FLAG bit set in mask).
+230:  */
+231: struct can_filter {
+232: 	canid_t can_id;
+233: 	canid_t can_mask;
+234: };

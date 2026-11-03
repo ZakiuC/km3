@@ -24,6 +24,7 @@ class BenchNode(mockbus.MockNode):
         values = {
             (0x2002, 1): (0, 2, False), (0x6040, 0): (0, 2, False),
             (0x6041, 0): (0x0440, 2, False), (0x6060, 0): (1, 1, True),
+            (0x605d, 0): (1, 2, True), (0x6062, 0): (-1464, 4, True),
             (0x6061, 0): (1, 1, True), (0x6064, 0): (-1464, 4, True),
             (0x606c, 0): (0, 4, True), (0x603f, 0): (0, 2, False),
             (0x6077, 0): (0, 2, True), (0x607c, 0): (0, 4, True), (0x2006, 0x12): (velocity_unit, 2, False),
@@ -35,6 +36,7 @@ class BenchNode(mockbus.MockNode):
             (0x607a, 0): (-1464, 4, True), (0x6081, 0): (100, 4, False),
             (0x6082, 0): (0, 4, False), (0x6083, 0): (100, 4, False),
             (0x6084, 0): (100, 4, False), (0x6098, 0): (17, 1, True),
+            (0x60ff, 0): (6553600, 4, True), (0x60b1, 0): (0, 4, True),
         }
         super().__init__(node, od={addr: mockbus.OdEntry(value.to_bytes(size, 'little', signed=signed), writable=True)
                                   for addr, (value, size, signed) in values.items()},

@@ -1,0 +1,34 @@
+--- manual-board-stage/pureload.remote.py
++++ simple-board-stage/pureload.remote.py
+@@ -29,9 +29,9 @@
+         raise RuntimeError('manual pureload audit rejected '+event)
+ 
+ def reject_manual_run(frame, event, arg):
+-    if event == 'call' and frame.f_code.co_name == 'run' and Path(frame.f_code.co_filename).name == 'pmp4010_manual.py':
++    if event == 'call' and frame.f_code.co_name == 'run' and Path(frame.f_code.co_filename).name in ('pmp4010_manual.py','pmp4010_simple.py'):
+         attempts.append('manual_app_run')
+-        raise RuntimeError('manual pureload forbids ManualApp.run')
++        raise RuntimeError('simple/manual pureload forbids app.run')
+     return reject_manual_run
+ 
+ sys.addaudithook(audit)
+@@ -45,6 +45,11 @@
+ assert module_path.is_relative_to(root), 'manual import escaped package'
+ print(json.dumps(dict(manual_import='PASS',path=str(module_path),
+                      sha256=hashlib.sha256(module_path.read_bytes()).hexdigest())))
++simple = importlib.import_module('pmp4010_simple')
++simple_path = Path(simple.__file__).resolve(strict=True)
++assert simple_path.is_relative_to(root), 'simple import escaped package'
++print(json.dumps(dict(simple_import='PASS',path=str(simple_path),
++                     sha256=hashlib.sha256(simple_path.read_bytes()).hexdigest())))
+ sys.argv = [str(root/'drivers/pmp4010/pmp4010.py'),'--help']
+ help_output = io.StringIO()
+ with contextlib.redirect_stdout(help_output):
+@@ -58,6 +63,6 @@
+ assert text.strip(), 'CLI --help output empty'
+ print('CLI_HELP_BEGIN\n'+text+'CLI_HELP_END')
+ assert not attempts, 'forbidden operations attempted'
+-print(json.dumps(dict(result='PASS',manual_import=True,cli_help=True,
++print(json.dumps(dict(result='PASS',manual_import=True,simple_import=True,cli_help=True,
+                      forbidden_IO_write_or_run_attempts=len(attempts),
+                      real_manual_app_started=False,CAN_opens=0,CAN_sends=0)))

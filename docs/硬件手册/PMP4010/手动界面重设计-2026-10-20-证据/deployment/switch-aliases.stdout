@@ -1,0 +1,7 @@
+aliases_before={"pmp4010-manual-test": "/opt/km3/hwtools/manual-test-20261020-mmps-76f8db43", "pmp4010-cpp-test": "/opt/km3/hwtools/manual-test-20261020-mmps-76f8db43"}
+pmp4010-manual-test=/opt/km3/hwtools/manual-test-20261020-ui-3970cf62
+pmp4010-manual-test_launcher_sha256=56641a72621da4fbc831e047437fe1a668dbf9de60380d0334a2234a1f40d1c1
+pmp4010-cpp-test=/opt/km3/hwtools/manual-test-20261020-ui-3970cf62
+pmp4010-cpp-test_launcher_sha256=56641a72621da4fbc831e047437fe1a668dbf9de60380d0334a2234a1f40d1c1
+temporary_links_remaining=0
+alias_update_semantics=each os.replace is atomic; the two aliases are not one transaction

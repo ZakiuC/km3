@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B - /var/tmp/km3-pmp4010-rewrite-20261019-d875f7bee872"
+  ],
+  "start_utc": "2026-10-19T06:58:51.317328+00:00",
+  "end_utc": "2026-10-19T06:58:51.665543+00:00",
+  "stdin_script": "/home/zakiu/km3/docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u4f7f\u80fd\u540e\u76ee\u6807\u91cd\u5199-2026-10-19-\u8bc1\u636e/board-stage/passive.remote.py",
+  "stdin_sha256": "b7198fbed8061f2241f0aa1edede2a7666f11a1fcdb822a513e8ba11e5207e95",
+  "rc": 0
+}

@@ -1,0 +1,2396 @@
+[
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty/arm-delay",
+    "copy": "initial-local-snapshot/implementation/bench-pty/arm-delay",
+    "bytes": 28,
+    "sha256": "5f2a35fffec40f6fed70ceb27a0d27abc781b6bd88f43547e87a8fdadc5d741b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty/delay-entered.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty/delay-entered.json",
+    "bytes": 54,
+    "sha256": "9a1c1ca9be44396305c2a06d142ffc9fbd14213ad59edd35ac60c52cdefe36e5",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty/delay-released",
+    "copy": "initial-local-snapshot/implementation/bench-pty/delay-released",
+    "bytes": 17,
+    "sha256": "abc8b6a7b323e2b7b847783e8157c2214928d63ef8cc01cbd285be37e46fdbb7",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty/mock-trace.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty/mock-trace.json",
+    "bytes": 9218,
+    "sha256": "09d505c58c45a6e7d5839e1e7990cbc484ec9df479c50291cdf6f74b892a56fb",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty/report.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty/report.json",
+    "bytes": 5915,
+    "sha256": "56900a48eca20b8a99ac5c5ca716d3af093db6ac3a184b4a1a4e36aed864d1bd",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty/screens.txt",
+    "copy": "initial-local-snapshot/implementation/bench-pty/screens.txt",
+    "bytes": 28550,
+    "sha256": "b7e26de17f39ce71a3ad040a143aec7c9ba583a5951db14ae1a24b1d0cd71024",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty/terminal.raw",
+    "copy": "initial-local-snapshot/implementation/bench-pty/terminal.raw",
+    "bytes": 20089,
+    "sha256": "86628e6f6ba88c5271f67950823334e1b9943788bc5dc97032cda0137c0f65c5",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-delivery/arm-delay",
+    "copy": "initial-local-snapshot/implementation/bench-pty-delivery/arm-delay",
+    "bytes": 28,
+    "sha256": "5f2a35fffec40f6fed70ceb27a0d27abc781b6bd88f43547e87a8fdadc5d741b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-delivery/delay-entered.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty-delivery/delay-entered.json",
+    "bytes": 54,
+    "sha256": "8a030bbe3a8167d909a9f88270a1c40e63fc72e13c3f9a21a26064b45382b2e5",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-delivery/delay-released",
+    "copy": "initial-local-snapshot/implementation/bench-pty-delivery/delay-released",
+    "bytes": 17,
+    "sha256": "08c6620aa5ff9d16524de415abf10b547b5c1ffaf89b8357d45c81ca3091c029",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-delivery/mock-trace.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty-delivery/mock-trace.json",
+    "bytes": 9218,
+    "sha256": "09d505c58c45a6e7d5839e1e7990cbc484ec9df479c50291cdf6f74b892a56fb",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-delivery/report.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty-delivery/report.json",
+    "bytes": 983,
+    "sha256": "5e8e38d8a75d778a00a772a3927242d3be2375fc9a68ab92b61864edafc16db8",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-delivery/screens.txt",
+    "copy": "initial-local-snapshot/implementation/bench-pty-delivery/screens.txt",
+    "bytes": 33300,
+    "sha256": "6eaa88e14a9c62dec6577b1d47febebdbb377dd2c24e7e4b0241c3ae1fa1a61f",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-delivery/terminal.raw",
+    "copy": "initial-local-snapshot/implementation/bench-pty-delivery/terminal.raw",
+    "bytes": 21854,
+    "sha256": "0c2bca79fb49d18be498d2de57fe923859440cd4842c9b269e9f9b8cb730521b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-delivery.command.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty-delivery.command.json",
+    "bytes": 244,
+    "sha256": "09fe3c8664eac696b70eb5cf464a7334a0f97d2071520b1b2b2038b23238eadd",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-delivery.rc",
+    "copy": "initial-local-snapshot/implementation/bench-pty-delivery.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-delivery.stderr",
+    "copy": "initial-local-snapshot/implementation/bench-pty-delivery.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-delivery.stdout",
+    "copy": "initial-local-snapshot/implementation/bench-pty-delivery.stdout",
+    "bytes": 34384,
+    "sha256": "cc58491585ef79e87b6248a41852acf790eac68fbf9ad96d7d7065c398f06d7d",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-final/arm-delay",
+    "copy": "initial-local-snapshot/implementation/bench-pty-final/arm-delay",
+    "bytes": 28,
+    "sha256": "5f2a35fffec40f6fed70ceb27a0d27abc781b6bd88f43547e87a8fdadc5d741b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-final/delay-entered.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty-final/delay-entered.json",
+    "bytes": 54,
+    "sha256": "6b8b3d458218b47180f8331c983313a7e4e4c4fe3ec4996e4d7214de5db822da",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-final/delay-released",
+    "copy": "initial-local-snapshot/implementation/bench-pty-final/delay-released",
+    "bytes": 17,
+    "sha256": "0b609ebe714f4c7c9373d38295f5a3198123de8fc42a1ee9e12980772fdc94d9",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-final/mock-trace.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty-final/mock-trace.json",
+    "bytes": 9218,
+    "sha256": "09d505c58c45a6e7d5839e1e7990cbc484ec9df479c50291cdf6f74b892a56fb",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-final/report.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty-final/report.json",
+    "bytes": 980,
+    "sha256": "b00af680672f90fb91b8e91a94e6e159fd2f0b3982d836eed5b71daa70daa751",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-final/screens.txt",
+    "copy": "initial-local-snapshot/implementation/bench-pty-final/screens.txt",
+    "bytes": 33294,
+    "sha256": "b294d123d7d67d01f303701b8dd4551e50ce292e1d838bc43868a59377df0b0b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-final/terminal.raw",
+    "copy": "initial-local-snapshot/implementation/bench-pty-final/terminal.raw",
+    "bytes": 21826,
+    "sha256": "872dab3bf3052e9942d83770054f71d3ca85368abab438846149c2d2659ccbd9",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-final.command.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty-final.command.json",
+    "bytes": 241,
+    "sha256": "0548e11f13bfaf3c1319102caa7231bc710a3260804a94c2f0b2d4ea475ea578",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-final.rc",
+    "copy": "initial-local-snapshot/implementation/bench-pty-final.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-final.stderr",
+    "copy": "initial-local-snapshot/implementation/bench-pty-final.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-final.stdout",
+    "copy": "initial-local-snapshot/implementation/bench-pty-final.stdout",
+    "bytes": 34375,
+    "sha256": "02bfbf4132d3351599101cf65fafc7c2433fde3c61b4ed62fcda069ae65077ee",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-help-start/arm-delay",
+    "copy": "initial-local-snapshot/implementation/bench-pty-help-start/arm-delay",
+    "bytes": 28,
+    "sha256": "5f2a35fffec40f6fed70ceb27a0d27abc781b6bd88f43547e87a8fdadc5d741b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-help-start/delay-entered.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty-help-start/delay-entered.json",
+    "bytes": 53,
+    "sha256": "9dbdd42e89b0c45cfd95dc4e7de012541d4ed41c9ca3d7263867fcfcd8b72d9e",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-help-start/delay-released",
+    "copy": "initial-local-snapshot/implementation/bench-pty-help-start/delay-released",
+    "bytes": 17,
+    "sha256": "5e4327e6077d8a4e48555b9539f517895374c40228d0dbe6ad85056fef88f9cd",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-help-start/mock-trace.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty-help-start/mock-trace.json",
+    "bytes": 9218,
+    "sha256": "09d505c58c45a6e7d5839e1e7990cbc484ec9df479c50291cdf6f74b892a56fb",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-help-start/report.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty-help-start/report.json",
+    "bytes": 5950,
+    "sha256": "4558b68d4120624502f17960d645a20938c3a7cf63959ccb17e910f217ea321e",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-help-start/screens.txt",
+    "copy": "initial-local-snapshot/implementation/bench-pty-help-start/screens.txt",
+    "bytes": 28574,
+    "sha256": "d9b38caf91cdbb173ea7679b89c857a686e54bfa9b83e5b4213824209abb618b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-help-start/terminal.raw",
+    "copy": "initial-local-snapshot/implementation/bench-pty-help-start/terminal.raw",
+    "bytes": 20251,
+    "sha256": "493654320f2a3d8bb8da74d476a2274a6a12fd5f586287ed29a6382df69482f3",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-help-start.command.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty-help-start.command.json",
+    "bytes": 246,
+    "sha256": "cef4d5ce2037dc7053f2ca7513331f86def70698d5fdfe690d12e710b23c2128",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-help-start.rc",
+    "copy": "initial-local-snapshot/implementation/bench-pty-help-start.rc",
+    "bytes": 2,
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-help-start.stderr",
+    "copy": "initial-local-snapshot/implementation/bench-pty-help-start.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-help-start.stdout",
+    "copy": "initial-local-snapshot/implementation/bench-pty-help-start.stdout",
+    "bytes": 34525,
+    "sha256": "24f4acd3666f1d2682c6abb11ddf19591858c93c86afddbb7bc43c035449a7d0",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-retry/arm-delay",
+    "copy": "initial-local-snapshot/implementation/bench-pty-retry/arm-delay",
+    "bytes": 28,
+    "sha256": "5f2a35fffec40f6fed70ceb27a0d27abc781b6bd88f43547e87a8fdadc5d741b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-retry/delay-entered.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty-retry/delay-entered.json",
+    "bytes": 53,
+    "sha256": "881522c6a3c77cf7717cacd21ab0d4523d31a9ed93df13aaa6db48d418e55dce",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-retry/delay-released",
+    "copy": "initial-local-snapshot/implementation/bench-pty-retry/delay-released",
+    "bytes": 17,
+    "sha256": "f2af83c9191c6a08fc3d76bc90f661de877f497f17d4a8a370d95caeb311c2ba",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-retry/mock-trace.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty-retry/mock-trace.json",
+    "bytes": 9218,
+    "sha256": "09d505c58c45a6e7d5839e1e7990cbc484ec9df479c50291cdf6f74b892a56fb",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-retry/report.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty-retry/report.json",
+    "bytes": 5945,
+    "sha256": "36d07403269f9828b61a8b6d2bedcedc619831c4a56d638796ac2b1130e54389",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-retry/screens.txt",
+    "copy": "initial-local-snapshot/implementation/bench-pty-retry/screens.txt",
+    "bytes": 28574,
+    "sha256": "81ad10e3df9475f92dff981726ece6f425fbdb02c0ac3de14747647f3682750c",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-retry/terminal.raw",
+    "copy": "initial-local-snapshot/implementation/bench-pty-retry/terminal.raw",
+    "bytes": 20251,
+    "sha256": "ebbe36db1824ac8eb78aa2ba613f7427a1ed02c8b22c57fb8ca65abe7b70794d",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-retry.command.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty-retry.command.json",
+    "bytes": 241,
+    "sha256": "8c4e5916f26e907455d87ab41993c4929e7048fe28726e1a8288da6dbee2b481",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-retry.rc",
+    "copy": "initial-local-snapshot/implementation/bench-pty-retry.rc",
+    "bytes": 2,
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-retry.stderr",
+    "copy": "initial-local-snapshot/implementation/bench-pty-retry.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty-retry.stdout",
+    "copy": "initial-local-snapshot/implementation/bench-pty-retry.stdout",
+    "bytes": 34520,
+    "sha256": "47a5c5cd9a9c415ca6bfb7f569fc527c315efefe55861424ac599e5383aa50b5",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty.command.json",
+    "copy": "initial-local-snapshot/implementation/bench-pty.command.json",
+    "bytes": 235,
+    "sha256": "43ccca46867cc57ba3ea271c2302ae30b4e355eb0d2531778d27fe6324721686",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty.rc",
+    "copy": "initial-local-snapshot/implementation/bench-pty.rc",
+    "bytes": 2,
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty.stderr",
+    "copy": "initial-local-snapshot/implementation/bench-pty.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/bench-pty.stdout",
+    "copy": "initial-local-snapshot/implementation/bench-pty.stdout",
+    "bytes": 34466,
+    "sha256": "2ac078cb746acf6504b551bbbecad3394216dd170788fed254bd500ac14575c9",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/capture-delivery.command.json",
+    "copy": "initial-local-snapshot/implementation/capture-delivery.command.json",
+    "bytes": 174,
+    "sha256": "cc84a910721b6b7672e1c09439feb963c92cf2a207cdc0980c7506363591cdfe",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/capture-delivery.rc",
+    "copy": "initial-local-snapshot/implementation/capture-delivery.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/capture-delivery.stderr",
+    "copy": "initial-local-snapshot/implementation/capture-delivery.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/capture-delivery.stdout",
+    "copy": "initial-local-snapshot/implementation/capture-delivery.stdout",
+    "bytes": 260,
+    "sha256": "df00c1670b155cfcdbf71578279afdb26a804fb276ec4655f7112a262456c28d",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/capture-mock.command.json",
+    "copy": "initial-local-snapshot/implementation/capture-mock.command.json",
+    "bytes": 174,
+    "sha256": "ef5c99b24b29c572d06f50467732b1abb44586728752f273d9b09648486520f9",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/capture-mock.rc",
+    "copy": "initial-local-snapshot/implementation/capture-mock.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/capture-mock.stderr",
+    "copy": "initial-local-snapshot/implementation/capture-mock.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/capture-mock.stdout",
+    "copy": "initial-local-snapshot/implementation/capture-mock.stdout",
+    "bytes": 260,
+    "sha256": "df00c1670b155cfcdbf71578279afdb26a804fb276ec4655f7112a262456c28d",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/capture_mock.py",
+    "copy": "initial-local-snapshot/implementation/capture_mock.py",
+    "bytes": 1433,
+    "sha256": "9983122af469231741da4fa7c18b4317c8430a077c7fbf13e65415aa04d7bdca",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/changed-sourcehash.json",
+    "copy": "initial-local-snapshot/implementation/changed-sourcehash.json",
+    "bytes": 602,
+    "sha256": "01bb14587cda7c5704adab688a9379ec678484940cc09f698e7acffe6345803e",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/delivery-index.json",
+    "copy": "initial-local-snapshot/implementation/delivery-index.json",
+    "bytes": 1735,
+    "sha256": "864fb6c5b1aef9d1a657b71a793c13ff36883d4ff6f1c3c3287f360c11709bb6",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/final-owned.diff",
+    "copy": "initial-local-snapshot/implementation/final-owned.diff",
+    "bytes": 28499,
+    "sha256": "e4669c46cf637b6d7113e02a351f7111ff5bf073762246e805826e321d3c7b30",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/final-sourcehash.json",
+    "copy": "initial-local-snapshot/implementation/final-sourcehash.json",
+    "bytes": 1924,
+    "sha256": "cacbac07a9caec7faaeb473ce4b743510fcf805de118992dfa9c48fd2cb6297c",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/first-full.command.json",
+    "copy": "initial-local-snapshot/implementation/first-full.command.json",
+    "bytes": 233,
+    "sha256": "a1c73a9278e8ef3e699353983c2dc0e58250043ee0f1559aaa76dd80db15af4c",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/first-full.rc",
+    "copy": "initial-local-snapshot/implementation/first-full.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/first-full.stderr",
+    "copy": "initial-local-snapshot/implementation/first-full.stderr",
+    "bytes": 316,
+    "sha256": "747e8b254d182e921fa6ca343a4b9f91f265eba818e01fe66de1d44901b93e40",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/first-full.stdout",
+    "copy": "initial-local-snapshot/implementation/first-full.stdout",
+    "bytes": 4268,
+    "sha256": "c5a5d5e6c2e12e5d724b68d5f40c3422f3ee4c939fd768b52f7356087759980a",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/initial-owned.diff",
+    "copy": "initial-local-snapshot/implementation/initial-owned.diff",
+    "bytes": 7511,
+    "sha256": "0c9905f40d91af28f1476ed3dbce74ea24dbc2164d0651b3268adc3de65f3330",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/initial-sourcehash.json",
+    "copy": "initial-local-snapshot/implementation/initial-sourcehash.json",
+    "bytes": 1805,
+    "sha256": "24908703d2dd7210fc582c8adc69d6120589a9e78e3c6723c65b3779de3bb27a",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/lost-first-ack.jsonl",
+    "copy": "initial-local-snapshot/implementation/lost-first-ack.jsonl",
+    "bytes": 6004,
+    "sha256": "99d751104ea9059cf163535982af8497a35d897feebd778bd367a3e1fbf35f10",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/lost-first-ack.wire.json",
+    "copy": "initial-local-snapshot/implementation/lost-first-ack.wire.json",
+    "bytes": 11511,
+    "sha256": "9160a4d90b3ef604e8dd7500d34976189c52073785bc15b299d778585f1a7565",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-delivery-retry.command.json",
+    "copy": "initial-local-snapshot/implementation/model-delivery-retry.command.json",
+    "bytes": 233,
+    "sha256": "5f242a601a243ed65b12b05527c8effc612aabb6275cfb88b32c886b483b44f0",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-delivery-retry.rc",
+    "copy": "initial-local-snapshot/implementation/model-delivery-retry.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-delivery-retry.stderr",
+    "copy": "initial-local-snapshot/implementation/model-delivery-retry.stderr",
+    "bytes": 342,
+    "sha256": "dfe89bb5b47d44f89ae9b087bee4b06c1aafaec5aca6cbd4289532e8fc78e84c",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-delivery-retry.stdout",
+    "copy": "initial-local-snapshot/implementation/model-delivery-retry.stdout",
+    "bytes": 4654,
+    "sha256": "810b0d473c9480deed9b9659e3b7f07f180d6dfbaafb35418ea09d2c3878a93e",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-delivery.command.json",
+    "copy": "initial-local-snapshot/implementation/model-delivery.command.json",
+    "bytes": 233,
+    "sha256": "f893046d47aa150266cf33cb8c36cd4eaa6c31c85094bffedced87df3f8049e1",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-delivery.rc",
+    "copy": "initial-local-snapshot/implementation/model-delivery.rc",
+    "bytes": 2,
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-delivery.stderr",
+    "copy": "initial-local-snapshot/implementation/model-delivery.stderr",
+    "bytes": 51301,
+    "sha256": "9b26d85b8a1fcb03733af194c1ab0faa1a6d39982de0523c08f82df8a9199cfc",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-delivery.stdout",
+    "copy": "initial-local-snapshot/implementation/model-delivery.stdout",
+    "bytes": 4539,
+    "sha256": "dfbf5f069ba19522d9b6dc8f7a1465cda2170a34a5e0b98b9090d59933830dc5",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-final-after-help.command.json",
+    "copy": "initial-local-snapshot/implementation/model-final-after-help.command.json",
+    "bytes": 233,
+    "sha256": "21b9e5c6d99a6768fb507719c593f84127347b959143af59ce4bffa14eecd6bb",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-final-after-help.rc",
+    "copy": "initial-local-snapshot/implementation/model-final-after-help.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-final-after-help.stderr",
+    "copy": "initial-local-snapshot/implementation/model-final-after-help.stderr",
+    "bytes": 337,
+    "sha256": "910b95c23f488fc14a1481f69052afb43b94f1654a6b3b5b6502e474200e3270",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-final-after-help.stdout",
+    "copy": "initial-local-snapshot/implementation/model-final-after-help.stdout",
+    "bytes": 4654,
+    "sha256": "8102a8a2e81c52b7d6039890d52f2c620f602a5fb8cb640b7699f967fc131145",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-final.command.json",
+    "copy": "initial-local-snapshot/implementation/model-final.command.json",
+    "bytes": 233,
+    "sha256": "a78d5c537243def05ccd9a789af60b8ac957a37e6a0f5c8fdc228e185911426a",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-final.rc",
+    "copy": "initial-local-snapshot/implementation/model-final.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-final.stderr",
+    "copy": "initial-local-snapshot/implementation/model-final.stderr",
+    "bytes": 337,
+    "sha256": "6646a847e239207620d66b78e157307785c9954d9200d328568cfb4d8bb7c7f7",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-final.stdout",
+    "copy": "initial-local-snapshot/implementation/model-final.stdout",
+    "bytes": 4654,
+    "sha256": "4ab48d08259132aef84d71c7a86d214d2a67e9551a8c3178d56cbc349b56b468",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-frozen.command.json",
+    "copy": "initial-local-snapshot/implementation/model-frozen.command.json",
+    "bytes": 233,
+    "sha256": "6598b69d9f3af20f18617c8a6cefa216b059d2990489dd293e131a943c6e3b8c",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-frozen.rc",
+    "copy": "initial-local-snapshot/implementation/model-frozen.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-frozen.stderr",
+    "copy": "initial-local-snapshot/implementation/model-frozen.stderr",
+    "bytes": 341,
+    "sha256": "190ce2e86cead46e6b7dc591988adb72106b0edf8a60e0a00d33f455e3c93072",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/model-frozen.stdout",
+    "copy": "initial-local-snapshot/implementation/model-frozen.stdout",
+    "bytes": 4654,
+    "sha256": "602f9f0a9f0aa5b028c5913841e8c1aced0680d5a1bff8a2a9cd40beba2cab5f",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/nominal.jsonl",
+    "copy": "initial-local-snapshot/implementation/nominal.jsonl",
+    "bytes": 9189,
+    "sha256": "5c1502a2976b21b65a6fbe09eccff2936d39a8de963907004f23b24811275e1a",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/nominal.wire.json",
+    "copy": "initial-local-snapshot/implementation/nominal.wire.json",
+    "bytes": 17104,
+    "sha256": "27cbf62b80c1c649b917cf835927dff17f08587277342338bff838d43e0380ea",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/prepare-directed-final.command.json",
+    "copy": "initial-local-snapshot/implementation/prepare-directed-final.command.json",
+    "bytes": 249,
+    "sha256": "7cc19765dc3d9164a194c014a42ee705410c674a06ef41cbc8e23bbec183c78c",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/prepare-directed-final.rc",
+    "copy": "initial-local-snapshot/implementation/prepare-directed-final.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/prepare-directed-final.stderr",
+    "copy": "initial-local-snapshot/implementation/prepare-directed-final.stderr",
+    "bytes": 1923,
+    "sha256": "7927cdffad1a93141842c5777c3e55d410edf0b5e7b63f62acd980a94e564865",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/prepare-directed-final.stdout",
+    "copy": "initial-local-snapshot/implementation/prepare-directed-final.stdout",
+    "bytes": 386,
+    "sha256": "6ddf262747fd0c350434f3fda9c963dec01f060576dc873f0aaf8ed867aea4ac",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/prepare-final.command.json",
+    "copy": "initial-local-snapshot/implementation/prepare-final.command.json",
+    "bytes": 249,
+    "sha256": "b1133b396547c976086584d7c25b0d0a16094a59d48698222da9a1b98a6101a7",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/prepare-final.rc",
+    "copy": "initial-local-snapshot/implementation/prepare-final.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/prepare-final.stderr",
+    "copy": "initial-local-snapshot/implementation/prepare-final.stderr",
+    "bytes": 1629,
+    "sha256": "e507778c0e234f81f2107a346a1c072f8a865cb60b6fe4650df87ce4b41424ae",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/prepare-final.stdout",
+    "copy": "initial-local-snapshot/implementation/prepare-final.stdout",
+    "bytes": 386,
+    "sha256": "6ddf262747fd0c350434f3fda9c963dec01f060576dc873f0aaf8ed867aea4ac",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/prepare-first.command.json",
+    "copy": "initial-local-snapshot/implementation/prepare-first.command.json",
+    "bytes": 249,
+    "sha256": "72a45b9e0824442e9cdc8bc4069fa1f7dbc91d72e6b8a6b294e427ce802fecb6",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/prepare-first.rc",
+    "copy": "initial-local-snapshot/implementation/prepare-first.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/prepare-first.stderr",
+    "copy": "initial-local-snapshot/implementation/prepare-first.stderr",
+    "bytes": 2331,
+    "sha256": "5ec32baaae358efd9e0b4661afac91afe2e65283c564c3fc40b923d95170c0cc",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/prepare-first.stdout",
+    "copy": "initial-local-snapshot/implementation/prepare-first.stdout",
+    "bytes": 501,
+    "sha256": "4daae40c0bbb90c74067be69ddc7d32881090a87f9db04cde26ce8064130baeb",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/record.py",
+    "copy": "initial-local-snapshot/implementation/record.py",
+    "bytes": 686,
+    "sha256": "5f07e171d4eb27106baaf1ab1337e98ac40b2c6c12e95a4ef120d6e41358b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/review-fix-directed.command.json",
+    "copy": "initial-local-snapshot/implementation/review-fix-directed.command.json",
+    "bytes": 249,
+    "sha256": "995be84f3994d17deab96a117ecd0970c611e2690400ca8220c60aa15623cbda",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/review-fix-directed.rc",
+    "copy": "initial-local-snapshot/implementation/review-fix-directed.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/review-fix-directed.stderr",
+    "copy": "initial-local-snapshot/implementation/review-fix-directed.stderr",
+    "bytes": 2310,
+    "sha256": "36891e08eb7b4917ec9ffb182ebbd6f2e6e6b6785402a688cca1cf8535be84fc",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-impl-20261017/review-fix-directed.stdout",
+    "copy": "initial-local-snapshot/implementation/review-fix-directed.stdout",
+    "bytes": 386,
+    "sha256": "6ddf262747fd0c350434f3fda9c963dec01f060576dc873f0aaf8ed867aea4ac",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/01-hwtui.command.json",
+    "copy": "initial-local-snapshot/acceptance/01-hwtui.command.json",
+    "bytes": 170,
+    "sha256": "60b4cedc3ef4a7b417f5447b7f8e8eeb7700d4f2cbe32cd08823288b960e7a6f",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/01-hwtui.result.json",
+    "copy": "initial-local-snapshot/acceptance/01-hwtui.result.json",
+    "bytes": 63,
+    "sha256": "60036f7eb69b2c92d37b1daaaf055c829bc650034dad683b3463476f8d313b14",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/01-hwtui.stderr.log",
+    "copy": "initial-local-snapshot/acceptance/01-hwtui.stderr.log",
+    "bytes": 317,
+    "sha256": "74cfdbd7a6a2a10a97139a8a48a5ac6ad546a214eef7462e8e88a8aea1bb9fcc",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/01-hwtui.stdout.log",
+    "copy": "initial-local-snapshot/acceptance/01-hwtui.stdout.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/02-tools-tests.command.json",
+    "copy": "initial-local-snapshot/acceptance/02-tools-tests.command.json",
+    "bytes": 170,
+    "sha256": "491dd5d5769331aa37fcf41155c70b86c3b3d87d224967437e924196eee2c733",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/02-tools-tests.result.json",
+    "copy": "initial-local-snapshot/acceptance/02-tools-tests.result.json",
+    "bytes": 64,
+    "sha256": "21bc7246c6bc2c024c5d1d5e9336b013fe6e26ecb048e78d635b0daf7c3ec3e6",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/02-tools-tests.stderr.log",
+    "copy": "initial-local-snapshot/acceptance/02-tools-tests.stderr.log",
+    "bytes": 106,
+    "sha256": "288c1b1a5014a9e4eba36e5547d552f1f954a7339abe224610c4cbea19a78221",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/02-tools-tests.stdout.log",
+    "copy": "initial-local-snapshot/acceptance/02-tools-tests.stdout.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/03-check-drivers.command.json",
+    "copy": "initial-local-snapshot/acceptance/03-check-drivers.command.json",
+    "bytes": 89,
+    "sha256": "936f0347c1dfe9611f52d5447ae6e20ed19a26b9adea558370b517bd4d6111fd",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/03-check-drivers.result.json",
+    "copy": "initial-local-snapshot/acceptance/03-check-drivers.result.json",
+    "bytes": 66,
+    "sha256": "66811fc159804e5cf6e764cab53b6329e636ed713edefb1a7755ce3d05c98110",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/03-check-drivers.stderr.log",
+    "copy": "initial-local-snapshot/acceptance/03-check-drivers.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/03-check-drivers.stdout.log",
+    "copy": "initial-local-snapshot/acceptance/03-check-drivers.stdout.log",
+    "bytes": 476,
+    "sha256": "97089ae37d0b7df7f91afe640b1ebf1cdf849e4697a1946f75763b0173c9da7d",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/04-check-docs.command.json",
+    "copy": "initial-local-snapshot/acceptance/04-check-docs.command.json",
+    "bytes": 86,
+    "sha256": "a10ff335458684bf8929a4e02c322fa2933e35bc485533349def40511861b136",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/04-check-docs.result.json",
+    "copy": "initial-local-snapshot/acceptance/04-check-docs.result.json",
+    "bytes": 65,
+    "sha256": "85648561d0b73cf93bb9ad52ee8bced9fc135f099428b30cd39a46b753a183a5",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/04-check-docs.stderr.log",
+    "copy": "initial-local-snapshot/acceptance/04-check-docs.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/04-check-docs.stdout.log",
+    "copy": "initial-local-snapshot/acceptance/04-check-docs.stdout.log",
+    "bytes": 528,
+    "sha256": "ecb575f6e68bd4e720546861f467c0ce88d8e4d2fc24ea2459e4d9a62b533bdd",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/05-check-deps.command.json",
+    "copy": "initial-local-snapshot/acceptance/05-check-deps.command.json",
+    "bytes": 86,
+    "sha256": "80021e4ad3c88acb94444fbde1b41db8952e539f88fc519385243af16694df90",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/05-check-deps.result.json",
+    "copy": "initial-local-snapshot/acceptance/05-check-deps.result.json",
+    "bytes": 66,
+    "sha256": "103b65ea6b0a08c52862f188d8fd6924dd62f296702562992789486cda95d4d1",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/05-check-deps.stderr.log",
+    "copy": "initial-local-snapshot/acceptance/05-check-deps.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/05-check-deps.stdout.log",
+    "copy": "initial-local-snapshot/acceptance/05-check-deps.stdout.log",
+    "bytes": 632,
+    "sha256": "64c699c396e34f61f47aee249d1c4357dd63797c35e3c16eed061909a9669a06",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/06-check-manual-citations.command.json",
+    "copy": "initial-local-snapshot/acceptance/06-check-manual-citations.command.json",
+    "bytes": 98,
+    "sha256": "993c0d6ddcc33fce03ebf309f6c4cdd01407bb37e02dc3bf7d530eb702dbe328",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/06-check-manual-citations.result.json",
+    "copy": "initial-local-snapshot/acceptance/06-check-manual-citations.result.json",
+    "bytes": 65,
+    "sha256": "0798c9e3adb9b3f866362f0f2f3d5893efec340ce1da06e44a44b6166db1c4da",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/06-check-manual-citations.stderr.log",
+    "copy": "initial-local-snapshot/acceptance/06-check-manual-citations.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/06-check-manual-citations.stdout.log",
+    "copy": "initial-local-snapshot/acceptance/06-check-manual-citations.stdout.log",
+    "bytes": 209,
+    "sha256": "7eb04b681dbf2a0b44450b27b68fe91555e8fbad5fae1b682b3e63c174bbb004",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/07-gen-od.command.json",
+    "copy": "initial-local-snapshot/acceptance/07-gen-od.command.json",
+    "bytes": 149,
+    "sha256": "26ba642fecbcd7d7561067e25ac8b55a173f7721c0bb485fb4ee5d88221d5985",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/07-gen-od.result.json",
+    "copy": "initial-local-snapshot/acceptance/07-gen-od.result.json",
+    "bytes": 66,
+    "sha256": "e2699261982cb603973790772777225717895d2ac1ac0fb616a2d683816027e5",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/07-gen-od.stderr.log",
+    "copy": "initial-local-snapshot/acceptance/07-gen-od.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/07-gen-od.stdout.log",
+    "copy": "initial-local-snapshot/acceptance/07-gen-od.stdout.log",
+    "bytes": 228,
+    "sha256": "1fb8101f983b222bf8ece7312432fc4a34725ad3422420032c2ca0bd09a77b16",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/08-gen-canopen.command.json",
+    "copy": "initial-local-snapshot/acceptance/08-gen-canopen.command.json",
+    "bytes": 124,
+    "sha256": "169f3abdd5393ee0d62ec35a2961bf914edcef7650bc603f12af71ca5046d460",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/08-gen-canopen.result.json",
+    "copy": "initial-local-snapshot/acceptance/08-gen-canopen.result.json",
+    "bytes": 66,
+    "sha256": "a8dfe9e749b2115c1b6551ada0e6313b0a02529d137207200661b22be960fb53",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/08-gen-canopen.stderr.log",
+    "copy": "initial-local-snapshot/acceptance/08-gen-canopen.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/08-gen-canopen.stdout.log",
+    "copy": "initial-local-snapshot/acceptance/08-gen-canopen.stdout.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/09-gen-access.command.json",
+    "copy": "initial-local-snapshot/acceptance/09-gen-access.command.json",
+    "bytes": 131,
+    "sha256": "6792b118336dae59cb3f72834f75915879ad76f2567599ad4f389b58f20447ee",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/09-gen-access.result.json",
+    "copy": "initial-local-snapshot/acceptance/09-gen-access.result.json",
+    "bytes": 65,
+    "sha256": "3ac21f73bb621ee56af500a2e8a123ae85dfacfd29016e22d9f82b070debce69",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/09-gen-access.stderr.log",
+    "copy": "initial-local-snapshot/acceptance/09-gen-access.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/09-gen-access.stdout.log",
+    "copy": "initial-local-snapshot/acceptance/09-gen-access.stdout.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/10-verify-and-archive.command.json",
+    "copy": "initial-local-snapshot/acceptance/10-verify-and-archive.command.json",
+    "bytes": 148,
+    "sha256": "ef6e1c0720ccb7992c25a543e11296a8edcf5b75c5bf263f773fc358f9f80484",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/10-verify-and-archive.result.json",
+    "copy": "initial-local-snapshot/acceptance/10-verify-and-archive.result.json",
+    "bytes": 64,
+    "sha256": "d4c897dce2ebfa3244c20ed2d8f6ef936d64d8f524e66644c659f3db89ab7b68",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/10-verify-and-archive.stderr.log",
+    "copy": "initial-local-snapshot/acceptance/10-verify-and-archive.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/10-verify-and-archive.stdout.log",
+    "copy": "initial-local-snapshot/acceptance/10-verify-and-archive.stdout.log",
+    "bytes": 673,
+    "sha256": "810923d0da58657cd09036a4724a2d7953bbb230e94f506c6d0f30699e19fae6",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/11-finalize.command.json",
+    "copy": "initial-local-snapshot/acceptance/11-finalize.command.json",
+    "bytes": 138,
+    "sha256": "f1c65a9ad309078b5855e5344cc2d680c4dd104715126b41ab104dfc4d717376",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/11-finalize.result.json",
+    "copy": "initial-local-snapshot/acceptance/11-finalize.result.json",
+    "bytes": 65,
+    "sha256": "eeb56113f5e626d354f21c07c84c74c90ce28a3a3f612204fb818356dfee39d7",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/11-finalize.stderr.log",
+    "copy": "initial-local-snapshot/acceptance/11-finalize.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/11-finalize.stdout.log",
+    "copy": "initial-local-snapshot/acceptance/11-finalize.stdout.log",
+    "bytes": 877,
+    "sha256": "741e4912de2e9da252ca61f4ea7725ce5a0c6fee466728e5bdd199c4d903faa9",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/12-final-freeze-check.command.json",
+    "copy": "initial-local-snapshot/acceptance/12-final-freeze-check.command.json",
+    "bytes": 145,
+    "sha256": "03334d07a90aeee69e7cebff1ae7a3441be1a8854192b6f2a924ccd05908af79",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/12-final-freeze-check.result.json",
+    "copy": "initial-local-snapshot/acceptance/12-final-freeze-check.result.json",
+    "bytes": 64,
+    "sha256": "00740a6cb7cfc0f6d565cc0c35921c07afe951af7305c131986c15cf40e5928e",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/12-final-freeze-check.stderr.log",
+    "copy": "initial-local-snapshot/acceptance/12-final-freeze-check.stderr.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/12-final-freeze-check.stdout.log",
+    "copy": "initial-local-snapshot/acceptance/12-final-freeze-check.stdout.log",
+    "bytes": 374,
+    "sha256": "09dd63a298300cc36f1ef744c33962aed976dda6770baeca262fb2ed16b01b2c",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/artifact-index.json",
+    "copy": "initial-local-snapshot/acceptance/artifact-index.json",
+    "bytes": 30427,
+    "sha256": "d364a6fc7166264c7ec5ee08389ffe101fc79b8408e19cd7f33ded105fe30549",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/cpp-math-reuse-proof.json",
+    "copy": "initial-local-snapshot/acceptance/cpp-math-reuse-proof.json",
+    "bytes": 21230,
+    "sha256": "ab2cb9ca8d7a31111e5079c3e9f66238ebaa20eaf3b3df05e0685794193df9c9",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/freeze_check.py",
+    "copy": "initial-local-snapshot/acceptance/freeze_check.py",
+    "bytes": 2360,
+    "sha256": "2ab981b9535a44751cce151778fd8894f2de2c1be62e796ee9814b2dd5f0c13e",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty/arm-delay",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty/arm-delay",
+    "bytes": 28,
+    "sha256": "5f2a35fffec40f6fed70ceb27a0d27abc781b6bd88f43547e87a8fdadc5d741b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty/delay-entered.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty/delay-entered.json",
+    "bytes": 54,
+    "sha256": "9a1c1ca9be44396305c2a06d142ffc9fbd14213ad59edd35ac60c52cdefe36e5",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty/delay-released",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty/delay-released",
+    "bytes": 17,
+    "sha256": "abc8b6a7b323e2b7b847783e8157c2214928d63ef8cc01cbd285be37e46fdbb7",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty/mock-trace.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty/mock-trace.json",
+    "bytes": 9218,
+    "sha256": "09d505c58c45a6e7d5839e1e7990cbc484ec9df479c50291cdf6f74b892a56fb",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty/report.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty/report.json",
+    "bytes": 5915,
+    "sha256": "56900a48eca20b8a99ac5c5ca716d3af093db6ac3a184b4a1a4e36aed864d1bd",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty/screens.txt",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty/screens.txt",
+    "bytes": 28550,
+    "sha256": "b7e26de17f39ce71a3ad040a143aec7c9ba583a5951db14ae1a24b1d0cd71024",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty/terminal.raw",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty/terminal.raw",
+    "bytes": 20089,
+    "sha256": "86628e6f6ba88c5271f67950823334e1b9943788bc5dc97032cda0137c0f65c5",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-delivery/arm-delay",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-delivery/arm-delay",
+    "bytes": 28,
+    "sha256": "5f2a35fffec40f6fed70ceb27a0d27abc781b6bd88f43547e87a8fdadc5d741b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-delivery/delay-entered.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-delivery/delay-entered.json",
+    "bytes": 54,
+    "sha256": "8a030bbe3a8167d909a9f88270a1c40e63fc72e13c3f9a21a26064b45382b2e5",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-delivery/delay-released",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-delivery/delay-released",
+    "bytes": 17,
+    "sha256": "08c6620aa5ff9d16524de415abf10b547b5c1ffaf89b8357d45c81ca3091c029",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-delivery/mock-trace.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-delivery/mock-trace.json",
+    "bytes": 9218,
+    "sha256": "09d505c58c45a6e7d5839e1e7990cbc484ec9df479c50291cdf6f74b892a56fb",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-delivery/report.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-delivery/report.json",
+    "bytes": 983,
+    "sha256": "5e8e38d8a75d778a00a772a3927242d3be2375fc9a68ab92b61864edafc16db8",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-delivery/screens.txt",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-delivery/screens.txt",
+    "bytes": 33300,
+    "sha256": "6eaa88e14a9c62dec6577b1d47febebdbb377dd2c24e7e4b0241c3ae1fa1a61f",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-delivery/terminal.raw",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-delivery/terminal.raw",
+    "bytes": 21854,
+    "sha256": "0c2bca79fb49d18be498d2de57fe923859440cd4842c9b269e9f9b8cb730521b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-delivery.command.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-delivery.command.json",
+    "bytes": 244,
+    "sha256": "09fe3c8664eac696b70eb5cf464a7334a0f97d2071520b1b2b2038b23238eadd",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-delivery.rc",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-delivery.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-delivery.stderr",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-delivery.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-delivery.stdout",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-delivery.stdout",
+    "bytes": 34384,
+    "sha256": "cc58491585ef79e87b6248a41852acf790eac68fbf9ad96d7d7065c398f06d7d",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-final/arm-delay",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-final/arm-delay",
+    "bytes": 28,
+    "sha256": "5f2a35fffec40f6fed70ceb27a0d27abc781b6bd88f43547e87a8fdadc5d741b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-final/delay-entered.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-final/delay-entered.json",
+    "bytes": 54,
+    "sha256": "6b8b3d458218b47180f8331c983313a7e4e4c4fe3ec4996e4d7214de5db822da",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-final/delay-released",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-final/delay-released",
+    "bytes": 17,
+    "sha256": "0b609ebe714f4c7c9373d38295f5a3198123de8fc42a1ee9e12980772fdc94d9",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-final/mock-trace.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-final/mock-trace.json",
+    "bytes": 9218,
+    "sha256": "09d505c58c45a6e7d5839e1e7990cbc484ec9df479c50291cdf6f74b892a56fb",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-final/report.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-final/report.json",
+    "bytes": 980,
+    "sha256": "b00af680672f90fb91b8e91a94e6e159fd2f0b3982d836eed5b71daa70daa751",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-final/screens.txt",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-final/screens.txt",
+    "bytes": 33294,
+    "sha256": "b294d123d7d67d01f303701b8dd4551e50ce292e1d838bc43868a59377df0b0b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-final/terminal.raw",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-final/terminal.raw",
+    "bytes": 21826,
+    "sha256": "872dab3bf3052e9942d83770054f71d3ca85368abab438846149c2d2659ccbd9",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-final.command.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-final.command.json",
+    "bytes": 241,
+    "sha256": "0548e11f13bfaf3c1319102caa7231bc710a3260804a94c2f0b2d4ea475ea578",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-final.rc",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-final.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-final.stderr",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-final.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-final.stdout",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-final.stdout",
+    "bytes": 34375,
+    "sha256": "02bfbf4132d3351599101cf65fafc7c2433fde3c61b4ed62fcda069ae65077ee",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-help-start/arm-delay",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-help-start/arm-delay",
+    "bytes": 28,
+    "sha256": "5f2a35fffec40f6fed70ceb27a0d27abc781b6bd88f43547e87a8fdadc5d741b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-help-start/delay-entered.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-help-start/delay-entered.json",
+    "bytes": 53,
+    "sha256": "9dbdd42e89b0c45cfd95dc4e7de012541d4ed41c9ca3d7263867fcfcd8b72d9e",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-help-start/delay-released",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-help-start/delay-released",
+    "bytes": 17,
+    "sha256": "5e4327e6077d8a4e48555b9539f517895374c40228d0dbe6ad85056fef88f9cd",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-help-start/mock-trace.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-help-start/mock-trace.json",
+    "bytes": 9218,
+    "sha256": "09d505c58c45a6e7d5839e1e7990cbc484ec9df479c50291cdf6f74b892a56fb",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-help-start/report.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-help-start/report.json",
+    "bytes": 5950,
+    "sha256": "4558b68d4120624502f17960d645a20938c3a7cf63959ccb17e910f217ea321e",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-help-start/screens.txt",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-help-start/screens.txt",
+    "bytes": 28574,
+    "sha256": "d9b38caf91cdbb173ea7679b89c857a686e54bfa9b83e5b4213824209abb618b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-help-start/terminal.raw",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-help-start/terminal.raw",
+    "bytes": 20251,
+    "sha256": "493654320f2a3d8bb8da74d476a2274a6a12fd5f586287ed29a6382df69482f3",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-help-start.command.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-help-start.command.json",
+    "bytes": 246,
+    "sha256": "cef4d5ce2037dc7053f2ca7513331f86def70698d5fdfe690d12e710b23c2128",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-help-start.rc",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-help-start.rc",
+    "bytes": 2,
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-help-start.stderr",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-help-start.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-help-start.stdout",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-help-start.stdout",
+    "bytes": 34525,
+    "sha256": "24f4acd3666f1d2682c6abb11ddf19591858c93c86afddbb7bc43c035449a7d0",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-retry/arm-delay",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-retry/arm-delay",
+    "bytes": 28,
+    "sha256": "5f2a35fffec40f6fed70ceb27a0d27abc781b6bd88f43547e87a8fdadc5d741b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-retry/delay-entered.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-retry/delay-entered.json",
+    "bytes": 53,
+    "sha256": "881522c6a3c77cf7717cacd21ab0d4523d31a9ed93df13aaa6db48d418e55dce",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-retry/delay-released",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-retry/delay-released",
+    "bytes": 17,
+    "sha256": "f2af83c9191c6a08fc3d76bc90f661de877f497f17d4a8a370d95caeb311c2ba",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-retry/mock-trace.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-retry/mock-trace.json",
+    "bytes": 9218,
+    "sha256": "09d505c58c45a6e7d5839e1e7990cbc484ec9df479c50291cdf6f74b892a56fb",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-retry/report.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-retry/report.json",
+    "bytes": 5945,
+    "sha256": "36d07403269f9828b61a8b6d2bedcedc619831c4a56d638796ac2b1130e54389",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-retry/screens.txt",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-retry/screens.txt",
+    "bytes": 28574,
+    "sha256": "81ad10e3df9475f92dff981726ece6f425fbdb02c0ac3de14747647f3682750c",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-retry/terminal.raw",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-retry/terminal.raw",
+    "bytes": 20251,
+    "sha256": "ebbe36db1824ac8eb78aa2ba613f7427a1ed02c8b22c57fb8ca65abe7b70794d",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-retry.command.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-retry.command.json",
+    "bytes": 241,
+    "sha256": "8c4e5916f26e907455d87ab41993c4929e7048fe28726e1a8288da6dbee2b481",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-retry.rc",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-retry.rc",
+    "bytes": 2,
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-retry.stderr",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-retry.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty-retry.stdout",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty-retry.stdout",
+    "bytes": 34520,
+    "sha256": "47a5c5cd9a9c415ca6bfb7f569fc527c315efefe55861424ac599e5383aa50b5",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty.command.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty.command.json",
+    "bytes": 235,
+    "sha256": "43ccca46867cc57ba3ea271c2302ae30b4e355eb0d2531778d27fe6324721686",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty.rc",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty.rc",
+    "bytes": 2,
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty.stderr",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/bench-pty.stdout",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/bench-pty.stdout",
+    "bytes": 34466,
+    "sha256": "2ac078cb746acf6504b551bbbecad3394216dd170788fed254bd500ac14575c9",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/capture-delivery.command.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/capture-delivery.command.json",
+    "bytes": 174,
+    "sha256": "cc84a910721b6b7672e1c09439feb963c92cf2a207cdc0980c7506363591cdfe",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/capture-delivery.rc",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/capture-delivery.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/capture-delivery.stderr",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/capture-delivery.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/capture-delivery.stdout",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/capture-delivery.stdout",
+    "bytes": 260,
+    "sha256": "df00c1670b155cfcdbf71578279afdb26a804fb276ec4655f7112a262456c28d",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/capture-mock.command.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/capture-mock.command.json",
+    "bytes": 174,
+    "sha256": "ef5c99b24b29c572d06f50467732b1abb44586728752f273d9b09648486520f9",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/capture-mock.rc",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/capture-mock.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/capture-mock.stderr",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/capture-mock.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/capture-mock.stdout",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/capture-mock.stdout",
+    "bytes": 260,
+    "sha256": "df00c1670b155cfcdbf71578279afdb26a804fb276ec4655f7112a262456c28d",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/capture_mock.py",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/capture_mock.py",
+    "bytes": 1433,
+    "sha256": "9983122af469231741da4fa7c18b4317c8430a077c7fbf13e65415aa04d7bdca",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/changed-sourcehash.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/changed-sourcehash.json",
+    "bytes": 602,
+    "sha256": "01bb14587cda7c5704adab688a9379ec678484940cc09f698e7acffe6345803e",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/delivery-index.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/delivery-index.json",
+    "bytes": 1735,
+    "sha256": "864fb6c5b1aef9d1a657b71a793c13ff36883d4ff6f1c3c3287f360c11709bb6",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/final-owned.diff",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/final-owned.diff",
+    "bytes": 28499,
+    "sha256": "e4669c46cf637b6d7113e02a351f7111ff5bf073762246e805826e321d3c7b30",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/final-sourcehash.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/final-sourcehash.json",
+    "bytes": 1924,
+    "sha256": "cacbac07a9caec7faaeb473ce4b743510fcf805de118992dfa9c48fd2cb6297c",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/first-full.command.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/first-full.command.json",
+    "bytes": 233,
+    "sha256": "a1c73a9278e8ef3e699353983c2dc0e58250043ee0f1559aaa76dd80db15af4c",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/first-full.rc",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/first-full.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/first-full.stderr",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/first-full.stderr",
+    "bytes": 316,
+    "sha256": "747e8b254d182e921fa6ca343a4b9f91f265eba818e01fe66de1d44901b93e40",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/first-full.stdout",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/first-full.stdout",
+    "bytes": 4268,
+    "sha256": "c5a5d5e6c2e12e5d724b68d5f40c3422f3ee4c939fd768b52f7356087759980a",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/initial-owned.diff",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/initial-owned.diff",
+    "bytes": 7511,
+    "sha256": "0c9905f40d91af28f1476ed3dbce74ea24dbc2164d0651b3268adc3de65f3330",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/initial-sourcehash.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/initial-sourcehash.json",
+    "bytes": 1805,
+    "sha256": "24908703d2dd7210fc582c8adc69d6120589a9e78e3c6723c65b3779de3bb27a",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/lost-first-ack.jsonl",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/lost-first-ack.jsonl",
+    "bytes": 6004,
+    "sha256": "99d751104ea9059cf163535982af8497a35d897feebd778bd367a3e1fbf35f10",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/lost-first-ack.wire.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/lost-first-ack.wire.json",
+    "bytes": 11511,
+    "sha256": "9160a4d90b3ef604e8dd7500d34976189c52073785bc15b299d778585f1a7565",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-delivery-retry.command.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-delivery-retry.command.json",
+    "bytes": 233,
+    "sha256": "5f242a601a243ed65b12b05527c8effc612aabb6275cfb88b32c886b483b44f0",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-delivery-retry.rc",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-delivery-retry.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-delivery-retry.stderr",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-delivery-retry.stderr",
+    "bytes": 342,
+    "sha256": "dfe89bb5b47d44f89ae9b087bee4b06c1aafaec5aca6cbd4289532e8fc78e84c",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-delivery-retry.stdout",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-delivery-retry.stdout",
+    "bytes": 4654,
+    "sha256": "810b0d473c9480deed9b9659e3b7f07f180d6dfbaafb35418ea09d2c3878a93e",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-delivery.command.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-delivery.command.json",
+    "bytes": 233,
+    "sha256": "f893046d47aa150266cf33cb8c36cd4eaa6c31c85094bffedced87df3f8049e1",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-delivery.rc",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-delivery.rc",
+    "bytes": 2,
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-delivery.stderr",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-delivery.stderr",
+    "bytes": 51301,
+    "sha256": "9b26d85b8a1fcb03733af194c1ab0faa1a6d39982de0523c08f82df8a9199cfc",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-delivery.stdout",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-delivery.stdout",
+    "bytes": 4539,
+    "sha256": "dfbf5f069ba19522d9b6dc8f7a1465cda2170a34a5e0b98b9090d59933830dc5",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-final-after-help.command.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-final-after-help.command.json",
+    "bytes": 233,
+    "sha256": "21b9e5c6d99a6768fb507719c593f84127347b959143af59ce4bffa14eecd6bb",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-final-after-help.rc",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-final-after-help.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-final-after-help.stderr",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-final-after-help.stderr",
+    "bytes": 337,
+    "sha256": "910b95c23f488fc14a1481f69052afb43b94f1654a6b3b5b6502e474200e3270",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-final-after-help.stdout",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-final-after-help.stdout",
+    "bytes": 4654,
+    "sha256": "8102a8a2e81c52b7d6039890d52f2c620f602a5fb8cb640b7699f967fc131145",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-final.command.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-final.command.json",
+    "bytes": 233,
+    "sha256": "a78d5c537243def05ccd9a789af60b8ac957a37e6a0f5c8fdc228e185911426a",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-final.rc",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-final.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-final.stderr",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-final.stderr",
+    "bytes": 337,
+    "sha256": "6646a847e239207620d66b78e157307785c9954d9200d328568cfb4d8bb7c7f7",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-final.stdout",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-final.stdout",
+    "bytes": 4654,
+    "sha256": "4ab48d08259132aef84d71c7a86d214d2a67e9551a8c3178d56cbc349b56b468",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-frozen.command.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-frozen.command.json",
+    "bytes": 233,
+    "sha256": "6598b69d9f3af20f18617c8a6cefa216b059d2990489dd293e131a943c6e3b8c",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-frozen.rc",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-frozen.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-frozen.stderr",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-frozen.stderr",
+    "bytes": 341,
+    "sha256": "190ce2e86cead46e6b7dc591988adb72106b0edf8a60e0a00d33f455e3c93072",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/model-frozen.stdout",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/model-frozen.stdout",
+    "bytes": 4654,
+    "sha256": "602f9f0a9f0aa5b028c5913841e8c1aced0680d5a1bff8a2a9cd40beba2cab5f",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/nominal.jsonl",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/nominal.jsonl",
+    "bytes": 9189,
+    "sha256": "5c1502a2976b21b65a6fbe09eccff2936d39a8de963907004f23b24811275e1a",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/nominal.wire.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/nominal.wire.json",
+    "bytes": 17104,
+    "sha256": "27cbf62b80c1c649b917cf835927dff17f08587277342338bff838d43e0380ea",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/prepare-directed-final.command.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/prepare-directed-final.command.json",
+    "bytes": 249,
+    "sha256": "7cc19765dc3d9164a194c014a42ee705410c674a06ef41cbc8e23bbec183c78c",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/prepare-directed-final.rc",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/prepare-directed-final.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/prepare-directed-final.stderr",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/prepare-directed-final.stderr",
+    "bytes": 1923,
+    "sha256": "7927cdffad1a93141842c5777c3e55d410edf0b5e7b63f62acd980a94e564865",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/prepare-directed-final.stdout",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/prepare-directed-final.stdout",
+    "bytes": 386,
+    "sha256": "6ddf262747fd0c350434f3fda9c963dec01f060576dc873f0aaf8ed867aea4ac",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/prepare-final.command.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/prepare-final.command.json",
+    "bytes": 249,
+    "sha256": "b1133b396547c976086584d7c25b0d0a16094a59d48698222da9a1b98a6101a7",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/prepare-final.rc",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/prepare-final.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/prepare-final.stderr",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/prepare-final.stderr",
+    "bytes": 1629,
+    "sha256": "e507778c0e234f81f2107a346a1c072f8a865cb60b6fe4650df87ce4b41424ae",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/prepare-final.stdout",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/prepare-final.stdout",
+    "bytes": 386,
+    "sha256": "6ddf262747fd0c350434f3fda9c963dec01f060576dc873f0aaf8ed867aea4ac",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/prepare-first.command.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/prepare-first.command.json",
+    "bytes": 249,
+    "sha256": "72a45b9e0824442e9cdc8bc4069fa1f7dbc91d72e6b8a6b294e427ce802fecb6",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/prepare-first.rc",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/prepare-first.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/prepare-first.stderr",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/prepare-first.stderr",
+    "bytes": 2331,
+    "sha256": "5ec32baaae358efd9e0b4661afac91afe2e65283c564c3fc40b923d95170c0cc",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/prepare-first.stdout",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/prepare-first.stdout",
+    "bytes": 501,
+    "sha256": "4daae40c0bbb90c74067be69ddc7d32881090a87f9db04cde26ce8064130baeb",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/record.py",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/record.py",
+    "bytes": 686,
+    "sha256": "5f07e171d4eb27106baaf1ab1337e98ac40b2c6c12e95a4ef120d6e41358b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/review-fix-directed.command.json",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/review-fix-directed.command.json",
+    "bytes": 249,
+    "sha256": "995be84f3994d17deab96a117ecd0970c611e2690400ca8220c60aa15623cbda",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/review-fix-directed.rc",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/review-fix-directed.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/review-fix-directed.stderr",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/review-fix-directed.stderr",
+    "bytes": 2310,
+    "sha256": "36891e08eb7b4917ec9ffb182ebbd6f2e6e6b6785402a688cca1cf8535be84fc",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/imported-implementation-evidence/review-fix-directed.stdout",
+    "copy": "initial-local-snapshot/acceptance/imported-implementation-evidence/review-fix-directed.stdout",
+    "bytes": 386,
+    "sha256": "6ddf262747fd0c350434f3fda9c963dec01f060576dc873f0aaf8ed867aea4ac",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/index-final.json",
+    "copy": "initial-local-snapshot/acceptance/index-final.json",
+    "bytes": 9305,
+    "sha256": "dc81bc03c5400c9e3e0b3b3249c12e95041ab6ffd3c10b25228db6b8c31954b8",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/run.py",
+    "copy": "initial-local-snapshot/acceptance/run.py",
+    "bytes": 689,
+    "sha256": "ff494ed9353096704bf3c082ada4926da29f1c5c5aa49e9cf9bdd0b4479e0fad",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/source-sha256-final.json",
+    "copy": "initial-local-snapshot/acceptance/source-sha256-final.json",
+    "bytes": 7841,
+    "sha256": "035a504cc0a3523ddafeb60e69b9cca2d251f780765bca0533bf570b5ab96da0",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-prepare-acceptance-20261017/验收说明.md",
+    "copy": "initial-local-snapshot/acceptance/验收说明.md",
+    "bytes": 2610,
+    "sha256": "dfa55d1dfcfdf79abd1110ead636328808cc83c412ed20553ae3469bc769720d",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/evidence-sha256.json",
+    "copy": "initial-local-snapshot/motion/evidence-sha256.json",
+    "bytes": 6906,
+    "sha256": "8f01605e0ca60739faba645a7d3dadde6850f95eb5a4c90f82f2a7e9ade805fd",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/final-pty-success/app-audit.jsonl",
+    "copy": "initial-local-snapshot/motion/final-pty-success/app-audit.jsonl",
+    "bytes": 191489,
+    "sha256": "8d5b6ada7836d1930827d588eb79a98bba8ebafad4f1ae44b3b8d8b2bed8b57e",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/final-pty-success/command.json",
+    "copy": "initial-local-snapshot/motion/final-pty-success/command.json",
+    "bytes": 463,
+    "sha256": "a7096be0f0eecbea326b0216673e9266e74d11069ad894759c6be99bcdf29bfa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/final-pty-success/keys.jsonl",
+    "copy": "initial-local-snapshot/motion/final-pty-success/keys.jsonl",
+    "bytes": 1262,
+    "sha256": "2e2acdfd3af6c34572061359bdaf156556aecb6e6422d112f6d61035f65daaf9",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/final-pty-success/lower.screen.json",
+    "copy": "initial-local-snapshot/motion/final-pty-success/lower.screen.json",
+    "bytes": 147,
+    "sha256": "0cb053b9a388d89306a3b76116817e1206ac9335aa9e4a49bebd094951c38b18",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/final-pty-success/lower.screen.txt",
+    "copy": "initial-local-snapshot/motion/final-pty-success/lower.screen.txt",
+    "bytes": 6980,
+    "sha256": "65e244eeeef5ae85446594d0efbfbc16cfaff98bf7ea00ab712e86dcc06c0c4f",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/final-pty-success/od.screen.json",
+    "copy": "initial-local-snapshot/motion/final-pty-success/od.screen.json",
+    "bytes": 144,
+    "sha256": "f488fbdc52c5905953d14921bd4031189124f00bf5d872001d028b95c0404935",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/final-pty-success/od.screen.txt",
+    "copy": "initial-local-snapshot/motion/final-pty-success/od.screen.txt",
+    "bytes": 6977,
+    "sha256": "373b2392ff6829f10923fd2307576614db883d4435b11fbd6c1910b43cb6791e",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/final-pty-success/overview.screen.json",
+    "copy": "initial-local-snapshot/motion/final-pty-success/overview.screen.json",
+    "bytes": 150,
+    "sha256": "cd7837052d856e31622d8076837c78ed5b7ebd21c8ce602fbe9a74024883e580",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/final-pty-success/overview.screen.txt",
+    "copy": "initial-local-snapshot/motion/final-pty-success/overview.screen.txt",
+    "bytes": 7351,
+    "sha256": "ce51a601319949039f63ea81b02201611915a84d2150b48ae85bacbbb145f0cb",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/final-pty-success/startup.screen.json",
+    "copy": "initial-local-snapshot/motion/final-pty-success/startup.screen.json",
+    "bytes": 149,
+    "sha256": "e9cb5a15638cd4f277bb3322533cc52b87bbae0067c9dfee43462f36df65139d",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/final-pty-success/startup.screen.txt",
+    "copy": "initial-local-snapshot/motion/final-pty-success/startup.screen.txt",
+    "bytes": 7039,
+    "sha256": "22fd141c6ab51539294b0d51c013a5256fcdd70856db81e28d9ebd92705e62f9",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/final-pty-success/terminal.raw",
+    "copy": "initial-local-snapshot/motion/final-pty-success/terminal.raw",
+    "bytes": 13771,
+    "sha256": "a655ae8d769db9785f019e1a0d02627085a9b6a14aa928f5b29016c2dbbf36b8",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/initial-syntax-check.json",
+    "copy": "initial-local-snapshot/motion/initial-syntax-check.json",
+    "bytes": 443,
+    "sha256": "cd9c6885a77af26fc0eef65e0335ebf21423f4a2a448f2cce27ba11ab141bc2c",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/mock_app.py",
+    "copy": "initial-local-snapshot/motion/mock_app.py",
+    "bytes": 8351,
+    "sha256": "9af377e4f3d0197aa88ac24e0d31e512b89f68621f351ce145de6c948de7c983",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/pty_runner.py",
+    "copy": "initial-local-snapshot/motion/pty_runner.py",
+    "bytes": 6277,
+    "sha256": "a61bc37d9991671906748dd4c074a5d5ccfd0760cd6ccaf029bfa1e9c0ec916d",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/app-audit.jsonl",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/app-audit.jsonl",
+    "bytes": 1470078,
+    "sha256": "be671963c6522a07804b428b8ea0c05ca7c35155ea627990c7f7299353e6614b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/command.json",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/command.json",
+    "bytes": 451,
+    "sha256": "650bf27c042145a5d5751ef71603bbb3add3fcb295e0f37804e4bc2b02f76bf7",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/keys.jsonl",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/keys.jsonl",
+    "bytes": 2929,
+    "sha256": "24e49cc41164375396aa4125cbbe80a50b383e1c168f95e82a5ce6e9c1c48576",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/mock-trace.json",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/mock-trace.json",
+    "bytes": 150003,
+    "sha256": "385c3c542df2fa0332b91eab3f32641c787738c57e0d300e4ed916c95db1c0d6",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/od-confirm.screen.json",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/od-confirm.screen.json",
+    "bytes": 152,
+    "sha256": "520abf05ae141c13f79907ea44712fb28f466aee4abe7a94e0be8acfbd0a7c36",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/od-confirm.screen.txt",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/od-confirm.screen.txt",
+    "bytes": 6977,
+    "sha256": "d0c1e6a3d46b02b51e3c53c964c8ce5e8242cf04b80f67df1e3f19d5ae33d283",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/overview.screen.json",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/overview.screen.json",
+    "bytes": 150,
+    "sha256": "68280bce208fb09827b0ffa921d4d6cf67fb042a7f60d2d272e4314e21111ed0",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/overview.screen.txt",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/overview.screen.txt",
+    "bytes": 7351,
+    "sha256": "b78ed72e740179ad134a11bb188e165a383a1ab071f49347dbfbfa23a1c99b54",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/pmp4010-motion-0105b5eeeeac40d09a3e399ed142c855.jsonl",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/pmp4010-motion-0105b5eeeeac40d09a3e399ed142c855.jsonl",
+    "bytes": 3030,
+    "sha256": "dcf3d22485ab0db2d4148e23c55d53feb145132f064ab0a7221ab6ff47d635dd",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/pmp4010-motion-23b5bf8898ec4455a8c3bf1c41385cca.jsonl",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/pmp4010-motion-23b5bf8898ec4455a8c3bf1c41385cca.jsonl",
+    "bytes": 9411,
+    "sha256": "14937ac2706c15d7a7b25da42782e55d0fb11eae9e474c9b07f551d632c13f48",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/pp-frozen.screen.json",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/pp-frozen.screen.json",
+    "bytes": 151,
+    "sha256": "d4041230ef30948af07ad9746860657d2a1455202c93efa794559f910715adcd",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/pp-frozen.screen.txt",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/pp-frozen.screen.txt",
+    "bytes": 7052,
+    "sha256": "c0d6fbafd51327c28e816e0b9dd8aa9776a163ff964c82961412d6e40977d716",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/pp-preview.screen.json",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/pp-preview.screen.json",
+    "bytes": 152,
+    "sha256": "3b850292d2f8cab033ee9040bd23d5ea178b18e4fb1e0f3f7738c150ca505d1d",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/pp-preview.screen.txt",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/pp-preview.screen.txt",
+    "bytes": 7050,
+    "sha256": "a083ca7495d933687aabbc66161a57eb47e7263a1d1db318dac00a0beb286b59",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/pp-result.screen.json",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/pp-result.screen.json",
+    "bytes": 151,
+    "sha256": "0d07ee298dc533d1f8eadcf11f6c82a1cded068579e591477ebd70c557b99f68",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/pp-result.screen.txt",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/pp-result.screen.txt",
+    "bytes": 7043,
+    "sha256": "437cfe88fe96d5a77ef31322ef86c20399aed51e7c65bc02cfc09d9399cddd15",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/prepare-frozen.screen.json",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/prepare-frozen.screen.json",
+    "bytes": 156,
+    "sha256": "4aba7ee402ac74727d68cdc9f439acce88b2aeebaf30408abbbfb21f9cd7632e",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/prepare-frozen.screen.txt",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/prepare-frozen.screen.txt",
+    "bytes": 7140,
+    "sha256": "8a85daa601fe0f9960b3ddd5c2d7683988f731655d14ba9a5ad5f0b670d05e73",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/prepare-preview.screen.json",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/prepare-preview.screen.json",
+    "bytes": 157,
+    "sha256": "c514a36edb0c3cbbfd76aff98cc39873f654dd6d53c0c85754fa27e21541cc6b",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/prepare-preview.screen.txt",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/prepare-preview.screen.txt",
+    "bytes": 7128,
+    "sha256": "af5fccf52f332b308735a5a3990a4693bcb3e5a5ffd71f5b36f927eb82526d0f",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/prepare-result.screen.json",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/prepare-result.screen.json",
+    "bytes": 156,
+    "sha256": "62d9ee48fb5a4ab2326b8e35d6733d45dfe451bf530dc51f30be926e601de861",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/prepare-result.screen.txt",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/prepare-result.screen.txt",
+    "bytes": 7043,
+    "sha256": "c766b804f9e0e6d4605bf93c26b03f6963f12581d141931ba9e04281fd26e27a",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/runner-source/mock_app.py",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/runner-source/mock_app.py",
+    "bytes": 8174,
+    "sha256": "28942a910e58134f7ca58df4c0b0cad6362837c9a08bdfca0c76a341c1c600aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/runner-source/pty_runner.py",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/runner-source/pty_runner.py",
+    "bytes": 6088,
+    "sha256": "b6f93b20bd75be5840e9383e80891a5cec9b0f45ffc38f70a9222857cc56ff0a",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/runner-source/verify_rehearsal.py",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/runner-source/verify_rehearsal.py",
+    "bytes": 5223,
+    "sha256": "6bf56547c1e7a854bd7a57f6e44d00fed52298859a4d5f0795b057cd7f0f9c5e",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/setting-lower.screen.json",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/setting-lower.screen.json",
+    "bytes": 155,
+    "sha256": "bcdecbe6800290e5e38d48df5d240d14b5e7b53d82e244eace2cbd9297afbc67",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/setting-lower.screen.txt",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/setting-lower.screen.txt",
+    "bytes": 6983,
+    "sha256": "6b8aa90cf10dbba34527f1a7cad7743856cd881e59cc2018885cfc664abe48bf",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/startup-rt.screen.json",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/startup-rt.screen.json",
+    "bytes": 152,
+    "sha256": "f7e2c266142788bc0d2636cdb086cc78d588aec615ea5beea59f00766469bf38",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/startup-rt.screen.txt",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/startup-rt.screen.txt",
+    "bytes": 7039,
+    "sha256": "22fd141c6ab51539294b0d51c013a5256fcdd70856db81e28d9ebd92705e62f9",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/terminal.raw",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/terminal.raw",
+    "bytes": 24130,
+    "sha256": "57825a3ce3b3919cd2575f29b3b28bead45818584eea7712a400bc485f2c2ff6",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/verification-attempt1.command.json",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/verification-attempt1.command.json",
+    "bytes": 209,
+    "sha256": "8f4a8056605c38a6c3d6b1a5397dfa93817446722bbb4c34586efe3ffd46ea92",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/verification-attempt1.rc",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/verification-attempt1.rc",
+    "bytes": 2,
+    "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/verification-attempt1.stderr",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/verification-attempt1.stderr",
+    "bytes": 389,
+    "sha256": "0fcc3701567ba949345ec1c74eeea2e92f57fcf88b2a12ae0894e847b37200c8",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/verification-attempt1.stdout",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/verification-attempt1.stdout",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/verification-attempt2.command.json",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/verification-attempt2.command.json",
+    "bytes": 174,
+    "sha256": "01a3716ad28fbc6c20dbdbad9f1e8d803bc48035e6f654a18651caca29387126",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/verification-attempt2.rc",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/verification-attempt2.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/verification-attempt2.stderr",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/verification-attempt2.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/verification-attempt2.stdout",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/verification-attempt2.stdout",
+    "bytes": 2634,
+    "sha256": "ca49d56dc9d21de01ffcdad38cb7fc68e0eb99f955c9793099d77933e4cd0735",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/rehearsal-1/verification.json",
+    "copy": "initial-local-snapshot/motion/rehearsal-1/verification.json",
+    "bytes": 2634,
+    "sha256": "ca49d56dc9d21de01ffcdad38cb7fc68e0eb99f955c9793099d77933e4cd0735",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/verify_rehearsal.py",
+    "copy": "initial-local-snapshot/motion/verify_rehearsal.py",
+    "bytes": 5223,
+    "sha256": "6bf56547c1e7a854bd7a57f6e44d00fed52298859a4d5f0795b057cd7f0f9c5e",
+    "source_unchanged_during_copy": true
+  },
+  {
+    "source": "/tmp/km3-pp-motion-20261017/操作计划.md",
+    "copy": "initial-local-snapshot/motion/操作计划.md",
+    "bytes": 6162,
+    "sha256": "65362b982c410b7c4958885352c8637a594caf0847fcaf80f8b03665df57a3ab",
+    "source_unchanged_during_copy": true
+  }
+]

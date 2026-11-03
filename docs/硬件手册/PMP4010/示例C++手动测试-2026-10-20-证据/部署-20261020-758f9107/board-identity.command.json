@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=8",
+    "root@192.168.0.188",
+    "python3 -I -B -c 'import os, platform, pathlib, subprocess, json\nprint('\"'\"'hostname='\"'\"'+platform.node())\nprint('\"'\"'machine_id='\"'\"'+pathlib.Path('\"'\"'/etc/machine-id'\"'\"').read_text().strip())\nprint('\"'\"'architecture='\"'\"'+platform.machine())\nprint('\"'\"'glibc='\"'\"'+os.confstr('\"'\"'CS_GNU_LIBC_VERSION'\"'\"'))\nprint(pathlib.Path('\"'\"'/etc/os-release'\"'\"').read_text())\nprint(subprocess.check_output(['\"'\"'df'\"'\"','\"'\"'-h'\"'\"','\"'\"'/opt/km3/hwtools'\"'\"'],text=True))\nprint('\"'\"'target_exists='\"'\"'+str(pathlib.Path('\"'\"'/opt/km3/hwtools/pmp4010-cpp-test-20261020-758f9107'\"'\"').exists()))\nassert platform.machine()=='\"'\"'aarch64'\"'\"'\nversion=tuple(map(int,os.confstr('\"'\"'CS_GNU_LIBC_VERSION'\"'\"').split()[-1].split('\"'\"'.'\"'\"')))\nassert version >= (2,34)\n'"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "start": "2026-10-20T10:36:58.492802+08:00",
+  "end": "2026-10-20T10:36:58.768015+08:00",
+  "rc": 0
+}

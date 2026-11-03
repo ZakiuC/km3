@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "/usr/bin/python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pp-motion-20261017/mock_app.py",
+    "--output-dir",
+    "/tmp/km3-pp-motion-20261017/final-pty-success"
+  ],
+  "cwd": "/tmp/km3-pp-motion-20261017/final-pty-success",
+  "environment": {
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "TERM": "xterm",
+    "ESCDELAY": "25"
+  },
+  "mode": "local_mock_only",
+  "utc": "2026-10-17T08:25:08.613871+00:00",
+  "monotonic": 4081380.676183235
+}

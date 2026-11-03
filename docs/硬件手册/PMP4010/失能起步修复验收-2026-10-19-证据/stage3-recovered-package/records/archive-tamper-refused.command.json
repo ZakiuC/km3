@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/stage3-recovered-package/roundtrip/load_smoke.py",
+    "--library",
+    "/home/zakiu/km3/build-host/libpmp4010_velocity.so"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

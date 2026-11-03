@@ -1,0 +1,14 @@
+test_default_plan_has_no_ssh (__main__.Checks) ... ok
+test_failed_motion_preserves_rc_no_after_no_reentry (__main__.Checks) ... ok
+test_hash_change_blocks_before_any_ssh (__main__.Checks) ... ok
+test_missing_stage_receipt_blocks_before_ssh (__main__.Checks) ... ok
+test_normal_success_collects_after_only_once (__main__.Checks) ... ok
+test_passive_change_consumes_chance_without_motion (__main__.Checks) ... ok
+test_remote_hash_mismatch_no_bootstrap_no_attempt (__main__.Checks) ... ok
+test_remote_wrapper_single_execution_with_synthetic_files (__main__.Checks) ... ok
+test_zero_exit_without_disable_confirmation_no_after (__main__.Checks) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.111s
+
+OK

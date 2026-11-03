@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "confirm_screen_matches_pending": true,
+  "actual_sdo_download_begin": 0,
+  "token_typed": false,
+  "prepared_motion_target": -1434,
+  "review_start": -1470,
+  "screen_sha256": "032e8d9aa00cb0967b793261c62eb73910e395602a7283242d9e44c9529f33f6",
+  "motion_journal": "pmp4010-motion-168074b07518464b8aeb300f13b26c1f.jsonl",
+  "operator_session_id": 92853
+}

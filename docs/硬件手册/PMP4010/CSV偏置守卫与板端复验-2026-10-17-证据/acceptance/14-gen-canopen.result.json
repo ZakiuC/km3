@@ -1,0 +1,13 @@
+{
+  "name": "14-gen-canopen",
+  "argv": [
+    "python3",
+    "-I",
+    "tools/hwdriver/gen-canopen.py",
+    "--check"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 0.016078424639999866,
+  "stdout": "/tmp/km3-csv-guard-final-20261017/14-gen-canopen.stdout.log",
+  "stderr": "/tmp/km3-csv-guard-final-20261017/14-gen-canopen.stderr.log"
+}

@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "file",
+    "-L",
+    "/tmp/km3-pmp4010-board-20261017-csvguard-final-package/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

@@ -1,0 +1,54 @@
+{
+  "cwd": "/home/zakiu/km3",
+  "commands": [
+    {
+      "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p '_test_manual.py' -k enabled_target_rewrite_hypothesis",
+      "exit_code": 1,
+      "log": "oldfail.log",
+      "source": "pmp4010_manual.before.py"
+    },
+    {
+      "command": "python3 -I docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/old-repro.py",
+      "exit_code": 1,
+      "expected_exit_code": 1,
+      "log": "old-repro-expected-failure.log",
+      "classification": "intentional pre-fix reproduction; isolated import of saved c20f manual, no source overwrite"
+    },
+    {
+      "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p '_test_manual.py' -k enabled_target_rewrite_hypothesis",
+      "exit_code": 0,
+      "log": "newpass.log"
+    },
+    {
+      "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p '_test_manual.py'",
+      "exit_code": 0,
+      "tests": 52,
+      "log": "manual-first.log"
+    },
+    {
+      "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p '_test_simple.py'",
+      "exit_code": 0,
+      "tests": 18,
+      "log": "simple-first.log"
+    },
+    {
+      "command": "python3 -I device/drivers/pmp4010/tools/_test_simple_pty.py --run docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty",
+      "exit_code": 0,
+      "checks": 34,
+      "log": "simple-pty.log"
+    },
+    {
+      "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p '_test_manual.py' -k enabled_edge_behavior",
+      "exit_code": 0,
+      "tests": 1,
+      "log": "journal-check.log"
+    }
+  ],
+  "changes": "Five files changed this round; _test_manual_pty.py unchanged from previous freeze, included for acceptance identity",
+  "model_limit": "require_enabled_target intentionally models data invalidation at enable; this is an explicit controlled protocol hypothesis, not a verified PMP4010 firmware fact",
+  "limits": [
+    "Offline MockBus/PTY only; real CAN sockets prohibited by fixtures",
+    "No full engineering gates, board, SSH, CAN, deployment, commit, harness or architecture access in this worker"
+  ],
+  "cleanup": "Public PTY child exited normally; unittest TemporaryDirectory fixtures cleaned; evidence retained"
+}

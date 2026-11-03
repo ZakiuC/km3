@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "scp",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "/tmp/km3-pp-motion-20261017/board_app.py",
+    "root@192.168.0.188:/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/board_app.py"
+  ],
+  "utc": "2026-10-17T08:29:33.553037+00:00"
+}

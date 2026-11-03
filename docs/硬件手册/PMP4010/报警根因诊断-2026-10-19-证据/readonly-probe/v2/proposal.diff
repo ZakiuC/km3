@@ -1,0 +1,11 @@
+--- frozen-294626/readonly_once.py
++++ proposal-v2/readonly_once.py
+@@ -207,7 +207,7 @@
+     try:
+         sock.setsockopt(101, 3, 0)  # CAN_RAW_LOOPBACK: disabled.
+         sock.setsockopt(101, 4, 0)  # CAN_RAW_RECV_OWN_MSGS: disabled.
+-        sock.setsockopt(101, 1, struct.pack('=II', 0x581, 0xFFFFFFFF))
++        sock.setsockopt(101, 1, struct.pack('=II', 0x581, 0xC00007FF))
+         sock.setsockopt(101, 2, struct.pack('=I', 0x1FFFFFFF))  # Fail on received error frame.
+         sock.bind(('can1',))
+         probe(sock, co, cb)

@@ -1,0 +1,16 @@
+{
+  "name": "stage2-docs",
+  "argv": [
+    "bash",
+    "tools/check-docs.sh"
+  ],
+  "shell_command": "bash tools/check-docs.sh",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T01:22:16.080310+00:00",
+  "duration_seconds": 0.5054084351286292,
+  "returncode": 0,
+  "stdout": "stage2-docs.stdout.log",
+  "stderr": "stage2-docs.stderr.log",
+  "stdout_sha256": "acead6b72895a21cb208a3dae4052bed680fbbddaf474be9dc63602adb8b5a8f",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

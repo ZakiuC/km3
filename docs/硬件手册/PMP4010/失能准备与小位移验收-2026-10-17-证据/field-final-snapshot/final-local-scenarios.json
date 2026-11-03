@@ -1,0 +1,59 @@
+{
+  "result": "PASS",
+  "bench_sha256": "fbe69ec63e58fb30f49866f48f93d01e14c15a8b129866c9fba6f292fa7c974f",
+  "tui_sha256": "6ef77e2edbbfea5f579fa5db0996472a9932c9a1ddc3bd0118abd1a5ab7654b8",
+  "scenarios": [
+    {
+      "path": "final-pty-success",
+      "child_rc": 0,
+      "verification_rc": 0,
+      "commands": {
+        "argv": [
+          "/usr/bin/python3",
+          "-I",
+          "-B",
+          "/tmp/km3-pp-motion-20261017/mock_app.py",
+          "--output-dir",
+          "/tmp/km3-pp-motion-20261017/final-pty-success"
+        ],
+        "cwd": "/tmp/km3-pp-motion-20261017/final-pty-success",
+        "environment": {
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "TERM": "xterm",
+          "ESCDELAY": "25"
+        },
+        "mode": "local_mock_only",
+        "utc": "2026-10-17T08:25:08.613871+00:00",
+        "monotonic": 4081380.676183235
+      }
+    },
+    {
+      "path": "final-pty-bit10-zero",
+      "child_rc": 0,
+      "verification_rc": 0,
+      "commands": {
+        "argv": [
+          "/usr/bin/python3",
+          "-I",
+          "-B",
+          "/tmp/km3-pp-motion-20261017/mock_app.py",
+          "--output-dir",
+          "/tmp/km3-pp-motion-20261017/final-pty-bit10-zero",
+          "--keep-bit10-zero"
+        ],
+        "cwd": "/tmp/km3-pp-motion-20261017/final-pty-bit10-zero",
+        "environment": {
+          "LANG": "C.UTF-8",
+          "LC_ALL": "C.UTF-8",
+          "TERM": "xterm",
+          "ESCDELAY": "25"
+        },
+        "mode": "local_mock_only",
+        "utc": "2026-10-17T08:25:48.069121+00:00",
+        "monotonic": 4081420.131434404
+      }
+    }
+  ],
+  "hardware": false
+}

@@ -1,0 +1,11 @@
+--- before/pmp4010.py
++++ device/drivers/pmp4010/tools/pmp4010.py
+@@ -2220,7 +2220,7 @@
+     action.add_argument("--manual", action="store_true", help="单屏手动TUI：z软件零点、j相对/p绝对位置、f/b点动、Space/x快停；Enter确认单次动作")
+     p.add_argument("--manual-linear", action="store_true", help="仅--manual：直线机械测程，c设置mm/电机轴转；不设主机1度/会话行程限制，保留驱动限位与Int32保护")
+     p.add_argument("--manual-mm-per-rev", type=str, default=None, help="仅--manual-linear：每电机轴转对应的直线mm，正有限数或分数；缺省须在TUI用c设置")
+-    p.add_argument("--manual-velocity", type=int, default=None, help="仅--manual：手动轮廓速度U/s，默认1000；审阅显示rpm并核设备上限")
++    p.add_argument("--manual-velocity", type=int, default=None, help="仅--manual：手动轮廓速度U/s，默认1000；--manual-linear的s以mm/s设置，角度模式s以rpm设置；核设备上限")
+     action.add_argument("--calibrate", action="store_true", help="读取608F/6091四项标定；--apply只读设备，默认离线")
+     action.add_argument("--params", choices=["backup", "interpolation", "transmission", "rollback", "save"],
+                         help="参数备份/分批写/回滚/独立保存；默认离线dry-run，需OD闸门")

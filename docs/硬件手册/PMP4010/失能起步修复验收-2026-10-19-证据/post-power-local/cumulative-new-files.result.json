@@ -1,0 +1,22 @@
+{
+  "name": "cumulative-new-files",
+  "argv": [
+    "git",
+    "ls-files",
+    "--others",
+    "--exclude-standard",
+    "--",
+    "device/drivers/pmp4010",
+    "tools/hwtui",
+    "tools/hwdriver"
+  ],
+  "shell_command": "git ls-files --others --exclude-standard -- device/drivers/pmp4010 tools/hwtui tools/hwdriver",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:17:15.041033+00:00",
+  "duration_seconds": 0.002361035000035372,
+  "returncode": 0,
+  "stdout": "cumulative-new-files.stdout.log",
+  "stderr": "cumulative-new-files.stderr.log",
+  "stdout_sha256": "8016aec67add3f95069cdce7743020b4ce48b8395cdf1effb043b050ca64cfa0",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

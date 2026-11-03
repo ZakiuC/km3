@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "ctest",
+    "--test-dir",
+    "build-asan",
+    "--output-on-failure"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-20T00:50:30.346134+00:00"
+}

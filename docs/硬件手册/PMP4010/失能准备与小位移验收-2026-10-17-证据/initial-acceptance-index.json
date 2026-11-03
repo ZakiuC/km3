@@ -1,0 +1,198 @@
+[
+  {
+    "name": "01-hwtui.result",
+    "result": {
+      "returncode": 0,
+      "duration_seconds": 0.385695219039917
+    },
+    "command": {
+      "argv": [
+        "python3",
+        "-I",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools/hwtui",
+        "-p",
+        "test_*.py"
+      ],
+      "cwd": "/home/zakiu/km3"
+    }
+  },
+  {
+    "name": "02-tools-tests.result",
+    "result": {
+      "returncode": 0,
+      "duration_seconds": 0.4738740921020508
+    },
+    "command": {
+      "argv": [
+        "python3",
+        "-I",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools/tests",
+        "-p",
+        "test_*.py"
+      ],
+      "cwd": "/home/zakiu/km3"
+    }
+  },
+  {
+    "name": "03-check-drivers.result",
+    "result": {
+      "returncode": 0,
+      "duration_seconds": 0.026795387268066406
+    },
+    "command": {
+      "argv": [
+        "bash",
+        "tools/check-drivers.sh"
+      ],
+      "cwd": "/home/zakiu/km3"
+    }
+  },
+  {
+    "name": "04-check-docs.result",
+    "result": {
+      "returncode": 0,
+      "duration_seconds": 0.45502781867980957
+    },
+    "command": {
+      "argv": [
+        "bash",
+        "tools/check-docs.sh"
+      ],
+      "cwd": "/home/zakiu/km3"
+    }
+  },
+  {
+    "name": "05-check-deps.result",
+    "result": {
+      "returncode": 0,
+      "duration_seconds": 0.017847299575805664
+    },
+    "command": {
+      "argv": [
+        "bash",
+        "tools/check-deps.sh"
+      ],
+      "cwd": "/home/zakiu/km3"
+    }
+  },
+  {
+    "name": "06-check-manual-citations.result",
+    "result": {
+      "returncode": 0,
+      "duration_seconds": 0.08014941215515137
+    },
+    "command": {
+      "argv": [
+        "bash",
+        "tools/check-manual-citations.sh"
+      ],
+      "cwd": "/home/zakiu/km3"
+    }
+  },
+  {
+    "name": "07-gen-od.result",
+    "result": {
+      "returncode": 0,
+      "duration_seconds": 0.018131256103515625
+    },
+    "command": {
+      "argv": [
+        "python3",
+        "-I",
+        "tools/hwdriver/gen-od.py",
+        "--model",
+        "pmp4010",
+        "--check"
+      ],
+      "cwd": "/home/zakiu/km3"
+    }
+  },
+  {
+    "name": "08-gen-canopen.result",
+    "result": {
+      "returncode": 0,
+      "duration_seconds": 0.016782045364379883
+    },
+    "command": {
+      "argv": [
+        "python3",
+        "-I",
+        "tools/hwdriver/gen-canopen.py",
+        "--check"
+      ],
+      "cwd": "/home/zakiu/km3"
+    }
+  },
+  {
+    "name": "09-gen-access.result",
+    "result": {
+      "returncode": 0,
+      "duration_seconds": 0.01726508140563965
+    },
+    "command": {
+      "argv": [
+        "python3",
+        "-I",
+        "tools/hwdriver/gen-pmp4010-access.py",
+        "--check"
+      ],
+      "cwd": "/home/zakiu/km3"
+    }
+  },
+  {
+    "name": "10-verify-and-archive.result",
+    "result": {
+      "returncode": 0,
+      "duration_seconds": 0.1969280242919922
+    },
+    "command": {
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "/tmp/km3-pp-prepare-package-20261017/verify_and_archive.py"
+      ],
+      "cwd": "/home/zakiu/km3"
+    }
+  },
+  {
+    "name": "11-finalize.result",
+    "result": {
+      "returncode": 0,
+      "duration_seconds": 0.15892839431762695
+    },
+    "command": {
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "/tmp/km3-pp-prepare-package-20261017/finalize.py"
+      ],
+      "cwd": "/home/zakiu/km3"
+    }
+  },
+  {
+    "name": "12-final-freeze-check.result",
+    "result": {
+      "returncode": 0,
+      "duration_seconds": 0.0254971981048584
+    },
+    "command": {
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "/tmp/km3-pp-prepare-acceptance-20261017/freeze_check.py"
+      ],
+      "cwd": "/home/zakiu/km3"
+    }
+  }
+]

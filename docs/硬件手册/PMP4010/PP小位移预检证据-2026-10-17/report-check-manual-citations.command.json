@@ -1,0 +1,7 @@
+{
+  "argv": [
+    "bash",
+    "tools/check-manual-citations.sh"
+  ],
+  "utc": "2026-10-17T08:10:24.041713+00:00"
+}

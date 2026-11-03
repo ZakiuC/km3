@@ -1,0 +1,18 @@
+{
+  "rx": {
+    "bytes": 0,
+    "packets": 0,
+    "errors": 0,
+    "dropped": 0,
+    "over_errors": 0,
+    "multicast": 0
+  },
+  "tx": {
+    "bytes": 0,
+    "packets": 0,
+    "errors": 0,
+    "dropped": 0,
+    "carrier_errors": 0,
+    "collisions": 0
+  }
+}

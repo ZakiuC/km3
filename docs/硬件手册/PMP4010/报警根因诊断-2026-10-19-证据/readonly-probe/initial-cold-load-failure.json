@@ -1,0 +1,10 @@
+{
+  "status": "RETAINED_INITIAL_FAILURE",
+  "command": "python3 -I -B .../readonly-probe/verify_mock.py",
+  "rc": 1,
+  "error": "KeyError: 'canopen_consts'",
+  "cause": "canopen does not import canopen_consts; origin verification incorrectly assumed it was loaded",
+  "fix": "verify only three actually imported modules; still hash every manifest member",
+  "native_CAN_opens": 0,
+  "source": "observed tool output; this file records the error, not a raw process capture"
+}

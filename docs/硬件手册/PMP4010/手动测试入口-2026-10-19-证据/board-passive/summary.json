@@ -1,0 +1,59 @@
+{
+  "utc": "2026-10-19T03:19:31.014074+00:00",
+  "boot_id": "dc67bdcd-fa50-4927-8f9b-7207359c70af",
+  "comparison_source": "docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/second-trip-board/postcheck.stdout",
+  "compared_keys": [
+    "hostname",
+    "model",
+    "boot_id",
+    "device_id",
+    "config_sha",
+    "can_env_sha",
+    "current",
+    "services",
+    "can_rcvlists"
+  ],
+  "changed_keys": [],
+  "rt_processes": [
+    {
+      "pid": 600,
+      "cmdline": "/opt/km3/current/km3-rt-controller --config /etc/km3/device.json --require-config ",
+      "fds": {
+        "0": "/dev/null",
+        "1": "socket:[3640]",
+        "2": "socket:[3640]"
+      }
+    }
+  ],
+  "other_related_processes": [],
+  "can_link": {
+    "argv": [
+      "ip",
+      "-details",
+      "-statistics",
+      "-json",
+      "link",
+      "show",
+      "can1"
+    ],
+    "rc": 0,
+    "stdout": "[{\"ifindex\":3,\"ifname\":\"can1\",\"flags\":[\"NOARP\",\"UP\",\"LOWER_UP\",\"ECHO\"],\"mtu\":16,\"qdisc\":\"pfifo_fast\",\"operstate\":\"UP\",\"linkmode\":\"DEFAULT\",\"group\":\"default\",\"txqlen\":10,\"link_type\":\"can\",\"promiscuity\":0,\"min_mtu\":0,\"max_mtu\":0,\"linkinfo\":{\"info_kind\":\"can\",\"info_data\":{\"state\":\"ERROR-ACTIVE\",\"restart_ms\":0,\"bittiming\":{\"bitrate\":1000000,\"sample_point\":0.750,\"tq\":125,\"prop_seg\":2,\"phase_seg1\":3,\"phase_seg2\":2,\"sjw\":1},\"bittiming_const\":{\"name\":\"mcp251x\",\"tseg1\":{\"min\":3,\"max\":16},\"tseg2\":{\"min\":2,\"max\":8},\"sjw\":{\"min\":1,\"max\":4},\"brp\":{\"min\":1,\"max\":64},\"brp_inc\":1},\"clock\":8000000},\"info_xstats\":{\"restarts\":0,\"bus_error\":0,\"arbitration_lost\":0,\"error_warning\":0,\"error_passive\":0,\"bus_off\":0}},\"num_tx_queues\":1,\"num_rx_queues\":1,\"gso_max_size\":65536,\"gso_max_segs\":65535,\"parentbus\":\"spi\",\"parentdev\":\"spi0.1\",\"stats64\":{\"rx\":{\"bytes\":86993,\"packets\":10875,\"errors\":0,\"dropped\":0,\"over_errors\":0,\"multicast\":0},\"tx\":{\"bytes\":0,\"packets\":10870,\"errors\":0,\"dropped\":0,\"carrier_errors\":0,\"collisions\":0}}}]\n",
+    "stderr": ""
+  },
+  "rcvlists": {
+    "rcvlist_all": "\nreceive list 'rx_all':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_eff": "\nreceive list 'rx_eff':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_err": "\nreceive list 'rx_err':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_fil": "\nreceive list 'rx_fil':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_inv": "\nreceive list 'rx_inv':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_sff": "\nreceive list 'rx_sff':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n"
+  },
+  "no_CAN_socket_opened_by_snapshot": true,
+  "no_SDO_transmitted": true,
+  "cleanup": "No remote files created or processes changed; local evidence retained.",
+  "limits": [
+    "OS snapshot does not read motor state.",
+    "Process-name matching and receive lists do not prove the absence of every possible send-only external CAN client."
+  ],
+  "status": "PASSIVE_SNAPSHOT_COMPLETE"
+}

@@ -1,0 +1,7 @@
+{
+  "reason": "Parent requested default foreground + bold metric during acceptance; interrupted owned subprocesses and restart with final exact hashes",
+  "terminated_owned_pids": [
+    171771,
+    171767
+  ]
+}

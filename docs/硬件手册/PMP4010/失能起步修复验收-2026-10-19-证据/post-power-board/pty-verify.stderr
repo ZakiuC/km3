@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/post-power-board/verify_move_pty.py", line 16, in <module>
+    downloads=[x for x in audit if x['event']=='sdo_download_done'];clients={x['client_id'] for x in downloads};check(len(clients)==1,'single original client')
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/post-power-board/verify_move_pty.py", line 6, in check
+    if not v:raise AssertionError(msg)
+AssertionError: single original client

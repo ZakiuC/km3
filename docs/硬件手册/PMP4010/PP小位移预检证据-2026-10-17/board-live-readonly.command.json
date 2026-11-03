@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "ConnectTimeout=8",
+    "root@192.168.0.188",
+    "python3 -I -B /tmp/km3-pp-preflight-20261017-zmdDzVF8/preflight.py --source-root /tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload --live-read-only --i-know-rt-is-running --timeout 0.25"
+  ],
+  "utc": "2026-10-17T08:05:17.025280+00:00"
+}

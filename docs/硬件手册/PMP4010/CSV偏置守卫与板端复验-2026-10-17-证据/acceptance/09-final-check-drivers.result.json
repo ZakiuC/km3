@@ -1,0 +1,11 @@
+{
+  "name": "09-final-check-drivers",
+  "argv": [
+    "bash",
+    "tools/check-drivers.sh"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 0.02540716016665101,
+  "stdout": "/tmp/km3-csv-guard-final-20261017/09-final-check-drivers.stdout.log",
+  "stderr": "/tmp/km3-csv-guard-final-20261017/09-final-check-drivers.stderr.log"
+}

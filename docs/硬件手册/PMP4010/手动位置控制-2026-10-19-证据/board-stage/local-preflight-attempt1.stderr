@@ -1,0 +1,1 @@
+Local launcher literal assertion failed: scale is supplied via validated mm_per_rev=4 shell variable, not literal argument 4. No SSH attempted.

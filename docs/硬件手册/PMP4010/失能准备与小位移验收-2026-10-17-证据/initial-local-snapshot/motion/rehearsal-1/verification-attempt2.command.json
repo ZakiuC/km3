@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pp-motion-20261017/verify_rehearsal.py"
+  ],
+  "scope": "evidence-only verification; no PTY/operation rerun"
+}

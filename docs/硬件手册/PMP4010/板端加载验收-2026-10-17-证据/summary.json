@@ -1,0 +1,60 @@
+{
+  "result": {
+    "result": "PASS",
+    "native_vectors": 33,
+    "python_vectors": 33,
+    "native_int32_vectors": 14,
+    "forbidden_io_attempts": 0,
+    "hardware_acceptance": false
+  },
+  "imports": 16,
+  "before_after_identical": true,
+  "compared_file_count": 35,
+  "remote_directory": "/tmp/km3-pmp4010-load-20261017-qOtHjpDU",
+  "remote_cleanup": "intentionally retained for review",
+  "local_cleanup": "evidence and runner retained",
+  "routing": {
+    "requested_role": "laborer",
+    "requested_model": "gpt-6.1-sol",
+    "requested_effort": "medium",
+    "actual_model": "unknown",
+    "actual_effort": "unknown",
+    "actual_input_tokens": "unknown",
+    "conservative_input_estimate": "<35000; parent task packet and short execution context"
+  },
+  "command_exitcodes": {
+    "01-before": 1,
+    "01b-before": 0,
+    "02-mktemp": 0,
+    "03-scp": 0,
+    "04-verify-extract": 0,
+    "05-elf-ldd": 0,
+    "06-load-smoke": 0,
+    "07-after": 0,
+    "08-check-docs": 0,
+    "09-check-manual-citations": 0
+  },
+  "user_confirmed_target": {
+    "host": "192.168.0.188",
+    "interface": "can1",
+    "node": 1,
+    "can_node_accessed": false,
+    "field_safety_motion_mode_direction_limits": "pending user reply"
+  },
+  "documentation_gates": {
+    "08-check-docs": {
+      "argv": [
+        "bash",
+        "tools/check-docs.sh"
+      ],
+      "exitcode": 0
+    },
+    "09-check-manual-citations": {
+      "argv": [
+        "bash",
+        "tools/check-manual-citations.sh"
+      ],
+      "exitcode": 0
+    }
+  }
+}

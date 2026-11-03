@@ -1,0 +1,52 @@
+{
+  "result": "PASS",
+  "mode": "offline_verify_only",
+  "manifest_sha256": "3dfc3a5c10c13d4c3f49691f259a9a7097cc480f9cb6b604e34f0a554a97b2b5",
+  "sources": [
+    {
+      "path": "/tmp/km3-pp-prepare-package-20261017/payload/drivers/pmp4010/pmp4010.py",
+      "sha256": "2fca0b103544c29f78a79b9e349ec841db0e39abf8f39d9d910e57e47b1e0a1a"
+    },
+    {
+      "path": "/tmp/km3-pp-prepare-package-20261017/payload/drivers/pmp4010/pmp4010_bench.py",
+      "sha256": "fbe69ec63e58fb30f49866f48f93d01e14c15a8b129866c9fba6f292fa7c974f"
+    },
+    {
+      "path": "/tmp/km3-pp-prepare-package-20261017/payload/drivers/pmp4010/pmp4010_tui.py",
+      "sha256": "6ef77e2edbbfea5f579fa5db0996472a9932c9a1ddc3bd0118abd1a5ab7654b8"
+    },
+    {
+      "path": "/tmp/km3-pp-prepare-package-20261017/payload/drivers/pmp4010/pmp4010_position.py",
+      "sha256": "2b66e24bd8f96a1438cfa2078e8517da5069da9071bbc498d7e18d8ff72a1886"
+    },
+    {
+      "path": "/tmp/km3-pp-prepare-package-20261017/payload/drivers/pmp4010/pmp4010_params.py",
+      "sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec"
+    },
+    {
+      "path": "/tmp/km3-pp-prepare-package-20261017/payload/drivers/pmp4010/pmp4010_velocity.py",
+      "sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96"
+    },
+    {
+      "path": "/tmp/km3-pp-prepare-package-20261017/payload/hwtui/canopen.py",
+      "sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf"
+    },
+    {
+      "path": "/tmp/km3-pp-prepare-package-20261017/payload/hwtui/canbus.py",
+      "sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300"
+    },
+    {
+      "path": "/tmp/km3-pp-prepare-package-20261017/payload/hwtui/canopen_consts.py",
+      "sha256": "318e0a76ac7c96856be6ca55b7a99fd12d64913eed9e5cb23b10dff3b9372e1c"
+    },
+    {
+      "path": "/tmp/km3-pp-prepare-package-20261017/payload/hwtui/canopen_wire.py",
+      "sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885"
+    },
+    {
+      "path": "/tmp/km3-pp-prepare-package-20261017/payload/hwtui/tui.py",
+      "sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb"
+    }
+  ],
+  "actual_CAN_opens": 0
+}

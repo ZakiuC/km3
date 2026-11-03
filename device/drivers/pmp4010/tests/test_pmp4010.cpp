@@ -304,6 +304,7 @@ KM3_TEST(new_typed_and_bounded_apis_keep_the_global_zero_frame_guard) {
         KM3_CHECK_EQ(driver.GetOperationMode(node).code(), Pmp4010Driver::kOdGuardError);
         KM3_CHECK_EQ(driver.SetTargetPosition(node, -1).code(), Pmp4010Driver::kOdGuardError);
         KM3_CHECK_EQ(driver.SetTargetVelocity(node, -1).code(), Pmp4010Driver::kOdGuardError);
+        KM3_CHECK_EQ(driver.SetTargetVelocityRpm(node, -1).code(), Pmp4010Driver::kOdGuardError);
         KM3_CHECK_EQ(driver.GetActualPosition(node).code(), Pmp4010Driver::kOdGuardError);
         KM3_CHECK_EQ(driver.GetActualVelocity(node).code(), Pmp4010Driver::kOdGuardError);
     }

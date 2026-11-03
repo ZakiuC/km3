@@ -1,0 +1,45 @@
+--- 260e7f4b/controlled-forward.runner.py
++++ pending-new-payload/controlled-forward.runner.py
+@@ -21,8 +21,10 @@
+ import uuid
+ 
+ sys.dont_write_bytecode = True
+-EXPECTED_MANIFEST = '26c7f2bdcc7e3b79e899ab06b703561e6dca2c377983ab7454908de6d01c3e0d'
+-EXPECTED_PAYLOAD = Path('/var/tmp/km3-pmp4010-state-20261019-43b0b2355c3b/payload')
++# Preparation only: fill both with the reviewed new package before live use.
++# None intentionally rejects every live payload; never accept arbitrary paths.
++EXPECTED_MANIFEST = None
++EXPECTED_PAYLOAD = None
+ 
+ 
+ def require(value, message):
+@@ -35,6 +37,7 @@
+ 
+ 
+ def load_payload(root):
++    require(EXPECTED_MANIFEST is not None, '新业务包尚未冻结；禁止加载')
+     require(sha(root/'payload-manifest.json') == EXPECTED_MANIFEST, '冻结manifest不符')
+     manifest = json.loads((root/'payload-manifest.json').read_text())
+     for item in manifest['files']:
+@@ -190,9 +193,8 @@
+         row = ctl.row(1)
+         step, degrees, rpm = ctl.quantities(row)
+         require(step >= 1 and 0 < degrees <= Fraction('0.1'), '量化0.1度预算不符')
+-        # Tighten only the per-action budget; retain authorized origin +/-1deg
+-        # intersected with measured 607D limits from SimpleController.authorize.
+-        ctl.settings['max_displacement'] = step
++        # Keep the production authorize() one-degree budget and origin limits.
++        # Only the commanded step is 0.1deg; tracking may vary inside its guards.
+         review = ctl.review_action('forward', out)
+         session = review['session']
+         require(ctl.context == ('can1', 1000000), '实际controller接口不符')
+@@ -310,7 +312,8 @@
+     require(args.rt_reason.strip() and args.od_reason.strip(), '须显式提供会话理由')
+     root = args.payload.resolve(strict=True)
+     if args.mode == 'live':
+-        require(root == EXPECTED_PAYLOAD, 'live只允许已冻结43b包')
++        require(EXPECTED_PAYLOAD is not None and root == EXPECTED_PAYLOAD,
++                'live只允许已冻结的新业务包')
+         require(args.mock_repo is None and args.mock_library is None and args.mock_case == 'success',
+                 'live禁止mock覆盖')
+     args.output.mkdir(parents=True, exist_ok=False)

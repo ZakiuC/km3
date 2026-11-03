@@ -1,0 +1,18 @@
+{
+  "files": {
+    "motion_compare_once.py": "e530b81f231d3ccccca5df741ccc0f79ec410b9cf5569e517d14428ca7151202",
+    "pinned_payload.py": "d8d99ccffdf1b1cb3fc02669af2627243f9801b4fe8861cc39f18692af954a62",
+    "verify_mock.py": "ae8f1e770987a6348c03769c69aae060fff046db50d5ca8b374dcdbb9631a894",
+    "run_once_stdin.py": "6a7b205c47923e95860646c21241d15975a9423e027ecfe864348d391eafea96",
+    "README.md": "14f85288bbdee01e6502abf7cfffbb3ff8fba78aa7cd75cf00a3c8bce644d779",
+    "mock-results.json": "fcbdcd97bfa4c82b5944feb3fbc01365d7a842719076ed7beca75d75be175ae9",
+    "local-checks.json": "483dac24ed98822f76242453cc1f0cea79baf4e2fd777395d69b5913d75628d5",
+    "command-index.json": "5b53ddf81a523a41a5d7f8521b04b862c301933a8f6e7906837e875b97b52853",
+    "plan.stdout": "ad2915f499adf20463a74e18d400cfb168dcdf165baa20d3353b3da38a0a90ee",
+    "plan.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cold-load.stdout": "6be45bb77757b27a72947d9d0c0c1ca109059f3053b81c28e3d9a122dddacc6f",
+    "cold-load.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "manifest_sha256": "5072e207253957356b28f03d989efa3b798efa85b240e196060d6eb40495e40b",
+  "hardware_execution": false
+}

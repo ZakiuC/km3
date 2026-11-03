@@ -1,0 +1,72 @@
+--- stage2/mock_app.py
++++ post-power/mock_app.py
+@@ -28,7 +28,7 @@
+ def main():
+     parser=argparse.ArgumentParser()
+     parser.add_argument('--output-dir',required=True,type=Path)
+-    parser.add_argument('--scenario',choices=('success','no-ack','old-demand'),default='success')
++    parser.add_argument('--scenario',choices=('success','halt-drift','final-no-ack'),default='success')
+     args=parser.parse_args()
+     out=args.output_dir
+     log=(out/'app-audit.jsonl').open('x')
+@@ -42,10 +42,10 @@
+         emit('source',path=str(path),sha256=hashlib.sha256(path.read_bytes()).hexdigest())
+     if 'probe_pp_start' not in bench.ACTION_POLICY:
+         raise RuntimeError('frozen probe missing')
+-    class ProbeNode(BenchNode):
+-        """Stage2 model; 607A never updates 6062 or bit10, no operation enable."""
++    class MoveNode(BenchNode):
++        """Independent current/final ACK generations; 607A alone changes neither 6062 nor bit10."""
+         def __init__(self):
+-            super().__init__();self.accepted=False
++            super().__init__();self.current_accepted=False;self.final_triggered=False
+         def handle(self,frame,now):
+             if frame.arbitration_id!=0x601:raise AssertionError('NMT/other-node forbidden')
+             d=frame.data;key=(d[1]|d[2]<<8,d[3])
+@@ -53,24 +53,31 @@
+             if d[0] not in (0x2f,0x2b,0x23):return
+             if key==(0x6040,0):
+                 word=self.value(0x6040)
+-                if word&8:
+-                    emit('forbidden_operation_enable',word=word)
+-                    raise AssertionError('Stage2 forbids bit3 and every enabled fallback')
+-                states={0:0x240,2:0x217,6:0x231,0x106:0x231,0x107:0x233,0x127:0x233,0x137:0x233}
+-                if word not in states:raise AssertionError('unknown Stage2 controlword')
+-                if word not in (0,2,6) and not word&0x100:raise AssertionError('Stage2 business Halt release')
++                states={0:0x240,2:0x217,6:0x231,0x106:0x231,0x107:0x233,0x127:0x233,0x137:0x233,0x12f:0x237,0x2f:0x237,0x3f:0x237}
++                if word not in states:raise AssertionError('unknown Stage3 controlword')
+                 state=states[word]
+-                if word==0x137 and args.scenario!='no-ack':
+-                    self.accepted=True;state|=0x1000
+-                    if args.scenario!='old-demand':self.od[0x6062,0].data=self.od[0x607a,0].data
+-                    emit('fixture_new_command_ack',internal_demand=self.value(0x6062,signed=True),target=self.value(0x607a,signed=True))
+-                if word==0x127 and self.accepted:state|=0x400
++                if word==0x137:
++                    self.current_accepted=True;state|=0x1000
++                    self.od[0x6062,0].data=self.od[0x607a,0].data
++                    emit('fixture_current_new_ack',internal_demand=self.value(0x6062,signed=True),target=self.value(0x607a,signed=True))
++                if word==0x12f and args.scenario=='halt-drift':
++                    self.set_value(0x6064,-1469)
++                    emit('fixture_halt_enable_drift',actual_position=-1469)
++                if word==0x3f:
++                    self.final_triggered=True
++                    if args.scenario!='final-no-ack':
++                        state|=0x1000
++                        self.od[0x6062,0].data=self.od[0x607a,0].data
++                        emit('fixture_final_new_ack',internal_demand=self.value(0x6062,signed=True),target=self.value(0x607a,signed=True))
++                if word==0x2f and self.final_triggered and args.scenario!='final-no-ack':
++                    state|=0x400
++                    self.od[0x6064,0].data=self.od[0x607a,0].data
+                 self.set_value(0x6041,state)
+             if key==(0x607a,0):
+-                emit('fixture_607A_only_write',target=self.value(0x607a,signed=True),internal_demand=self.value(0x6062,signed=True),statusword=self.value(0x6041),accepted=self.accepted)
+-            emit('fixture_after_download',index=key[0],sub=key[1],controlword=self.value(0x6040),statusword=self.value(0x6041),actual_position=self.value(0x6064,signed=True),internal_demand=self.value(0x6062,signed=True),actual_velocity=self.value(0x606c,signed=True),accepted=self.accepted)
+-    emit('mock_scenario',stage='stage2_SwitchedOn_no_operation_enable',scenario=args.scenario,hardware_fact=False)
+-    node=ProbeNode()
++                emit('fixture_607A_only_write',target=self.value(0x607a,signed=True),internal_demand=self.value(0x6062,signed=True),statusword=self.value(0x6041),current_accepted=self.current_accepted,final_triggered=self.final_triggered)
++            emit('fixture_after_download',index=key[0],sub=key[1],controlword=self.value(0x6040),statusword=self.value(0x6041),actual_position=self.value(0x6064,signed=True),internal_demand=self.value(0x6062,signed=True),actual_velocity=self.value(0x606c,signed=True),current_accepted=self.current_accepted,final_triggered=self.final_triggered)
++    emit('mock_scenario',stage='stage3_sealed_disabled_relative',scenario=args.scenario,hardware_fact=False)
++    node=MoveNode()
+     for index,sub,value in ((0x6040,0,6),(0x6041,0,0x231),(0x6064,0,-1470),
+                             (0x607a,0,-1469),(0x6062,0,7800),(0x605d,0,1),
+                             (0x6081,0,100),(0x6083,0,5000000),(0x6084,0,5000000),

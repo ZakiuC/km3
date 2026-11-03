@@ -1,0 +1,23 @@
+{
+  "name": "baseline-tools-tests",
+  "argv": [
+    "python3",
+    "-I",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tools/tests",
+    "-p",
+    "test_*.py"
+  ],
+  "shell_command": "python3 -I -m unittest discover -s tools/tests -p 'test_*.py'",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T00:53:37.435433+00:00",
+  "duration_seconds": 0.4297494553029537,
+  "returncode": 0,
+  "stdout": "baseline-tools-tests.stdout.log",
+  "stderr": "baseline-tools-tests.stderr.log",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "b336c682cd37cc58414c0b5b6dec319d8cce6185287d662b2a2ecb29c49ac923"
+}

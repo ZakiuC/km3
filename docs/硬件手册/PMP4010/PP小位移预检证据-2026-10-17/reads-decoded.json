@@ -1,0 +1,563 @@
+{
+  "source": "board-live-readonly.stdout",
+  "uploads": [
+    {
+      "ordinal": 1,
+      "utc": "2026-10-17T08:05:17.444006+00:00",
+      "index": "1000",
+      "sub": 0,
+      "key": "identity_1000:00",
+      "raw_hex": "92010200",
+      "value": 131474
+    },
+    {
+      "ordinal": 2,
+      "utc": "2026-10-17T08:05:17.445543+00:00",
+      "index": "1008",
+      "sub": 0,
+      "key": "identity_1008:00",
+      "raw_hex": "4e694d6f74696f6e20536572766f00",
+      "value": "NiMotion Servo"
+    },
+    {
+      "ordinal": 3,
+      "utc": "2026-10-17T08:05:17.446349+00:00",
+      "index": "100A",
+      "sub": 0,
+      "key": "identity_100A:00",
+      "raw_hex": "56332e3300",
+      "value": "V3.3"
+    },
+    {
+      "ordinal": 4,
+      "utc": "2026-10-17T08:05:17.446787+00:00",
+      "index": "1018",
+      "sub": 0,
+      "key": "identity_1018:00",
+      "raw_hex": "04",
+      "value": 4
+    },
+    {
+      "ordinal": 5,
+      "utc": "2026-10-17T08:05:17.447195+00:00",
+      "index": "1018",
+      "sub": 1,
+      "key": "identity_1018:01",
+      "raw_hex": "09050000",
+      "value": 1289
+    },
+    {
+      "ordinal": 6,
+      "utc": "2026-10-17T08:05:17.447597+00:00",
+      "index": "1018",
+      "sub": 2,
+      "key": "identity_1018:02",
+      "raw_hex": "01000003",
+      "value": 50331649
+    },
+    {
+      "ordinal": 7,
+      "utc": "2026-10-17T08:05:17.447999+00:00",
+      "index": "1018",
+      "sub": 3,
+      "key": "identity_1018:03",
+      "raw_hex": "275a3030",
+      "value": 808475175
+    },
+    {
+      "ordinal": 8,
+      "utc": "2026-10-17T08:05:17.448401+00:00",
+      "index": "1018",
+      "sub": 4,
+      "key": "identity_1018:04",
+      "raw_hex": "88740300",
+      "value": 226440
+    },
+    {
+      "ordinal": 9,
+      "utc": "2026-10-17T08:05:17.448829+00:00",
+      "index": "2002",
+      "sub": 1,
+      "key": "control_mode_select",
+      "raw_hex": "0000",
+      "value": 0
+    },
+    {
+      "ordinal": 10,
+      "utc": "2026-10-17T08:05:17.449242+00:00",
+      "index": "6040",
+      "sub": 0,
+      "key": "controlword",
+      "raw_hex": "0000",
+      "value": 0
+    },
+    {
+      "ordinal": 11,
+      "utc": "2026-10-17T08:05:17.449720+00:00",
+      "index": "6041",
+      "sub": 0,
+      "key": "statusword",
+      "raw_hex": "6002",
+      "value": 608
+    },
+    {
+      "ordinal": 12,
+      "utc": "2026-10-17T08:05:17.450157+00:00",
+      "index": "6060",
+      "sub": 0,
+      "key": "modes_of_operation",
+      "raw_hex": "01",
+      "value": 1
+    },
+    {
+      "ordinal": 13,
+      "utc": "2026-10-17T08:05:17.450577+00:00",
+      "index": "6061",
+      "sub": 0,
+      "key": "modes_of_operation_display",
+      "raw_hex": "01",
+      "value": 1
+    },
+    {
+      "ordinal": 14,
+      "utc": "2026-10-17T08:05:17.451003+00:00",
+      "index": "2006",
+      "sub": 18,
+      "key": "velocity_feedback_unit",
+      "raw_hex": "0000",
+      "value": 0
+    },
+    {
+      "ordinal": 15,
+      "utc": "2026-10-17T08:05:17.451434+00:00",
+      "index": "6064",
+      "sub": 0,
+      "key": "actual_position",
+      "raw_hex": "47faffff",
+      "value": -1465
+    },
+    {
+      "ordinal": 16,
+      "utc": "2026-10-17T08:05:17.451869+00:00",
+      "index": "606C",
+      "sub": 0,
+      "key": "actual_velocity",
+      "raw_hex": "00000000",
+      "value": 0
+    },
+    {
+      "ordinal": 17,
+      "utc": "2026-10-17T08:05:17.452290+00:00",
+      "index": "608F",
+      "sub": 1,
+      "key": "encoder_increments",
+      "raw_hex": "00000200",
+      "value": 131072
+    },
+    {
+      "ordinal": 18,
+      "utc": "2026-10-17T08:05:17.452727+00:00",
+      "index": "608F",
+      "sub": 2,
+      "key": "encoder_motor_revolutions",
+      "raw_hex": "01000000",
+      "value": 1
+    },
+    {
+      "ordinal": 19,
+      "utc": "2026-10-17T08:05:17.453139+00:00",
+      "index": "6091",
+      "sub": 1,
+      "key": "gear_motor_revolutions",
+      "raw_hex": "01000000",
+      "value": 1
+    },
+    {
+      "ordinal": 20,
+      "utc": "2026-10-17T08:05:17.453548+00:00",
+      "index": "6091",
+      "sub": 2,
+      "key": "gear_output_revolutions",
+      "raw_hex": "01000000",
+      "value": 1
+    },
+    {
+      "ordinal": 21,
+      "utc": "2026-10-17T08:05:17.453984+00:00",
+      "index": "607D",
+      "sub": 1,
+      "key": "software_position_limit",
+      "raw_hex": "14000080",
+      "value": -2147483628
+    },
+    {
+      "ordinal": 22,
+      "utc": "2026-10-17T08:05:17.454397+00:00",
+      "index": "607D",
+      "sub": 2,
+      "key": "software_position_limit_max",
+      "raw_hex": "ebffff7f",
+      "value": 2147483627
+    },
+    {
+      "ordinal": 23,
+      "utc": "2026-10-17T08:05:17.454811+00:00",
+      "index": "607C",
+      "sub": 0,
+      "key": "home_offset",
+      "raw_hex": "00000000",
+      "value": 0
+    },
+    {
+      "ordinal": 24,
+      "utc": "2026-10-17T08:05:17.455234+00:00",
+      "index": "607F",
+      "sub": 0,
+      "key": "max_velocity",
+      "raw_hex": "40548900",
+      "value": 9000000
+    },
+    {
+      "ordinal": 25,
+      "utc": "2026-10-17T08:05:17.455650+00:00",
+      "index": "6080",
+      "sub": 0,
+      "key": "max_motor_speed",
+      "raw_hex": "a00f0000",
+      "value": 4000
+    },
+    {
+      "ordinal": 26,
+      "utc": "2026-10-17T08:05:17.456061+00:00",
+      "index": "60C5",
+      "sub": 0,
+      "key": "max_profile_acceleration",
+      "raw_hex": "ffffff7f",
+      "value": 2147483647
+    },
+    {
+      "ordinal": 27,
+      "utc": "2026-10-17T08:05:17.456488+00:00",
+      "index": "60C6",
+      "sub": 0,
+      "key": "max_deceleration",
+      "raw_hex": "ffffff7f",
+      "value": 2147483647
+    },
+    {
+      "ordinal": 28,
+      "utc": "2026-10-17T08:05:17.456981+00:00",
+      "index": "607A",
+      "sub": 0,
+      "key": "target_position",
+      "raw_hex": "781e0000",
+      "value": 7800
+    },
+    {
+      "ordinal": 29,
+      "utc": "2026-10-17T08:05:17.457394+00:00",
+      "index": "6081",
+      "sub": 0,
+      "key": "profile_velocity",
+      "raw_hex": "20a10700",
+      "value": 500000
+    },
+    {
+      "ordinal": 30,
+      "utc": "2026-10-17T08:05:17.457806+00:00",
+      "index": "6082",
+      "sub": 0,
+      "key": "profile_end_velocity",
+      "raw_hex": "00000000",
+      "value": 0
+    },
+    {
+      "ordinal": 31,
+      "utc": "2026-10-17T08:05:17.458239+00:00",
+      "index": "6083",
+      "sub": 0,
+      "key": "profile_acceleration",
+      "raw_hex": "404b4c00",
+      "value": 5000000
+    },
+    {
+      "ordinal": 32,
+      "utc": "2026-10-17T08:05:17.458652+00:00",
+      "index": "6084",
+      "sub": 0,
+      "key": "profile_deceleration",
+      "raw_hex": "404b4c00",
+      "value": 5000000
+    },
+    {
+      "ordinal": 33,
+      "utc": "2026-10-17T08:05:17.459222+00:00",
+      "index": "6041",
+      "sub": 0,
+      "key": "statusword",
+      "raw_hex": "6002",
+      "value": 608
+    },
+    {
+      "ordinal": 34,
+      "utc": "2026-10-17T08:05:17.459637+00:00",
+      "index": "6060",
+      "sub": 0,
+      "key": "modes_of_operation",
+      "raw_hex": "01",
+      "value": 1
+    },
+    {
+      "ordinal": 35,
+      "utc": "2026-10-17T08:05:17.460053+00:00",
+      "index": "6061",
+      "sub": 0,
+      "key": "modes_of_operation_display",
+      "raw_hex": "01",
+      "value": 1
+    },
+    {
+      "ordinal": 36,
+      "utc": "2026-10-17T08:05:17.460465+00:00",
+      "index": "2006",
+      "sub": 18,
+      "key": "velocity_feedback_unit",
+      "raw_hex": "0000",
+      "value": 0
+    },
+    {
+      "ordinal": 37,
+      "utc": "2026-10-17T08:05:17.460955+00:00",
+      "index": "6064",
+      "sub": 0,
+      "key": "actual_position",
+      "raw_hex": "47faffff",
+      "value": -1465
+    },
+    {
+      "ordinal": 38,
+      "utc": "2026-10-17T08:05:17.461387+00:00",
+      "index": "606C",
+      "sub": 0,
+      "key": "actual_velocity",
+      "raw_hex": "00000000",
+      "value": 0
+    },
+    {
+      "ordinal": 39,
+      "utc": "2026-10-17T08:05:17.662122+00:00",
+      "index": "6041",
+      "sub": 0,
+      "key": "statusword",
+      "raw_hex": "6002",
+      "value": 608
+    },
+    {
+      "ordinal": 40,
+      "utc": "2026-10-17T08:05:17.662639+00:00",
+      "index": "6060",
+      "sub": 0,
+      "key": "modes_of_operation",
+      "raw_hex": "01",
+      "value": 1
+    },
+    {
+      "ordinal": 41,
+      "utc": "2026-10-17T08:05:17.663066+00:00",
+      "index": "6061",
+      "sub": 0,
+      "key": "modes_of_operation_display",
+      "raw_hex": "01",
+      "value": 1
+    },
+    {
+      "ordinal": 42,
+      "utc": "2026-10-17T08:05:17.663570+00:00",
+      "index": "2006",
+      "sub": 18,
+      "key": "velocity_feedback_unit",
+      "raw_hex": "0000",
+      "value": 0
+    },
+    {
+      "ordinal": 43,
+      "utc": "2026-10-17T08:05:17.664015+00:00",
+      "index": "6064",
+      "sub": 0,
+      "key": "actual_position",
+      "raw_hex": "47faffff",
+      "value": -1465
+    },
+    {
+      "ordinal": 44,
+      "utc": "2026-10-17T08:05:17.664442+00:00",
+      "index": "606C",
+      "sub": 0,
+      "key": "actual_velocity",
+      "raw_hex": "00000000",
+      "value": 0
+    },
+    {
+      "ordinal": 45,
+      "utc": "2026-10-17T08:05:17.865157+00:00",
+      "index": "6041",
+      "sub": 0,
+      "key": "statusword",
+      "raw_hex": "6002",
+      "value": 608
+    },
+    {
+      "ordinal": 46,
+      "utc": "2026-10-17T08:05:17.865629+00:00",
+      "index": "6060",
+      "sub": 0,
+      "key": "modes_of_operation",
+      "raw_hex": "01",
+      "value": 1
+    },
+    {
+      "ordinal": 47,
+      "utc": "2026-10-17T08:05:17.866051+00:00",
+      "index": "6061",
+      "sub": 0,
+      "key": "modes_of_operation_display",
+      "raw_hex": "01",
+      "value": 1
+    },
+    {
+      "ordinal": 48,
+      "utc": "2026-10-17T08:05:17.866482+00:00",
+      "index": "2006",
+      "sub": 18,
+      "key": "velocity_feedback_unit",
+      "raw_hex": "0000",
+      "value": 0
+    },
+    {
+      "ordinal": 49,
+      "utc": "2026-10-17T08:05:17.866932+00:00",
+      "index": "6064",
+      "sub": 0,
+      "key": "actual_position",
+      "raw_hex": "47faffff",
+      "value": -1465
+    },
+    {
+      "ordinal": 50,
+      "utc": "2026-10-17T08:05:17.867346+00:00",
+      "index": "606C",
+      "sub": 0,
+      "key": "actual_velocity",
+      "raw_hex": "00000000",
+      "value": 0
+    },
+    {
+      "ordinal": 51,
+      "utc": "2026-10-17T08:05:18.068042+00:00",
+      "index": "6041",
+      "sub": 0,
+      "key": "statusword",
+      "raw_hex": "6002",
+      "value": 608
+    },
+    {
+      "ordinal": 52,
+      "utc": "2026-10-17T08:05:18.068468+00:00",
+      "index": "6060",
+      "sub": 0,
+      "key": "modes_of_operation",
+      "raw_hex": "01",
+      "value": 1
+    },
+    {
+      "ordinal": 53,
+      "utc": "2026-10-17T08:05:18.068912+00:00",
+      "index": "6061",
+      "sub": 0,
+      "key": "modes_of_operation_display",
+      "raw_hex": "01",
+      "value": 1
+    },
+    {
+      "ordinal": 54,
+      "utc": "2026-10-17T08:05:18.069427+00:00",
+      "index": "2006",
+      "sub": 18,
+      "key": "velocity_feedback_unit",
+      "raw_hex": "0000",
+      "value": 0
+    },
+    {
+      "ordinal": 55,
+      "utc": "2026-10-17T08:05:18.069908+00:00",
+      "index": "6064",
+      "sub": 0,
+      "key": "actual_position",
+      "raw_hex": "47faffff",
+      "value": -1465
+    },
+    {
+      "ordinal": 56,
+      "utc": "2026-10-17T08:05:18.070322+00:00",
+      "index": "606C",
+      "sub": 0,
+      "key": "actual_velocity",
+      "raw_hex": "00000000",
+      "value": 0
+    },
+    {
+      "ordinal": 57,
+      "utc": "2026-10-17T08:05:18.271093+00:00",
+      "index": "6041",
+      "sub": 0,
+      "key": "statusword",
+      "raw_hex": "6002",
+      "value": 608
+    },
+    {
+      "ordinal": 58,
+      "utc": "2026-10-17T08:05:18.271582+00:00",
+      "index": "6060",
+      "sub": 0,
+      "key": "modes_of_operation",
+      "raw_hex": "01",
+      "value": 1
+    },
+    {
+      "ordinal": 59,
+      "utc": "2026-10-17T08:05:18.271990+00:00",
+      "index": "6061",
+      "sub": 0,
+      "key": "modes_of_operation_display",
+      "raw_hex": "01",
+      "value": 1
+    },
+    {
+      "ordinal": 60,
+      "utc": "2026-10-17T08:05:18.272395+00:00",
+      "index": "2006",
+      "sub": 18,
+      "key": "velocity_feedback_unit",
+      "raw_hex": "0000",
+      "value": 0
+    },
+    {
+      "ordinal": 61,
+      "utc": "2026-10-17T08:05:18.272878+00:00",
+      "index": "6064",
+      "sub": 0,
+      "key": "actual_position",
+      "raw_hex": "47faffff",
+      "value": -1465
+    },
+    {
+      "ordinal": 62,
+      "utc": "2026-10-17T08:05:18.273295+00:00",
+      "index": "606C",
+      "sub": 0,
+      "key": "actual_velocity",
+      "raw_hex": "00000000",
+      "value": 0
+    }
+  ]
+}

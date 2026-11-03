@@ -1,0 +1,11 @@
+{
+  "session_id": 75605,
+  "status": "running_waiting_for_root_execute_authorization",
+  "snapshot_utc": "2026-10-19T06:27:15.007055+00:00",
+  "deadline_utc": "2026-10-19T06:32:15.007055+00:00",
+  "recorded_utc": "2026-10-19T06:27:40.486827+00:00",
+  "remaining_seconds_at_record": 274.520228,
+  "digest": "e53f31bbf38868b1515767beaf7a306a153e4507596c2e40b2eec06c6bbe4f89",
+  "execute_input_sent": false,
+  "local_ssh_pid": 45158
+}

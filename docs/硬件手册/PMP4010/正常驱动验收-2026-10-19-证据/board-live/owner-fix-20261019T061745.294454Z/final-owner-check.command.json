@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/home/zakiu/km3/docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u6b63\u5e38\u9a71\u52a8\u9a8c\u6536-2026-10-19-\u8bc1\u636e/board-live/owner-fix-20261019T061745.294454Z/check-owner-fix.py"
+  ],
+  "started_utc": "2026-10-19T06:18:51.438175+00:00",
+  "finished_utc": "2026-10-19T06:18:51.479099+00:00",
+  "rc": 0,
+  "runner_sha256": "7b8338a4a43623673d9d2cd38ff173f3d2c75783f393398a26c85aa90a1a8b02"
+}

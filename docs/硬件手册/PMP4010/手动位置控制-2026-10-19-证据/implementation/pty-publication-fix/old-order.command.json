@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "device/drivers/pmp4010/tools/_test_simple_pty.py",
+    "SnapshotPublicationTests"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "source_sha256": "7552eee28d9d16644f2a2e2ab695b658a851a7c3142aa8f67f79ebbe7bd8b46b",
+  "started_utc": "2026-10-19T07:34:09.721909+00:00",
+  "rc": 1
+}

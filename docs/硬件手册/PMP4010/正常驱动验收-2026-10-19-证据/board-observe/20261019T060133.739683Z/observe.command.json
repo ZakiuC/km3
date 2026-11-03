@@ -1,0 +1,28 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3",
+    "-I",
+    "-B",
+    "-",
+    "/var/tmp/km3-pmp4010-state-20261019-43b0b2355c3b"
+  ],
+  "stdin_file": "observe.remote.py",
+  "stdin_sha256": "748ebe8c2980c6815c54ead9ac5643e076f1dc1309b7daffb37bffecb8f9383c",
+  "started_utc": "2026-10-19T06:01:33.739922+00:00",
+  "finished_utc": "2026-10-19T06:01:34.080088+00:00",
+  "rc": 0,
+  "remote_writes": 0,
+  "CAN_socket_opens": 0,
+  "CAN_sends": 0,
+  "process_control_operations": 0
+}

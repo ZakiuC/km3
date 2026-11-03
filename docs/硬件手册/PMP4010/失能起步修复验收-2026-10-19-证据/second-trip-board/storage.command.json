@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3",
+    "-"
+  ],
+  "stdin_file": "storage.remote.py",
+  "stdin_sha256": "df62920cfbd0e23baf09d40560cff71790331ce7c14556a8f2c37a489a8126f9",
+  "start_utc": "2026-10-19T03:01:09.170738+00:00"
+}

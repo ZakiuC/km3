@@ -1,0 +1,44 @@
+Internal ctest changing into directory: /home/zakiu/km3/build-tsan
+Test project /home/zakiu/km3/build-tsan
+      Start  1: spsc_ring
+ 1/17 Test  #1: spsc_ring ..........................   Passed    0.16 sec
+      Start  2: error_code
+ 2/17 Test  #2: error_code .........................   Passed    0.01 sec
+      Start  3: frame
+ 3/17 Test  #3: frame ..............................   Passed    0.01 sec
+      Start  4: config
+ 4/17 Test  #4: config .............................   Passed    0.04 sec
+      Start  5: hal
+ 5/17 Test  #5: hal ................................   Passed    0.01 sec
+      Start  6: socketcan
+ 6/17 Test  #6: socketcan ..........................   Passed    0.01 sec
+      Start  7: canopen_pdo
+ 7/17 Test  #7: canopen_pdo ........................   Passed    0.05 sec
+      Start  8: canopen_sync
+ 8/17 Test  #8: canopen_sync .......................   Passed    0.33 sec
+      Start  9: sync_config_cli
+ 9/17 Test  #9: sync_config_cli ....................   Passed   10.61 sec
+      Start 10: clock
+10/17 Test #10: clock ..............................   Passed    0.08 sec
+      Start 11: rt_control
+11/17 Test #11: rt_control .........................   Passed    0.01 sec
+      Start 12: pmp4010_mock_contract
+12/17 Test #12: pmp4010_mock_contract ..............   Passed    0.01 sec
+      Start 13: pmp4010_production_od_guard
+13/17 Test #13: pmp4010_production_od_guard ........   Passed    0.58 sec
+      Start 14: pmp4010_verified_fixture
+14/17 Test #14: pmp4010_verified_fixture ...........   Passed    0.30 sec
+      Start 15: pmp4010_velocity_shared_vectors
+15/17 Test #15: pmp4010_velocity_shared_vectors ....   Passed    0.01 sec
+      Start 16: pmp4010_protocol_generated_check
+16/17 Test #16: pmp4010_protocol_generated_check ...   Passed    0.02 sec
+      Start 17: pmp4010_access_generated_check
+17/17 Test #17: pmp4010_access_generated_check .....   Passed    0.02 sec
+
+100% tests passed, 0 tests failed out of 17
+
+Label Time Summary:
+mock       =   0.94 sec*proc (5 tests)
+pmp4010    =   0.94 sec*proc (5 tests)
+
+Total Test time (real) =  12.25 sec

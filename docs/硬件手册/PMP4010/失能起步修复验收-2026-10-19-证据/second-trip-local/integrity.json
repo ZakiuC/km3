@@ -1,0 +1,1310 @@
+{
+  "checked_utc": "2026-10-19T03:01:36.217094+00:00",
+  "route": {
+    "requested_role": "light_worker",
+    "requested_model": "gpt-6.1-sol",
+    "requested_effort": "medium",
+    "actual_model": "unknown",
+    "actual_effort": "unknown",
+    "last_token_usage_input_tokens": "unknown"
+  },
+  "freeze_manifest_sha256": "be1bd12c248b12553229b2e39a02d2d6f98591e053c2321d956fed2d2e570846",
+  "source": [
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_bench.py",
+      "expected": "8f6677156f04d331c7a5c0e552bc007f7949c65c1482bc7d67183cd17b8d4b5b",
+      "actual": "8f6677156f04d331c7a5c0e552bc007f7949c65c1482bc7d67183cd17b8d4b5b"
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_position.py",
+      "expected": "e93ed776ee7ad13dc10e84f3027d6fc9c95200e016cc226ec61af2db1c86c9da",
+      "actual": "e93ed776ee7ad13dc10e84f3027d6fc9c95200e016cc226ec61af2db1c86c9da"
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_tui.py",
+      "expected": "9d1e64e20e764471c84f76f6f6937941c28480e3a40b90e8203e7db5fa1190d1",
+      "actual": "9d1e64e20e764471c84f76f6f6937941c28480e3a40b90e8203e7db5fa1190d1"
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_disabled_start.py",
+      "expected": "62535ecabb73964badca5ce164f302044e849523f4a97d0fe426598c47b77247",
+      "actual": "62535ecabb73964badca5ce164f302044e849523f4a97d0fe426598c47b77247"
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_bench_support.py",
+      "expected": "61185ab79743fa328380d8230c81ce3c643bf4a89348c954b90104ba125343e4",
+      "actual": "61185ab79743fa328380d8230c81ce3c643bf4a89348c954b90104ba125343e4"
+    },
+    {
+      "path": "device/drivers/pmp4010/driver/od.json",
+      "expected": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e",
+      "actual": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e"
+    },
+    {
+      "path": "device/drivers/pmp4010/driver/od_generated.hpp",
+      "expected": "b726bf604ce42c91ce048dfdb2891dde23e374ce9234cabe0416172ffaea5d40",
+      "actual": "b726bf604ce42c91ce048dfdb2891dde23e374ce9234cabe0416172ffaea5d40"
+    },
+    {
+      "path": "device/drivers/pmp4010/driver/od_access_generated.hpp",
+      "expected": "5144ed5e763beab5004d225e215fc76707a7f4cb42d222eb2da473bb594a33fb",
+      "actual": "5144ed5e763beab5004d225e215fc76707a7f4cb42d222eb2da473bb594a33fb"
+    },
+    {
+      "path": "tools/hwtui/canopen_consts.py",
+      "expected": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c",
+      "actual": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c"
+    },
+    {
+      "path": "tools/hwdriver/gen-pmp4010-access.py",
+      "expected": "b9d2c4c8406398562a25ef517cf99efd97d9f16ace6e07c9ccef39e07b36fd3d",
+      "actual": "b9d2c4c8406398562a25ef517cf99efd97d9f16ace6e07c9ccef39e07b36fd3d"
+    },
+    {
+      "path": "device/drivers/pmp4010/tests/test_pmp4010_verified.cpp",
+      "expected": "6dceedae4ca6aa369570c50018ec2c84f4ec41e39c8ce9846f1f8c80aee4ef3b",
+      "actual": "6dceedae4ca6aa369570c50018ec2c84f4ec41e39c8ce9846f1f8c80aee4ef3b"
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_disabled_move.py",
+      "expected": "35259dbb1c6c59bb43f61b1cec177cee1a876f3ccbd4560a39cac5bb358c4501",
+      "actual": "35259dbb1c6c59bb43f61b1cec177cee1a876f3ccbd4560a39cac5bb358c4501"
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_bench.py",
+      "expected": "ebfeef5fbf1bc066aab4bd3e4c85ab989b35bf146c59a6c084c31a17dde4d95c",
+      "actual": "ebfeef5fbf1bc066aab4bd3e4c85ab989b35bf146c59a6c084c31a17dde4d95c"
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_prepare.py",
+      "expected": "ae8b15c2abf564275b48b81be22016ce0356e896d27405fe07f50464881edbee",
+      "actual": "ae8b15c2abf564275b48b81be22016ce0356e896d27405fe07f50464881edbee"
+    }
+  ],
+  "records": [
+    {
+      "name": "model",
+      "stdout": {
+        "path": "post-power-local/model.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/model.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "hwtui",
+      "stdout": {
+        "path": "post-power-local/hwtui.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/hwtui.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "tools-tests",
+      "stdout": {
+        "path": "post-power-local/tools-tests.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/tools-tests.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "host-build",
+      "stdout": {
+        "path": "post-power-local/host-build.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/host-build.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "host-ctest",
+      "stdout": {
+        "path": "post-power-local/host-ctest.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/host-ctest.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "asan-build",
+      "stdout": {
+        "path": "post-power-local/asan-build.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/asan-build.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "asan-ctest",
+      "stdout": {
+        "path": "post-power-local/asan-ctest.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/asan-ctest.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "tsan-build",
+      "stdout": {
+        "path": "post-power-local/tsan-build.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/tsan-build.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "tsan-ctest",
+      "stdout": {
+        "path": "post-power-local/tsan-ctest.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/tsan-ctest.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "arm-build",
+      "stdout": {
+        "path": "post-power-local/arm-build.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/arm-build.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "drivers",
+      "stdout": {
+        "path": "post-power-local/drivers.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/drivers.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "docs",
+      "stdout": {
+        "path": "post-power-local/docs.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/docs.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "deps",
+      "stdout": {
+        "path": "post-power-local/deps.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/deps.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "manual-citations",
+      "stdout": {
+        "path": "post-power-local/manual-citations.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/manual-citations.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "gen-od",
+      "stdout": {
+        "path": "post-power-local/gen-od.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/gen-od.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "gen-canopen",
+      "stdout": {
+        "path": "post-power-local/gen-canopen.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/gen-canopen.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "gen-access",
+      "stdout": {
+        "path": "post-power-local/gen-access.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/gen-access.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "package-finalize",
+      "stdout": {
+        "path": "post-power-local/package-finalize.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/package-finalize.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "core-source-sha256",
+      "stdout": {
+        "path": "post-power-local/core-source-sha256.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/core-source-sha256.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "independent-B25-replay",
+      "stdout": {
+        "path": "post-power-local/independent-B25-replay.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/independent-B25-replay.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "docs-after-report",
+      "stdout": {
+        "path": "post-power-local/docs-after-report.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/docs-after-report.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "independent-stage3-9-replay",
+      "stdout": {
+        "path": "post-power-local/independent-stage3-9-replay.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/independent-stage3-9-replay.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "cumulative-modified-files",
+      "stdout": {
+        "path": "post-power-local/cumulative-modified-files.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/cumulative-modified-files.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "cumulative-new-files",
+      "stdout": {
+        "path": "post-power-local/cumulative-new-files.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/cumulative-new-files.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "independent-stage3-3-replay",
+      "stdout": {
+        "path": "post-power-local/independent-stage3-3-replay.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/independent-stage3-3-replay.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    },
+    {
+      "name": "independent-PTY3-readonly-review",
+      "stdout": {
+        "path": "post-power-local/independent-PTY3-readonly-review.stdout.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "stderr": {
+        "path": "post-power-local/independent-PTY3-readonly-review.stderr.log",
+        "exists": true,
+        "sha256_match": true
+      },
+      "metadata_present": true,
+      "record_rc": 0,
+      "saved_rc": 0
+    }
+  ],
+  "artifact_checks": [
+    {
+      "path": "__pycache__/run.cpython-310.pyc",
+      "exists": true,
+      "expected": "f704558ed2125456dd9ec2f8f4a6d7ec44725246cc2528ed696f37ab55d5bcde",
+      "actual": "f704558ed2125456dd9ec2f8f4a6d7ec44725246cc2528ed696f37ab55d5bcde"
+    },
+    {
+      "path": "arm-build.command.json",
+      "exists": true,
+      "expected": "e9bb538ac1ead1b256f544d326b82d1fe418b0a85f5f1731662547249bb35846",
+      "actual": "e9bb538ac1ead1b256f544d326b82d1fe418b0a85f5f1731662547249bb35846"
+    },
+    {
+      "path": "arm-build.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "arm-build.result.json",
+      "exists": true,
+      "expected": "a17b420447197b9213d37da9869c2d2ad2def4d177891ea82ae5367cd480c2a4",
+      "actual": "a17b420447197b9213d37da9869c2d2ad2def4d177891ea82ae5367cd480c2a4"
+    },
+    {
+      "path": "arm-build.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "arm-build.stdout.log",
+      "exists": true,
+      "expected": "9ca490b1b43e9c80b0ef86e85e3a976f163d21b04f7bd673b7b2dccc12b159d1",
+      "actual": "9ca490b1b43e9c80b0ef86e85e3a976f163d21b04f7bd673b7b2dccc12b159d1"
+    },
+    {
+      "path": "asan-build.command.json",
+      "exists": true,
+      "expected": "6a8d9a2782a222a2d74d25dc81df0d54ef4ac4399f1bb79e47484c58a3e56348",
+      "actual": "6a8d9a2782a222a2d74d25dc81df0d54ef4ac4399f1bb79e47484c58a3e56348"
+    },
+    {
+      "path": "asan-build.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "asan-build.result.json",
+      "exists": true,
+      "expected": "e32156e0d1460af30af6b1d2aac0880f7198e87075af01e0fb1d05d2241f7d0f",
+      "actual": "e32156e0d1460af30af6b1d2aac0880f7198e87075af01e0fb1d05d2241f7d0f"
+    },
+    {
+      "path": "asan-build.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "asan-build.stdout.log",
+      "exists": true,
+      "expected": "b60d44d6450d36cdcd6a8a68105bf283d3b5fc09161fd0ee903df50f29a4e02d",
+      "actual": "b60d44d6450d36cdcd6a8a68105bf283d3b5fc09161fd0ee903df50f29a4e02d"
+    },
+    {
+      "path": "asan-ctest.command.json",
+      "exists": true,
+      "expected": "d9f3e6c9ac7a85657d1b641ea924889e3bd4b79748329b81b6f0b530d47fb549",
+      "actual": "d9f3e6c9ac7a85657d1b641ea924889e3bd4b79748329b81b6f0b530d47fb549"
+    },
+    {
+      "path": "asan-ctest.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "asan-ctest.result.json",
+      "exists": true,
+      "expected": "acc25130d195a4f3752e3392940af0c909e4fbdecc3694bb17a30ef01d96a2dd",
+      "actual": "acc25130d195a4f3752e3392940af0c909e4fbdecc3694bb17a30ef01d96a2dd"
+    },
+    {
+      "path": "asan-ctest.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "asan-ctest.stdout.log",
+      "exists": true,
+      "expected": "c9e8eb18274fc4ee22a7ef1490691b4c1bacf84749583769fff5c4546f615ca7",
+      "actual": "c9e8eb18274fc4ee22a7ef1490691b4c1bacf84749583769fff5c4546f615ca7"
+    },
+    {
+      "path": "core-source-sha256.command.json",
+      "exists": true,
+      "expected": "af17e98fb08df12ec58b904f10350deec071dc4412c7e0497718a846b9c09d69",
+      "actual": "af17e98fb08df12ec58b904f10350deec071dc4412c7e0497718a846b9c09d69"
+    },
+    {
+      "path": "core-source-sha256.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "core-source-sha256.result.json",
+      "exists": true,
+      "expected": "ba954848f4e3d55f0fe6c03250fff93b098082d2f6c12448413749eac87a3470",
+      "actual": "ba954848f4e3d55f0fe6c03250fff93b098082d2f6c12448413749eac87a3470"
+    },
+    {
+      "path": "core-source-sha256.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "core-source-sha256.stdout.log",
+      "exists": true,
+      "expected": "66c2a559b596bcce37263b0c69eb49cc25eed52a7061f9f208a27e1a19e09b6a",
+      "actual": "66c2a559b596bcce37263b0c69eb49cc25eed52a7061f9f208a27e1a19e09b6a"
+    },
+    {
+      "path": "deps.command.json",
+      "exists": true,
+      "expected": "5df579484eca9bdd179176724e62a2eb3f95f65920085dae18a2e3387e0e5935",
+      "actual": "5df579484eca9bdd179176724e62a2eb3f95f65920085dae18a2e3387e0e5935"
+    },
+    {
+      "path": "deps.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "deps.result.json",
+      "exists": true,
+      "expected": "82ba69dd8886753381431202b337c8ef2b5a6d4c19dac730ae99f7bf4f4f600e",
+      "actual": "82ba69dd8886753381431202b337c8ef2b5a6d4c19dac730ae99f7bf4f4f600e"
+    },
+    {
+      "path": "deps.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "deps.stdout.log",
+      "exists": true,
+      "expected": "64c699c396e34f61f47aee249d1c4357dd63797c35e3c16eed061909a9669a06",
+      "actual": "64c699c396e34f61f47aee249d1c4357dd63797c35e3c16eed061909a9669a06"
+    },
+    {
+      "path": "docs-after-report.command.json",
+      "exists": true,
+      "expected": "7a27744bac12f6b524143135e6d7d9b59351fee93c2b576455a4568703b30898",
+      "actual": "7a27744bac12f6b524143135e6d7d9b59351fee93c2b576455a4568703b30898"
+    },
+    {
+      "path": "docs-after-report.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs-after-report.result.json",
+      "exists": true,
+      "expected": "72e79b7fca96053eb56c8321082ee2a3a3f970eff10c41468644b59e8c121029",
+      "actual": "72e79b7fca96053eb56c8321082ee2a3a3f970eff10c41468644b59e8c121029"
+    },
+    {
+      "path": "docs-after-report.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs-after-report.stdout.log",
+      "exists": true,
+      "expected": "3365f8d3e326fb7f01761c67fb7e38d610521625519f279aad2d159ed02d8a4f",
+      "actual": "3365f8d3e326fb7f01761c67fb7e38d610521625519f279aad2d159ed02d8a4f"
+    },
+    {
+      "path": "docs.command.json",
+      "exists": true,
+      "expected": "aac34cb3362169a7547ac00e3b1161b162b342407fce229be995b8140376bb58",
+      "actual": "aac34cb3362169a7547ac00e3b1161b162b342407fce229be995b8140376bb58"
+    },
+    {
+      "path": "docs.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "docs.result.json",
+      "exists": true,
+      "expected": "b243f674b6a3fc444ddc774e9865e1c49a410c9ca7d95bd51922502735fa2d95",
+      "actual": "b243f674b6a3fc444ddc774e9865e1c49a410c9ca7d95bd51922502735fa2d95"
+    },
+    {
+      "path": "docs.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs.stdout.log",
+      "exists": true,
+      "expected": "3365f8d3e326fb7f01761c67fb7e38d610521625519f279aad2d159ed02d8a4f",
+      "actual": "3365f8d3e326fb7f01761c67fb7e38d610521625519f279aad2d159ed02d8a4f"
+    },
+    {
+      "path": "drivers.command.json",
+      "exists": true,
+      "expected": "9256e122d8a873f5c2d5cefe076b5e89ee8d478772d5ccfe18c4b4a9fb753f5e",
+      "actual": "9256e122d8a873f5c2d5cefe076b5e89ee8d478772d5ccfe18c4b4a9fb753f5e"
+    },
+    {
+      "path": "drivers.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "drivers.result.json",
+      "exists": true,
+      "expected": "a0328343c4c8f199c145bea7314faf9c82ba79bbd1acb97b97d6fdea787b1bc8",
+      "actual": "a0328343c4c8f199c145bea7314faf9c82ba79bbd1acb97b97d6fdea787b1bc8"
+    },
+    {
+      "path": "drivers.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "drivers.stdout.log",
+      "exists": true,
+      "expected": "97089ae37d0b7df7f91afe640b1ebf1cdf849e4697a1946f75763b0173c9da7d",
+      "actual": "97089ae37d0b7df7f91afe640b1ebf1cdf849e4697a1946f75763b0173c9da7d"
+    },
+    {
+      "path": "freeze-source-sha256.json",
+      "exists": true,
+      "expected": "be1bd12c248b12553229b2e39a02d2d6f98591e053c2321d956fed2d2e570846",
+      "actual": "be1bd12c248b12553229b2e39a02d2d6f98591e053c2321d956fed2d2e570846"
+    },
+    {
+      "path": "gen-access.command.json",
+      "exists": true,
+      "expected": "75c295817897cd59bd50f7ea31c1dd75ac6121d0b0fed56878914d50b634d491",
+      "actual": "75c295817897cd59bd50f7ea31c1dd75ac6121d0b0fed56878914d50b634d491"
+    },
+    {
+      "path": "gen-access.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "gen-access.result.json",
+      "exists": true,
+      "expected": "6ab31ad4a79d75ae487b70a647a9bfbb0254bf8ac9b5c6956ea09e7335ba1a58",
+      "actual": "6ab31ad4a79d75ae487b70a647a9bfbb0254bf8ac9b5c6956ea09e7335ba1a58"
+    },
+    {
+      "path": "gen-access.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "gen-access.stdout.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "gen-canopen.command.json",
+      "exists": true,
+      "expected": "b13d22e195f343e87d52c920f0433d4f12541dd08c6d6647d26fa3eab6283425",
+      "actual": "b13d22e195f343e87d52c920f0433d4f12541dd08c6d6647d26fa3eab6283425"
+    },
+    {
+      "path": "gen-canopen.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "gen-canopen.result.json",
+      "exists": true,
+      "expected": "3dbe1c41e3815f7baaed62312d1e51438619ca74a053ee1e64d125930ae8c2db",
+      "actual": "3dbe1c41e3815f7baaed62312d1e51438619ca74a053ee1e64d125930ae8c2db"
+    },
+    {
+      "path": "gen-canopen.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "gen-canopen.stdout.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "gen-od.command.json",
+      "exists": true,
+      "expected": "a3f4969df6f67ecd6a052f9849f49109bd245e69144fcd0bb16366ba2950111c",
+      "actual": "a3f4969df6f67ecd6a052f9849f49109bd245e69144fcd0bb16366ba2950111c"
+    },
+    {
+      "path": "gen-od.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "gen-od.result.json",
+      "exists": true,
+      "expected": "a851ff892b6f314cc62acc9d33066d13656ba85c71df06f96a3b3d40825ad0e8",
+      "actual": "a851ff892b6f314cc62acc9d33066d13656ba85c71df06f96a3b3d40825ad0e8"
+    },
+    {
+      "path": "gen-od.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "gen-od.stdout.log",
+      "exists": true,
+      "expected": "1fb8101f983b222bf8ece7312432fc4a34725ad3422420032c2ca0bd09a77b16",
+      "actual": "1fb8101f983b222bf8ece7312432fc4a34725ad3422420032c2ca0bd09a77b16"
+    },
+    {
+      "path": "host-build.command.json",
+      "exists": true,
+      "expected": "ffdfc7ac6b51aed9978641c97379e051192a1bd6ff75f91e4fc8e3d720b156d8",
+      "actual": "ffdfc7ac6b51aed9978641c97379e051192a1bd6ff75f91e4fc8e3d720b156d8"
+    },
+    {
+      "path": "host-build.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "host-build.result.json",
+      "exists": true,
+      "expected": "f45be46c5de30a93ef13abcac89011fbca1ebf96d72bdeef25c14534c5677f3c",
+      "actual": "f45be46c5de30a93ef13abcac89011fbca1ebf96d72bdeef25c14534c5677f3c"
+    },
+    {
+      "path": "host-build.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "host-build.stdout.log",
+      "exists": true,
+      "expected": "110a5fd9b1f473c94eae0a87d13ca34d26d469a9913b599669ffb2d00f9db48a",
+      "actual": "110a5fd9b1f473c94eae0a87d13ca34d26d469a9913b599669ffb2d00f9db48a"
+    },
+    {
+      "path": "host-ctest.command.json",
+      "exists": true,
+      "expected": "572d188c1862db61f6266addbba8d2b25331cdedfb014d8eb267bb966aba9970",
+      "actual": "572d188c1862db61f6266addbba8d2b25331cdedfb014d8eb267bb966aba9970"
+    },
+    {
+      "path": "host-ctest.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "host-ctest.result.json",
+      "exists": true,
+      "expected": "f88f6af65860ff610167a2dfe98012ba067a340a4bd337a140d8855404c72c1c",
+      "actual": "f88f6af65860ff610167a2dfe98012ba067a340a4bd337a140d8855404c72c1c"
+    },
+    {
+      "path": "host-ctest.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "host-ctest.stdout.log",
+      "exists": true,
+      "expected": "80b658cad07f8868642013a7da4cd6427bdd5c93cb286171af7942dc962fbc70",
+      "actual": "80b658cad07f8868642013a7da4cd6427bdd5c93cb286171af7942dc962fbc70"
+    },
+    {
+      "path": "hwtui.command.json",
+      "exists": true,
+      "expected": "52841c53f2351302672ebe72857c49b5cddd82ecf70ea110de4f8fec8db01124",
+      "actual": "52841c53f2351302672ebe72857c49b5cddd82ecf70ea110de4f8fec8db01124"
+    },
+    {
+      "path": "hwtui.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "hwtui.result.json",
+      "exists": true,
+      "expected": "d7173336fdd1b885f60385f4ad1713ad51394baf072d41373f04bbe1631622cc",
+      "actual": "d7173336fdd1b885f60385f4ad1713ad51394baf072d41373f04bbe1631622cc"
+    },
+    {
+      "path": "hwtui.stderr.log",
+      "exists": true,
+      "expected": "74cfdbd7a6a2a10a97139a8a48a5ac6ad546a214eef7462e8e88a8aea1bb9fcc",
+      "actual": "74cfdbd7a6a2a10a97139a8a48a5ac6ad546a214eef7462e8e88a8aea1bb9fcc"
+    },
+    {
+      "path": "hwtui.stdout.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "independent-B25-replay.command.json",
+      "exists": true,
+      "expected": "86e82eee3ceb85b2fb1c9ba4bcc5524cdcd55b61a1954b0535b731906e8cc7c6",
+      "actual": "86e82eee3ceb85b2fb1c9ba4bcc5524cdcd55b61a1954b0535b731906e8cc7c6"
+    },
+    {
+      "path": "independent-B25-replay.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "independent-B25-replay.result.json",
+      "exists": true,
+      "expected": "ae87558cedc4f90c589020ec9d832d4e37074135abb12f107bf1b20190b85387",
+      "actual": "ae87558cedc4f90c589020ec9d832d4e37074135abb12f107bf1b20190b85387"
+    },
+    {
+      "path": "independent-B25-replay.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "independent-B25-replay.stdout.log",
+      "exists": true,
+      "expected": "67f464a01246326f8e0fe0157ba8e4c13cb7f09581c01bae1270fe3cbcd6f581",
+      "actual": "67f464a01246326f8e0fe0157ba8e4c13cb7f09581c01bae1270fe3cbcd6f581"
+    },
+    {
+      "path": "index-final.json",
+      "exists": true,
+      "expected": "481c49766ceac9821e5a46cc5c2ab1c59126d4c3c8ced091421262df517ebf4e",
+      "actual": "7e849e740d44932f7fec08bcae7d2939459381505d5f72e18a490b439407a34f"
+    },
+    {
+      "path": "manual-citations.command.json",
+      "exists": true,
+      "expected": "29efd482023df601ca1caa23579f67a216af9081ca5b4712757209be04ff532d",
+      "actual": "29efd482023df601ca1caa23579f67a216af9081ca5b4712757209be04ff532d"
+    },
+    {
+      "path": "manual-citations.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "manual-citations.result.json",
+      "exists": true,
+      "expected": "f6b75e11f22d3cfe91cf678d63616d56f3750b3226106e2dc850c052e51374c3",
+      "actual": "f6b75e11f22d3cfe91cf678d63616d56f3750b3226106e2dc850c052e51374c3"
+    },
+    {
+      "path": "manual-citations.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "manual-citations.stdout.log",
+      "exists": true,
+      "expected": "ba38c7c8a511c8cfc09005f6127702c827646ce3dc676f1f15ab9cde7cb33a10",
+      "actual": "ba38c7c8a511c8cfc09005f6127702c827646ce3dc676f1f15ab9cde7cb33a10"
+    },
+    {
+      "path": "model.command.json",
+      "exists": true,
+      "expected": "c962289f72122169a9da8649cfe35fc49e7a53516384aa4e41f557f64d959ae7",
+      "actual": "c962289f72122169a9da8649cfe35fc49e7a53516384aa4e41f557f64d959ae7"
+    },
+    {
+      "path": "model.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "model.result.json",
+      "exists": true,
+      "expected": "cebeae48d694ca92ed8a68d32ead49c588a47e53eaad9dbf4e75e0765b1c4c3f",
+      "actual": "cebeae48d694ca92ed8a68d32ead49c588a47e53eaad9dbf4e75e0765b1c4c3f"
+    },
+    {
+      "path": "model.stderr.log",
+      "exists": true,
+      "expected": "ec1432c181598975780cbe146ab86b33a3dafdb70e0b76bfa8946dc586f02945",
+      "actual": "ec1432c181598975780cbe146ab86b33a3dafdb70e0b76bfa8946dc586f02945"
+    },
+    {
+      "path": "model.stdout.log",
+      "exists": true,
+      "expected": "8f2c807410637b9bce8bf05416eff22b2e14c7b89b3f740a7d9b599d1b41cb94",
+      "actual": "8f2c807410637b9bce8bf05416eff22b2e14c7b89b3f740a7d9b599d1b41cb94"
+    },
+    {
+      "path": "package-finalize.command.json",
+      "exists": true,
+      "expected": "9b09d7b7267eff5d9d4d9b91d42197cde8f600dbe5f3b8847cc49e5d4e4c9608",
+      "actual": "9b09d7b7267eff5d9d4d9b91d42197cde8f600dbe5f3b8847cc49e5d4e4c9608"
+    },
+    {
+      "path": "package-finalize.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "package-finalize.result.json",
+      "exists": true,
+      "expected": "6d84d8877e0e1044acb60703ff9f441fdd24a3ef9b35182fb6f7677b62b28dcf",
+      "actual": "6d84d8877e0e1044acb60703ff9f441fdd24a3ef9b35182fb6f7677b62b28dcf"
+    },
+    {
+      "path": "package-finalize.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "package-finalize.stdout.log",
+      "exists": true,
+      "expected": "0518246a895f34e9a03726cff2db2503fbf2ea7157d5b4cdfd49f425be87ce58",
+      "actual": "0518246a895f34e9a03726cff2db2503fbf2ea7157d5b4cdfd49f425be87ce58"
+    },
+    {
+      "path": "review-recovery/provenance.json",
+      "exists": true,
+      "expected": "74b743c5f1e3f0d242335ccd712e31b0c3215838173b40963f3c9296ce723272",
+      "actual": "74b743c5f1e3f0d242335ccd712e31b0c3215838173b40963f3c9296ce723272"
+    },
+    {
+      "path": "review-recovery/replay_B_current_source.py",
+      "exists": true,
+      "expected": "ed45990c65014093f07a3d792afa9af4b7249977cc1676fd4fd5735aaaf82c6d",
+      "actual": "ed45990c65014093f07a3d792afa9af4b7249977cc1676fd4fd5735aaaf82c6d"
+    },
+    {
+      "path": "run.py",
+      "exists": true,
+      "expected": "f0fdbee0eaf404dd022d4e06f1906a66dcc601233bda413754fa3a311d4c69a7",
+      "actual": "f0fdbee0eaf404dd022d4e06f1906a66dcc601233bda413754fa3a311d4c69a7"
+    },
+    {
+      "path": "source-after.json",
+      "exists": true,
+      "expected": "83e0c9c0ee9e000795b0d43f6de5c861e6d54d8ec37df7817b8311aac47d8b90",
+      "actual": "83e0c9c0ee9e000795b0d43f6de5c861e6d54d8ec37df7817b8311aac47d8b90"
+    },
+    {
+      "path": "tools-tests.command.json",
+      "exists": true,
+      "expected": "92ff1a432aad51f0f49c02b86cb890fc4ca0adfb7777136f4f3cf5d4369df4f7",
+      "actual": "92ff1a432aad51f0f49c02b86cb890fc4ca0adfb7777136f4f3cf5d4369df4f7"
+    },
+    {
+      "path": "tools-tests.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "tools-tests.result.json",
+      "exists": true,
+      "expected": "fca7b4f7a055c3138fce141965895e31d8c8cbf1bc33e7a54f5acd5b9bda3867",
+      "actual": "fca7b4f7a055c3138fce141965895e31d8c8cbf1bc33e7a54f5acd5b9bda3867"
+    },
+    {
+      "path": "tools-tests.stderr.log",
+      "exists": true,
+      "expected": "919c9d0a2c229f644af682a179a9212efb67d8565f8c4f8e75320566b6cbc911",
+      "actual": "919c9d0a2c229f644af682a179a9212efb67d8565f8c4f8e75320566b6cbc911"
+    },
+    {
+      "path": "tools-tests.stdout.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tsan-build.command.json",
+      "exists": true,
+      "expected": "21d2ae1da03df3d9a34de581f1db95538b5d631bb9c7bc72225429b08a80f117",
+      "actual": "21d2ae1da03df3d9a34de581f1db95538b5d631bb9c7bc72225429b08a80f117"
+    },
+    {
+      "path": "tsan-build.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "tsan-build.result.json",
+      "exists": true,
+      "expected": "40451e0a05065a783a1922e88fc24de270b81b4458456391d712b04d3ac8912a",
+      "actual": "40451e0a05065a783a1922e88fc24de270b81b4458456391d712b04d3ac8912a"
+    },
+    {
+      "path": "tsan-build.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tsan-build.stdout.log",
+      "exists": true,
+      "expected": "f1499c6876eaa0d24410f46784cbbacdc7505fbf972d12cf6743815641c44756",
+      "actual": "f1499c6876eaa0d24410f46784cbbacdc7505fbf972d12cf6743815641c44756"
+    },
+    {
+      "path": "tsan-ctest.command.json",
+      "exists": true,
+      "expected": "ff5040bb82085e87d48062b101b766e38a48c5c932937f0f1b3ac74fff287765",
+      "actual": "ff5040bb82085e87d48062b101b766e38a48c5c932937f0f1b3ac74fff287765"
+    },
+    {
+      "path": "tsan-ctest.exitcode",
+      "exists": true,
+      "expected": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "actual": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "tsan-ctest.result.json",
+      "exists": true,
+      "expected": "e7a92164a6d67ab8d7aa709dc330dd1ecd0611b671a4b3f35a55e9dfd964afea",
+      "actual": "e7a92164a6d67ab8d7aa709dc330dd1ecd0611b671a4b3f35a55e9dfd964afea"
+    },
+    {
+      "path": "tsan-ctest.stderr.log",
+      "exists": true,
+      "expected": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "actual": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "tsan-ctest.stdout.log",
+      "exists": true,
+      "expected": "0e035632ac8c52d456dcba2c267252a3b5cfc77b2b58e1b5232b190944baee8c",
+      "actual": "0e035632ac8c52d456dcba2c267252a3b5cfc77b2b58e1b5232b190944baee8c"
+    }
+  ],
+  "package": {
+    "bytes": 193340,
+    "sha256": "b70396b228cb594793b44ad6d6f4dfc65a0167fd0efd90325d8feec276f69c5e"
+  },
+  "session_files": [
+    {
+      "path": "post-power-board/board-move-session-1/OD-fresh-session-prompt.screen.json",
+      "bytes": 161,
+      "sha256": "224ce1391c8152a1f17baf5cdcbaa334ca91355cf4b13d19f10a09fcd14951e3"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/OD-fresh-session-prompt.screen.txt",
+      "bytes": 6994,
+      "sha256": "e8ebffed4b0affb05ec0634949c22c95a6cd51774bc3cd4a231c3af85a57b1e1"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/R-fresh-frozen-before-token.screen.json",
+      "bytes": 165,
+      "sha256": "80871bee9de40a7effa9a8104b415f25bac393a07e7c4e7463636fb19cdc14c4"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/R-fresh-frozen-before-token.screen.txt",
+      "bytes": 6976,
+      "sha256": "329501549237695d2353d10fcf5ed4e47c55b73499251d7297d2c1f93b237ff8"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/R-fresh-frozen-confirm-visible-v2.screen.json",
+      "bytes": 171,
+      "sha256": "1cda638aefbc66bbc84dfc17ce5a7030f6f955e99b8dbc0ee72d74b3bb2d1db8"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/R-fresh-frozen-confirm-visible-v2.screen.txt",
+      "bytes": 7318,
+      "sha256": "05c84fbddd2772fff5bd983046a0938970d3d91fb7b7964baca72a965d3587ca"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/R-fresh-frozen-review.json",
+      "bytes": 2894,
+      "sha256": "3f4a9f8a55c7ef963f368db2bc2716312bab352764eacbf96fd09f6062e828ec"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/R-fresh-plus36-preview.screen.json",
+      "bytes": 160,
+      "sha256": "abd98b9958caa2e963e7310bec4739bd927ebb3bd152abcf6cf2d00b52462e48"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/R-fresh-plus36-preview.screen.txt",
+      "bytes": 6994,
+      "sha256": "94a73367fa5a92f6ab3cf57ddbef6b15ec17fd46f69c09b8fd21931a6824a29d"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/R-once-result-before-exit.screen.json",
+      "bytes": 163,
+      "sha256": "37fcbc649dbb240ea13bf29c5eb1076dd1c7599f56b9b7f699db479425a87bc0"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/R-once-result-before-exit.screen.txt",
+      "bytes": 6984,
+      "sha256": "3b0eb178b2d5d94b061fe4bdabc985a00df113079befccffd897d354657f42bf"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/command.json",
+      "bytes": 1048,
+      "sha256": "6e9964893c02c6b8cee9e92a6a2fca5f613f4db88b15e92ebe60a47446c8efec"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/fresh-node1-detail.screen.json",
+      "bytes": 156,
+      "sha256": "51b3124e582d4af2aafe1819f99cad4dd688725c4615677b722074d014128b40"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/fresh-node1-detail.screen.txt",
+      "bytes": 7014,
+      "sha256": "ac5abb87cdc852fa5d3573e4f793dc234e88f591b310b1c4bb86adf1003176be"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/fresh-scan-overview.screen.json",
+      "bytes": 157,
+      "sha256": "347dc9bfb75c556c8426e78b5d37bf62defc979dfd4329c7fc157af92087fcda"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/fresh-scan-overview.screen.txt",
+      "bytes": 7345,
+      "sha256": "fbf0ca0d66d375d8dbaf45f26426607aa0e79db948b3a55362e191b5872c1699"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/initial-RT-confirmation.screen.json",
+      "bytes": 161,
+      "sha256": "fda80111db09979d15df7d0debb6c49b0045f6b872a4682151fd076ef923c124"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/initial-RT-confirmation.screen.txt",
+      "bytes": 7039,
+      "sha256": "22fd141c6ab51539294b0d51c013a5256fcdd70856db81e28d9ebd92705e62f9"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/keys.jsonl",
+      "bytes": 4533,
+      "sha256": "41c9ac169fdf2967fab3f0d57ba7a78614a35d24cabc34d8333fb4faa288228a"
+    },
+    {
+      "path": "post-power-board/board-move-session-1/terminal.raw",
+      "bytes": 24903,
+      "sha256": "4fd3138b53160f65b0028fa74604bd496e5466ff3e93f8a6b850f82f42182606"
+    }
+  ],
+  "last_keys": [
+    {
+      "utc": "2026-10-19T02:20:19.984533+00:00",
+      "monotonic": 784.047611113,
+      "label": "typed text",
+      "text": "RELATIVE can1 1 -1434",
+      "bytes_hex": "52454c41544956452063616e312031202d31343334"
+    },
+    {
+      "utc": "2026-10-19T02:20:20.135951+00:00",
+      "monotonic": 784.199043722,
+      "label": "enter",
+      "text": "\r",
+      "bytes_hex": "0d"
+    },
+    {
+      "utc": "2026-10-19T02:20:20.287118+00:00",
+      "monotonic": 784.350181974,
+      "label": "f5",
+      "text": "\u001b[15~",
+      "bytes_hex": "1b5b31357e"
+    }
+  ],
+  "motion_result": "unknown; persisted screen remains running, no recovered motion journal",
+  "expected_behavior": "retained command raw hashes and frozen source remain unchanged",
+  "artifact_index_stale_entries": [
+    "index-final.json"
+  ]
+}

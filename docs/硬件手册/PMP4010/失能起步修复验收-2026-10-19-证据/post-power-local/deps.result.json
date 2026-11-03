@@ -1,0 +1,16 @@
+{
+  "name": "deps",
+  "argv": [
+    "bash",
+    "tools/check-deps.sh"
+  ],
+  "shell_command": "bash tools/check-deps.sh",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:13:36.760897+00:00",
+  "duration_seconds": 0.025232452000011563,
+  "returncode": 0,
+  "stdout": "deps.stdout.log",
+  "stderr": "deps.stderr.log",
+  "stdout_sha256": "64c699c396e34f61f47aee249d1c4357dd63797c35e3c16eed061909a9669a06",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

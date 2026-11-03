@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "archive_bytes": 220380,
+  "archive_sha256": "0218ab4207ebf09948feb995ec360cbe6d22fb3dc94a0062cafc5b3dd4397761",
+  "manifest_sha256": "a41b88269819e718e1486876be8d99502a773a401ef084343b57d597fb818b71",
+  "frozen_files": 4,
+  "source_hashes_match": true,
+  "archive_members": 24,
+  "script_compiles": 7,
+  "ssh_calls": 0
+}

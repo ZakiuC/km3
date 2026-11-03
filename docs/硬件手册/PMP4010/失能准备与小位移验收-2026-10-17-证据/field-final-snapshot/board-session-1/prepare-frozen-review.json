@@ -1,0 +1,101 @@
+{
+  "result": "READY_FOR_PARENT_REVIEW_ONLY",
+  "utc_last_event": "2026-10-17T08:31:06.944762+00:00",
+  "payload": "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload",
+  "interface": "can1",
+  "node": 1,
+  "values": {
+    "statusword": 608,
+    "actual_position": -1465,
+    "actual_velocity": 0,
+    "modes_of_operation_display": 1,
+    "error_code_object": 0,
+    "torque_feedback": 0,
+    "velocity_feedback_unit": 0,
+    "profile_velocity": 500000,
+    "profile_acceleration": 5000000,
+    "profile_deceleration": 5000000,
+    "home_offset": 0,
+    "control_mode_select": 0,
+    "modes_of_operation": 1,
+    "target_position": 7800,
+    "max_velocity": 9000000,
+    "max_motor_speed": 4000,
+    "max_profile_acceleration": 2147483647,
+    "max_deceleration": 2147483647
+  },
+  "calibration_four": [
+    131072,
+    1,
+    1,
+    1
+  ],
+  "motor_degrees_per_U": "45/16384",
+  "delta": 36,
+  "actual_degrees": "405/4096",
+  "candidate_target": -1429,
+  "script_limits": [
+    -1465,
+    -1429
+  ],
+  "budget": 36,
+  "hard_one_degree_max_U": 364,
+  "frozen": {
+    "action": "prepare_pp",
+    "node": 1,
+    "target": -1465,
+    "start": -1465,
+    "token": "PREPARE_PP can1 1 -1465",
+    "lines": [
+      "接口 can1  节点 1  动作 失能准备",
+      "目标 -1465 U = -4.024度 电机轴；相对当前位置 +0 U / +0.000度",
+      "单次位移上限 36 U (硬顶1度)；本次 0 U，剩余 36 U",
+      "失能准备：607A 7800 → -1465 U；6081 500000 → 100 U/s（0.045776 rpm轮廓值）",
+      "实际速度0（约0 rpm），计划位移0 U；执行前5次采样，间隔0.2秒。",
+      "保持失能；不发控制字/NMT，不触发轨迹；target reached当前=False。",
+      "准备完成不代表可运动，也不保证bit10置位；运动须重新静止检查和两段确认。",
+      "日志 /tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/pp-session-1/pmp4010-motion-dbd6e9dafa4840a4b562d429f302c33b.jsonl",
+      "写 607Ah = -1465（int32，仅对齐本次实读起点；不触发轨迹）",
+      "写 6081h = 100（uint32，固定100用户单位/s；仅降速）"
+    ],
+    "writes": [
+      {
+        "key": "target_position",
+        "index": 24698,
+        "sub": 0,
+        "type": "int32",
+        "value": -1465,
+        "note": "仅对齐本次实读起点；不触发轨迹"
+      },
+      {
+        "key": "profile_velocity",
+        "index": 24705,
+        "sub": 0,
+        "type": "uint32",
+        "value": 100,
+        "note": "固定100用户单位/s；仅降速"
+      }
+    ]
+  },
+  "token_entered": false,
+  "execute_calls": 0,
+  "SDO_downloads": 0,
+  "SDO_exceptions": [],
+  "quarantined": false,
+  "blocked": [],
+  "enabled_sessions": [],
+  "raw_screen_sha256": "cc0dd7c525eb7977d8f03d144a09d3251b3240b51581d04769768f2bf4e3e660",
+  "source_hashes": {
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/drivers/pmp4010/pmp4010.py": "2fca0b103544c29f78a79b9e349ec841db0e39abf8f39d9d910e57e47b1e0a1a",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/drivers/pmp4010/pmp4010_bench.py": "fbe69ec63e58fb30f49866f48f93d01e14c15a8b129866c9fba6f292fa7c974f",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/drivers/pmp4010/pmp4010_tui.py": "6ef77e2edbbfea5f579fa5db0996472a9932c9a1ddc3bd0118abd1a5ab7654b8",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/drivers/pmp4010/pmp4010_position.py": "2b66e24bd8f96a1438cfa2078e8517da5069da9071bbc498d7e18d8ff72a1886",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/drivers/pmp4010/pmp4010_params.py": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/drivers/pmp4010/pmp4010_velocity.py": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/hwtui/canopen.py": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/hwtui/canbus.py": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/hwtui/canopen_consts.py": "318e0a76ac7c96856be6ca55b7a99fd12d64913eed9e5cb23b10dff3b9372e1c",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/hwtui/canopen_wire.py": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885",
+    "/tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/payload/hwtui/tui.py": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb"
+  }
+}

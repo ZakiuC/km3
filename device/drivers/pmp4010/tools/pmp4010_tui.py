@@ -1,4 +1,6 @@
 """Chinese four-seat PMP4010 live bench; no I/O in rendering or key handling."""
+from pmp4010_faults import format_fault
+
 import copy
 import queue
 import re
@@ -75,26 +77,30 @@ class JobOutput:
 
 
 HELP = (
-    '测试台：固定四席，按实际扫描到的节点填入；未分配席位显示离线。',
+    '测试台：固定四席，按实际扫描到的节点填入；未分配席位显示离线。本页为帮助。',
     '启动：F5 显式确认 RT 总线占用风险后，自动发 SDO 身份上传扫描一次。',
     '主界面：Up/Down 或 j/k 选电机；Enter 详情；S 扫描；R 刷新；D 全部失能；X 全部快停。',
     '批量仅处理当前在线未隔离节点；跳过项明示；须审阅并输入含动作与节点列表的确认串。',
-    '详情：A 绝对位置；R 相对位置；Z 方法35设零点；E 使能；D 失能；X 快停。',
+    '详情：A 绝对；R 相对；Z 方法35设零；E 使能；D 失能；X 快停；P 失能准备；B 未使能起步核证。',
     '详情刷新用 F6；R 专用于相对位置，避免同键歧义。',
     'F2：逐项输入脚本行程下限、上限、人工单次位移预算，每屏只填一个数。',
-    '位置：按 A/R 后输入一个数，预览随输入变化；F5 审阅，再输确认串并按 F5 执行。',
+    '动作：A/R先填位置；含P失能准备均F5审阅、精确确认串、F5执行；P后重新审阅运动。',
     'F5 自动提交当前草稿；Enter 也可提交；编辑中 ? 是普通字符。',
     '首次动作需显式确认本会话 OD 旁路；默认只读，不继承命令行旁路理由。',
     '相对位置＝静止快照6064＋偏移；只允许 target reached 且606C=0。',
     '执行会重新读取并核对基准；准备期间也监视漂移，绝不静默重算目标。',
-    'PP速度、加减速度取设备实读并沿用 CLI 上限校验；不猜测默认值。',
+    'PP轮廓实读并校验上限；P仅607A对齐起点、6081降100，仍失能且不保证bit10置位。',
+    'B未使能起步核证：bit3=0、Halt=1，仅到Switched on；固件可能拒绝，不升级使能，不允许位置漂移。',
+    '严格失能A/R：每次先未使能当前位置握手；Halt使能5次零漂移，释放后才写最终目标；总时限最多15秒。',
+    '保持Halt；不解除暂停；结束失能。只核证当前位置握手，不代表真实位移验收。',
     '设零点只用方法35，不写607Ch/DI；DI配置需求未验证，607Ch非零则拒绝。',
     '设零点须新 bit10+bit12 完成与6064=0读回；bit15不作通用状态或成功判据。',
     '设零点后，旧坐标的脚本行程和预算失效，必须重新输入。',
-    '速度模式未开放（换算链未实现）；转矩显示额定转矩百分比，非N·m。',
+    'PV/CSV 使能须审阅并预写零速度；非零速度操作未开放。',
+    '转矩显示额定转矩百分比，非N·m。',
     '实时对象含6064用户单位、606C实际单位选择；刷新约2Hz，失败保留旧值。',
     'SDO超时即隔离该接口/节点；需外部恢复，本工具不自动重连、不重试绕过隔离。',
-    'Esc 中止动作并等待快停/失能确认；q/Ctrl-C 等待清理后退出。',
+    'Esc中止；P仅停止并留部分写证据，其余等待快停/失能；q/Ctrl-C等后台结束退出。',
     'PgUp/PgDn 翻日志；g 回到末尾；? 或 F1 帮助；帮助中 Esc/q 返回原焦点。',
 )
 SAFETY = ('安全：工具侧软行程与电机轴1度硬顶；607Dh不能替代机械保护。',
@@ -122,6 +128,8 @@ class PmpApp(TuiApp):
         self.help_log = LogView(max_lines=500)
         for line in HELP:
             self.help_log.append(line)
+        # Before first render LogView has no measured total for goto_start().
+        self.help_log.scroll(self.help_log.max_lines)
         self.current_view = 'rt'
         self.selected = 0
         self.worker = self.refresh_worker = None
@@ -226,6 +234,7 @@ class PmpApp(TuiApp):
     def begin_action(self, action):
         if self.busy:
             return
+        self.controller.discard_prepare()
         self.action = self._resume_action = action
         if not self._requirements(action):
             return
@@ -292,6 +301,8 @@ class PmpApp(TuiApp):
         if error:
             self.log.append('已阻止：' + error, 'err')
             return
+        # Only this F5 freezes a single-use plan; rendering a preview never does.
+        self.controller.freeze_prepare(review)
         self.pending = review
         self.confirm = dict(expected=review['token'], review=review)
         self.current_view = 'confirm'
@@ -309,7 +320,8 @@ class PmpApp(TuiApp):
         policy = action_policy(review['action'])
         self.current_view = 'overview' if policy['batch'] else 'detail'
         self._result_seen = False
-        self.recovery = '执行中；结果读回与清理前状态未知'
+        self.recovery = ('失能准备执行中；失败仅停止并保留部分写入证据' if review['action'] == 'prepare_pp'
+                         else '执行中；结果读回与清理前状态未知')
         execute = self.controller.execute_batch if policy['batch'] else self.controller.execute
         self._launch('execute', lambda out: execute(review, out))
 
@@ -353,7 +365,15 @@ class PmpApp(TuiApp):
                 if name in ('result', 'bench_result'):
                     self._result_seen = True
                     disabled = data.get('disabled_confirmed')
-                    self.recovery = '失能确认={}；机械停止状态未知'.format(disabled)
+                    if data.get('action') == 'probe_pp_start':
+                        self.recovery = '失能确认={}；位置保持={}；零速确认={}；核证={}；机械停止状态未知'.format(
+                            disabled, data.get('position_unchanged'), data.get('zero_velocity_confirmed'),
+                            '通过' if data.get('success', data.get('completed', False)) else '未通过')
+                    elif data.get('strict_disabled_start'):
+                        self.recovery = '失能确认={}；目标位置={}；零速确认={}；机械停止状态未知'.format(
+                            disabled, data.get('position_target_confirmed'), data.get('zero_velocity_confirmed'))
+                    else:
+                        self.recovery = '失能确认={}；机械停止状态未知'.format(disabled)
                 if name in ('result', 'bench_result', 'write_readback'):
                     self.log.append('结果事件 {}：{}'.format(name, data))
         for _ in range(128):
@@ -387,7 +407,8 @@ class PmpApp(TuiApp):
             self.cancel.set()
             self.refresh_cancel.set()
             self.exit_after = True
-            self.log.append('已请求中止；等待后台事务与失能清理，状态尚未知', 'warn')
+            self.log.append('已请求中止；等待后台事务结果，状态尚未知' if self.action == 'prepare_pp'
+                            else '已请求中止；等待后台事务与失能清理，状态尚未知', 'warn')
             return False
         self.exit_after = True
         if self.controller.enabled_sessions:
@@ -424,9 +445,11 @@ class PmpApp(TuiApp):
         if self.busy:
             if name == 'esc':
                 self.cancel.set()
-                self.log.append('请求中止；等待快停/失能确认，状态未知', 'warn')
+                self.log.append('请求中止失能准备；停止后保留部分写入证据，状态未知' if self.action == 'prepare_pp'
+                                else '请求中止；等待快停/失能确认，状态未知', 'warn')
             return False
         if name == 'esc':
+            self.controller.discard_prepare()
             self.current_view = 'overview' if self.current_view == 'detail' else 'detail' if self.current_view in ('action', 'confirm', 'setting', 'od') else 'rt' if not self.controller.rt_ack else 'overview'
             self.set_form(None)
             self.pending = self.confirm = None
@@ -472,7 +495,7 @@ class PmpApp(TuiApp):
             elif name.lower() in ('d', 'x'):
                 self.begin_action('disable_all' if name.lower() == 'd' else 'stop_all')
         elif self.current_view == 'detail':
-            action = {'a': 'absolute', 'r': 'relative', 'z': 'zero', 'e': 'enable', 'd': 'disable', 'x': 'stop'}.get(name.lower())
+            action = {'a': 'absolute', 'r': 'relative', 'z': 'zero', 'e': 'enable', 'd': 'disable', 'x': 'stop', 'p': 'prepare_pp', 'b': 'probe_pp_start'}.get(name.lower())
             if action:
                 self.begin_action(action)
             elif name == 'f6':
@@ -486,7 +509,7 @@ class PmpApp(TuiApp):
             return ['Esc 中止', 'q 清理后退出', '? 帮助']
         return {'rt': ['F5 确认并扫描', 'q 退出', '? 帮助'],
                 'overview': ['S 扫描', 'Enter 详情', 'R 刷新', 'D 全部失能', 'X 全部快停', 'F2 安全设置', '? 帮助', 'q 退出'],
-                'detail': ['Esc 返回', 'A 绝对', 'R 相对', 'Z 设零', 'E 使能', 'D 失能', 'X 快停', 'F6 刷新', 'F2 设置', '? 帮助'],
+                'detail': ['Esc 返回', 'A 绝对', 'R 相对', 'P 失能准备', 'B 未使能核证', 'Z 设零', 'E 使能', 'D 失能', 'X 快停', 'F6 刷新', 'F2 设置', '? 帮助'],
                 'action': ['F5 审阅', 'Esc 取消', '?/F1 帮助'],
                 'confirm': ['F5 执行', 'Esc 取消', '?/F1 帮助'],
                 'od': ['F5 确认', 'Esc 取消'], 'setting': ['F5 下一项', 'Esc 取消']}.get(self.current_view, [])
@@ -508,9 +531,10 @@ class PmpApp(TuiApp):
                   '位置 {} U{}'.format(pos, angle),
                   '速度 {} {}'.format(v['actual_velocity'], velocity_unit(v)),
                   '转矩 {:.1f}% 额定转矩'.format(v['torque_feedback'] * .1),
-                  '模式 {} ({})  报警 {}'.format(mode_text(v['modes_of_operation_display']), v['modes_of_operation_display'], '无' if not v['error_code_object'] else '0x{:04X}'.format(v['error_code_object'])),
-                  '控制 [E]使能 [D]失能 [X]快停  [A]绝对 [R]相对 [Z]设零点',
-                  '设零点：回零方式35；DI配置需求未验证。速度模式未开放。']
+                  '报警 {}'.format(format_fault(v.get('error_code_object'))),
+                  '模式 {} ({})'.format(mode_text(v['modes_of_operation_display']), v['modes_of_operation_display']),
+                  '控制 [E]使能 [D]失能 [X]快停  [A]绝对 [R]相对 [Z]设零点 [P]失能准备',
+                  '设零点：回零方式35；DI配置需求未验证。PV/CSV仅允许预写零速度后使能。']
         return lines
 
     def build(self):
@@ -528,14 +552,21 @@ class PmpApp(TuiApp):
                 grid.put(max(body.y, bottom-2)+i, 2, fit(line, width))
         else:
             if self.current_view == 'overview':
-                table = Table(['节点', '状态', '位置 U', '速度', '模式', '报警'])
+                # Reserve the full alarm meaning even on an 80-column terminal.
+                table = Table(['节点', '报警', '状态 / 位置 / 速度 / 模式'])
                 rows = []
                 for row in self.controller.rows:
                     v = row['values']
-                    rows.append([str(row['node']) if row['node'] is not None else '未分配', state_text(row),
+                    summary = '{} / {}U / {} / {}'.format(state_text(row),
                         v.get('actual_position', '-'), '{} {}'.format(v['actual_velocity'], velocity_unit(v)) if v else '-',
-                        mode_text(v['modes_of_operation_display']) if v else '-',
-                        '无' if v and v['error_code_object'] == 0 else '0x{:04X}'.format(v['error_code_object']) if v else '-'])
+                        mode_text(v['modes_of_operation_display']) if v else '-')
+                    rows.append([str(row['node']) if row['node'] is not None else '未分配',
+                        format_fault(v.get('error_code_object')), summary])
+                reserved = sum(max(_display_width(header), max((_display_width(row[i]) for row in rows), default=0))
+                               for i, header in enumerate(table.headers[:2]))
+                summary_width = max(0, width - reserved - table._sep_width(3, self.box))
+                for row in rows:
+                    row[2] = fit(row[2], summary_width)
                 table.set_rows(rows)
                 table.set_selected(self.selected)
                 table.render(grid, Rect(1, 2, min(7, body.h), width), self.box)

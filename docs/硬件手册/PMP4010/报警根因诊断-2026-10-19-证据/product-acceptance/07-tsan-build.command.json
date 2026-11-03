@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "cmake",
+    "--build",
+    "build-tsan",
+    "-j8"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-20T00:50:50.366411+00:00"
+}

@@ -1,0 +1,52 @@
+{
+  "probe_rc": 1,
+  "after_passive_rc": 0,
+  "automatic_retries": 0,
+  "source_sha256": "294626057423c4361a2b776b092aceacb5afa7476b48eb830ecb249c9054916a",
+  "tx_attempts": 1,
+  "tx_successes": 1,
+  "rx_events": 0,
+  "values": [],
+  "terminal_events": [
+    {
+      "event": "ended_without_retry",
+      "utc": "2026-10-19T09:18:08.232819+00:00",
+      "monotonic_ns": 24294974198227,
+      "error_type": "TimeoutError",
+      "error": "timed out",
+      "device_writes": 0,
+      "retries": 0
+    }
+  ],
+  "passive_equal": {
+    "hostname": true,
+    "model": true,
+    "boot_id": true,
+    "device_id": true,
+    "config_sha": true,
+    "can_env_sha": true,
+    "current": true,
+    "services": true,
+    "related_processes_excluding_snapshot_pid": true,
+    "can_rcvlists": true
+  },
+  "can_state_equal": true,
+  "counter_delta": {
+    "rx": {
+      "bytes": 8,
+      "packets": 1,
+      "errors": 0,
+      "dropped": 0,
+      "over_errors": 0,
+      "multicast": 0
+    },
+    "tx": {
+      "bytes": 0,
+      "packets": 1,
+      "errors": 0,
+      "dropped": 0,
+      "carrier_errors": 0,
+      "collisions": 0
+    }
+  }
+}

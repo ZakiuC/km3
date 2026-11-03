@@ -1,0 +1,986 @@
+{
+  "copied_utc": "2026-10-19T01:13:50.146833+00:00",
+  "files": [
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/PTY排练计划.md",
+      "destination": "board-new-evidence/PTY排练计划.md",
+      "sha256": "e0f6ccd3be3040ae9ec84f21158682be42242df15a3d5bcbf711e7f345252d06"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/after-new-probe-load.command.json",
+      "destination": "board-new-evidence/after-new-probe-load.command.json",
+      "sha256": "73b58a9440e6fb40898344925db6de7564733f286e8c6e271b528a8e07c7b879"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/after-new-probe-load.stderr",
+      "destination": "board-new-evidence/after-new-probe-load.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/after-new-probe-load.stdout",
+      "destination": "board-new-evidence/after-new-probe-load.stdout",
+      "sha256": "b3c112ac4b8b99b1e2cfe0e40ddca67fa137bfd8c8be01e10a03cac6894081eb"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/after-probe-new-source-verification.json",
+      "destination": "board-new-evidence/after-probe-new-source-verification.json",
+      "sha256": "5847e726e27920c6edb8e8beb7c4c7897fac5417a86b338c544e7ad10cedc3f9"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/after-probe-new-source.command.json",
+      "destination": "board-new-evidence/after-probe-new-source.command.json",
+      "sha256": "5104d686b7eba6700373d30dc224641761527c34b1c24ba69481367bb8066338"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/after-probe-new-source.script.py",
+      "destination": "board-new-evidence/after-probe-new-source.script.py",
+      "sha256": "c2f7c4053b036f25b9013329e6b4ee4eab9017d7003f58b534dac66d61f613f1"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/after-probe-new-source.stderr",
+      "destination": "board-new-evidence/after-probe-new-source.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/after-probe-new-source.stdout",
+      "destination": "board-new-evidence/after-probe-new-source.stdout",
+      "sha256": "ff45e0f151c72f6dcc4874eb957f457a9cf78136dff60464a9809a6c60a47a9e"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/after-real-tui.command.json",
+      "destination": "board-new-evidence/after-real-tui.command.json",
+      "sha256": "dfa2d29a3e8f3e354646ad4a8051bf8f363035519436640cbe7fd020d846dfb8"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/after-real-tui.stderr",
+      "destination": "board-new-evidence/after-real-tui.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/after-real-tui.stdout",
+      "destination": "board-new-evidence/after-real-tui.stdout",
+      "sha256": "057db00ea81c22eddbd0baeb3816c7db151e922fd2f6159a0910ae62cef8c0e4"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/baseline-38.command.json",
+      "destination": "board-new-evidence/baseline-38.command.json",
+      "sha256": "db00fbfd36f85910be065c18814fcc0c44019f976cdc01394b5d8c293d7196d7"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/baseline-38.json",
+      "destination": "board-new-evidence/baseline-38.json",
+      "sha256": "a19242aa7e979b01fe6efd827b2781e1b22b7631fe692fb925c265efbc55b59d"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/baseline-38.script.py",
+      "destination": "board-new-evidence/baseline-38.script.py",
+      "sha256": "ed50dbc4329e82ff623d2824fcba18d30f9a890f529891e55bd2ec68ec299ab3"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/baseline-38.stderr",
+      "destination": "board-new-evidence/baseline-38.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/baseline-38.stdout",
+      "destination": "board-new-evidence/baseline-38.stdout",
+      "sha256": "a19242aa7e979b01fe6efd827b2781e1b22b7631fe692fb925c265efbc55b59d"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/baseline-passive-01.json",
+      "destination": "board-new-evidence/baseline-passive-01.json",
+      "sha256": "5b78e6927d34ff963a899d39fc13e92d38b5b5c7ed41c15b1d35c906bbea7514"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/before-new-probe-stage.command.json",
+      "destination": "board-new-evidence/before-new-probe-stage.command.json",
+      "sha256": "337148f569d30172ffd01e9649f11f20d6f0abb7425db71af7b9fd2db4fd27a1"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/before-new-probe-stage.stderr",
+      "destination": "board-new-evidence/before-new-probe-stage.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/before-new-probe-stage.stdout",
+      "destination": "board-new-evidence/before-new-probe-stage.stdout",
+      "sha256": "b382b29786fee43b8587e884d66957a2580fa2bfcbc95556de2e274a79349d03"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/before-real-tui.command.json",
+      "destination": "board-new-evidence/before-real-tui.command.json",
+      "sha256": "d5dffc0a7b12fb850c307b4fdd771aa80d0b3ccd2753595589e97a9f7c301ddb"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/before-real-tui.stderr",
+      "destination": "board-new-evidence/before-real-tui.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/before-real-tui.stdout",
+      "destination": "board-new-evidence/before-real-tui.stdout",
+      "sha256": "902478f8e318dcbe652553cae1fd2622a75095346c4a5adfdc03b03ca6c496dd"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/before-stage.command.json",
+      "destination": "board-new-evidence/before-stage.command.json",
+      "sha256": "8d072388e2c27fddf5252cc602bfacd291af33fb592ed8c0fab3dc0d0894f4ce"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/before-stage.script.py",
+      "destination": "board-new-evidence/before-stage.script.py",
+      "sha256": "9ba92d2915606a16b284f72368e30608910df26ffccefd9302f5c5c682f23cc8"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/before-stage.stderr",
+      "destination": "board-new-evidence/before-stage.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/before-stage.stdout",
+      "destination": "board-new-evidence/before-stage.stdout",
+      "sha256": "7834a09c9ffbf6ae5a14e83a3d9ba6989fdfb384b74185877f32707c4cfc3bd5"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-before-exit-evidence/app-audit.jsonl",
+      "destination": "board-new-evidence/board-before-exit-evidence/app-audit.jsonl",
+      "sha256": "c0e68e695f9461893a8e6d0b97e879452b021f21e97ff65ddf47ecadd4f08fd8"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-before-exit-evidence/pmp4010-motion-898eb65665af42aca6132842d4fac963.jsonl",
+      "destination": "board-new-evidence/board-before-exit-evidence/pmp4010-motion-898eb65665af42aca6132842d4fac963.jsonl",
+      "sha256": "141ac48d8b27e3bdea2e0ed97dbe3549ee5e272aff8301e68d88b026dda5f9eb"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-before-exit-fetch.command.json",
+      "destination": "board-new-evidence/board-before-exit-fetch.command.json",
+      "sha256": "eb873d523fd6cc63250d479bbb8e9200ced254662547ee6ac9823e379272cff8"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-before-exit-fetch.stderr",
+      "destination": "board-new-evidence/board-before-exit-fetch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-before-exit-fetch.stdout",
+      "destination": "board-new-evidence/board-before-exit-fetch.stdout",
+      "sha256": "2376a0ef4a0bc986e66bbdea7f094e8db7f65f1f98ddae53ebfdc930ce14ffc7"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-final-evidence/app-audit.jsonl",
+      "destination": "board-new-evidence/board-final-evidence/app-audit.jsonl",
+      "sha256": "759a1f45ac639f5dd5f54c104c352cd85c79ec3b908abc11e9e589c94dde7538"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-final-evidence/pmp4010-motion-898eb65665af42aca6132842d4fac963.jsonl",
+      "destination": "board-new-evidence/board-final-evidence/pmp4010-motion-898eb65665af42aca6132842d4fac963.jsonl",
+      "sha256": "141ac48d8b27e3bdea2e0ed97dbe3549ee5e272aff8301e68d88b026dda5f9eb"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-final-fetch.command.json",
+      "destination": "board-new-evidence/board-final-fetch.command.json",
+      "sha256": "bfb54d5bcecaaa50f362f58c9364a791e04a25a2bcf8424916e3c65be1743258"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-final-fetch.stderr",
+      "destination": "board-new-evidence/board-final-fetch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-final-fetch.stdout",
+      "destination": "board-new-evidence/board-final-fetch.stdout",
+      "sha256": "9b390b6464f7a62a20d7a9a071a171cff0bde560a65fc201eb9281d443e05de1"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-final-summary.json",
+      "destination": "board-new-evidence/board-final-summary.json",
+      "sha256": "3799bc5576e5b281d4970baaac1f8228383f22b36e3f5f0df644a3231e739358"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-final-verify.command.json",
+      "destination": "board-new-evidence/board-final-verify.command.json",
+      "sha256": "55e9db69511e3fc01d9da5d5999aeeddbf89c8864c4d74809b685937f51068be"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-final-verify.stderr",
+      "destination": "board-new-evidence/board-final-verify.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-final-verify.stdout",
+      "destination": "board-new-evidence/board-final-verify.stdout",
+      "sha256": "a5cd15be237c7c3ae876c72bdb2ff53593ee91350c6fceaf73048fccd6ac9e1d"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-frozen-audit.command.json",
+      "destination": "board-new-evidence/board-frozen-audit.command.json",
+      "sha256": "6793e3aa5873e348d7d1a7941f198003fdd727da0f8e06898f513efa32d458a7"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-frozen-audit.stderr",
+      "destination": "board-new-evidence/board-frozen-audit.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-frozen-audit.stdout",
+      "destination": "board-new-evidence/board-frozen-audit.stdout",
+      "sha256": "cbbf3f4c96c108264416d5e253af393dcc656f71fd470c863644b1ea511554f7"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-frozen-review-summary.json",
+      "destination": "board-new-evidence/board-frozen-review-summary.json",
+      "sha256": "1b31fcdc66a7f3ca7d14d9655b3b2240c7bbcdb359726fa26d5872ff383e85c5"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-launch-plan.command.json",
+      "destination": "board-new-evidence/board-launch-plan.command.json",
+      "sha256": "0dfc92c3b912d44b459632373eb3042df6723cbaef8b8214e8da163d676d2197"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-launch-plan.stderr",
+      "destination": "board-new-evidence/board-launch-plan.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-launch-plan.stdout",
+      "destination": "board-new-evidence/board-launch-plan.stdout",
+      "sha256": "2bcd2be813478e08478909976b517fabceb29bc74f2a856b4b89f60bfe0b0415"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-probe-session-1/after-probe-execution.screen.json",
+      "destination": "board-new-evidence/board-probe-session-1/after-probe-execution.screen.json",
+      "sha256": "02ac2ab72a54f8203f74568424de4eca20e56017b07d194499c044e80a489da8"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-probe-session-1/after-probe-execution.screen.txt",
+      "destination": "board-new-evidence/board-probe-session-1/after-probe-execution.screen.txt",
+      "sha256": "56c302c700cb8468181cb8763331553d1c69586f2480fae0201f7057453e7aa8"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-probe-session-1/command.json",
+      "destination": "board-new-evidence/board-probe-session-1/command.json",
+      "sha256": "3b639e534fc969c08a4bd33886e620274e99d050dc3cc654dcbbd66d1cc29cc5"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-probe-session-1/exit.json",
+      "destination": "board-new-evidence/board-probe-session-1/exit.json",
+      "sha256": "5cdb2bbbb8b8c2f84a2abd52cd619e4a617376348877db3db46c32410d0feefc"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-probe-session-1/fresh-detail-before-B.screen.json",
+      "destination": "board-new-evidence/board-probe-session-1/fresh-detail-before-B.screen.json",
+      "sha256": "58df9c413d21035ac7738f3a3c9efea0ac2f3913742ad6b1470e383902c016ea"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-probe-session-1/fresh-detail-before-B.screen.txt",
+      "destination": "board-new-evidence/board-probe-session-1/fresh-detail-before-B.screen.txt",
+      "sha256": "e02ebac7c2cca3044dd505c90b6c1c4f45c991c77224ca4c4dc846d3822e0835"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-probe-session-1/initial-rt-risk.screen.json",
+      "destination": "board-new-evidence/board-probe-session-1/initial-rt-risk.screen.json",
+      "sha256": "f5c7b921e7b0b91813a642673b4d872d491eb2390018350b5043ffdf3513a917"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-probe-session-1/initial-rt-risk.screen.txt",
+      "destination": "board-new-evidence/board-probe-session-1/initial-rt-risk.screen.txt",
+      "sha256": "22fd141c6ab51539294b0d51c013a5256fcdd70856db81e28d9ebd92705e62f9"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-probe-session-1/keys.jsonl",
+      "destination": "board-new-evidence/board-probe-session-1/keys.jsonl",
+      "sha256": "2c47fce8e1bedff01c9986120c04a907be076e5e28ecc647d5acacf47f97f9e1"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-probe-session-1/probe-action-fresh-preview.screen.json",
+      "destination": "board-new-evidence/board-probe-session-1/probe-action-fresh-preview.screen.json",
+      "sha256": "c0b9bc583c2ee0f5b0d6bf3ce7c9286520100fef75b16fa2a8c3285b733a3b2e"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-probe-session-1/probe-action-fresh-preview.screen.txt",
+      "destination": "board-new-evidence/board-probe-session-1/probe-action-fresh-preview.screen.txt",
+      "sha256": "0774a7f046e6cce47a1ad0b2842b6c701d8b6416a02b7d80a555749e95294d24"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-probe-session-1/probe-frozen-review-before-token.screen.json",
+      "destination": "board-new-evidence/board-probe-session-1/probe-frozen-review-before-token.screen.json",
+      "sha256": "b3cadd49bb2b44361ba682e1e89623380fabb15e1194c406ede2e716a6874e67"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-probe-session-1/probe-frozen-review-before-token.screen.txt",
+      "destination": "board-new-evidence/board-probe-session-1/probe-frozen-review-before-token.screen.txt",
+      "sha256": "e2a358e4d30c700be61073299146a68a9acbdb1463caf242f4d88fef2482e987"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-probe-session-1/probe-result-before-exit.screen.json",
+      "destination": "board-new-evidence/board-probe-session-1/probe-result-before-exit.screen.json",
+      "sha256": "9817e2c800b6619ec545dea3ed6f3539f918d9b57bec7326a8f075c885a395db"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-probe-session-1/probe-result-before-exit.screen.txt",
+      "destination": "board-new-evidence/board-probe-session-1/probe-result-before-exit.screen.txt",
+      "sha256": "478979f353029d4d3ca3adb03ef2739a564575c3db72bb8abd907e99c9072099"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-probe-session-1/terminal.raw",
+      "destination": "board-new-evidence/board-probe-session-1/terminal.raw",
+      "sha256": "b32b4058993594084a96930ec9a88b46b2978468c3f6342272b4df0b09da2404"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-wrapper-offline.command.json",
+      "destination": "board-new-evidence/board-wrapper-offline.command.json",
+      "sha256": "6ca3405260806f35ff6a8942618ca2f2ae0b18189964bd34346b3cea46c37b2b"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-wrapper-offline.stderr",
+      "destination": "board-new-evidence/board-wrapper-offline.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-wrapper-offline.stdout",
+      "destination": "board-new-evidence/board-wrapper-offline.stdout",
+      "sha256": "d29587853b98d17279ee8faf2c65b2bac722b4ba395f85f7bf2516289f24dc54"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-wrapper-remote-offline.command.json",
+      "destination": "board-new-evidence/board-wrapper-remote-offline.command.json",
+      "sha256": "be86b7f625415e96b0aeb4b76e648418d2b02ce7da0086fb7f3a50a8457c1c56"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-wrapper-remote-offline.stderr",
+      "destination": "board-new-evidence/board-wrapper-remote-offline.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board-wrapper-remote-offline.stdout",
+      "destination": "board-new-evidence/board-wrapper-remote-offline.stdout",
+      "sha256": "00c108fad9e51ff8fc97604d929c8e333ca81d55c654b05b6d4fdf7dacba59fe"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board_app-180s-reviewed.py",
+      "destination": "board-new-evidence/board_app-180s-reviewed.py",
+      "sha256": "cee238db9ebf03cb71ac5e55da483d409f277e869979dbd2ff9ccfd630833d4a"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board_app.py",
+      "destination": "board-new-evidence/board_app.py",
+      "sha256": "50a0ffd8e3dec7a18483a83d870a144a460a586ddbd434116c29b9cdda974221"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/board_pty_runner.py",
+      "destination": "board-new-evidence/board_pty_runner.py",
+      "sha256": "fff3f226c9a31ffd4d838673969ba142e47c47c0f73e2c52e4f6e5ca5cbf909e"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/diagnose-37.py",
+      "destination": "board-new-evidence/diagnose-37.py",
+      "sha256": "298c937b6341d1c4e63d4f92b01f7c44ddee8ba9bdfec6d38da475e58d1cc473"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/diagnose.py",
+      "destination": "board-new-evidence/diagnose.py",
+      "sha256": "5ace653f8ddbdb9dc75434a7e9b822ab1efe9171b553b11f42da2e5170b1108b"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/diagnostic-live.command.json",
+      "destination": "board-new-evidence/diagnostic-live.command.json",
+      "sha256": "8c34f969b29a9b0d5f6de3bf51418008d339485cf8119b9b3e9d22a7afbd8fa7"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/diagnostic-live.stderr",
+      "destination": "board-new-evidence/diagnostic-live.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/diagnostic-live.stdout",
+      "destination": "board-new-evidence/diagnostic-live.stdout",
+      "sha256": "fd3bbf6e4b3a45ac77040ab71a9ab9e0534d5df233071f3bb97ec8cf3920b086"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/diagnostic-offline.command.json",
+      "destination": "board-new-evidence/diagnostic-offline.command.json",
+      "sha256": "543b6859038fdce4585e42805e784ae9ce1fb3b7ea13bbf7221295655bb32107"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/diagnostic-offline.stderr",
+      "destination": "board-new-evidence/diagnostic-offline.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/diagnostic-offline.stdout",
+      "destination": "board-new-evidence/diagnostic-offline.stdout",
+      "sha256": "24ab9f0096fa5bd75b5067e687fa19cd2409f041fb67c1a668d179359cbe4e0a"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/drive_probe_pty.py",
+      "destination": "board-new-evidence/drive_probe_pty.py",
+      "sha256": "c0b614b55dac2b52bb0b21a388247e33b46bc81ebf9aa31d18726cd0e9a18a9b"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/evidence-sha256-phase1.json",
+      "destination": "board-new-evidence/evidence-sha256-phase1.json",
+      "sha256": "7d3e3b49a2c62220b01d51eac18f21469ad3ba1c03adbccdbf867d051f714aa2"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/evidence-sha256.json",
+      "destination": "board-new-evidence/evidence-sha256.json",
+      "sha256": "c2900fcf3e1075974f0b5572e8d62aeaff4040f5d75ceae991c871e35b2804d8"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/fetch_board_evidence.py",
+      "destination": "board-new-evidence/fetch_board_evidence.py",
+      "sha256": "c6d85201e45f63b620f45cb2339a6b5273c81899654240004f68e58107a3b85c"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/guard-check-37.json",
+      "destination": "board-new-evidence/guard-check-37.json",
+      "sha256": "40b2dd21a1464580c55a8b1aa97c4fdc9fb1c32cfe27f00181eec5662c2eccdb"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/guard-check.json",
+      "destination": "board-new-evidence/guard-check.json",
+      "sha256": "07a17cfdcbbc3b1a5466c9bd74f7b0e802ed395333d0e7bb86e8550b38b368b9"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/guard_check-37.py",
+      "destination": "board-new-evidence/guard_check-37.py",
+      "sha256": "bf2262568b4b22429529d2a708b8beaa185c7f20dde97bb771a500d23161cedc"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/guard_check.py",
+      "destination": "board-new-evidence/guard_check.py",
+      "sha256": "ec38aaa844ef8dec061325a0e787b8cbbe2380509560d97201dd71064efc623b"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/local-initial-source-sha256.json",
+      "destination": "board-new-evidence/local-initial-source-sha256.json",
+      "sha256": "2d36f709b8523e0dc1286db1c277f13a817bce2b17c9e5d0bb19ab3b0a15277f"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/mock_app.py",
+      "destination": "board-new-evidence/mock_app.py",
+      "sha256": "fd5d962dec1f4f1552c7947f40f16f758963ce0dbdf2873d97c6baa3c7791bda"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/passive-01.command.json",
+      "destination": "board-new-evidence/passive-01.command.json",
+      "sha256": "0b8f3b8ed8fa4bfe3e0d24efed4a6f580135aae10c2575c03420c773d55307b1"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/passive-01.script.py",
+      "destination": "board-new-evidence/passive-01.script.py",
+      "sha256": "f506882dd01f3bc28f956dccd16231d91bf1a850e39f40e31de291d8abe7ff8c"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/passive-01.stderr",
+      "destination": "board-new-evidence/passive-01.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/passive-01.stdout",
+      "destination": "board-new-evidence/passive-01.stdout",
+      "sha256": "5b78e6927d34ff963a899d39fc13e92d38b5b5c7ed41c15b1d35c906bbea7514"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/passive.py",
+      "destination": "board-new-evidence/passive.py",
+      "sha256": "ed50dbc4329e82ff623d2824fcba18d30f9a890f529891e55bd2ec68ec299ab3"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/phase-1-plan.json",
+      "destination": "board-new-evidence/phase-1-plan.json",
+      "sha256": "ae5dfd284b1d5d9ad40613760ed7c6588def6c3d8df506accd2a95be3144bf2e"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/phase-3-summary.json",
+      "destination": "board-new-evidence/phase-3-summary.json",
+      "sha256": "5e2cdf09b326d74844fa2e39751976089ed6a50b9e140da36af860944a91eed0"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/prepare_board_wrapper.py",
+      "destination": "board-new-evidence/prepare_board_wrapper.py",
+      "sha256": "169d42b47ff07bdee2aebf59f52867c5fae8e7b807877da244628f0370a00d02"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/prepare_pty.py",
+      "destination": "board-new-evidence/prepare_pty.py",
+      "sha256": "d3b7f8436659c8a9250f39da9bd7ee4f240b0aa720859af270ad05d71d975414"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/probe-keys-to-review.jsonl",
+      "destination": "board-new-evidence/probe-keys-to-review.jsonl",
+      "sha256": "e40e90586de6d3da6544118d9e0ea89f0b6a48575a723f5637dc2195dbc732bd"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/probe-pure-load.command.json",
+      "destination": "board-new-evidence/probe-pure-load.command.json",
+      "sha256": "a5d1ddf9b0cfec06ee6c3f7aabe5b6517d0958f48bbe8ecea9dc277a2cbd42e2"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/probe-pure-load.stderr",
+      "destination": "board-new-evidence/probe-pure-load.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/probe-pure-load.stdout",
+      "destination": "board-new-evidence/probe-pure-load.stdout",
+      "sha256": "480e726ac06863d88e058549c238ebb42f100a0a9b00899127748b0933a0814f"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/probe_load_audit.py",
+      "destination": "board-new-evidence/probe_load_audit.py",
+      "sha256": "0c24e031e90ed017a3c5972aface8e42d0c38650df184637cb75f39c7b9ef1b7"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-final-summary.json",
+      "destination": "board-new-evidence/pty-final-summary.json",
+      "sha256": "3be3feda88840a95a7ffde32498bd949fc325bec37aab514927b83d743a6ac2e"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/after-scan.screen.json",
+      "destination": "board-new-evidence/pty-probe-halt-refused/after-scan.screen.json",
+      "sha256": "a9d13a440396d2b905868c6fecb6ec0d058e373315dc389f56543788aae25e33"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/after-scan.screen.txt",
+      "destination": "board-new-evidence/pty-probe-halt-refused/after-scan.screen.txt",
+      "sha256": "12d5d43a8031d419b31cb1ae67edb64bf7060a9b398f1eb22b52560a3d402c2c"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/app-audit.jsonl",
+      "destination": "board-new-evidence/pty-probe-halt-refused/app-audit.jsonl",
+      "sha256": "5e677baa41d2718d0d92af7305501999ab321269988daeea19d958a5dd394d77"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/command.json",
+      "destination": "board-new-evidence/pty-probe-halt-refused/command.json",
+      "sha256": "5d67a62d6c102ed54b28b506ab333ad32c3ce8f65287e2a46d5fc4ef1d043ee4"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/final-probe-result.screen.json",
+      "destination": "board-new-evidence/pty-probe-halt-refused/final-probe-result.screen.json",
+      "sha256": "3adc7d39984623c57e6acd7badc85f970fe7a910e2a1e8d6ff7afa8efffa39a2"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/final-probe-result.screen.txt",
+      "destination": "board-new-evidence/pty-probe-halt-refused/final-probe-result.screen.txt",
+      "sha256": "60e1e97df7d1c785ce88080479f329c18de1b2d9c723e13afac89dbc98c37741"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/frozen-review.json",
+      "destination": "board-new-evidence/pty-probe-halt-refused/frozen-review.json",
+      "sha256": "6aebc7f5324fd88a7c9f87ac880af864852caef73aed4526e5b2b86c87fadfa9"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/initial-rt-risk.screen.json",
+      "destination": "board-new-evidence/pty-probe-halt-refused/initial-rt-risk.screen.json",
+      "sha256": "ab6e3bfdb40c03b0db37ade04119d28fd8b8d1b42f892123e91cc11773c003b2"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/initial-rt-risk.screen.txt",
+      "destination": "board-new-evidence/pty-probe-halt-refused/initial-rt-risk.screen.txt",
+      "sha256": "22fd141c6ab51539294b0d51c013a5256fcdd70856db81e28d9ebd92705e62f9"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/keys.jsonl",
+      "destination": "board-new-evidence/pty-probe-halt-refused/keys.jsonl",
+      "sha256": "f909affcb0c155e27f635733c93377bb445c3db703d4b59d72000dc92cf2191f"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/mock-trace.json",
+      "destination": "board-new-evidence/pty-probe-halt-refused/mock-trace.json",
+      "sha256": "d06eb9900e81839e3bc1230130dcce90197bb79f9b4dbb7a7d877cb02205e18a"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/motion.jsonl",
+      "destination": "board-new-evidence/pty-probe-halt-refused/motion.jsonl",
+      "sha256": "ce97b1308779712fcc5edae9de5f21cf84cb19956fa9fba7d4e7cd1deb60e882"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/od-session-confirmation.screen.json",
+      "destination": "board-new-evidence/pty-probe-halt-refused/od-session-confirmation.screen.json",
+      "sha256": "6c539c22b0ab9cb4e9c596b496a77c4f55d20016bd8d4ad9aa2d9964aa51ff44"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/od-session-confirmation.screen.txt",
+      "destination": "board-new-evidence/pty-probe-halt-refused/od-session-confirmation.screen.txt",
+      "sha256": "373b2392ff6829f10923fd2307576614db883d4435b11fbd6c1910b43cb6791e"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/probe-action-preview.screen.json",
+      "destination": "board-new-evidence/pty-probe-halt-refused/probe-action-preview.screen.json",
+      "sha256": "210345ec8e96526923163c8e5a747c917993438e910f003ba5bcf6efb736572a"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/probe-action-preview.screen.txt",
+      "destination": "board-new-evidence/pty-probe-halt-refused/probe-action-preview.screen.txt",
+      "sha256": "e12eb398ad9d1511858bb4c6bbef54d9ab9ea544cb04a157494d2b3e35004439"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/probe-frozen-review.screen.json",
+      "destination": "board-new-evidence/pty-probe-halt-refused/probe-frozen-review.screen.json",
+      "sha256": "c41e347897bc9e68c36053cde519557cd04cb6e6055f764b129b405d2a4cd247"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/probe-frozen-review.screen.txt",
+      "destination": "board-new-evidence/pty-probe-halt-refused/probe-frozen-review.screen.txt",
+      "sha256": "64c531e2955c5cbde068ece077c4e454c5d526b17b0578426cdfe63b2e5b8eb1"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/terminal.raw",
+      "destination": "board-new-evidence/pty-probe-halt-refused/terminal.raw",
+      "sha256": "b9b20cd91267d3147b3d57d3138332fe58a5bbbbdc6a1e0c2c70a4d9c962bfd2"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-halt-refused/verification.json",
+      "destination": "board-new-evidence/pty-probe-halt-refused/verification.json",
+      "sha256": "fb23ef744cc625c35be721913c78adcf8d01f1c5d91595361bd5d9a9f15663ef"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/after-scan.screen.json",
+      "destination": "board-new-evidence/pty-probe-old-demand/after-scan.screen.json",
+      "sha256": "49139c243d7a5f18eaf83edd149389f3758c88cf837a376fded3fd43863bd765"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/after-scan.screen.txt",
+      "destination": "board-new-evidence/pty-probe-old-demand/after-scan.screen.txt",
+      "sha256": "12d5d43a8031d419b31cb1ae67edb64bf7060a9b398f1eb22b52560a3d402c2c"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/app-audit.jsonl",
+      "destination": "board-new-evidence/pty-probe-old-demand/app-audit.jsonl",
+      "sha256": "062e15c32033a40401a549d05c29b1f7bde1caf9c4e80e9030ed20523e69fb79"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/command.json",
+      "destination": "board-new-evidence/pty-probe-old-demand/command.json",
+      "sha256": "0dc64e242c460326988e2c3200cb7134bf85401d03b36a5dded87a3f79e05835"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/final-probe-result.screen.json",
+      "destination": "board-new-evidence/pty-probe-old-demand/final-probe-result.screen.json",
+      "sha256": "f5bdb3e996c7a0506a4992bb9ed687da8da86a4eb8bcb3b792f1445a38f129f5"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/final-probe-result.screen.txt",
+      "destination": "board-new-evidence/pty-probe-old-demand/final-probe-result.screen.txt",
+      "sha256": "e27622de7edb7a3a4c471357d2f961247fae768301f626b9a7f37d3fd9f53f00"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/frozen-review.json",
+      "destination": "board-new-evidence/pty-probe-old-demand/frozen-review.json",
+      "sha256": "b7290c732affff31ef913e3548483ea7128e7b7f913c895d616de34e5845f82c"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/initial-rt-risk.screen.json",
+      "destination": "board-new-evidence/pty-probe-old-demand/initial-rt-risk.screen.json",
+      "sha256": "675cf6c4e1268512a140bca00ad113e043ec4585742bd8031333db2d059a77ed"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/initial-rt-risk.screen.txt",
+      "destination": "board-new-evidence/pty-probe-old-demand/initial-rt-risk.screen.txt",
+      "sha256": "22fd141c6ab51539294b0d51c013a5256fcdd70856db81e28d9ebd92705e62f9"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/keys.jsonl",
+      "destination": "board-new-evidence/pty-probe-old-demand/keys.jsonl",
+      "sha256": "07b4501e3196d159db015102ae5cb456e13f3d739798dbe5edbb50e7fee09bd2"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/mock-trace.json",
+      "destination": "board-new-evidence/pty-probe-old-demand/mock-trace.json",
+      "sha256": "74a6dcae4e5acebc75c6db40a5cda26ad361cb80318a86781539f7e634f34ac2"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/motion.jsonl",
+      "destination": "board-new-evidence/pty-probe-old-demand/motion.jsonl",
+      "sha256": "465287eaadf1973b7dcac82bc5b793068639faced440e174a791f958cde0aaaa"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/od-session-confirmation.screen.json",
+      "destination": "board-new-evidence/pty-probe-old-demand/od-session-confirmation.screen.json",
+      "sha256": "c8d6e1ea58dfcc4735bc5ccca81e0f3381c22931a04a20ad11bb51565ccb2d2d"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/od-session-confirmation.screen.txt",
+      "destination": "board-new-evidence/pty-probe-old-demand/od-session-confirmation.screen.txt",
+      "sha256": "373b2392ff6829f10923fd2307576614db883d4435b11fbd6c1910b43cb6791e"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/probe-action-preview.screen.json",
+      "destination": "board-new-evidence/pty-probe-old-demand/probe-action-preview.screen.json",
+      "sha256": "7cc7cd6a60e9ef9a0b5e748dd3a4ba0c417e6fff8d3a4cecec29161f4f1cb4e2"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/probe-action-preview.screen.txt",
+      "destination": "board-new-evidence/pty-probe-old-demand/probe-action-preview.screen.txt",
+      "sha256": "53d88613c3591478f17b7c70305fa466546bb84d534f0e08293b42b87a9c76c8"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/probe-frozen-review.screen.json",
+      "destination": "board-new-evidence/pty-probe-old-demand/probe-frozen-review.screen.json",
+      "sha256": "e2c0cb714f83c966623b50004c85201af6ef3a20bac7805bdf978bfcea0160a7"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/probe-frozen-review.screen.txt",
+      "destination": "board-new-evidence/pty-probe-old-demand/probe-frozen-review.screen.txt",
+      "sha256": "5ea6b277f301208d21c652a4bd28bdd552a2375b2fc8e3af7220729c78c5312b"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/terminal.raw",
+      "destination": "board-new-evidence/pty-probe-old-demand/terminal.raw",
+      "sha256": "28853e12a11b7678bcd71e676f2c3b61eb5e7ba7a64f83dd0633f0f5528976a1"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-old-demand/verification.json",
+      "destination": "board-new-evidence/pty-probe-old-demand/verification.json",
+      "sha256": "f60fff9debfec6ff14c1151f1a9849573d07a762952d047ec8ee8efc6c0d10f5"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/after-scan.screen.json",
+      "destination": "board-new-evidence/pty-probe-success/after-scan.screen.json",
+      "sha256": "c0eccb10df89360e249e2c190ec9ce832d679a509c45d68cf4549962bf3626f5"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/after-scan.screen.txt",
+      "destination": "board-new-evidence/pty-probe-success/after-scan.screen.txt",
+      "sha256": "efe65514c257ddd0a2f3fead56c4cffd140d8da535de27a62f5b45a8b52dc64f"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/app-audit.jsonl",
+      "destination": "board-new-evidence/pty-probe-success/app-audit.jsonl",
+      "sha256": "5175c57e68b2d55b69a474a8d23ae702bd1e4d84ad974c24555f791018b38a40"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/command.json",
+      "destination": "board-new-evidence/pty-probe-success/command.json",
+      "sha256": "0882618f1cf1f8d1cc2d2f8056d39fa080be5a72812ca63de515bdff45abf42b"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/final-probe-result.screen.json",
+      "destination": "board-new-evidence/pty-probe-success/final-probe-result.screen.json",
+      "sha256": "43cc8c26ad0c8a9126d4c8b92086e251de7a6faf36c0f01195a32ec78e9b0d1a"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/final-probe-result.screen.txt",
+      "destination": "board-new-evidence/pty-probe-success/final-probe-result.screen.txt",
+      "sha256": "71c0636dff2c991ce72c9714b8389b797bd1b2b41211b117ee320f02a13bd794"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/frozen-review.json",
+      "destination": "board-new-evidence/pty-probe-success/frozen-review.json",
+      "sha256": "99dcc3537e5ec252eb45f1a447fe7b3f029997afb49f7ab59cfe8c8a30c9ad06"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/initial-rt-risk.screen.json",
+      "destination": "board-new-evidence/pty-probe-success/initial-rt-risk.screen.json",
+      "sha256": "34293ffe7326a2f5b909d59b0df1bce1b55f71683a3a1d63c2353a9e2b255acd"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/initial-rt-risk.screen.txt",
+      "destination": "board-new-evidence/pty-probe-success/initial-rt-risk.screen.txt",
+      "sha256": "22fd141c6ab51539294b0d51c013a5256fcdd70856db81e28d9ebd92705e62f9"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/keys.jsonl",
+      "destination": "board-new-evidence/pty-probe-success/keys.jsonl",
+      "sha256": "494c667d51afaa19100eb36f28c6cc8fa0954d81f1455294664946584648744e"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/mock-trace.json",
+      "destination": "board-new-evidence/pty-probe-success/mock-trace.json",
+      "sha256": "344c95c968c3085b06a007f1b027ffdbe957298c4778eed69697f44e4d6d99e7"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/motion.jsonl",
+      "destination": "board-new-evidence/pty-probe-success/motion.jsonl",
+      "sha256": "b1695ebfacd1192c23a5adca73cb523c69123bdfc79413bd5462612d0e3f6704"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/od-session-confirmation.screen.json",
+      "destination": "board-new-evidence/pty-probe-success/od-session-confirmation.screen.json",
+      "sha256": "53a0a67faab4d1aacb49e6cc56cb2d4e1154006acec2f1d9a61f3440ec92e81f"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/od-session-confirmation.screen.txt",
+      "destination": "board-new-evidence/pty-probe-success/od-session-confirmation.screen.txt",
+      "sha256": "937b6278a715f2dad6235c4b41e394c0313219d804bdf3dfe5992f4f4b8a7222"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/probe-action-preview.screen.json",
+      "destination": "board-new-evidence/pty-probe-success/probe-action-preview.screen.json",
+      "sha256": "73be03a608253bbc9fa265c5aacbb7de6230dd5d6d81da0804eedb62155540a6"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/probe-action-preview.screen.txt",
+      "destination": "board-new-evidence/pty-probe-success/probe-action-preview.screen.txt",
+      "sha256": "42416af50bacf7d2820c32192a683c1384c8f3449a714387222cdaa6d0502f98"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/probe-frozen-review.screen.json",
+      "destination": "board-new-evidence/pty-probe-success/probe-frozen-review.screen.json",
+      "sha256": "8c3b8eac63b9409da4197f67796f87d07b1eba76286496d69f23bf71051fc5a8"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/probe-frozen-review.screen.txt",
+      "destination": "board-new-evidence/pty-probe-success/probe-frozen-review.screen.txt",
+      "sha256": "6b5e408756762952cb308ef9f46248a25b6f786d92ebf7b55a8cb0c9ae0a7c5b"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/terminal.raw",
+      "destination": "board-new-evidence/pty-probe-success/terminal.raw",
+      "sha256": "8057137c83cb8470786ae40eebbdc4425269f81d34fa6bcff2c73b69529ca3dd"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-probe-success/verification.json",
+      "destination": "board-new-evidence/pty-probe-success/verification.json",
+      "sha256": "58d91ebec2d9070690d6f1ce02f22ba7bbd7b71d62990d230ea0bfc6a8ca468d"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-source-sha256.json",
+      "destination": "board-new-evidence/pty-source-sha256.json",
+      "sha256": "89ae43348e073e4d668d563fbaf85b3dd66b1f86ec5b9639e47556562a96201f"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-verify.command.json",
+      "destination": "board-new-evidence/pty-verify.command.json",
+      "sha256": "2de027d74a7139a7153d0abd451489464935b3f32a41a9d23ba9a8b78668c502"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-verify.stderr",
+      "destination": "board-new-evidence/pty-verify.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty-verify.stdout",
+      "destination": "board-new-evidence/pty-verify.stdout",
+      "sha256": "4538b56157ded804fc8542d28fc2bda442da0726e2d4b588f6b00cfaa85532fe"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/pty_runner.py",
+      "destination": "board-new-evidence/pty_runner.py",
+      "sha256": "d1e16457ffded0ad35a8ac026e27baa5a3ecacb45d8868728da2b250eff24906"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/readonly-summary.json",
+      "destination": "board-new-evidence/readonly-summary.json",
+      "sha256": "a0a0829b165a7f5c30e8220099aad8ee09342e7b331575655c961c90685034d7"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/record.py",
+      "destination": "board-new-evidence/record.py",
+      "sha256": "034cef919380cb8752d52cadf3fdee142c16db584434a6f03090dd01c674aed8"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/record_local.py",
+      "destination": "board-new-evidence/record_local.py",
+      "sha256": "2b08b3a628568571887d8f0a56235b51d8251e5516866368006ca5578c588be2"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/remote_record.py",
+      "destination": "board-new-evidence/remote_record.py",
+      "sha256": "1e31d637a7994b1b7642a226feffd3bf07e266329b04ef01c035944c59b2d48b"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/run_diagnostic_stage.py",
+      "destination": "board-new-evidence/run_diagnostic_stage.py",
+      "sha256": "3b8ae1f388ab7b970bd8ff244abf832ab0005d9e5b34213b0058157beae04f07"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage-frozen.command.json",
+      "destination": "board-new-evidence/stage-frozen.command.json",
+      "sha256": "f677ebd5325e7fbb601d69e274b6d7b7b6a017a9409e21b6fb8772de09b6cc0f"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage-frozen.stderr",
+      "destination": "board-new-evidence/stage-frozen.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage-frozen.stdout",
+      "destination": "board-new-evidence/stage-frozen.stdout",
+      "sha256": "9c22fc16e2914082166a095d6716b07c7b071d484d3515c0150e73342e093702"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage-probe-package.command.json",
+      "destination": "board-new-evidence/stage-probe-package.command.json",
+      "sha256": "9abcb6b59c95783733921e19056eb0bcd697c52940a847831146b087e2f274f9"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage-probe-package.stderr",
+      "destination": "board-new-evidence/stage-probe-package.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage-probe-package.stdout",
+      "destination": "board-new-evidence/stage-probe-package.stdout",
+      "sha256": "789c6ec017445ad0bc348779c6ce5004c6ec226bab847658e46ca69aa638ebd4"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage_frozen.py",
+      "destination": "board-new-evidence/stage_frozen.py",
+      "sha256": "79d630d4a4551b4ffeecb1e2648700fe4e6d0bb3516915fa3756eefbf1fcdd4e"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage_new_probe.py",
+      "destination": "board-new-evidence/stage_new_probe.py",
+      "sha256": "837ad57e876ef0fa5d8081cf5842746e20b1500311eff626e485ce3b75919223"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage_probe_remote.py",
+      "destination": "board-new-evidence/stage_probe_remote.py",
+      "sha256": "6344a7582e928a677d869e5aff700b99aba04535818c02602a1b5501dc147571"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/transfer-board-wrapper.command.json",
+      "destination": "board-new-evidence/transfer-board-wrapper.command.json",
+      "sha256": "4cb436e3e4c0fc7ee6d1868e98e1441daebe76f119b66eebc91c1e707e933955"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/transfer-board-wrapper.stderr",
+      "destination": "board-new-evidence/transfer-board-wrapper.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/transfer-board-wrapper.stdout",
+      "destination": "board-new-evidence/transfer-board-wrapper.stdout",
+      "sha256": "ab8552b4866cd188dca2bd5ca47a774774887e65e213bc62067633d9388a3143"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/transfer-diagnostic.command.json",
+      "destination": "board-new-evidence/transfer-diagnostic.command.json",
+      "sha256": "0eeecbf7b64282492e7e4b867693986e395800a4ded9efa4f0066277d8efdc40"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/transfer-diagnostic.stderr",
+      "destination": "board-new-evidence/transfer-diagnostic.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/transfer-diagnostic.stdout",
+      "destination": "board-new-evidence/transfer-diagnostic.stdout",
+      "sha256": "10aea83079e4e887145cb45af2bdb704a5a230e7be206992cc7112a5f3b008ae"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/verify_board_probe.py",
+      "destination": "board-new-evidence/verify_board_probe.py",
+      "sha256": "3d8087bbd1fcb46e7316fe932cbccfacea1bf68da30d0a57347b32932c177ba1"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/verify_probe_pty-initial-syntax-failed.py",
+      "destination": "board-new-evidence/verify_probe_pty-initial-syntax-failed.py",
+      "sha256": "5c4556ba480a9d6465c12a20269dbead09acc7b297dcfa5d2a616eb3d34826d8"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/verify_probe_pty.py",
+      "destination": "board-new-evidence/verify_probe_pty.py",
+      "sha256": "b4715f7626925472d120de43737ea5f29df340a360c5052b72d6ddc0f2c7e3f3"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/verify_readonly.py",
+      "destination": "board-new-evidence/verify_readonly.py",
+      "sha256": "ff322d86fbaf9077649c71631c1184c116430a19d3590a8d4269610b7ddac775"
+    }
+  ],
+  "scope": "this round only; source/payload duplicates omitted; no raw files edited"
+}

@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pp-disabled-start-20261019-board/stage2/drive_probe_pty.py",
+    "old-demand"
+  ],
+  "utc_start": "2026-10-19T01:23:03.489181+00:00",
+  "utc_end": "2026-10-19T01:23:10.219679+00:00",
+  "rc": 0
+}

@@ -1,0 +1,23 @@
+{
+  "archive": "/tmp/km3-pp-prepare-package-20261017/pmp4010-board-payload.tar.gz",
+  "archive_bytes": 184426,
+  "archive_sha256": "e5e6be59dbed7611f3b4e5f6d5c53e38e2f7e1527afa1831e7b511e4a0fcacb6",
+  "payload_regular_files": 19,
+  "payload_symlinks": 2,
+  "payload_regular_bytes": 617944,
+  "arm_library_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+  "checks": {
+    "host_load_smoke_exitcode": 0,
+    "native_vectors": 33,
+    "python_vectors": 33,
+    "native_int32_vectors": 14,
+    "forbidden_io_attempts": 0,
+    "arm_execution": "not run",
+    "board_compatibility": "pending",
+    "source_snapshot_stable_during_capture": true,
+    "archive_roundtrip_host_smoke_exitcode": 0,
+    "tampered_payload_exitcode": 1,
+    "tamper_refused_before_import_or_library_load": true,
+    "archive_safe_relative_members": 21
+  }
+}

@@ -1,0 +1,4 @@
+can_config /bus/can [{"logical": "can-1", "iface": "can0", "bitrate": 500000, "protocol": "raw"}, {"logical": "can-2", "iface": "can1", "bitrate": 1000000, "protocol": "canopen"}]
+can_config /bus/usb_can [{"logical": "usb-can-1", "iface": "can2", "bitrate": 500000, "protocol": "canfd"}]
+can_env CAN_BITRATE=1000000
+SNAPSHOT_JSON={"python": "3.10.12 (main, Mar  3 2026, 11:56:32) [GCC 11.4.0]", "machine": "aarch64", "hostname": "RK3588-Tronlong", "model": "TL3588-EVM", "configs": {"/etc/km3/device.json": "96a15d8d28f760ab9c5b8f43f6b5ddccc667c77f89413fcd9c3201aa9ddbb205", "/etc/km3/can.env": "9253d719d847eed56ea7ef768985c0215faf0f78dfc98838152c734a0feff407"}, "current_link": "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29", "current_resolved": "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29", "final_exists": false}

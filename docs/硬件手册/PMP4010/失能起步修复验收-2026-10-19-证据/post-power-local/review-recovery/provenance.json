@@ -1,0 +1,17 @@
+{
+  "reviewer_task": "/root/power_recovery_review",
+  "reviewer_reported_execution": {
+    "argv": [
+      "python3",
+      "-B",
+      "-I",
+      "-"
+    ],
+    "stdin_script": "replay_B_current_source.py",
+    "returncode": 0,
+    "stderr": "",
+    "reported_stdout": "25-case JSON was transferred by collaboration message; independent local execution retained separately"
+  },
+  "adaptation": "only missing /tmp manifest path replaced with persistent stage2 11 keys; captures CURRENT hashes for before/after check, does not claim old stage2 freeze match",
+  "scope": "B recovery and quarantine replay only, not 25 new stage3 motion cases"
+}

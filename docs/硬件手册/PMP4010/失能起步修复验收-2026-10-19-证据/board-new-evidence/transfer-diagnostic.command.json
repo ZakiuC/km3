@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=8",
+    "root@192.168.0.188",
+    "python3 -I -B -c 'import hashlib,json,pathlib,sys; b=pathlib.Path('\"'\"'/tmp/km3-pp-disabled-start-readonly-20261019-kf4gqufd'\"'\"'); files=json.load(sys.stdin); assert set(files)=={'\"'\"'diagnose.py'\"'\"','\"'\"'passive.py'\"'\"','\"'\"'baseline-38.json'\"'\"'}; result={};\nfor n,s in files.items():\n p=b/n\n with p.open('\"'\"'x'\"'\"') as f:f.write(s)\n result[n]=hashlib.sha256(p.read_bytes()).hexdigest()\nprint(json.dumps(result))'"
+  ],
+  "stdin_sha256": "909e444713b25a091aea912ec527c1c4c19a92bde9505d935367a3f719df4df0",
+  "stdin_bytes": 14212,
+  "utc_start": "2026-10-19T00:53:18.814353+00:00",
+  "utc_end": "2026-10-19T00:53:19.078911+00:00",
+  "rc": 0
+}

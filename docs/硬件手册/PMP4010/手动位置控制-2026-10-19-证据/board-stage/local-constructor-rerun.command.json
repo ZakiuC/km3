@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "-c",
+    "import ast, importlib, json, os, sys\nfrom pathlib import Path\nsys.dont_write_bytecode=True\nroot=Path('/home/zakiu/km3')\np=root/'docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u624b\u52a8\u4f4d\u7f6e\u63a7\u5236-2026-10-19-\u8bc1\u636e/board-stage/pureload.remote.py'\ns=p.read_text()\nns=globals()\nattempts=[]\ndefault_check_active=False\nfor node in ast.parse(s).body:\n if isinstance(node,ast.FunctionDef) and node.name in ('audit','reject_manual_run'):\n  exec(compile(ast.Module(body=[node],type_ignores=[]),str(p),'exec'),ns)\nsys.addaudithook(audit)\nsys.settrace(reject_manual_run)\nsys.path[:0]=[str(root/'device/drivers/pmp4010/tools'),str(root/'tools/hwtui'),str(root/'tools')]\nimport pmp4010_simple as simple\nblock=s[s.index('from fractions import Fraction'):s.index(\"sys.argv = [str(root/'drivers/pmp4010/pmp4010.py'),'--help']\")]\nexec(compile(block,str(p),'exec'),ns)\nassert not attempts\nprint(json.dumps(dict(result='PASS',host_constructor_checks_only=True,ssh_calls=0,forbidden_attempts=len(attempts))))\n"
+  ],
+  "start_utc": "2026-10-19T07:32:11.631295+00:00",
+  "rc": 0
+}

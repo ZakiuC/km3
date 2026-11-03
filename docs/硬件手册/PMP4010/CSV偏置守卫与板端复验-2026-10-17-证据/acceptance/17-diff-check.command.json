@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "git",
+    "diff",
+    "--check",
+    "--",
+    "device/drivers/pmp4010",
+    "tools/hwtui",
+    "tools/tests",
+    "tools/hwdriver",
+    "tools/check-drivers.sh",
+    "tools/check-docs.sh",
+    "tools/check-deps.sh",
+    "tools/check-manual-citations.sh",
+    "device/CMakeLists.txt"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-17T07:58:18.140330+00:00"
+}

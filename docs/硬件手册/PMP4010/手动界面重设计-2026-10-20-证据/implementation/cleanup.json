@@ -1,0 +1,19 @@
+{
+  "removed_owned_tmp": [
+    "/tmp/simple-redesign-visual-second",
+    "/tmp/simple-redesign-small-first",
+    "/tmp/simple-ui-first.log",
+    "/tmp/simple-ui-second.log",
+    "/tmp/simple-ui-third.log",
+    "/tmp/simple-ui-fourth.log",
+    "/tmp/simple-ui-last-check.log",
+    "/tmp/simple-ui-focused-final.log",
+    "/tmp/simple-pty-first.log",
+    "/tmp/simple-redesign-visual-first.log",
+    "/tmp/simple-redesign-visual-second.log",
+    "/tmp/simple-redesign-visual-third.log",
+    "/tmp/simple-redesign-small-first.log"
+  ],
+  "retained": "All requested implementation snapshots, hashes, patches, raw logs, PTY transcripts and previews under this evidence directory; unrelated workspace changes untouched",
+  "no_ssh_or_hardware": true
+}

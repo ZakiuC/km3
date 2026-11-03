@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py", line 291, in <module>
+    case('Halt_trace_half_second_budget',setup=lambda n:setattr(n,'slow_trace',.6),
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py", line 202, in case
+    if verify: verify(node,bus,ctl,record)
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py", line 293, in <lambda>
+    timeout_cleanup(n,b,c,r),
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-compare-proposal/verify_mock.py", line 285, in timeout_cleanup
+    assert record['controls'][-2:]==[2,0],record
+AssertionError: {'name': 'Halt_trace_half_second_budget', 'error': {'type': 'MotionError', 'message': '诊断 实时轨迹编码器单位：node 1: 0.250s 内未收到 SDO 应答（请求 601  [8]  40 FC 60 00 00 00 00 00）'}, 'writes': [(24707, 0, 131072), (24708, 0, 131072), (24705, 0, 218453), (24698, 0, 4294638152), (24640, 0, 262), (24640, 0, 263), (24640, 0, 295), (24640, 0, 311), (24640, 0, 295), (24640, 0, 303)], 'controls': [262, 263, 295, 311, 295, 303], 'requests': 715, 'clock_elapsed_seconds': 0.5999999999999943, 'result': None, 'raw_directory': 'mock-runs-1792402953781050009/Halt_trace_half_second_budget'}

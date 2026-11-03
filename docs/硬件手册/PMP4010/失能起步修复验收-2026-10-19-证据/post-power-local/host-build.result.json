@@ -1,0 +1,18 @@
+{
+  "name": "host-build",
+  "argv": [
+    "cmake",
+    "--build",
+    "build-host",
+    "-j4"
+  ],
+  "shell_command": "cmake --build build-host -j4",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:12:59.097210+00:00",
+  "duration_seconds": 0.19186086000001978,
+  "returncode": 0,
+  "stdout": "host-build.stdout.log",
+  "stderr": "host-build.stderr.log",
+  "stdout_sha256": "110a5fd9b1f473c94eae0a87d13ca34d26d469a9913b599669ffb2d00f9db48a",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

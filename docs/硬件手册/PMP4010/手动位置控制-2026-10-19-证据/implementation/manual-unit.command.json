@@ -1,0 +1,21 @@
+{
+  "name": "manual-unit",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "device/drivers/pmp4010/tools",
+    "-p",
+    "_test_manual.py"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T07:30:11.812028+00:00",
+  "stdout": "manual-unit.stdout.log",
+  "stderr": "manual-unit.stderr.log",
+  "rc": 0,
+  "finished_utc": "2026-10-19T07:30:15.398157+00:00"
+}

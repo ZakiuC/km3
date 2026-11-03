@@ -1,0 +1,29 @@
+--- "/home/zakiu/km3/docs/\347\241\254\344\273\266\346\211\213\345\206\214/PMP4010/\344\275\277\350\203\275\345\220\216\347\233\256\346\240\207\351\207\215\345\206\231-2026-10-19-\350\257\201\346\215\256/package/payload/drivers/pmp4010/pmp4010_manual.py"	2026-10-19 14:54:48.494998666 +0800
++++ "/home/zakiu/km3/docs/\347\241\254\344\273\266\346\211\213\345\206\214/PMP4010/\346\211\213\345\212\250\351\273\230\350\256\244\351\200\237\345\272\246\344\277\256\345\244\215-2026-10-19-\350\257\201\346\215\256/package/payload/drivers/pmp4010/pmp4010_manual.py"	2026-10-19 15:06:49.780941501 +0800
+@@ -27,7 +27,7 @@
+     def __init__(self, tool, args):
+         super().__init__(tool, args)
+         velocity = getattr(args, 'manual_velocity', None)
+-        self.manual_velocity = 100 if velocity is None else velocity
++        self.manual_velocity = 1000 if velocity is None else velocity
+         self.manual_sessions = {}
+         self.proofs = {}
+         self._manual_review = None
+@@ -714,7 +714,7 @@
+             '详情A/R：人工目标提交，不使能；新ACK 0→1→0并核6062后保持Halt。',
+             '详情E：仅012F保持Halt使能；G：002F→003F→002F使能后新触发同一冻结目标。',
+             'A/R、E、G均需F5审阅、输入完整确认串、再次F5执行。',
+-            'V：设置手动轮廓速度，默认100U/s；审阅显示rpm并核设备上限。',
++            'V：设置手动轮廓速度，默认1000U/s；审阅显示rpm并核设备上限。',
+             'bit10在Halt=1时仅表示零速；Halt=0才作为目标到达证据之一。',
+             '故障/跟随误差/越界/参数变化有界快停→失能并锁定；通信隔离不重试。',
+             'X软件快停；D失能；q退出Shutdown。停止未确认时使用独立急停。',
+@@ -756,7 +756,7 @@
+                     self.log.append('已有提交目标；先单独D失能后才能修改速度', 'err')
+                     return False
+                 self.current_view = 'manual_velocity'
+-                self._field('手动轮廓速度 U/s（默认100；F5保存）', self.controller.manual_velocity, 'number')
++                self._field('手动轮廓速度 U/s（默认1000；F5保存）', self.controller.manual_velocity, 'number')
+                 return False
+         return super().on_key(name, key)
+ 

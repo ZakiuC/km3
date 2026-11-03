@@ -19,11 +19,12 @@
     因此它能在主机上逐字节断言——改了 3 个格子，输出的字节数是一个
     可以写死的常数，不需要 pty、不需要真终端。这是本工具箱最强的回归手段。
 
-不做颜色与属性
+默认不做颜色与属性
     因为 render() 是**字符**网格的 diff，不是"格子"网格的 diff。
     把属性算进去，网格就得变成 (字符, 属性) 的格子，纯函数的断言立刻
     复杂一个量级。作为交换，本工具箱没有"重绘后 SGR 状态不同步"这类
-    幽灵 bug：选中态用 '>'、失败用 'x' 这类标记字符表达。
+    幽灵 bug。个别应用可在 render_frame 边界选择行属性，Grid/render 保持纯文本。
+    默认选中态用 '>'、失败用 'x' 这类标记字符表达。
 
 用法（硬件工具侧）
     from tui import TuiApp, Grid, Rect, Layout, Menu, Table, LogView
@@ -1303,6 +1304,10 @@ class TuiApp:
             sys.stdout.write(line.rstrip() + "\n")
         sys.stdout.flush()
 
+    def render_frame(self, prev, lines):
+        """Optional terminal-boundary styling; default byte stream is unchanged."""
+        return render(prev, lines)
+
     def _main(self, stdscr):  # pragma: no cover - 需要真终端
         try:
             stdscr.keypad(True)
@@ -1334,7 +1339,7 @@ class TuiApp:
                 self.poll()
                 lines = self.build().to_lines()
                 if lines != prev:
-                    out = render(prev, lines)
+                    out = self.render_frame(prev, lines)
                     if out:
                         self._write("".join(out))
                     prev = lines

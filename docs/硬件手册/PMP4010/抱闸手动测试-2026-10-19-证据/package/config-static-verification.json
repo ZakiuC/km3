@@ -1,0 +1,10 @@
+{
+  "config_source": "device/config/device.json",
+  "config_sha256": "49d285a5fa8f65ff64d41860de3f4bb78c95ffbb3dbd13c45d6d3e59c1b55c37",
+  "logical": "can-2",
+  "repository_iface": "can1",
+  "repository_bitrate": 1000000,
+  "launcher_node": 1,
+  "board_live_config_read": false,
+  "config_override": false
+}

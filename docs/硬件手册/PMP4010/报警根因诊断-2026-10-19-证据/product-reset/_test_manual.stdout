@@ -1,0 +1,21 @@
+DIAGNOSTIC running603F=3456: exact5 uploads then mode/CW2/status/mode/CW0/status; no extra deviceIO; original historical values preserved
+MANUAL submit: bit10=0, final human target -1420 only, fresh ACK0/1/0, CW106/107/127/137/127, no enable/release
+DELAYED actual SDO: 0106 ACK then0260/0260/0231; 0107 ACK then0231/0231/0233; fixed607A=-1434; submit completes
+DELAYED unexpected0237 then0231: first raw immediately rejected, no read of later normal, cleanup cannot replace root sample
+DELAYED pending guard injections: first velocity/position/calibration/profile/607C/settings each prevents next CW and cleans2/0
+DELAYED persistent0260: state_timeout bounded; no0107/enable/release; first_failure and cleanup2/0 retained
+DELAYED waiting cancel: immediate cancellation at pending snapshot, same-client bounded2/0, no later CW
+MANUAL E: CW12F only, +13U accepted inside original start/budget; no zero-drift cleanup, waits for G
+ENABLED EDGE ACK read timeout after003F: original client quarantined; no cleanup/refresh/scan/exit requests
+ENABLED EDGE behavior: before=-1457, after=-1445, target=-1420, edges=[(47, 63, -1420)], CW=['0x106', '0x107', '0x127', '0x137', '0x127', '0x12f', '0x2f', '0x3f', '0x2f']
+ENABLED EDGE actual SDO: ACK samples 0/0→1/1→0/0; moving during high/low handshake; fixed target reached, one edge only
+ENABLED EDGE missing high/stuck low ACK: fixed deadline; same-client bounded2/0; proof consumed and node blocked
+ENABLED EDGE moving phase: mode/CW/607A/6062/calibration/profile/607C/607D/fault/envelope changes stop2/disable0 before final release
+ENABLED TARGET malformed readback width: same-client quarantine and zero following requests
+ENABLED TARGET lost download ACK: one attempted target download; same-client quarantine, zero subsequent requests/edges
+ENABLED TARGET readback mismatch: same-client bounded2/0; no new edge
+ENABLED TARGET hypothesis (not firmware fact): before=-1457, after=-1445, frozen=-1420, enabled writes=[-1420], edges=[(47, 63, -1420)]
+MANUAL user sequence CW: 0106 0107 0127 0137 0127 | 012F | 002F 003F 002F | 0002 | 0000 | exit0006
+DIAGNOSTIC initial603F=ABCD: exact identity+5 uploads; CW unknown; partial persisted before enable; target lock retained, client communication healthy
+DIAGNOSTIC previous complete snapshot then next first6041 timeout: all current raw fields unknown; previous CW kept only as expected context
+MANUAL timeout: same client quarantined; scan/refresh/G/exit zero subsequent requests; independent emergency stop required

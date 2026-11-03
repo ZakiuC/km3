@@ -1,0 +1,16 @@
+{
+  "name": "help",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "device/drivers/pmp4010/tools/pmp4010.py",
+    "--help"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T07:29:35.380868+00:00",
+  "stdout": "help.stdout.log",
+  "stderr": "help.stderr.log",
+  "rc": 0,
+  "finished_utc": "2026-10-19T07:29:35.418763+00:00"
+}

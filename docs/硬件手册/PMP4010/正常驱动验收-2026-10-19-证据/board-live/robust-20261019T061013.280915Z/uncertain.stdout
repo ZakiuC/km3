@@ -1,0 +1,39 @@
+{"utc": "2026-10-19T06:11:43.923780+00:00", "event": "显式会话理由", "data": {"RT": "离线MockBus验证，无硬件操作", "OD": "离线MockBus验证，沿用原OD闸门"}}
+{"utc": "2026-10-19T06:11:43.923823+00:00", "event": "打开总线前被动检查", "data": {"mock_only": true, "expected_CAN_RAW": 0}}
+{"utc": "2026-10-19T06:11:43.923938+00:00", "event": "警告", "data": "km3-rt-controller.service 处于 active —— 它正在使用这条总线"}
+{"utc": "2026-10-19T06:11:43.923952+00:00", "event": "信息", "data": "已给出 --i-know-rt-is-running，继续。"}
+{"utc": "2026-10-19T06:11:43.925751+00:00", "event": "信息", "data": "扫描完成：发现1台；手动入口未发控制写入"}
+{"utc": "2026-10-19T06:11:43.927080+00:00", "event": "警告", "data": "已放行 OD 闸门：7 项对象字典未核对，仍执行「人工小角度点动」。"}
+{"utc": "2026-10-19T06:11:43.927106+00:00", "event": "信息", "data": "放行条目：node_guard, emcy_cob_id, sync_period, sdo_timeout, stop_option_605BC_missing, brake_failsafe_behaviour, vendor_factory_value_policy"}
+{"utc": "2026-10-19T06:11:43.927122+00:00", "event": "信息", "data": "其中 assumed（有依据但不是手册）：brake_failsafe_behaviour, vendor_factory_value_policy"}
+{"utc": "2026-10-19T06:11:43.927129+00:00", "event": "信息", "data": "放行理由：离线MockBus验证，沿用原OD闸门"}
+{"utc": "2026-10-19T06:11:43.927136+00:00", "event": "信息", "data": "本次放行**没有**提高任何条目的可信度：od.json 与生成物均未改动。"}
+{"utc": "2026-10-19T06:11:43.927144+00:00", "event": "信息", "data": "现场停机由独立安全设计负责；本工具不提供紧急停机（见 CONTRACT.md）。"}
+{"utc": "2026-10-19T06:11:43.928434+00:00", "event": "REVIEW_READY", "data": {"snapshot": {"review_nonce": "c006b28f7cb441d0b19a75883e42d5d0", "node": 1, "interface": "can1", "mode": "PP1", "start": -1470, "target": -1434, "displacement": 36, "motor_degrees": "405/4096", "velocity_units_per_s": 100, "velocity_rpm": "375/8192", "origin": -1470, "settings": {"soft_min": -1834, "soft_max": -1106, "max_displacement": 36}, "calibration": {"values": [131072, 1, 1, 1], "resolution": "131072", "gear_ratio": "1", "motor_degrees_per_user_unit": "45/16384", "output_degrees_per_user_unit": "45/16384"}, "values": {"statusword": 608, "actual_position": -1470, "actual_velocity": 0, "modes_of_operation_display": 1, "error_code_object": 0, "torque_feedback": 0, "velocity_feedback_unit": 0, "profile_velocity": 500000, "profile_acceleration": 100, "profile_deceleration": 100, "home_offset": 0, "control_mode_select": 0, "modes_of_operation": 1, "target_position": 7800, "profile_end_velocity": 0, "software_position_limit": -2147483627, "software_position_limit_max": 2147483627, "controlword": 0, "halt_option": 1, "position_demand": 7800, "max_velocity": 10000, "max_motor_speed": 1000, "max_profile_acceleration": 10000, "max_deceleration": 10000}, "lines": ["正向点动", "冻结起点 -1470 U -> 终点 -1434 U；位移 36 U = 0.0989 电机轴度", "请求步长 0.1 -> 实际 0.0989 电机轴度（36 U）", "请求速度 100 U/s -> 实际 0.0457764 rpm（100 U/s）", "Enter 确认这一次动作；Esc 取消；Space/x 随时快停"], "RT_reason": "离线MockBus验证，无硬件操作", "OD_reason": "离线MockBus验证，沿用原OD闸门"}, "digest": "6b4ea16a86be3f0f7b0dd06ec8d92b1396f21ab9a3f1985663f2644f374ae056", "required_line": "EXECUTE 6b4ea16a86be3f0f7b0dd06ec8d92b1396f21ab9a3f1985663f2644f374ae056", "abort_line": "ABORT", "read_phase_control_writes": 0}}
+{"utc": "2026-10-19T06:11:43.928470+00:00", "event": "执行前被动检查", "data": {"mock_only": true, "expected_CAN_RAW": 1}}
+{"utc": "2026-10-19T06:11:43.929444+00:00", "event": "执行前实读位置", "data": {"actual_position": -1470, "frozen_start": -1470, "frozen_target": -1434, "delta_from_start": 0}}
+{"utc": "2026-10-19T06:11:43.931091+00:00", "event": "警告", "data": "已放行 OD 闸门：7 项对象字典未核对，仍执行「提交绝对目标，不使能」。"}
+{"utc": "2026-10-19T06:11:43.931119+00:00", "event": "信息", "data": "放行条目：node_guard, emcy_cob_id, sync_period, sdo_timeout, stop_option_605BC_missing, brake_failsafe_behaviour, vendor_factory_value_policy"}
+{"utc": "2026-10-19T06:11:43.931132+00:00", "event": "信息", "data": "其中 assumed（有依据但不是手册）：brake_failsafe_behaviour, vendor_factory_value_policy"}
+{"utc": "2026-10-19T06:11:43.931141+00:00", "event": "信息", "data": "放行理由：离线MockBus验证，沿用原OD闸门"}
+{"utc": "2026-10-19T06:11:43.931150+00:00", "event": "信息", "data": "本次放行**没有**提高任何条目的可信度：od.json 与生成物均未改动。"}
+{"utc": "2026-10-19T06:11:43.931157+00:00", "event": "信息", "data": "现场停机由独立安全设计负责；本工具不提供紧急停机（见 CONTRACT.md）。"}
+{"utc": "2026-10-19T06:11:43.933427+00:00", "event": "警告", "data": "已放行 OD 闸门：7 项对象字典未核对，仍执行「提交绝对目标，不使能」。"}
+{"utc": "2026-10-19T06:11:43.933454+00:00", "event": "信息", "data": "放行条目：node_guard, emcy_cob_id, sync_period, sdo_timeout, stop_option_605BC_missing, brake_failsafe_behaviour, vendor_factory_value_policy"}
+{"utc": "2026-10-19T06:11:43.933466+00:00", "event": "信息", "data": "其中 assumed（有依据但不是手册）：brake_failsafe_behaviour, vendor_factory_value_policy"}
+{"utc": "2026-10-19T06:11:43.933474+00:00", "event": "信息", "data": "放行理由：离线MockBus验证，沿用原OD闸门"}
+{"utc": "2026-10-19T06:11:43.933482+00:00", "event": "信息", "data": "本次放行**没有**提高任何条目的可信度：od.json 与生成物均未改动。"}
+{"utc": "2026-10-19T06:11:43.933489+00:00", "event": "信息", "data": "现场停机由独立安全设计负责；本工具不提供紧急停机（见 CONTRACT.md）。"}
+{"utc": "2026-10-19T06:11:43.933600+00:00", "event": "begin", "data": {"node": 1, "action": "absolute", "start": -1470, "target": -1434, "settings": {"soft_min": -1834, "soft_max": -1106, "max_displacement": 36}, "velocity": 100, "od_gaps_bypass": "离线MockBus验证，沿用原OD闸门"}}
+{"utc": "2026-10-19T06:11:43.934444+00:00", "event": "write_readback", "data": {"object": "profile_velocity", "expected": 100, "actual": 100}}
+{"utc": "2026-10-19T06:11:43.934794+00:00", "event": "exception", "data": {"message": "手动写入 target_position：node 1: 0.100s 内未收到 SDO 应答（请求 601  [8]  23 7A 60 00 66 FA FF FF）", "write_attempted": true, "first_failure": {"reason": "手动写入 target_position：node 1: 0.100s 内未收到 SDO 应答（请求 601  [8]  23 7A 60 00 66 FA FF FF）"}}}
+{"utc": "2026-10-19T06:11:43.934845+00:00", "event": "错误", "data": "节点 1 手动动作 SDO 已隔离：手动写入 target_position：node 1: 0.100s 内未收到 SDO 应答（请求 601  [8]  23 7A 60 00 66 FA FF FF）；需外部恢复"}
+{"utc": "2026-10-19T06:11:43.934889+00:00", "event": "错误", "data": "手动保护锁定：手动写入 target_position：node 1: 0.100s 内未收到 SDO 应答（请求 601  [8]  23 7A 60 00 66 FA FF FF）；停止确认=None；停止未确认，请使用独立急停"}
+{"utc": "2026-10-19T06:11:43.934900+00:00", "event": "bench_result", "data": {"action": "manual_protection", "node": 1, "success": false, "disabled_confirmed": null, "state_unknown": true, "mechanical_stop_confirmed": false}}
+{"utc": "2026-10-19T06:11:43.934920+00:00", "event": "manual_cleanup", "data": {"disabled_confirmed": null, "mechanical_stop_confirmed": false, "first_failure": {"reason": "手动写入 target_position：node 1: 0.100s 内未收到 SDO 应答（请求 601  [8]  23 7A 60 00 66 FA FF FF）"}}}
+{"utc": "2026-10-19T06:11:43.934937+00:00", "event": "runner_failure", "data": {"reason": "MotionError: 手动写入 target_position：node 1: 0.100s 内未收到 SDO 应答（请求 601  [8]  23 7A 60 00 66 FA FF FF）", "first_failure": {"1": {"reason": "手动写入 target_position：node 1: 0.100s 内未收到 SDO 应答（请求 601  [8]  23 7A 60 00 66 FA FF FF）"}}}}
+{"utc": "2026-10-19T06:11:43.935020+00:00", "event": "错误", "data": "节点 1 退出失能 SDO 已隔离：SDO 已隔离，禁止重试；需外部恢复"}
+{"utc": "2026-10-19T06:11:43.935030+00:00", "event": "信息", "data": "节点 1 失能未确认，状态未知，须独立急停"}
+{"utc": "2026-10-19T06:11:43.935038+00:00", "event": "信息", "data": "总线已关闭（失能确认流程之后）"}
+{"utc": "2026-10-19T06:11:43.935047+00:00", "event": "FINAL", "data": {"completed": false, "failure": "MotionError: 手动写入 target_position：node 1: 0.100s 内未收到 SDO 应答（请求 601  [8]  23 7A 60 00 66 FA FF FF）", "output_error": null, "hardware_motion_acceptance": false, "mock_only": true, "cleanup": [{"action": "stop", "skipped": "已隔离；禁止重试"}, {"action": "disable", "skipped": "已隔离；禁止重试"}], "close_results": [{"node": 1, "disabled_confirmed": false}], "close_lines": ["节点 1 失能未确认，状态未知，须独立急停", "总线已关闭（失能确认流程之后）"], "final_velocity_note": "606C实读在disable0完整快照中；close6后只再读6041并关闭总线", "mechanical_stop_confirmed": false}}
+{"mock_case": "uncertain", "runner_rc": 1, "assertions": "PASS", "controlwords": [], "writes": [[24705, 0, 100], [24698, 0, 4294965862]], "read_phase_writes": [], "hardware_acceptance": false}

@@ -1,0 +1,20 @@
+{"utc": "2026-10-19T01:22:41.609967+00:00", "monotonic": 4228833.672277287, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T01:22:41.867964+00:00", "monotonic": 4228833.930287304, "label": "enter", "text": "\r", "bytes_hex": "0d"}
+{"utc": "2026-10-19T01:22:42.120013+00:00", "monotonic": 4228834.182317496, "label": "f2", "text": "\u001bOQ", "bytes_hex": "1b4f51"}
+{"utc": "2026-10-19T01:22:42.373864+00:00", "monotonic": 4228834.436185177, "label": "typed text", "text": "-1506", "bytes_hex": "2d31353036"}
+{"utc": "2026-10-19T01:22:42.524934+00:00", "monotonic": 4228834.587264007, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T01:22:42.779320+00:00", "monotonic": 4228834.841648063, "label": "typed text", "text": "-1434", "bytes_hex": "2d31343334"}
+{"utc": "2026-10-19T01:22:42.930025+00:00", "monotonic": 4228834.992342218, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T01:22:43.186290+00:00", "monotonic": 4228835.248621395, "label": "typed text", "text": "36", "bytes_hex": "3336"}
+{"utc": "2026-10-19T01:22:43.337565+00:00", "monotonic": 4228835.399898536, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T01:22:43.590288+00:00", "monotonic": 4228835.652597988, "label": "typed text", "text": "D", "bytes_hex": "44"}
+{"utc": "2026-10-19T01:22:43.948131+00:00", "monotonic": 4228836.010437137, "label": "typed text", "text": "OD mock-bench 1", "bytes_hex": "4f44206d6f636b2d62656e63682031"}
+{"utc": "2026-10-19T01:22:44.098449+00:00", "monotonic": 4228836.160755586, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T01:22:44.455909+00:00", "monotonic": 4228836.518218953, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T01:22:44.830213+00:00", "monotonic": 4228836.892525166, "label": "typed text", "text": "DISABLE mock-bench 1 -1470", "bytes_hex": "44495341424c45206d6f636b2d62656e63682031202d31343730"}
+{"utc": "2026-10-19T01:22:44.980576+00:00", "monotonic": 4228837.042883861, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T01:22:45.454422+00:00", "monotonic": 4228837.516732217, "label": "typed text", "text": "B", "bytes_hex": "42"}
+{"utc": "2026-10-19T01:22:45.812534+00:00", "monotonic": 4228837.874845151, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T01:22:46.178361+00:00", "monotonic": 4228838.24066502, "label": "typed text", "text": "PROBE_PP_START mock-bench 1 -1470", "bytes_hex": "50524f42455f50505f5354415254206d6f636b2d62656e63682031202d31343730"}
+{"utc": "2026-10-19T01:22:46.328708+00:00", "monotonic": 4228838.391016281, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T01:22:48.594031+00:00", "monotonic": 4228840.656342794, "label": "q ordinary UI exit", "text": "q", "bytes_hex": "71"}

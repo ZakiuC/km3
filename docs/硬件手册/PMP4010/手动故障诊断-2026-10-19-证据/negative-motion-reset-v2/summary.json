@@ -1,0 +1,169 @@
+{
+  "result": "RESET_TRANSACTIONS_ACKNOWLEDGED_ERROR_CODE_UNCHANGED",
+  "return_code": 0,
+  "ssh_calls": 2,
+  "passive_baseline_equal_count": 11,
+  "source_hashes_verified": true,
+  "remote_stage": "/var/tmp/km3-pmp4010-diag-20261019-0218ab4207eb/reset-only-plan-v2",
+  "SDO_requests": 8,
+  "SDO_uploads": 5,
+  "controlword_writes": 3,
+  "controlword_values": [
+    "0x0000",
+    "0x0080",
+    "0x0000"
+  ],
+  "before": {
+    "event": "复位前实读",
+    "mode": 0,
+    "statusword": "0x02C0",
+    "error_code": "0x2312"
+  },
+  "after": {
+    "event": "复位后单次实读",
+    "error_code": "0x2312",
+    "statusword": "0x02C0",
+    "motion_authorized": false,
+    "mechanical_stop_confirmed": false,
+    "warning_or_last_error_clear_not_guaranteed": true,
+    "SDO_attempts": 8
+  },
+  "tx": [
+    {
+      "event": "复位TX",
+      "transaction": 1,
+      "cob_id": "601",
+      "raw_hex": "4002200100000000",
+      "attempt": 1
+    },
+    {
+      "event": "复位TX",
+      "transaction": 2,
+      "cob_id": "601",
+      "raw_hex": "4041600000000000",
+      "attempt": 2
+    },
+    {
+      "event": "复位TX",
+      "transaction": 3,
+      "cob_id": "601",
+      "raw_hex": "403f600000000000",
+      "attempt": 3
+    },
+    {
+      "event": "复位TX",
+      "transaction": 4,
+      "cob_id": "601",
+      "raw_hex": "2b40600000000000",
+      "attempt": 4
+    },
+    {
+      "event": "复位TX",
+      "transaction": 5,
+      "cob_id": "601",
+      "raw_hex": "2b40600080000000",
+      "attempt": 5
+    },
+    {
+      "event": "复位TX",
+      "transaction": 6,
+      "cob_id": "601",
+      "raw_hex": "2b40600000000000",
+      "attempt": 6
+    },
+    {
+      "event": "复位TX",
+      "transaction": 7,
+      "cob_id": "601",
+      "raw_hex": "403f600000000000",
+      "attempt": 7
+    },
+    {
+      "event": "复位TX",
+      "transaction": 8,
+      "cob_id": "601",
+      "raw_hex": "4041600000000000",
+      "attempt": 8
+    }
+  ],
+  "rx": [
+    {
+      "event": "复位RX",
+      "transaction": 1,
+      "cob_id": "581",
+      "raw_hex": "4b02200100000000",
+      "extended": false,
+      "remote": false,
+      "frame_type": "classic"
+    },
+    {
+      "event": "复位RX",
+      "transaction": 2,
+      "cob_id": "581",
+      "raw_hex": "4b416000c0020000",
+      "extended": false,
+      "remote": false,
+      "frame_type": "classic"
+    },
+    {
+      "event": "复位RX",
+      "transaction": 3,
+      "cob_id": "581",
+      "raw_hex": "4b3f600012230000",
+      "extended": false,
+      "remote": false,
+      "frame_type": "classic"
+    },
+    {
+      "event": "复位RX",
+      "transaction": 4,
+      "cob_id": "581",
+      "raw_hex": "6040600000000000",
+      "extended": false,
+      "remote": false,
+      "frame_type": "classic"
+    },
+    {
+      "event": "复位RX",
+      "transaction": 5,
+      "cob_id": "581",
+      "raw_hex": "6040600000000000",
+      "extended": false,
+      "remote": false,
+      "frame_type": "classic"
+    },
+    {
+      "event": "复位RX",
+      "transaction": 6,
+      "cob_id": "581",
+      "raw_hex": "6040600000000000",
+      "extended": false,
+      "remote": false,
+      "frame_type": "classic"
+    },
+    {
+      "event": "复位RX",
+      "transaction": 7,
+      "cob_id": "581",
+      "raw_hex": "4b3f600012230000",
+      "extended": false,
+      "remote": false,
+      "frame_type": "classic"
+    },
+    {
+      "event": "复位RX",
+      "transaction": 8,
+      "cob_id": "581",
+      "raw_hex": "4b416000c0020000",
+      "extended": false,
+      "remote": false,
+      "frame_type": "classic"
+    }
+  ],
+  "error_code_cleared": false,
+  "motion_performed": false,
+  "automatic_retries": 0,
+  "additional_reads": 0,
+  "mechanical_stop_confirmed": false,
+  "final_action": "Socket closed; all CAN operations stopped; waiting for parent instructions. No motion."
+}

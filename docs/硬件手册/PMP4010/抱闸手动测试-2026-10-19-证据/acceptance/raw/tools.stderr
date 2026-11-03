@@ -1,0 +1,13 @@
+test_dry_run_never_invokes_ssh (test_deploy_hwtools.DeployHwtoolsTest) ... ok
+test_failed_import_restores_previous_release (test_deploy_hwtools.DeployHwtoolsTest) ... ok
+test_missing_od_fails_before_ssh (test_deploy_hwtools.DeployHwtoolsTest) ... ok
+test_versioned_package_contains_od_and_shared_modules (test_deploy_hwtools.DeployHwtoolsTest) ... ok
+test_complete_subobjects_and_signed_exponent (test_gen_od_params.ParameterMetadataTest) ... ok
+test_reject_invalid_width_range_address_source_and_duplicates (test_gen_od_params.ParameterMetadataTest) ... ok
+test_all_lengths_follow_active_entry_count (test_gen_od_pdo.PdoGenerationTest) ... ok
+test_reject_count_width_overflow_duplicate_and_unverified_source (test_gen_od_pdo.PdoGenerationTest) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.329s
+
+OK

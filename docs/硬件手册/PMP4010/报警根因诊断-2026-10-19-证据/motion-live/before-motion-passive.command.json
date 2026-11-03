@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B -"
+  ],
+  "stdin_file": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/motion-live/before-motion-passive.stdin.py",
+  "stdin_sha256": "af3b7bbd38ac751a30f0bd2dd28b7170456747310a0b78db679888215e4b8b2f",
+  "start_utc": "2026-10-20T00:39:25.213746+00:00",
+  "automatic_retries": 0,
+  "timeout_seconds": 35,
+  "end_utc": "2026-10-20T00:39:25.555982+00:00",
+  "rc": 0
+}

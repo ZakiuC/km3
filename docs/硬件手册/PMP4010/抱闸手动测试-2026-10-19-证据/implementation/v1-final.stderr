@@ -1,0 +1,24 @@
+test_80x24_screen_distinguishes_electrical_request_and_mechanics (_test_brake.BrakeTests) ... ok
+test_cli_help_bad_args_import_and_no_tty_do_not_open_can (_test_brake.BrakeTests) ... ok
+test_close_owned_hold_confirms_disable_without_implicit_enable (_test_brake.BrakeTests) ... ok
+test_hold_freezes_current_replaces_old_target_with_halt_and_no_go (_test_brake.BrakeTests) ... ok
+test_hold_proof_retains_limit_and_parameter_monitoring (_test_brake.BrakeTests) ... ok
+test_home_offset_soft_limit_and_fault_block_release (_test_brake.BrakeTests) ... ok
+test_missing_enable_ack_is_quarantined_without_any_retry_or_cleanup (_test_brake.BrakeTests) ... ok
+test_no_stale_target_readback_enable_on_mismatched_607a (_test_brake.BrakeTests) ... ok
+test_od_gate_stays_closed_without_session_authorization (_test_brake.BrakeTests) ... ok
+test_public_api_blocks_all_movement_paths_and_forged_hold (_test_brake.BrakeTests) ... ok
+test_receive_protocol_error_has_no_cleanup_or_replacement_client (_test_brake.BrakeTests) ... ok
+test_refresh_timeout_does_not_retry_or_send_cleanup (_test_brake.BrakeTests) ... ok
+test_repeat_release_no_frames_and_second_cycle_requires_new_review (_test_brake.BrakeTests) ... ok
+test_send_enqueued_then_error_does_not_retry_or_send_cleanup (_test_brake.BrakeTests) ... ok
+test_startup_authorization_cancel_disable_quit_have_no_enable (_test_brake.BrakeTests) ... ok
+test_ui_1_enter_2_and_blocked_movement_keys (_test_brake.BrakeTests) ... ok
+test_ui_d_before_connection_and_before_od_authorization (_test_brake.BrakeTests) ... ok
+test_ui_esc_and_q_pending_hold_never_enable (_test_brake.BrakeTests) ... ok
+test_warning_2312_reset_reuses_guard_and_never_enables (_test_brake.BrakeTests) ... ok
+
+----------------------------------------------------------------------
+Ran 19 tests in 2.650s
+
+OK

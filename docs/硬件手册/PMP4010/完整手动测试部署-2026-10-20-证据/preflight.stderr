@@ -1,0 +1,4 @@
+  File "<stdin>", line 4
+    snapshot={"python":sys.version,"machine":platform.machine(),"hostname":p('/proc/sys/kernel/hostname').read_text().strip(),"model":p('/proc/device-tree/model').read_bytes().rstrip(b'config=json.loads(p('/etc/km3/device.json').read_text())
+                                                                                                                                                                                                                                  ^
+SyntaxError: unterminated string literal (detected at line 4)

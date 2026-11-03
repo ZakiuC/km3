@@ -1,0 +1,10 @@
+{
+  "argv": [
+    "tar",
+    "-xzf",
+    "/tmp/km3-pp-disabled-start-package-20261019/pmp4010-board-payload.tar.gz",
+    "-C",
+    "/tmp/km3-pp-disabled-start-package-20261019/roundtrip"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

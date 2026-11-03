@@ -1,0 +1,18 @@
+{
+  "name": "gen-access",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "tools/hwdriver/gen-pmp4010-access.py",
+    "--check"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T05:30:24.241305+00:00",
+  "duration_seconds": 0.022739580999768805,
+  "returncode": 0,
+  "stdout": "gen-access.stdout.log",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr": "gen-access.stderr.log",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

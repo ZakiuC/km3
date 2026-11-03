@@ -1,0 +1,217 @@
+[
+  {
+    "name": "01-before.json",
+    "size": 8025,
+    "sha256": "c27580e542d47d8a75b7220da691e9ca7bf678d803d64ddf93d0f78a5fbee26c"
+  },
+  {
+    "name": "01-before.stderr",
+    "size": 106,
+    "sha256": "06fbc85819ff69e006eb6e0c70edb87b2bcda01e089c0c69a8ba9a821d17f8f0"
+  },
+  {
+    "name": "01-before.stdout",
+    "size": 5844,
+    "sha256": "b82bdcf389a510352a4011674f50eb1a61a6c9be5e9dd19695423a47e2d3800c"
+  },
+  {
+    "name": "01b-before.json",
+    "size": 8028,
+    "sha256": "75a2c51b34d339702e70255c7ec0973c46018058c086da0769ddfdc84b862435"
+  },
+  {
+    "name": "01b-before.stderr",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "01b-before.stdout",
+    "size": 5877,
+    "sha256": "b05151def17131143ddca560abb159817bcdf0686a7674d8b13cec59bb2fc11c"
+  },
+  {
+    "name": "02-mktemp.json",
+    "size": 370,
+    "sha256": "a17339a3364db5bb227bb0676710755abfc637430c085c3e30f7da46ba31e9b3"
+  },
+  {
+    "name": "02-mktemp.stderr",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "02-mktemp.stdout",
+    "size": 40,
+    "sha256": "0754b2e4b8df87c53e81bba319f9d60d2c8f832d752311df1b8cb7174b0e8bc9"
+  },
+  {
+    "name": "03-scp.json",
+    "size": 414,
+    "sha256": "dce117488299d5108324478c35e6cfbf59ef7197d9fa395fe6e44406b00cb92b"
+  },
+  {
+    "name": "03-scp.stderr",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "03-scp.stdout",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "04-verify-extract.json",
+    "size": 2179,
+    "sha256": "b5d433cd3d3922911bfc7898364c1884a2dae507ce58a729e9b58360d7633457"
+  },
+  {
+    "name": "04-verify-extract.stderr",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "04-verify-extract.stdout",
+    "size": 226,
+    "sha256": "fc0e26bbdc765f192250525d1d3dcf50d66d941e603ed40c4cb91e8134515fba"
+  },
+  {
+    "name": "05-elf-ldd.json",
+    "size": 6050,
+    "sha256": "566958ab156ec21f2051d49f2f14596301ef26e6b70362ff2f16aa46142a9a4d"
+  },
+  {
+    "name": "05-elf-ldd.stderr",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "05-elf-ldd.stdout",
+    "size": 4782,
+    "sha256": "d3242feed9493d8d10f5655a6c1546e288b3ef9c6a9515fecf0e8c1a4b4a75f7"
+  },
+  {
+    "name": "06-load-smoke.json",
+    "size": 4886,
+    "sha256": "586e4901e860ae45551795b70e1f83ea929cc03dc6abac7fd30eb595d86ee13e"
+  },
+  {
+    "name": "06-load-smoke.stderr",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "06-load-smoke.stdout",
+    "size": 4414,
+    "sha256": "7e7b0e94ef63eecd63cdd9570a4a34e80846daaaf0c354388295033f7bf6ca2d"
+  },
+  {
+    "name": "07-after.json",
+    "size": 8026,
+    "sha256": "9c088c593f3ca129428efa8182143b908e85d5f2cb652b40873bf981161b8974"
+  },
+  {
+    "name": "07-after.stderr",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "07-after.stdout",
+    "size": 5877,
+    "sha256": "b05151def17131143ddca560abb159817bcdf0686a7674d8b13cec59bb2fc11c"
+  },
+  {
+    "name": "08-check-docs.json",
+    "size": 752,
+    "sha256": "f271ecebff3f277df5f3dbb6b81519d05d35c000659a5a32c2e5410816d014f6"
+  },
+  {
+    "name": "08-check-docs.stderr",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "08-check-docs.stdout",
+    "size": 528,
+    "sha256": "7d4024f93203662fdc3ea942df189c5f807bc592abbdf4d66c09e9258f82f3ef"
+  },
+  {
+    "name": "09-check-manual-citations.json",
+    "size": 455,
+    "sha256": "b5908a7053c97e6b75022aa6d8ee5ebfc7cc1152ed584d9e6debe6429c148c15"
+  },
+  {
+    "name": "09-check-manual-citations.stderr",
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "name": "09-check-manual-citations.stdout",
+    "size": 209,
+    "sha256": "1441bf5b9ca3679783fe4cd50fafdf08b18e47575ffe72514655a830eabf062c"
+  },
+  {
+    "name": "README-板端加载.md",
+    "size": 3476,
+    "sha256": "853d6eab909047e183bfe5920c0230eddc18ab95773be3ed8295dea959966005"
+  },
+  {
+    "name": "command-index.json",
+    "size": 39518,
+    "sha256": "e330862585d4fb651ac3434902fa0934723e609b35fb2a166d39556ec12d85ce"
+  },
+  {
+    "name": "comparison.json",
+    "size": 121,
+    "sha256": "7b7cb818c0017d65b634f2f273dfdbab981d28830e47c08cc6525609569aed83"
+  },
+  {
+    "name": "load_smoke.py",
+    "size": 7086,
+    "sha256": "2bde34e21bec16ad0484baaad73abf4509f887291b23c092b913b0599c50ff09"
+  },
+  {
+    "name": "package-artifact-index.json",
+    "size": 13269,
+    "sha256": "e48ca459176e587021553cf466ad3ea6b6f76e4a19fa80120d3063ce6c678e59"
+  },
+  {
+    "name": "package-elf-assessment.json",
+    "size": 526,
+    "sha256": "9d507e31b66220e5d70c3bd46e16c7e5d1f851d80f17a1bb4ab0f065cf44b199"
+  },
+  {
+    "name": "package-source-manifest.json",
+    "size": 76253,
+    "sha256": "5949d6f60f3aa3d5b9518ed029976df00bd88defc5c3b59c6d895604aebf6598"
+  },
+  {
+    "name": "package-summary.json",
+    "size": 859,
+    "sha256": "18a55143529ba2fd76197badb5df409fafba67fc35993fc4f1d52d3e8931e4f7"
+  },
+  {
+    "name": "payload-manifest.json",
+    "size": 4142,
+    "sha256": "b2e76e6d2083d47d01c4bd6507c4c2c3c2884fcf329abfa9991d88a98d19a22f"
+  },
+  {
+    "name": "remote-directory.txt",
+    "size": 40,
+    "sha256": "0754b2e4b8df87c53e81bba319f9d60d2c8f832d752311df1b8cb7174b0e8bc9"
+  },
+  {
+    "name": "runner.py",
+    "size": 6692,
+    "sha256": "e173c3e8f0824f0e70bf85d03b6d6867c79c52bc6bb82b80cc1673c96c8839fa"
+  },
+  {
+    "name": "summary.json",
+    "size": 1525,
+    "sha256": "ef3ced010478adeff39c92007eb817c0dc45192340b51be33fd1ec6b89f1863e"
+  },
+  {
+    "name": "../板端加载验收-2026-10-17.md",
+    "size": 43026,
+    "sha256": "22acd47f6d52fb0d00299757253fd35d01fe3d307b05bee1f82719bc7a2da6b0"
+  }
+]

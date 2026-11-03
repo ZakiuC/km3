@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3",
+    "-I",
+    "-B",
+    "-"
+  ],
+  "stdin_file": "upload.remote.py",
+  "stdin_sha256": "853705583a0a714ccd6ae0184dabcb06ed6c4e7af3fc8981eb655ca4d8418b1e",
+  "started_utc": "2026-10-19T06:13:15.947140+00:00",
+  "finished_utc": "2026-10-19T06:13:16.194997+00:00",
+  "rc": 0
+}

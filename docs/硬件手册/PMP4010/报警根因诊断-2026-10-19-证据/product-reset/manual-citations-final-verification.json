@@ -1,0 +1,21 @@
+{
+  "command": [
+    "bash",
+    "tools/check-manual-citations.sh"
+  ],
+  "returncode": 0,
+  "stdout": "manual-citations-final.stdout",
+  "stderr": "manual-citations-final.stderr",
+  "source_file": "device/drivers/pmp4010/tools/pmp4010_manual.py",
+  "before_source_sha256": "9cbf29f2756519fa6a4a930be8adaf5aeea86f57ddf309569afffcc474dbde73",
+  "after_source_sha256": "ca37ecb04116d8a08b279f1ea9964c9374dda411504c4e91479bc5bf09c110b9",
+  "before_ast_sha256": "df3233925c1e05a475a2f41dec8efbe5ef9d781b62eadbe4f07ccbb5f477b538",
+  "after_ast_sha256": "df3233925c1e05a475a2f41dec8efbe5ef9d781b62eadbe4f07ccbb5f477b538",
+  "ast_equal": true,
+  "non_comment_tokens_equal": true,
+  "historical_freeze": "source-sha256.json",
+  "final_freeze": "source-sha256-final.json",
+  "supersedes": "The prior freeze is preserved; source-sha256-final.json supersedes it after this comments-only citation fix.",
+  "previous_failed_gate": "product-acceptance/13-check-manual-citations.stdout (untouched)",
+  "full_suite_repeated": false
+}

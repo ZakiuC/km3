@@ -1,0 +1,48 @@
+{
+  "source": "/tmp/pmp4010-simple-frozen-sha256.txt",
+  "all_match": true,
+  "files": [
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_simple.py",
+      "expected_sha256": "e8478bfd4604aaee839d386f49777f7dbb31cb5588f4408ba9f6e7daacf40a2b",
+      "current_sha256": "e8478bfd4604aaee839d386f49777f7dbb31cb5588f4408ba9f6e7daacf40a2b",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010.py",
+      "expected_sha256": "b3c6743f929284ce98ff052e92515f4515d28fde4035841a4bf9f74b24036e27",
+      "current_sha256": "b3c6743f929284ce98ff052e92515f4515d28fde4035841a4bf9f74b24036e27",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_manual.py",
+      "expected_sha256": "cd17750a16fdc185fd5a45ea5182c7405fa6397b5932d0ae34c9e7337b1af1c8",
+      "current_sha256": "cd17750a16fdc185fd5a45ea5182c7405fa6397b5932d0ae34c9e7337b1af1c8",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/pmp4010_position.py",
+      "expected_sha256": "fe8299deb3fe52dc3f8d2cfd91383129274579e93b4a0a1ac9ffd09eab2b7668",
+      "current_sha256": "fe8299deb3fe52dc3f8d2cfd91383129274579e93b4a0a1ac9ffd09eab2b7668",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_simple.py",
+      "expected_sha256": "80793f07fdbf5e1cf55718b7570615d9e0231051528863e1509c760237dc5878",
+      "current_sha256": "80793f07fdbf5e1cf55718b7570615d9e0231051528863e1509c760237dc5878",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_simple_pty.py",
+      "expected_sha256": "4e0fbb06a3cf04ae9146ea108f033ee0f903799dfd111794edcbd52556e7c9c6",
+      "current_sha256": "4e0fbb06a3cf04ae9146ea108f033ee0f903799dfd111794edcbd52556e7c9c6",
+      "match": true
+    },
+    {
+      "path": "device/drivers/pmp4010/tools/_test_manual_pty.py",
+      "expected_sha256": "3792d9c59ed7dc1f66ce06cf9810bf84c0c8965b14b38224572052398cd6812f",
+      "current_sha256": "3792d9c59ed7dc1f66ce06cf9810bf84c0c8965b14b38224572052398cd6812f",
+      "match": true
+    }
+  ]
+}

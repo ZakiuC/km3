@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "device/drivers/pmp4010/tools",
+    "-p",
+    "_test_*.py"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-20T00:56:08.864891+00:00",
+  "returncode": 0,
+  "elapsed_seconds": 42.765141331998166,
+  "finished_utc": "2026-10-20T00:56:51.630154+00:00"
+}

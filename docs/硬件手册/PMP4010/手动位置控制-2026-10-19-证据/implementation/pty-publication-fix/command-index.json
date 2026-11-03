@@ -1,0 +1,90 @@
+[
+  {
+    "name": "publication-contract",
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "device/drivers/pmp4010/tools/_test_simple_pty.py",
+      "SnapshotPublicationTests"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T07:34:44.103550+00:00",
+    "stdout": "publication-contract.stdout.log",
+    "stderr": "publication-contract.stderr.log",
+    "rc": 0,
+    "finished_utc": "2026-10-19T07:34:44.141740+00:00"
+  },
+  {
+    "name": "pty-module-unit",
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "device/drivers/pmp4010/tools",
+      "-p",
+      "_test_simple_pty.py"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T07:34:44.141918+00:00",
+    "stdout": "pty-module-unit.stdout.log",
+    "stderr": "pty-module-unit.stderr.log",
+    "rc": 0,
+    "finished_utc": "2026-10-19T07:34:55.374179+00:00"
+  },
+  {
+    "name": "public-linear-1",
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "device/drivers/pmp4010/tools/_test_simple_pty.py",
+      "--run-linear",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/手动位置控制-2026-10-19-证据/implementation/pty-publication-fix/public-linear-1"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T07:34:55.374418+00:00",
+    "stdout": "public-linear-1.stdout.log",
+    "stderr": "public-linear-1.stderr.log",
+    "rc": 0,
+    "finished_utc": "2026-10-19T07:34:57.933597+00:00"
+  },
+  {
+    "name": "public-linear-2",
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "device/drivers/pmp4010/tools/_test_simple_pty.py",
+      "--run-linear",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/手动位置控制-2026-10-19-证据/implementation/pty-publication-fix/public-linear-2"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T07:34:57.933835+00:00",
+    "stdout": "public-linear-2.stdout.log",
+    "stderr": "public-linear-2.stderr.log",
+    "rc": 0,
+    "finished_utc": "2026-10-19T07:35:00.420713+00:00"
+  },
+  {
+    "name": "public-angle",
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "device/drivers/pmp4010/tools/_test_simple_pty.py",
+      "--run",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/手动位置控制-2026-10-19-证据/implementation/pty-publication-fix/public-angle"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T07:35:00.421032+00:00",
+    "stdout": "public-angle.stdout.log",
+    "stderr": "public-angle.stderr.log",
+    "rc": 0,
+    "finished_utc": "2026-10-19T07:35:08.800015+00:00"
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "runs": 5,
+  "assertions": 25,
+  "returncode": 0,
+  "warnings": 0,
+  "scope": "TSan real reason PTY after monotonic wait fix; before presentation-only adjustment",
+  "argv": [
+    "setarch",
+    "x86_64",
+    "-R",
+    "python3",
+    "inline import verify_pty.Session; 5 reason sessions"
+  ],
+  "source_ui_sha256": "dacfa59bc6d60a0ca76c575a20a4358d50dc98e5eb8f98d3eaabd653828b20b2"
+}

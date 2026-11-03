@@ -1,0 +1,11 @@
+已完成的现场调用仅为原294626脚本的一次首项6041上传。TX=1、应用RX=0、250ms超时，后被动核对接口TX/RX各+1，服务/配置/接口状态及错误计数不变。原脚本及原始stdout/stderr/rc保持冻结。
+
+原脚本的CAN_RAW_FILTER掩码0xFFFFFFFF包含CAN_ERR_FLAG=0x20000000。Linux UAPI明确该位置于mask时按error-message过滤；独立CAN_RAW_ERR_FILTER不会将此普通过滤器恢复为SDO过滤器。旧成功read-code-probe使用CanBus.open的默认全接收过滤，未设置本次有缺陷的显式过滤器，随后在用户态检查标准帧、RTR/extended标志和0x581，因此不受此缺陷影响。
+
+隔离user/network namespace下实际内核vcan测试：相同标准0x581应答4b416000c0020000，0xFFFFFFFF掩码超时；0xC00007FF掩码收到完整16字节。测试不访问任何真实CAN接口。v2仅修改这一行，继续用独立ERR_FILTER接收并拒绝错误帧；只匹配标准0x581，排除extended/RTR。
+
+原358项Mock的setsockopt为pass，未测试内核投递路径，因而这些PASS不能支持原过滤器正确。v2增加精确掩码及ERR位排除断言，并保留358项协议检查；另以隔离vcan实测补齐内核行为证据。vcan原始命令/rc/stdout/stderr在kernel-vcan.*，本地Mock/cold检查在mock.*和cold-load.*。
+
+板端这1个RX包没有原始帧，因此不能断言它就是6041应答，也不能断言板端实际内核与本机版本相同；能确认原掩码存在过滤缺陷，该缺陷足以解释应用未收到正常应答。不能据此次超时判断电机静默或故障未解除。
+
+最小外部恢复边界：需要主会话/用户明确允许新的、独立的一次只读诊断例外，审阅并固定v2 SHA后方可运行；此前失败调用已结束，禁止自动重试/复用client/重开socket。例外仅含同22项上传、每项250ms、总10s、一次socket、错误即止、无控制写/复位/清历史/运动，随后单次被动核对。执行前的所有板端CAN权限仍冻结，不需要改变接口配置或重启任何服务。新调用应以本次失败后的passive/after-passive-summary.json作为计数基线。

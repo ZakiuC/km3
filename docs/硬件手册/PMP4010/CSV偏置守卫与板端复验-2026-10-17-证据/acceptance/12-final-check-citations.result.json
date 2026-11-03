@@ -1,0 +1,11 @@
+{
+  "name": "12-final-check-citations",
+  "argv": [
+    "bash",
+    "tools/check-manual-citations.sh"
+  ],
+  "returncode": 1,
+  "elapsed_seconds": 0.07180686015635729,
+  "stdout": "/tmp/km3-csv-guard-final-20261017/12-final-check-citations.stdout.log",
+  "stderr": "/tmp/km3-csv-guard-final-20261017/12-final-check-citations.stderr.log"
+}

@@ -1,0 +1,15 @@
+{
+  "name": "drivers",
+  "argv": [
+    "bash",
+    "tools/check-drivers.sh"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T05:31:12.757677+00:00",
+  "duration_seconds": 0.03314166099880822,
+  "returncode": 0,
+  "stdout": "drivers.stdout.log",
+  "stdout_sha256": "97089ae37d0b7df7f91afe640b1ebf1cdf849e4697a1946f75763b0173c9da7d",
+  "stderr": "drivers.stderr.log",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

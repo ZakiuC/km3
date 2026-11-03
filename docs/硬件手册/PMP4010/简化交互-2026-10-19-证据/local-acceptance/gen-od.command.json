@@ -1,0 +1,20 @@
+{
+  "name": "gen-od",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "tools/hwdriver/gen-od.py",
+    "--model",
+    "pmp4010",
+    "--check"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T05:35:24.101392+00:00",
+  "duration_seconds": 0.01941632900161494,
+  "returncode": 0,
+  "stdout": "gen-od.stdout.log",
+  "stdout_sha256": "1fb8101f983b222bf8ece7312432fc4a34725ad3422420032c2ca0bd09a77b16",
+  "stderr": "gen-od.stderr.log",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

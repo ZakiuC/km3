@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=8",
+    "root@192.168.0.188",
+    "python3 -I -B -c 'import hashlib,json,os,pathlib,platform\nbase=pathlib.Path('\"'\"'/opt/km3/hwtools/manual-test-20261020-e137c603'\"'\"')\nmanifest=base/'\"'\"'payload-manifest.json'\"'\"'\nassert hashlib.sha256(manifest.read_bytes()).hexdigest()=='\"'\"'8cf6fa0d6efdfb3831ff7e5397fd67314aa3ea433969e07d51478296634caa51'\"'\"'\nitems=json.loads(manifest.read_text())['\"'\"'files'\"'\"']\nfor item in items:\n    p=base/item['\"'\"'path'\"'\"']\n    if '\"'\"'symlink'\"'\"' in item:assert p.is_symlink() and os.readlink(p)==item['\"'\"'symlink'\"'\"'],item['\"'\"'path'\"'\"']\n    else:assert not p.is_symlink() and p.stat().st_size==item['\"'\"'size'\"'\"'] and hashlib.sha256(p.read_bytes()).hexdigest()==item['\"'\"'sha256'\"'\"'],item['\"'\"'path'\"'\"']\nassert hashlib.sha256((base/'\"'\"'run-manual.sh'\"'\"').read_bytes()).hexdigest()=='\"'\"'56641a72621da4fbc831e047437fe1a668dbf9de60380d0334a2234a1f40d1c1'\"'\"'\nprint('\"'\"'payload_manifest=PASS entries='\"'\"'+str(len(items)))\nprint('\"'\"'launcher_sha256='\"'\"'+hashlib.sha256((base/'\"'\"'run-manual.sh'\"'\"').read_bytes()).hexdigest())\ncpp=base.parent/'\"'\"'pmp4010-cpp-test'\"'\"';neutral=base.parent/'\"'\"'pmp4010-manual-test'\"'\"'\nassert cpp.is_symlink() and os.readlink(cpp)=='\"'\"'/opt/km3/hwtools/pmp4010-cpp-test-20261020-488add26'\"'\"'\nassert not neutral.exists() and not neutral.is_symlink() or neutral.is_symlink() and os.readlink(neutral)==str(base)\nfor p in [neutral,cpp]:\n    print('\"'\"'before '\"'\"'+str(p)+'\"'\"'='\"'\"'+str(os.readlink(p) if p.is_symlink() else '\"'\"'ABSENT'\"'\"'))\n    temporary=p.parent/('\"'\"'.restore-manual-link-'\"'\"'+os.urandom(6).hex())\n    temporary.symlink_to(str(base));os.replace(temporary,p)\n    assert p.resolve()==base\n    print('\"'\"'after '\"'\"'+str(p)+'\"'\"'='\"'\"'+os.readlink(p))\n    assert hashlib.sha256((p/'\"'\"'run-manual.sh'\"'\"').read_bytes()).hexdigest()=='\"'\"'56641a72621da4fbc831e047437fe1a668dbf9de60380d0334a2234a1f40d1c1'\"'\"'\nprint('\"'\"'resolved_launcher_sha256=56641a72621da4fbc831e047437fe1a668dbf9de60380d0334a2234a1f40d1c1'\"'\"')\nprint('\"'\"'temporary_links_remaining=0'\"'\"')\n'"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "start": "2026-10-20T10:56:11.518275+08:00",
+  "end": "2026-10-20T10:56:11.811341+08:00",
+  "rc": 0
+}

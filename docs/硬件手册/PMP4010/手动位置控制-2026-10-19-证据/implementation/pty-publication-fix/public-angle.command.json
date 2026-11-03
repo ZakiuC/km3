@@ -1,0 +1,17 @@
+{
+  "name": "public-angle",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "device/drivers/pmp4010/tools/_test_simple_pty.py",
+    "--run",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/手动位置控制-2026-10-19-证据/implementation/pty-publication-fix/public-angle"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T07:35:00.421032+00:00",
+  "stdout": "public-angle.stdout.log",
+  "stderr": "public-angle.stderr.log",
+  "rc": 0,
+  "finished_utc": "2026-10-19T07:35:08.800015+00:00"
+}

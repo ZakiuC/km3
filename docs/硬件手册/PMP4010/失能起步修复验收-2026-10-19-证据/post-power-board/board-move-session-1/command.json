@@ -1,0 +1,26 @@
+{
+  "argv": [
+    "ssh",
+    "-tt",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectTimeout=5",
+    "-o",
+    "ConnectionAttempts=1",
+    "root@192.168.0.188",
+    "env LANG=C.UTF-8 LC_ALL=C.UTF-8 TERM=xterm ESCDELAY=25 python3 -I -B -c 'import hashlib,pathlib,runpy,sys; p=pathlib.Path(sys.argv[1]); assert hashlib.sha256(p.read_bytes()).hexdigest()==sys.argv[2], '\"'\"'wrapper hash mismatch'\"'\"'; sys.argv=[str(p),'\"'\"'--run-tui'\"'\"']; runpy.run_path(str(p),run_name='\"'\"'__main__'\"'\"')' /tmp/km3-pp-disabled-start-stage3-recovery-20261019-0213/board_app.py d0115a4feb6ff7a9f9e4fa4f5908dd193621b15497c071c95a7a2a4c007ea675"
+  ],
+  "cwd": "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/post-power-board/board-move-session-1",
+  "environment": {
+    "LANG": "C.UTF-8",
+    "LC_ALL": "C.UTF-8",
+    "TERM": "xterm",
+    "ESCDELAY": "25"
+  },
+  "mode": "fixed_board_ssh_pty",
+  "utc": "2026-10-19T02:17:36.566050+00:00",
+  "monotonic": 620.629099957
+}

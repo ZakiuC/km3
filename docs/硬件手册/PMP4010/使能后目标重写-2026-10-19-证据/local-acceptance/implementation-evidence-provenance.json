@@ -1,0 +1,162 @@
+[
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/__pycache__/pmp4010_manual.before.cpython-310.pyc",
+    "sha256": "9c172c653ebfc0a6f4719d48d1c99b7973bad307476a6d55f789a535859f22b7",
+    "bytes": 33591
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/command-index.json",
+    "sha256": "5099b970a9a2cbf9404a9d7d558cc214d8eb9a1db59cd0a157bdea0a094049e3",
+    "bytes": 2356
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/final-six-files.patch",
+    "sha256": "6978ac16d71f9d5c897ca6a6b3f7279c578685a7b47627ff29b87352c02d444c",
+    "bytes": 172412
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/final-source-sha256.json",
+    "sha256": "5d94f91ee5c0e3aac10695b251afcf4b1d70c077c087bf9165a135bf704378b0",
+    "bytes": 723
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/journal-check.log",
+    "sha256": "b1179fa3660ddc2b6d27bab2835e7a9ea19a2f0c1af478a465c800f0a3d7b3d1",
+    "bytes": 393
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/manual-first.log",
+    "sha256": "74b1582e78c97d8ceb9cd9a4c00c8e2950c80c34e45f40efb76cf254dc3bfc61",
+    "bytes": 2231
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/manual-protocol.patch",
+    "sha256": "b82edd45e7c1d2f72471aa795e6ebafa00a34c48c302003ffbeef6dd08b50b30",
+    "bytes": 3136
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/newpass.log",
+    "sha256": "0b3c23274abdc5a92d28243830fa614c182aaef400b7b64ec350b3d2612a84bc",
+    "bytes": 234
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/old-repro-expected-failure.log",
+    "sha256": "05e6657652489977f3026a7b0d19c7752712c80828aa2153e1414ce8363b3f12",
+    "bytes": 1149
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/old-repro.py",
+    "sha256": "296f3a4748f24793d4036ef9ebbd5526fb4ff56bac0c24e5d1d0b921234803d2",
+    "bytes": 1458
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/oldfail.log",
+    "sha256": "e5e1ff49d2a9db0de837ace19e9dc10ab6f086a6772504c4d8dae0b0f649da28",
+    "bytes": 873
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/pmp4010_manual.before.py",
+    "sha256": "e03704a93873dad486f3d4ab75eb0b5bd7c1561d5189b3aa2643834a5123702d",
+    "bytes": 51242
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-first.log",
+    "sha256": "2a408993de4eb60dd97cb0c3329540c628f65dc013e0e5b8481887631b8bfaba",
+    "bytes": 1174
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/authorize-80x24.txt",
+    "sha256": "1a83474d77ee5909e418930cfc33729ac7feb6ce945275e5332d397eb867194c",
+    "bytes": 2626
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/confirm-80x24.txt",
+    "sha256": "088c2fd217a821b109e84a3eded74da73fb95d1541e74b92427a9a04c86660fa",
+    "bytes": 2657
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/connected-main-80x24.txt",
+    "sha256": "9d12a932f158b2d030f42e8b28dc61c0b507a46398bd15acf02accb3e6fe5a97",
+    "bytes": 2621
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/help-80x24.txt",
+    "sha256": "5b4d2ed18d1c8dcfafbcfe6e12a04f04ded91af97e50b2e4ba2ae7b15a4c91de",
+    "bytes": 2800
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/jog-confirm-80x24.txt",
+    "sha256": "ad18978be331bd0d034cda44514769a0e9dcdaea560f1c741c8ad4748a652c4b",
+    "bytes": 2652
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/main-80x24.txt",
+    "sha256": "ce5453647fed23d31817fa0e1d2cb7db265f1ab71600be74a8b4ca626f8aa87b",
+    "bytes": 2593
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/motion-absolute-13ef8cb48df24dd1b7c8b613f0c7eac3.jsonl",
+    "sha256": "f25cf03ce1fec5753de84bda82ce9fd2099443a97e983f732970fb2ed46f102b",
+    "bytes": 34569
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/motion-absolute-1ee01afc01044c24863d3d9882d7eb82.jsonl",
+    "sha256": "2120ae13a8d98a124d006cb68a1c9cc1ee8a1f7c702e0175f17dd253e17962ac",
+    "bytes": 34579
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/motion-absolute-93e2a40a9e2d40e295489f794e319df8.jsonl",
+    "sha256": "dca9a2b0aa53cf674074fbdbbeb226cdb39994fdf38341c9b4f2c963f045573d",
+    "bytes": 34579
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/motion-enable-3f4c924cf1ef466d8bfde33d194b97d4.jsonl",
+    "sha256": "48de290462afafa888bf4e881982ff88d399e68afdb89b62d3492fb54aa1eb49",
+    "bytes": 5475
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/motion-enable-83699ff7a42745a48d0203db5e53fce5.jsonl",
+    "sha256": "ad334a644cc5e61f54e49b22e463d4fadb517aef75232d15f1a5f6dd77a74f5d",
+    "bytes": 5475
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/motion-enable-a0220cab329e41ceaed2b5e8f25755cd.jsonl",
+    "sha256": "9913d4ae9b6a3548e32302edfe20e44d3de52917e790b5f927afde2c1f236f8a",
+    "bytes": 5475
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/motion-go-07c07ee0e1ff4f7bb63975b8221fa96d.jsonl",
+    "sha256": "69d68c96057cf372362c60eb01c4347a78440ae1e1dc6846380ac66cb70584f0",
+    "bytes": 22047
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/motion-go-8062f4fcc1194602a087414a9237e591.jsonl",
+    "sha256": "d67a918d1693bf07a151e1b7318f3bcab86fc476e057717feb23713d7e19d6d4",
+    "bytes": 22047
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/state.json",
+    "sha256": "ec467c378093e4f7778a4ba46975ce0f40a83b5715f319935b0a94093329d9d6",
+    "bytes": 530
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/summary.json",
+    "sha256": "b864e15622308507cbf9b405a06f18f9251a904780cef7693533c62a6260a65d",
+    "bytes": 1555
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/terminal.ansi",
+    "sha256": "2ebf340915fa85156d5644bed54ca4aead75a4eb94df841c7b8843c01f14d46e",
+    "bytes": 16046
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty/trace.json",
+    "sha256": "a8c99dd3156ae1a85d72f53ab7708bd387ba76e511e6e34435fd9a62f300d8f0",
+    "bytes": 140140
+  },
+  {
+    "path": "docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/implementation/simple-pty.log",
+    "sha256": "bde6b5e72cee8af13a4ea77b6a0ba9ef2f21b3c276c7808ad5013552c894f283",
+    "bytes": 1266
+  }
+]

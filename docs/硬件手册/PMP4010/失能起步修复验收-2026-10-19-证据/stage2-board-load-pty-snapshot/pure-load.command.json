@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=8",
+    "root@192.168.0.188",
+    "python3 -I -B -c '\"\"\"Extra Python audit fence: package pure load only, forbid writes and I/O.\"\"\"\nimport os,pathlib,runpy,sys\nsys.dont_write_bytecode=True\nattempts=[]\ndef audit(event,args):\n forbidden=event in ('\"'\"'socket.__new__'\"'\"','\"'\"'socket.connect'\"'\"','\"'\"'socket.bind'\"'\"','\"'\"'subprocess.Popen'\"'\"','\"'\"'os.system'\"'\"','\"'\"'os.fork'\"'\"','\"'\"'os.forkpty'\"'\"','\"'\"'os.posix_spawn'\"'\"','\"'\"'os.exec'\"'\"','\"'\"'pty.spawn'\"'\"','\"'\"'os.remove'\"'\"','\"'\"'os.rename'\"'\"','\"'\"'os.mkdir'\"'\"','\"'\"'os.rmdir'\"'\"','\"'\"'os.symlink'\"'\"','\"'\"'os.link'\"'\"','\"'\"'os.truncate'\"'\"','\"'\"'os.chmod'\"'\"','\"'\"'os.chown'\"'\"')\n if event=='\"'\"'open'\"'\"':\n  mode=args[1];flags=args[2]\n  forbidden=bool(isinstance(mode,str) and any(x in mode for x in '\"'\"'wax+'\"'\"')) or bool(isinstance(flags,int) and flags & (os.O_WRONLY|os.O_RDWR|os.O_CREAT|os.O_TRUNC|os.O_APPEND))\n if forbidden:\n  attempts.append(event);raise RuntimeError('\"'\"'pure load audit fence rejected '\"'\"'+event)\nroot=pathlib.Path(sys.argv[1]).resolve(strict=True)\nsys.addaudithook(audit)\nsys.argv=[str(root/'\"'\"'load_smoke.py'\"'\"'),'\"'\"'--check-missing-library'\"'\"']\nrunpy.run_path(str(root/'\"'\"'load_smoke.py'\"'\"'),run_name='\"'\"'__main__'\"'\"')\nassert not attempts\nprint('\"'\"'outer_audit_forbidden_write_or_io_attempts=0'\"'\"')\n' /tmp/km3-pp-disabled-start-stage2-20261019-e0fhd4gp/payload"
+  ],
+  "stdin_sha256": null,
+  "stdin_bytes": 0,
+  "utc_start": "2026-10-19T01:24:13.926541+00:00",
+  "utc_end": "2026-10-19T01:24:14.483858+00:00",
+  "rc": 0
+}

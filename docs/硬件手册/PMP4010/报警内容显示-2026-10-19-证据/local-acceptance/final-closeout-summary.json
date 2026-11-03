@@ -1,0 +1,27 @@
+{
+  "documentation_gate": {
+    "argv": [
+      "bash",
+      "tools/check-docs.sh"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-19T09:03:42.482073+00:00",
+    "returncode": 0,
+    "stdout": "docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/local-acceptance/final-check-docs.stdout.log",
+    "stdout_sha256": "7171ac36f4ce7becae16fa2daaf7807a6571696c5fae8695b23ef7bd4fcec1ce",
+    "stderr": "docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/local-acceptance/final-check-docs.stderr.log",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "nine_source_files_match": true,
+  "native_77_inputs_match": true,
+  "before_after_match": true,
+  "hardware_actions": false,
+  "other_tests_rerun": false,
+  "requested_role": "light_worker",
+  "requested_model": "GPT-6.1 Sol",
+  "requested_effort": "medium",
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "parent_estimate_only": "below190K parent conservative estimate from bounded packets and evidence; not measured"
+}

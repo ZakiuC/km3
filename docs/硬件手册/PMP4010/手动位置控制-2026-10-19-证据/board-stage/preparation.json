@@ -1,0 +1,39 @@
+{
+  "status": "DEPLOYED_AND_PURELOAD_CHECKED",
+  "ssh_calls": 5,
+  "source_scripts": [
+    {
+      "source": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/board-stage/stage_final.py",
+      "destination": "stage_final.py",
+      "sha256": "750fa1c39225ef8a293013986b385e52fb3ff6ba7e449b3d9e7fde3a43aaa810"
+    },
+    {
+      "source": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/board-stage/stage.remote.py",
+      "destination": "stage.remote.py",
+      "sha256": "f420be74d36275b0bb5dcbacf1fa99a7c86af74790ad8db0a528edbef0414d0a"
+    },
+    {
+      "source": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/board-stage/pureload.remote.py",
+      "destination": "pureload.remote.py",
+      "sha256": "c422c0ea7a16092c5b8bdfeaafc981182b14dbb666751b7fb0f4945ce5f54560"
+    },
+    {
+      "source": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/board-stage/passive.remote.py",
+      "destination": "passive.remote.py",
+      "sha256": "3eba329884dd1812f18be8bedce8e432b142c803d92ab28dc60399ffa7e242cf"
+    },
+    {
+      "source": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/board-stage/snapshot.py",
+      "destination": "snapshot.py",
+      "sha256": "eab8285a63300c99ab22c92b6af8e5793c692175f4d5132f6943530273c62307"
+    },
+    {
+      "source": "docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/board-stage/launcher-syntax.remote.py",
+      "destination": "launcher-syntax.remote.py",
+      "sha256": "2fc8ae300752ff54a2db392cf4612cb6f9ecb01f2306c036ae76bd7ec7c76e53"
+    }
+  ],
+  "authorized_write_scope": "docs/硬件手册/PMP4010/手动位置控制-2026-10-19-证据/board-stage",
+  "pending": [],
+  "final_summary": "final-summary.json"
+}

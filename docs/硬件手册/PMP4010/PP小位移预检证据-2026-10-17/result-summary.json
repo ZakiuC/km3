@@ -1,0 +1,188 @@
+{
+  "status": "completed_readonly_blocked_motion",
+  "local_record_root": "/tmp/km3-pp-preflight-20261017",
+  "remote_script_root": "/tmp/km3-pp-preflight-20261017-zmdDzVF8",
+  "payload": "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload",
+  "source_sha256": {
+    "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/drivers/pmp4010/pmp4010.py": "2fca0b103544c29f78a79b9e349ec841db0e39abf8f39d9d910e57e47b1e0a1a",
+    "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/drivers/pmp4010/pmp4010_bench.py": "0bbb6f23d668ca92a4846275295cf6c32671333edaae1a200349f57c91cdb248",
+    "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/drivers/pmp4010/pmp4010_position.py": "2b66e24bd8f96a1438cfa2078e8517da5069da9071bbc498d7e18d8ff72a1886",
+    "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/drivers/pmp4010/pmp4010_params.py": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec",
+    "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/drivers/pmp4010/pmp4010_velocity.py": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96",
+    "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/hwtui/canopen.py": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf",
+    "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/hwtui/canbus.py": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300",
+    "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/hwtui/canopen_consts.py": "318e0a76ac7c96856be6ca55b7a99fd12d64913eed9e5cb23b10dff3b9372e1c",
+    "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/hwtui/canopen_wire.py": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885",
+    "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/drivers/pmp4010/od.json": "5bf6c7bbd73c1c6ef3855fb9ef104d8b6d72ecec8a598eeff16f71682934e58f",
+    "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404"
+  },
+  "commands": {
+    "board-script-upload": {
+      "rc": 0,
+      "command_file": "board-script-upload.command.json",
+      "stdout": "board-script-upload.stdout",
+      "stderr": "board-script-upload.stderr"
+    },
+    "board-stage-create": {
+      "rc": 0,
+      "command_file": "board-stage-create.command.json",
+      "stdout": "board-stage-create.stdout",
+      "stderr": "board-stage-create.stderr"
+    },
+    "board-pre-read-sha256": {
+      "rc": 0,
+      "command_file": "board-pre-read-sha256.command.json",
+      "stdout": "board-pre-read-sha256.stdout",
+      "stderr": "board-pre-read-sha256.stderr"
+    },
+    "local-payload-plan": {
+      "rc": 0,
+      "command_file": "local-payload-plan.command.json",
+      "stdout": "local-payload-plan.stdout",
+      "stderr": "local-payload-plan.stderr"
+    },
+    "local-real-snapshot-review": {
+      "rc": 0,
+      "command_file": "local-real-snapshot-review.command.json",
+      "stdout": "local-real-snapshot-review.stdout",
+      "stderr": "local-real-snapshot-review.stderr"
+    },
+    "final-mock-verification": {
+      "rc": 0,
+      "command_file": "final-mock-verification.command.json",
+      "stdout": "final-mock-verification.stdout",
+      "stderr": "final-mock-verification.stderr"
+    },
+    "board-live-readonly": {
+      "rc": 2,
+      "command_file": "board-live-readonly.command.json",
+      "stdout": "board-live-readonly.stdout",
+      "stderr": "board-live-readonly.stderr"
+    },
+    "board-preflight-offline": {
+      "rc": 0,
+      "command_file": "board-preflight-offline.command.json",
+      "stdout": "board-preflight-offline.stdout",
+      "stderr": "board-preflight-offline.stderr"
+    },
+    "local-payload-host-math": {
+      "rc": 0,
+      "command_file": "local-payload-host-math.command.json",
+      "stdout": "local-payload-host-math.stdout",
+      "stderr": "local-payload-host-math.stderr"
+    },
+    "board-payload-no-can-smoke": {
+      "rc": 0,
+      "command_file": "board-payload-no-can-smoke.command.json",
+      "stdout": "board-payload-no-can-smoke.stdout",
+      "stderr": "board-payload-no-can-smoke.stderr"
+    }
+  },
+  "successful_upload_objects": 62,
+  "device_snapshot": {
+    "utc": "2026-10-17T08:05:17.458679+00:00",
+    "event": "snapshot",
+    "identity": {
+      "1000:00": 131474,
+      "1008:00": "4e694d6f74696f6e20536572766f00",
+      "100A:00": "56332e3300",
+      "1018:00": 4,
+      "1018:01": 1289,
+      "1018:02": 50331649,
+      "1018:03": 808475175,
+      "1018:04": 226440
+    },
+    "values": {
+      "control_mode_select": 0,
+      "controlword": 0,
+      "statusword": 608,
+      "modes_of_operation": 1,
+      "modes_of_operation_display": 1,
+      "velocity_feedback_unit": 0,
+      "actual_position": -1465,
+      "actual_velocity": 0,
+      "encoder_increments": 131072,
+      "encoder_motor_revolutions": 1,
+      "gear_motor_revolutions": 1,
+      "gear_output_revolutions": 1,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "home_offset": 0,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647,
+      "target_position": 7800,
+      "profile_velocity": 500000,
+      "profile_end_velocity": 0,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000
+    }
+  },
+  "preflight_result": {
+    "utc": "2026-10-17T08:05:18.273906+00:00",
+    "event": "preflight_result",
+    "calibration": {
+      "values": [
+        131072,
+        1,
+        1,
+        1
+      ],
+      "resolution": "131072",
+      "gear_ratio": "1",
+      "motor_degrees_per_user_unit": "45/16384",
+      "output_degrees_per_user_unit": "45/16384"
+    },
+    "start": -1465,
+    "candidate_delta": 36,
+    "candidate_target": -1429,
+    "candidate_motor_degrees": "405/4096",
+    "hard_one_degree_max_units": 364,
+    "existing_profile_motor_rpm": "234375/1024",
+    "live_read_count": 62,
+    "rejection_reasons": [
+      "故障或target reached未置位"
+    ],
+    "motion_authorized": false,
+    "requires_human_script_limits": true,
+    "requires_explicit_od_reason": true,
+    "requires_review_current_profile": true,
+    "writes": 0,
+    "nmt": 0
+  },
+  "facts": {
+    "statusword_hex": "0x0260",
+    "fault": false,
+    "disabled": true,
+    "target_reached": false,
+    "actual_position": -1465,
+    "actual_velocity": 0,
+    "stationary_samples": 5,
+    "candidate_delta_user_units": 36,
+    "candidate_target_user_units": -1429,
+    "candidate_motor_degrees": "0.098876953125",
+    "profile_velocity_motor_rpm": "228.8818359375",
+    "profile_velocity_motor_degrees_per_second": "1373.291015625",
+    "profile_acceleration_motor_degrees_per_second2": "13732.91015625"
+  },
+  "safety": {
+    "download_calls": 0,
+    "nmt_calls": 0,
+    "motion_calls": 0,
+    "post_failure_retry_count": 0,
+    "can_session_closed": true,
+    "hardware_motion_acceptance": false,
+    "mechanical_stop_confirmed": false,
+    "repository_source_changed": false,
+    "device_configuration_changed": false,
+    "service_changed": false
+  },
+  "limits": [
+    "bit10=0 preserves existing BenchController PP refusal",
+    "profile values are caps and not measured actual motion speed",
+    "OD still 5 unverified + 2 assumed",
+    "no current mechanical limits inferred from near-Int32-wide 607D",
+    "stale 607A=7800 may explain target-reached=0 but 6067/6068 were not measured"
+  ]
+}

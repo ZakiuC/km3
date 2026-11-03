@@ -1,0 +1,54 @@
+payload_manifest=PASS source_head=7541b67edad414ef9b12999dd615f5ea228ed101
+import=canopen_consts path=/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/hwtui/canopen_consts.py
+import=canopen_wire path=/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/hwtui/canopen_wire.py
+import=canopen path=/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/hwtui/canopen.py
+import=canbus path=/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/hwtui/canbus.py
+import=mockbus path=/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/hwtui/mockbus.py
+import=tui path=/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/hwtui/tui.py
+import=discover path=/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/hwtui/discover.py
+import=hwtui.canopen path=/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/hwtui/canopen.py
+import=hwtui.tui path=/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/hwtui/tui.py
+import=hwtui.discover path=/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/hwtui/discover.py
+import=pmp4010_velocity path=/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/drivers/pmp4010/pmp4010_velocity.py
+import=pmp4010_params path=/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/drivers/pmp4010/pmp4010_params.py
+import=pmp4010_position path=/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/drivers/pmp4010/pmp4010_position.py
+import=pmp4010_bench path=/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/drivers/pmp4010/pmp4010_bench.py
+import=pmp4010_tui path=/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/drivers/pmp4010/pmp4010_tui.py
+import=pmp4010 path=/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/drivers/pmp4010/pmp4010.py
+{"library_realpath": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0", "library_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404", "abi": 1, "machine": "aarch64", "python": "3.10.12", "mode": "packaged-library"}
+vector=PASS manual_default_300rpm native_status=0 exact=300/1
+vector=PASS manual_default_inverse native_status=0 exact=50000/1
+vector=PASS measured_exact_46875_over_2048rpm native_status=0 exact=46875/2048
+vector=PASS measured_fraction_inverse native_status=0 exact=50000/1
+vector=PASS measured_rated_3000rpm native_status=0 exact=3000/1
+vector=PASS measured_rated_inverse native_status=0 exact=6553600/1
+vector=PASS zero_direction_0 native_status=0 exact=0/1
+vector=PASS zero_direction_1 native_status=0 exact=0/1
+vector=PASS gear3_forward native_status=0 exact=900/1
+vector=PASS gear3_inverse native_status=0 exact=50000/1
+vector=PASS signed_forward native_status=0 exact=-900/1
+vector=PASS signed_inverse native_status=0 exact=-50000/1
+vector=PASS negative_denominator_normalized native_status=0 exact=-300/1
+vector=PASS fractional_write_rejected native_status=0 exact=500/3
+vector=PASS positive_int32_overflow native_status=0 exact=2147483648/1
+vector=PASS negative_int32_overflow native_status=0 exact=-2147483649/1
+vector=PASS int32_minimum_inverse native_status=0 exact=-2147483648/1
+vector=PASS int32_maximum_inverse native_status=0 exact=2147483647/1
+vector=PASS wide_numerator native_status=0 exact=-2376844874321125483512594432000/1
+vector=PASS wide_numerator_inverse native_status=0 exact=-2147483648/1
+vector=PASS wide_denominator native_status=0 exact=-8589934592/1229782937674641135
+vector=PASS wide_denominator_inverse native_status=0 exact=-2147483648/1
+vector=PASS all_maximum native_status=0 exact=-128849018880/1
+vector=PASS all_maximum_inverse native_status=0 exact=-2147483648/1
+vector=PASS maximum128_cross_cancel native_status=0 exact=1/1
+vector=PASS maximum128_identity native_status=0 exact=340282366920938463463374607431768211455/1
+vector=PASS maximum128_negative native_status=0 exact=-340282366920938463463374607431768211455/1
+vector=PASS parse128_overflow native_status=6
+vector=PASS output128_overflow native_status=6
+vector=PASS zero_calibration_0 native_status=2
+vector=PASS zero_calibration_1 native_status=2
+vector=PASS zero_calibration_2 native_status=2
+vector=PASS zero_calibration_3 native_status=2
+missing_library=EXPECTED_REJECTION 缺少本地速度换算库；请安装 libpmp4010_velocity.so，或设置 PMP4010_VELOCITY_LIBRARY 为绝对路径。已检查：/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/__intentionally_missing_velocity__.so
+{"result": "PASS", "native_vectors": 33, "python_vectors": 33, "native_int32_vectors": 14, "forbidden_io_attempts": 0, "hardware_acceptance": false}
+outer_audit_forbidden_write_or_io_attempts=0

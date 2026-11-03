@@ -1,0 +1,24 @@
+"""Read-only OS/filesystem snapshot; never opens a CAN socket or changes files."""
+import datetime,hashlib,json,os,pathlib,socket,subprocess
+P=pathlib.Path
+ROOT=P('/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload')
+def run(args):
+ p=subprocess.run(args,capture_output=True,text=True,timeout=5)
+ return dict(argv=args,rc=p.returncode,stdout=p.stdout,stderr=p.stderr)
+def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest() if p.is_file() else None
+def text(p):
+ try:return p.read_text()
+ except (OSError,UnicodeError) as e:return dict(error=str(e))
+services={s:run(['systemctl','show',s,'--property=MainPID,ActiveState,SubState,ExecMainStartTimestampMonotonic,ActiveEnterTimestampMonotonic']) for s in ('km3-core','km3-rt-controller','km3-video')}
+pid=int(next(x.split('=',1)[1] for x in services['km3-rt-controller']['stdout'].splitlines() if x.startswith('MainPID=')))
+rt=P('/proc')/str(pid)
+processes=[]
+for p in P('/proc').iterdir():
+ if not p.name.isdigit() or int(p.name)==os.getpid():continue
+ try:cmd=(p/'cmdline').read_bytes().replace(b'\x00',b' ').decode(errors='replace')
+ except OSError:continue
+ if any(s in cmd for s in ('pmp4010','pty_runner','mock_app','km3-pp-disabled','drive_probe')):
+  processes.append(dict(pid=int(p.name),cmdline=cmd))
+paths=('drivers/pmp4010/pmp4010_bench.py','drivers/pmp4010/pmp4010_position.py','drivers/pmp4010/pmp4010_tui.py','payload-manifest.json')
+config=P('/etc/km3/device.json');cfg=json.loads(config.read_text())
+print(json.dumps(dict(utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),hostname=socket.gethostname(),model=P('/proc/device-tree/model').read_bytes().rstrip(b'\x00').decode(),boot_id=text(P('/proc/sys/kernel/random/boot_id')),uptime=text(P('/proc/uptime')),device_id=cfg['device']['id'],config_sha=sha(config),can_env_sha=sha(P('/etc/km3/can.env')),current=os.path.realpath('/opt/km3/hwtools/current'),services=services,rt_cmdline=(rt/'cmdline').read_bytes().replace(b'\x00',b' ').decode() if pid else None,rt_fds={p.name:os.readlink(p) for p in (rt/'fd').iterdir()} if pid else {},can_rcvlists={p.name:p.read_text() for p in P('/proc/net/can').glob('rcvlist*')},can_link=run(['ip','-details','-json','link','show','can1']),payload_root=str(ROOT),payload_exists=ROOT.is_dir(),source_hashes={rel:sha(ROOT/rel) for rel in paths},potential_old_runners=processes,CAN_socket_opens=0,CAN_sends=0),ensure_ascii=False,indent=2))

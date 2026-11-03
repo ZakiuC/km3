@@ -1,0 +1,7 @@
+{
+  "source_unchanged": true,
+  "commands": 7,
+  "all_rc0": true,
+  "source_files": 7,
+  "limits": "Local unit and real curses MockBus PTY only; no hardware/SSH/deployment/full gate runs"
+}

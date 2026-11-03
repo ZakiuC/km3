@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tools/tests",
+    "-p",
+    "test_*.py"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-20T00:50:00.891281+00:00",
+  "returncode": 0,
+  "elapsed_seconds": 0.41765006400237326,
+  "finished_utc": "2026-10-20T00:50:01.309056+00:00"
+}

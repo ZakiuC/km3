@@ -1,0 +1,27 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/board-live/runner-prepare/controlled-forward.runner.py",
+    "--mode",
+    "mock",
+    "--payload",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/package/payload",
+    "--output",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/board-live/runner-prepare/normal-mock",
+    "--rt-reason",
+    "离线MockBus单次完整流程，无硬件操作",
+    "--od-reason",
+    "离线MockBus新包固定PP1正向0.8度100U/s",
+    "--mock-repo",
+    "/home/zakiu/km3",
+    "--mock-library",
+    "/home/zakiu/km3/build-host/libpmp4010_velocity.so"
+  ],
+  "started_utc": "2026-10-19T06:58:40.786767+00:00",
+  "runner_sha256": "90e7eeea8f45b94958404c4c50f4f426f66eaa356f5bf587beef6209254dc355",
+  "mock_helper_sha256": "63988a2d7d88988c93dcafaa4f23339239e047ba78470e300a300f6265108497",
+  "rc": 0,
+  "finished_utc": "2026-10-19T06:58:44.877394+00:00"
+}

@@ -1,0 +1,306 @@
+{
+  "all_passed": false,
+  "checks": [
+    {
+      "name": "01-hwtui",
+      "argv": [
+        "python3",
+        "-I",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools/hwtui",
+        "-p",
+        "test_*.py"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.39798143319785595,
+      "stdout": "/tmp/km3-csv-guard-final-20261017/01-hwtui.stdout.log",
+      "stderr": "/tmp/km3-csv-guard-final-20261017/01-hwtui.stderr.log"
+    },
+    {
+      "name": "02-tools-tests",
+      "argv": [
+        "python3",
+        "-I",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools/tests",
+        "-p",
+        "test_*.py"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.530133384745568,
+      "stdout": "/tmp/km3-csv-guard-final-20261017/02-tools-tests.stdout.log",
+      "stderr": "/tmp/km3-csv-guard-final-20261017/02-tools-tests.stderr.log"
+    },
+    {
+      "name": "03-asan-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build-asan",
+        "-j4"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 1.2684846399351954,
+      "stdout": "/tmp/km3-csv-guard-final-20261017/03-asan-build.stdout.log",
+      "stderr": "/tmp/km3-csv-guard-final-20261017/03-asan-build.stderr.log"
+    },
+    {
+      "name": "04-asan-ctest",
+      "argv": [
+        "ctest",
+        "--test-dir",
+        "build-asan",
+        "--output-on-failure"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 12.117701035924256,
+      "stdout": "/tmp/km3-csv-guard-final-20261017/04-asan-ctest.stdout.log",
+      "stderr": "/tmp/km3-csv-guard-final-20261017/04-asan-ctest.stderr.log"
+    },
+    {
+      "name": "05-tsan-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build-tsan",
+        "-j4"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 1.5483239372260869,
+      "stdout": "/tmp/km3-csv-guard-final-20261017/05-tsan-build.stdout.log",
+      "stderr": "/tmp/km3-csv-guard-final-20261017/05-tsan-build.stderr.log"
+    },
+    {
+      "name": "06-tsan-ctest",
+      "argv": [
+        "setarch",
+        "-R",
+        "ctest",
+        "--test-dir",
+        "build-tsan",
+        "--output-on-failure"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 12.136402688920498,
+      "stdout": "/tmp/km3-csv-guard-final-20261017/06-tsan-ctest.stdout.log",
+      "stderr": "/tmp/km3-csv-guard-final-20261017/06-tsan-ctest.stderr.log"
+    },
+    {
+      "name": "07-arm64-build",
+      "argv": [
+        "cmake",
+        "--build",
+        "build-arm64",
+        "-j4"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 1.7594858091324568,
+      "stdout": "/tmp/km3-csv-guard-final-20261017/07-arm64-build.stdout.log",
+      "stderr": "/tmp/km3-csv-guard-final-20261017/07-arm64-build.stderr.log"
+    },
+    {
+      "name": "08-check-drivers",
+      "argv": [
+        "bash",
+        "tools/check-drivers.sh"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.025926706846803427,
+      "stdout": "/tmp/km3-csv-guard-final-20261017/08-check-drivers.stdout.log",
+      "stderr": "/tmp/km3-csv-guard-final-20261017/08-check-drivers.stderr.log"
+    },
+    {
+      "name": "09-final-check-drivers",
+      "argv": [
+        "bash",
+        "tools/check-drivers.sh"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.02540716016665101,
+      "stdout": "/tmp/km3-csv-guard-final-20261017/09-final-check-drivers.stdout.log",
+      "stderr": "/tmp/km3-csv-guard-final-20261017/09-final-check-drivers.stderr.log"
+    },
+    {
+      "name": "10-final-check-docs",
+      "argv": [
+        "bash",
+        "tools/check-docs.sh"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.44324899883940816,
+      "stdout": "/tmp/km3-csv-guard-final-20261017/10-final-check-docs.stdout.log",
+      "stderr": "/tmp/km3-csv-guard-final-20261017/10-final-check-docs.stderr.log"
+    },
+    {
+      "name": "11-final-check-deps",
+      "argv": [
+        "bash",
+        "tools/check-deps.sh"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.013417260255664587,
+      "stdout": "/tmp/km3-csv-guard-final-20261017/11-final-check-deps.stdout.log",
+      "stderr": "/tmp/km3-csv-guard-final-20261017/11-final-check-deps.stderr.log"
+    },
+    {
+      "name": "12-final-check-citations",
+      "argv": [
+        "bash",
+        "tools/check-manual-citations.sh"
+      ],
+      "returncode": 1,
+      "elapsed_seconds": 0.07180686015635729,
+      "stdout": "/tmp/km3-csv-guard-final-20261017/12-final-check-citations.stdout.log",
+      "stderr": "/tmp/km3-csv-guard-final-20261017/12-final-check-citations.stderr.log"
+    },
+    {
+      "name": "13-gen-od",
+      "argv": [
+        "python3",
+        "-I",
+        "tools/hwdriver/gen-od.py",
+        "--model",
+        "pmp4010",
+        "--check"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.01807958399876952,
+      "stdout": "/tmp/km3-csv-guard-final-20261017/13-gen-od.stdout.log",
+      "stderr": "/tmp/km3-csv-guard-final-20261017/13-gen-od.stderr.log"
+    },
+    {
+      "name": "14-gen-canopen",
+      "argv": [
+        "python3",
+        "-I",
+        "tools/hwdriver/gen-canopen.py",
+        "--check"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.016078424639999866,
+      "stdout": "/tmp/km3-csv-guard-final-20261017/14-gen-canopen.stdout.log",
+      "stderr": "/tmp/km3-csv-guard-final-20261017/14-gen-canopen.stderr.log"
+    },
+    {
+      "name": "15-gen-access",
+      "argv": [
+        "python3",
+        "-I",
+        "tools/hwdriver/gen-pmp4010-access.py",
+        "--check"
+      ],
+      "returncode": 0,
+      "elapsed_seconds": 0.018100483808666468,
+      "stdout": "/tmp/km3-csv-guard-final-20261017/15-gen-access.stdout.log",
+      "stderr": "/tmp/km3-csv-guard-final-20261017/15-gen-access.stderr.log"
+    }
+  ],
+  "failures": [
+    {
+      "name": "12-final-check-citations",
+      "argv": [
+        "bash",
+        "tools/check-manual-citations.sh"
+      ],
+      "returncode": 1,
+      "elapsed_seconds": 0.07180686015635729,
+      "stdout": "/tmp/km3-csv-guard-final-20261017/12-final-check-citations.stdout.log",
+      "stderr": "/tmp/km3-csv-guard-final-20261017/12-final-check-citations.stderr.log"
+    }
+  ],
+  "source_files_hashed": 66,
+  "source_changed_since_initial_hash": [],
+  "upstream_source_files": 13,
+  "upstream_source_hash_mismatches": [],
+  "imported_results": {
+    "python_model": {
+      "before": 206,
+      "after": 216,
+      "rc": 0
+    },
+    "python_velocity_enable": {
+      "before": 15,
+      "after": 23,
+      "rc": 0
+    },
+    "python_bench": {
+      "before": 59,
+      "after": 61,
+      "rc": 0
+    },
+    "cpp_verified_test_cases": {
+      "before_source_count": 32,
+      "after_source_count": 36,
+      "added": 4,
+      "checks_after": 2301,
+      "failures_after": 0,
+      "rc": 0
+    },
+    "cpp_host_ctest": {
+      "before_parent_verified": 17,
+      "after": 17,
+      "failures_after": 0,
+      "rc": 0
+    },
+    "remaining": "hardware/CAN acceptance, sanitizers/cross-build/four gates coordinated by parent; no hardware actions in this task",
+    "cleanup": "No temporary executable/test fixture retained in repository; evidence logs retained in /tmp/km3-csv-offset-20261017; no commits or deployment.",
+    "changed_file_count": 13,
+    "source_manifest": "source-manifest.json",
+    "manifest_revision": {
+      "revision": 2,
+      "supersedes": "source-manifest-v1-incomplete-12-files.json",
+      "previous_file_count": 12,
+      "corrected_file_count": 13,
+      "omitted_file_added": "device/drivers/pmp4010/tests/test_pmp4010_verified.cpp",
+      "previous_12_hashes_unchanged": true,
+      "other_omissions_found": false,
+      "audit_basis": "Reviewed all source-writing tool calls in this worker task against full corrected manifest; compared current task-scoped git status with original dirty baseline. Other dirty files predate this worker task.",
+      "source_or_comment_edits": false,
+      "tests_repeated": false
+    }
+  },
+  "actual_counts": {
+    "model_python": 216,
+    "hwtui": 217,
+    "tools_tests": 8,
+    "host_ctest": 17,
+    "asan_ctest": 17,
+    "tsan_ctest": 17
+  },
+  "baseline_parent_verified": {
+    "model_python": 206,
+    "hwtui": 217,
+    "tools_tests": 8,
+    "host_ctest": 17,
+    "asan_ctest": 17,
+    "tsan_ctest": 17
+  },
+  "arm64_artifact": {
+    "path": "build-arm64/libpmp4010_velocity.so.1.0.0",
+    "sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404"
+  },
+  "warnings": [
+    "check-deps.sh rc0 retains Python3 unmapped/manual-confirm warning",
+    "mock builds retain KM3_ALLOW_UNVERIFIED_OD pragma note"
+  ],
+  "remaining": [
+    "manual citations gate rc1; awaiting parent-directed comment fix",
+    "hardware/CAN/board acceptance outside scope"
+  ],
+  "routing": {
+    "requested_role": "light_worker",
+    "requested_model": "GPT-6.1 Sol",
+    "requested_effort": "medium",
+    "runtime_model": "unknown",
+    "runtime_effort": "unknown",
+    "last_token_usage.input_tokens": "unknown",
+    "initial_input_estimate": "<16K Short; parent estimate only"
+  },
+  "note": "08-check-drivers was an extra preliminary run while CTests pending; 09 through 15 are final seven sequential independent full-argv invocations. No source edits."
+}

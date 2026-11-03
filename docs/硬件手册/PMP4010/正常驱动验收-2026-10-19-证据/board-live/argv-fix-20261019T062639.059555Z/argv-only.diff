@@ -1,0 +1,29 @@
+--- /home/zakiu/km3/docs/硬件手册/PMP4010/正常驱动验收-2026-10-19-证据/board-live/owner-fix-20261019T061745.294454Z/controlled-forward.runner.py
++++ /home/zakiu/km3/docs/硬件手册/PMP4010/正常驱动验收-2026-10-19-证据/board-live/argv-fix-20261019T062639.059555Z/controlled-forward.runner.py
+@@ -73,12 +73,22 @@
+         if not p.name.isdigit() or int(p.name) == own:
+             continue
+         try:
+-            cmd = (p/'cmdline').read_bytes().replace(b'\0', b' ').decode(errors='replace')
++            argv = [part.decode(errors='replace') for part in (p/'cmdline').read_bytes().split(b'\0') if part]
+         except OSError:
+             continue
+-        # Match executable script names, not arbitrary shell argument substrings.
+-        words = cmd.split()
+-        names = {Path(w).name for w in words[:2]}
++        if not argv:
++            continue
++        cmd = ' '.join(argv)
++        names = {Path(argv[0]).name}
++        if names & {'python', 'python3'}:
++            index = 1
++            while index < len(argv) and argv[index] in ('-I', '-B', '-u', '-O', '-OO'):
++                index += 1
++            if index < len(argv):
++                if argv[index] == '-m' and index+1 < len(argv):
++                    names.add(argv[index+1])
++                elif argv[index] != '-c':
++                    names.add(Path(argv[index]).name)
+         if 'km3-rt-controller' in names:
+             fds = {}
+             try:

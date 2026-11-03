@@ -1,0 +1,163 @@
+--- before/pmp4010_simple.py
++++ device/drivers/pmp4010/tools/pmp4010_simple.py
+@@ -79,6 +79,7 @@
+         self.step_degrees = Fraction('0.1')
+         self.step_mm = Fraction('0.1')
+         self.requested_rpm = None  # Preserve explicit legacy --manual-velocity U/s.
++        self.requested_mm_s = None
+         self.next_velocity = self.manual_velocity
+         self._simple_review = None
+ 
+@@ -156,6 +157,8 @@
+         return self.step_mm if self.linear else self.step_degrees
+ 
+     def coordinate_scale(self, cal):
++        if not cal:
++            raise ValueError('标定不可用，未可换算')
+         scale = Fraction(cal['motor_degrees_per_user_unit'])
+         if self.linear:
+             if self.mm_per_motor_revolution is None:
+@@ -205,6 +208,9 @@
+                     self.software_zero = values['actual_position']
+                 else:
+                     self.mm_per_motor_revolution = value
++                    # Keep the physical U/s draft; a previous mm/s request no
++                    # longer describes it under the new machine measurement.
++                    self.requested_mm_s = None
+                 self.coordinate_revision += 1
+                 self._put(dict(self.row(self.node),values=values,calibration=cal,updated=time.monotonic(),lost=False))
+                 out.info('软件零点采样已设为 {} U；未发运动下载、未写607Ch'.format(self.software_zero) if kind == 'zero' else
+@@ -237,7 +243,13 @@
+             if kind == 'range':
+                 self._set_range(value, row)
+             elif kind == 'speed':
+-                units = int(position.velocity_to_unit(value, row['calibration']))
++                rpm = value
++                if self.linear:
++                    if row['values'].get('velocity_feedback_unit') not in (0, 1):
++                        raise ValueError('2006:12反馈单位未知，未可换算速度')
++                    self.coordinate_scale(row['calibration'])  # Require measured scale and calibration.
++                    rpm = value*60/self.mm_per_motor_revolution
++                units = int(position.velocity_to_unit(rpm, row['calibration']))
+                 if not 1 <= units <= 0xffffffff:
+                     raise ValueError('速度量化后不足1 U/s或超过UInt32')
+                 if (units > row['values']['max_velocity'] or
+@@ -246,7 +258,9 @@
+                 # Draft only: do not mutate an active proof or the drive's
+                 # current profile. Apply after the next explicit confirmation
+                 # has safely stopped/disabled the old target.
+-                self.requested_rpm, self.next_velocity = value, units
++                self.requested_rpm = None if self.linear else value
++                self.requested_mm_s = value if self.linear else None
++                self.next_velocity = units
+             elif kind == 'step':
+                 units = int(value / self.coordinate_scale(row['calibration']))
+                 if units < 1:
+@@ -260,6 +274,38 @@
+             else:
+                 raise ValueError('未知设置')
+             self.cancel_review()
++
++    def display_speed(self, rpm, cal):
++        if self.linear:
++            self.coordinate_scale(cal)  # No guessed machine scale or calibration.
++            return '{} mm/s'.format(number(rpm*self.mm_per_motor_revolution/60))
++        return '{} rpm'.format(number(rpm))
++
++    def speed_line(self, row):
++        cal = row['calibration']
++        actual = self.display_speed(position.unit_to_velocity(self.next_velocity, cal), cal)
++        requested = self.requested_mm_s if self.linear else self.requested_rpm
++        if self.linear and requested is None:
++            return '设置 {}（{} U/s）'.format(actual, self.next_velocity)
++        request = ('{} {}'.format(number(requested), 'mm/s' if self.linear else 'rpm')
++                   if requested is not None else '{} U/s'.format(self.next_velocity))
++        return '请求 {} -> 实际 {}（{} U/s）'.format(request, actual, self.next_velocity)
++
++    def feedback_speed(self, row):
++        if not row:
++            return '未可换算：尚无采样'
++        v, cal = row['values'], row.get('calibration')
++        unit = v.get('velocity_feedback_unit')
++        if unit not in (0, 1):
++            return '未可换算：2006:12单位未知'
++        try:
++            if self.linear and not cal:
++                raise ValueError('标定不可用')
++            rpm = (Fraction(v['actual_velocity']) if unit == 0 else
++                   position.unit_to_velocity(v['actual_velocity'], cal))
++            return self.display_speed(rpm, cal)
++        except (ValueError, TypeError, KeyError) as exc:
++            return '未可换算：{}'.format(exc)
+ 
+     def quantities(self, row):
+         cal = row['calibration']
+@@ -310,7 +356,7 @@
+                 od_reason=self.od_reason, context=self.context, origin=self.origin,
+                 software_zero=self.software_zero,coordinate_revision=self.coordinate_revision,
+                 linear=self.linear,conversion=self.mm_per_motor_revolution,
+-                requested=requested,requested_rpm=self.requested_rpm, step_degrees=self.step_degrees,step_mm=self.step_mm,
++                requested=requested,requested_rpm=self.requested_rpm,requested_mm_s=self.requested_mm_s, step_degrees=self.step_degrees,step_mm=self.step_mm,
+                 lines=['保持当前位置并使能（Halt保持）' if kind == 'hold' else
+                     {'forward':'正向点动','backward':'反向点动','relative':'相对位移','absolute':'软件绝对位置'}[kind],
+                     '冻结起点 {} U -> 终点 {} U；位移 {} U = {} 电机轴度'.format(start,target,target-start,angle(abs(target-start)*Fraction(cal['motor_degrees_per_user_unit']))),
+@@ -318,7 +364,7 @@
+                         number((target-start if kind=='relative' else target-self.software_zero)*scale),self.unit,
+                         number((target-self.software_zero)*scale),self.unit) if requested is not None else
+                     '请求步长 {} -> 实际 {} {}（{} U）'.format(number(self.step),number(degrees),self.unit,step)),
+-                    '请求速度 {} -> 实际 {} rpm（{} U/s）'.format(number(self.requested_rpm)+' rpm' if self.requested_rpm is not None else str(self.next_velocity)+' U/s',number(rpm),self.next_velocity),
++                    '速度 '+self.speed_line(row),
+                     '提交冻结当前位置后012F保持Halt' if kind == 'hold' else
+                     '使能后重写冻结目标并触发002F→003F→002F；核对ACK 0→1→0',
+                     'Enter 确认这一次动作；Esc 取消；Space/x 随时快停'])
+@@ -339,6 +385,7 @@
+             if (session is not self.manual_sessions.get(node) or self.settings != review['settings'] or
+                     self.next_velocity != review['velocity'] or self.manual_velocity != review['active_velocity'] or self.od_reason != review['od_reason'] or
+                     self.origin != review['origin'] or self.requested_rpm != review['requested_rpm'] or
++                    self.requested_mm_s != review['requested_mm_s'] or
+                     self.software_zero != review['software_zero'] or self.linear != review['linear'] or
+                     self.coordinate_revision != review['coordinate_revision'] or
+                     self.mm_per_motor_revolution != review['conversion'] or self.step_mm != review['step_mm'] or
+@@ -620,14 +667,7 @@
+         c = self.controller
+         row = c.row(c.node)
+         v = row['values'] if row else {}
+-        speed = '未知'
+-        if v.get('velocity_feedback_unit') == 0:
+-            speed = '{} rpm'.format(v['actual_velocity'])
+-        elif v.get('velocity_feedback_unit') == 1 and row.get('calibration'):
+-            try:
+-                speed = '{} rpm'.format(number(position.unit_to_velocity(v['actual_velocity'],row['calibration'])))
+-            except ValueError:
+-                speed = '换算不可用'
++        speed = c.feedback_speed(row)
+         session = c.manual_sessions.get(c.node)
+         isolation = 'SDO已隔离' if session and getattr(session.client, 'quarantined', False) else '保护锁定'
+         online = isolation if row and row['quarantined'] else '在线' if row and row['online'] and not row['lost'] else '未连接'
+@@ -650,7 +690,7 @@
+             try:
+                 step,degrees,rpm = c.quantities(row)
+                 lines += ['下次步长 请求 {} -> 实际 {} {}（{} U）'.format(number(c.step),number(degrees),c.unit,step),
+-                    '下次速度 请求 {} -> 实际 {} rpm（{} U/s）'.format(number(c.requested_rpm)+' rpm' if c.requested_rpm is not None else str(c.next_velocity)+' U/s',number(rpm),c.next_velocity)]
++                    '下次速度 '+c.speed_line(row)]
+             except ValueError as exc:
+                 lines += [str(exc)]
+         if c.origin is not None:
+@@ -710,7 +750,7 @@
+                 lines += ['']+(['失能：确认后撤销当前使能/目标证明；机械停止仍未知。',
+                     'Enter 确认失能；Esc 取消；Space/x 随时快停'] if self.action == 'disable' else self.pending['lines'])
+         elif self.current_view == 'edit':
+-            label = {'speed':'速度 rpm','step':'步长 '+c.unit,'range':'原点两侧测试半范围 电机轴度（<=1）',
++            label = {'speed':'速度 '+('mm/s' if c.linear else 'rpm'),'step':'步长 '+c.unit,'range':'原点两侧测试半范围 电机轴度（<=1）',
+                 'relative':'相对位移 '+c.unit,'absolute':'相对软件零点的绝对位置 '+c.unit,
+                 'conversion':'每电机轴转对应直线mm（正数，可用分数；先d失能）'}[self.edit_kind]
+             lines += ['',label+'：'+self.draft+'_','Enter 审阅目标' if self.edit_kind in ('relative','absolute') else 'Enter 提交设置',
+@@ -729,7 +769,7 @@
+                 except ValueError as exc:
+                     lines += [str(exc)]
+         elif self.current_view == 'help':
+-            lines = lines[:2]+['', 's：电机轴rpm；a：点动步长（默认0.1'+c.unit+'）。',
++            lines = lines[:2]+['', 's：'+('直线mm/s' if c.linear else '电机轴rpm')+'；a：点动步长（默认0.1'+c.unit+'）。',
+                 'r/j：相对位移；p：软件绝对位置（mm）。c：mm/电机轴转，先d失能。' if c.linear else
+                 'j：相对位移；p：软件绝对位置（电机轴度）；r：固定原点半范围<=1度。',
+                 'z：新鲜采样设本会话软件零点；不运动、不写607Ch、不回零/保存。',

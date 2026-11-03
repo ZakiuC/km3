@@ -1,0 +1,18 @@
+{
+  "name": "arm-build",
+  "argv": [
+    "cmake",
+    "--build",
+    "build-arm64",
+    "-j4"
+  ],
+  "shell_command": "cmake --build build-arm64 -j4",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:13:36.052143+00:00",
+  "duration_seconds": 0.15706664499998624,
+  "returncode": 0,
+  "stdout": "arm-build.stdout.log",
+  "stderr": "arm-build.stderr.log",
+  "stdout_sha256": "9ca490b1b43e9c80b0ef86e85e3a976f163d21b04f7bd673b7b2dccc12b159d1",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

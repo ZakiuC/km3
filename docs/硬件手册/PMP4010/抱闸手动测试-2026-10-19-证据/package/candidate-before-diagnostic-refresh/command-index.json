@@ -1,0 +1,98 @@
+[
+  {
+    "name": "source-head",
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0,
+    "expected_returncode": 0
+  },
+  {
+    "name": "launcher-shell-syntax",
+    "argv": [
+      "sh",
+      "-n",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/抱闸手动测试-2026-10-19-证据/package/payload/run-brake.sh"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0,
+    "expected_returncode": 0
+  },
+  {
+    "name": "launcher-help",
+    "argv": [
+      "sh",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/抱闸手动测试-2026-10-19-证据/package/payload/run-brake.sh",
+      "--help"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0,
+    "expected_returncode": 0
+  },
+  {
+    "name": "launcher-no-tty",
+    "argv": [
+      "sh",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/抱闸手动测试-2026-10-19-证据/package/payload/run-brake.sh"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 2,
+    "expected_returncode": 2
+  },
+  {
+    "name": "launcher-parameter-refused",
+    "argv": [
+      "sh",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/抱闸手动测试-2026-10-19-证据/package/payload/run-brake.sh",
+      "--node",
+      "2"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 2,
+    "expected_returncode": 2
+  },
+  {
+    "name": "host-load-smoke",
+    "argv": [
+      "/usr/bin/python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/抱闸手动测试-2026-10-19-证据/package/payload/load_smoke.py",
+      "--library",
+      "/home/zakiu/km3/build-host/libpmp4010_velocity.so",
+      "--check-missing-library"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0,
+    "expected_returncode": 0
+  },
+  {
+    "name": "roundtrip-smoke",
+    "argv": [
+      "/usr/bin/python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/抱闸手动测试-2026-10-19-证据/package/roundtrip/load_smoke.py",
+      "--library",
+      "/home/zakiu/km3/build-host/libpmp4010_velocity.so",
+      "--check-missing-library"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0,
+    "expected_returncode": 0
+  },
+  {
+    "name": "archive-list",
+    "argv": [
+      "tar",
+      "-tzf",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/抱闸手动测试-2026-10-19-证据/package/pmp4010-brake-offline-payload.tar.gz"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0,
+    "expected_returncode": 0
+  }
+]

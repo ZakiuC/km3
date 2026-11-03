@@ -1,0 +1,46 @@
+{
+  "cwd": "/home/zakiu/km3",
+  "files_changed_this_round": [
+    "pmp4010.py",
+    "pmp4010_manual.py",
+    "_test_manual.py",
+    "_test_simple.py",
+    "_test_simple_pty.py"
+  ],
+  "unchanged_identity_included": [
+    "pmp4010_simple.py",
+    "_test_manual_pty.py"
+  ],
+  "commands": [
+    {
+      "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p '_test_manual.py'",
+      "exit_code": 0,
+      "tests": 52,
+      "log": "manual.log"
+    },
+    {
+      "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p '_test_simple.py'",
+      "exit_code": 0,
+      "tests": 19,
+      "log": "simple.log"
+    },
+    {
+      "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p '_test_simple.py' -k production_default",
+      "exit_code": 0,
+      "tests": 1,
+      "log": "default-explicit-rpm.log",
+      "note": "Final added explicit100 rpm assertion verified here"
+    },
+    {
+      "command": "python3 -I device/drivers/pmp4010/tools/_test_simple_pty.py --run docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/implementation/simple-pty",
+      "exit_code": 0,
+      "checks": 34,
+      "log": "simple-pty.log",
+      "note": "Production no-manual-velocity startup next_velocity1000 assertion; s input still commits requested rpm"
+    }
+  ],
+  "scope": "Only manual fallback default100->1000 and its help text; parser remains None fallback so explicit values preserved. Position/bench defaults and all limits unchanged. Existing mock regressions explicitly request100.",
+  "rationale": "Delegator reported board live06 at same +291U target and1000U/s achieved two exact target samples, unlike100U/s. Underlying low-speed mechanism not established; no firmware quantization claim.",
+  "limits": "This worker only ran local MockBus/unit/PTY; no hardware/SSH/CAN/deploy/commit/full engineering gates. Board reverse acceptance and authorized final deployment remain with parent.",
+  "cleanup": "All local tests and public PTY process exited. Unit temporary fixtures cleaned, requested evidence retained."
+}

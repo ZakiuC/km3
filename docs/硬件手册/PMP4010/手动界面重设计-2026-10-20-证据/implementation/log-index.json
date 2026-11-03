@@ -1,0 +1,270 @@
+[
+  {
+    "path": "hwtui-python-final-before-final-rerun.log",
+    "sha256": "fd942cf615aeeac609fd5bb0906b931ff1b708831f0d7110693e7d4d36206bdf",
+    "tail": [
+      "..........................................................................................................................................................................................................................",
+      "----------------------------------------------------------------------",
+      "Ran 218 tests in 0.344s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "path": "hwtui-python-final-failed-layout-assertion.log",
+    "sha256": "04d1b35d7bc5add99e8f28fecf62c8ab1ef7a9f7e6bd0815e46271749b10a067",
+    "tail": [
+      "..........................................................................................................................................................................................................................",
+      "----------------------------------------------------------------------",
+      "Ran 218 tests in 0.353s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "path": "hwtui-python-final-initial-pass.log",
+    "sha256": "dd7a509e71094514e70784f6b5f80b15bb8ac4439fab1d9416bb60c404b6716b",
+    "tail": [
+      "..........................................................................................................................................................................................................................",
+      "----------------------------------------------------------------------",
+      "Ran 218 tests in 0.399s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "path": "hwtui-python-final.log",
+    "sha256": "74b397d776106a7d93f7d40793ffe38463ae56d4a13a4aaf2ec58753f65185a3",
+    "tail": [
+      "..........................................................................................................................................................................................................................",
+      "----------------------------------------------------------------------",
+      "Ran 218 tests in 0.349s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "path": "pmp-python-final-before-final-rerun.log",
+    "sha256": "c04d704206a54572c326e847ced39c976fdcc7ff8fe5c68e6d29339c1063c9b0",
+    "tail": [
+      ".",
+      "----------------------------------------------------------------------",
+      "Ran 472 tests in 49.733s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "path": "pmp-python-final-failed-layout-assertion.log",
+    "sha256": "5d31490f087ba92afdc9eae52a892baec3d05e6780a21c7bfee0e96359e55e4f",
+    "tail": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 472 tests in 51.415s",
+      "",
+      "FAILED (failures=1)"
+    ]
+  },
+  {
+    "path": "pmp-python-final-initial-pass.log",
+    "sha256": "2b4f175d1027cc6f619c4eb15964704bef12de52aa7f6bbb35f9ce0975107f53",
+    "tail": [
+      ".",
+      "----------------------------------------------------------------------",
+      "Ran 471 tests in 52.306s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "path": "pmp-python-final.log",
+    "sha256": "3b20f13a8c15cb189646a545efe2abcb1d67d5472cced475120563c4c854168c",
+    "tail": [
+      ".",
+      "----------------------------------------------------------------------",
+      "Ran 472 tests in 50.775s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "path": "pmp-python-interrupted-palette-request.log",
+    "sha256": "80a07e6349eff9fb4f41d62f2a92dc349b360e2f78da2024a302ab4cedc7c1d5",
+    "tail": [
+      "..C preview matches independent SDO peer: 67/67 complete nominal request frames",
+      ".......PREPARE UI: P -> F5 freeze -> exact token -> F5 background execution; two downloads only",
+      "..PREPARE MockBus: 5 stable samples >=0.8s; 607A=start,6081=100 only; bit10=0 retained; exit controls=0",
+      ".......PREPARE lost ACK: first download attempted once; quarantine sticky; next write/cleanup/exit/retry=0",
+      "."
+    ]
+  },
+  {
+    "path": "pty-64x20-no-color.log",
+    "sha256": "ef59012b0d32936b7947ae1ad70982879e558fefc0e0d101a9e6e596d1a96d52",
+    "tail": [
+      "{\"rc\": 0, \"checks\": [\"rt\", \"authorize\", \"main\", \"edit\", \"conversion committed\", \"edit\", \"physical speed committed\", \"edit\", \"numeric edit retained\", \"confirm\", \"diagnostics\", \"diagnostic End pages\", \"confirm\", \"help\", \"help End pages\", \"confirm\", \"resize 120x32\", \"resize 64x20\", \"resize 80x24\", \"stop preempts frozen confirmation\", \"real SDO isolate protected\", \"diagnostics\", \"diagnostics scroll protected\", \"diagnostics stable protected zero retries\", \"main\", \"help\", \"help scroll protected\", \"help stable protected zero retries\", \"main\", \"diagnostics\", \"stop preempts protected diagnostic\", \"no target/profile/home/save writes\", \"termios restored exactly\", \"cursor restored\", \"application SGR policy correct\"], \"passed\": 35, \"initial_size\": [20, 64], \"fault\": \"isolate\", \"no_color\": true, \"transport\": \"production SimpleApp + standard MockBus, real sockets forbidden\", \"terminal_restored\": true}"
+    ]
+  },
+  {
+    "path": "pty-80x24.log",
+    "sha256": "c28ae983134d634ce9a121de5da6ebc21d09192ab34ef4adadbe301d9c6c1859",
+    "tail": [
+      "{\"rc\": 0, \"checks\": [\"rt\", \"authorize\", \"main\", \"edit\", \"conversion committed\", \"edit\", \"physical speed committed\", \"edit\", \"numeric edit retained\", \"confirm\", \"diagnostics\", \"diagnostic End pages\", \"confirm\", \"help\", \"help End pages\", \"confirm\", \"resize 120x32\", \"resize 64x20\", \"resize 80x24\", \"stop preempts frozen confirmation\", \"real SDO fault protected\", \"diagnostics\", \"diagnostics scroll protected\", \"diagnostics stable protected zero retries\", \"main\", \"help\", \"help scroll protected\", \"help stable protected zero retries\", \"main\", \"diagnostics\", \"stop preempts protected diagnostic\", \"no target/profile/home/save writes\", \"termios restored exactly\", \"cursor restored\", \"application SGR policy correct\"], \"passed\": 35, \"initial_size\": [24, 80], \"fault\": \"fault\", \"no_color\": false, \"transport\": \"production SimpleApp + standard MockBus, real sockets forbidden\", \"terminal_restored\": true}"
+    ]
+  },
+  {
+    "path": "simple-pty-64x20-no-color-before-final-rerun.log",
+    "sha256": "ef59012b0d32936b7947ae1ad70982879e558fefc0e0d101a9e6e596d1a96d52",
+    "tail": [
+      "{\"rc\": 0, \"checks\": [\"rt\", \"authorize\", \"main\", \"edit\", \"conversion committed\", \"edit\", \"physical speed committed\", \"edit\", \"numeric edit retained\", \"confirm\", \"diagnostics\", \"diagnostic End pages\", \"confirm\", \"help\", \"help End pages\", \"confirm\", \"resize 120x32\", \"resize 64x20\", \"resize 80x24\", \"stop preempts frozen confirmation\", \"real SDO isolate protected\", \"diagnostics\", \"diagnostics scroll protected\", \"diagnostics stable protected zero retries\", \"main\", \"help\", \"help scroll protected\", \"help stable protected zero retries\", \"main\", \"diagnostics\", \"stop preempts protected diagnostic\", \"no target/profile/home/save writes\", \"termios restored exactly\", \"cursor restored\", \"application SGR policy correct\"], \"passed\": 35, \"initial_size\": [20, 64], \"fault\": \"isolate\", \"no_color\": true, \"transport\": \"production SimpleApp + standard MockBus, real sockets forbidden\", \"terminal_restored\": true}"
+    ]
+  },
+  {
+    "path": "simple-pty-64x20-no-color-failed-layout-assertion.log",
+    "sha256": "ef59012b0d32936b7947ae1ad70982879e558fefc0e0d101a9e6e596d1a96d52",
+    "tail": [
+      "{\"rc\": 0, \"checks\": [\"rt\", \"authorize\", \"main\", \"edit\", \"conversion committed\", \"edit\", \"physical speed committed\", \"edit\", \"numeric edit retained\", \"confirm\", \"diagnostics\", \"diagnostic End pages\", \"confirm\", \"help\", \"help End pages\", \"confirm\", \"resize 120x32\", \"resize 64x20\", \"resize 80x24\", \"stop preempts frozen confirmation\", \"real SDO isolate protected\", \"diagnostics\", \"diagnostics scroll protected\", \"diagnostics stable protected zero retries\", \"main\", \"help\", \"help scroll protected\", \"help stable protected zero retries\", \"main\", \"diagnostics\", \"stop preempts protected diagnostic\", \"no target/profile/home/save writes\", \"termios restored exactly\", \"cursor restored\", \"application SGR policy correct\"], \"passed\": 35, \"initial_size\": [20, 64], \"fault\": \"isolate\", \"no_color\": true, \"transport\": \"production SimpleApp + standard MockBus, real sockets forbidden\", \"terminal_restored\": true}"
+    ]
+  },
+  {
+    "path": "simple-pty-64x20-no-color.log",
+    "sha256": "ef59012b0d32936b7947ae1ad70982879e558fefc0e0d101a9e6e596d1a96d52",
+    "tail": [
+      "{\"rc\": 0, \"checks\": [\"rt\", \"authorize\", \"main\", \"edit\", \"conversion committed\", \"edit\", \"physical speed committed\", \"edit\", \"numeric edit retained\", \"confirm\", \"diagnostics\", \"diagnostic End pages\", \"confirm\", \"help\", \"help End pages\", \"confirm\", \"resize 120x32\", \"resize 64x20\", \"resize 80x24\", \"stop preempts frozen confirmation\", \"real SDO isolate protected\", \"diagnostics\", \"diagnostics scroll protected\", \"diagnostics stable protected zero retries\", \"main\", \"help\", \"help scroll protected\", \"help stable protected zero retries\", \"main\", \"diagnostics\", \"stop preempts protected diagnostic\", \"no target/profile/home/save writes\", \"termios restored exactly\", \"cursor restored\", \"application SGR policy correct\"], \"passed\": 35, \"initial_size\": [20, 64], \"fault\": \"isolate\", \"no_color\": true, \"transport\": \"production SimpleApp + standard MockBus, real sockets forbidden\", \"terminal_restored\": true}"
+    ]
+  },
+  {
+    "path": "simple-pty-80x24-before-final-rerun.log",
+    "sha256": "c28ae983134d634ce9a121de5da6ebc21d09192ab34ef4adadbe301d9c6c1859",
+    "tail": [
+      "{\"rc\": 0, \"checks\": [\"rt\", \"authorize\", \"main\", \"edit\", \"conversion committed\", \"edit\", \"physical speed committed\", \"edit\", \"numeric edit retained\", \"confirm\", \"diagnostics\", \"diagnostic End pages\", \"confirm\", \"help\", \"help End pages\", \"confirm\", \"resize 120x32\", \"resize 64x20\", \"resize 80x24\", \"stop preempts frozen confirmation\", \"real SDO fault protected\", \"diagnostics\", \"diagnostics scroll protected\", \"diagnostics stable protected zero retries\", \"main\", \"help\", \"help scroll protected\", \"help stable protected zero retries\", \"main\", \"diagnostics\", \"stop preempts protected diagnostic\", \"no target/profile/home/save writes\", \"termios restored exactly\", \"cursor restored\", \"application SGR policy correct\"], \"passed\": 35, \"initial_size\": [24, 80], \"fault\": \"fault\", \"no_color\": false, \"transport\": \"production SimpleApp + standard MockBus, real sockets forbidden\", \"terminal_restored\": true}"
+    ]
+  },
+  {
+    "path": "simple-pty-80x24-failed-layout-assertion.log",
+    "sha256": "c28ae983134d634ce9a121de5da6ebc21d09192ab34ef4adadbe301d9c6c1859",
+    "tail": [
+      "{\"rc\": 0, \"checks\": [\"rt\", \"authorize\", \"main\", \"edit\", \"conversion committed\", \"edit\", \"physical speed committed\", \"edit\", \"numeric edit retained\", \"confirm\", \"diagnostics\", \"diagnostic End pages\", \"confirm\", \"help\", \"help End pages\", \"confirm\", \"resize 120x32\", \"resize 64x20\", \"resize 80x24\", \"stop preempts frozen confirmation\", \"real SDO fault protected\", \"diagnostics\", \"diagnostics scroll protected\", \"diagnostics stable protected zero retries\", \"main\", \"help\", \"help scroll protected\", \"help stable protected zero retries\", \"main\", \"diagnostics\", \"stop preempts protected diagnostic\", \"no target/profile/home/save writes\", \"termios restored exactly\", \"cursor restored\", \"application SGR policy correct\"], \"passed\": 35, \"initial_size\": [24, 80], \"fault\": \"fault\", \"no_color\": false, \"transport\": \"production SimpleApp + standard MockBus, real sockets forbidden\", \"terminal_restored\": true}"
+    ]
+  },
+  {
+    "path": "simple-pty-80x24.log",
+    "sha256": "c28ae983134d634ce9a121de5da6ebc21d09192ab34ef4adadbe301d9c6c1859",
+    "tail": [
+      "{\"rc\": 0, \"checks\": [\"rt\", \"authorize\", \"main\", \"edit\", \"conversion committed\", \"edit\", \"physical speed committed\", \"edit\", \"numeric edit retained\", \"confirm\", \"diagnostics\", \"diagnostic End pages\", \"confirm\", \"help\", \"help End pages\", \"confirm\", \"resize 120x32\", \"resize 64x20\", \"resize 80x24\", \"stop preempts frozen confirmation\", \"real SDO fault protected\", \"diagnostics\", \"diagnostics scroll protected\", \"diagnostics stable protected zero retries\", \"main\", \"help\", \"help scroll protected\", \"help stable protected zero retries\", \"main\", \"diagnostics\", \"stop preempts protected diagnostic\", \"no target/profile/home/save writes\", \"termios restored exactly\", \"cursor restored\", \"application SGR policy correct\"], \"passed\": 35, \"initial_size\": [24, 80], \"fault\": \"fault\", \"no_color\": false, \"transport\": \"production SimpleApp + standard MockBus, real sockets forbidden\", \"terminal_restored\": true}"
+    ]
+  },
+  {
+    "path": "simple-pty-first.log",
+    "sha256": "d70d3ca74f8dc8175301c2763e583b0ea5ca27caa7b3907409edae94a07178e5",
+    "tail": [
+      "Ran 3 tests in 10.685s",
+      "",
+      "OK",
+      "{\"passed\": 34, \"checks\": [\"rt\", \"authorize\", \"connection/RT consent/scan upload only, default node1\", \"main\", \"edit\", \"speed normal numeric Enter commit\", \"edit\", \"step normal numeric Enter commit\", \"confirm\", \"f confirmed\", \"f actual feedback reached frozen target\", \"f Enter real SDO enabled bit4 edge/newACK0/1/0 and progressive feedback reached target, no token/F5\", \"confirm\", \"b confirmed\", \"b actual feedback reached frozen target\", \"instant stop 'x'\", \"continuous f then b without manual Space/d; internal2/0 before resubmission\", \"confirm\", \"instant stop 'x'\", \"x in confirmation discards action; Enter cannot revive\", \"confirm\", \"d Enter disables\", \"edit\", \"draft entered\", \"instant stop ' '\", \"help\", \"instant stop 'x'\", \"Space in edit and x in help reach actual quick-stop writes\", \"confirm\", \"second d\", \"confirm\", \"e confirmed\", \"e explicit frozen current target, fresh ACK, Halt12F no release\", \"actual SDO delays:0106 ACK then0260/0260/0231;0107 ACK then0231/0231/0233; full f Enter succeeds\"], \"controls\": [262, 263, 295, 311, 295, 303, 47, 63, 47, 2, 0, 262, 263, 295, 311, 295, 303, 47, 63, 47, 2, 2, 0, 2, 2, 0, 262, 263, 295, 311, 295, 303, 6], \"rc\": 0, \"terminal\": \"80x24\", \"transport\": \"standard MockBus only; real socket creation forbidden\"}",
+      "{\"passed\": 44, \"checks\": [\"rt\", \"authorize\", \"connection/RT consent/scan upload only, default node1\", \"main\", \"unset coefficient refuses f\", \"unset coefficient software zero capture\", \"edit\", \"c positive exact mm/rev conversion\", \"edit\", \"s1mm/s quantizes364U/s at mock360mm/rev\", \"linear s input and defaultU/s draft display mm/s; no velocity download before confirmation\", \"edit\", \"confirm\", \"r +1.2 frozen607A reached\", \"r +1.2 confirms exactly quantified raw target -1034\", \"z under running reached proof\", \"z fresh reached sample: zero downloads, same raw physical proof and drive envelope\", \"edit\", \"confirm\", \"j -.2 frozen607A reached\", \"j -.2 confirms exactly quantified raw target -1106\", \"edit\", \"confirm\", \"p +.1 frozen607A reached\", \"p +.1 confirms exactly quantified raw target -998\", \"edit\", \"confirm\", \"p -.1 frozen607A reached\", \"p -.1 confirms exactly quantified raw target -1070\", \"edit\", \"confirm\", \"p 0 frozen607A reached\", \"p 0 confirms exactly quantified raw target -1034\", \"edit\", \"drive boundary refuses numeric review\", \"instant stop ' '\", \"out-of-range relative zero motion downloads; Space stops during numeric entry\", \"edit\", \"confirm\", \"instant stop 'x'\", \"x during position review discards target; Enter cannot replay\", \"help\", \"instant stop 'x'\", \"all five moves preserve enabled target rewrite/new ACK0/1/0; no home/offset/save; exit cleanup6\"], \"controls\": [262, 263, 295, 311, 295, 303, 47, 63, 47, 2, 0, 262, 263, 295, 311, 295, 303, 47, 63, 47, 2, 0, 262, 263, 295, 311, 295, 303, 47, 63, 47, 2, 0, 262, 263, 295, 311, 295, 303, 47, 63, 47, 2, 0, 262, 263, 295, 311, 295, 303, 47, 63, 47, 2, 2, 2, 6], \"rc\": 0, \"terminal\": \"80x24\", \"transport\": \"standard MockBus only; real socket creation forbidden\", \"mode\": \"--manual --manual-linear\", \"coefficient\": \"360 mock mm/motor revolution; not machine calibration\"}"
+    ]
+  },
+  {
+    "path": "simple-redesign-small-first.log",
+    "sha256": "ef59012b0d32936b7947ae1ad70982879e558fefc0e0d101a9e6e596d1a96d52",
+    "tail": [
+      "{\"rc\": 0, \"checks\": [\"rt\", \"authorize\", \"main\", \"edit\", \"conversion committed\", \"edit\", \"physical speed committed\", \"edit\", \"numeric edit retained\", \"confirm\", \"diagnostics\", \"diagnostic End pages\", \"confirm\", \"help\", \"help End pages\", \"confirm\", \"resize 120x32\", \"resize 64x20\", \"resize 80x24\", \"stop preempts frozen confirmation\", \"real SDO isolate protected\", \"diagnostics\", \"diagnostics scroll protected\", \"diagnostics stable protected zero retries\", \"main\", \"help\", \"help scroll protected\", \"help stable protected zero retries\", \"main\", \"diagnostics\", \"stop preempts protected diagnostic\", \"no target/profile/home/save writes\", \"termios restored exactly\", \"cursor restored\", \"application SGR policy correct\"], \"passed\": 35, \"initial_size\": [20, 64], \"fault\": \"isolate\", \"no_color\": true, \"transport\": \"production SimpleApp + standard MockBus, real sockets forbidden\", \"terminal_restored\": true}"
+    ]
+  },
+  {
+    "path": "simple-redesign-visual-first.log",
+    "sha256": "e31f0671854967eb6fd2e4aaececd00c890e207c6a6428057fefa1d4daaf9ee4",
+    "tail": [
+      "  File \"/home/zakiu/km3/device/drivers/pmp4010/tools/_test_simple_pty.py\", line 485, in <module>",
+      "    if len(sys.argv)==3 and sys.argv[1]=='--run-visual':run_visual_pty(sys.argv[2])",
+      "  File \"/home/zakiu/km3/device/drivers/pmp4010/tools/_test_simple_pty.py\", line 342, in run_visual_pty",
+      "    from hwtui.tui import _display_width",
+      "ModuleNotFoundError: No module named 'hwtui'"
+    ]
+  },
+  {
+    "path": "simple-redesign-visual-second.log",
+    "sha256": "c28ae983134d634ce9a121de5da6ebc21d09192ab34ef4adadbe301d9c6c1859",
+    "tail": [
+      "{\"rc\": 0, \"checks\": [\"rt\", \"authorize\", \"main\", \"edit\", \"conversion committed\", \"edit\", \"physical speed committed\", \"edit\", \"numeric edit retained\", \"confirm\", \"diagnostics\", \"diagnostic End pages\", \"confirm\", \"help\", \"help End pages\", \"confirm\", \"resize 120x32\", \"resize 64x20\", \"resize 80x24\", \"stop preempts frozen confirmation\", \"real SDO fault protected\", \"diagnostics\", \"diagnostics scroll protected\", \"diagnostics stable protected zero retries\", \"main\", \"help\", \"help scroll protected\", \"help stable protected zero retries\", \"main\", \"diagnostics\", \"stop preempts protected diagnostic\", \"no target/profile/home/save writes\", \"termios restored exactly\", \"cursor restored\", \"application SGR policy correct\"], \"passed\": 35, \"initial_size\": [24, 80], \"fault\": \"fault\", \"no_color\": false, \"transport\": \"production SimpleApp + standard MockBus, real sockets forbidden\", \"terminal_restored\": true}"
+    ]
+  },
+  {
+    "path": "simple-redesign-visual-third.log",
+    "sha256": "28c0b13284a2af603ea9e008e97dc9eedc920ed7b25c57c7898932f16b599016",
+    "tail": [
+      "  File \"/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_manual.py\", line 19, in <module>",
+      "    from pmp4010_tui import PmpApp, LogView",
+      "  File \"/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_tui.py\", line 11, in <module>",
+      "    from tui import (Field, Form, Grid, LogView, Rect, Table, TuiApp,",
+      "ModuleNotFoundError: No module named 'tui'"
+    ]
+  },
+  {
+    "path": "simple-ui-first.log",
+    "sha256": "2b2fbe689f83e0ca45f9926c1a9c1b97e3af2de22415f28d4845ffcf8e29eb7b",
+    "tail": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 55 tests in 3.719s",
+      "",
+      "FAILED (failures=6)"
+    ]
+  },
+  {
+    "path": "simple-ui-focused-final.log",
+    "sha256": "15bdd64cc043280c13389065eb99252da45c891dfc7e4d54a4e9927409f1157e",
+    "tail": [
+      "..",
+      "----------------------------------------------------------------------",
+      "Ran 68 tests in 19.946s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "path": "simple-ui-fourth.log",
+    "sha256": "ae85375ed7c529dcacb80acc17178fd4ac246be0c9a5a77731406fc88a509164",
+    "tail": [
+      "...",
+      "----------------------------------------------------------------------",
+      "Ran 63 tests in 4.423s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "path": "simple-ui-last-check.log",
+    "sha256": "cd8ccbb05058e89982122dae86a2f976dea31ca1b5837876286923fd60e57d8e",
+    "tail": [
+      "",
+      "----------------------------------------------------------------------",
+      "Ran 64 tests in 3.958s",
+      "",
+      "FAILED (failures=1)"
+    ]
+  },
+  {
+    "path": "simple-ui-second.log",
+    "sha256": "f3b12635b2174c4baa52a0a72427df6dabb1905e38638dd5656e1e593af11a18",
+    "tail": [
+      "...",
+      "----------------------------------------------------------------------",
+      "Ran 55 tests in 3.866s",
+      "",
+      "OK"
+    ]
+  },
+  {
+    "path": "simple-ui-third.log",
+    "sha256": "e8d701ba82e23613748ca7e58242516b129413d2cf56d10df1ce5d7e6757be2e",
+    "tail": [
+      "...",
+      "----------------------------------------------------------------------",
+      "Ran 62 tests in 3.869s",
+      "",
+      "OK"
+    ]
+  }
+]

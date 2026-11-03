@@ -1,0 +1,56 @@
+{
+  "checks": [
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-I",
+        "docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/negative-motion-plan/reset_only_once.py"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "rc": 0,
+      "raw": "reset_only_once.py.raw.txt"
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-I",
+        "docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/negative-motion-plan/relative_minus10_once.py"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "rc": 0,
+      "raw": "relative_minus10_once.py.raw.txt"
+    },
+    {
+      "argv": [
+        "/usr/bin/python3",
+        "-B",
+        "-I",
+        "docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/negative-motion-plan/test_prepared.py"
+      ],
+      "cwd": "/home/zakiu/km3",
+      "rc": 0,
+      "raw": "test_prepared.py.raw.txt"
+    }
+  ],
+  "sha256": {
+    "pinned_payload.py": "e8a98830191da64cce22422b3bb9540f68049b5907ae35b9ad259268855c6205",
+    "reset_only_once.py": "6176b8d66ab93fcb232aed8bb15e095bfc05bb27fe7b43de0be392dfe5ec021d",
+    "relative_minus10_once.py": "04a97fd5118b9caa0130b3c7c232770b4d26fcd69dc82e1f2d1bc68bb60630d0",
+    "test_prepared.py": "4aacfeac4d828993c3ef017e240e285f2dd7ec59264307cded1e2451ab408508"
+  },
+  "hardware_execution": false,
+  "mock_tests": 13,
+  "package_archive_sha256": "0218ab4207ebf09948feb995ec360cbe6d22fb3dc94a0062cafc5b3dd4397761",
+  "package_manifest_sha256": "a41b88269819e718e1486876be8d99502a773a401ef084343b57d597fb818b71",
+  "route": {
+    "requested_role": "laborer",
+    "requested_model": "gpt-6.1-sol",
+    "requested_effort": "high",
+    "actual_model": "unknown",
+    "actual_effort": "unknown",
+    "last_token_usage_input_tokens": "unknown",
+    "latest_input_estimate": "<150K per parent, not measured"
+  }
+}

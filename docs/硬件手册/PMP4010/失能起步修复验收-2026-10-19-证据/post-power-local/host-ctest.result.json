@@ -1,0 +1,18 @@
+{
+  "name": "host-ctest",
+  "argv": [
+    "ctest",
+    "--test-dir",
+    "build-host",
+    "--output-on-failure"
+  ],
+  "shell_command": "ctest --test-dir build-host --output-on-failure",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:12:59.289333+00:00",
+  "duration_seconds": 11.864315254000019,
+  "returncode": 0,
+  "stdout": "host-ctest.stdout.log",
+  "stderr": "host-ctest.stderr.log",
+  "stdout_sha256": "80b658cad07f8868642013a7da4cd6427bdd5c93cb286171af7942dc962fbc70",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

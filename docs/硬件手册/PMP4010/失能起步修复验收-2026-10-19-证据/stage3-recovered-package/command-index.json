@@ -1,0 +1,257 @@
+[
+  {
+    "name": "archive-extract",
+    "argv": [
+      "tar",
+      "-xzf",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/stage3-recovered-package/pmp4010-board-payload.tar.gz",
+      "-C",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/stage3-recovered-package/roundtrip"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 0,
+    "stdout": "records/archive-extract.stdout.log",
+    "stderr": "records/archive-extract.stderr.log"
+  },
+  {
+    "name": "archive-host-smoke",
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/stage3-recovered-package/roundtrip/load_smoke.py",
+      "--library",
+      "/home/zakiu/km3/build-host/libpmp4010_velocity.so",
+      "--check-missing-library"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 0,
+    "stdout": "records/archive-host-smoke.stdout.log",
+    "stderr": "records/archive-host-smoke.stderr.log"
+  },
+  {
+    "name": "archive-list",
+    "argv": [
+      "tar",
+      "-tvzf",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/stage3-recovered-package/pmp4010-board-payload.tar.gz"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 0,
+    "stdout": "records/archive-list.stdout.log",
+    "stderr": "records/archive-list.stderr.log"
+  },
+  {
+    "name": "archive-sha256",
+    "argv": [
+      "sha256sum",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/stage3-recovered-package/pmp4010-board-payload.tar.gz"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 0,
+    "stdout": "records/archive-sha256.stdout.log",
+    "stderr": "records/archive-sha256.stderr.log"
+  },
+  {
+    "name": "archive-tamper-refused",
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/stage3-recovered-package/roundtrip/load_smoke.py",
+      "--library",
+      "/home/zakiu/km3/build-host/libpmp4010_velocity.so"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 1,
+    "stdout": "records/archive-tamper-refused.stdout.log",
+    "stderr": "records/archive-tamper-refused.stderr.log"
+  },
+  {
+    "name": "arm-elf-dynamic",
+    "argv": [
+      "readelf",
+      "-d",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/stage3-recovered-package/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 0,
+    "stdout": "records/arm-elf-dynamic.stdout.log",
+    "stderr": "records/arm-elf-dynamic.stderr.log"
+  },
+  {
+    "name": "arm-elf-header",
+    "argv": [
+      "readelf",
+      "-h",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/stage3-recovered-package/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 0,
+    "stdout": "records/arm-elf-header.stdout.log",
+    "stderr": "records/arm-elf-header.stderr.log"
+  },
+  {
+    "name": "arm-elf-symbols",
+    "argv": [
+      "readelf",
+      "-Ws",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/stage3-recovered-package/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 0,
+    "stdout": "records/arm-elf-symbols.stdout.log",
+    "stderr": "records/arm-elf-symbols.stderr.log"
+  },
+  {
+    "name": "arm-elf-versions",
+    "argv": [
+      "readelf",
+      "--version-info",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/stage3-recovered-package/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 0,
+    "stdout": "records/arm-elf-versions.stdout.log",
+    "stderr": "records/arm-elf-versions.stderr.log"
+  },
+  {
+    "name": "arm-file",
+    "argv": [
+      "file",
+      "-L",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/stage3-recovered-package/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 0,
+    "stdout": "records/arm-file.stdout.log",
+    "stderr": "records/arm-file.stderr.log"
+  },
+  {
+    "name": "arm-sha256",
+    "argv": [
+      "sha256sum",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/stage3-recovered-package/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 0,
+    "stdout": "records/arm-sha256.stdout.log",
+    "stderr": "records/arm-sha256.stderr.log"
+  },
+  {
+    "name": "host-file",
+    "argv": [
+      "file",
+      "-L",
+      "/home/zakiu/km3/build-host/libpmp4010_velocity.so"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 0,
+    "stdout": "records/host-file.stdout.log",
+    "stderr": "records/host-file.stderr.log"
+  },
+  {
+    "name": "host-load-smoke",
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/stage3-recovered-package/payload/load_smoke.py",
+      "--library",
+      "/home/zakiu/km3/build-host/libpmp4010_velocity.so",
+      "--check-missing-library"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 0,
+    "stdout": "records/host-load-smoke.stdout.log",
+    "stderr": "records/host-load-smoke.stderr.log"
+  },
+  {
+    "name": "host-sha256",
+    "argv": [
+      "sha256sum",
+      "/home/zakiu/km3/build-host/libpmp4010_velocity.so.1.0.0"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 0,
+    "stdout": "records/host-sha256.stdout.log",
+    "stderr": "records/host-sha256.stderr.log"
+  },
+  {
+    "name": "package-prepare",
+    "argv": [
+      "python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/stage3-recovered-package/prepare.py"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 0,
+    "stdout": "records/package-prepare.stdout.log",
+    "stderr": "records/package-prepare.stderr.log"
+  },
+  {
+    "name": "selected-source-diff",
+    "argv": [
+      "git",
+      "diff",
+      "HEAD",
+      "--",
+      "device/cmake/aarch64-linux-gnu.cmake",
+      "device/drivers/pmp4010/driver/od.json",
+      "device/drivers/pmp4010/driver/pmp4010_velocity.cpp",
+      "device/drivers/pmp4010/driver/pmp4010_velocity.hpp",
+      "device/drivers/pmp4010/driver/pmp4010_velocity_c.cpp",
+      "device/drivers/pmp4010/driver/pmp4010_velocity_c.h",
+      "device/drivers/pmp4010/native/CMakeLists.txt",
+      "device/drivers/pmp4010/tests/velocity_vectors.json",
+      "device/drivers/pmp4010/tools/pmp4010.py",
+      "device/drivers/pmp4010/tools/pmp4010_bench.py",
+      "device/drivers/pmp4010/tools/pmp4010_params.py",
+      "device/drivers/pmp4010/tools/pmp4010_position.py",
+      "device/drivers/pmp4010/tools/pmp4010_tui.py",
+      "device/drivers/pmp4010/tools/pmp4010_velocity.py",
+      "tools/deploy_hwtools.sh",
+      "tools/hwtui/canbus.py",
+      "tools/hwtui/canopen.py",
+      "tools/hwtui/canopen_consts.py",
+      "tools/hwtui/canopen_wire.py",
+      "tools/hwtui/discover.py",
+      "tools/hwtui/mockbus.py",
+      "tools/hwtui/tui.py"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 0,
+    "stdout": "records/selected-source-diff.stdout.log",
+    "stderr": "records/selected-source-diff.stderr.log"
+  },
+  {
+    "name": "source-dirty",
+    "argv": [
+      "git",
+      "status",
+      "--porcelain=v1",
+      "--untracked-files=all",
+      "--",
+      "device/drivers/pmp4010",
+      "tools/hwtui",
+      "tools/tests"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 0,
+    "stdout": "records/source-dirty.stdout.log",
+    "stderr": "records/source-dirty.stderr.log"
+  },
+  {
+    "name": "source-head",
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "exitcode": 0,
+    "stdout": "records/source-head.stdout.log",
+    "stderr": "records/source-head.stderr.log"
+  }
+]

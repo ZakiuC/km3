@@ -1,0 +1,24 @@
+{
+  "utc": "2026-10-20T00:39:25.213569+00:00",
+  "automatic_retries": 0,
+  "runner_sha256": "7fa11d2bee89e3242cf052e1cf315d49ffe6e745a82134b2d9417293bafb54ec",
+  "frozen_input_sha256": "a1b2c28d919ec8f893df74b5218cd4ba78eb36fec75bb2b20cb784437873b8f0",
+  "frozen_input": {
+    "files": {
+      "motion_compare_once.py": "e530b81f231d3ccccca5df741ccc0f79ec410b9cf5569e517d14428ca7151202",
+      "pinned_payload.py": "d8d99ccffdf1b1cb3fc02669af2627243f9801b4fe8861cc39f18692af954a62"
+    },
+    "argv": [
+      "--execute-once",
+      "--od-session-ack",
+      "接受本会话OD缺口和独立停机责任",
+      "--motion-confirm",
+      "确认仅一次相对-10mm_100rpm_低加速度对照"
+    ],
+    "remote_stage": "/var/tmp/km3-pmp4010-alarm-20261019-735538978204/motion-compare-proposal",
+    "runner_sha256": "a3d3a8b58262669d8c3383cc96cf73f40cebbca467a4a1f0917d325385cc0626",
+    "passive_sha256": "d6da0ae2c4c774959391d87e743b517930d220114dce67ca7b27775ca613d836",
+    "baseline_sha256": "b2210773bb58f3494d3a72f3697d41141361d2e791f806ef9a2a7c939b18be26",
+    "bootstrap_sha256": "6a7b205c47923e95860646c21241d15975a9423e027ecfe864348d391eafea96"
+  }
+}

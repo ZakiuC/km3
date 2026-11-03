@@ -1,0 +1,391 @@
+{
+  "rc": 0,
+  "source": "E06 table10-7 and2006h:12h; widths checked before requests",
+  "uploads": [
+    {
+      "utc": "2026-10-19T06:47:06.374251+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "initial",
+        "index": "0x6040",
+        "subindex": "0x0",
+        "expected_width": 2,
+        "width": 2,
+        "signed": false,
+        "raw_hex": "0600",
+        "value": 6,
+        "started_utc": "2026-10-19T06:47:06.373769+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.374739+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "initial",
+        "index": "0x6041",
+        "subindex": "0x0",
+        "expected_width": 2,
+        "width": 2,
+        "signed": false,
+        "raw_hex": "3102",
+        "value": 561,
+        "started_utc": "2026-10-19T06:47:06.374337+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.375179+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "initial",
+        "index": "0x6060",
+        "subindex": "0x0",
+        "expected_width": 1,
+        "width": 1,
+        "signed": true,
+        "raw_hex": "01",
+        "value": 1,
+        "started_utc": "2026-10-19T06:47:06.374785+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.375583+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "initial",
+        "index": "0x6061",
+        "subindex": "0x0",
+        "expected_width": 1,
+        "width": 1,
+        "signed": true,
+        "raw_hex": "01",
+        "value": 1,
+        "started_utc": "2026-10-19T06:47:06.375213+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.375995+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "initial",
+        "index": "0x603f",
+        "subindex": "0x0",
+        "expected_width": 2,
+        "width": 2,
+        "signed": false,
+        "raw_hex": "0000",
+        "value": 0,
+        "started_utc": "2026-10-19T06:47:06.375613+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.376471+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "initial",
+        "index": "0x607c",
+        "subindex": "0x0",
+        "expected_width": 4,
+        "width": 4,
+        "signed": true,
+        "raw_hex": "00000000",
+        "value": 0,
+        "started_utc": "2026-10-19T06:47:06.376028+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.376873+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "initial",
+        "index": "0x6064",
+        "subindex": "0x0",
+        "expected_width": 4,
+        "width": 4,
+        "signed": true,
+        "raw_hex": "37faffff",
+        "value": -1481,
+        "started_utc": "2026-10-19T06:47:06.376499+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.377279+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "disabled_diagnostic",
+        "index": "0x6067",
+        "subindex": "0x0",
+        "expected_width": 4,
+        "width": 4,
+        "signed": false,
+        "raw_hex": "64000000",
+        "value": 100,
+        "started_utc": "2026-10-19T06:47:06.376903+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.377708+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "disabled_diagnostic",
+        "index": "0x6068",
+        "subindex": "0x0",
+        "expected_width": 2,
+        "width": 2,
+        "signed": false,
+        "raw_hex": "0500",
+        "value": 5,
+        "started_utc": "2026-10-19T06:47:06.377307+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.378124+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "disabled_diagnostic",
+        "index": "0x2006",
+        "subindex": "0x12",
+        "expected_width": 2,
+        "width": 2,
+        "signed": false,
+        "raw_hex": "0000",
+        "value": 0,
+        "started_utc": "2026-10-19T06:47:06.377737+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.378527+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "disabled_diagnostic",
+        "index": "0x606b",
+        "subindex": "0x0",
+        "expected_width": 4,
+        "width": 4,
+        "signed": true,
+        "raw_hex": "00000000",
+        "value": 0,
+        "started_utc": "2026-10-19T06:47:06.378152+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.378945+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "disabled_diagnostic",
+        "index": "0x6069",
+        "subindex": "0x0",
+        "expected_width": 4,
+        "width": 4,
+        "signed": true,
+        "raw_hex": "00000000",
+        "value": 0,
+        "started_utc": "2026-10-19T06:47:06.378554+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.379420+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "disabled_diagnostic",
+        "index": "0x606c",
+        "subindex": "0x0",
+        "expected_width": 4,
+        "width": 4,
+        "signed": true,
+        "raw_hex": "00000000",
+        "value": 0,
+        "started_utc": "2026-10-19T06:47:06.378979+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.379826+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "disabled_diagnostic",
+        "index": "0x6063",
+        "subindex": "0x0",
+        "expected_width": 4,
+        "width": 4,
+        "signed": true,
+        "raw_hex": "37faffff",
+        "value": -1481,
+        "started_utc": "2026-10-19T06:47:06.379449+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.380246+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "disabled_diagnostic",
+        "index": "0x60f4",
+        "subindex": "0x0",
+        "expected_width": 4,
+        "width": 4,
+        "signed": true,
+        "raw_hex": "00000000",
+        "value": 0,
+        "started_utc": "2026-10-19T06:47:06.379855+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.380648+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "disabled_diagnostic",
+        "index": "0x6065",
+        "subindex": "0x0",
+        "expected_width": 4,
+        "width": 4,
+        "signed": false,
+        "raw_hex": "32000000",
+        "value": 50,
+        "started_utc": "2026-10-19T06:47:06.380274+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.381044+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "disabled_diagnostic",
+        "index": "0x6066",
+        "subindex": "0x0",
+        "expected_width": 2,
+        "width": 2,
+        "signed": false,
+        "raw_hex": "3075",
+        "value": 30000,
+        "started_utc": "2026-10-19T06:47:06.380677+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.381473+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "disabled_diagnostic",
+        "index": "0x6062",
+        "subindex": "0x0",
+        "expected_width": 4,
+        "width": 4,
+        "signed": true,
+        "raw_hex": "5cfaffff",
+        "value": -1444,
+        "started_utc": "2026-10-19T06:47:06.381071+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.381872+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "disabled_diagnostic",
+        "index": "0x607a",
+        "subindex": "0x0",
+        "expected_width": 4,
+        "width": 4,
+        "signed": true,
+        "raw_hex": "5cfaffff",
+        "value": -1444,
+        "started_utc": "2026-10-19T06:47:06.381500+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.382315+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "final",
+        "index": "0x6041",
+        "subindex": "0x0",
+        "expected_width": 2,
+        "width": 2,
+        "signed": false,
+        "raw_hex": "3102",
+        "value": 561,
+        "started_utc": "2026-10-19T06:47:06.381900+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.382722+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "final",
+        "index": "0x6064",
+        "subindex": "0x0",
+        "expected_width": 4,
+        "width": 4,
+        "signed": true,
+        "raw_hex": "37faffff",
+        "value": -1481,
+        "started_utc": "2026-10-19T06:47:06.382343+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.383125+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "final",
+        "index": "0x606c",
+        "subindex": "0x0",
+        "expected_width": 4,
+        "width": 4,
+        "signed": true,
+        "raw_hex": "00000000",
+        "value": 0,
+        "started_utc": "2026-10-19T06:47:06.382749+00:00",
+        "quarantined": false
+      }
+    },
+    {
+      "utc": "2026-10-19T06:47:06.383550+00:00",
+      "event": "upload",
+      "data": {
+        "phase": "final",
+        "index": "0x603f",
+        "subindex": "0x0",
+        "expected_width": 2,
+        "width": 2,
+        "signed": false,
+        "raw_hex": "0000",
+        "value": 0,
+        "started_utc": "2026-10-19T06:47:06.383151+00:00",
+        "quarantined": false
+      }
+    }
+  ],
+  "final": {
+    "utc": "2026-10-19T06:47:06.383634+00:00",
+    "event": "FINAL",
+    "data": {
+      "success": true,
+      "failure": null,
+      "uploads_completed": 23,
+      "downloads": 0,
+      "NMT": 0,
+      "retries": 0,
+      "clients_created": 1,
+      "quarantined": false
+    }
+  },
+  "scope": "disabled-state only; no inference of prior dynamic demand",
+  "authorization": "Parent explicit one independent read-only diagnostic session after live03 cleanup; fixed can1 node1; existing OD/RT reason unchanged",
+  "target_reached_explanation": "6067=100U,6068=5ms; 36U request and observed37U target error lie inside threshold. This does not explain failure to follow positively."
+}

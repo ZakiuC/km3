@@ -1,0 +1,27 @@
+{
+  "result": "PASS",
+  "checks": 14,
+  "labels": [
+    "download",
+    "NMT",
+    "PDO",
+    "node2",
+    "not_pending",
+    "not_allowlisted",
+    "nonzero_reserved",
+    "extended",
+    "remote",
+    "FD",
+    "duplicate",
+    "no_pending",
+    "deadline",
+    "37_hard_cap"
+  ],
+  "table_rows": 19,
+  "sample_rows": 6,
+  "sample_groups": 3,
+  "max_uploads": 37,
+  "real_CAN_opens": 0,
+  "real_CAN_sends": 0,
+  "real_SSH_calls": 0
+}

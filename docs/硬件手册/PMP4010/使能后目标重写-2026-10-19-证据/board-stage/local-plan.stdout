@@ -1,0 +1,14 @@
+{
+  "mode": "local_plan_only",
+  "actual_ssh_calls": 0,
+  "archive": "/home/zakiu/km3/docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u4f7f\u80fd\u540e\u76ee\u6807\u91cd\u5199-2026-10-19-\u8bc1\u636e/package/pmp4010-manual-board-payload.tar.gz",
+  "archive_sha256": "d875f7bee872ef722df5387c1203dcf403a33ebeeaf84ddb42a4f00761a438f0",
+  "stage": "/var/tmp/km3-pmp4010-rewrite-20261019-d875f7bee872",
+  "steps": [
+    "archive_manifest_verified_exclusive_stage",
+    "AArch64_pureload_math_simple_manual_import_CLI_help",
+    "launcher_sh_n_only"
+  ],
+  "manual_launcher_executed": false,
+  "CAN_operations": 0
+}

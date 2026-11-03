@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B - /var/tmp/km3-pmp4010-alarm-20261019-735538978204"
+  ],
+  "script_sha256": "754d31f4d7aa83fe62bd6c2d977177fb5202262f9134ffed3717f6fc996bad97",
+  "start_utc": "2026-10-19T09:13:46.470142+00:00",
+  "end_utc": "2026-10-19T09:13:46.807422+00:00",
+  "rc": 0,
+  "ssh_calls": 1,
+  "automatic_retries": 0
+}

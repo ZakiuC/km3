@@ -1,0 +1,5 @@
+{"event": "信息", "utc": "2026-10-19T09:46:24.086698+00:00", "monotonic_ns": 27548149742268, "text": "km3-rt-controller.service 处于 active —— 它正在使用这条总线"}
+{"event": "信息", "utc": "2026-10-19T09:46:24.086713+00:00", "monotonic_ns": 27548149754489, "text": "已给出 --i-know-rt-is-running，继续。"}
+{"event": "信息", "utc": "2026-10-19T09:46:24.087318+00:00", "monotonic_ns": 27548150361225, "text": "扫描完成：发现1台；手动入口未发控制写入"}
+{"event": "信息", "utc": "2026-10-19T09:46:24.089799+00:00", "monotonic_ns": 27548152842881, "text": "总线已关闭（失能确认流程之后）"}
+{"event": "单次退出", "utc": "2026-10-19T09:46:24.089815+00:00", "monotonic_ns": 27548152857018, "target_reached": false, "mechanical_stop_confirmed": false, "acceleration_restore_attempted": false, "save_operations": 0, "shutdown_results": [], "operation_enabled_cleared": false, "automatic_retries": 0, "second_target": false, "RAM_acceleration_after_failure_may_be_partial": true, "normal_exit": "原close=0006，仅确认operation enabled清零", "exceptional_exit": "原cleanup=0002→0000；quarantine则零追加请求"}

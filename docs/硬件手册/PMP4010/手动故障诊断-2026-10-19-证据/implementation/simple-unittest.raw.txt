@@ -1,0 +1,49 @@
+test_6041_fault_UI_does_not_claim_unread_603F (_test_simple.SimpleTests) ... ok
+test_ack_failure_stops_before_enable (_test_simple.SimpleTests) ... ok
+test_angular_zero_relative_absolute_quantize_offset_before_negative_origin (_test_simple.SimpleTests) ... ok
+test_background_partial_603F_UI_keeps_last_valid_values_historical (_test_simple.SimpleTests) ... ok
+test_busy_stop_cancels_actual_worker_no_queued_motion (_test_simple.SimpleTests) ... ok
+test_calibration_or_parameter_change_prevents_enable (_test_simple.SimpleTests) ... ok
+test_communication_quarantine_all_subsequent_operations_zero_requests (_test_simple.SimpleTests) ... ok
+test_constructor_startup_and_authorization_are_read_only (_test_simple.SimpleTests) ... ok
+test_delayed_states_full_simple_action_has_actual_CW_diagnostics (_test_simple.SimpleTests) ... ok
+test_extreme_finite_conversion_is_rendered_and_cannot_overflow_or_fake_motion (_test_simple.SimpleTests) ... ok
+test_hold_submits_frozen_current_not_residual_target_never_releases (_test_simple.SimpleTests) ... ok
+test_initial_partial_603F_unknown_CW_builds_80x24_and_persists (_test_simple.SimpleTests) ... ok
+test_known_ready_and_switched_on_prepare_internally_external_enable_refused (_test_simple.SimpleTests) ... ok
+test_linear_coefficient_and_zero_revision_sealed_and_disabled_change_only (_test_simple.SimpleTests) ... ok
+test_linear_constructor_parser_and_explicit_scale_are_io_free (_test_simple.SimpleTests) ... SIMPLE busy x: real delayed SDO worker cancelled; pending cleared; one quickstop2, no target/enable/release replay
+SIMPLE delayed SDO full f action: fixed start/target; write ACK/raw snapshots identify actual0106..012F..002F/003F/002F phases
+SIMPLE e: frozen current607A/new ACK/6062 then12F Halt, never2F; +13U inside original range accepted
+SIMPLE Ready0231/SwitchedOn0233: confirmed internal disable0 then sealed submission; externalEnabled0237 rejected
+ok
+test_linear_int32_device_range_unquantized_boundary_and_zero_displacement_rejected (_test_simple.SimpleTests) ... ok
+test_linear_missing_scale_blocks_all_motion_but_zero_is_read_only (_test_simple.SimpleTests) ... ok
+test_linear_relative_absolute_signed_fraction_and_over_one_degree (_test_simple.SimpleTests) ... ok
+test_locked_UI_marks_values_historical_and_first_bad_raw (_test_simple.SimpleTests) ... SIMPLE locked80x24: last-valid telemetry explicitly historical; current state unknown; firstCW0106/raw0237 remains visible
+ok
+test_modified_and_cancelled_review_never_write (_test_simple.SimpleTests) ... ok
+test_one_confirm_enabled_edge_executes_motion_once_with_frozen_target (_test_simple.SimpleTests) ... SIMPLE one confirmation: only Operation enabled new edge starts trajectory; original target reached; consumed review never replays
+ok
+test_one_forward_confirmation_uses_original_handshake_and_plus13 (_test_simple.SimpleTests) ... SIMPLE forward: one immutable confirmation; CW106/107/127/137/127/12F/2F/3F/2F; +13U allowed; fixed start/target
+ok
+test_production_default1000_and_explicit100_preserved_with_live_rpm (_test_simple.SimpleTests) ... MANUAL production default: 1000U/s -> live608F/6091 0.457763671875rpm; explicit100 kept; step0.1deg unchanged
+ok
+test_range_keeps_authorized_origin_and_device_intersection (_test_simple.SimpleTests) ... ok
+test_rpm_step_quantization_and_under_one_unit_rejection (_test_simple.SimpleTests) ... ok
+test_stop_interrupts_background_snapshot_before_remaining_uploads (_test_simple.SimpleTests) ... SIMPLE refresh Space: control/status uploads only then cancellation; no remaining snapshot reads before quickstop2
+ok
+test_stop_then_reverse_internal_disable_without_rebase (_test_simple.SimpleTests) ... ok
+test_ui_cancel_and_stop_from_edit_confirm_help_and_busy (_test_simple.SimpleTests) ... ok
+test_user_four_mm_per_motor_turn_exact_quantization_and_large_endpoint_span (_test_simple.SimpleTests) ... ok
+test_zero_external_enable_moving_and_nonzero_home_offset_refused (_test_simple.SimpleTests) ... ok
+test_zero_read_failure_locks_and_never_retries (_test_simple.SimpleTests) ... ok
+test_zero_speed_next_direction_and_settings_draft_need_no_manual_disable (_test_simple.SimpleTests) ... SIMPLE continuous f/b: zero speed permits next direction; draft s/a keep old proof; confirmed2/0 precede new6081/607A
+ok
+test_zero_under_hold_or_reached_running_preserves_physical_proof_and_guard (_test_simple.SimpleTests) ... ok
+test_zero_uses_fresh_read_preserves_fixed_envelope_raw_target_and_review_expiry (_test_simple.SimpleTests) ... ok
+
+----------------------------------------------------------------------
+Ran 34 tests in 1.147s
+
+OK

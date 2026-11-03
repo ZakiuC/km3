@@ -1,0 +1,22 @@
+{
+  "build-host": [
+    "CMAKE_BUILD_TYPE:STRING=Debug",
+    "CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/c++",
+    "KM3_SANITIZER:STRING=none"
+  ],
+  "build-asan": [
+    "CMAKE_BUILD_TYPE:STRING=Debug",
+    "CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/c++",
+    "KM3_SANITIZER:STRING=address"
+  ],
+  "build-tsan": [
+    "CMAKE_BUILD_TYPE:STRING=Debug",
+    "CMAKE_CXX_COMPILER:FILEPATH=/usr/bin/c++",
+    "KM3_SANITIZER:STRING=thread"
+  ],
+  "build-arm64": [
+    "CMAKE_BUILD_TYPE:STRING=Release",
+    "CMAKE_TOOLCHAIN_FILE:UNINITIALIZED=/home/zakiu/km3/device/cmake/aarch64-linux-gnu.cmake",
+    "KM3_SANITIZER:STRING=none"
+  ]
+}

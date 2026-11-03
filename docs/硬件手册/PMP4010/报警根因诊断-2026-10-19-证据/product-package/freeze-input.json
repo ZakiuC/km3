@@ -1,0 +1,30 @@
+{
+  "source_hashes": {
+    "device/drivers/pmp4010/tools/pmp4010_manual.py": "ca37ecb04116d8a08b279f1ea9964c9374dda411504c4e91479bc5bf09c110b9",
+    "device/drivers/pmp4010/tools/pmp4010_simple.py": "d1d277431b014fcc888dc16fa994a8b16f2d7e060f384f55c1db431317a166f5",
+    "device/drivers/pmp4010/tools/_test_manual.py": "edd3d33ea28c9be71f76de5585ae63b487c0727c83d37c41b2b14526fe25c8ae",
+    "device/drivers/pmp4010/tools/_test_simple.py": "4542b0f1c1cd5c8c83792ef5c6c3e4bc859acc33d2a5a8a734d9d3a2021dcdab"
+  },
+  "local_acceptance": {
+    "status": "passed",
+    "scope": "本地代码、drivers/deps/manual-citations 三个非 docs 闸门及三个生成器；docs 最终闸门待报告与 README 完成后运行",
+    "evidence": [
+      "product-acceptance/REPORT.md",
+      "product-reset/manual-citations-final-verification.json"
+    ],
+    "python_counts": {
+      "pmp4010": 435,
+      "hwtui": 217,
+      "tools": 8
+    },
+    "ctest_counts": {
+      "host": 17,
+      "asan": 17,
+      "tsan": 17
+    },
+    "arm_build": "passed, not executed",
+    "source_revision_note": "manual.py 在 435 行为测试后仅修订引用注释；AST SHA256 df3233925c1e05a475a2f41dec8efbe5ef9d781b62eadbe4f07ccbb5f477b538 前后一致，非注释 token 相同；旧 exact hash 已被最终冻结替代，未重跑全套。manual-citations 初次 rc1 原样保留，注释修订后 rc0。",
+    "docs_gate": "pending",
+    "hardware_acceptance": false
+  }
+}

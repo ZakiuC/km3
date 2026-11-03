@@ -1,0 +1,18 @@
+{
+  "name": "independent-B25-replay",
+  "argv": [
+    "python3",
+    "-B",
+    "-I",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/post-power-local/review-recovery/replay_B_current_source.py"
+  ],
+  "shell_command": "python3 -B -I '/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/post-power-local/review-recovery/replay_B_current_source.py'",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:14:55.356688+00:00",
+  "duration_seconds": 0.7488991320000196,
+  "returncode": 0,
+  "stdout": "independent-B25-replay.stdout.log",
+  "stderr": "independent-B25-replay.stderr.log",
+  "stdout_sha256": "67f464a01246326f8e0fe0157ba8e4c13cb7f09581c01bae1270fe3cbcd6f581",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

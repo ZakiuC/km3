@@ -1,0 +1,9 @@
+{
+  "mock_case": "abort",
+  "runner_rc": 2,
+  "assertions": "PASS",
+  "controlwords": [],
+  "writes": [],
+  "read_phase_writes": [],
+  "hardware_acceptance": false
+}

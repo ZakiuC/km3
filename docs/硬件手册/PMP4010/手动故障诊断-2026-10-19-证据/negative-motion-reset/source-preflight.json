@@ -1,0 +1,7 @@
+{
+  "result": "PASS",
+  "source_sha256": {
+    "reset_only_once.py": "6176b8d66ab93fcb232aed8bb15e095bfc05bb27fe7b43de0be392dfe5ec021d",
+    "pinned_payload.py": "e8a98830191da64cce22422b3bb9540f68049b5907ae35b9ad259268855c6205"
+  }
+}

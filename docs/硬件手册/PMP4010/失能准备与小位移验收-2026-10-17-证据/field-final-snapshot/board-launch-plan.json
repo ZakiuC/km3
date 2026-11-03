@@ -1,0 +1,18 @@
+{
+  "mode": "offline_command_plan",
+  "argv": [
+    "ssh",
+    "-tt",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectTimeout=5",
+    "-o",
+    "ConnectionAttempts=1",
+    "root@192.168.0.188",
+    "env LANG=C.UTF-8 LC_ALL=C.UTF-8 TERM=xterm ESCDELAY=25 python3 -I -B -c 'import hashlib,pathlib,runpy,sys; p=pathlib.Path(sys.argv[1]); assert hashlib.sha256(p.read_bytes()).hexdigest()==sys.argv[2], '\"'\"'wrapper hash mismatch'\"'\"'; sys.argv=[str(p),'\"'\"'--run-tui'\"'\"']; runpy.run_path(str(p),run_name='\"'\"'__main__'\"'\"')' /tmp/km3-pp-prepare-load-20261017-1YfFxQ5O/board_app.py 60df89e82c55a1c8b9667c4daff608f73168d8df9cc2d049039f0f33863c6e5e"
+  ],
+  "actual_ssh_calls": 0
+}

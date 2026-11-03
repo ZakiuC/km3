@@ -1,0 +1,2 @@
+{"event": "计划", "payload": "/var/tmp/km3-pmp4010-diag-20261019-0218ab4207eb/payload", "manifest_sha256": "a41b88269819e718e1486876be8d99502a773a401ef084343b57d597fb818b71", "node": 1, "relative_mm": -10, "rpm": 100, "mm_per_motor_revolution": 4, "aggregate_transactions": 1, "reset_operations": 0, "live_requested": false, "post_ack_observation_seconds": 10}
+{"event": "仅本地计划", "CAN_opens": 0, "CAN_sends": 0}

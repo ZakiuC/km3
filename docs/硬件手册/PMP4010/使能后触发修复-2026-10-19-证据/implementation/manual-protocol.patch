@@ -1,0 +1,199 @@
+--- before/pmp4010_manual.py
++++ after/pmp4010_manual.py
+@@ -20,7 +20,7 @@
+          'profile_deceleration', 'profile_end_velocity', 'velocity_feedback_unit',
+          'software_position_limit', 'software_position_limit_max', 'halt_option') + position.LIMITS
+ LABELS = dict(absolute='提交绝对目标，不使能', relative='提交相对目标，不使能',
+-              enable='保持Halt使能', go='解除Halt执行已提交目标', disable='失能', stop='软件快停')
++              enable='保持Halt使能', go='使能后新触发执行已提交目标', disable='失能', stop='软件快停')
+ 
+ 
+ class ManualController(BenchController):
+@@ -170,7 +170,7 @@
+         if stationary and values['actual_velocity'] != 0:
+             raise ValueError('实际速度非零；请先用X/D独立停止')
+ 
+-    def _proof_guard(self, node, values, cal, stationary=False):
++    def _proof_guard(self, node, values, cal, stationary=False, *, _controlword=None, _ack=False):
+         proof = self.proofs.get(node)
+         if proof is None or proof['session'] is not self.manual_sessions.get(node):
+             raise ValueError('缺少本会话同client已提交目标证明；请先A/R')
+@@ -190,7 +190,12 @@
+         expected = {'submitted': (p.CIA402_SWITCHED_ON,), 'enabled': (p.CIA402_ENABLED,),
+                     'running': (p.CIA402_ENABLED,), 'stopped': (p.CIA402_QUICK_STOP, p.CIA402_DISABLED)}[proof['phase']]
+         word = {'submitted': 0x127, 'enabled': 0x12f, 'running': 0x2f, 'stopped': 2}[proof['phase']]
+-        if state not in expected or values['controlword'] != word or values['statusword'] & p.CIA402_PP_SETPOINT_ACK:
++        # Only the internal enabled Go handshake supplies these overrides;
++        # review/public actions retain the exact stable phase proof by default.
++        if _controlword is not None:
++            word = _controlword
++        if (state not in expected or values['controlword'] != word or
++                _ack is not None and bool(values['statusword'] & p.CIA402_PP_SETPOINT_ACK) != _ack):
+             raise ValueError('目标证明的状态/Halt/ACK已变化；拒绝继续')
+         return proof
+ 
+@@ -225,7 +230,7 @@
+             raise ValueError('OD闸门关闭；须本会话显式确认')
+         controls = {'absolute': [0x106, 0x107, 0x127, 0x137, 0x127],
+                     'relative': [0x106, 0x107, 0x127, 0x137, 0x127],
+-                    'enable': [0x12f], 'go': [0x2f], 'stop': [2], 'disable': [0]}[action]
++                    'enable': [0x12f], 'go': [0x2f, 0x3f, 0x2f], 'stop': [2], 'disable': [0]}[action]
+         lines = ['手动PP：' + LABELS[action],
+                  '接口 {} 节点 {}；原始起点 {} U，人工目标 {} U'.format(self.context[0], node, start, target),
+                  '已取消自动起步与零漂移检查；每阶段停住，等待下一次人工确认。']
+@@ -238,7 +243,8 @@
+         if action == 'enable':
+             lines += ['仅012F；保持Halt。包络内反馈变化允许，绝不自动解除Halt。']
+         if action == 'go':
+-            lines += ['仅002F解除Halt，执行上次提交目标；持续监测故障/通信/包络。']
++            lines += ['Operation enabled后002F→003F→002F；新ACK 0→1→0触发同一冻结绝对目标。',
++                      '002F起允许包络内正常移动；持续监测故障/通信/参数，目标不重算。']
+         lines += ['6040h计划：' + ' → '.join('0x{:04X}'.format(w) for w in controls),
+                   '软件X快停不能替代独立急停；q退出执行有界Shutdown。']
+         review = dict(action=action, node=node, target=target, start=start, args=a,
+@@ -503,16 +509,86 @@
+                         context=self.context, od=copy.deepcopy(self.od), od_reason=self.od_reason,
+                         velocity=self.manual_velocity, settings=copy.deepcopy(self.settings), hold=review.get('hold', False))
+                     values = observed
+-                elif action in ('enable', 'go'):
++                elif action == 'go':
+                     proof = self._proof_guard(node, values, cal, stationary=True)
+-                    phase = 'submitted' if action == 'enable' else 'enabled'
+-                    if proof['phase'] != phase:
++                    if proof['phase'] != 'enabled':
++                        raise ValueError('阶段或单次目标证明失效')
++                    if review['start'] != proof['start'] or review['target'] != proof['target']:
++                        raise ValueError('原始起点/目标证明不符')
++                    # E06 §6.3.6 says to trigger after enabling the motor;
++                    # table6-10 accepts/executes a new bit4 rising edge. An
++                    # ACK obtained in Switched on is only preload evidence,
++                    # never proof that releasing Halt will start a trajectory.
++                    # Keep the same absolute 607A: do not rebase on feedback.
++                    # Go's initial zero-speed guard ends at its first 002F;
++                    # subsequent ACK snapshots may legitimately show motion.
++                    def go_snapshot(phase, word, ack=None):
++                        nonlocal last_diagnostic
++                        samples, ack_samples = {}, []
++                        def observe(key, value):
++                            nonlocal last_diagnostic
++                            samples[key] = value
++                            if key == 'statusword':
++                                ack_samples.append(bool(value & p.CIA402_PP_SETPOINT_ACK))
++                                last_diagnostic = diagnostic(samples,phase,word,(p.CIA402_ENABLED,),
++                                    p.CIA402_ENABLED,'first' if len(ack_samples)==1 else 'last',
++                                    'Operation enabled内新触发采样，允许正常移动')
++                                if value & (p.CIA402_FAULT | p.CIA402_PP_FOLLOWING_ERROR):
++                                    self.failure_diagnostics.setdefault(node,copy.deepcopy(last_diagnostic))
++                                if journal:
++                                    journal.event('manual_transition_sample',**last_diagnostic)
++                        current, current_cal = self._snapshot(session, states=(p.CIA402_ENABLED,), observer=observe)
++                        self._proof_guard(node,current,current_cal,_controlword=word,_ack=None)
++                        last_diagnostic = diagnostic(current,phase,word,(p.CIA402_ENABLED,),p.CIA402_ENABLED,
++                            'complete','完整快照已核对；等待新ACK' if ack is not None and
++                            not all(v == ack for v in ack_samples) else '完整快照及新ACK已核对')
++                        if journal:
++                            journal.event('manual_transition_snapshot',**last_diagnostic,
++                                          expected_ack=ack,ack_samples=ack_samples)
++                        return current, current_cal, all(v == ack for v in ack_samples)
++
++                    previous_word, previous_ack = 0x12f, False
++                    for word, ack in ((0x2f,False),(0x3f,True),(0x2f,False)):
++                        values, cal, matched = go_snapshot('新触发写入前',previous_word,previous_ack)
++                        if not matched:
++                            raise ValueError('新触发写入前ACK已变化')
++                        # The first release still requires zero speed; after
++                        # it, movement is expected and guarded by the original
++                        # envelope and all protected fields, not exact drift.
++                        if previous_word == 0x12f and values['actual_velocity'] != 0:
++                            raise ValueError('实际速度非零；请先用X/D独立停止')
++                        if journal:
++                            journal.event('manual_controlword',**diagnostic(values,'控制字写入',word,
++                                (p.CIA402_ENABLED,),p.CIA402_ENABLED,'before_write','即将发送使能后新触发控制字'))
++                        wrote = True
++                        # One fixed deadline includes the download ACK and
++                        # all ACK polling; no fresh budget on each sample.
++                        deadline = session.deadline()
++                        transition_end = deadline
++                        session.control(word,deadline)
++                        if journal:
++                            journal.event('manual_controlword',**diagnostic(values,'控制字写确认',word,
++                                (p.CIA402_ENABLED,),p.CIA402_ENABLED,'write_ack','已收到SDO写确认；6041仍须重新采样核对'))
++                        while True:
++                            if time.monotonic() >= deadline:
++                                raise ValueError('Operation enabled新ACK握手超时')
++                            values, cal, matched = go_snapshot('使能后新ACK核对',word,ack)
++                            if matched:
++                                break
++                            session.pause(deadline)
++                        transition_end = None
++                        previous_word, previous_ack = word, ack
++                    proof['phase'] = 'running'
++                    self._proof_guard(node,values,cal)
++                elif action == 'enable':
++                    proof = self._proof_guard(node, values, cal, stationary=True)
++                    if proof['phase'] != 'submitted':
+                         raise ValueError('阶段或单次目标证明失效')
+                     if review['start'] != proof['start'] or review['target'] != proof['target']:
+                         raise ValueError('原始起点/目标证明不符')
+                     wrote = True
+-                    word = 0x12f if action == 'enable' else 0x2f
+-                    allowed = (p.CIA402_SWITCHED_ON,p.CIA402_ENABLED) if action=='enable' else (p.CIA402_ENABLED,)
++                    word = 0x12f
++                    allowed = (p.CIA402_SWITCHED_ON,p.CIA402_ENABLED)
+                     if journal:
+                         journal.event('manual_controlword',**diagnostic(values,'控制字写入',word,allowed,
+                             p.CIA402_ENABLED,'before_write','即将发送控制字，状态值来自写前采样'))
+@@ -520,7 +596,7 @@
+                     if journal:
+                         journal.event('manual_controlword',**diagnostic(values,'控制字写确认',word,allowed,
+                             p.CIA402_ENABLED,'write_ack','已收到SDO写确认；6041仍须重新采样核对'))
+-                    proof['phase'] = 'enabled' if action == 'enable' else 'running'
++                    proof['phase'] = 'enabled'
+                     samples = {}
+                     sample_count = 0
+                     def observe_proof(key,value):
+@@ -528,22 +604,21 @@
+                         samples[key] = value
+                         if key == 'statusword':
+                             sample_count += 1
+-                            last_diagnostic = diagnostic(samples,'Halt使能核对' if action=='enable' else '解除Halt核对',
++                            last_diagnostic = diagnostic(samples,'Halt使能核对',
+                                 word,allowed,p.CIA402_ENABLED,'first' if sample_count==1 else 'last','新鲜状态采样，按同会话目标证明核对')
+                             if value & (p.CIA402_FAULT | p.CIA402_PP_FOLLOWING_ERROR):
+                                 last_diagnostic['reason'] = '故障/PP跟随误差'
+                                 self.failure_diagnostics.setdefault(node,copy.deepcopy(last_diagnostic))
+                             if journal:
+                                 journal.event('manual_transition_sample',**last_diagnostic)
+-                    # Keep the original enable/release proof policy. In
+-                    # particular, release may legitimately report motion.
++                    # Keep the original Halt enable proof policy.
+                     values, cal = self._snapshot(session,observer=observe_proof)
+-                    last_diagnostic = diagnostic(values,'Halt使能核对' if action=='enable' else '解除Halt核对',
++                    last_diagnostic = diagnostic(values,'Halt使能核对',
+                         word,allowed,p.CIA402_ENABLED,'complete','完整快照按目标证明核对')
+                     if journal:
+                         journal.event('manual_transition_snapshot',**last_diagnostic)
+                     self._proof_guard(node, values, cal)
+-                    if action == 'enable' and values['actual_velocity'] != 0:
++                    if values['actual_velocity'] != 0:
+                         raise ValueError('Halt使能后实际速度非零')
+                 else:
+                     # X and D remain independent explicit user operations.
+@@ -563,7 +638,7 @@
+                 self._put(dict(self.row(node), values=values, calibration=cal, updated=time.monotonic(), lost=False))
+                 message = {'absolute': '人工目标已提交；保持Halt未使能，等待E',
+                            'relative': '人工目标已提交；保持Halt未使能，等待E',
+-                           'enable': '已使能且保持Halt；等待G', 'go': '已解除Halt；人工目标执行中，请观察反馈',
++                           'enable': '已使能且保持Halt；等待G', 'go': '使能后新ACK 0→1→0已确认；人工目标执行中，请观察反馈',
+                            'stop': '软件快停已确认；机械停止仍未知', 'disable': '失能已确认；机械停止仍未知'}[action]
+                 out.info(message)
+                 out.event('manual_result', dict(node=node, action=action, success=True, message=message,
+@@ -611,7 +686,7 @@
+             '手动入口仅支持PP1；已取消自动起步与零漂移检查，所有阶段由人类确认。',
+             'F5启动确认后只扫描/读取；F2输入脚本行程和预算，另受1度硬顶。',
+             '详情A/R：人工目标提交，不使能；新ACK 0→1→0并核6062后保持Halt。',
+-            '详情E：仅012F保持Halt使能；G：仅002F解除Halt执行上次人工目标。',
++            '详情E：仅012F保持Halt使能；G：002F→003F→002F使能后新触发同一冻结目标。',
+             'A/R、E、G均需F5审阅、输入完整确认串、再次F5执行。',
+             'V：设置手动轮廓速度，默认100U/s；审阅显示rpm并核设备上限。',
+             'bit10在Halt=1时仅表示零速；Halt=0才作为目标到达证据之一。',

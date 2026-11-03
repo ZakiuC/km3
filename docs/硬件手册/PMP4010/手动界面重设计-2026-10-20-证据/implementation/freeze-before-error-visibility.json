@@ -1,0 +1,82 @@
+{
+  "source_hashes": {
+    "device/drivers/pmp4010/tools/pmp4010_simple.py": "386d6c8e743d7e338152541cc820a54d6dadb4460d320cbafa84c39c2bb8fd0d",
+    "device/drivers/pmp4010/tools/pmp4010_simple_view.py": "56fcc5f06db5c0c12aa932b2faec1e153adc4b5e758c4a25d9536fc57d82d675",
+    "device/drivers/pmp4010/tools/_test_simple.py": "571a68559146885ce4a833ec93713a43cd6087a9fe7aac15fb1aad0491dab5b0",
+    "device/drivers/pmp4010/tools/_test_simple_pty.py": "0cb882c7aec04135a70bfa840fe63e90cada5ea694e425f947f4c13275991a28",
+    "tools/hwtui/tui.py": "8b9c5a06df76f420c6d4f7d0119f84867341166d55d1e9bb9220d2f16d6172f0",
+    "tools/hwtui/test_tui.py": "68f910e98d5b543b57d7d838f6dfe87e501fcd27325ec3b0e2f5778de97de257"
+  },
+  "start_source_hashes": {
+    "device/drivers/pmp4010/tools/pmp4010_simple.py": "386d6c8e743d7e338152541cc820a54d6dadb4460d320cbafa84c39c2bb8fd0d",
+    "device/drivers/pmp4010/tools/pmp4010_simple_view.py": "56fcc5f06db5c0c12aa932b2faec1e153adc4b5e758c4a25d9536fc57d82d675",
+    "device/drivers/pmp4010/tools/_test_simple.py": "571a68559146885ce4a833ec93713a43cd6087a9fe7aac15fb1aad0491dab5b0",
+    "device/drivers/pmp4010/tools/_test_simple_pty.py": "0cb882c7aec04135a70bfa840fe63e90cada5ea694e425f947f4c13275991a28",
+    "tools/hwtui/tui.py": "8b9c5a06df76f420c6d4f7d0119f84867341166d55d1e9bb9220d2f16d6172f0",
+    "tools/hwtui/test_tui.py": "68f910e98d5b543b57d7d838f6dfe87e501fcd27325ec3b0e2f5778de97de257"
+  },
+  "inputs_unchanged": true,
+  "results": [
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-I",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "device/drivers/pmp4010/tools",
+        "-p",
+        "_test_*.py"
+      ],
+      "rc": 0,
+      "log": "docs/硬件手册/PMP4010/手动界面重设计-2026-10-20-证据/implementation/pmp-python-final.log"
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-I",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tools/hwtui",
+        "-p",
+        "test_*.py"
+      ],
+      "rc": 0,
+      "log": "docs/硬件手册/PMP4010/手动界面重设计-2026-10-20-证据/implementation/hwtui-python-final.log"
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-I",
+        "device/drivers/pmp4010/tools/_test_simple_pty.py",
+        "--run-visual",
+        "/home/zakiu/km3/docs/硬件手册/PMP4010/手动界面重设计-2026-10-20-证据/implementation/pty-80x24"
+      ],
+      "rc": 0,
+      "log": "docs/硬件手册/PMP4010/手动界面重设计-2026-10-20-证据/implementation/simple-pty-80x24.log"
+    },
+    {
+      "command": [
+        "/usr/bin/python3",
+        "-I",
+        "device/drivers/pmp4010/tools/_test_simple_pty.py",
+        "--run-visual-small",
+        "/home/zakiu/km3/docs/硬件手册/PMP4010/手动界面重设计-2026-10-20-证据/implementation/pty-64x20-no-color"
+      ],
+      "rc": 0,
+      "log": "docs/硬件手册/PMP4010/手动界面重设计-2026-10-20-证据/implementation/simple-pty-64x20-no-color.log"
+    }
+  ],
+  "local_acceptance": {
+    "status": "passed",
+    "evidence": [
+      "docs/硬件手册/PMP4010/手动界面重设计-2026-10-20-证据/implementation/pmp-python-final.log",
+      "docs/硬件手册/PMP4010/手动界面重设计-2026-10-20-证据/implementation/hwtui-python-final.log",
+      "docs/硬件手册/PMP4010/手动界面重设计-2026-10-20-证据/implementation/simple-pty-80x24.log",
+      "docs/硬件手册/PMP4010/手动界面重设计-2026-10-20-证据/implementation/simple-pty-64x20-no-color.log"
+    ]
+  }
+}

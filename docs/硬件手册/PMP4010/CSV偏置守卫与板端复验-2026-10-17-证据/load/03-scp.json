@@ -1,0 +1,17 @@
+{
+  "name": "03-scp",
+  "argv": [
+    "scp",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "/tmp/km3-pmp4010-board-20261017-csvguard-final-package/pmp4010-board-payload.tar.gz",
+    "root@192.168.0.188:/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/pmp4010-board-payload.tar.gz"
+  ],
+  "stdin": null,
+  "started_utc": "2026-10-17T08:01:19.618582+00:00",
+  "exitcode": 0,
+  "stdout": "",
+  "stderr": ""
+}

@@ -1,0 +1,19 @@
+{
+  "previous_runner_sha256": "552a9f55cadfe1534395554420b2fb453d6a1dc92b0f9a630a920d92fc159445",
+  "runner_sha256": "a4a96e4fd4c917b47e305a317095e4a9538d243e8f3091a9a91ccc611a42067e",
+  "changes": [
+    "SIGHUP registered with existing controlled interruption handler; not live signal tested",
+    "Best-effort independent file/stdout OSError handling retains first output failure; cleanup continues; result fails",
+    "Preexecute actual position recorded, not required equal frozen start; original controller envelope guards retained; actual velocity zero still required"
+  ],
+  "verification": "Seven MockBus CLI scenarios in offline-summary.json; no hardware action or remote writes",
+  "cleanup": "New local evidence retained; previous preparation files preserved; no remote cleanup needed",
+  "route": {
+    "requested_role": "laborer",
+    "requested_model": "GPT-6.1 Sol",
+    "requested_effort": "high",
+    "last_input_runtime": "unknown",
+    "input_estimate_lt": 55000,
+    "estimate_only": true
+  }
+}

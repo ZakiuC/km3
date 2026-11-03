@@ -1,0 +1,14 @@
+{
+  "live-reset-observe-once.command.json": "dae6273500cda80da334c624bedb302d16cb81e737e3c83cfa878c7b94472777",
+  "live-reset-observe-once.stdout": "c3ca47c00f4a0aade384ccc67f079d4ec691ea783758becff0e3e0814d6567be",
+  "live-reset-observe-once.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "live-reset-observe-once.rc": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+  "after-reset-passive.command.json": "19dc36764cd740ba636e9c24f10d994bac36f1437d6a316ac3cb3fa10b96ce12",
+  "after-reset-passive.stdout": "b2210773bb58f3494d3a72f3697d41141361d2e791f806ef9a2a7c939b18be26",
+  "after-reset-passive.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "after-reset-passive.rc": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+  "after-reset-passive-summary.json": "b2210773bb58f3494d3a72f3697d41141361d2e791f806ef9a2a7c939b18be26",
+  "live-summary.json": "97dc1b5c4037369de182029de40c1cd453dec8f615750d7b7868af34d063817c",
+  "live-verification-summary.json": "a3f9674a3afb3b0ea609046704b94b79258d70979a23e76999797669ce6d4a07",
+  "live-raw-transactions.md": "8942d96c5071f388c35a2b4f715db34697ff92a7c110a05c6d657d0d148cd69e"
+}

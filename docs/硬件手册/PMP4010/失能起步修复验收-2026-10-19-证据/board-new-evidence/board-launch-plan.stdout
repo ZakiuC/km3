@@ -1,0 +1,18 @@
+{
+  "mode": "offline_command_plan",
+  "argv": [
+    "ssh",
+    "-tt",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectTimeout=5",
+    "-o",
+    "ConnectionAttempts=1",
+    "root@192.168.0.188",
+    "env LANG=C.UTF-8 LC_ALL=C.UTF-8 TERM=xterm ESCDELAY=25 python3 -I -B -c 'import hashlib,pathlib,runpy,sys; p=pathlib.Path(sys.argv[1]); assert hashlib.sha256(p.read_bytes()).hexdigest()==sys.argv[2], '\"'\"'wrapper hash mismatch'\"'\"'; sys.argv=[str(p),'\"'\"'--run-tui'\"'\"']; runpy.run_path(str(p),run_name='\"'\"'__main__'\"'\"')' /tmp/km3-pp-disabled-start-probe-20261019-rsyhxhdk/board_app.py cee238db9ebf03cb71ac5e55da483d409f277e869979dbd2ff9ccfd630833d4a"
+  ],
+  "actual_ssh_calls": 0
+}

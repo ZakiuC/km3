@@ -1,0 +1,7 @@
+{
+  "returncode": 1,
+  "tests": 400,
+  "errors": 1,
+  "error": "confirm screenshot FileNotFoundError from PTY publication ordering",
+  "followup_freeze": "implementation/pty-publication-fix/source-final-sha256.json"
+}

@@ -1,0 +1,184 @@
+{
+  "stage": "FROZEN_WAITING_ROOT_BEFORE_TOKEN",
+  "snapshot_rc": 0,
+  "pending": {
+    "action": "probe_pp_start",
+    "node": 1,
+    "target": -1469,
+    "start": -1469,
+    "token": "PROBE_PP_START can1 1 -1469",
+    "lines": [
+      "接口 can1  节点 1  动作 PP起步核证",
+      "目标 -1469 U = -4.035度 电机轴；相对当前位置 +0 U / +0.000度",
+      "单次位移上限 36 U (硬顶1度)；本次 0 U，剩余 36 U",
+      "起步核证：保持Halt；不解除暂停；结束失能。计划位移0，不代表真实位移验收。",
+      "执行前5次新鲜采样速度0、位置不变，间隔0.2秒；启动bit10不作静止判据。",
+      "6081 500000 → 100 U/s（现值与100取较小正值）；保留正预算、1度、脚本及设备行程。",
+      "先607A对齐起点并读回；Halt使能0106→0107→010F，再012F→013F→012F接收当前位置。",
+      "须新ACK 0→1→0、607A=6062=起点、位置/零速/Halt保持5次采样；Halt中bit10仅表示零速。",
+      "不写605Dh；要求实读1或2。写607A不保证清旧轨迹；核证失败立即有界快停/失能，不重试。",
+      "日志 /tmp/km3-pp-disabled-start-probe-20261019-rsyhxhdk/probe-session-1/pmp4010-motion-898eb65665af42aca6132842d4fac963.jsonl",
+      "写 607Ah = -1469（int32，只对齐当前位置；保持Halt核证，不写位移目标）",
+      "写 6082h = 0（uint32）",
+      "写 6081h = 100（uint32）",
+      "写 6083h = 5000000（uint32）",
+      "写 6084h = 5000000（uint32）"
+    ],
+    "writes": [
+      {
+        "key": "target_position",
+        "index": 24698,
+        "sub": 0,
+        "type": "int32",
+        "value": -1469,
+        "note": "只对齐当前位置；保持Halt核证，不写位移目标"
+      },
+      {
+        "key": "profile_end_velocity",
+        "index": 24706,
+        "sub": 0,
+        "type": "uint32",
+        "value": 0,
+        "note": ""
+      },
+      {
+        "key": "profile_velocity",
+        "index": 24705,
+        "sub": 0,
+        "type": "uint32",
+        "value": 100,
+        "note": ""
+      },
+      {
+        "key": "profile_acceleration",
+        "index": 24707,
+        "sub": 0,
+        "type": "uint32",
+        "value": 5000000,
+        "note": ""
+      },
+      {
+        "key": "profile_deceleration",
+        "index": 24708,
+        "sub": 0,
+        "type": "uint32",
+        "value": 5000000,
+        "note": ""
+      }
+    ]
+  },
+  "field_value": "",
+  "field_draft": "",
+  "latest_values": {
+    "statusword": 608,
+    "actual_position": -1469,
+    "actual_velocity": 0,
+    "modes_of_operation_display": 1,
+    "error_code_object": 0,
+    "torque_feedback": 2,
+    "velocity_feedback_unit": 0,
+    "profile_velocity": 500000,
+    "profile_acceleration": 5000000,
+    "profile_deceleration": 5000000,
+    "home_offset": 0,
+    "control_mode_select": 0,
+    "modes_of_operation": 1,
+    "target_position": 7800,
+    "profile_end_velocity": 0,
+    "software_position_limit": -2147483628,
+    "software_position_limit_max": 2147483627,
+    "controlword": 0,
+    "halt_option": 1,
+    "position_demand": 7800,
+    "max_velocity": 9000000,
+    "max_motor_speed": 4000,
+    "max_profile_acceleration": 2147483647,
+    "max_deceleration": 2147483647
+  },
+  "download_attempts": 0,
+  "execute_count": 0,
+  "enabled_session_nodes": [],
+  "quarantined": false,
+  "blocked": [],
+  "source_list": [
+    {
+      "utc": "2026-10-19T01:08:52.312221+00:00",
+      "monotonic": 1857.826767428,
+      "event": "source",
+      "path": "/tmp/km3-pp-disabled-start-probe-20261019-rsyhxhdk/payload/drivers/pmp4010/pmp4010.py",
+      "sha256": "2fca0b103544c29f78a79b9e349ec841db0e39abf8f39d9d910e57e47b1e0a1a"
+    },
+    {
+      "utc": "2026-10-19T01:08:52.312258+00:00",
+      "monotonic": 1857.826802137,
+      "event": "source",
+      "path": "/tmp/km3-pp-disabled-start-probe-20261019-rsyhxhdk/payload/drivers/pmp4010/pmp4010_bench.py",
+      "sha256": "193a1f1281765933524995ee2548d0d3dda62946245b2c7ff7a7a3c0c1549bc5"
+    },
+    {
+      "utc": "2026-10-19T01:08:52.312286+00:00",
+      "monotonic": 1857.82682897,
+      "event": "source",
+      "path": "/tmp/km3-pp-disabled-start-probe-20261019-rsyhxhdk/payload/drivers/pmp4010/pmp4010_tui.py",
+      "sha256": "54083e18f01a5d114aa1ae98725b6f05ca0cdda34537a517e6c2e0a67317cb78"
+    },
+    {
+      "utc": "2026-10-19T01:08:52.312310+00:00",
+      "monotonic": 1857.826853471,
+      "event": "source",
+      "path": "/tmp/km3-pp-disabled-start-probe-20261019-rsyhxhdk/payload/drivers/pmp4010/pmp4010_position.py",
+      "sha256": "ecca73a35494bb5bbb36222b0e5dda8b1d08110ddfb2035f4aa8a737f551b7ac"
+    },
+    {
+      "utc": "2026-10-19T01:08:52.312334+00:00",
+      "monotonic": 1857.826877096,
+      "event": "source",
+      "path": "/tmp/km3-pp-disabled-start-probe-20261019-rsyhxhdk/payload/drivers/pmp4010/pmp4010_params.py",
+      "sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec"
+    },
+    {
+      "utc": "2026-10-19T01:08:52.312357+00:00",
+      "monotonic": 1857.826900138,
+      "event": "source",
+      "path": "/tmp/km3-pp-disabled-start-probe-20261019-rsyhxhdk/payload/drivers/pmp4010/pmp4010_velocity.py",
+      "sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96"
+    },
+    {
+      "utc": "2026-10-19T01:08:52.312390+00:00",
+      "monotonic": 1857.826933388,
+      "event": "source",
+      "path": "/tmp/km3-pp-disabled-start-probe-20261019-rsyhxhdk/payload/hwtui/canopen.py",
+      "sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf"
+    },
+    {
+      "utc": "2026-10-19T01:08:52.312414+00:00",
+      "monotonic": 1857.826957305,
+      "event": "source",
+      "path": "/tmp/km3-pp-disabled-start-probe-20261019-rsyhxhdk/payload/hwtui/canbus.py",
+      "sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300"
+    },
+    {
+      "utc": "2026-10-19T01:08:52.312437+00:00",
+      "monotonic": 1857.826980347,
+      "event": "source",
+      "path": "/tmp/km3-pp-disabled-start-probe-20261019-rsyhxhdk/payload/hwtui/canopen_consts.py",
+      "sha256": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c"
+    },
+    {
+      "utc": "2026-10-19T01:08:52.312460+00:00",
+      "monotonic": 1857.827015055,
+      "event": "source",
+      "path": "/tmp/km3-pp-disabled-start-probe-20261019-rsyhxhdk/payload/hwtui/canopen_wire.py",
+      "sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885"
+    },
+    {
+      "utc": "2026-10-19T01:08:52.312499+00:00",
+      "monotonic": 1857.827042472,
+      "event": "source",
+      "path": "/tmp/km3-pp-disabled-start-probe-20261019-rsyhxhdk/payload/hwtui/tui.py",
+      "sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb"
+    }
+  ],
+  "live_pty_session_id": 31493,
+  "screen": "board-probe-session-1/probe-frozen-review-before-token.screen.txt"
+}

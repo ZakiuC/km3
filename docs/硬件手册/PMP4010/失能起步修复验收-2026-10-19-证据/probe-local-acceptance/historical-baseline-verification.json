@@ -1,0 +1,12 @@
+{
+  "baseline_manifest": "/home/zakiu/km3/docs/硬件手册/PMP4010/失能准备与小位移验收-2026-10-17-证据/historical-baseline/baseline-manifest.json",
+  "verified_files": 86,
+  "mismatches": [],
+  "historical_counts": {
+    "python_model": 178,
+    "python_hwtui": 217,
+    "python_tools": 8,
+    "cpp_each": 16
+  },
+  "current_counts_are_not_claimed": true
+}

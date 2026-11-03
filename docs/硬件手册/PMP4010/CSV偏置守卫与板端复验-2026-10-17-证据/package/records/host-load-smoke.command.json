@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pmp4010-board-20261017-csvguard-final-package/payload/load_smoke.py",
+    "--library",
+    "/home/zakiu/km3/build-host/libpmp4010_velocity.so",
+    "--check-missing-library"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

@@ -1,0 +1,23 @@
+{
+  "name": "hwtui",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tools/hwtui",
+    "-p",
+    "test_*.py"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T05:56:39.794725+00:00",
+  "duration_seconds": 0.3943667359999381,
+  "returncode": 0,
+  "stdout": "hwtui.stdout.log",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr": "hwtui.stderr.log",
+  "stderr_sha256": "d1bf623875cb905252acf652a4bb47270f4c67ce24673fe5cfa3db82a74978bf"
+}

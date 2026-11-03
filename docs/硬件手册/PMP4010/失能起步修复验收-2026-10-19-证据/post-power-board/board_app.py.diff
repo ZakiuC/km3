@@ -1,0 +1,39 @@
+--- stage2/board_app.py
++++ post-power/board_app.py
+@@ -21,18 +21,18 @@
+ from unittest import mock
+ 
+ sys.dont_write_bytecode=True
+-PAYLOAD=Path('/tmp/km3-pp-disabled-start-stage2-20261019-e0fhd4gp/payload')
+-EXPECTED_MANIFEST='5b1c1e1aae87afa8f239bd8c5b8231b8c1b604063cbd4a76f3b27569d2fd18cc'
++PAYLOAD=Path('/tmp/km3-pp-disabled-start-stage3-recovery-20261019-0213/payload')
++EXPECTED_MANIFEST='280884d0e1cf519675a590aa053dc16419d0266555683f61d93fcef6bcce0c5c'
+ EXPECTED_CONFIG='96a15d8d28f760ab9c5b8f43f6b5ddccc667c77f89413fcd9c3201aa9ddbb205'
+-OUTPUT=PAYLOAD.parent/'probe-session-1'
+-AUTHORIZATION_CONTEXT='本轮先原D两段确认到strictdisabled，再B未使能起步核证：全部业务控制字bit3=0且Halt=1，仅在SwitchedOn下对当前位置取新ACK并核6062；失败不升级为OperationEnabled，不解除Halt、不位移，结束2→0，q沿用exit-only Shutdown6。D/B各冻结页分别待主线程批准；RT/OD/软限/预算/精确token均由原Form键入。'
++OUTPUT=PAYLOAD.parent/'move-session-1'
++AUTHORIZATION_CONTEXT='断电后新会话：原RT/F2软限起点±36U及budget36/OD均键入；Ready先原D两段确认到strictdisabled，再R+36两段确认。每次motion必须全新106/107/127/137/127预装当前目标及独立freshACK/6062、12F Halt使能五次严格零漂移、2F清Halt仍原点零速ACK0、final607A/readback、3F新finalACK及2F新ACK0/非Haltbit10/目标实际位置/6062/零速，最后2/0；全部15秒同client，失败隔离不重试，q另记Shutdown6。D/R冻结页分别待主线程批准；断电前seal与target proof全部无效。'
+ 
+ 
+ def verify_payload(root):
+     root=root.resolve(strict=True)
+     manifest=root/'payload-manifest.json'
+     if root==PAYLOAD:
+-        assert hashlib.sha256((PAYLOAD.parent/'frozen-payload.tar.gz').read_bytes()).hexdigest()=='1aa97f73db9299d950bfa7e7b4b701f06998b3cdfd99c0c18d8dc7b251bf270f','archive mismatch'
++        assert hashlib.sha256((PAYLOAD.parent/'frozen-payload.tar.gz').read_bytes()).hexdigest()=='b70396b228cb594793b44ad6d6f4dfc65a0167fd0efd90325d8feec276f69c5e','archive mismatch'
+     assert hashlib.sha256(manifest.read_bytes()).hexdigest()==EXPECTED_MANIFEST,'manifest mismatch'
+     entries=json.loads(manifest.read_text())['files']
+     for entry in entries:
+@@ -80,6 +80,12 @@
+         print(json.dumps(dict(result='PASS',mode='offline_verify_only',manifest_sha256=EXPECTED_MANIFEST,sources=sources,actual_CAN_opens=0),ensure_ascii=False,indent=2))
+         return 0
+     assert root==PAYLOAD and root.resolve(strict=True)==PAYLOAD
++    assert Path('/proc/sys/kernel/random/boot_id').read_text().strip()=='bacd8411-f822-4f19-b7cb-8bcbf755b54a','boot changed; new passive acceptance required'
++    rt_cmdline=Path('/proc/558/cmdline').read_bytes().replace(b'\0',b' ').decode()
++    assert rt_cmdline=='/opt/km3/current/km3-rt-controller --config /etc/km3/device.json --require-config ','RT process changed'
++    assert set(p.name for p in Path('/proc/558/fd').iterdir())=={'0','1','2'},'RT descriptors changed'
++    for p in Path('/proc/net/can').glob('rcvlist*'):
++        assert all(not line.strip() or line.startswith("receive list") or 'no entry' in line for line in p.read_text().splitlines()),'CAN receiver present'
+     cfgpath=Path('/etc/km3/device.json')
+     assert hashlib.sha256(cfgpath.read_bytes()).hexdigest()==EXPECTED_CONFIG,'configuration changed'
+     cfg,path=tool.load_device_json()

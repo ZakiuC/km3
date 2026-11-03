@@ -1,0 +1,57 @@
+BENCH nonblocking: help key + rendered screen 0.006845s; worker still blocked past SDO timeout; quarantine visible
+BENCH cancellation: disabled_confirmed=true; completed=false; cleanup ignores transaction cancellation
+BENCH enable postflight: out-of-envelope readback causes same-client quick-stop + disable
+BENCH enable postflight timeout: disabled_confirmed=false; state_unknown=true; replacement clients=0
+BENCH lost write ACK: same quarantined client; disabled_confirmed=false; independent_estop_required=true
+BENCH quarantine: timeout latched; rescan/refresh/action cannot recreate client or send another request
+BENCH relative: -1464 + 50 = absolute -1414; nonzero actual velocity rejected before write
+BENCH scan: four slots; node 1 online; three unassigned slots offline; SDO uploads only; NMT=0
+BENCH setup race: start drift after mode write; target 607A never downloaded; cleanup confirmed
+BENCH zero: 6098:00=35; controlword edge 0x000F -> 0x001F; 607C writes=0; cleanup [0x0002,0x0000]
+B explicit backup mock frames=16 SDO uploads; downloads=0; objects=12 identity=4
+B out-of-range/late-invalid-plan mock frame_count=0
+B dry-run mock frame_count=0; bus_open_count=0; link_query_count=0
+C invalid parameter/soft travel/small displacement checks: zero real frames
+C fast move: fresh ACK 0->1->0 + target actual position; all sampled target-reached bits=1 accepted
+C lost enable ACK: SDO quarantined; stop and disable attempted, unconfirmed; independent E-stop required
+C offline default/explicit dry-run: real_frame_count=0 real_bus_open_count=0
+C preview matches independent SDO peer: 67/67 complete nominal request frames
+PREPARE UI: P -> F5 freeze -> exact token -> F5 background execution; two downloads only
+PREPARE MockBus: 5 stable samples >=0.8s; 607A=start,6081=100 only; bit10=0 retained; exit controls=0
+PREPARE lost ACK: first download attempted once; quarantine sticky; next write/cleanup/exit/retry=0
+PREPARE independent literal SDO peer: complete 265 request frames match MockBus; controlword=0
+Python inverse samples: 36 signed Int32 write roundtrips + 16 rational rpm roundtrips
+Python shared vector manual_default_300rpm: 50000 -> 300 exact
+Python shared vector manual_default_inverse: 300 -> 50000 exact
+Python shared vector measured_exact_46875_over_2048rpm: 50000 -> 46875/2048 exact
+Python shared vector measured_fraction_inverse: 46875/2048 -> 50000 exact
+Python shared vector measured_rated_3000rpm: 6553600 -> 3000 exact
+Python shared vector measured_rated_inverse: 3000 -> 6553600 exact
+Python shared vector zero_direction_0: 0 -> 0 exact
+Python shared vector zero_direction_1: 0 -> 0 exact
+Python shared vector gear3_forward: 50000 -> 900 exact
+Python shared vector gear3_inverse: 900 -> 50000 exact
+Python shared vector signed_forward: -50000 -> -900 exact
+Python shared vector signed_inverse: -900 -> -50000 exact
+Python shared vector negative_denominator_normalized: -50000 -> -300 exact
+Python shared vector fractional_write_rejected: 1 -> 500/3 exact
+Python shared vector positive_int32_overflow: 2147483648 -> 2147483648 exact
+Python shared vector negative_int32_overflow: -2147483649 -> -2147483649 exact
+Python shared vector int32_minimum_inverse: -2147483648 -> -2147483648 exact
+Python shared vector int32_maximum_inverse: 2147483647 -> 2147483647 exact
+Python shared vector wide_numerator: -2147483648 -> -2376844874321125483512594432000 exact
+Python shared vector wide_numerator_inverse: -2376844874321125483512594432000 -> -2147483648 exact
+Python shared vector wide_denominator: -2147483648 -> -8589934592/1229782937674641135 exact
+Python shared vector wide_denominator_inverse: -8589934592/1229782937674641135 -> -2147483648 exact
+Python shared vector all_maximum: -2147483648 -> -128849018880 exact
+Python shared vector all_maximum_inverse: -128849018880 -> -2147483648 exact
+Python shared vector maximum128_cross_cancel: 1 -> 1 exact
+Python shared vector maximum128_identity: 340282366920938463463374607431768211455 -> 340282366920938463463374607431768211455 exact
+Python shared vector maximum128_negative: -340282366920938463463374607431768211455 -> -340282366920938463463374607431768211455 exact
+Python shared vector parse128_overflow: rejected (expected error=6)
+Python shared vector output128_overflow: rejected (expected error=6)
+Python shared vector zero_calibration_0: rejected (expected error=2)
+Python shared vector zero_calibration_1: rejected (expected error=2)
+Python shared vector zero_calibration_2: rejected (expected error=2)
+Python shared vector zero_calibration_3: rejected (expected error=2)
+Python PV/CSV: explicit 60FFh=0 write/readback precedes 6/7/0F; credential consumed once

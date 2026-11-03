@@ -1,0 +1,13 @@
+usage: stage_manual.py [-h] --archive ARCHIVE --sha256 SHA256 [--stage STAGE]
+                       [--apply]
+
+Local driver. Default plans only; --apply needs explicit parent authorization.
+Does not launch the supplied manual launcher. The only remote shell invocation
+is `sh -n` syntax checking; no package app, scan or CAN transport is started.
+
+options:
+  -h, --help         show this help message and exit
+  --archive ARCHIVE
+  --sha256 SHA256
+  --stage STAGE      Default isolated directory uses full archive SHA
+  --apply

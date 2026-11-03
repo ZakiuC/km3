@@ -1,0 +1,9 @@
+{
+  "final_acceptance": "completed from explicit root freeze; see index-final.json",
+  "candidates": [
+    "initial-source-raced",
+    "pre-refresh-cancel-fix"
+  ],
+  "candidate_note": "All recorded commands rc0, but source-before/after mismatch; independent PTY in these candidates was old manual PTY, not new simple UI. Full model suite included simple PTY. No candidate accepted as final.",
+  "package": "candidate-pre-refresh-cancel-fix; obsolete and not for delivery"
+}

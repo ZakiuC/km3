@@ -1227,25 +1227,58 @@ class MotionSession:
         self.sdo_timeout = client.timeout
         self.needs_stop = False
         self.cancel_event = None
+        self._velocity_prepared = None
+        self._velocity_sequence = False
+        self._velocity_sequence_mode = None
 
     def deadline(self):
         return time.monotonic() + self.state_timeout
 
     def call(self, deadline, label, method, *args):
         if self.cancel_event is not None and self.cancel_event.is_set():
+            self._velocity_prepared = None
             raise KeyboardInterrupt()
         remaining = deadline - time.monotonic()
         if remaining <= 0:
+            self._velocity_prepared = None
             raise MotionError("{}：超时".format(label))
+        if (getattr(method, '__name__', '').startswith('write') and args
+                # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7
+                and args[0] in (self.od.MODES_OF_OPERATION, self.od.CONTROL_MODE_SELECT, 0x60b1)):
+            self._velocity_prepared = None
+            # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7
+            if args[0] == 0x60b1:
+                # Device RW permission does not authorize offset control here.
+                raise MotionError('本工具不支持写入 CSV 速度偏置 60B1h')
+            if args[0] == self.od.MODES_OF_OPERATION:
+                value = args[2] if len(args) > 2 else None
+                if isinstance(value, (bytes, bytearray)):
+                    value = int.from_bytes(value, 'little', signed=True) if len(value) == 1 else None
+                if isinstance(value, bool) or not isinstance(value, int) or value not in range(1, 11):
+                    raise MotionError('运行模式写值须为有效 Int8 模式 1..10')
+                state = self.status(deadline)
+                if (state & _canopen.CIA402_DISABLED_MASK != _canopen.CIA402_DISABLED
+                        and state & _canopen.CIA402_MASK not in (_canopen.CIA402_READY, _canopen.CIA402_SWITCHED_ON)):
+                    raise MotionError('运行模式仅允许在失能、Ready 或 Switched on 时修改')
         self.client.timeout = min(self.sdo_timeout, remaining)
         try:
             result = method(*args)
         except (_canopen.CanopenError, _canbus.CanBusError) as exc:
+            self._velocity_prepared = None
             raise MotionError("{}：{}".format(label, exc)) from exc
+        except BaseException:
+            self._velocity_prepared = None
+            raise
         finally:
             self.client.timeout = self.sdo_timeout
         if time.monotonic() >= deadline:
+            self._velocity_prepared = None
             raise MotionError("{}：超时".format(label))
+        if (self._velocity_prepared is not None and self._velocity_prepared[2] == 9
+                and getattr(method, '__name__', '').startswith('read') and args
+                # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7
+                and args[0] == 0x60b1 and result not in (0, bytes(4))):
+            self._velocity_prepared = None
         return result
 
     def status(self, deadline):
@@ -1256,15 +1289,42 @@ class MotionSession:
         # 每次控制字下载都重新核对，失败时连失能/快停也不能假定可用。
         # 与上传共用的 call() 不加此守卫，避免递归或给所有只读事务加读请求。
         self.require_cia402(deadline)
+        if value & 0x0f == 0x0f:
+            prepared = self._velocity_prepared
+            mode = self._operation_mode(deadline)
+            if ((prepared is not None and prepared[2] != mode) or
+                    (self._velocity_sequence and mode != self._velocity_sequence_mode)):
+                self._velocity_prepared = None
+                raise MotionError('使能前运行模式已变化；须重新准备')
+            if mode not in ENABLE_MODES:
+                self._velocity_prepared = None
+                raise MotionError('运行模式 {} 不允许通用使能终值；2/7 需模式专用终值'.format(mode))
+            if mode in (3, 9):
+                try:
+                    self._verify_velocity_prepared(deadline, mode)
+                finally:
+                    # One successful generic enable-family write spends the
+                    # credential, including 1F/3F/7F and an already-enabled node.
+                    self._velocity_prepared = None
+            else:
+                self._velocity_prepared = None
+        elif not (self._velocity_sequence and value in (
+                _canopen.CIA402_SHUTDOWN, _canopen.CIA402_SWITCH_ON)):
+            self._velocity_prepared = None
+        elif self._operation_mode(deadline) != self._velocity_sequence_mode:
+            self._velocity_prepared = None
+            raise MotionError('使能序列运行模式已变化；须重新准备')
+        elif self._velocity_sequence_mode == 9:
+            self._require_csv_zero_offset(deadline, self._velocity_sequence_mode)
         # 写确认丢失也可能已被电机执行，因此在发送前标记清理责任。
-        if value in (_canopen.CIA402_SHUTDOWN, _canopen.CIA402_SWITCH_ON,
-                     _canopen.CIA402_ENABLE, _canopen.CIA402_START_HOMING):
+        if value & 0x0f == 0x0f or value in (_canopen.CIA402_SHUTDOWN, _canopen.CIA402_SWITCH_ON):
             self.needs_stop = True
         self.call(deadline, "写控制字 0x{:04X}".format(value),
                   self.client.write_uint16, self.od.CONTROLWORD, 0, value)
 
     def pause(self, deadline):
         if self.cancel_event is not None and self.cancel_event.is_set():
+            self._velocity_prepared = None
             raise KeyboardInterrupt()
         remaining = deadline - time.monotonic()
         if remaining > 0:
@@ -1275,10 +1335,12 @@ class MotionSession:
         while time.monotonic() < deadline:
             last = self.status(deadline)
             if not allow_fault and last & _canopen.CIA402_FAULT:
+                self._velocity_prepared = None
                 raise MotionError("{}：故障状态字 0x{:04X}".format(label, last))
             if predicate(last):
                 return last
             self.pause(deadline)
+        self._velocity_prepared = None
         raise MotionError("{}：超时，最后状态字 {}".format(
             label, "未知" if last is None else "0x{:04X}".format(last)))
 
@@ -1287,20 +1349,149 @@ class MotionSession:
                          "读取控制模式 2002h:01h",
                          self.client.read_uint16, self.od.CONTROL_MODE_SELECT, 1)
         if mode != 0:
+            self._velocity_prepared = None
             raise MotionError("2002h:01h={}，不是 CiA402 模式；请先完成控制模式配置".format(mode))
 
-    def enable(self):
-        self.require_cia402()
-        mode = self.call(self.deadline(), "读取运行模式", self.client.read_uint8,
+    def _operation_mode(self, deadline):
+        mode = self.call(deadline, '读取运行模式', self.client.read_uint8,
                          self.od.MODES_OF_OPERATION_DISPLAY, 0)
-        # 见 ENABLE_MODES 的注释：排除 2/7（模式专用终值）与 3/9（速度模式未开放）。
+        if self._velocity_prepared is not None and mode != self._velocity_prepared[2]:
+            self._velocity_prepared = None
+        return mode
+
+    def _velocity_calibration(self, deadline):
+        import pmp4010_position as position
+        specs = position.specifications(load_od())
+        values = [self.call(deadline, '读取速度标定 ' + key, self.client.read_uint32,
+                            specs[key]['index_value'], specs[key]['sub']) for key in position.CALIBRATION]
+        return position.calibration(values)
+
+    def _require_csv_zero_offset(self, deadline, mode):
+        # E06 10.3 表10-7: CSV 伺服目标速度=60FFh+60B1h。
+        # 60FFh=0 不代表 CSV 静止；不得默认偏置为0，也不得擅自写零。
+        if mode != 9:
+            return
+        # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7
+        raw = self.call(deadline, '读取 CSV 速度偏置 60B1h', self.client.read, 0x60b1, 0)
+        if len(raw) != 4 or int.from_bytes(raw, 'little', signed=True) != 0:
+            self._velocity_prepared = None
+            raise MotionError('CSV 要求实读 60B1h 速度偏置为0；60FFh=0 不代表静止')
+
+    def _check_velocity_limits(self, target, cal, deadline):
+        from pmp4010_velocity import unit_to_velocity
+        rpm = unit_to_velocity(target, cal)
+        # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7
+        max_units = self.call(deadline, '读取速度上限 607Fh', self.client.read_uint32, 0x607f, 0)
+        max_rpm = self.call(deadline, '读取电机速度上限 6080h', self.client.read_uint32,
+                            self.od.MAX_MOTOR_SPEED, 0)
+        if abs(target) > max_units or abs(rpm) > max_rpm:
+            raise MotionError('目标速度超过 607Fh/6080h 双重上限')
+
+    def _write_velocity_checked(self, target, deadline):
+        self.needs_stop = True
+        self.call(deadline, '预写目标速度 60FFh', self.client.write,
+                  self.od.TARGET_VELOCITY, 0, target.to_bytes(4, 'little', signed=True))
+        raw = self.call(deadline, '读回目标速度 60FFh', self.client.read, self.od.TARGET_VELOCITY, 0)
+        if len(raw) != 4 or int.from_bytes(raw, 'little', signed=True) != target:
+            raise MotionError('60FFh 目标速度写读回不一致')
+
+    def _prepare_target_velocity(self, value, rpm=False):
+        from pmp4010_params import integer
+        from pmp4010_velocity import require_velocity_library, velocity_to_int32
+        self._velocity_prepared = None
+        try:
+            require_velocity_library()
+            deadline = self.deadline()
+            self.require_cia402(deadline)
+            mode = self._operation_mode(deadline)
+            if mode not in (3, 9):
+                raise MotionError('目标速度准备仅用于模式 3/9')
+            cal = self._velocity_calibration(deadline)
+            target = velocity_to_int32(value, cal) if rpm else integer(value)
+            if not -0x80000000 <= target <= 0x7fffffff:
+                raise MotionError('60FFh 目标速度须为精确 Int32')
+            self._check_velocity_limits(target, cal, deadline)
+            self.require_cia402(deadline)
+            if self._operation_mode(deadline) != mode:
+                raise MotionError('目标速度准备期间运行模式已变化')
+            self._require_csv_zero_offset(deadline, mode)
+            self._write_velocity_checked(target, deadline)
+            self._require_csv_zero_offset(deadline, mode)
+            # Bound to this client identity as well as its node, mode and raw
+            # calibration. A replacement SDO client cannot inherit approval.
+            self._velocity_prepared = (self.client, self.client.node_id, mode, tuple(cal['values']), target)
+        except BaseException:
+            self._velocity_prepared = None
+            raise
+
+    def set_target_velocity(self, units_per_s):
+        """Explicit signed Int32 user units/s; no nonzero CLI/UI motion entry."""
+        self._prepare_target_velocity(units_per_s)
+
+    def set_target_velocity_rpm(self, rpm):
+        """Explicit rpm entry using the sole C++ algebraic inverse."""
+        self._prepare_target_velocity(rpm, rpm=True)
+
+    def _verify_velocity_prepared(self, deadline, mode):
+        prepared = self._velocity_prepared
+        if (prepared is None or prepared[0] is not self.client or prepared[1] != self.client.node_id
+                or prepared[2] != mode or self.client.quarantined):
+            raise MotionError('模式 3/9 使能前必须在当前会话显式预写并读回 60FFh（可为0）')
+        self.require_cia402(deadline)
+        cal = self._velocity_calibration(deadline)
+        if tuple(cal['values']) != prepared[3]:
+            raise MotionError('608Fh/6091h 标定已变化；须重新准备目标速度')
+        self._check_velocity_limits(prepared[4], cal, deadline)
+        raw = self.call(deadline, '复核目标速度 60FFh', self.client.read, self.od.TARGET_VELOCITY, 0)
+        if len(raw) != 4 or int.from_bytes(raw, 'little', signed=True) != prepared[4]:
+            raise MotionError('60FFh 目标已变化；须重新准备目标速度')
+        self.require_cia402(deadline)
+        if self._operation_mode(deadline) != mode:
+            raise MotionError('速度复核期间运行模式已变化；须重新准备')
+        self._require_csv_zero_offset(deadline, mode)
+        self._write_velocity_checked(prepared[4], deadline)
+        self._require_csv_zero_offset(deadline, mode)
+
+    def enable(self):
+        """Low-level enable: speed modes never prepare their own target."""
+        try:
+            return self._enable()
+        finally:
+            self._velocity_sequence = False
+            self._velocity_sequence_mode = None
+            self._velocity_prepared = None
+
+    def enable_zero_velocity(self):
+        """CLI-only explicit zero-target preparation before speed-mode enable."""
+        try:
+            return self._enable(prepare_zero=True)
+        finally:
+            self._velocity_sequence = False
+            self._velocity_sequence_mode = None
+            self._velocity_prepared = None
+
+    def _enable(self, prepare_zero=False):
+        self.require_cia402()
+        prepared = self._velocity_prepared
+        mode = self._operation_mode(self.deadline())
+        if prepared is not None and prepared[2] != mode:
+            raise MotionError('使能前运行模式已变化；须重新准备')
         if mode not in ENABLE_MODES:
             raise MotionError(
                 "运行模式 {} 不在本工具允许使能的集合 {} 内"
-                "（2/7 需模式专用终值；3/9 的速度模式换算与验收尚未实现）".format(
+                "（2/7 需模式专用终值）".format(
                     mode, ENABLE_MODES))
+        if mode in (3, 9):
+            if prepare_zero:
+                self.out.info('速度模式 {}：显式预写并读回 60FFh=0，再执行使能序列'.format(mode))
+                self.set_target_velocity(0)
+            self._verify_velocity_prepared(self.deadline(), mode)
+            self._velocity_sequence = True
+            self._velocity_sequence_mode = mode
         sw = self.status(self.deadline())
         if sw & _canopen.CIA402_FAULT:
+            if mode in (3, 9):
+                raise MotionError('速度模式存在故障；复位会使速度准备失效，请人工核查后重新准备')
             # Fault reaction active 必须先结束，复位是脱使能后的 bit7 上升沿。
             self.wait_status(lambda value: value & _canopen.CIA402_DISABLED_MASK == _canopen.CIA402_FAULT,
                              "等待 Fault", self.deadline(), allow_fault=True)
@@ -1427,13 +1618,16 @@ def cmd_motion(args, out):
             session.home(args.homing_method, args.home_timeout)
             out.ok("回零完成（bit10、bit12 已确认）")
         else:
-            getattr(session, args.motion)()
+            if args.motion == 'enable':
+                session.enable_zero_velocity()
+            else:
+                getattr(session, args.motion)()
             messages = {"enable": "电机已使能（Operation enabled）",
                         "disable": "电机已禁用（Switch on disabled）",
                         "stop": "已确认 Quick stop active / Switch on disabled 状态"}
             out.ok(messages[args.motion])
         return 0
-    except (MotionError, KeyboardInterrupt):
+    except (MotionError, ValueError, KeyboardInterrupt):
         if session is not None:
             session.stop_after_failure()
         raise
@@ -1457,6 +1651,7 @@ def cmd_position(args, out):
     offline = not args.apply
     if args.position:
         position.validate(args, specs)
+        position.require_velocity_library()
         if not refuse_motion(out, "position", args):
             return 3
     if not require_std_layer("--position/--calibrate"):
@@ -1738,11 +1933,9 @@ def cmd_od_dump(args, out):
 #
 # 排除 2(vl) 与 7(ip)：手册 enable_sequence 说这两种模式的使能终值是
 #   0x7F / 0x1F，本命令只实现通用的 0x0F。
-# 排除 3(PV 轮廓速度模式) 与 9(CSV 循环同步速度模式)：该模式下从站按 60FFh 的目标速度运行，而速度标度
-#   （608Fh/6091h → rpm）的换算链尚未实现。放行使能等于把 60FFh 里的
-#   **残留值**当指令执行：实测该电机 60FFh = 6553600 = 3000 rpm（额定转速）。
-#   换算链落地后此集合再放开 3 与 9。
-ENABLE_MODES = (1, 4, 6, 8, 10)
+# 模式3/9必须先在当前会话预写并读回60FFh，且使能首帧前重新核对实时标定、
+# 双速度上限与目标；不能把现场残留6553600（3000 rpm）直接用于使能。
+ENABLE_MODES = (1, 3, 4, 6, 8, 9, 10)
 
 CAN_XSTAT_KEYS = (
     "restart-ms", "bus-error", "bus-errors", "error-warn", "error-pass",
@@ -2024,6 +2217,10 @@ def build_parser():
     action.add_argument("--motion", choices=["enable", "disable", "stop", "home"],
                         help="CiA402 使能/失能/快停/回零（发帧）；需 OD 全部核对与显式 --node")
     action.add_argument("--position", action="store_true", help="单次PP位置验收，默认离线，显式--apply才发帧")
+    action.add_argument("--manual", action="store_true", help="单屏手动TUI：z软件零点、j相对/p绝对位置、f/b点动、Space/x快停；Enter确认单次动作")
+    p.add_argument("--manual-linear", action="store_true", help="仅--manual：直线机械测程，c设置mm/电机轴转；不设主机1度/会话行程限制，保留驱动限位与Int32保护")
+    p.add_argument("--manual-mm-per-rev", type=str, default=None, help="仅--manual-linear：每电机轴转对应的直线mm，正有限数或分数；缺省须在TUI用c设置")
+    p.add_argument("--manual-velocity", type=int, default=None, help="仅--manual：手动轮廓速度U/s，默认1000；--manual-linear的s以mm/s设置，角度模式s以rpm设置；核设备上限")
     action.add_argument("--calibrate", action="store_true", help="读取608F/6091四项标定；--apply只读设备，默认离线")
     action.add_argument("--params", choices=["backup", "interpolation", "transmission", "rollback", "save"],
                         help="参数备份/分批写/回滚/独立保存；默认离线dry-run，需OD闸门")
@@ -2159,6 +2356,23 @@ def main(argv=None):
 
     parser = build_parser()
     args = parser.parse_args(argv)
+    if args.manual_linear and not args.manual:
+        parser.error("--manual-linear仅与--manual使用")
+    if args.manual_mm_per_rev is not None:
+        if not args.manual_linear:
+            parser.error("--manual-mm-per-rev仅与--manual-linear使用")
+        from fractions import Fraction
+        try:
+            if Fraction(args.manual_mm_per_rev) <= 0:
+                raise ValueError()
+        except (ValueError, ZeroDivisionError):
+            parser.error("--manual-mm-per-rev须为正有限数或分数")
+    if args.manual_velocity is not None and (not args.manual or not 0 < args.manual_velocity <= 0xffffffff):
+        parser.error("--manual-velocity仅与--manual使用，须为正UInt32")
+    if args.manual and (args.no_tui or args.dry_run or args.apply or args.offline_calibration is not None
+                       or args.offline_limits is not None or args.start_position is not None
+                       or any(v is not None for v in (args.target, args.velocity, args.acceleration, args.deceleration))):
+        parser.error("--manual仅为交互TUI；不得混用CLI写入/离线位置选项；速度用--manual-velocity或s设置")
     if args.od_gaps_bypass is not None:
         args.od_gaps_bypass = args.od_gaps_bypass.strip()
         if not args.od_gaps_bypass:
@@ -2183,7 +2397,7 @@ def main(argv=None):
         parser.error("--apply仅可与--params/--position/--calibrate使用")
     if not args.params and (args.backup or args.param_set or args.confirm_save or args.confirm_interpolation_readback):
         parser.error("参数工具选项必须与--params一起使用")
-    if not (args.position or args.calibrate) and (args.dry_run or args.offline_calibration is not None or
+    if not (args.position or args.calibrate or args.manual) and (args.dry_run or args.offline_calibration is not None or
             args.offline_limits is not None or args.start_position is not None or args.motion_log is not None or
             any(v is not None for v in (args.target, args.velocity, args.acceleration, args.deceleration,
                                        args.soft_min, args.soft_max, args.max_displacement))):
@@ -2191,6 +2405,15 @@ def main(argv=None):
     out = Out()
 
     try:
+        if args.manual:
+            sys.path.insert(0, _HERE)
+            from pmp4010_simple import SimpleApp
+            import types
+            app = SimpleApp(sys.modules.get(__name__) or types.SimpleNamespace(**globals()), args)
+            if not app._curses_usable():
+                out.bad("--manual需要交互终端；未打开总线、未发送控制写入")
+                return 2
+            return app.run()
         if args.init:
             return cmd_init(args, out)
         if args.test:

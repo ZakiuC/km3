@@ -1,0 +1,8 @@
+{
+  "target": "/opt/km3/hwtools/manual-test-20261020-ui-3970cf62",
+  "archive_sha256": "3970cf6241a05348d5abe5efde59039178f2b41144de5c7fb24358538f3d57bd",
+  "manifest_sha256": "ce2dfed84643fd5ac30d83b194cf32ca6d25a5a2559d676e4710403696b20875",
+  "stable_entry": "/opt/km3/hwtools/pmp4010-manual-test",
+  "compatibility_entry": "/opt/km3/hwtools/pmp4010-cpp-test",
+  "hardware_acceptance": false
+}

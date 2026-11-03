@@ -1,0 +1,27 @@
+{
+  "result": "FAILED_BEFORE_CAN_NO_RETRY",
+  "return_code": 1,
+  "ssh_calls": 2,
+  "passive_baseline_equal_count": 11,
+  "source_hashes_verified": true,
+  "remote_stage": "/var/tmp/km3-pmp4010-diag-20261019-0218ab4207eb/reset-only-plan",
+  "failure": {
+    "exception": "KeyError",
+    "message": "'canopen'",
+    "file": "pinned_payload.py",
+    "line": 53,
+    "phase": "load_pinned before controller construction and perform_reset_only"
+  },
+  "CAN_requests_sent": 0,
+  "SDO_downloads": 0,
+  "controlword_writes": 0,
+  "reset_performed": false,
+  "motion_performed": false,
+  "automatic_retries": 0,
+  "before_603F": null,
+  "before_6041": null,
+  "after_603F": null,
+  "after_6041": null,
+  "limitation": "No device state values read in this attempt. Failure does not establish reset or recovery.",
+  "next_step": "Parent must resolve frozen helper import failure and supply new exact authorization; no further board action taken."
+}

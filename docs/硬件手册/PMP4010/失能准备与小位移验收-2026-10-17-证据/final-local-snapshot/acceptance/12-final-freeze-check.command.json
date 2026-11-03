@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pp-prepare-acceptance-20261017/freeze_check.py"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

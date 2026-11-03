@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pmp4010-board-20261017-csvguard-final-package/compare_previous_freeze.py"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

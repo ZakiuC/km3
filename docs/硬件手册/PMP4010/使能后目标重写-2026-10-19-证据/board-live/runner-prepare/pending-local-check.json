@@ -1,0 +1,9 @@
+{
+  "utc": "2026-10-19T06:54:55.919291+00:00",
+  "result": "PASS_LOCAL_NO_CAN",
+  "expired_detail_returns_false": true,
+  "expired_detail_requests": 0,
+  "unfrozen_payload_rejected": true,
+  "normal_new_package_mock": "pending frozen package",
+  "real_SDO_timeout_semantics": "unchanged; rerun original focused mock with frozen package"
+}

@@ -1,0 +1,17 @@
+{
+  "name": "staged-manual-pty",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "device/drivers/pmp4010/tools/_test_manual_pty.py",
+    "--run",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/手动位置控制-2026-10-19-证据/implementation/staged-manual-pty"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T07:29:31.941665+00:00",
+  "stdout": "staged-manual-pty.stdout.log",
+  "stderr": "staged-manual-pty.stderr.log",
+  "rc": 0,
+  "finished_utc": "2026-10-19T07:29:35.380332+00:00"
+}

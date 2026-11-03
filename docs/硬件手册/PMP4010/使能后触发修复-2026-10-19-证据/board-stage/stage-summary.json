@@ -1,0 +1,21 @@
+{
+  "result": "PASS",
+  "archive": "/home/zakiu/km3/docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u4f7f\u80fd\u540e\u89e6\u53d1\u4fee\u590d-2026-10-19-\u8bc1\u636e/package/pmp4010-manual-board-payload.tar.gz",
+  "archive_sha256": "c20f27992759b67e5cf30b76574e6e1ef7b3ff322975f70e2a6e320c07ce2fe7",
+  "stage": "/var/tmp/km3-pmp4010-trigger-20261019-c20f27992759",
+  "steps": [
+    "archive_manifest_verified_exclusive_stage",
+    "AArch64_pureload_math_simple_manual_import_CLI_help",
+    "launcher_sh_n_only"
+  ],
+  "manual_launcher_executed": false,
+  "CAN_operations": 0,
+  "archive_uploads": 1,
+  "manual_import": true,
+  "simple_import": true,
+  "native_vectors": 33,
+  "python_vectors": 33,
+  "native_int32_vectors": 14,
+  "forbidden_attempts": 0,
+  "launcher_syntax": true
+}

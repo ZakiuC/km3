@@ -1,0 +1,34 @@
+{
+  "stage": "halt_probe_only_no_travel",
+  "created_utc": "2026-10-19T01:03:40.681162+00:00",
+  "root": "/home/zakiu/km3",
+  "files": {
+    "device/drivers/pmp4010/tools/pmp4010_bench.py": "193a1f1281765933524995ee2548d0d3dda62946245b2c7ff7a7a3c0c1549bc5",
+    "device/drivers/pmp4010/tools/pmp4010_position.py": "ecca73a35494bb5bbb36222b0e5dda8b1d08110ddfb2035f4aa8a737f551b7ac",
+    "device/drivers/pmp4010/tools/pmp4010_tui.py": "54083e18f01a5d114aa1ae98725b6f05ca0cdda34537a517e6c2e0a67317cb78",
+    "device/drivers/pmp4010/tools/_test_disabled_start.py": "60143e345d9b6e6b6d3affdfce3bcf26db69f8fa5998dda43af014086096c969",
+    "device/drivers/pmp4010/tools/_test_bench_support.py": "61185ab79743fa328380d8230c81ce3c643bf4a89348c954b90104ba125343e4",
+    "device/drivers/pmp4010/driver/od.json": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e",
+    "device/drivers/pmp4010/driver/od_generated.hpp": "b726bf604ce42c91ce048dfdb2891dde23e374ce9234cabe0416172ffaea5d40",
+    "device/drivers/pmp4010/driver/od_access_generated.hpp": "5144ed5e763beab5004d225e215fc76707a7f4cb42d222eb2da473bb594a33fb",
+    "tools/hwtui/canopen_consts.py": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c",
+    "tools/hwdriver/gen-pmp4010-access.py": "b9d2c4c8406398562a25ef517cf99efd97d9f16ace6e07c9ccef39e07b36fd3d",
+    "device/drivers/pmp4010/tests/test_pmp4010_verified.cpp": "6dceedae4ca6aa369570c50018ec2c84f4ec41e39c8ce9846f1f8c80aee4ef3b"
+  },
+  "validation": {
+    "focused": "probe-focused-final-2",
+    "focused_tests": 27,
+    "focused_rc": 0,
+    "model": "probe-model-final-2",
+    "model_tests": 268,
+    "model_rc": 0,
+    "generator_od_rc": 0,
+    "generator_access_rc": 0,
+    "manual_citations_rc": 0
+  },
+  "limits": [
+    "No SSH/CAN/board actions by implementation worker",
+    "Full PP travel remains startup-bit10 guarded",
+    "Native C++/hwtui/tools gates delegated to acceptance after this source freeze"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "source_hashes": {
+    "device/drivers/pmp4010/tools/pmp4010_brake.py": "9f66f210e9e97ef9bc611e8d07c821a52d3417c733ba713623297e3b3098c2b7",
+    "device/drivers/pmp4010/tools/_test_brake.py": "4d114741c724a915b8b51ac61bd8434a71b8234343058934da436ee9299c8b78"
+  },
+  "local_acceptance": {
+    "status": "passed",
+    "scope": "19 focused MockBus checks only; full acceptance in progress separately",
+    "evidence": [
+      "implementation/final.json",
+      "implementation/final.stdout",
+      "implementation/final.stderr",
+      "implementation/import-no-can.json",
+      "implementation/help.json",
+      "implementation/no-tty.json"
+    ],
+    "hardware_acceptance": false,
+    "full_acceptance": "pending parallel worker"
+  }
+}

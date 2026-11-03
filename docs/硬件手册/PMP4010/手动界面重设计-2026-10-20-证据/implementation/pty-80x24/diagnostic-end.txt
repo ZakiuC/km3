@@ -1,0 +1,24 @@
+  PMP4010  手动测程                                                             
+  节点 1  /  mock-bench  /  直线坐标                                            
+                                                                                
+  在线 / 未使能                                                                 
+                                                                                
+  软件位置                              实际速度                                
+  0 mm                                  0 mm/s                                  
+                                                                                
+  ── 诊断 ────────────────────────────────────────────────────────────────────  
+  [i] 扫描完成：发现1台；手动入口未发控制写入                                   
+  [i] 直线换算已设置为 4 mm/电机轴转；软件零点与驱动目标未变                    
+  [!] 已放行 OD 闸门：7 项对象字典未核对，仍执行「人工直线机械测程」。          
+  [i] 放行条目：node_guard, emcy_cob_id, sync_period, sdo_timeout, stop_option  
+  _605BC_missing, brake_failsafe_behaviour, vendor_factory_value_policy         
+  [i] 其中 assumed（有依据但不是手册）：brake_failsafe_behaviour, vendor_facto  
+  ry_value_policy                                                               
+  [i] 放行理由：操作者明确确认：本会话直线机械测程人工测试，接受所列OD未核对项  
+  及独立停机责任                                                                
+  [i] 本次放行**没有**提高任何条目的可信度：od.json 与生成物均未改动。          
+  [i] 现场停机由独立安全设计负责；本工具不提供紧急停机（见 CONTRACT.md）。      
+  34/44  上下/PgUp/PgDn 翻阅  Home/End 首尾                                     
+                                                                                
+  Esc / i 返回                                                                  
+  Space/x 快停    q 安全退出                                                    

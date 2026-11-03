@@ -1,0 +1,19 @@
+{
+  "files": {
+    "readonly_once.py": "294626057423c4361a2b776b092aceacb5afa7476b48eb830ecb249c9054916a",
+    "verify_mock.py": "a5e41fc2e682f2c9ab673389e406219f7d01ab6aa88b8c0220cb1c31440d5931",
+    "read-schema.json": "90e2ad54cf46f82edec66bc3764b3f0ee544248929f142c555b75c8572dbf332",
+    "mock-results.json": "907456ec3eb6f40e4c383c127677a809c923038706a21475d97adfa1b03d8219",
+    "cold-load.stdout": "c3c30d840ba974b29027b97475e74a0e4541d6d5cf52a59f7a46679861160191",
+    "cold-load.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mock.stdout": "9c2f91212b35e4fe9109cd92fe14d5e2cea2dceb38f8a8bace458db77cbb1726",
+    "mock.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "mock.command.json": "d0935b2c76a1a0d0eab307b19ccee83ccdd42c93660d624217374f05d7a3aa2f",
+    "plan.stdout": "9b554ba5b26ee5c12e2695e497f56209209a51718fc304ae1e5b7c3e24963d9e",
+    "plan.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "initial-cold-load-failure.json": "e4700626f2b7bdd6cd72874d0135406e5c969dff23150e5fe58599504c2ebcc5"
+  },
+  "live_CAN_opens": 0,
+  "live_CAN_sends": 0,
+  "prepared_utc": "2026-10-19T09:17:25.922736+00:00"
+}

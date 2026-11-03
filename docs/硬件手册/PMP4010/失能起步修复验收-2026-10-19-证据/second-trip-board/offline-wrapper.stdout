@@ -1,0 +1,53 @@
+{
+  "result": "PASS",
+  "mode": "offline_verify_only",
+  "manifest_sha256": "280884d0e1cf519675a590aa053dc16419d0266555683f61d93fcef6bcce0c5c",
+  "sources": [
+    {
+      "path": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/drivers/pmp4010/pmp4010.py",
+      "sha256": "2fca0b103544c29f78a79b9e349ec841db0e39abf8f39d9d910e57e47b1e0a1a"
+    },
+    {
+      "path": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/drivers/pmp4010/pmp4010_bench.py",
+      "sha256": "8f6677156f04d331c7a5c0e552bc007f7949c65c1482bc7d67183cd17b8d4b5b"
+    },
+    {
+      "path": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/drivers/pmp4010/pmp4010_tui.py",
+      "sha256": "9d1e64e20e764471c84f76f6f6937941c28480e3a40b90e8203e7db5fa1190d1"
+    },
+    {
+      "path": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/drivers/pmp4010/pmp4010_position.py",
+      "sha256": "e93ed776ee7ad13dc10e84f3027d6fc9c95200e016cc226ec61af2db1c86c9da"
+    },
+    {
+      "path": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/drivers/pmp4010/pmp4010_params.py",
+      "sha256": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec"
+    },
+    {
+      "path": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/drivers/pmp4010/pmp4010_velocity.py",
+      "sha256": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96"
+    },
+    {
+      "path": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/hwtui/canopen.py",
+      "sha256": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf"
+    },
+    {
+      "path": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/hwtui/canbus.py",
+      "sha256": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300"
+    },
+    {
+      "path": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/hwtui/canopen_consts.py",
+      "sha256": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c"
+    },
+    {
+      "path": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/hwtui/canopen_wire.py",
+      "sha256": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885"
+    },
+    {
+      "path": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2/payload/hwtui/tui.py",
+      "sha256": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb"
+    }
+  ],
+  "actual_CAN_opens": 0
+}
+outer_audit_forbidden_write_or_io_attempts=0

@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B - /var/tmp/km3-pmp4010-alarm-20261019-735538978204"
+  ],
+  "start_utc": "2026-10-19T09:02:03.087063+00:00",
+  "end_utc": "2026-10-19T09:02:03.410355+00:00",
+  "stdin_script": "/home/zakiu/km3/docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u62a5\u8b66\u5185\u5bb9\u663e\u793a-2026-10-19-\u8bc1\u636e/board-stage/passive.remote.py",
+  "stdin_sha256": "5ab9f84b053cb410293eacb1635696c93b855b0178a7ffd6fbfcbc10ae2e96b9",
+  "rc": 0
+}

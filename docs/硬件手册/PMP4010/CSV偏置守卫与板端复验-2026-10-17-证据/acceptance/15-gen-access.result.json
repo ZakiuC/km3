@@ -1,0 +1,13 @@
+{
+  "name": "15-gen-access",
+  "argv": [
+    "python3",
+    "-I",
+    "tools/hwdriver/gen-pmp4010-access.py",
+    "--check"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 0.018100483808666468,
+  "stdout": "/tmp/km3-csv-guard-final-20261017/15-gen-access.stdout.log",
+  "stderr": "/tmp/km3-csv-guard-final-20261017/15-gen-access.stderr.log"
+}

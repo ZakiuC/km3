@@ -1,0 +1,18 @@
+[
+  {
+    "source": "docs/硬件手册/PMP4010/手动界面重设计-2026-10-20-证据/implementation/previews/main-80x24.json",
+    "source_sha256": "c13a258ecf65cbb681626e01f42037629f0270c5b04739753f125e7f58f81c05",
+    "output": "/home/zakiu/km3/docs/硬件手册/PMP4010/手动界面重设计-2026-10-20-证据/acceptance/previews-draft1/main-80x24.png",
+    "columns": 80,
+    "rows": 24,
+    "renderer": "Pillow fixed cells from actual Grid JSON; terminal emulator colors may differ"
+  },
+  {
+    "source": "docs/硬件手册/PMP4010/手动界面重设计-2026-10-20-证据/implementation/previews/confirm-80x24.json",
+    "source_sha256": "a0bcfd40a0d1c741127ee7cc5a301a7a213fec8179e3e792ff8a3209fd2db7cd",
+    "output": "/home/zakiu/km3/docs/硬件手册/PMP4010/手动界面重设计-2026-10-20-证据/acceptance/previews-draft1/confirm-80x24.png",
+    "columns": 80,
+    "rows": 24,
+    "renderer": "Pillow fixed cells from actual Grid JSON; terminal emulator colors may differ"
+  }
+]

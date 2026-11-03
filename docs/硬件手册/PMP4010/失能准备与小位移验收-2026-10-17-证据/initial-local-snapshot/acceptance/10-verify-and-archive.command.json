@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pp-prepare-package-20261017/verify_and_archive.py"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "frozen_source_files": 7,
+  "archive_members": 24,
+  "archive_sha256": "c91126d7f56ad111456b577f82de5667e461a44d34128f0b0e59747e858d952f",
+  "manifest_sha256": "8cc82c8aa29b82d62bcd055f54a691ac781198640233b8066a9bd1423cf564d6",
+  "launcher_default_mm_per_motor_rev": 4,
+  "ssh_calls": 0,
+  "preflight_assertion_correction": "validated shell variable carries4; literal4 argument not required"
+}

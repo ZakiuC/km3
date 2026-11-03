@@ -1,0 +1,18 @@
+{
+  "status": "prepared_only_waiting_FINAL_FREEZE",
+  "test_or_package_execution": false,
+  "writable_paths": [
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/local-acceptance",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/package"
+  ],
+  "source_scripts": [
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/local-acceptance/run_acceptance.py",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/package/build_package.py"
+  ],
+  "pending": "Adapt runner to root final freeze and compare native-current 77 input hashes before executing.",
+  "hardware_authorized": false,
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "input_estimate": "task packet below 8K, not measured"
+}

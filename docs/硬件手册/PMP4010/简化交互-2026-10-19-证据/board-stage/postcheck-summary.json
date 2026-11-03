@@ -1,0 +1,91 @@
+{
+  "result": "PASS",
+  "ssh_rc": 0,
+  "compared_keys": [
+    "hostname",
+    "model",
+    "boot_id",
+    "device_id",
+    "config_sha",
+    "can_env_sha",
+    "current",
+    "services",
+    "can_rcvlists",
+    "related_processes_excluding_snapshot_pid",
+    "can_link"
+  ],
+  "changed_keys": [],
+  "payload": {
+    "root": "/var/tmp/km3-pmp4010-simple-20261019-b579f3d5d3ab/payload",
+    "manifest_sha256": "9c62ac397ecc7c03c8d1f0bc69330d4092c8867f64b699a20ac8011ddbb2947f",
+    "verified_manifest_entries": 23,
+    "simple_sha256": "e8478bfd4604aaee839d386f49777f7dbb31cb5588f4408ba9f6e7daacf40a2b",
+    "manual_sha256": "cd17750a16fdc185fd5a45ea5182c7405fa6397b5932d0ae34c9e7337b1af1c8",
+    "native_library_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+    "launcher_sha256": "51f5fe07233bc9d9d6a5ecb3ea2a7dd4c5ae7e403e628f95f783ef2e0352076c",
+    "launcher_mode": "0o100755",
+    "launcher_executable": true,
+    "archive_sha256": "b579f3d5d3ab47e16fa94d436f6896239454cec51160860f9c8dc81eca953402",
+    "launcher_log_directory_exists": false,
+    "older_manual_stage_exists": true,
+    "withdrawn_eaeb_stage_exists": false
+  },
+  "before_CAN_stats": {
+    "rx": {
+      "bytes": 318929,
+      "packets": 39867,
+      "errors": 0,
+      "dropped": 0,
+      "over_errors": 0,
+      "multicast": 0
+    },
+    "tx": {
+      "bytes": 0,
+      "packets": 39862,
+      "errors": 0,
+      "dropped": 0,
+      "carrier_errors": 0,
+      "collisions": 0
+    }
+  },
+  "after_CAN_stats": {
+    "rx": {
+      "bytes": 318929,
+      "packets": 39867,
+      "errors": 0,
+      "dropped": 0,
+      "over_errors": 0,
+      "multicast": 0
+    },
+    "tx": {
+      "bytes": 0,
+      "packets": 39862,
+      "errors": 0,
+      "dropped": 0,
+      "carrier_errors": 0,
+      "collisions": 0
+    }
+  },
+  "boot_id": "dc67bdcd-fa50-4927-8f9b-7207359c70af",
+  "related_processes": [
+    {
+      "pid": 600,
+      "cmdline": "/opt/km3/current/km3-rt-controller --config /etc/km3/device.json --require-config ",
+      "fds": {
+        "0": "/dev/null",
+        "1": "socket:[3640]",
+        "2": "socket:[3640]"
+      }
+    }
+  ],
+  "can_rcvlists": {
+    "rcvlist_all": "\nreceive list 'rx_all':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_eff": "\nreceive list 'rx_eff':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_err": "\nreceive list 'rx_err':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_fil": "\nreceive list 'rx_fil':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_inv": "\nreceive list 'rx_inv':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_sff": "\nreceive list 'rx_sff':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n"
+  },
+  "no_CAN_socket_opened_by_snapshot": true,
+  "no_SDO_transmitted": true
+}

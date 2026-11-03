@@ -1,0 +1,99 @@
+{
+  "result": "PASS",
+  "mode": "real_curses_pty_with_standard_mockbus",
+  "hardware_acceptance": false,
+  "pty_child_exit_code": 0,
+  "real_ssh_calls": 0,
+  "real_can_opens": 0,
+  "prepare_downloads": 2,
+  "prepare_controlword_downloads": 0,
+  "prepare_stationary_samples": 5,
+  "prepare_all_snapshot_phases": [
+    "稳定采样1/5",
+    "稳定采样2/5",
+    "稳定采样3/5",
+    "稳定采样4/5",
+    "稳定采样5/5",
+    "写前target_position",
+    "写后target_position",
+    "写前profile_velocity",
+    "写后profile_velocity"
+  ],
+  "prepare_enabled_sessions_empty": true,
+  "prepare_bit10_true_is_explicit_fixture_behaviour": true,
+  "action_tokens": [
+    "PREPARE_PP mock-bench 1 -1465",
+    "RELATIVE mock-bench 1 -1429"
+  ],
+  "real_form_commits_verified": true,
+  "actual_tui_review_and_execute_verified": true,
+  "pp_ack_sequence": [
+    0,
+    1,
+    0
+  ],
+  "pp_final_position": -1429,
+  "pp_final_velocity": 0,
+  "pp_disabled_confirmed": true,
+  "pp_and_exit_controls": [
+    0,
+    6,
+    7,
+    15,
+    47,
+    63,
+    47,
+    2,
+    0,
+    6
+  ],
+  "cleanup_same_action_client": true,
+  "pty_unknown_escapes": 0,
+  "raw_terminal_bytes": 22949,
+  "mock_request_frames": 1572,
+  "transport_closed": true,
+  "phases": {
+    "ready_for_setpoint": [
+      {
+        "statusword": 1063,
+        "statusword_hex": "0x0427",
+        "actual_position": -1465
+      }
+    ],
+    "setpoint_ack": [
+      {
+        "statusword": 4135,
+        "statusword_hex": "0x1027",
+        "actual_position": -1465
+      }
+    ],
+    "target_completion": [
+      {
+        "statusword": 1063,
+        "statusword_hex": "0x0427",
+        "actual_position": -1429
+      }
+    ],
+    "target_reached": [
+      {
+        "statusword": 1063,
+        "statusword_hex": "0x0427",
+        "actual_position": -1429
+      }
+    ],
+    "after_cleanup": [
+      {
+        "statusword": 1088,
+        "statusword_hex": "0x0440",
+        "actual_position": -1429
+      }
+    ]
+  },
+  "source_hashes": {
+    "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010.py": "2fca0b103544c29f78a79b9e349ec841db0e39abf8f39d9d910e57e47b1e0a1a",
+    "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_bench.py": "fbe69ec63e58fb30f49866f48f93d01e14c15a8b129866c9fba6f292fa7c974f",
+    "/home/zakiu/km3/device/drivers/pmp4010/tools/pmp4010_tui.py": "6ef77e2edbbfea5f579fa5db0996472a9932c9a1ddc3bd0118abd1a5ab7654b8",
+    "/home/zakiu/km3/tools/hwtui/canopen.py": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf",
+    "/home/zakiu/km3/tools/hwtui/canbus.py": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300"
+  }
+}

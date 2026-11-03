@@ -1,0 +1,22 @@
+[
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-B",
+      "-I",
+      "docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u624b\u52a8\u6545\u969c\u8bca\u65ad-2026-10-19-\u8bc1\u636e/implementation/compare_fixture_gc.py",
+      "baseline"
+    ],
+    "rc": 0
+  },
+  {
+    "argv": [
+      "/usr/bin/python3",
+      "-B",
+      "-I",
+      "docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u624b\u52a8\u6545\u969c\u8bca\u65ad-2026-10-19-\u8bc1\u636e/implementation/compare_fixture_gc.py",
+      "current"
+    ],
+    "rc": 0
+  }
+]

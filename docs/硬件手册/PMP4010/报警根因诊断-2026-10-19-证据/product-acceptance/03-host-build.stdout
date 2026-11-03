@@ -1,0 +1,52 @@
+Consolidate compiler generated dependencies of target km3_common
+Consolidate compiler generated dependencies of target pmp4010_velocity
+[  2%] Built target km3_common
+[  7%] Built target pmp4010_velocity
+Consolidate compiler generated dependencies of target test_pmp4010_velocity
+Consolidate compiler generated dependencies of target test_error_code
+Consolidate compiler generated dependencies of target km3_core
+[ 11%] Built target test_pmp4010_velocity
+Consolidate compiler generated dependencies of target test_pmp4010_verified
+Consolidate compiler generated dependencies of target km3_pmp4010_mock
+[ 14%] Built target test_error_code
+[ 22%] Built target km3_core
+[ 27%] Built target test_pmp4010_verified
+[ 36%] Built target km3_pmp4010_mock
+Consolidate compiler generated dependencies of target km3_link
+Consolidate compiler generated dependencies of target km3-video
+Consolidate compiler generated dependencies of target test_spsc_ring
+Consolidate compiler generated dependencies of target km3_config
+Consolidate compiler generated dependencies of target km3_proto
+Consolidate compiler generated dependencies of target km3_hal
+[ 39%] Built target km3_link
+[ 42%] Built target km3-video
+[ 45%] Built target test_spsc_ring
+[ 48%] Built target km3_config
+Consolidate compiler generated dependencies of target test_pmp4010
+[ 54%] Built target km3_hal
+Consolidate compiler generated dependencies of target test_clock
+[ 58%] Built target km3_proto
+Consolidate compiler generated dependencies of target test_frame
+Consolidate compiler generated dependencies of target test_config
+[ 63%] Built target test_clock
+[ 64%] Built target test_pmp4010
+Consolidate compiler generated dependencies of target test_hal
+Consolidate compiler generated dependencies of target km3_canopen
+Consolidate compiler generated dependencies of target test_socketcan
+[ 67%] Built target test_config
+Consolidate compiler generated dependencies of target km3_rt_control
+[ 70%] Built target test_frame
+[ 73%] Built target test_hal
+[ 77%] Built target km3_canopen
+[ 80%] Built target test_socketcan
+Consolidate compiler generated dependencies of target km3-core
+[ 85%] Built target km3_rt_control
+Consolidate compiler generated dependencies of target test_sync
+Consolidate compiler generated dependencies of target test_pdo
+[ 88%] Built target km3-core
+Consolidate compiler generated dependencies of target km3-rt-controller
+Consolidate compiler generated dependencies of target test_rt_control
+[ 91%] Built target test_sync
+[ 94%] Built target test_pdo
+[ 97%] Built target test_rt_control
+[100%] Built target km3-rt-controller

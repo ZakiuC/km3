@@ -1,0 +1,8 @@
+{
+  "argv": [
+    "bash",
+    "tools/check-deps.sh"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-17T07:56:57.409196+00:00"
+}

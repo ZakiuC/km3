@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B -"
+  ],
+  "start_utc": "2026-10-20T01:33:15.454726+00:00",
+  "end_utc": "2026-10-20T01:33:15.752090+00:00",
+  "rc": 0,
+  "automatic_retries": 0,
+  "timeout_seconds": 40,
+  "stdin_file": "/home/zakiu/km3/docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u5b8c\u6574\u624b\u52a8\u6d4b\u8bd5\u90e8\u7f72-2026-10-20-\u8bc1\u636e/preflight-corrected.stdin.py",
+  "stdin_sha256": "ae1c2a1a195c1ad1c21e8f61df21d9ceb255a9ed46accb1075657f4762a8cdd1"
+}

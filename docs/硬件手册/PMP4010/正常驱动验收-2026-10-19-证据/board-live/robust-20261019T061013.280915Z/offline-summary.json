@@ -1,0 +1,378 @@
+{
+  "source_sha256": {
+    "controlled-forward.runner.py": "a4a96e4fd4c917b47e305a317095e4a9538d243e8f3091a9a91ccc611a42067e",
+    "mock_runner_support.py": "ee96960ddb437b634fccf2d5164f5920b8b6eb9f05fc54169a4dfcbed3247445"
+  },
+  "cases": [
+    {
+      "case": "success",
+      "rc": 0,
+      "verdict": {
+        "mock_case": "success",
+        "runner_rc": 0,
+        "assertions": "PASS",
+        "controlwords": [
+          262,
+          263,
+          295,
+          311,
+          295,
+          303,
+          47,
+          2,
+          0,
+          6
+        ],
+        "writes": [
+          [
+            24705,
+            0,
+            100
+          ],
+          [
+            24698,
+            0,
+            4294965862
+          ],
+          [
+            24640,
+            0,
+            262
+          ],
+          [
+            24640,
+            0,
+            263
+          ],
+          [
+            24640,
+            0,
+            295
+          ],
+          [
+            24640,
+            0,
+            311
+          ],
+          [
+            24640,
+            0,
+            295
+          ],
+          [
+            24640,
+            0,
+            303
+          ],
+          [
+            24640,
+            0,
+            47
+          ],
+          [
+            24640,
+            0,
+            2
+          ],
+          [
+            24640,
+            0,
+            0
+          ],
+          [
+            24640,
+            0,
+            6
+          ]
+        ],
+        "read_phase_writes": [],
+        "hardware_acceptance": false
+      }
+    },
+    {
+      "case": "abort",
+      "rc": 0,
+      "verdict": {
+        "mock_case": "abort",
+        "runner_rc": 2,
+        "assertions": "PASS",
+        "controlwords": [],
+        "writes": [],
+        "read_phase_writes": [],
+        "hardware_acceptance": false
+      }
+    },
+    {
+      "case": "drift",
+      "rc": 0,
+      "verdict": {
+        "mock_case": "drift",
+        "runner_rc": 1,
+        "assertions": "PASS",
+        "controlwords": [
+          2,
+          0,
+          6
+        ],
+        "writes": [
+          [
+            24640,
+            0,
+            2
+          ],
+          [
+            24640,
+            0,
+            0
+          ],
+          [
+            24640,
+            0,
+            6
+          ]
+        ],
+        "read_phase_writes": [],
+        "hardware_acceptance": false
+      }
+    },
+    {
+      "case": "within-budget",
+      "rc": 0,
+      "verdict": {
+        "mock_case": "within-budget",
+        "runner_rc": 0,
+        "assertions": "PASS",
+        "controlwords": [
+          262,
+          263,
+          295,
+          311,
+          295,
+          303,
+          47,
+          2,
+          0,
+          6
+        ],
+        "writes": [
+          [
+            24705,
+            0,
+            100
+          ],
+          [
+            24698,
+            0,
+            4294965862
+          ],
+          [
+            24640,
+            0,
+            262
+          ],
+          [
+            24640,
+            0,
+            263
+          ],
+          [
+            24640,
+            0,
+            295
+          ],
+          [
+            24640,
+            0,
+            311
+          ],
+          [
+            24640,
+            0,
+            295
+          ],
+          [
+            24640,
+            0,
+            303
+          ],
+          [
+            24640,
+            0,
+            47
+          ],
+          [
+            24640,
+            0,
+            2
+          ],
+          [
+            24640,
+            0,
+            0
+          ],
+          [
+            24640,
+            0,
+            6
+          ]
+        ],
+        "read_phase_writes": [],
+        "hardware_acceptance": false
+      }
+    },
+    {
+      "case": "fault",
+      "rc": 0,
+      "verdict": {
+        "mock_case": "fault",
+        "runner_rc": 1,
+        "assertions": "PASS",
+        "controlwords": [
+          262,
+          2,
+          0
+        ],
+        "writes": [
+          [
+            24705,
+            0,
+            100
+          ],
+          [
+            24698,
+            0,
+            4294965862
+          ],
+          [
+            24640,
+            0,
+            262
+          ],
+          [
+            24640,
+            0,
+            2
+          ],
+          [
+            24640,
+            0,
+            0
+          ]
+        ],
+        "read_phase_writes": [],
+        "hardware_acceptance": false
+      }
+    },
+    {
+      "case": "uncertain",
+      "rc": 0,
+      "verdict": {
+        "mock_case": "uncertain",
+        "runner_rc": 1,
+        "assertions": "PASS",
+        "controlwords": [],
+        "writes": [
+          [
+            24705,
+            0,
+            100
+          ],
+          [
+            24698,
+            0,
+            4294965862
+          ]
+        ],
+        "read_phase_writes": [],
+        "hardware_acceptance": false
+      }
+    },
+    {
+      "case": "output-failure",
+      "rc": 0,
+      "verdict": {
+        "mock_case": "output-failure",
+        "runner_rc": 1,
+        "assertions": "PASS",
+        "controlwords": [
+          262,
+          263,
+          295,
+          311,
+          295,
+          303,
+          47,
+          2,
+          0,
+          6
+        ],
+        "writes": [
+          [
+            24705,
+            0,
+            100
+          ],
+          [
+            24698,
+            0,
+            4294965862
+          ],
+          [
+            24640,
+            0,
+            262
+          ],
+          [
+            24640,
+            0,
+            263
+          ],
+          [
+            24640,
+            0,
+            295
+          ],
+          [
+            24640,
+            0,
+            311
+          ],
+          [
+            24640,
+            0,
+            295
+          ],
+          [
+            24640,
+            0,
+            303
+          ],
+          [
+            24640,
+            0,
+            47
+          ],
+          [
+            24640,
+            0,
+            2
+          ],
+          [
+            24640,
+            0,
+            0
+          ],
+          [
+            24640,
+            0,
+            6
+          ]
+        ],
+        "read_phase_writes": [],
+        "hardware_acceptance": false
+      }
+    }
+  ],
+  "hardware_acceptance": false,
+  "remote_execution": false
+}

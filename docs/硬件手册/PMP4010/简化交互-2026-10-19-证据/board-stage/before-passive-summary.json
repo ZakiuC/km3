@@ -1,0 +1,40 @@
+{
+  "result": "PASS",
+  "ssh_rc": 0,
+  "compared_keys": [
+    "hostname",
+    "model",
+    "boot_id",
+    "device_id",
+    "config_sha",
+    "can_env_sha",
+    "current",
+    "services"
+  ],
+  "changed_keys": [],
+  "stage_exists": false,
+  "related_processes": [
+    {
+      "pid": 600,
+      "cmdline": "/opt/km3/current/km3-rt-controller --config /etc/km3/device.json --require-config ",
+      "fds": {
+        "0": "/dev/null",
+        "1": "socket:[3640]",
+        "2": "socket:[3640]"
+      }
+    }
+  ],
+  "other_user_tool_candidates": [],
+  "existing_tools_left_untouched": true,
+  "can_rcvlists": {
+    "rcvlist_all": "\nreceive list 'rx_all':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_eff": "\nreceive list 'rx_eff':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_err": "\nreceive list 'rx_err':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_fil": "\nreceive list 'rx_fil':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_inv": "\nreceive list 'rx_inv':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_sff": "\nreceive list 'rx_sff':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n"
+  },
+  "boot_id": "dc67bdcd-fa50-4927-8f9b-7207359c70af",
+  "CAN_socket_opens_by_snapshot": 0,
+  "CAN_sends_by_snapshot": 0
+}

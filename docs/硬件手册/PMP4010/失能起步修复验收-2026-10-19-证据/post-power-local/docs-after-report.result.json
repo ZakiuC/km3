@@ -1,0 +1,16 @@
+{
+  "name": "docs-after-report",
+  "argv": [
+    "bash",
+    "tools/check-docs.sh"
+  ],
+  "shell_command": "bash tools/check-docs.sh",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:15:13.124456+00:00",
+  "duration_seconds": 0.49538744400001633,
+  "returncode": 0,
+  "stdout": "docs-after-report.stdout.log",
+  "stderr": "docs-after-report.stderr.log",
+  "stdout_sha256": "3365f8d3e326fb7f01761c67fb7e38d610521625519f279aad2d159ed02d8a4f",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

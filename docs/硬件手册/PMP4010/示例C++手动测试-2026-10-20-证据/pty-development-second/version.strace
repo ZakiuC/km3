@@ -1,0 +1,1 @@
+157720 execve("/tmp/pmp4010-ui-check/pmp4010_manual_test", ["/tmp/pmp4010-ui-check/pmp4010_ma"..., "--version"], 0x7ffe82007f58 /* 62 vars */) = 0

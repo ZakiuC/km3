@@ -1,0 +1,595 @@
+{
+  "schema_version": 1,
+  "vectors": [
+    {
+      "name": "manual_default_300rpm",
+      "direction": 0,
+      "calibration": [
+        10000,
+        1,
+        1,
+        1
+      ],
+      "input": [
+        "50000",
+        "1"
+      ],
+      "expected": [
+        "300",
+        "1"
+      ]
+    },
+    {
+      "name": "manual_default_inverse",
+      "direction": 1,
+      "calibration": [
+        10000,
+        1,
+        1,
+        1
+      ],
+      "input": [
+        "300",
+        "1"
+      ],
+      "expected": [
+        "50000",
+        "1"
+      ],
+      "int32_error": 0
+    },
+    {
+      "name": "measured_exact_46875_over_2048rpm",
+      "direction": 0,
+      "calibration": [
+        131072,
+        1,
+        1,
+        1
+      ],
+      "input": [
+        "50000",
+        "1"
+      ],
+      "expected": [
+        "46875",
+        "2048"
+      ]
+    },
+    {
+      "name": "measured_fraction_inverse",
+      "direction": 1,
+      "calibration": [
+        131072,
+        1,
+        1,
+        1
+      ],
+      "input": [
+        "46875",
+        "2048"
+      ],
+      "expected": [
+        "50000",
+        "1"
+      ],
+      "int32_error": 0
+    },
+    {
+      "name": "measured_rated_3000rpm",
+      "direction": 0,
+      "calibration": [
+        131072,
+        1,
+        1,
+        1
+      ],
+      "input": [
+        "6553600",
+        "1"
+      ],
+      "expected": [
+        "3000",
+        "1"
+      ]
+    },
+    {
+      "name": "measured_rated_inverse",
+      "direction": 1,
+      "calibration": [
+        131072,
+        1,
+        1,
+        1
+      ],
+      "input": [
+        "3000",
+        "1"
+      ],
+      "expected": [
+        "6553600",
+        "1"
+      ],
+      "int32_error": 0
+    },
+    {
+      "name": "zero_direction_0",
+      "direction": 0,
+      "calibration": [
+        1234567,
+        17,
+        33,
+        19
+      ],
+      "input": [
+        "0",
+        "1"
+      ],
+      "expected": [
+        "0",
+        "1"
+      ]
+    },
+    {
+      "name": "zero_direction_1",
+      "direction": 1,
+      "calibration": [
+        1234567,
+        17,
+        33,
+        19
+      ],
+      "input": [
+        "0",
+        "1"
+      ],
+      "expected": [
+        "0",
+        "1"
+      ],
+      "int32_error": 0
+    },
+    {
+      "name": "gear3_forward",
+      "direction": 0,
+      "calibration": [
+        10000,
+        1,
+        3,
+        1
+      ],
+      "input": [
+        "50000",
+        "1"
+      ],
+      "expected": [
+        "900",
+        "1"
+      ]
+    },
+    {
+      "name": "gear3_inverse",
+      "direction": 1,
+      "calibration": [
+        10000,
+        1,
+        3,
+        1
+      ],
+      "input": [
+        "900",
+        "1"
+      ],
+      "expected": [
+        "50000",
+        "1"
+      ],
+      "int32_error": 0
+    },
+    {
+      "name": "signed_forward",
+      "direction": 0,
+      "calibration": [
+        10000,
+        1,
+        3,
+        1
+      ],
+      "input": [
+        "-50000",
+        "1"
+      ],
+      "expected": [
+        "-900",
+        "1"
+      ]
+    },
+    {
+      "name": "signed_inverse",
+      "direction": 1,
+      "calibration": [
+        10000,
+        1,
+        3,
+        1
+      ],
+      "input": [
+        "-900",
+        "1"
+      ],
+      "expected": [
+        "-50000",
+        "1"
+      ],
+      "int32_error": 0
+    },
+    {
+      "name": "negative_denominator_normalized",
+      "direction": 0,
+      "calibration": [
+        10000,
+        1,
+        1,
+        1
+      ],
+      "input": [
+        "50000",
+        "-1"
+      ],
+      "expected": [
+        "-300",
+        "1"
+      ]
+    },
+    {
+      "name": "fractional_write_rejected",
+      "direction": 1,
+      "calibration": [
+        10000,
+        1,
+        1,
+        1
+      ],
+      "input": [
+        "1",
+        "1"
+      ],
+      "expected": [
+        "500",
+        "3"
+      ],
+      "int32_error": 5
+    },
+    {
+      "name": "positive_int32_overflow",
+      "direction": 1,
+      "calibration": [
+        60,
+        1,
+        1,
+        1
+      ],
+      "input": [
+        "2147483648",
+        "1"
+      ],
+      "expected": [
+        "2147483648",
+        "1"
+      ],
+      "int32_error": 6
+    },
+    {
+      "name": "negative_int32_overflow",
+      "direction": 1,
+      "calibration": [
+        60,
+        1,
+        1,
+        1
+      ],
+      "input": [
+        "-2147483649",
+        "1"
+      ],
+      "expected": [
+        "-2147483649",
+        "1"
+      ],
+      "int32_error": 6
+    },
+    {
+      "name": "int32_minimum_inverse",
+      "direction": 1,
+      "calibration": [
+        60,
+        1,
+        1,
+        1
+      ],
+      "input": [
+        "-2147483648",
+        "1"
+      ],
+      "expected": [
+        "-2147483648",
+        "1"
+      ],
+      "int32_error": 0
+    },
+    {
+      "name": "int32_maximum_inverse",
+      "direction": 1,
+      "calibration": [
+        60,
+        1,
+        1,
+        1
+      ],
+      "input": [
+        "2147483647",
+        "1"
+      ],
+      "expected": [
+        "2147483647",
+        "1"
+      ],
+      "int32_error": 0
+    },
+    {
+      "name": "wide_numerator",
+      "direction": 0,
+      "calibration": [
+        1,
+        4294967295,
+        4294967295,
+        1
+      ],
+      "input": [
+        "-2147483648",
+        "1"
+      ],
+      "expected": [
+        "-2376844874321125483512594432000",
+        "1"
+      ]
+    },
+    {
+      "name": "wide_numerator_inverse",
+      "direction": 1,
+      "calibration": [
+        1,
+        4294967295,
+        4294967295,
+        1
+      ],
+      "input": [
+        "-2376844874321125483512594432000",
+        "1"
+      ],
+      "expected": [
+        "-2147483648",
+        "1"
+      ],
+      "int32_error": 0
+    },
+    {
+      "name": "wide_denominator",
+      "direction": 0,
+      "calibration": [
+        4294967295,
+        1,
+        1,
+        4294967295
+      ],
+      "input": [
+        "-2147483648",
+        "1"
+      ],
+      "expected": [
+        "-8589934592",
+        "1229782937674641135"
+      ]
+    },
+    {
+      "name": "wide_denominator_inverse",
+      "direction": 1,
+      "calibration": [
+        4294967295,
+        1,
+        1,
+        4294967295
+      ],
+      "input": [
+        "-8589934592",
+        "1229782937674641135"
+      ],
+      "expected": [
+        "-2147483648",
+        "1"
+      ],
+      "int32_error": 0
+    },
+    {
+      "name": "all_maximum",
+      "direction": 0,
+      "calibration": [
+        4294967295,
+        4294967295,
+        4294967295,
+        4294967295
+      ],
+      "input": [
+        "-2147483648",
+        "1"
+      ],
+      "expected": [
+        "-128849018880",
+        "1"
+      ]
+    },
+    {
+      "name": "all_maximum_inverse",
+      "direction": 1,
+      "calibration": [
+        4294967295,
+        4294967295,
+        4294967295,
+        4294967295
+      ],
+      "input": [
+        "-128849018880",
+        "1"
+      ],
+      "expected": [
+        "-2147483648",
+        "1"
+      ],
+      "int32_error": 0
+    },
+    {
+      "name": "maximum128_cross_cancel",
+      "direction": 0,
+      "calibration": [
+        60,
+        1,
+        1,
+        1
+      ],
+      "input": [
+        "340282366920938463463374607431768211455",
+        "340282366920938463463374607431768211455"
+      ],
+      "expected": [
+        "1",
+        "1"
+      ]
+    },
+    {
+      "name": "maximum128_identity",
+      "direction": 0,
+      "calibration": [
+        60,
+        1,
+        1,
+        1
+      ],
+      "input": [
+        "340282366920938463463374607431768211455",
+        "1"
+      ],
+      "expected": [
+        "340282366920938463463374607431768211455",
+        "1"
+      ]
+    },
+    {
+      "name": "maximum128_negative",
+      "direction": 0,
+      "calibration": [
+        60,
+        1,
+        1,
+        1
+      ],
+      "input": [
+        "-340282366920938463463374607431768211455",
+        "1"
+      ],
+      "expected": [
+        "-340282366920938463463374607431768211455",
+        "1"
+      ]
+    },
+    {
+      "name": "parse128_overflow",
+      "direction": 0,
+      "calibration": [
+        60,
+        1,
+        1,
+        1
+      ],
+      "input": [
+        "340282366920938463463374607431768211456",
+        "1"
+      ],
+      "error": 6
+    },
+    {
+      "name": "output128_overflow",
+      "direction": 0,
+      "calibration": [
+        1,
+        4294967295,
+        4294967295,
+        1
+      ],
+      "input": [
+        "340282366920938463463374607431768211455",
+        "1"
+      ],
+      "error": 6
+    },
+    {
+      "name": "zero_calibration_0",
+      "direction": 0,
+      "calibration": [
+        0,
+        1,
+        1,
+        1
+      ],
+      "input": [
+        "0",
+        "1"
+      ],
+      "error": 2
+    },
+    {
+      "name": "zero_calibration_1",
+      "direction": 0,
+      "calibration": [
+        10000,
+        0,
+        1,
+        1
+      ],
+      "input": [
+        "0",
+        "1"
+      ],
+      "error": 2
+    },
+    {
+      "name": "zero_calibration_2",
+      "direction": 0,
+      "calibration": [
+        10000,
+        1,
+        0,
+        1
+      ],
+      "input": [
+        "0",
+        "1"
+      ],
+      "error": 2
+    },
+    {
+      "name": "zero_calibration_3",
+      "direction": 0,
+      "calibration": [
+        10000,
+        1,
+        1,
+        0
+      ],
+      "input": [
+        "0",
+        "1"
+      ],
+      "error": 2
+    }
+  ]
+}

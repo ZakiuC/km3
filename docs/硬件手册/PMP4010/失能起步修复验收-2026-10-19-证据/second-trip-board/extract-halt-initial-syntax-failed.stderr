@@ -1,0 +1,4 @@
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/second-trip-board/extract_halt_evidence.py", line 40
+    not complete.','Previous interrupted boot session completion remains unknown.'],cleanup='Original q completed rc0; no runner/CAN receiver remains; isolated b2 remote package and logs intentionally retained; no source/config/services/current changed.')
+                                                                                                                                                                                                                                                               ^
+SyntaxError: keyword argument repeated: cleanup

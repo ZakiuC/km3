@@ -1,0 +1,103 @@
+--- before/_test_simple.py
++++ device/drivers/pmp4010/tools/_test_simple.py
+@@ -46,6 +46,100 @@
+         review=self.ctl.review_action(kind,self.out,text)
+         self.ctl.execute_action(review,self.out)
+         return review
++
++    def test_linear_mm_s_exact_speed_default_quantization_and_review_seal(self):
++        self.args.manual_velocity = 1000
++        self.node.set_value(0x607f,100000)  # Explicit mock limit permits 1mm/s.
++        self.linear_ready('4')
++        row = self.ctl.row(1)
++        self.assertEqual('设置 0.0305176 mm/s（1000 U/s）', self.ctl.speed_line(row))
++        self.assertEqual((self.ctl.manual_velocity,self.ctl.next_velocity),(1000,1000))
++        for text,units,actual in (('1',32768,'1'),('1/10',3276,'0.0999756')):
++            self.ctl.set_value('speed',text)
++            self.assertEqual(self.ctl.next_velocity,units)
++            self.assertEqual(self.ctl.requested_mm_s,Fraction(text))
++            review=self.ctl.review_action('forward',self.out)
++            self.assertEqual(review['args'].velocity,units)
++            self.assertIn('实际 '+actual+' mm/s（'+str(units)+' U/s）',' '.join(review['lines']))
++        self.ctl.execute_action(review,self.out)
++        self.assertIn((0x6081,0,3276),requests(self.bus,True))
++        self.ctl.refresh(self.out)
++        review=self.ctl.review_action('backward',self.out)
++        before=len(requests(self.bus,True))
++        self.ctl.requested_mm_s=Fraction(9)
++        with self.assertRaisesRegex(ValueError,'审阅失效'):
++            self.ctl.execute_action(review,self.out)
++        self.assertEqual(len(requests(self.bus,True)),before)
++        self.ctl.requested_mm_s=Fraction('1/10')
++        review=self.ctl.review_action('backward',self.out)
++        review['requested_mm_s']=Fraction(9)
++        with self.assertRaisesRegex(ValueError,'修改'):
++            self.ctl.execute_action(review,self.out)
++        self.assertEqual(len(requests(self.bus,True)),before)
++
++    def test_linear_mm_s_limits_missing_scale_and_invalid_input(self):
++        self.linear_ready()
++        with self.assertRaisesRegex(ValueError,'换算未设置'):
++            self.ctl.set_value('speed','1')
++        self.ctl.set_coordinate('conversion',self.out,'4')
++        self.node.set_value(0x2006,9,sub=0x12)
++        self.ctl.refresh(self.out)
++        with self.assertRaisesRegex(ValueError,'单位未知'):
++            self.ctl.set_value('speed','1')
++        self.node.set_value(0x2006,0,sub=0x12)
++        self.ctl.refresh(self.out)
++        row=copy.deepcopy(self.ctl.row(1))
++        self.ctl._put(dict(row,calibration=None))
++        with self.assertRaises(ValueError):
++            self.ctl.set_value('speed','1')
++        self.ctl._put(row)
++        for text in ('nan','inf','0','-1','1/0','0.00000001','1000000000'):
++            with self.subTest(text=text),self.assertRaises(ValueError):
++                self.ctl.set_value('speed',text)
++        self.node.set_value(0x607f,32767)
++        self.ctl.refresh(self.out)
++        with self.assertRaisesRegex(ValueError,'设备上限'):
++            self.ctl.set_value('speed','1')
++        self.node.set_value(0x607f,100000)
++        self.node.set_value(0x6080,14)
++        self.ctl.refresh(self.out)
++        with self.assertRaisesRegex(ValueError,'设备上限'):
++            self.ctl.set_value('speed','1')  # Independent: 1mm/s == 15rpm.
++        self.assertFalse(requests(self.bus,True))
++
++    def test_linear_mm_s_nonunit_gear_and_signed_feedback_units(self):
++        self.node.set_value(0x6091,3,sub=1)
++        self.node.set_value(0x607f,100000)
++        self.linear_ready('4')
++        self.ctl.set_value('speed','1')
++        self.assertEqual(self.ctl.next_velocity,10922)  # floor(131072/12).
++        row=copy.deepcopy(self.ctl.row(1))
++        for unit,raw,expected in ((0,15,'1'),(0,-15,'-1'),(1,10922,'0.999939'),(1,-10922,'-0.999939')):
++            row['values'].update(velocity_feedback_unit=unit,actual_velocity=raw)
++            self.assertEqual(self.ctl.feedback_speed(row),expected+' mm/s')
++        row['values']['velocity_feedback_unit']=9
++        self.assertIn('未可换算',self.ctl.feedback_speed(row))
++        row['values']['velocity_feedback_unit']=0
++        row['calibration']=None
++        self.assertIn('未可换算',self.ctl.feedback_speed(row))
++        with self.assertRaisesRegex(ValueError,'标定不可用'):
++            self.ctl.coordinate_scale(None)
++        self.ctl.mm_per_motor_revolution=None
++        self.assertIn('未可换算',self.ctl.feedback_speed(self.ctl.row(1)))
++
++    def test_linear_conversion_retains_u_s_clears_request_and_cancels_review(self):
++        self.node.set_value(0x607f,100000)
++        self.linear_ready('4')
++        self.ctl.set_value('speed','1')
++        review=self.ctl.review_action('forward',self.out)
++        active=self.ctl.manual_velocity
++        self.ctl.set_coordinate('conversion',self.out,'8')
++        self.assertEqual((self.ctl.next_velocity,self.ctl.manual_velocity),(32768,active))
++        self.assertIsNone(self.ctl.requested_mm_s)
++        self.assertEqual('设置 2 mm/s（32768 U/s）',self.ctl.speed_line(self.ctl.row(1)))
++        with self.assertRaisesRegex(ValueError,'取消'):
++            self.ctl.execute_action(review,self.out)
++        self.assertFalse(requests(self.bus,True))
+ 
+     def test_linear_constructor_parser_and_explicit_scale_are_io_free(self):
+         from contextlib import redirect_stderr

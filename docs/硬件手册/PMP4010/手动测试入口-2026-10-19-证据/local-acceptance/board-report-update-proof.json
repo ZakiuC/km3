@@ -1,0 +1,17 @@
+{
+  "board_evidence_manifest_entries_verified": 45,
+  "board_evidence_manifest_sha256": "3517c21a1328c3669a7b0527293a01f4f22974bb1e50e6c688177b4349ffb184",
+  "raw_section_sha256_before": "e7a127a5b52671c56115642d3139481e0aa04f0d39deeb7339b4534a632c52a8",
+  "raw_section_sha256_after": "e7a127a5b52671c56115642d3139481e0aa04f0d39deeb7339b4534a632c52a8",
+  "raw_section_unchanged": true,
+  "archive_sha256": "fd97308d751fbb2ef4ddbc472bdbe1bf8f5eabe81b77d3bad0e9d598f6e1060e",
+  "postcheck_compared_keys_actual": 11,
+  "board_paths_read_only": true,
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "input_estimate": "below 80K from relevant context and current task packet; estimate only",
+  "requested_role": "light_worker",
+  "requested_model": "gpt-6.1-sol",
+  "requested_effort": "medium"
+}

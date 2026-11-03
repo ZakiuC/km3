@@ -1,0 +1,84 @@
+{
+  "utc": "2026-10-19T02:17:19.213061+00:00",
+  "hostname": "RK3588-Tronlong",
+  "model": "TL3588-EVM",
+  "boot_id": "bacd8411-f822-4f19-b7cb-8bcbf755b54a\n",
+  "uptime": "894.93 7050.74\n",
+  "device_id": "km3-test-001",
+  "config_sha": "96a15d8d28f760ab9c5b8f43f6b5ddccc667c77f89413fcd9c3201aa9ddbb205",
+  "can_env_sha": "9253d719d847eed56ea7ef768985c0215faf0f78dfc98838152c734a0feff407",
+  "current": "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29",
+  "services": {
+    "km3-core": {
+      "argv": [
+        "systemctl",
+        "show",
+        "km3-core",
+        "--property=MainPID,ActiveState,SubState,ExecMainStartTimestampMonotonic,ActiveEnterTimestampMonotonic"
+      ],
+      "rc": 0,
+      "stdout": "MainPID=1890\nExecMainStartTimestampMonotonic=63485162\nActiveState=active\nSubState=running\nActiveEnterTimestampMonotonic=63485858\n",
+      "stderr": ""
+    },
+    "km3-rt-controller": {
+      "argv": [
+        "systemctl",
+        "show",
+        "km3-rt-controller",
+        "--property=MainPID,ActiveState,SubState,ExecMainStartTimestampMonotonic,ActiveEnterTimestampMonotonic"
+      ],
+      "rc": 0,
+      "stdout": "MainPID=558\nExecMainStartTimestampMonotonic=3347824\nActiveState=active\nSubState=running\nActiveEnterTimestampMonotonic=3347886\n",
+      "stderr": ""
+    },
+    "km3-video": {
+      "argv": [
+        "systemctl",
+        "show",
+        "km3-video",
+        "--property=MainPID,ActiveState,SubState,ExecMainStartTimestampMonotonic,ActiveEnterTimestampMonotonic"
+      ],
+      "rc": 0,
+      "stdout": "MainPID=1891\nExecMainStartTimestampMonotonic=63491028\nActiveState=active\nSubState=running\nActiveEnterTimestampMonotonic=63491627\n",
+      "stderr": ""
+    }
+  },
+  "rt_cmdline": "/opt/km3/current/km3-rt-controller --config /etc/km3/device.json --require-config ",
+  "rt_fds": {
+    "0": "/dev/null",
+    "1": "socket:[4083]",
+    "2": "socket:[4083]"
+  },
+  "can_rcvlists": {
+    "rcvlist_all": "\nreceive list 'rx_all':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_eff": "\nreceive list 'rx_eff':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_err": "\nreceive list 'rx_err':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_fil": "\nreceive list 'rx_fil':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_inv": "\nreceive list 'rx_inv':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_sff": "\nreceive list 'rx_sff':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n"
+  },
+  "can_link": {
+    "argv": [
+      "ip",
+      "-details",
+      "-json",
+      "link",
+      "show",
+      "can1"
+    ],
+    "rc": 0,
+    "stdout": "[{\"ifindex\":3,\"ifname\":\"can1\",\"flags\":[\"NOARP\",\"UP\",\"LOWER_UP\",\"ECHO\"],\"mtu\":16,\"qdisc\":\"pfifo_fast\",\"operstate\":\"UP\",\"linkmode\":\"DEFAULT\",\"group\":\"default\",\"txqlen\":10,\"link_type\":\"can\",\"promiscuity\":0,\"min_mtu\":0,\"max_mtu\":0,\"linkinfo\":{\"info_kind\":\"can\",\"info_data\":{\"state\":\"ERROR-ACTIVE\",\"restart_ms\":0,\"bittiming\":{\"bitrate\":1000000,\"sample_point\":0.750,\"tq\":125,\"prop_seg\":2,\"phase_seg1\":3,\"phase_seg2\":2,\"sjw\":1},\"bittiming_const\":{\"name\":\"mcp251x\",\"tseg1\":{\"min\":3,\"max\":16},\"tseg2\":{\"min\":2,\"max\":8},\"sjw\":{\"min\":1,\"max\":4},\"brp\":{\"min\":1,\"max\":64},\"brp_inc\":1},\"clock\":8000000}},\"num_tx_queues\":1,\"num_rx_queues\":1,\"gso_max_size\":65536,\"gso_max_segs\":65535,\"parentbus\":\"spi\",\"parentdev\":\"spi0.1\"}]\n",
+    "stderr": ""
+  },
+  "payload_root": "/tmp/km3-pp-disabled-start-stage3-recovery-20261019-0213/payload",
+  "payload_exists": true,
+  "source_hashes": {
+    "drivers/pmp4010/pmp4010_bench.py": "8f6677156f04d331c7a5c0e552bc007f7949c65c1482bc7d67183cd17b8d4b5b",
+    "drivers/pmp4010/pmp4010_position.py": "e93ed776ee7ad13dc10e84f3027d6fc9c95200e016cc226ec61af2db1c86c9da",
+    "drivers/pmp4010/pmp4010_tui.py": "9d1e64e20e764471c84f76f6f6937941c28480e3a40b90e8203e7db5fa1190d1",
+    "payload-manifest.json": "280884d0e1cf519675a590aa053dc16419d0266555683f61d93fcef6bcce0c5c"
+  },
+  "potential_old_runners": [],
+  "CAN_socket_opens": 0,
+  "CAN_sends": 0
+}

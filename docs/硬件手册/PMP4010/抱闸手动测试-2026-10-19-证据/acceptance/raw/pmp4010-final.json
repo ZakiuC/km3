@@ -1,0 +1,38 @@
+{
+  "command": [
+    "python3",
+    "-I",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "device/drivers/pmp4010/tools",
+    "-p",
+    "_test_*.py",
+    "-v"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "start_utc": "2026-10-20T01:16:11.716333+00:00",
+  "end_utc": "2026-10-20T01:16:57.482462+00:00",
+  "elapsed_seconds": 45.765943431993946,
+  "rc": 0,
+  "source_before": {
+    "device/drivers/pmp4010/tools/pmp4010_brake.py": "a7fdc1349ce01fee3ce7d4978679ab01248669508f5c705691662c2a734097b0",
+    "device/drivers/pmp4010/tools/_test_brake.py": "938a14dbec4586d5741daad19c6e6deb23c8eabc3cd55778bf0ff5d94401511d",
+    "device/drivers/pmp4010/tools/pmp4010_manual.py": "ca37ecb04116d8a08b279f1ea9964c9374dda411504c4e91479bc5bf09c110b9",
+    "device/drivers/pmp4010/tools/pmp4010_simple.py": "d1d277431b014fcc888dc16fa994a8b16f2d7e060f384f55c1db431317a166f5"
+  },
+  "source_after": {
+    "device/drivers/pmp4010/tools/pmp4010_brake.py": "a7fdc1349ce01fee3ce7d4978679ab01248669508f5c705691662c2a734097b0",
+    "device/drivers/pmp4010/tools/_test_brake.py": "938a14dbec4586d5741daad19c6e6deb23c8eabc3cd55778bf0ff5d94401511d",
+    "device/drivers/pmp4010/tools/pmp4010_manual.py": "ca37ecb04116d8a08b279f1ea9964c9374dda411504c4e91479bc5bf09c110b9",
+    "device/drivers/pmp4010/tools/pmp4010_simple.py": "d1d277431b014fcc888dc16fa994a8b16f2d7e060f384f55c1db431317a166f5"
+  },
+  "expected": {
+    "device/drivers/pmp4010/tools/pmp4010_brake.py": "a7fdc1349ce01fee3ce7d4978679ab01248669508f5c705691662c2a734097b0",
+    "device/drivers/pmp4010/tools/_test_brake.py": "938a14dbec4586d5741daad19c6e6deb23c8eabc3cd55778bf0ff5d94401511d",
+    "device/drivers/pmp4010/tools/pmp4010_manual.py": "ca37ecb04116d8a08b279f1ea9964c9374dda411504c4e91479bc5bf09c110b9",
+    "device/drivers/pmp4010/tools/pmp4010_simple.py": "d1d277431b014fcc888dc16fa994a8b16f2d7e060f384f55c1db431317a166f5"
+  },
+  "frozen_hashes_match": true
+}

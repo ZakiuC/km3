@@ -1,0 +1,20 @@
+{"utc": "2026-10-19T02:14:02.464456+00:00", "monotonic": 406.527498766, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T02:14:02.720895+00:00", "monotonic": 406.783961267, "label": "enter", "text": "\r", "bytes_hex": "0d"}
+{"utc": "2026-10-19T02:14:02.973393+00:00", "monotonic": 407.036437466, "label": "f2", "text": "\u001bOQ", "bytes_hex": "1b4f51"}
+{"utc": "2026-10-19T02:14:03.225930+00:00", "monotonic": 407.288979967, "label": "typed text", "text": "-1506", "bytes_hex": "2d31353036"}
+{"utc": "2026-10-19T02:14:03.376469+00:00", "monotonic": 407.439522147, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T02:14:03.631603+00:00", "monotonic": 407.694669952, "label": "typed text", "text": "-1434", "bytes_hex": "2d31343334"}
+{"utc": "2026-10-19T02:14:03.782692+00:00", "monotonic": 407.845756016, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T02:14:04.036797+00:00", "monotonic": 408.09985993, "label": "typed text", "text": "36", "bytes_hex": "3336"}
+{"utc": "2026-10-19T02:14:04.188057+00:00", "monotonic": 408.251130252, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T02:14:04.445582+00:00", "monotonic": 408.508651507, "label": "typed text", "text": "D", "bytes_hex": "44"}
+{"utc": "2026-10-19T02:14:04.802505+00:00", "monotonic": 408.865552467, "label": "typed text", "text": "OD mock-bench 1", "bytes_hex": "4f44206d6f636b2d62656e63682031"}
+{"utc": "2026-10-19T02:14:04.952840+00:00", "monotonic": 409.015887125, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T02:14:05.305906+00:00", "monotonic": 409.368948822, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T02:14:05.662547+00:00", "monotonic": 409.725589868, "label": "typed text", "text": "DISABLE mock-bench 1 -1470", "bytes_hex": "44495341424c45206d6f636b2d62656e63682031202d31343730"}
+{"utc": "2026-10-19T02:14:05.812815+00:00", "monotonic": 409.875861257, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T02:14:06.390725+00:00", "monotonic": 410.453771513, "label": "typed text", "text": "R", "bytes_hex": "52"}
+{"utc": "2026-10-19T02:14:06.650031+00:00", "monotonic": 410.713084524, "label": "typed text", "text": "+36", "bytes_hex": "2b3336"}
+{"utc": "2026-10-19T02:14:07.012491+00:00", "monotonic": 411.075540642, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T02:14:19.353339+00:00", "monotonic": 423.416384428, "label": "esc", "text": "\u001b", "bytes_hex": "1b"}
+{"utc": "2026-10-19T02:14:19.615382+00:00", "monotonic": 423.678431593, "label": "q ordinary UI exit", "text": "q", "bytes_hex": "71"}

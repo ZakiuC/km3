@@ -1,0 +1,17 @@
+[
+  {
+    "path": "controlled-forward.runner.py",
+    "bytes": 16727,
+    "sha256": "7167c8ddcd9efce1a22bd31458143f4f3dd05735d8b45b017913ba85ead2e955"
+  },
+  {
+    "path": "runner-minimal.diff",
+    "bytes": 2240,
+    "sha256": "4b80ee8bbf260af6e2c362cd6c128e72a4f6b3b77badab526e505d777587a618"
+  },
+  {
+    "path": "判据设计.md",
+    "bytes": 2845,
+    "sha256": "35865893be43b0b6620384fa6609623fb79e82618938f024eb0542713b4a07b8"
+  }
+]

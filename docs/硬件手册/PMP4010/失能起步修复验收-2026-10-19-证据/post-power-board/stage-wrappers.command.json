@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=10",
+    "root@192.168.0.188",
+    "python3 -I -B -c 'import hashlib,json,pathlib,sys\nbase=pathlib.Path(sys.argv[1]);items=json.load(sys.stdin)\nassert base.is_dir()\nfor name,item in items.items():\n assert name in ('\"'\"'board_app.py'\"'\"','\"'\"'board_pty_runner.py'\"'\"')\n data=item['\"'\"'data'\"'\"'].encode();assert hashlib.sha256(data).hexdigest()==item['\"'\"'sha256'\"'\"']\n with (base/name).open('\"'\"'xb'\"'\"') as f:f.write(data)\n assert hashlib.sha256((base/name).read_bytes()).hexdigest()==item['\"'\"'sha256'\"'\"']\nprint(json.dumps({'\"'\"'uploaded'\"'\"':{k:v['\"'\"'sha256'\"'\"'] for k,v in items.items()},'\"'\"'CAN_opens'\"'\"':0,'\"'\"'executed'\"'\"':False}))\n' /tmp/km3-pp-disabled-start-stage3-recovery-20261019-0213"
+  ],
+  "utc_start": "2026-10-19T02:17:17.526179+00:00",
+  "utc_end": "2026-10-19T02:17:17.820037+00:00",
+  "stdin_bytes": 21105,
+  "stdin_sha256": "e3f257c588b1cd272f3da98b65b6b9ab95b9076848182dca2d2073069d5ab253",
+  "script_sha256": "f0cec93eb0da4328a0bce92fbdde600f9d358e4dbcd8631f936bbb2b599f133c",
+  "rc": 0
+}

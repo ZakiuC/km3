@@ -1,0 +1,72 @@
+[
+  {
+    "path": "observe.command.json",
+    "bytes": 643,
+    "sha256": "3eab66ed40b365c5e8f8edb655c9adc46a57d29116c924447404a626742777af"
+  },
+  {
+    "path": "observe.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  {
+    "path": "observe.remote.py",
+    "bytes": 3771,
+    "sha256": "748ebe8c2980c6815c54ead9ac5643e076f1dc1309b7daffb37bffecb8f9383c"
+  },
+  {
+    "path": "observe.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "observe.stdout",
+    "bytes": 6863,
+    "sha256": "cd13db4e2ad01b71623bd7d95a4cf7018633238871c099e5f6a914d91e571858"
+  },
+  {
+    "path": "old-b579-1-motion-absolute-d4b6ca7077e948cba2ae49428eb6f273.jsonl",
+    "bytes": 897,
+    "sha256": "5193b81a4c2db2f651cd60f1e78cd0fd19b0858b3be896b3eec46849a5c2b49d"
+  },
+  {
+    "path": "old-b579-2-motion-absolute-27ee2c1af9d7430a9c49730cccbf49c8.jsonl",
+    "bytes": 888,
+    "sha256": "547cce5ca6b3093d2b7f3da91b57b91e91065fedc5be2bc9f912307f80f3824b"
+  },
+  {
+    "path": "old-b579-3-motion-absolute-fc4866f836a64297bebd203407f99ad1.jsonl",
+    "bytes": 888,
+    "sha256": "e7897d5485818d73d90c838a654e31a4de45c0350bbaa6e7472de2526381e618"
+  },
+  {
+    "path": "read-logs.command.json",
+    "bytes": 489,
+    "sha256": "91042c9a73cdf6ea25ac26afccbbf0aa0565d1a1fae293441fbb6ab0015552ed"
+  },
+  {
+    "path": "read-logs.rc",
+    "bytes": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  {
+    "path": "read-logs.remote.py",
+    "bytes": 1328,
+    "sha256": "07d00b70b06245504c1204399a47460b283eb1f3ae681436f6db9710b197fda9"
+  },
+  {
+    "path": "read-logs.stderr",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "read-logs.stdout",
+    "bytes": 5283,
+    "sha256": "12af8ba9b78f9338aca0094274865d728f78e2fe514726387b675e98dc67b72a"
+  },
+  {
+    "path": "summary.json",
+    "bytes": 8325,
+    "sha256": "dd66fb6bf438e27b66ba0a872001dbca2cb4044a7153f3ca34ee4e8c7cbbd3da"
+  }
+]

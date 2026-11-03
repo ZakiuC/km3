@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "bash",
+    "tools/check-docs.sh"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T09:03:42.482073+00:00",
+  "returncode": 0,
+  "stdout": "docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/local-acceptance/final-check-docs.stdout.log",
+  "stdout_sha256": "7171ac36f4ce7becae16fa2daaf7807a6571696c5fae8695b23ef7bd4fcec1ce",
+  "stderr": "docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/local-acceptance/final-check-docs.stderr.log",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

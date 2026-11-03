@@ -1,0 +1,20 @@
+{
+  "name": "probe-tsan-ctest",
+  "argv": [
+    "setarch",
+    "-R",
+    "ctest",
+    "--test-dir",
+    "build-tsan",
+    "--output-on-failure"
+  ],
+  "shell_command": "setarch -R ctest --test-dir build-tsan --output-on-failure",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T01:05:00.467842+00:00",
+  "duration_seconds": 12.215647976845503,
+  "returncode": 0,
+  "stdout": "probe-tsan-ctest.stdout.log",
+  "stderr": "probe-tsan-ctest.stderr.log",
+  "stdout_sha256": "ca7ecbcb3588d994f8fdcfc95c5363fba02bd7cc13fdbe5981f52b0dde8af772",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

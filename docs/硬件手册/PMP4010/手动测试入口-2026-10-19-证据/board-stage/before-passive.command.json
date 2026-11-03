@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B -"
+  ],
+  "stdin_file": "before-passive.remote.py",
+  "script_sha256": "18fcb07ec13a1552f2e5072ec3bd4e291a2a0fdc88ea25df72cdd15eb17ea40e",
+  "rc": 0,
+  "utc": "2026-10-19T03:38:09.942541+00:00"
+}

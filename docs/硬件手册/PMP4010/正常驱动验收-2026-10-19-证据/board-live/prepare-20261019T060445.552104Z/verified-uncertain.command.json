@@ -1,0 +1,31 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/正常驱动验收-2026-10-19-证据/board-live/prepare-20261019T060445.552104Z/controlled-forward.runner.py",
+    "--mode",
+    "mock",
+    "--payload",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/状态样本修复-2026-10-19-证据/package/payload",
+    "--output",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/正常驱动验收-2026-10-19-证据/board-live/prepare-20261019T060445.552104Z/verified-uncertain",
+    "--rt-reason",
+    "离线MockBus验证，无硬件操作",
+    "--od-reason",
+    "离线MockBus验证，沿用原OD闸门",
+    "--mock-repo",
+    "/home/zakiu/km3",
+    "--mock-library",
+    "/home/zakiu/km3/build-host/libpmp4010_velocity.so",
+    "--mock-case",
+    "uncertain"
+  ],
+  "started_utc": "2026-10-19T06:07:27.627311+00:00",
+  "finished_utc": "2026-10-19T06:07:27.745644+00:00",
+  "rc": 0,
+  "source_sha256": {
+    "controlled-forward.runner.py": "552a9f55cadfe1534395554420b2fb453d6a1dc92b0f9a630a920d92fc159445",
+    "mock_runner_support.py": "67d638b37dd653ba4bce8b1535764143afbda5c904c3dc9a310bba397324205d"
+  }
+}

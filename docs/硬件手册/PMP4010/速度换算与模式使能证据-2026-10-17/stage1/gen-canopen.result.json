@@ -1,0 +1,18 @@
+{
+  "command": "python3 -I tools/hwdriver/gen-canopen.py --check",
+  "argv": [
+    "bash",
+    "-c",
+    "python3 -I tools/hwdriver/gen-canopen.py --check"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "env_overrides": {
+    "TMPDIR": "/tmp/km3-pmp4010-a-20261017-evidence/tmp"
+  },
+  "start_utc": "2026-10-17T07:25:29.192923+00:00",
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "exitcode": 0,
+  "end_utc": "2026-10-17T07:25:29.216214+00:00"
+}

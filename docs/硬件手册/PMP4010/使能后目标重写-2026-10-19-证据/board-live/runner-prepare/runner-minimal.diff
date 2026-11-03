@@ -1,0 +1,40 @@
+--- be54/controlled-forward.runner.py
++++ rewrite-pending/controlled-forward.runner.py
+@@ -21,8 +21,8 @@
+ import uuid
+ 
+ sys.dont_write_bytecode = True
+-EXPECTED_MANIFEST = '173e5a2ad1e59eb66b5b8a3622b2aa6c3fc6080d22fc872909c1551bbed1ed6c'
+-EXPECTED_PAYLOAD = Path('/var/tmp/km3-pmp4010-trigger-20261019-c20f27992759/payload')
++EXPECTED_MANIFEST = None
++EXPECTED_PAYLOAD = None
+ 
+ 
+ def require(value, message):
+@@ -165,6 +165,8 @@
+ def read_motion_details(session, deadline, out):
+     # Same ManualClient and MotionSession deadline/cancellation/quarantine path.
+     for index in (0x606b, 0x6069, 0x6063, 0x60f4):
++        if time.monotonic() >= deadline:
++            return False  # Observation ended; no request attempted.
+         started = datetime.datetime.now(datetime.timezone.utc).isoformat()
+         label = '监测只读 {:04X}:00'.format(index)
+         raw = session.call(deadline, label, session.client.read, index, 0)
+@@ -172,6 +174,7 @@
+         out.event('动作后细速与偏差', dict(index=hex(index), subindex=0,
+                   started_utc=started, raw_hex=raw.hex(), width=len(raw),
+                   value=int.from_bytes(raw, 'little', signed=True)))
++    return True
+ 
+ 
+ def run_transaction(modules, output_dir, rt_reason, od_reason, owner_check,
+@@ -257,7 +260,8 @@
+             require(not row['lost'] and not row['quarantined'], '监测失联/隔离')
+             values = row['values']
+             out.event('动作后实读', values)
+-            read_motion_details(session, deadline, out)
++            if not read_motion_details(session, deadline, out):
++                break
+             reached = (values['actual_position'] == review['target'] and
+                        values['position_demand'] == review['target'] and
+                        values['target_position'] == review['target'] and

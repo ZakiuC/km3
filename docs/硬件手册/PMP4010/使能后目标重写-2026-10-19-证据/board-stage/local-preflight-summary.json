@@ -1,0 +1,18 @@
+{
+  "result": "PASS",
+  "archive": "/home/zakiu/km3/docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u4f7f\u80fd\u540e\u76ee\u6807\u91cd\u5199-2026-10-19-\u8bc1\u636e/package/pmp4010-manual-board-payload.tar.gz",
+  "archive_sha256": "d875f7bee872ef722df5387c1203dcf403a33ebeeaf84ddb42a4f00761a438f0",
+  "archive_bytes": 214335,
+  "manifest_sha256": "157e8d0d0bc9bdd8ffd1788b1ab574c9893856f530d8775ccee01015b1509e3f",
+  "archive_members": 24,
+  "manifest_entries": 23,
+  "hashes": {
+    "drivers/pmp4010/libpmp4010_velocity.so.1.0.0": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+    "drivers/pmp4010/pmp4010_manual.py": "0ffb4ef7b9747df995481f7cefa3aae4443421a81c0a3ce9282e42f7ebefafe4",
+    "drivers/pmp4010/pmp4010_simple.py": "de0c4d4b5895e5f10c3b123c416b178d7e357117f6586060ad2069dba1aa3308"
+  },
+  "AST_checks": 5,
+  "local_plan_rc": 0,
+  "stage": "/var/tmp/km3-pmp4010-rewrite-20261019-d875f7bee872",
+  "actual_SSH_calls": 0
+}

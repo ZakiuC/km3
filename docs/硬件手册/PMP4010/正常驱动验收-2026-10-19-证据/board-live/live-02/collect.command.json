@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3",
+    "-I",
+    "-B",
+    "-"
+  ],
+  "stdin_file": "collect.remote.py",
+  "rc": 0,
+  "utc": "2026-10-19T06:28:53.013753+00:00"
+}

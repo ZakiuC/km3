@@ -1,0 +1,223 @@
+[
+  {
+    "argv": [
+      "python3",
+      "-I",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tools/hwtui",
+      "-p",
+      "test_*.py"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-20T00:49:57.698718+00:00",
+    "returncode": 0,
+    "elapsed_seconds": 0.4597965330031002,
+    "finished_utc": "2026-10-20T00:49:58.158637+00:00"
+  },
+  {
+    "argv": [
+      "python3",
+      "-I",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tools/tests",
+      "-p",
+      "test_*.py"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-20T00:50:00.891281+00:00",
+    "returncode": 0,
+    "elapsed_seconds": 0.41765006400237326,
+    "finished_utc": "2026-10-20T00:50:01.309056+00:00"
+  },
+  {
+    "argv": [
+      "cmake",
+      "--build",
+      "build-host",
+      "-j8"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-20T00:50:05.103697+00:00",
+    "returncode": 0,
+    "elapsed_seconds": 0.09943534599733539,
+    "finished_utc": "2026-10-20T00:50:05.203229+00:00"
+  },
+  {
+    "argv": [
+      "ctest",
+      "--test-dir",
+      "build-host",
+      "--output-on-failure"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-20T00:50:08.835905+00:00",
+    "returncode": 0,
+    "elapsed_seconds": 11.560951112012845,
+    "finished_utc": "2026-10-20T00:50:20.396970+00:00"
+  },
+  {
+    "argv": [
+      "cmake",
+      "--build",
+      "build-asan",
+      "-j8"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-20T00:50:22.964109+00:00",
+    "returncode": 0,
+    "elapsed_seconds": 0.12087789899669588,
+    "finished_utc": "2026-10-20T00:50:23.085120+00:00"
+  },
+  {
+    "argv": [
+      "ctest",
+      "--test-dir",
+      "build-asan",
+      "--output-on-failure"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-20T00:50:30.346134+00:00",
+    "returncode": 0,
+    "elapsed_seconds": 12.130454490004922,
+    "finished_utc": "2026-10-20T00:50:42.476711+00:00"
+  },
+  {
+    "argv": [
+      "cmake",
+      "--build",
+      "build-tsan",
+      "-j8"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-20T00:50:50.366411+00:00",
+    "returncode": 0,
+    "elapsed_seconds": 0.10020210999937262,
+    "finished_utc": "2026-10-20T00:50:50.466754+00:00"
+  },
+  {
+    "argv": [
+      "setarch",
+      "-R",
+      "ctest",
+      "--test-dir",
+      "build-tsan",
+      "--output-on-failure"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-20T00:50:53.395521+00:00",
+    "returncode": 0,
+    "elapsed_seconds": 12.25566832300683,
+    "finished_utc": "2026-10-20T00:51:05.651304+00:00"
+  },
+  {
+    "argv": [
+      "cmake",
+      "--build",
+      "build-arm64",
+      "-j8"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-20T00:51:08.828462+00:00",
+    "returncode": 0,
+    "elapsed_seconds": 0.12438137098797597,
+    "finished_utc": "2026-10-20T00:51:08.952952+00:00"
+  },
+  {
+    "argv": [
+      "python3",
+      "-I",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "device/drivers/pmp4010/tools",
+      "-p",
+      "_test_*.py"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-20T00:56:08.864891+00:00",
+    "returncode": 0,
+    "elapsed_seconds": 42.765141331998166,
+    "finished_utc": "2026-10-20T00:56:51.630154+00:00"
+  },
+  {
+    "argv": [
+      "bash",
+      "tools/check-drivers.sh"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-20T00:56:55.156398+00:00",
+    "returncode": 0,
+    "elapsed_seconds": 0.028305507003096864,
+    "finished_utc": "2026-10-20T00:56:55.184819+00:00"
+  },
+  {
+    "argv": [
+      "bash",
+      "tools/check-deps.sh"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-20T00:56:58.868358+00:00",
+    "returncode": 0,
+    "elapsed_seconds": 0.01726563400006853,
+    "finished_utc": "2026-10-20T00:56:58.885744+00:00"
+  },
+  {
+    "argv": [
+      "bash",
+      "tools/check-manual-citations.sh"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-20T00:57:02.612260+00:00",
+    "returncode": 1,
+    "elapsed_seconds": 0.11405924599966966,
+    "finished_utc": "2026-10-20T00:57:02.726431+00:00"
+  },
+  {
+    "argv": [
+      "python3",
+      "-I",
+      "tools/hwdriver/gen-od.py",
+      "--model",
+      "pmp4010",
+      "--check"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-20T00:57:13.312739+00:00",
+    "returncode": 0,
+    "elapsed_seconds": 0.01872409100178629,
+    "finished_utc": "2026-10-20T00:57:13.331580+00:00"
+  },
+  {
+    "argv": [
+      "python3",
+      "-I",
+      "tools/hwdriver/gen-canopen.py",
+      "--check"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-20T00:57:16.375483+00:00",
+    "returncode": 0,
+    "elapsed_seconds": 0.019293645993457176,
+    "finished_utc": "2026-10-20T00:57:16.394923+00:00"
+  },
+  {
+    "argv": [
+      "python3",
+      "-I",
+      "tools/hwdriver/gen-pmp4010-access.py",
+      "--check"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "started_utc": "2026-10-20T00:57:19.753035+00:00",
+    "returncode": 0,
+    "elapsed_seconds": 0.021594519988866523,
+    "finished_utc": "2026-10-20T00:57:19.774771+00:00"
+  }
+]

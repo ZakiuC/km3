@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "ssh",
+    "-T",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B -"
+  ],
+  "stdin_file": "docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u4f4e\u901f\u8fd0\u52a8\u5bf9\u7167-2026-10-19-\u8bc1\u636e/board-live/live-07/collect.remote.py",
+  "started_utc": "2026-10-19T07:09:18.315782+00:00",
+  "authorization": "passive collect only; no CAN socket, SDO, remote writes or process control",
+  "rc": 0,
+  "finished_utc": "2026-10-19T07:09:18.630723+00:00"
+}

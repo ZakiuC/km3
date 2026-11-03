@@ -1,0 +1,86 @@
+{
+  "utc": "2026-10-19T03:38:09.900920+00:00",
+  "hostname": "RK3588-Tronlong",
+  "model": "TL3588-EVM",
+  "boot_id": "dc67bdcd-fa50-4927-8f9b-7207359c70af\n",
+  "uptime": "3896.64 30827.35\n",
+  "device_id": "km3-test-001",
+  "config_sha": "96a15d8d28f760ab9c5b8f43f6b5ddccc667c77f89413fcd9c3201aa9ddbb205",
+  "can_env_sha": "9253d719d847eed56ea7ef768985c0215faf0f78dfc98838152c734a0feff407",
+  "current": "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29",
+  "services": {
+    "km3-core": {
+      "argv": [
+        "systemctl",
+        "show",
+        "km3-core",
+        "--property=MainPID,ActiveState,SubState,ExecMainStartTimestampMonotonic,ActiveEnterTimestampMonotonic"
+      ],
+      "rc": 0,
+      "stdout": "MainPID=2134\nExecMainStartTimestampMonotonic=10563138\nActiveState=active\nSubState=running\nActiveEnterTimestampMonotonic=10563360\n",
+      "stderr": ""
+    },
+    "km3-rt-controller": {
+      "argv": [
+        "systemctl",
+        "show",
+        "km3-rt-controller",
+        "--property=MainPID,ActiveState,SubState,ExecMainStartTimestampMonotonic,ActiveEnterTimestampMonotonic"
+      ],
+      "rc": 0,
+      "stdout": "MainPID=600\nExecMainStartTimestampMonotonic=3294993\nActiveState=active\nSubState=running\nActiveEnterTimestampMonotonic=3295172\n",
+      "stderr": ""
+    },
+    "km3-video": {
+      "argv": [
+        "systemctl",
+        "show",
+        "km3-video",
+        "--property=MainPID,ActiveState,SubState,ExecMainStartTimestampMonotonic,ActiveEnterTimestampMonotonic"
+      ],
+      "rc": 0,
+      "stdout": "MainPID=2135\nExecMainStartTimestampMonotonic=10565127\nActiveState=active\nSubState=running\nActiveEnterTimestampMonotonic=10565346\n",
+      "stderr": ""
+    }
+  },
+  "related_processes_excluding_snapshot_pid": [
+    {
+      "pid": 600,
+      "cmdline": "/opt/km3/current/km3-rt-controller --config /etc/km3/device.json --require-config ",
+      "fds": {
+        "0": "/dev/null",
+        "1": "socket:[3640]",
+        "2": "socket:[3640]"
+      }
+    }
+  ],
+  "snapshot_pid": 5054,
+  "manual_stage_exists": false,
+  "manual_stage_realpath": "/var/tmp/km3-pmp4010-manual-20261019-fd97308d751f",
+  "can_rcvlists": {
+    "rcvlist_all": "\nreceive list 'rx_all':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_eff": "\nreceive list 'rx_eff':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_err": "\nreceive list 'rx_err':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_fil": "\nreceive list 'rx_fil':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_inv": "\nreceive list 'rx_inv':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_sff": "\nreceive list 'rx_sff':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n"
+  },
+  "can_link": {
+    "argv": [
+      "ip",
+      "-details",
+      "-statistics",
+      "-json",
+      "link",
+      "show",
+      "can1"
+    ],
+    "rc": 0,
+    "stdout": "[{\"ifindex\":3,\"ifname\":\"can1\",\"flags\":[\"NOARP\",\"UP\",\"LOWER_UP\",\"ECHO\"],\"mtu\":16,\"qdisc\":\"pfifo_fast\",\"operstate\":\"UP\",\"linkmode\":\"DEFAULT\",\"group\":\"default\",\"txqlen\":10,\"link_type\":\"can\",\"promiscuity\":0,\"min_mtu\":0,\"max_mtu\":0,\"linkinfo\":{\"info_kind\":\"can\",\"info_data\":{\"state\":\"ERROR-ACTIVE\",\"restart_ms\":0,\"bittiming\":{\"bitrate\":1000000,\"sample_point\":0.750,\"tq\":125,\"prop_seg\":2,\"phase_seg1\":3,\"phase_seg2\":2,\"sjw\":1},\"bittiming_const\":{\"name\":\"mcp251x\",\"tseg1\":{\"min\":3,\"max\":16},\"tseg2\":{\"min\":2,\"max\":8},\"sjw\":{\"min\":1,\"max\":4},\"brp\":{\"min\":1,\"max\":64},\"brp_inc\":1},\"clock\":8000000},\"info_xstats\":{\"restarts\":0,\"bus_error\":0,\"arbitration_lost\":0,\"error_warning\":0,\"error_passive\":0,\"bus_off\":0}},\"num_tx_queues\":1,\"num_rx_queues\":1,\"gso_max_size\":65536,\"gso_max_segs\":65535,\"parentbus\":\"spi\",\"parentdev\":\"spi0.1\",\"stats64\":{\"rx\":{\"bytes\":86993,\"packets\":10875,\"errors\":0,\"dropped\":0,\"over_errors\":0,\"multicast\":0},\"tx\":{\"bytes\":0,\"packets\":10870,\"errors\":0,\"dropped\":0,\"carrier_errors\":0,\"collisions\":0}}}]\n",
+    "stderr": ""
+  },
+  "remote_file_writes": 0,
+  "CAN_socket_opens": 0,
+  "CAN_sends": 0,
+  "process_control_operations": 0
+}

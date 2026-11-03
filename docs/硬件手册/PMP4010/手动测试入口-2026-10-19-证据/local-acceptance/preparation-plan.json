@@ -1,0 +1,42 @@
+{
+  "status": "prepared_waiting_for_root_source_ready",
+  "expected_behavior": "独立手动入口；取消自动起步和零漂移检查；保持急停、故障、通信异常保护；用户亲自在192.168.0.188 can1/node1操作",
+  "scope": {
+    "write": [
+      "local-acceptance/",
+      "package/",
+      "准备脚本"
+    ],
+    "no_board_access": true,
+    "no_can": true,
+    "no_source_edits": true,
+    "excluded_sibling": "board-passive/"
+  },
+  "steps": [
+    "收到root source-ready与具体新module/入口后冻结白名单源码SHA256",
+    "完整执行3项Python测试；逐条完整argv执行四闸门与三生成器",
+    "原生输入和ARM库SHA与上一实际证据比较；仅相同时标明复用上一C++/ARM记录，不冒称重跑",
+    "新入口help、受限pureload、PTY/mock本地验收，记录原始stdout/stderr/rc",
+    "独立payload包含新module；manifest完整性、归档解包和篡改拒绝；输出可直接运行的板端命令，由用户自行操作"
+  ],
+  "prior_evidence": "../失能起步修复验收-2026-10-19-证据/post-power-local/index-final.json",
+  "prior_actual_counts": {
+    "model": 314,
+    "hwtui": 217,
+    "tools_tests": 8,
+    "host": 17,
+    "asan": 17,
+    "tsan": 17
+  },
+  "routing": {
+    "requested_role": "light_worker",
+    "requested_model": "gpt-6.1-sol",
+    "requested_effort": "medium",
+    "actual_model": "unknown",
+    "actual_effort": "unknown",
+    "last_token_usage_input_tokens": "unknown",
+    "estimate": "fresh bounded task packet, below 240K; actual runtime input unavailable"
+  },
+  "tests_executed_this_phase": false,
+  "hardware_acceptance": false
+}

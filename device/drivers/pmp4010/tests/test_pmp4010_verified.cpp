@@ -40,6 +40,22 @@ public:
     std::uint16_t sw = 0x40, control = 0, selector = 0;
     std::uint8_t mode = 1, homing = 17;
     std::uint32_t position = 0xFFFFFF9Cu, velocity = 0x80000000u;
+    std::array<std::uint32_t, 4> calibration{10000,1,1,1};
+    std::uint32_t maximum_units = 0xFFFFFFFFu, maximum_rpm = 4000, target_velocity = 0, velocity_offset = 0;
+    bool alter_offset_after_velocity_write = false, alter_offset_after_status_read = false;
+    std::uint16_t alter_offset_after_control = 0xFFFFu;
+    bool velocity_readback_mismatch = false;
+    bool velocity_readback_abort = false, velocity_readback_silence = false;
+    bool mismatch_after_velocity_write = false;
+    bool alter_target_after_switch_on = false;
+    bool alter_calibration_after_switch_on = false;
+    bool alter_mode_after_switch_on = false;
+    std::uint8_t forced_mode_after_shutdown = 0, forced_mode_after_switch_on = 0;
+    unsigned mode_reads = 0, change_mode_after_read = 0;
+    std::uint8_t mode_after_read = 4;
+    std::uint32_t response_delay_us = 0;
+    std::uint16_t wrong_width_index = 0;
+    int wrong_width_sub = -1;
     std::int32_t lower_limit = -65535, upper_limit = 65535;
     std::uint16_t abort_index = 0, silent_index = 0;
     int abort_sub = -1;
@@ -87,19 +103,20 @@ public:
         if (silence) return Status::Ok();
         const auto index = static_cast<std::uint16_t>(frame.data[1] | (std::uint16_t{frame.data[2]} << 8u));
         const auto sub = frame.data[3];
+        if (response_delay_us != 0) SleepUntilMonotonic(MonotonicUs() + response_delay_us);
         CanFrame reply;
         reply.id = 0x580 + (frame.id - 0x600); reply.dlc = 8;
         std::copy_n(frame.data.begin(), 4, reply.data.begin());
-        if (index == silent_index) return Status::Ok();
-        if (index == abort_index && (abort_sub < 0 || sub == abort_sub)) {
+        if (index == silent_index || (index == 0x60FF && frame.data[0] == 0x40 && velocity_readback_silence)) return Status::Ok();
+        if ((index == abort_index && (abort_sub < 0 || sub == abort_sub)) ||
+            (index == 0x60FF && frame.data[0] == 0x40 && velocity_readback_abort)) {
             reply.data[0] = 0x80;
-            canopen::Encode32(reply.data.data() + 4, abort_code);
+            canopen::Encode32(reply.data.data() + 4, velocity_readback_abort ? 0x06020000u : abort_code);
         } else if (frame.data[0] == 0x40) {
             std::uint16_t width = 4;
             std::uint32_t value = 0x12345678;
             for (const auto& a : od::kAccess) {
-                const auto& e = od::kEntries[a.entry];
-                if (e.index == index && e.sub == sub) width = a.width;
+                if (a.index == index && a.sub == sub) width = a.width;
             }
             if (index == 0x6041) {
                 if (mode == 6 && control == 0x1F && !stale_home) {
@@ -107,12 +124,23 @@ public:
                     sw = home_error ? 0x2027 : homing_reads > 1 ? 0x1427 : 0x27;
                 }
                 value = sw;
-            } else if (index == 0x6061) value = mode;
+                if (alter_offset_after_status_read) velocity_offset = 1;
+            } else if (index == 0x6061) {
+                value = mode;
+                if (++mode_reads == change_mode_after_read) mode = mode_after_read;
+            }
             else if (index == 0x2002) value = selector;
             else if (index == 0x6098) value = homing;
             else if (index == 0x6064) value = position;
             else if (index == 0x606C) value = velocity;
+            else if (index == 0x608F) value = calibration[sub == 1 ? 0 : 1];
+            else if (index == 0x6091) value = calibration[sub == 1 ? 2 : 3];
+            else if (index == 0x607F) value = maximum_units;
+            else if (index == 0x6080) value = maximum_rpm;
+            else if (index == 0x60B1) value = velocity_offset;
+            else if (index == 0x60FF) value = target_velocity ^ (velocity_readback_mismatch ? 1u : 0u);
             else if (index == 0x607D) value = static_cast<std::uint32_t>(sub == 1 ? lower_limit : upper_limit);
+            if (index == wrong_width_index && (wrong_width_sub < 0 || sub == wrong_width_sub)) width = 2;
             reply.data[0] = static_cast<std::uint8_t>(0x43 | ((4 - width) << 2u));
             canopen::Encode32(reply.data.data() + 4, value);
         } else {
@@ -123,12 +151,19 @@ public:
                 if (!hold_state) {
                     if (value == 0) sw = (sw & 8u) ? 8 : 0x40;
                     else if (value == 0x80) sw = 0x40;
-                    else if (value == 6) sw = 0x21;
-                    else if (value == 7) sw = 0x23;
+                    else if (value == 6) { sw = 0x21; if (forced_mode_after_shutdown != 0) mode = forced_mode_after_shutdown; }
+                    else if (value == 7) {
+                        sw = 0x23;
+                        if (alter_target_after_switch_on) ++target_velocity;
+                        if (alter_calibration_after_switch_on) ++calibration[0];
+                        if (alter_mode_after_switch_on) mode = mode == 3 ? 9 : 3;
+                        if (forced_mode_after_switch_on != 0) mode = forced_mode_after_switch_on;
+                    }
                     else if (value == 15) sw = stale_home && mode == 6 ? 0x1427 : 0x27;
                     else if (value == 31) sw = mode == 6 ? stale_home ? 0x1427 : 0x27 : 0x1027;
                     else if (value == 2) sw = 7;
                 }
+                if (value == alter_offset_after_control) velocity_offset = 1;
                 if (value == abort_control) {
                     reply.data[0] = 0x80;
                     canopen::Encode32(reply.data.data() + 4, 0x06090030u);
@@ -136,6 +171,11 @@ public:
                 if (value == lose_control_ack) { lose_control_ack = 0xFFFFu; return Status::Ok(); }
             } else if (index == 0x6060) mode = static_cast<std::uint8_t>(value);
             else if (index == 0x6098) homing = static_cast<std::uint8_t>(value);
+            else if (index == 0x60FF) {
+                target_velocity = value;
+                if (alter_offset_after_velocity_write) velocity_offset = 1;
+                if (mismatch_after_velocity_write) velocity_readback_mismatch = true;
+            }
             if (index == fail_write) return Status(ErrorCode::EDeviceOffline);
         }
         if (noise) {
@@ -227,8 +267,9 @@ KM3_TEST(typed_signed_values_widths_and_status_reads) {
     KM3_CHECK_EQ(p.data[0], 0x23);
     KM3_CHECK_EQ(canopen::Decode32(p.data.data() + 4), static_cast<std::uint32_t>(-123));
     const auto before_velocity = f.can.sent_count;
-    KM3_CHECK_EQ(f.driver.SetTargetVelocity(1, std::numeric_limits<std::int32_t>::min()).code(), ErrorCode::EInvalidConfig);
-    KM3_CHECK_EQ(f.can.sent_count, before_velocity);
+    KM3_CHECK_EQ(f.driver.SetTargetVelocity(1, std::numeric_limits<std::int32_t>::min()).code(), ErrorCode::EInvalidRequest);
+    KM3_CHECK(f.can.sent_count > before_velocity);
+    f.can.sw = 0x40;
     KM3_REQUIRE(f.driver.WriteObject(1, 0x6060, 0, 6).ok());
     KM3_CHECK_EQ(f.can.sent[f.can.sent_count - 1].data[0], 0x2F);
     KM3_REQUIRE(f.driver.WriteObject(1, 0x1017, 0, 0x1234).ok());
@@ -248,6 +289,18 @@ KM3_TEST(metadata_and_validation_reject_before_send) {
     Pmp4010Driver no_timeout(f.can, config);
     KM3_REQUIRE(no_timeout.Open().ok());
     KM3_CHECK_EQ(no_timeout.ReadStatusword(1).code(), ErrorCode::EInvalidConfig);
+    KM3_CHECK_EQ(f.can.sent_count, before);
+}
+KM3_TEST(halt_probe_metadata_does_not_authorize_generic_writes) {
+    Fixture f;
+    const auto before = f.can.sent_count;
+    // E06 4.1.4 table 4-7 / 10.3 table 10-7: 605Dh is RW hardware,
+    // but this driver only consumes its readback for the bench Halt probe.
+    KM3_CHECK_EQ(f.driver.WriteObject(1, 0x605D, 0, 1).code(), ErrorCode::EInvalidRequest);
+    KM3_CHECK_EQ(f.driver.SdoWrite(1, 0x605D, 0, {1, 0}).code(), ErrorCode::EInvalidRequest);
+    // E06 10.3 table 10-7: 6062h internal effective position demand is RO.
+    KM3_CHECK_EQ(f.driver.WriteObject(1, 0x6062, 0, 0).code(), ErrorCode::EInvalidRequest);
+    KM3_CHECK_EQ(f.driver.SdoWrite(1, 0x6062, 0, {0, 0, 0, 0}).code(), ErrorCode::EInvalidRequest);
     KM3_CHECK_EQ(f.can.sent_count, before);
 }
 KM3_TEST(correlation_noise_and_abort_diagnostics) {
@@ -300,9 +353,7 @@ KM3_TEST(enable_selector_modes_and_transition_timeout_fail_closed) {
     KM3_CHECK_EQ(f.driver.Enable(1).code(), ErrorCode::EInvalidConfig);
     KM3_CHECK_EQ(ControlCount(f.can, 6), 0u);
     f.can.selector = 0;
-    // 2/7 与 3/9 都在拒绝之列：前者使能终值不同（0x7F / 0x1F），后者
-    // 从站按 60FFh 残留值运行而速度标度换算链未实现。逐模式的完整
-    // 拒绝集合见 speed_mode_cannot_be_enabled_because_scale_chain_is_absent。
+    // 2/7 require unsupported terminal words; 3/9 here have no prepared target.
     for (std::uint8_t mode : std::array<std::uint8_t, 5>{2, 3, 7, 9, 0}) {
         f.can.mode = mode;
         KM3_CHECK_EQ(f.driver.Enable(1).code(), ErrorCode::EInvalidConfig);
@@ -314,23 +365,9 @@ KM3_TEST(enable_selector_modes_and_transition_timeout_fail_closed) {
     KM3_CHECK_EQ(fault.driver.SetTargetPosition(1, 1).code(), ErrorCode::ECommandRejected);
     KM3_CHECK_EQ(ControlCount(f.can, 31), 0u);
 }
-KM3_TEST(speed_mode_cannot_be_enabled_because_scale_chain_is_absent) {
-    // 本用例钉住一条**安全不变式**：速度模式下驱动不得使能。
-    //
-    // 为什么它值得单独立一条：SetTargetVelocity 已经无条件拒绝，看起来
-    // 「速度写不进去」就够了。但真实的暴露面不是驱动写值，而是
-    // **60FFh 里已有的残留值**——实测该电机 60FFh = 6553600 = 3000 rpm
-    // （额定转速）。只要模式被别人（厂家工具 / 上层）置为 3，再让驱动
-    // 使能，从站就会按那个残留值转起来。所以在**使能这一侧**也必须有闸门。
-    //
-    // 断言两件事：(1) 拒绝且不发任何控制字；(2) 模式 1/4/6/8/10 仍可使能，
-    // 即这道闸门只挡下面列出的那些，没有误伤。
-    //
-    // 拒绝集合分两组理由（详见 CanEnableInMode 注释）：
-    //   3(PV)、9(CSV) —— 从站按 60FFh 残留值运行，换算链未实现；
-    //   2(VM)、7(IP) —— 使能终值是 0x7F / 0x1F，本驱动只实现 0x0F。
-    // 9 曾经漏在「可使能」一侧（注释说排除 CSV 而代码没排除），
-    // 本条用例就是钉住它不能回去。
+KM3_TEST(speed_modes_reject_unprepared_residuals_and_other_modes_keep_their_policy) {
+    // Conversion is insufficient: no setter in this session, no enable,
+    // even if 60FF already contains zero or a previously valid residual.
     for (std::uint8_t mode : std::array<std::uint8_t, 6>{3, 9, 2, 7, 0, 5}) {
         Fixture f;
         f.can.mode = mode;
@@ -368,7 +405,8 @@ KM3_TEST(mode_change_direction_and_pp_handshake) {
     KM3_REQUIRE(f.driver.SetOperationMode(1, 3).ok());
     f.can.sw = 0x27;
     KM3_CHECK_EQ(f.driver.SetOperationMode(1, 6).code(), ErrorCode::ECommandRejected);
-    KM3_CHECK_EQ(f.driver.SetVelocity(1, 123, Direction::Raise).code(), ErrorCode::EInvalidConfig);
+    KM3_REQUIRE(f.driver.SetVelocity(1, 123, Direction::Raise).ok());
+    KM3_CHECK_EQ(f.can.target_velocity, static_cast<std::uint32_t>(-123));
     KM3_CHECK_EQ(f.driver.SetVelocity(1, -1, Direction::Raise).code(), ErrorCode::EInvalidRequest);
     f.can.mode = 1;
     KM3_REQUIRE(f.driver.MoveTo(1, -100).ok());
@@ -495,20 +533,127 @@ KM3_TEST(position_limits_fail_closed_inclusive_and_generic_writes_cannot_bypass)
     KM3_CHECK_EQ(inverted.driver.MoveTo(1, 0).code(), ErrorCode::EInvalidConfig);
     KM3_CHECK_EQ(MotionWriteCount(inverted.can), 0u);
 }
-KM3_TEST(velocity_without_verified_conversion_rejects_all_write_paths) {
-    Fixture f; f.can.sw = 0x27; f.can.mode = 3;
-    const auto before = f.can.sent_count;
-    for (const auto value : {0, 1, std::numeric_limits<std::int32_t>::max(),
-                              std::numeric_limits<std::int32_t>::min()}) {
-        KM3_CHECK_EQ(f.driver.SetTargetVelocity(1, value).code(), ErrorCode::EInvalidConfig);
-        KM3_CHECK_EQ(f.driver.WriteObject(1, 0x60FF, 0, static_cast<std::uint32_t>(value)).code(), ErrorCode::EInvalidConfig);
+KM3_TEST(velocity_all_write_paths_share_live_conversion_limits_and_readback) {
+    Fixture f; f.can.mode = 3;
+    for (const auto value : {0, 1, -1, 50000, -50000}) {
+        KM3_REQUIRE(f.driver.SetTargetVelocity(1, value).ok());
+        KM3_CHECK_EQ(f.can.target_velocity, static_cast<std::uint32_t>(value));
+        KM3_REQUIRE(f.driver.WriteObject(1, 0x60FF, 0, static_cast<std::uint32_t>(value)).ok());
         std::vector<std::uint8_t> bytes(4); canopen::Encode32(bytes.data(), static_cast<std::uint32_t>(value));
-        KM3_CHECK_EQ(f.driver.SdoWrite(1, 0x60FF, 0, bytes).code(), ErrorCode::EInvalidConfig);
+        KM3_REQUIRE(f.driver.SdoWrite(1, 0x60FF, 0, bytes).ok());
     }
-    KM3_CHECK_EQ(f.driver.SetVelocity(1, 1, Direction::Raise).code(), ErrorCode::EInvalidConfig);
-    KM3_CHECK_EQ(f.driver.SetVelocity(1, 1, Direction::Lower).code(), ErrorCode::EInvalidConfig);
+    KM3_REQUIRE(f.driver.SetVelocity(1, 50000, Direction::Raise).ok());
+    KM3_CHECK_EQ(f.can.target_velocity, static_cast<std::uint32_t>(-50000));
+    KM3_REQUIRE(f.driver.SetVelocity(1, 50000, Direction::Lower).ok());
+    KM3_CHECK_EQ(f.can.target_velocity, 50000u);
+    KM3_CHECK_EQ(ControlCount(f.can, 15), 0u); // never implicitly enables
+    KM3_CHECK_EQ(f.can.sw, 0x40);
+    f.can.maximum_rpm = 300;
+    KM3_REQUIRE(f.driver.SetTargetVelocity(1, -50000).ok());
+    const auto writes = MotionWriteCount(f.can);
+    KM3_CHECK_EQ(f.driver.SetTargetVelocity(1, -50001).code(), ErrorCode::EInvalidRequest);
+    KM3_CHECK_EQ(f.driver.WriteObject(1, 0x60FF, 0, 50001).code(), ErrorCode::EInvalidRequest);
+    std::vector<std::uint8_t> bytes(4); canopen::Encode32(bytes.data(), 50001);
+    KM3_CHECK_EQ(f.driver.SdoWrite(1, 0x60FF, 0, bytes).code(), ErrorCode::EInvalidRequest);
+    KM3_CHECK_EQ(f.driver.SetVelocity(1, 50001, Direction::Lower).code(), ErrorCode::EInvalidRequest);
+    KM3_CHECK_EQ(MotionWriteCount(f.can), writes);
+    f.can.maximum_rpm = 4000; f.can.maximum_units = 49999;
+    KM3_CHECK_EQ(f.driver.SetTargetVelocity(1, -50000).code(), ErrorCode::EInvalidRequest);
+    KM3_CHECK_EQ(MotionWriteCount(f.can), writes);
+}
+KM3_TEST(velocity_calibration_is_not_cached_and_rpm_entry_is_explicit_and_exact) {
+    Fixture f;
+    KM3_REQUIRE(f.driver.SetTargetVelocityRpm(1, 300).ok());
+    KM3_CHECK_EQ(f.can.target_velocity, 50000u);
+    f.can.calibration[0] = 131072;
+    KM3_REQUIRE(f.driver.SetTargetVelocityRpm(1, 3000).ok());
+    KM3_CHECK_EQ(f.can.target_velocity, 6553600u);
+    auto writes = MotionWriteCount(f.can);
+    KM3_CHECK_EQ(f.driver.SetTargetVelocityRpm(1, 1).code(), ErrorCode::EInvalidRequest);
+    KM3_CHECK_EQ(MotionWriteCount(f.can), writes); // fractional 60FF rejected
+    f.can.calibration = {60,1,1,1}; f.can.maximum_rpm = 0xFFFFFFFFu;
+    KM3_REQUIRE(f.driver.SetTargetVelocity(1, std::numeric_limits<std::int32_t>::min()).ok());
+    KM3_CHECK_EQ(f.can.target_velocity, 0x80000000u);
+    KM3_REQUIRE(f.driver.SetTargetVelocityRpm(1, std::numeric_limits<std::int32_t>::min()).ok());
+    f.can.calibration = {0xFFFFFFFFu,1,1,1};
+    writes = MotionWriteCount(f.can);
+    KM3_CHECK_EQ(f.driver.SetTargetVelocityRpm(1, 3000).code(), ErrorCode::EInvalidRequest);
+    KM3_CHECK_EQ(MotionWriteCount(f.can), writes); // integral but out of Int32
+    f.can.calibration = {10000,1,3,1}; f.can.maximum_rpm = 300;
+    KM3_CHECK_EQ(f.driver.SetTargetVelocity(1, 50000).code(), ErrorCode::EInvalidRequest);
+    f.can.maximum_rpm = 900;
+    KM3_REQUIRE(f.driver.SetTargetVelocity(1, 50000).ok());
+}
+KM3_TEST(velocity_each_live_input_failure_denies_writes_and_timeout_quarantines) {
+    const std::array<std::pair<std::uint16_t, std::uint8_t>, 6> addresses{{
+        {0x608F,1},{0x608F,2},{0x6091,1},{0x6091,2},{0x607F,0},{0x6080,0}}};
+    for (const auto& address : addresses) for (int failure = 0; failure < 3; ++failure) {
+        Fixture f;
+        if (failure == 0) { f.can.abort_index = address.first; f.can.abort_sub = address.second; f.can.abort_code = 0x06020000u; }
+        else if (failure == 1) f.can.silent_index = address.first;
+        else { f.can.wrong_width_index = address.first; f.can.wrong_width_sub = address.second; }
+        KM3_CHECK_EQ(f.driver.SetTargetVelocity(1, 0).code(), failure == 0 ? ErrorCode::ECommandRejected :
+            failure == 1 ? ErrorCode::ECommandTimeout : ErrorCode::EDeviceError);
+        KM3_CHECK_EQ(MotionWriteCount(f.can), 0u);
+        if (failure == 1) {
+            const auto sent = f.can.sent_count;
+            KM3_CHECK_EQ(f.driver.SetTargetVelocity(1, 0).code(), ErrorCode::EDeviceBusy);
+            KM3_CHECK_EQ(f.can.sent_count, sent);
+        }
+    }
+    for (std::size_t i = 0; i < 4; ++i) {
+        Fixture f; f.can.calibration[i] = 0;
+        KM3_CHECK_EQ(f.driver.SetTargetVelocity(1, 0).code(), ErrorCode::EInvalidConfig);
+        KM3_CHECK_EQ(f.driver.SetTargetVelocityRpm(1, 0).code(), ErrorCode::EInvalidConfig);
+        KM3_CHECK_EQ(MotionWriteCount(f.can), 0u);
+    }
+}
+KM3_TEST(velocity_invalid_direction_selector_or_readback_cannot_report_success) {
+    Fixture f;
+    KM3_CHECK_EQ(f.driver.SetVelocity(1, -1, Direction::Raise).code(), ErrorCode::EInvalidRequest);
+    KM3_CHECK_EQ(f.driver.SetVelocity(1, 1, static_cast<Direction>(2)).code(), ErrorCode::EInvalidRequest);
+    KM3_CHECK_EQ(f.can.sent_count, 0u);
+    auto config = Config(); config.nodes[0].raise_direction_sign = 0;
+    Pmp4010Driver invalid(f.can, config); KM3_REQUIRE(invalid.Open().ok());
+    KM3_CHECK_EQ(invalid.SetVelocity(1, 1, Direction::Raise).code(), ErrorCode::EInvalidConfig);
+    KM3_CHECK_EQ(f.can.sent_count, 0u);
+    f.can.selector = 4;
+    KM3_CHECK_EQ(f.driver.SetTargetVelocity(1, 0).code(), ErrorCode::EInvalidConfig);
     KM3_CHECK_EQ(MotionWriteCount(f.can), 0u);
-    KM3_CHECK_EQ(f.can.sent_count, before);
+    f.can.selector = 0; f.can.velocity_readback_mismatch = true;
+    KM3_CHECK_EQ(f.driver.SetTargetVelocity(1, 123).code(), ErrorCode::EDeviceError);
+    KM3_CHECK_EQ(ControlCount(f.can, 15), 0u);
+    Fixture read_fail; read_fail.can.velocity_readback_abort = true;
+    KM3_CHECK_EQ(read_fail.driver.SetTargetVelocity(1, 123).code(), ErrorCode::ECommandRejected);
+    KM3_CHECK_EQ(MotionWriteCount(read_fail.can), 1u);
+    Fixture read_timeout; read_timeout.can.velocity_readback_silence = true;
+    KM3_CHECK_EQ(read_timeout.driver.SetTargetVelocity(1, 123).code(), ErrorCode::ECommandTimeout);
+    KM3_CHECK_EQ(MotionWriteCount(read_timeout.can), 1u);
+    const auto sent = read_timeout.can.sent_count;
+    KM3_CHECK_EQ(read_timeout.driver.SetTargetVelocity(1, 0).code(), ErrorCode::EDeviceBusy);
+    KM3_CHECK_EQ(read_timeout.can.sent_count, sent);
+    Fixture download_fail; download_fail.can.fail_write = 0x60FF;
+    KM3_CHECK_EQ(download_fail.driver.SetTargetVelocity(1, 123).code(), ErrorCode::EDeviceOffline);
+    Fixture budget; budget.can.response_delay_us = 1000;
+    KM3_CHECK_EQ(budget.driver.SetTargetVelocity(1, 123).code(), ErrorCode::ECommandTimeout);
+    KM3_CHECK_EQ(MotionWriteCount(budget.can), 0u); // one budget, never refreshed per read
+}
+KM3_TEST(expanded_access_preserves_provenance_addresses_and_read_only_policy) {
+    Fixture f;
+    const char* keys[] = {"encoder_increments", "encoder_motor_revolutions", "gear_motor_revolutions", "gear_output_revolutions", "max_velocity", "max_deceleration"};
+    for (const char* key : keys) {
+        const od::Access* found = nullptr;
+        for (const auto& access : od::kAccess) if (std::strcmp(access.key, key) == 0) found = &access;
+        KM3_REQUIRE(found != nullptr);
+        KM3_CHECK(od::kEntries[found->entry].verified);
+        KM3_CHECK(!found->writable);
+        KM3_REQUIRE(f.driver.ReadObject(1, found->index, found->sub).ok());
+        const auto count = f.can.sent_count;
+        KM3_CHECK_EQ(f.driver.WriteObject(1, found->index, found->sub, 1).code(), ErrorCode::EInvalidRequest);
+        std::vector<std::uint8_t> bytes(4);
+        KM3_CHECK_EQ(f.driver.SdoWrite(1, found->index, found->sub, bytes).code(), ErrorCode::EInvalidRequest);
+        KM3_CHECK_EQ(f.can.sent_count, count);
+    }
 }
 KM3_TEST(all_controlword_primitives_require_cia402_and_selector_failure_denies) {
     using Primitive = Status (Pmp4010Driver::*)(std::uint8_t);
@@ -607,4 +752,307 @@ KM3_TEST(all_upload_command_bytes_match_independent_acceptance_table) {
         KM3_CHECK(!can.mismatch);
     }
 }
+KM3_TEST(speed_enable_writes_and_confirms_target_before_any_sequence_controlword) {
+    for (std::uint8_t mode : std::array<std::uint8_t,2>{3,9}) for (const auto target : {0,50000,-50000}) {
+        Fixture f; f.can.mode = mode;
+        KM3_REQUIRE(f.driver.SetTargetVelocity(1,target).ok());
+        const auto begin = f.can.sent_count;
+        KM3_REQUIRE(f.driver.Enable(1).ok());
+        std::size_t write = f.can.sent_count, readback = write, shutdown = write, switch_on = write, enable = write;
+        for (std::size_t i = begin; i < f.can.sent_count; ++i) {
+            const auto& frame = f.can.sent[i];
+            const auto index = static_cast<std::uint16_t>(frame.data[1] | (std::uint16_t{frame.data[2]} << 8u));
+            if (index == 0x60FF && frame.data[0] == 0x23 && write == f.can.sent_count) write = i;
+            if (index == 0x60FF && frame.data[0] == 0x40 && write < i && readback == f.can.sent_count) readback = i;
+            if (index == 0x6040 && frame.data[0] == 0x2B) {
+                const auto value = canopen::Decode32(frame.data.data()+4);
+                if (value == 6) shutdown = i;
+                if (value == 7) switch_on = i;
+                if (value == 15) enable = i;
+            }
+        }
+        KM3_CHECK(write < readback && readback < shutdown && shutdown < switch_on && switch_on < enable);
+        KM3_CHECK_EQ(f.can.target_velocity,static_cast<std::uint32_t>(target));
+        KM3_CHECK_EQ(f.can.sw,0x27);
+        const auto enable_count = ControlCount(f.can,15);
+        KM3_CHECK_EQ(f.driver.Enable(1).code(),ErrorCode::EInvalidConfig); // already-enabled cannot bypass one-shot proof
+        KM3_CHECK_EQ(f.driver.EnableOperation(1).code(),ErrorCode::EInvalidConfig);
+        KM3_CHECK_EQ(ControlCount(f.can,15),enable_count);
+        std::printf("SPEED mode=%u target=%d TX 60FF-write[%zu] readback[%zu] 0006[%zu] 0007[%zu] 000F[%zu]\n",
+            static_cast<unsigned>(mode),target,write,readback,shutdown,switch_on,enable);
+    }
+}
+KM3_TEST(speed_modes_never_enable_existing_residuals_or_fault_reset_implicitly) {
+    for (std::uint8_t mode : std::array<std::uint8_t,2>{3,9}) for (const auto state : {0x40,0x27}) for (const auto residual : {0u,6553600u}) {
+        Fixture f; f.can.mode=mode; f.can.sw=static_cast<std::uint16_t>(state); f.can.target_velocity=residual;
+        KM3_CHECK_EQ(f.driver.Enable(1).code(),ErrorCode::EInvalidConfig);
+        KM3_CHECK_EQ(f.driver.EnableOperation(1).code(),ErrorCode::EInvalidConfig);
+        KM3_CHECK_EQ(MotionWriteCount(f.can),0u);
+    }
+    Fixture fault; fault.can.mode=3;
+    KM3_REQUIRE(fault.driver.SetTargetVelocity(1,0).ok()); fault.can.sw=8;
+    KM3_CHECK_EQ(fault.driver.Enable(1).code(),ErrorCode::ECommandRejected);
+    KM3_CHECK_EQ(ControlCount(fault.can,0x80),0u); KM3_CHECK_EQ(ControlCount(fault.can,6),0u);
+}
+KM3_TEST(speed_enable_preflight_failures_never_send_sequence_controlwords) {
+    const std::array<std::pair<std::uint16_t,std::uint8_t>,6> inputs{{{0x608F,1},{0x608F,2},{0x6091,1},{0x6091,2},{0x607F,0},{0x6080,0}}};
+    for (std::uint8_t mode : std::array<std::uint8_t,2>{3,9}) for (const auto& input : inputs) for (int failure=0;failure<3;++failure) {
+        Fixture f; f.can.mode=mode; KM3_REQUIRE(f.driver.SetTargetVelocity(1,0).ok());
+        if (failure==0) { f.can.abort_index=input.first;f.can.abort_sub=input.second;f.can.abort_code=0x06020000u; }
+        if (failure==1) f.can.silent_index=input.first;
+        if (failure==2) { f.can.wrong_width_index=input.first;f.can.wrong_width_sub=input.second; }
+        KM3_CHECK_EQ(f.driver.Enable(1).code(),failure==0?ErrorCode::ECommandRejected:failure==1?ErrorCode::ECommandTimeout:ErrorCode::EDeviceError);
+        KM3_CHECK_EQ(ControlCount(f.can,6),0u);KM3_CHECK_EQ(ControlCount(f.can,7),0u);KM3_CHECK_EQ(ControlCount(f.can,15),0u);
+        f.can.abort_index=f.can.silent_index=f.can.wrong_width_index=0;
+        const auto sent=f.can.sent_count;
+        KM3_CHECK_EQ(f.driver.Enable(1).code(),failure==1?ErrorCode::EDeviceBusy:ErrorCode::EInvalidConfig);
+        if (failure==1) KM3_CHECK_EQ(f.can.sent_count,sent);
+    }
+    for (int failure=0;failure<5;++failure) {
+        Fixture f;f.can.mode=3;KM3_REQUIRE(f.driver.SetTargetVelocity(1,0).ok());
+        if (failure==0) f.can.fail_write=0x60FF;
+        if (failure==1) f.can.velocity_readback_abort=true;
+        if (failure==2) f.can.velocity_readback_silence=true;
+        if (failure==3) f.can.mismatch_after_velocity_write=true;
+        if (failure==4) f.can.response_delay_us=1000;
+        KM3_CHECK_EQ(f.driver.Enable(1).code(),failure==0?ErrorCode::EDeviceOffline:failure==1?ErrorCode::ECommandRejected:
+            failure==3?ErrorCode::EDeviceError:ErrorCode::ECommandTimeout);
+        KM3_CHECK_EQ(ControlCount(f.can,6),0u);KM3_CHECK_EQ(ControlCount(f.can,7),0u);KM3_CHECK_EQ(ControlCount(f.can,15),0u);
+    }
+}
+KM3_TEST(speed_preparation_is_bound_to_node_mode_target_calibration_and_live_limits) {
+    for (int change=0;change<9;++change) {
+        Fixture f;f.can.mode=3;KM3_REQUIRE(f.driver.SetTargetVelocity(1,50000).ok());
+        if (change<4) ++f.can.calibration[static_cast<std::size_t>(change)];
+        if (change==4) ++f.can.target_velocity;
+        if (change==5) f.can.mode=9;
+        if (change==6) f.can.selector=4;
+        if (change==7) f.can.maximum_rpm=299;
+        if (change==8) f.can.maximum_units=49999;
+        KM3_CHECK(!f.driver.Enable(1).ok());KM3_CHECK_EQ(ControlCount(f.can,6),0u);KM3_CHECK_EQ(ControlCount(f.can,15),0u);
+        f.can.calibration={10000,1,1,1};f.can.target_velocity=50000;f.can.mode=3;f.can.selector=0;f.can.maximum_rpm=4000;f.can.maximum_units=0xFFFFFFFFu;
+        KM3_CHECK_EQ(f.driver.Enable(1).code(),ErrorCode::EInvalidConfig); // restoring external values does not resurrect proof
+    }
+    Fixture f;f.can.mode=3;KM3_REQUIRE(f.driver.SetTargetVelocity(1,0).ok());
+    KM3_CHECK_EQ(f.driver.Enable(2).code(),ErrorCode::EInvalidConfig);
+    KM3_REQUIRE(f.driver.Enable(1).ok()); // other node rejection does not consume this node's proof
+    for (int change=0;change<3;++change) {
+        Fixture changed;changed.can.mode=3;KM3_REQUIRE(changed.driver.SetTargetVelocity(1,0).ok());
+        changed.can.alter_target_after_switch_on=change==0;
+        changed.can.alter_calibration_after_switch_on=change==1;
+        changed.can.alter_mode_after_switch_on=change==2;
+        KM3_CHECK_EQ(changed.driver.Enable(1).code(),ErrorCode::EInvalidConfig);
+        KM3_CHECK_EQ(ControlCount(changed.can,15),0u); // central guard rechecks after internal 6/7
+    }
+}
+KM3_TEST(speed_preparation_lifecycle_requires_another_explicit_setter) {
+    for (int action=0;action<12;++action) {
+        Fixture f;f.can.mode=3;KM3_REQUIRE(f.driver.SetTargetVelocity(1,0).ok());
+        if(action==0) { KM3_REQUIRE(f.driver.Close().ok());KM3_REQUIRE(f.driver.Open().ok()); }
+        if(action==1) KM3_REQUIRE(f.driver.Open().ok());
+        if(action==2) KM3_REQUIRE(f.driver.Stop(1).ok());
+        if(action==3) KM3_REQUIRE(f.driver.Disable(1).ok());
+        if(action==4) KM3_REQUIRE(f.driver.FaultReset(1).ok());
+        if(action==5) KM3_REQUIRE(f.driver.Shutdown(1).ok());
+        if(action==6) KM3_REQUIRE(f.driver.SwitchOn(1).ok());
+        if(action==7) KM3_REQUIRE(f.driver.SetOperationMode(1,3).ok());
+        if(action==8) KM3_REQUIRE(f.driver.WriteObject(1,0x2002,1,0).ok());
+        if(action==9) { f.can.abort_index=0x6064;f.can.abort_code=0x06020000u;KM3_CHECK(!f.driver.GetActualPosition(1).ok());f.can.abort_index=0; }
+        if(action==10) KM3_REQUIRE(f.driver.SendNmt(NmtCommand::PreOperational,1).ok());
+        if(action==11) KM3_CHECK_EQ(f.driver.SetVelocity(1,-1,Direction::Raise).code(),ErrorCode::EInvalidRequest);
+        const auto before=ControlCount(f.can,15);
+        KM3_CHECK_EQ(f.driver.Enable(1).code(),ErrorCode::EInvalidConfig);
+        KM3_CHECK_EQ(ControlCount(f.can,15),before);
+        f.can.sw=0x40;KM3_REQUIRE(f.driver.SetTargetVelocity(1,0).ok());KM3_REQUIRE(f.driver.Enable(1).ok());
+    }
+}
+KM3_TEST(generic_enable_family_words_cannot_bypass_preparation_or_mode_exclusions) {
+    for(std::uint8_t mode:std::array<std::uint8_t,4>{2,3,7,9}) for(const std::uint16_t word:std::array<std::uint16_t,4>{0x000F,0x001F,0x003F,0x007F}) for(int api=0;api<2;++api) {
+        Fixture f;f.can.mode=mode;
+        std::vector<std::uint8_t> data(2);data[0]=static_cast<std::uint8_t>(word);data[1]=0;
+        const auto unprepared=api==0?f.driver.WriteObject(1,0x6040,0,word):f.driver.SdoWrite(1,0x6040,0,data);
+        KM3_CHECK_EQ(unprepared.code(),ErrorCode::EInvalidConfig);KM3_CHECK_EQ(ControlCount(f.can,word),0u);
+        KM3_REQUIRE(f.driver.SetTargetVelocity(1,0).ok());
+        const auto prepared=api==0?f.driver.WriteObject(1,0x6040,0,word):f.driver.SdoWrite(1,0x6040,0,data);
+        KM3_CHECK_EQ(prepared.code(),mode==2||mode==7?ErrorCode::EInvalidConfig:ErrorCode::Ok);
+        KM3_CHECK_EQ(ControlCount(f.can,word),mode==2||mode==7?0u:1u);
+        if(mode==3||mode==9) {
+            const auto reused=api==0?f.driver.WriteObject(1,0x6040,0,word):f.driver.SdoWrite(1,0x6040,0,data);
+            KM3_CHECK_EQ(reused.code(),ErrorCode::EInvalidConfig);KM3_CHECK_EQ(ControlCount(f.can,word),1u);
+        }
+    }
+    for(std::uint8_t mode:std::array<std::uint8_t,2>{3,9}) {
+        Fixture f;f.can.mode=mode;f.can.sw=0x23;KM3_REQUIRE(f.driver.SetTargetVelocity(1,0).ok());
+        KM3_REQUIRE(f.driver.EnableOperation(1).ok());KM3_CHECK_EQ(ControlCount(f.can,15),1u);
+    }
+}
+KM3_TEST(generic_mode_writes_cannot_switch_an_enabled_node_to_velocity_mode) {
+    for(std::uint8_t mode:std::array<std::uint8_t,2>{3,9}) for(int api=0;api<2;++api) {
+        Fixture f;f.can.sw=0x27;
+        const auto before=f.can.sent_count;
+        const auto status=api==0?f.driver.WriteObject(1,0x6060,0,mode):f.driver.SdoWrite(1,0x6060,0,{mode});
+        KM3_CHECK_EQ(status.code(),ErrorCode::ECommandRejected);KM3_CHECK_EQ(f.can.mode,1u);
+        for(std::size_t i=before;i<f.can.sent_count;++i) KM3_CHECK(f.can.sent[i].data[0]==0x40);
+    }
+}
+
+KM3_TEST(observed_external_changes_and_failed_setters_cannot_resurrect_speed_proof) {
+    for(int change=0;change<3;++change) {
+        Fixture f;f.can.mode=3;KM3_REQUIRE(f.driver.SetTargetVelocity(1,0).ok());
+        if(change==0) { f.can.mode=9;KM3_REQUIRE(f.driver.ReadObject(1,0x6061,0).ok());f.can.mode=3; }
+        if(change==1) { f.can.target_velocity=1;KM3_REQUIRE(f.driver.ReadObject(1,0x60FF,0).ok());f.can.target_velocity=0; }
+        if(change==2) { f.can.calibration[0]=20000;KM3_REQUIRE(f.driver.ReadObject(1,0x608F,1).ok());f.can.calibration[0]=10000; }
+        KM3_CHECK_EQ(f.driver.Enable(1).code(),ErrorCode::EInvalidConfig);
+        KM3_CHECK_EQ(ControlCount(f.can,6),0u);
+    }
+    for(int i=0;i<4;++i) {
+        Fixture f;f.can.mode=9;KM3_REQUIRE(f.driver.SetTargetVelocity(1,0).ok());
+        f.can.calibration[static_cast<std::size_t>(i)]=0;
+        KM3_CHECK_EQ(f.driver.EnableOperation(1).code(),ErrorCode::EInvalidConfig);
+        KM3_CHECK_EQ(ControlCount(f.can,2),0u);KM3_CHECK_EQ(ControlCount(f.can,15),0u);
+    }
+    for(int failure=0;failure<3;++failure) {
+        Fixture f;f.can.mode=3;KM3_REQUIRE(f.driver.SetTargetVelocity(1,0).ok());
+        if(failure==0) f.can.fail_write=0x60FF;
+        if(failure==1) f.can.velocity_readback_abort=true;
+        if(failure==2) f.can.mismatch_after_velocity_write=true;
+        KM3_CHECK(!f.driver.SetTargetVelocity(1,1).ok());
+        f.can.fail_write=0;f.can.velocity_readback_abort=f.can.velocity_readback_mismatch=f.can.mismatch_after_velocity_write=false;
+        KM3_CHECK_EQ(f.driver.Enable(1).code(),ErrorCode::EInvalidConfig);
+        KM3_CHECK_EQ(ControlCount(f.can,6),0u);
+    }
+    Fixture lost;lost.can.mode=3;KM3_REQUIRE(lost.driver.SetTargetVelocity(1,0).ok());
+    lost.can.sw=0x23;lost.can.lose_control_ack=15;
+    KM3_CHECK_EQ(lost.driver.EnableOperation(1).code(),ErrorCode::ECommandTimeout);
+    const auto sent=lost.can.sent_count;
+    KM3_CHECK_EQ(lost.driver.EnableOperation(1).code(),ErrorCode::EDeviceBusy);
+    KM3_CHECK_EQ(lost.can.sent_count,sent);KM3_CHECK(lost.driver.Stats().cleanup_failures>0);
+}
+
+KM3_TEST(speed_mode_drift_to_an_allowed_nonvelocity_mode_never_downgrades_the_guard) {
+    for(std::uint8_t mode:std::array<std::uint8_t,2>{3,9}) for(int api=0;api<4;++api) {
+        Fixture f;f.can.mode=mode;KM3_REQUIRE(f.driver.SetTargetVelocity(1,0).ok());f.can.mode=4;
+        Status status;
+        if(api==0) status=f.driver.Enable(1);
+        if(api==1) status=f.driver.EnableOperation(1);
+        if(api==2) status=f.driver.WriteObject(1,0x6040,0,0x0F);
+        if(api==3) status=f.driver.SdoWrite(1,0x6040,0,{0x1F,0});
+        KM3_CHECK_EQ(status.code(),ErrorCode::EInvalidConfig);
+        KM3_CHECK_EQ(ControlCount(f.can,6),0u);KM3_CHECK_EQ(ControlCount(f.can,7),0u);
+        KM3_CHECK_EQ(ControlCount(f.can,15),0u);KM3_CHECK_EQ(ControlCount(f.can,31),0u);
+    }
+    for(std::uint8_t mode:std::array<std::uint8_t,2>{3,9}) {
+        Fixture operation;operation.can.mode=mode;KM3_REQUIRE(operation.driver.SetTargetVelocity(1,0).ok());
+        operation.can.change_mode_after_read=operation.can.mode_reads+1; // initial EnableOperation read returns old mode, then changes to 4
+        KM3_CHECK_EQ(operation.driver.EnableOperation(1).code(),ErrorCode::EInvalidConfig);
+        KM3_CHECK_EQ(ControlCount(operation.can,15),0u);KM3_CHECK_EQ(ControlCount(operation.can,2),0u);
+        for(int boundary=0;boundary<3;++boundary) {
+            Fixture f;f.can.mode=mode;KM3_REQUIRE(f.driver.SetTargetVelocity(1,0).ok());
+            if(boundary==0) f.can.change_mode_after_read=f.can.mode_reads+3; // final preflight mode read, before 0006
+            if(boundary==1) f.can.forced_mode_after_shutdown=4;
+            if(boundary==2) f.can.forced_mode_after_switch_on=4;
+            KM3_CHECK_EQ(f.driver.Enable(1).code(),ErrorCode::EInvalidConfig);
+            KM3_CHECK_EQ(ControlCount(f.can,6),boundary==0?0u:1u);
+            KM3_CHECK_EQ(ControlCount(f.can,7),boundary==2?1u:0u);
+            KM3_CHECK_EQ(ControlCount(f.can,15),0u);
+        }
+    }
+}
+
+KM3_TEST(csv_offset_must_be_read_zero_before_every_target_api_without_writing_offset) {
+    for (int api = 0; api < 5; ++api) for (const auto offset : {1u, 0xFFFFFFFFu, 0x7FFFFFFFu}) {
+        Fixture f; f.can.mode = 9; f.can.velocity_offset = offset;
+        Status st;
+        if (api == 0) st = f.driver.SetTargetVelocity(1, 0);
+        if (api == 1) st = f.driver.SetVelocity(1, 0, Direction::Raise);
+        if (api == 2) st = f.driver.WriteObject(1, 0x60FF, 0, 0);
+        if (api == 3) st = f.driver.SdoWrite(1, 0x60FF, 0, {0,0,0,0});
+        if (api == 4) st = f.driver.SetTargetVelocityRpm(1, 0);
+        KM3_CHECK_EQ(st.code(), ErrorCode::EInvalidConfig);
+        KM3_CHECK_EQ(MotionWriteCount(f.can), 0u);
+        KM3_CHECK_EQ(f.driver.Enable(1).code(), ErrorCode::EInvalidConfig);
+        KM3_CHECK_EQ(ControlCount(f.can, 15), 0u);
+        for (std::size_t i = 0; i < f.can.sent_count; ++i) {
+            const auto& frame = f.can.sent[i];
+            KM3_CHECK(!(frame.data[1] == 0xB1 && frame.data[2] == 0x60 && frame.data[0] != 0x40));
+        }
+    }
+}
+KM3_TEST(csv_offset_read_abort_timeout_and_bad_width_refuse_prepare_and_enable) {
+    for (int prepared = 0; prepared < 2; ++prepared) for (int failure = 0; failure < 3; ++failure) {
+        Fixture f; f.can.mode = 9;
+        if (prepared) KM3_REQUIRE(f.driver.SetTargetVelocity(1, 0).ok());
+        if (failure == 0) { f.can.abort_index = 0x60B1; f.can.abort_code = 0x06020000u; }
+        if (failure == 1) f.can.silent_index = 0x60B1;
+        if (failure == 2) f.can.wrong_width_index = 0x60B1;
+        const auto writes = MotionWriteCount(f.can);
+        const auto st = prepared ? f.driver.Enable(1) : f.driver.SetTargetVelocity(1, 0);
+        KM3_CHECK_EQ(st.code(), failure == 0 ? ErrorCode::ECommandRejected :
+            failure == 1 ? ErrorCode::ECommandTimeout : ErrorCode::EDeviceError);
+        KM3_CHECK_EQ(MotionWriteCount(f.can), writes);
+        KM3_CHECK_EQ(ControlCount(f.can, 6), 0u);
+        KM3_CHECK_EQ(ControlCount(f.can, 7), 0u);
+        KM3_CHECK_EQ(ControlCount(f.can, 15), 0u);
+        f.can.abort_index = f.can.silent_index = f.can.wrong_width_index = 0;
+        const auto sent = f.can.sent_count;
+        KM3_CHECK_EQ(f.driver.Enable(1).code(), failure == 1 ? ErrorCode::EDeviceBusy : ErrorCode::EInvalidConfig);
+        if (failure == 1) {
+            KM3_CHECK_EQ(f.can.sent_count, sent);
+            KM3_CHECK_EQ(f.driver.SetTargetVelocity(1, 0).code(), ErrorCode::EDeviceBusy);
+            KM3_CHECK_EQ(f.can.sent_count, sent);
+        }
+    }
+}
+KM3_TEST(csv_offset_drift_refuses_all_enable_apis_and_every_sequence_stage) {
+    for (int api = 0; api < 10; ++api) {
+        Fixture f; f.can.mode = 9; KM3_REQUIRE(f.driver.SetTargetVelocity(1, 0).ok());
+        f.can.velocity_offset = 1;
+        const std::uint16_t word = static_cast<std::uint16_t>(api < 2 ? 15 :
+            std::array<std::uint16_t,4>{15,31,63,127}[static_cast<std::size_t>((api-2)/2)]);
+        Status st;
+        if (api == 0) st = f.driver.Enable(1);
+        else if (api == 1) st = f.driver.EnableOperation(1);
+        else if (api % 2 == 0) st = f.driver.WriteObject(1, 0x6040, 0, word);
+        else st = f.driver.SdoWrite(1, 0x6040, 0, {static_cast<std::uint8_t>(word),0});
+        KM3_CHECK_EQ(st.code(), ErrorCode::EInvalidConfig);
+        KM3_CHECK_EQ(ControlCount(f.can, word), 0u);
+        KM3_CHECK_EQ(ControlCount(f.can, 6), 0u);
+        f.can.velocity_offset = 0;
+        KM3_CHECK_EQ(f.driver.Enable(1).code(), ErrorCode::EInvalidConfig);
+    }
+    for (const std::uint16_t stage : std::array<std::uint16_t,3>{0,6,7}) {
+        Fixture f; f.can.mode = 9; KM3_REQUIRE(f.driver.SetTargetVelocity(1, 0).ok());
+        f.can.alter_offset_after_control = stage;
+        f.can.alter_offset_after_status_read = stage == 0;
+        KM3_CHECK_EQ(f.driver.Enable(1).code(), ErrorCode::EInvalidConfig);
+        KM3_CHECK_EQ(ControlCount(f.can, 6), stage == 0 ? 0u : 1u);
+        KM3_CHECK_EQ(ControlCount(f.can, 7), stage == 7 ? 1u : 0u);
+        KM3_CHECK_EQ(ControlCount(f.can, 15), 0u);
+    }
+    Fixture postwrite; postwrite.can.mode = 9; postwrite.can.alter_offset_after_velocity_write = true;
+    KM3_CHECK_EQ(postwrite.driver.SetTargetVelocity(1, 0).code(), ErrorCode::EInvalidConfig);
+    postwrite.can.velocity_offset = 0; postwrite.can.alter_offset_after_velocity_write = false;
+    KM3_CHECK_EQ(postwrite.driver.Enable(1).code(), ErrorCode::EInvalidConfig);
+    Fixture observed; observed.can.mode = 9; KM3_REQUIRE(observed.driver.SetTargetVelocity(1, 0).ok());
+    observed.can.velocity_offset = 1; KM3_REQUIRE(observed.driver.ReadObject(1, 0x60B1, 0).ok());
+    observed.can.velocity_offset = 0;
+    KM3_CHECK_EQ(observed.driver.Enable(1).code(), ErrorCode::EInvalidConfig);
+}
+KM3_TEST(csv_zero_offset_allows_enable_pv_does_not_read_offset_and_offset_writes_stay_closed) {
+    for (std::uint8_t mode : std::array<std::uint8_t,2>{3,9}) {
+        Fixture f; f.can.mode = mode;
+        if (mode == 3) { f.can.velocity_offset = 42; f.can.silent_index = 0x60B1; }
+        KM3_REQUIRE(f.driver.SetTargetVelocity(1, 0).ok());
+        KM3_REQUIRE(f.driver.Enable(1).ok());
+        KM3_CHECK_EQ(ControlCount(f.can, 15), 1u);
+        const auto before = f.can.sent_count;
+        KM3_CHECK_EQ(f.driver.WriteObject(1, 0x60B1, 0, 1).code(), ErrorCode::EInvalidRequest);
+        KM3_CHECK_EQ(f.driver.SdoWrite(1, 0x60B1, 0, {0,0,0,0}).code(), ErrorCode::EInvalidRequest);
+        KM3_CHECK_EQ(f.can.sent_count, before);
+        KM3_CHECK_EQ(f.can.velocity_offset, mode == 3 ? 42u : 0u);
+        if (mode == 3) for (std::size_t i = 0; i < f.can.sent_count; ++i)
+            KM3_CHECK(!(f.can.sent[i].data[1] == 0xB1 && f.can.sent[i].data[2] == 0x60));
+    }
+}
+
 KM3_TEST_MAIN()

@@ -1,0 +1,412 @@
+--- 7355-payload/pmp4010_manual.py
++++ current/pmp4010_manual.py
+@@ -6,6 +6,8 @@
+ reason to silently rebase a target or resume the old automatic transaction.
+ """
+ import copy
++import datetime
++import threading
+ import sys
+ import time
+ import uuid
+@@ -38,6 +40,10 @@
+         self.diagnostic_paths = {}
+         self._diagnostic_run = uuid.uuid4().hex
+         self._snapshot_serial = 0
++        self.lock = threading.RLock()
++        self.action_locks = {}
++        self._cleanup_witnesses = {}
++        self._reset_review = None
+ 
+     def _configuration(self, out):
+         if self.shutdown_results is not None:
+@@ -78,6 +84,7 @@
+     def discard_prepare(self):
+         super().discard_prepare()
+         self._manual_review = None
++        self._reset_review = None
+ 
+     def freeze_prepare(self, review):
+         self.discard_prepare()
+@@ -100,10 +107,24 @@
+                     except (p.CanopenError, transport.CanBusError, OSError, ValueError):
+                         self.quarantined = True
+                         raise
++                def _recorded(self, direction, index, subindex, data, method):
++                    observe = getattr(self, 'reset_observer', None)
++                    if observe:
++                        observe('sdo_attempt', direction=direction, index=index, sub=subindex,
++                                raw=None if data is None else bytes(data).hex(), monotonic=time.monotonic())
++                    result = method()
++                    if observe:
++                        observe('sdo_ack', direction=direction, index=index, sub=subindex,
++                                raw=bytes(result).hex() if isinstance(result, (bytes, bytearray)) else None,
++                                monotonic=time.monotonic())
++                    return result
+                 def read(self, index, subindex=0):
+-                    return self._manual_sdo(super().read, index, subindex)
++                    return self._recorded('upload', index, subindex, None,
++                        lambda: self._manual_sdo(super(ManualClient, self).read, index, subindex))
+                 def write(self, index, subindex, data):
+-                    return self._manual_sdo(super().write, index, subindex, data)
++                    self.manual_write_epoch = getattr(self, "manual_write_epoch", 0) + 1
++                    return self._recorded('download', index, subindex, data,
++                        lambda: self._manual_sdo(super(ManualClient, self).write, index, subindex, data))
+                 def _as_int(self, raw, size):
+                     return self._manual_sdo(super()._as_int, raw, size)
+             client = ManualClient(self.bus, node, timeout=self.args.timeout)
+@@ -121,7 +142,7 @@
+             client.quarantined = True
+             raise
+ 
+-    def _snapshot(self, session, envelope=None, states=None, observer=None):
++    def _snapshot(self, session, envelope=None, states=None, observer=None, *, allow_alarm=False):
+         self._snapshot_serial += 1
+         snapshot_serial = self._snapshot_serial
+         proof = self.proofs.get(session.client.node_id)
+@@ -142,8 +163,12 @@
+                 if states is not None and state not in states:
+                     raise ValueError('关键状态样本异常，禁止隐含使能；6041=0x{:04X}，允许状态={}'.format(
+                         value, ','.join('0x{:04X}'.format(s) for s in states)))
+-            if key == 'error_code_object' and value:
+-                raise ValueError('603Fh故障码非零：{}（最后错误低16bit，不能据此判断当前Fault或根因）'.format(format_fault(value)))
++            if key == 'error_code_object' and value and not (allow_alarm and value == 0x2312):
++                exc = ValueError('603Fh故障码非零：{}（最后错误低16bit，不能据此判断当前Fault或根因）'.format(format_fault(value)))
++                sw = samples.get('statusword', 0)
++                exc.manual_alarm_2312 = (value == 0x2312 and bool(sw & 0x80)
++                    and not sw & (p.CIA402_FAULT | p.CIA402_PP_FOLLOWING_ERROR))
++                raise exc
+             if key == 'actual_position' and envelope:
+                 position.check_envelope(envelope[0], envelope[1], value)
+                 if proof and not proof['expected']['software_position_limit'] <= value <= proof['expected']['software_position_limit_max']:
+@@ -219,10 +244,12 @@
+             return
+         base = getattr(self.args, 'motion_log', None)
+         if not base:
++            if node in self.action_locks:
++                self.action_locks[node]['kind'] = 'log_failed'
+             out.bad('诊断日志缺失：未指定--motion-log；首次失败仍保留在本会话内存')
+             return
+         path = Path(base)
+-        path = path.with_name(path.stem + '-diagnostics-' + self._diagnostic_run + '-node-' + str(node) + '.jsonl')
++        path = path.with_name(path.stem + '-diagnostics-' + self._diagnostic_run + '-node-' + str(node) + '-' + uuid.uuid4().hex + '.jsonl')
+         self.diagnostic_paths[node] = str(path)
+         journal = None
+         try:
+@@ -234,6 +261,8 @@
+             journal = None
+             out.info('故障诊断日志：' + str(path))
+         except BaseException as log_exc:
++            if node in self.action_locks:
++                self.action_locks[node]['kind'] = 'log_failed'
+             out.bad('诊断日志缺失或不完整：{}；{}；原始失败：{}'.format(path,log_exc,first.get('reason')))
+         finally:
+             if journal is not None:
+@@ -366,10 +395,11 @@
+         return review
+ 
+     def _cleanup_failure(self, node, session, exc, out):
+-        # A failed/uncertain action permanently blocks this target for this run.
++        # A failed action locks this target; only the guarded alarm reset may unlock it.
+         # Never create a new client or retry an uncertain request for cleanup.
+         owned = node in self.proofs or node in self.enabled_sessions or session.needs_stop
+-        self.proofs.pop(node, None)
++        self._cleanup_witnesses.pop(node, None)
++        prior_proof = self.proofs.pop(node, None)
+         session.cancel_event = None
+         self._latch(session.client, node, '手动动作', exc, out)
+         confirmed = None
+@@ -386,6 +416,18 @@
+         cleanup = dict(stop_attempted=bool(attempted), skip_reason=skip, disabled_confirmed=confirmed,
+             cleanup_error=cleanup_error, state_unknown=confirmed is not True, mechanical_stop_confirmed=False)
+         self.cleanup_diagnostics.setdefault(node, copy.deepcopy(cleanup))
++        cleanup['observed_at_utc'] = datetime.datetime.now(datetime.timezone.utc).isoformat()
++        if confirmed is True and not getattr(session.client, 'quarantined', False):
++            self._cleanup_witnesses[node] = dict(session=session, client=session.client,
++                epoch=getattr(session.client, 'manual_write_epoch', 0), **cleanup)
++        # Provenance is assigned at the failing alarm read, never parsed from
++        # translated error text. An existing unrelated lock cannot be replaced.
++        alarm = getattr(exc, 'manual_alarm_2312', False) and not getattr(session.client, 'quarantined', False)
++        existing = self.action_locks.get(node)
++        if existing and not alarm:
++            existing['kind'] = 'other'
++        self.action_locks.setdefault(node, dict(kind='alarm_2312' if alarm else 'other',
++            session=session, client=session.client, expected=copy.deepcopy({k: prior_proof[k] for k in ('expected','calibration')} if prior_proof else None)))
+         raw = first_failure.get('raw_statusword')
+         word = first_failure.get('controlword')
+         detail = ('CW=0x{:04X} 6041=0x{:04X} {}；'.format(word,raw,first_failure.get('decoded_state',''))
+@@ -411,6 +453,274 @@
+         # All potentially failing file I/O is after the existing cleanup rule.
+         self._persist_failure(node, first_failure, cleanup, out)
+         return confirmed
++
++    def _reset_context(self):
++        # Read-only configuration check. Recovery must never reopen a bus.
++        if self.shutdown_results is not None or self.bus is None or not self.rt_ack:
++            raise ValueError('原手动会话已关闭或未授权连接；禁止重新打开总线')
++        cfg, _ = self.tool.load_device_json()
++        item, _ = self.tool.find_can_bus(cfg, self.tool.LOGICAL_BUS)
++        actual = self.tool.read_iface_actual(self.context[0])
++        if ((item.get('iface'), item.get('bitrate')) != self.context or self.tool.load_od() != self.od
++                or not actual or actual.get('error') or actual.get('state') != 'UP'
++                or actual.get('bitrate') != self.context[1] or actual.get('can_state') != 'ERROR-ACTIVE'):
++            raise ValueError('总线配置/状态或OD已变化；禁止复位')
++
++    def _reset_health(self, session, *, initial=False):
++        p = self.tool._canopen
++        v = {k: self._read(session.client, k, session) for k in ('statusword', 'error_code_object')}
++        # These two verified read-only objects need no new OD policy or writes.
++        def raw(index, sub, size):
++            data = session.call(session.deadline(), '复位健康采样', session.client.read, index, sub)
++            if len(data) != size:
++                session.client.quarantined = True
++                raise ValueError('复位健康采样宽度不符')
++            return int.from_bytes(data, 'little')
++        v['error_register'] = raw(0x1001, 0, 1)
++        sw = v['statusword']
++        if (sw & p.CIA402_DISABLED_MASK != p.CIA402_DISABLED
++                or sw & (p.CIA402_FAULT | p.CIA402_PP_FOLLOWING_ERROR) or v['error_register']
++                or v['error_code_object'] not in (0, 0x2312)):
++            raise ValueError('复位采样出现新故障、跟随误差、非失能状态或1001h非零')
++        if initial:
++            v['reaction'] = raw(0x200e, 2, 4)
++            v['control_mode_select'] = self._read(session.client, 'control_mode_select', session)
++            if not sw & 0x80 or v['error_code_object'] != 0x2312 or v['reaction'] != 0x03002312 or v['control_mode_select'] != 0:
++                raise ValueError('仅允许已核对的Warning 2312、200E:02=03002312、CiA402失能报警复位')
++        return v
++
++    def _reset_validate_snapshot(self, values, cal):
++        # A reset does not grant motion authorization or change the user's
++        # origin, mm/turn, software zero, settings or physical device limits.
++        p = self.tool._canopen
++        if (values['statusword'] & p.CIA402_DISABLED_MASK != p.CIA402_DISABLED
++                or values['actual_velocity'] != 0 or values['home_offset'] != 0
++                or values['control_mode_select'] != 0 or values['modes_of_operation'] != 1
++                or values['modes_of_operation_display'] != 1 or values['profile_end_velocity'] != 0
++                or values['halt_option'] not in (1, 2)):
++            raise ValueError('复位完整快照不满足静止、607Ch=0、PP1或暂停参数守卫')
++        low, high, pos = (values[k] for k in ('software_position_limit','software_position_limit_max','actual_position'))
++        g = position.Fraction(cal['gear_ratio'])
++        if not (-0x80000000 <= low < high <= 0x7fffffff and low <= pos <= high
++                and -0x80000000 <= pos*g <= 0x7fffffff):
++            raise ValueError('复位完整快照不满足607Dh/Int32边界')
++        if (values['profile_velocity'] > values['max_velocity']
++                or position.unit_to_velocity(values['profile_velocity'], cal) > values['max_motor_speed']
++                or values['profile_acceleration'] > values['max_profile_acceleration']
++                or values['profile_deceleration'] > values['max_deceleration']):
++            raise ValueError('复位完整快照参数超过设备上限')
++        if getattr(self, 'session_calibration', None) is not None:
++            if cal != self.session_calibration or not self.settings['soft_min'] <= pos <= self.settings['soft_max']:
++                raise ValueError('复位标定或原会话行程守卫已变化')
++
++    def review_reset(self, out):
++        with self.lock:
++            self.discard_prepare()
++            node = self.node
++            lock = self.action_locks.get(node)
++            session = self.manual_sessions.get(node)
++            # Check the actual SDO quarantine before *any* health request.
++            if (session is None or getattr(session.client, 'quarantined', False)
++                    or not lock or lock['kind'] != 'alarm_2312' or lock['session'] is not session or lock['client'] is not session.client
++                    or (self.context[0], node) not in self.blocked):
++                raise ValueError('此锁定不允许手动复位；SDO隔离/其他保护须外部恢复')
++            session.out, session.cancel_event = out, out.cancel_event
++            try:
++                self._reset_context()
++                health = self._reset_health(session, initial=True)
++                before, cal = self._snapshot(session, allow_alarm=True)
++                self._reset_validate_snapshot(before, cal)
++                old = lock.get('expected')
++                if old and (old['calibration'] != cal or any(before[k] != old['expected'][k] for k in FIXED)):
++                    raise ValueError('报警前目标证明的受保护参数已变化；禁止复位解锁')
++                if not self.args.motion_log:
++                    raise ValueError('手动复位必须指定--motion-log保存独立证据')
++                review = dict(kind='reset', node=node, before=before, calibration=cal, health=health,
++                    context=self.context, settings=copy.deepcopy(self.settings), od=copy.deepcopy(self.od),
++                    od_reason=self.od_reason, block=self.blocked[(self.context[0],node)],
++                    lines=['手动复位：仅Warning 2312；接受以下OD未核对项及独立停机责任：']
++                        +['  '+e['key'] for e in self.od['entries'] if e['status'] != 'verified']
++                        +['6040h: 0 -> 等100ms -> 0080 -> 观察200ms/1s -> 0 -> 观察50ms/500ms。',
++                          '等待是主机策略，非厂家最短脉宽；不使能、不重放、不清历史、不保存。',
++                          'Enter 仅确认本次复位；Esc 取消；运动仍须单独授权。'])
++                self._reset_review = (review, copy.deepcopy(review), session, lock)
++                return review
++            except BaseException as exc:
++                lock['kind'] = 'other'
++                if (isinstance(exc, KeyboardInterrupt) or isinstance(exc, self.tool.MotionError)
++                        and not isinstance(exc.__cause__, self.tool._canopen.SdoAbort)):
++                    session.client.quarantined = True
++                if getattr(session.client, 'quarantined', False):
++                    lock['kind'] = 'other'
++                    self._latch(session.client, node, '复位审阅', exc, out)
++                raise
++            finally:
++                session.cancel_event = None
++
++    def execute_reset(self, review, out):
++        with self.lock:
++            frozen, self._reset_review = self._reset_review, None
++            if frozen is None or review is not frozen[0] or review != frozen[1]:
++                raise ValueError('复位审阅已失效；须重新按t审阅')
++            node, session, lock = review['node'], frozen[2], frozen[3]
++            if (self.manual_sessions.get(node) is not session or getattr(session.client, 'quarantined', False)
++                    or self.action_locks.get(node) is not lock or lock['kind'] != 'alarm_2312' or lock['client'] is not session.client
++                    or self.blocked.get((self.context[0],node)) != review['block']):
++                raise ValueError('复位会话或保护锁已变化；禁止请求')
++            journal = None
++            high_attempted = final_zero_ack = final_zero_readback_confirmed = False
++            session.out, session.cancel_event = out, out.cancel_event
++            self.proofs.pop(node, None)
++            self._manual_review = None
++            if hasattr(self, '_simple_review'):
++                self._simple_review = None
++            try:
++                out.check_cancel()
++                self._reset_context()
++                if (self.settings != review['settings'] or self.od_reason != review['od_reason']
++                        or self.context != review['context']):
++                    raise ValueError('复位审阅后设置/配置已变化')
++                path = Path(self.args.motion_log)
++                path = path.with_name(path.stem+'-reset-'+uuid.uuid4().hex+'.jsonl')
++                journal = position.Journal(str(path), 'manual_alarm_reset', dict(node=node, interface=self.context[0],
++                    original_session=id(session), original_client=id(session.client), before=review['before'],
++                    initial_health=review['health'], motion_authorized=False))
++                session.client.reset_observer = journal.event
++                self._reset_health(session, initial=True)
++                before, cal = self._snapshot(session, allow_alarm=True)
++                self._reset_validate_snapshot(before, cal)
++                if cal != review['calibration'] or any(before[k] != review['before'][k] for k in FIXED):
++                    raise ValueError('复位审阅后受保护参数已变化')
++                identity = session.call(session.deadline(), '复位身份核对', session.client.read_device_type)
++                journal.event('identity', device_type=identity, cached_name=(self.row(node) or {}).get('name'))
++                def wait_until(deadline):
++                    while time.monotonic() < deadline:
++                        out.check_cancel()
++                        time.sleep(min(.02, max(0, deadline-time.monotonic())))
++                    out.check_cancel()
++                def control(word):
++                    session.control(word, session.deadline())
++                    ack = time.monotonic()
++                    journal.event('control_ack', controlword=word, monotonic=ack)
++                    return ack
++                zero = control(0)
++                self._reset_health(session)
++                wait_until(zero+.1)
++                if self._read(session.client, 'control_mode_select', session) != 0:
++                    raise ValueError('复位高电平前控制模式已变化')
++                high_attempted = True
++                high = control(0x80)
++                for offset in (.2, 1.0):
++                    wait_until(high+offset)
++                    journal.event('health', phase='high', offset=offset, values=self._reset_health(session))
++                if self._read(session.client, 'control_mode_select', session) != 0:
++                    raise ValueError('复位最终低电平前控制模式已变化')
++                zero = control(0)
++                final_zero_ack = True
++                if self._read(session.client, 'controlword', session) != 0:
++                    raise ValueError('复位6040h最终读回不是0；bit7状态未知')
++                final_zero_readback_confirmed = True
++                for offset in (.05, .5):
++                    wait_until(zero+offset)
++                    health = self._reset_health(session)
++                    journal.event('health', phase='low', offset=offset, values=health)
++                    if health['statusword'] & 0x80 or health['error_code_object']:
++                        raise ValueError('复位后Warning或603F仍存在/重新锁存；禁止解锁')
++                values, cal = self._snapshot(session)
++                self._reset_validate_snapshot(values, cal)
++                if values['controlword'] != 0:
++                    final_zero_readback_confirmed = False
++                if (values['statusword'] & 0x80 or values['controlword'] != 0 or cal != review['calibration']
++                        or any(values[k] != review['before'][k] for k in FIXED)):
++                    raise ValueError('复位后完整快照/受保护参数核对失败')
++                self._reset_context()
++                out.check_cancel()
++                journal.event('reset_feedback_verified', after=values, final_zero_ack=True,
++                    bit7_may_remain_set=False, mechanical_stop_confirmed=False, motion_authorized=False)
++                journal.close()
++                journal = None
++                # Publish only after every feedback guard and required log I/O.
++                row = dict(self.row(node), values=values, calibration=cal, updated=time.monotonic(),
++                    lost=False, quarantined=False, quarantine_reason='', online=True)
++                self.blocked.pop((self.context[0],node))
++                self.action_locks.pop(node)
++                self.diagnostic_paths.pop(node, None)
++                self.failure_diagnostics.pop(node, None)
++                self.cleanup_diagnostics.pop(node, None)
++                self._cleanup_witnesses.pop(node, None)
++                self.enabled_sessions.pop(node, None)
++                session.needs_stop = False
++                row.pop('failure_diagnostic', None)
++                row.pop('cleanup_diagnostic', None)
++                self._put(row)
++                out.info('手动报警复位已确认；旧目标证明已撤销，未授权新运动。日志：'+str(path))
++                out.event('manual_result', dict(action='reset', node=node, success=True, message='手动复位完成；请重新审阅下一次动作'))
++                return True
++            except BaseException as exc:
++                # No general cleanup: lost ACK/cancellation may leave bit7
++                # high. Never add writes, reconnect or recover transport here.
++                if (isinstance(exc, KeyboardInterrupt) or isinstance(exc, self.tool.MotionError)
++                        and not isinstance(exc.__cause__, self.tool._canopen.SdoAbort)):
++                    session.client.quarantined = True
++                lock['kind'] = 'reset_failed'
++                self._cleanup_witnesses.pop(node, None)
++                reason = '复位未完成，保持锁定；bit7可能仍置位={}；{}；不追加请求，请外部恢复'.format(high_attempted and not final_zero_readback_confirmed, str(exc) or type(exc).__name__)
++                self.blocked[(self.context[0],node)] = reason
++                row = self.row(node)
++                if row:
++                    self._put(dict(row, lost=True, quarantined=True, quarantine_reason=reason))
++                if journal is not None:
++                    try:
++                        journal.event('reset_failed', reason=reason, high_attempted=high_attempted,
++                            final_zero_ack=final_zero_ack, final_zero_readback_confirmed=final_zero_readback_confirmed, bit7_may_remain_set=high_attempted and not final_zero_readback_confirmed,
++                            success=False, no_cleanup_requests=True)
++                    except BaseException:
++                        pass
++                out.bad(reason)
++                raise
++            finally:
++                session.client.reset_observer = None
++                session.cancel_event = None
++                if journal is not None:
++                    try:
++                        journal.close()
++                    except BaseException:
++                        pass
++
++    def close(self, out=None):
++        # Carry forward a prior measured disable without issuing another
++        # request against an action-locked node. It is historical evidence,
++        # not a fresh close-time read or a mechanical-stop assertion.
++        with self.lock:
++            if self.shutdown_results is not None:
++                return self.shutdown_results
++            prior = {}
++            for node, session in self.enabled_sessions.items():
++                w = self._cleanup_witnesses.get(node)
++                if (w and w['session'] is session and w['client'] is session.client and self.manual_sessions.get(node) is session
++                        and w['disabled_confirmed'] is True and w['state_unknown'] is False
++                        and w['cleanup_error'] is None and not session.needs_stop
++                        and not getattr(session.client, 'quarantined', False)
++                        and w['epoch'] == getattr(session.client, 'manual_write_epoch', 0)
++                        and self.context and (self.context[0],node) in self.blocked):
++                    prior[node] = session
++            for node in prior:
++                self.enabled_sessions.pop(node)
++            try:
++                result = super().close(out)
++                for node in prior:
++                    w = self._cleanup_witnesses[node]
++                    result.append(dict(node=node, disabled_confirmed=True, source='prior_cleanup',
++                        observed_at_utc=w['observed_at_utc'], shutdown_attempted=False,
++                        mechanical_stop_confirmed=False))
++                    line = '节点 {} 先前清理已确认失能（{}）；本次退出未发请求，机械停止未知'.format(node,w['observed_at_utc'])
++                    self.shutdown_lines.append(line)
++                    if out:
++                        out.info(line)
++                result.sort(key=lambda item:item['node'])
++                return result
++            finally:
++                self.enabled_sessions.update(prior)
+ 
+     def _refresh_locked(self, out):
+         # Once a manual session exists, all telemetry and protection use its

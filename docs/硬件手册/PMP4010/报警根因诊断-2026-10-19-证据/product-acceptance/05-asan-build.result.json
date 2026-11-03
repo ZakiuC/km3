@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "cmake",
+    "--build",
+    "build-asan",
+    "-j8"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-20T00:50:22.964109+00:00",
+  "returncode": 0,
+  "elapsed_seconds": 0.12087789899669588,
+  "finished_utc": "2026-10-20T00:50:23.085120+00:00"
+}

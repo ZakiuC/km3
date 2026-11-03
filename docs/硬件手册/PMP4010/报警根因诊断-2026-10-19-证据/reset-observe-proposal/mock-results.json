@@ -1,0 +1,2733 @@
+{
+  "result": "PASS",
+  "checks": 273,
+  "cases": [
+    {
+      "profile": "delayed",
+      "at": null,
+      "fault": null,
+      "result": "PASS",
+      "classification": "cleared_at_final_observation",
+      "error": null,
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "never",
+      "at": null,
+      "fault": null,
+      "result": "PASS",
+      "classification": "warning_unchanged_not_cleared",
+      "error": null,
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "retained",
+      "at": null,
+      "fault": null,
+      "result": "PASS",
+      "classification": "warning_cleared_error_code_retained_not_tool_unlocked",
+      "error": null,
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "relatch",
+      "at": null,
+      "fault": null,
+      "result": "PASS",
+      "classification": "warning_relatched_after_high_clear",
+      "error": null,
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "slow_guard",
+      "at": null,
+      "fault": null,
+      "result": "PASS",
+      "classification": "warning_unchanged_not_cleared",
+      "error": null,
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "low_code_early_only",
+      "at": null,
+      "fault": null,
+      "result": "PASS",
+      "classification": "transient_or_incomplete_clear_not_confirmed",
+      "error": null,
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "low_code_late_only",
+      "at": null,
+      "fault": null,
+      "result": "PASS",
+      "classification": "transient_or_incomplete_clear_not_confirmed",
+      "error": null,
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "low_warning_early_only",
+      "at": null,
+      "fault": null,
+      "result": "PASS",
+      "classification": "transient_or_incomplete_clear_not_confirmed",
+      "error": null,
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "low_warning_late_only",
+      "at": null,
+      "fault": null,
+      "result": "PASS",
+      "classification": "transient_or_incomplete_clear_not_confirmed",
+      "error": null,
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 1,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 1,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 1,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 1,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 1,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 1,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 1,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 1,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 1,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 1,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 1,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 1,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 1,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 1,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 1,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 1,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 1,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 1,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 1,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 1,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 2,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 2,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 2,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 2,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 2,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 2,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 2,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 2,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 2,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 2,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 2,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 2,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 2,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 2,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 2,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 2,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 2,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 2,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 2,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 2,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 3,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 3,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 3,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 3,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 3,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 3,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 3,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 3,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 3,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 3,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 3,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 3,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 3,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 3,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 3,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 3,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 3,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 3,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 3,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 3,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 4,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 4,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 4,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 4,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 4,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 4,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 4,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 4,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 4,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 4,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 4,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 4,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 4,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 4,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 4,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 4,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 4,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 4,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 4,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 4,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 5,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 5,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 5,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 5,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 5,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 5,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 5,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 5,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 5,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 5,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 5,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 5,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 5,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 5,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 5,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 5,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 5,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 5,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 5,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 5,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 6,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 6,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 6,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 6,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 6,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 6,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 6,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 6,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 6,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 6,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 6,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 6,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 6,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 6,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 6,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 6,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 6,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 6,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 6,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 6,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 7,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 7,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 7,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 7,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 7,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 7,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 7,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 7,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 7,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 7,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 7,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 7,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 7,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 7,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 7,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 7,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 7,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 7,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 7,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 7,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 8,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 8,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 8,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 8,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 8,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 8,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 8,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 8,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 8,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 8,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 8,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 8,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 8,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 8,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 8,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 8,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 8,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 8,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 8,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 8,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 9,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 9,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 9,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 9,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 9,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 9,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 9,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 9,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 9,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 9,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 9,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 9,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 9,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 9,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 9,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 9,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 9,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 9,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 9,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 9,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 10,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 10,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 10,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 10,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 10,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 10,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 10,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 10,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 10,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 10,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 10,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 10,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 10,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 10,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 10,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 10,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 10,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 10,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 10,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 10,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 11,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 11,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 11,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 11,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 11,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 11,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 11,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 11,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 11,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 11,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 11,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 11,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 11,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 11,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 11,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 11,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 11,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 11,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 11,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 11,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 12,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 12,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 12,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 12,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 12,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 12,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 12,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 12,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 12,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 12,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 12,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 12,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 12,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 12,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 12,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 12,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 12,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 12,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 12,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 12,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 13,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 13,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 13,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 13,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 13,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 13,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 13,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 13,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 13,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 13,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 13,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 13,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 13,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 13,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 13,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 13,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 13,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 13,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 13,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 13,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 14,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 14,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 14,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 14,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 14,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 14,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 14,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 14,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 14,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 14,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 14,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 14,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 14,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 14,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 14,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 14,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 14,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 14,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 14,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 14,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 15,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 15,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 15,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 15,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 15,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 15,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 15,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 15,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 15,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 15,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 15,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 15,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 15,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 15,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 15,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 15,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 15,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 15,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 15,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 15,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 16,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 16,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 16,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 16,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 16,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 16,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 16,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 16,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 16,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 16,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 16,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 16,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 16,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 16,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 16,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 16,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 16,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 16,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 16,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 16,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 17,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 17,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 17,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 17,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 17,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 17,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 17,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 17,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 17,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 17,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 17,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 17,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 17,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 17,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 17,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 17,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 17,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 17,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 17,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 17,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 18,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 18,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 18,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 18,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 18,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 18,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 18,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 18,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 18,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 18,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 18,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 18,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 18,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 18,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 18,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 18,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 18,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 18,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 18,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 18,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 19,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 19,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 19,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 19,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 19,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 19,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 19,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 19,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 19,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 19,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 19,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 19,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 19,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 19,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 19,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 19,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 19,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 19,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 19,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 19,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 20,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 20,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 20,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 20,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 20,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 20,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 20,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 20,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 20,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 20,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 20,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 20,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 20,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 20,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 20,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 20,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 20,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 20,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 20,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 20,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 21,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 21,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 21,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 21,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 21,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 21,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 21,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 21,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 21,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 21,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 21,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 21,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 21,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 21,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 21,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 21,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 21,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 21,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 21,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 21,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 22,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 22,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 22,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 22,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 22,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 22,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 22,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 22,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 22,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 22,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 22,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 22,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 22,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 22,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 22,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 22,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 22,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 22,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 22,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 22,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 23,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 23,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 23,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 23,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 23,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 23,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 23,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 23,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 23,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 23,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 23,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 23,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 23,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 23,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 23,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 23,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 23,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 23,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 23,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 23,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 24,
+      "fault": "timeout",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock silence",
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 24,
+      "fault": "abort",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO abort 0x06020000",
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 24,
+      "fault": "wrong_command",
+      "result": "PASS",
+      "classification": null,
+      "error": "SDO command/width mismatch",
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 24,
+      "fault": "wrong_object",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 24,
+      "fault": "wrong_id",
+      "result": "PASS",
+      "classification": null,
+      "error": "unexpected CAN flags/ID/DLC or SDO object",
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 24,
+      "fault": "short_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 24,
+      "fault": "fd_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "malformed classic CAN length",
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 24,
+      "fault": "late_receive",
+      "result": "PASS",
+      "classification": null,
+      "error": "request deadline after receive",
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 24,
+      "fault": "send_error",
+      "result": "PASS",
+      "classification": null,
+      "error": "mock send error",
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 24,
+      "fault": "short_send",
+      "result": "PASS",
+      "classification": null,
+      "error": "short CAN send; no later request",
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 1,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "initial control mode is not CiA402",
+      "sent": 1,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 2,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "not disabled or Fault set; no cleanup write",
+      "sent": 2,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 3,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "new nonzero error code; no cleanup write",
+      "sent": 3,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 4,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "new nonzero error register; no cleanup write",
+      "sent": 4,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 5,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "initial stall reaction differs from approved value",
+      "sent": 5,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 7,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "not disabled or Fault set; no cleanup write",
+      "sent": 7,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 8,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "mode changed before reset high",
+      "sent": 8,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 10,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "not disabled or Fault set; no cleanup write",
+      "sent": 10,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 11,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "new nonzero error code; no cleanup write",
+      "sent": 11,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 12,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "new nonzero error register; no cleanup write",
+      "sent": 12,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 13,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "not disabled or Fault set; no cleanup write",
+      "sent": 13,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 14,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "new nonzero error code; no cleanup write",
+      "sent": 14,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 15,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "new nonzero error register; no cleanup write",
+      "sent": 15,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 16,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "mode changed before final reset low",
+      "sent": 16,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 18,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "final controlword readback is not exactly zero",
+      "sent": 18,
+      "bit7_may_remain_set": true
+    },
+    {
+      "profile": "delayed",
+      "at": 19,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "not disabled or Fault set; no cleanup write",
+      "sent": 19,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 20,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "new nonzero error code; no cleanup write",
+      "sent": 20,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 21,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "new nonzero error register; no cleanup write",
+      "sent": 21,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 22,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "not disabled or Fault set; no cleanup write",
+      "sent": 22,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 23,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "new nonzero error code; no cleanup write",
+      "sent": 23,
+      "bit7_may_remain_set": false
+    },
+    {
+      "profile": "delayed",
+      "at": 24,
+      "fault": "logical",
+      "result": "PASS",
+      "classification": null,
+      "error": "new nonzero error register; no cleanup write",
+      "sent": 24,
+      "bit7_may_remain_set": false
+    },
+    {
+      "name": "real_main_close_only",
+      "at": 1,
+      "result": "PASS"
+    },
+    {
+      "name": "real_main_close_only",
+      "at": 10,
+      "result": "PASS"
+    },
+    {
+      "name": "isolated_cold_process",
+      "result": "PASS",
+      "argv": [
+        "/usr/bin/python3",
+        "-I",
+        "-B",
+        "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/reset-observe-proposal/reset_observe_once.py",
+        "--cold-load",
+        "--payload-root",
+        "/home/zakiu/km3/docs/硬件手册/PMP4010/报警内容显示-2026-10-19-证据/package/payload"
+      ],
+      "rc": 0
+    }
+  ],
+  "physical_CAN_opens": 0,
+  "physical_CAN_sends": 0,
+  "source_sha256": "d8c96c340d7c64c2a7380ef2bb96221159248819cd0d1ad7772cb3f2961ff367"
+}

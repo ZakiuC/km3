@@ -1,0 +1,69 @@
+{
+  "snapshot": {
+    "review_nonce": "bca7c934599241bdbaa7bdf40a0a1d81",
+    "node": 1,
+    "interface": "can1",
+    "mode": "PP1",
+    "start": -1481,
+    "target": -1190,
+    "displacement": 291,
+    "motor_degrees": "13095/16384",
+    "velocity_units_per_s": 1000,
+    "velocity_rpm": "1875/4096",
+    "origin": -1481,
+    "settings": {
+      "soft_min": -1845,
+      "soft_max": -1119,
+      "max_displacement": 364
+    },
+    "calibration": {
+      "values": [
+        131072,
+        1,
+        1,
+        1
+      ],
+      "resolution": "131072",
+      "gear_ratio": "1",
+      "motor_degrees_per_user_unit": "45/16384",
+      "output_degrees_per_user_unit": "45/16384"
+    },
+    "values": {
+      "statusword": 561,
+      "actual_position": -1481,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": 0,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 100,
+      "profile_acceleration": 5000000,
+      "profile_deceleration": 5000000,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": -1190,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483628,
+      "software_position_limit_max": 2147483627,
+      "controlword": 6,
+      "halt_option": 1,
+      "position_demand": -1190,
+      "max_velocity": 9000000,
+      "max_motor_speed": 4000,
+      "max_profile_acceleration": 2147483647,
+      "max_deceleration": 2147483647
+    },
+    "lines": [
+      "正向点动",
+      "冻结起点 -1481 U -> 终点 -1190 U；位移 291 U = 0.7993 电机轴度",
+      "请求步长 0.8 -> 实际 0.7993 电机轴度（291 U）",
+      "请求速度 1000 U/s -> 实际 0.457764 rpm（1000 U/s）",
+      "使能后重写冻结目标并触发002F→003F→002F；核对ACK 0→1→0",
+      "Enter 确认这一次动作；Esc 取消；Space/x 随时快停"
+    ],
+    "RT_reason": "沿用用户已确认到场接线急停的小角度现场授权；保留RT进程，接受本次同client测试的RT占用风险",
+    "OD_reason": "沿用用户已确认的小角度现场及1度硬顶许可；仅本次PP1正向量化0.8度、1000U/s速度对照；接受原OD未核对项及独立停机责任"
+  },
+  "digest": "38dcc4bb10890b461d7a783a7db9801607a9d1c1983b3f18b56e58434b9d2564"
+}

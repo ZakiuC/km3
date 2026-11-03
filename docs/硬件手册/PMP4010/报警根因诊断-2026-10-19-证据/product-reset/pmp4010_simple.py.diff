@@ -1,0 +1,104 @@
+--- 7355-payload/pmp4010_simple.py
++++ current/pmp4010_simple.py
+@@ -488,6 +488,10 @@
+                 self.controller.rt_ack = True
+                 self.current_view = 'connecting'
+                 self._launch('scan', self.controller.scan)
++            elif name == 't' and self.controller.context is not None and self.current_view in ('main','authorize'):
++                self.controller.cancel_review()
++                self.action = 'reset'
++                self._launch('review', self.controller.review_reset)
+             elif self.current_view == 'authorize' and name == 'enter':
+                 self.controller.authorize()
+                 self.current_view = 'main'
+@@ -496,7 +500,8 @@
+                 review = self.pending
+                 self.pending = None
+                 self.current_view = 'main'
+-                execute = self.controller.execute if self.action == 'disable' else self.controller.execute_action
++                execute = (self.controller.execute_reset if self.action == 'reset' else
++                           self.controller.execute if self.action == 'disable' else self.controller.execute_action)
+                 self._launch('execute', lambda out:execute(review,out))
+             elif self.current_view == 'edit':
+                 if name == 'enter':
+@@ -565,7 +570,11 @@
+                 elif label == 'coordinate':
+                     self.progress = '软件坐标设置完成；未发送运动或参数下载'
+                 elif label != 'refresh':
+-                    self.progress = '本次指令已提交；请观察实时反馈'
++                    if self.action == 'reset':
++                        self.current_view = 'authorize' if self.controller.origin is None else 'main'
++                        self.progress = '报警复位完成；旧目标已撤销，下一次动作须重新审阅'
++                    else:
++                        self.progress = '本次指令已提交；请观察实时反馈'
+             elif event[0] == 'event' and event[1] in ('manual_result','bench_result'):
+                 self.log.append(event[2].get('message','动作保护已触发；请核对停止状态'))
+         for _ in range(128):
+@@ -590,7 +599,7 @@
+             self._launch(kind,lambda out:self.controller.safety_action(kind,out))
+             return
+         row = self.controller.row(self.controller.node)
+-        if row and row['quarantined']:
++        if row and row['quarantined'] and not (self.action == 'reset' and (self.busy or self.pending is not None)):
+             self.pending = None
+             self.controller.cancel_review()
+             self.current_view = 'main'
+@@ -603,7 +612,7 @@
+     def hints(self):
+         return ['s 速度','a 步长','r 相对' if self.controller.linear else 'j 相对',
+                 'p 绝对','z 软件零点','c 换算' if self.controller.linear else 'r 范围',
+-                'e 使能保持','f/b 点动','Space/x 快停','d 失能','q 退出','? 帮助']
++                'e 使能保持','f/b 点动','t 手动复位','Space/x 快停','d 失能','q 退出','? 帮助']
+ 
+     def build(self):
+         grid = Grid(self.rows,self.cols,strict=(self.box!='ascii'))
+@@ -619,7 +628,9 @@
+                 speed = '{} rpm'.format(number(position.unit_to_velocity(v['actual_velocity'],row['calibration'])))
+             except ValueError:
+                 speed = '换算不可用'
+-        online = '已隔离' if row and row['quarantined'] else '在线' if row and row['online'] and not row['lost'] else '未连接'
++        session = c.manual_sessions.get(c.node)
++        isolation = 'SDO已隔离' if session and getattr(session.client, 'quarantined', False) else '保护锁定'
++        online = isolation if row and row['quarantined'] else '在线' if row and row['online'] and not row['lost'] else '未连接'
+         state = '未知'
+         if v and row and not row['lost'] and not row['quarantined']:
+             p = c.tool._canopen
+@@ -691,8 +702,13 @@
+                     lines += ['Enter 冻结当前原点 {} U；测试范围 [{}，{}] U（+/-1度与607Dh取交）。'.format(v['actual_position'],max(v['actual_position']-units,v['software_position_limit']),min(v['actual_position']+units,v['software_position_limit_max'])),
+                         '确认仅限本会话人工点动；不修改OD可信度。q 退出。']
+         elif self.current_view == 'confirm' and self.pending:
+-            lines += ['']+(['失能：确认后撤销当前使能/目标证明；机械停止仍未知。',
+-                'Enter 确认失能；Esc 取消；Space/x 随时快停'] if self.action == 'disable' else self.pending['lines'])
++            if self.action == 'reset':
++                # Keep the scoped approval and Enter/Esc visible at 80x24.
++                # Historical diagnostics remain in the log/main screen.
++                lines = lines[:2]+['']+self.pending['lines']
++            else:
++                lines += ['']+(['失能：确认后撤销当前使能/目标证明；机械停止仍未知。',
++                    'Enter 确认失能；Esc 取消；Space/x 随时快停'] if self.action == 'disable' else self.pending['lines'])
+         elif self.current_view == 'edit':
+             label = {'speed':'速度 rpm','step':'步长 '+c.unit,'range':'原点两侧测试半范围 电机轴度（<=1）',
+                 'relative':'相对位移 '+c.unit,'absolute':'相对软件零点的绝对位置 '+c.unit,
+@@ -724,12 +740,14 @@
+                 'f/b：冻结正/反向终点，Enter只执行这一次；Esc取消。非零速先Space。',
+                 '动作：提交→012F保持Halt→重写冻结607A→002F/003F/002F。',
+                 'Space/x：任何页面立即请求快停；d失能；q安全退出。',
++                't：审阅Warning 2312手动复位，Enter仅确认复位；不使能、不重放目标。',
++                '其他保护/真实SDO隔离不复位；复位等待按已验证主机策略执行。',
+                 '故障/跟随误差/越界立即锁定；通信隔离后不重试。',
+                 '软件停止不能替代独立急停；机械停止/抱闸仍须现场确认。',
+                 'Enter/? 返回；Space/x/q始终可用。']
+         elif self.current_view == 'main':
+             proof = c.proofs.get(c.node)
+-            lines += ['','可操作：'+('保护已锁定，请退出并外部恢复' if c.blocked else
++            lines += ['','可操作：'+('保护已锁定；t审阅2312手动复位，其他保护须外部恢复' if c.blocked else
+                 '实际速度非零；请先Space/x停止' if v.get('actual_velocity') else
+                 '先按f/b/e或输入位置审阅，再Enter确认' if c.origin is not None else '等待连接/会话授权')]
+         bottom = max(1,self.rows-7)
+@@ -740,5 +758,5 @@
+             self.log.render(grid,Rect(bottom+1,2,2,max(0,self.cols-4)),self.box)
+             grid.put(self.rows-3,2,fit('f/b 点动  r/j 相对  p 绝对  z 软件零点  c 换算' if c.linear else
+                 'f/b 点动  j 相对  p 绝对  z 软件零点  r 范围',max(0,self.cols-4)))
+-            grid.put(self.rows-2,2,fit('s 速度 a 步长 e 保持 d 失能 Space/x 快停 q 退出 ? 帮助',max(0,self.cols-4)))
++            grid.put(self.rows-2,2,fit('s 速度 a 步长 e 保持 t 手动复位 d 失能 Space/x 快停 q 退出 ? 帮助',max(0,self.cols-4)))
+         return grid

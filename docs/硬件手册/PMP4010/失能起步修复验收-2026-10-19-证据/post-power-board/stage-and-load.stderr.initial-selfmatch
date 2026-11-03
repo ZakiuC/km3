@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/post-power-board/stage_and_load.py", line 16, in <module>
+    assert before['payload_exists']==False and before['potential_old_runners']==[]
+AssertionError

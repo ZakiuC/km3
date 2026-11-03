@@ -1,0 +1,72 @@
+{
+  "cwd": "/home/zakiu/km3",
+  "checks": [
+    {
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/negative-motion-plan/verify_cold_load_v2.py",
+        "--helper",
+        "docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/negative-motion-plan/cold-load-v1-preserved/pinned_payload.py"
+      ],
+      "rc": 1,
+      "raw": "cold-load-v1-preserved/reproduced-cold.raw.txt",
+      "expected_failure": "KeyError: 'canopen'"
+    },
+    {
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/negative-motion-plan/verify_cold_load_v2.py"
+      ],
+      "rc": 0,
+      "raw": "cold-load-v2.raw.txt",
+      "CAN_opens": 0,
+      "CAN_sends": 0,
+      "production_preloaded": false
+    },
+    {
+      "argv": [
+        "python3",
+        "-I",
+        "-B",
+        "docs/硬件手册/PMP4010/手动故障诊断-2026-10-19-证据/negative-motion-plan/verify_pinned_0218_mock_v2.py"
+      ],
+      "rc": 0,
+      "raw": "pinned-0218-mock-v2.raw.txt",
+      "tests_run": 13,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "sha256": {
+    "pinned_payload.py": "a742ff99e107bc056bd33a74d1a103e1d83c500609344ac3d01045b25ebd841c",
+    "verify_cold_load_v2.py": "202190b9e7dd3f4c221ed49209aa87ab7e5da6a59e07cc99ddf8d675d969aab1",
+    "verify_pinned_0218_mock_v2.py": "5721680cff268220bfef5e1b8e2568692da4610be527cc30839de0144b2d5b0f",
+    "cold-load-v2.raw.txt": "5e6e502a2fb65df0c600ce55282428ad19910ad022724f35c9bfe1323c28be59",
+    "pinned-0218-mock-v2.raw.txt": "96dc4aeafb8e4f0cb238b96d2ca451e5b8373f6db2603749deec3cc9a11199ba",
+    "pinned-0218-mock-v2-result.json": "fe319b3ee1946e38b2dee4d6e06b6c71f914064a3ea8cbf937848eef3852989f",
+    "cold-load-v1-preserved/pinned_payload.py": "e8a98830191da64cce22422b3bb9540f68049b5907ae35b9ad259268855c6205",
+    "cold-load-v1-preserved/reset.stderr": "3c7fad855a0aafbd2f2da341494c79ef7d29a49bcae449e866a86b265d1304ab",
+    "cold-load-v1-preserved/reset.stdout": "0554e23c6cad9a364bad45ad61de960cbb3f71bb80e45296879ee2f11fb9b616",
+    "cold-load-v1-preserved/reset.rc": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "cold-load-v1-preserved/reset.command.json": "af4718b0f251b32c28ed2c10f118a8c8d50d9bd38064aceae3c71ba6ffa204e5",
+    "cold-load-v1-preserved/reproduced-cold.raw.txt": "1f8da3c94c1c62082f734ccf9643d47d2a704a395b9eca93b5f0006ec8965201",
+    "reset_only_once.py": "6176b8d66ab93fcb232aed8bb15e095bfc05bb27fe7b43de0be392dfe5ec021d",
+    "relative_minus10_once.py": "04a97fd5118b9caa0130b3c7c232770b4d26fcd69dc82e1f2d1bc68bb60630d0"
+  },
+  "hardware_execution": false,
+  "change": "Only helper cold standard-layer initialization and module identity verification; original reset/movement scripts unchanged.",
+  "deployment_boundary": "Parent must stage v2 into a new board directory; preserve old helper and failed run. This worker did not deploy or execute hardware.",
+  "cold_ROOT_test_substitution": "Local resolved package/payload only; no production preloading, no production source changes, no native mathematics call in cold check.",
+  "pinned_mock_native_limit": "Only existing host ABI1 math library substitutes packaged ARM library, as recorded in pinned-0218-mock-v2-result.json.",
+  "route": {
+    "actual_model": "unknown",
+    "actual_effort": "unknown",
+    "last_token_usage_input_tokens": "unknown",
+    "conservative_parent_estimate": "<200K, not measured"
+  }
+}

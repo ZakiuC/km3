@@ -1,0 +1,177 @@
+{
+  "archive": "/home/zakiu/km3/docs/硬件手册/PMP4010/抱闸手动测试-2026-10-19-证据/package/pmp4010-brake-offline-payload.tar.gz",
+  "sha256": "e137c603d57c584134f14f006bcae482d3b999ce1d2dda8dd25b19005a80b237",
+  "bytes": 235068,
+  "regular": 26,
+  "symlinks": 2,
+  "members": [
+    {
+      "path": "hwtui/canopen.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "hwtui/canopen_consts.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "hwtui/canopen_wire.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "hwtui/canbus.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "hwtui/discover.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "hwtui/mockbus.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "hwtui/tui.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_bench.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_params.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_position.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_tui.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_velocity.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "drivers/pmp4010/od.json",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "drivers/pmp4010/velocity_vectors.json",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "drivers/pmp4010/libpmp4010_velocity.so.1.0.0",
+      "type": "0",
+      "mode": "0o775",
+      "target": ""
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_manual.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_simple.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_faults.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "drivers/pmp4010/libpmp4010_velocity.so.1",
+      "type": "2",
+      "mode": "0o777",
+      "target": "libpmp4010_velocity.so.1.0.0"
+    },
+    {
+      "path": "drivers/pmp4010/libpmp4010_velocity.so",
+      "type": "2",
+      "mode": "0o777",
+      "target": "libpmp4010_velocity.so.1"
+    },
+    {
+      "path": "load_smoke.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "run-manual.sh",
+      "type": "0",
+      "mode": "0o755",
+      "target": ""
+    },
+    {
+      "path": "README-手动入口.md",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "drivers/pmp4010/pmp4010_brake.py",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "run-brake.sh",
+      "type": "0",
+      "mode": "0o775",
+      "target": ""
+    },
+    {
+      "path": "README-抱闸测试.md",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    },
+    {
+      "path": "payload-manifest.json",
+      "type": "0",
+      "mode": "0o664",
+      "target": ""
+    }
+  ]
+}

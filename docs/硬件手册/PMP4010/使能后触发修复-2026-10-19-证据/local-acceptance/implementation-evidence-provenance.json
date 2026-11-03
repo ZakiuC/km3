@@ -1,0 +1,269 @@
+{
+  "source": "/home/zakiu/km3/docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation",
+  "files": [
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/__pycache__/pmp4010_manual.before.cpython-310.pyc",
+      "size": 31383,
+      "sha256": "717406d633769c09c63c04121425d7a80daf36bf5f40410334419deec0943ed3"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/command-index.json",
+      "size": 2872,
+      "sha256": "83eb2db2eeda0bf996bfe2496d6d05885e674c1aa7b12a3c941f0f2e80a523be"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/final-six-files.patch",
+      "size": 165634,
+      "sha256": "2ee79d43c7e345d55db31b6a6ee274e60b2ac3af3d2213e77b272b7f5f5f6c79"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/final-source-sha256.json",
+      "size": 723,
+      "sha256": "b2f80107eca930b979bf60906503094f17bb9b2556f51ce40a11595d461e21c2"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-final.log",
+      "size": 1809,
+      "sha256": "1c2ace571047ddfbf9905fd22d01fc9b9313eab060c16154c985b929100041c1"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-first.log",
+      "size": 3202,
+      "sha256": "76c8a080a96cd442e99c0229220e35d4287a11db91da8d9aa95dce8dc19237c0"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-fourth.log",
+      "size": 2816,
+      "sha256": "2747937e7ec26b8565d49442c344e20e4c79d93da25a8d002b0e2fc342e06cd9"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-protocol.patch",
+      "size": 14751,
+      "sha256": "6d9109555abe3418631d11653d061a58e65d8d9e03ec11cbb047b2d77a83b038"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-pty/motion-absolute-6266370d87074e1fb3bb7b4c46b3bff8.jsonl",
+      "size": 29798,
+      "sha256": "4e65a6b7bc5aa7c1583d581822d65abe3de1f71f8ad0990dc0c5eff021111a0f"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-pty/motion-enable-da158148ea754951b2649b0c50390a25.jsonl",
+      "size": 5412,
+      "sha256": "c8165be95d670a1a0fb60fe3a7a2aa1040df3a2557123b8394a236bfacc4fc36"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-pty/motion-go-d1603d3472d7425bbc91b386dbf29b24.jsonl",
+      "size": 21494,
+      "sha256": "dfefc30a1de584c42cd97a002ef4863cae97c8b735e6a5edcd222527ec16f89d"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-pty/state.json",
+      "size": 419,
+      "sha256": "388efa5c1615be851813b039730ff7a366126e5518f45562b4012e38f99fbc30"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-pty/terminal.ansi",
+      "size": 25133,
+      "sha256": "a71d9097091b4ad2c8fa4935c1d78b285889e47ddd3979fc22d8d7d70ebb8bd6"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-pty-final/motion-absolute-02377853e9954a778552d77f92330f19.jsonl",
+      "size": 29798,
+      "sha256": "0e9e792f87e988334de10cf6a2844f29316f9326826012f4d87002ca2b533708"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-pty-final/motion-enable-e5b8758e02fc47bcb7c97276e7bc9105.jsonl",
+      "size": 5412,
+      "sha256": "aaae9533363449dcb4fbde33eaf4b0db1a41959fec495d0a043b7d5509f2181f"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-pty-final/motion-go-3f391c57be2540ea916387d368cb4727.jsonl",
+      "size": 21494,
+      "sha256": "8e87a3d2c8f00622d5c1d8bb8084a31d0927e6a39f5a2bfd634e8ce2394e4a30"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-pty-final/state.json",
+      "size": 422,
+      "sha256": "68e351012fc05096f40244c1fd173a91501095108df5fd94d17ebcdf84fe59c9"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-pty-final/summary.json",
+      "size": 939,
+      "sha256": "7c2283e3f253b4491916f778d9a0887a46e38a117ef466478387cc8597dcd2d9"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-pty-final/terminal.ansi",
+      "size": 32086,
+      "sha256": "e1426a6017a978feee4f0f935213253150b2d10cc3873dd1a73e353d91cba87e"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-pty-final/trace.json",
+      "size": 47887,
+      "sha256": "c0c175c14286524bc0f24916988fe36e8ba5f41a93a52a9d0f0ce7a85f9d6036"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-pty-final.log",
+      "size": 764,
+      "sha256": "8996f811d51996cc8c8aa2dbafcc9b227a2975feffcca10ff0e0a1cdd0455d6e"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-pty-oldexpect-fail.log",
+      "size": 1185,
+      "sha256": "974a8c405e7b0ed4de1b0f3f1b987bf8c2258d273918c76bd88aee73c262a3b6"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-second.log",
+      "size": 3019,
+      "sha256": "3cee7f48a9e9242215d04f5df4a3b9ebac0357b8394ae29037cb9095786e18fb"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/manual-third.log",
+      "size": 2380,
+      "sha256": "bc6ccfe1a6e6155b5667ccc2f31134e96b0fdfb0b2090221e9bbbd7aa1be6ad8"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/newpass.log",
+      "size": 269,
+      "sha256": "7fcd61c4d3f19cb07287f1cd7cd21d816dc2eedb37d0e83aeb1c70bdf1f1b24e"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/old-repro-expected-failure.log",
+      "size": 1162,
+      "sha256": "d69c9389e88a23b582740cf628b8ac8b37e71458eddd39053ddf1af2cbfe2019"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/old-repro.py",
+      "size": 1932,
+      "sha256": "108676ab530e969ad91a23d55867174b9cc2eb410d78d178af5bf4f3600cf8c0"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/oldfail.log",
+      "size": 864,
+      "sha256": "03864e343ff401b0e357d552d4771ea8061fd4a480320c7c966366c5ee707776"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/pmp4010_manual.before.py",
+      "size": 45950,
+      "sha256": "bee76eaeed270e6d66d1b2d4791e6c5778305b246136ec4e90cd9788bf8642b9"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-final.log",
+      "size": 1174,
+      "sha256": "eaa14fad86c31cfce356e586bde5bfa71ec4ee66b9c63cb6c4eae861dbe1720f"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-first.log",
+      "size": 4220,
+      "sha256": "ecfed667dc20f37b550a16423b5551a97aaebbbdba1f5a0a92056f4db3617861"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/authorize-80x24.txt",
+      "size": 2626,
+      "sha256": "1a83474d77ee5909e418930cfc33729ac7feb6ce945275e5332d397eb867194c"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/confirm-80x24.txt",
+      "size": 2657,
+      "sha256": "088c2fd217a821b109e84a3eded74da73fb95d1541e74b92427a9a04c86660fa"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/connected-main-80x24.txt",
+      "size": 2621,
+      "sha256": "9d12a932f158b2d030f42e8b28dc61c0b507a46398bd15acf02accb3e6fe5a97"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/help-80x24.txt",
+      "size": 2800,
+      "sha256": "5b4d2ed18d1c8dcfafbcfe6e12a04f04ded91af97e50b2e4ba2ae7b15a4c91de"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/jog-confirm-80x24.txt",
+      "size": 2652,
+      "sha256": "2e0c97c11c6083263e367081740f2e7784e1030746df48161f1aa93de206a8f3"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/main-80x24.txt",
+      "size": 2593,
+      "sha256": "ce5453647fed23d31817fa0e1d2cb7db265f1ab71600be74a8b4ca626f8aa87b"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/motion-absolute-64c883176af844e69b2d46864fefafb2.jsonl",
+      "size": 34569,
+      "sha256": "c9cfb78eb3d88546cc066f3009e379b6b95c7e1b33bb3eac248744a5e6a1c2b4"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/motion-absolute-e85b7bd564004561a7bd29f514f08336.jsonl",
+      "size": 34579,
+      "sha256": "7e188456aea39fa7691942c4d73a8bb7cc309da72c4dfbef9df385e358a9c7a8"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/motion-absolute-faf2dd1401fd4281b00ce5d47b2378fd.jsonl",
+      "size": 34579,
+      "sha256": "d292ed95ee4aacd4981f024f4f46dba88e04e3dd1bd85e486a7c5ee2b0a37f65"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/motion-enable-5857917fc8c24fb1bf4895a28689b5b7.jsonl",
+      "size": 5475,
+      "sha256": "d81d1bd8212864141a50e69c8ae5cf520befa0b6df449cc98add5fb40942020e"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/motion-enable-fba040ffe62b4bab88d82e322d02810f.jsonl",
+      "size": 5475,
+      "sha256": "dadd2b1644c767e66e78b35ac133a737b0ee1e9875e60d2981eba0142931042c"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/motion-enable-fd743b916d824d40bf34fc945bc616b1.jsonl",
+      "size": 5475,
+      "sha256": "9a43ca33095563144a8b7870f407aeb5ee83883bc3545f6c0fca27c14c9d50d5"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/motion-go-26aa78fef1954ef39806508cfb35e59d.jsonl",
+      "size": 21567,
+      "sha256": "9bb8adf09da8a929480fe0150f0d22e207b2bab979efcf1c2671eaa2e9fc1369"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/motion-go-c2e3122d84ae41e99837362e84eda51b.jsonl",
+      "size": 21567,
+      "sha256": "ac964a282b1ca6c293072e1c0c0046e062e8647c03a23886f93823856ba15890"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/state.json",
+      "size": 530,
+      "sha256": "ca1210d2b7023608763a658fc987d82027e20f0e0e93be5867caa318689ae96a"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/summary.json",
+      "size": 1555,
+      "sha256": "b864e15622308507cbf9b405a06f18f9251a904780cef7693533c62a6260a65d"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/terminal.ansi",
+      "size": 16084,
+      "sha256": "d76de9055bb0ac87ed2cf716a2113d90e4d042d44fa7f0024063da3ee7d7a8c2"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty/trace.json",
+      "size": 135480,
+      "sha256": "14c9e0fb7dbc34c28843786610876bc073effa3645896734e927e1ae7b3b0f50"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-pty.log",
+      "size": 1266,
+      "sha256": "bde6b5e72cee8af13a4ea77b6a0ba9ef2f21b3c276c7808ad5013552c894f283"
+    },
+    {
+      "path": "docs/硬件手册/PMP4010/使能后触发修复-2026-10-19-证据/implementation/simple-second.log",
+      "size": 1416,
+      "sha256": "8215a48298408f843d38a90a444feeda091e10cab456c496db85e867d02819f2"
+    }
+  ],
+  "retained_failed_runs": {
+    "manual-first.log": 1,
+    "manual-second.log": 1,
+    "manual-third.log": 1,
+    "manual-fourth.log": 1,
+    "simple-first.log": 1,
+    "simple-second.log": 1,
+    "manual-pty-oldexpect-fail.log": 1
+  }
+}

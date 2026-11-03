@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "/tmp/km3-pp-prepare-impl-20261017/capture_mock.py"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "utc": "2026-10-17T08:22:41.488241+00:00"
+}

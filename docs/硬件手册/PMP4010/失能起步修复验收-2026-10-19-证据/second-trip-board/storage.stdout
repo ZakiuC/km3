@@ -1,0 +1,85 @@
+{
+  "utc": "2026-10-19T03:01:09.432387+00:00",
+  "boot_id": "dc67bdcd-fa50-4927-8f9b-7207359c70af\n",
+  "uptime": "1676.17 13290.72\n",
+  "paths": {
+    "/var": {
+      "exists": true,
+      "is_symlink": false,
+      "realpath": "/var",
+      "mode": "0o40755",
+      "device": 45830,
+      "inode": 136613,
+      "free_bytes": 2088169472,
+      "mount": {
+        "argv": [
+          "findmnt",
+          "-T",
+          "/var",
+          "-J",
+          "-o",
+          "TARGET,SOURCE,FSTYPE,OPTIONS"
+        ],
+        "rc": 0,
+        "stdout": "{\n   \"filesystems\": [\n      {\n         \"target\": \"/\",\n         \"source\": \"/dev/mmcblk0p6\",\n         \"fstype\": \"ext4\",\n         \"options\": \"rw,relatime\"\n      }\n   ]\n}\n",
+        "stderr": ""
+      }
+    },
+    "/var/tmp": {
+      "exists": true,
+      "is_symlink": false,
+      "realpath": "/var/tmp",
+      "mode": "0o41777",
+      "device": 45830,
+      "inode": 145832,
+      "free_bytes": 2088169472,
+      "mount": {
+        "argv": [
+          "findmnt",
+          "-T",
+          "/var/tmp",
+          "-J",
+          "-o",
+          "TARGET,SOURCE,FSTYPE,OPTIONS"
+        ],
+        "rc": 0,
+        "stdout": "{\n   \"filesystems\": [\n      {\n         \"target\": \"/\",\n         \"source\": \"/dev/mmcblk0p6\",\n         \"fstype\": \"ext4\",\n         \"options\": \"rw,relatime\"\n      }\n   ]\n}\n",
+        "stderr": ""
+      }
+    },
+    "/tmp": {
+      "exists": true,
+      "is_symlink": false,
+      "realpath": "/tmp",
+      "mode": "0o41777",
+      "device": 45830,
+      "inode": 16750,
+      "free_bytes": 2088169472,
+      "mount": {
+        "argv": [
+          "findmnt",
+          "-T",
+          "/tmp",
+          "-J",
+          "-o",
+          "TARGET,SOURCE,FSTYPE,OPTIONS"
+        ],
+        "rc": 0,
+        "stdout": "{\n   \"filesystems\": [\n      {\n         \"target\": \"/\",\n         \"source\": \"/dev/mmcblk0p6\",\n         \"fstype\": \"ext4\",\n         \"options\": \"rw,relatime\"\n      }\n   ]\n}\n",
+        "stderr": ""
+      }
+    },
+    "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2": {
+      "exists": false,
+      "realpath": "/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2",
+      "error": "[Errno 2] No such file or directory: '/var/tmp/km3-pp-disabled-start-stage3-recovery-20261019-b2'"
+    }
+  },
+  "mountinfo": "17 1 179:6 / / rw,relatime shared:1 - ext4 /dev/root rw\n18 17 0:5 / /dev rw,relatime shared:2 - devtmpfs devtmpfs rw,size=3905356k,nr_inodes=976339,mode=755\n19 17 0:16 / /proc rw,nosuid,nodev,noexec,relatime shared:5 - proc proc rw\n20 17 0:17 / /sys rw,nosuid,nodev,noexec,relatime shared:6 - sysfs sysfs rw\n21 20 0:18 / /sys/kernel/security rw,nosuid,nodev,noexec,relatime shared:7 - securityfs securityfs rw\n22 18 0:19 / /dev/shm rw,nosuid,nodev shared:3 - tmpfs tmpfs rw,size=4054988k,nr_inodes=1013747\n23 18 0:20 / /dev/pts rw,nosuid,noexec,relatime shared:4 - devpts devpts rw,gid=5,mode=620,ptmxmode=000\n24 17 0:21 / /run rw,nosuid,nodev shared:11 - tmpfs tmpfs rw,size=1621996k,nr_inodes=819200,mode=755\n25 24 0:22 / /run/lock rw,nosuid,nodev,noexec,relatime shared:12 - tmpfs tmpfs rw,size=5120k,nr_inodes=1013747\n26 20 0:23 / /sys/fs/cgroup rw,nosuid,nodev,noexec,relatime shared:8 - cgroup2 cgroup2 rw,nsdelegate,memory_recursiveprot\n27 20 0:24 / /sys/fs/pstore rw,nosuid,nodev,noexec,relatime shared:9 - pstore pstore rw\n28 20 0:25 / /sys/fs/bpf rw,nosuid,nodev,noexec,relatime shared:10 - bpf bpf rw,mode=700\n29 18 0:13 / /dev/mqueue rw,nosuid,nodev,noexec,relatime shared:13 - mqueue mqueue rw\n30 20 0:6 / /sys/kernel/debug rw,nosuid,nodev,noexec,relatime shared:14 - debugfs debugfs rw\n31 20 0:14 / /sys/kernel/config rw,nosuid,nodev,noexec,relatime shared:15 - configfs configfs rw\n48 20 0:26 / /sys/fs/fuse/connections rw,nosuid,nodev,noexec,relatime shared:16 - fusectl fusectl rw\n51 24 0:27 / /run/credentials/systemd-sysusers.service ro,nosuid,nodev,noexec,relatime shared:17 - ramfs ramfs rw,mode=700\n72 24 0:28 / /run/rpc_pipefs rw,relatime shared:37 - rpc_pipefs sunrpc rw\n633 17 8:1 / /data rw,noatime shared:355 - ext4 /dev/sda1 rw\n661 24 179:7 / /run/media/mmcblk0p7 rw,relatime shared:372 - ext4 /dev/mmcblk0p7 rw\n688 24 179:8 / /run/media/mmcblk0p8 rw,relatime shared:386 - ext4 /dev/mmcblk0p8 rw\n715 18 0:38 / /dev/usb-ffs/adb rw,relatime shared:400 - functionfs adb rw\n739 24 0:39 / /run/user/1000 rw,nosuid,nodev,relatime shared:411 - tmpfs tmpfs rw,size=810996k,nr_inodes=202749,mode=700,uid=1000,gid=1000\n887 24 0:42 / /run/user/0 rw,nosuid,nodev,relatime shared:487 - tmpfs tmpfs rw,size=810996k,nr_inodes=202749,mode=700\n",
+  "fstab": "/swapfile none swap sw 0 0\nUUID=1b5ad216-e39b-418b-89a9-3a6ab5dfc467  /data  ext4  defaults,nofail,noatime,x-systemd.device-timeout=10  0  2\n",
+  "tmpfiles_var_conf": "#  This file is part of systemd.\n#\n#  systemd is free software; you can redistribute it and/or modify it\n#  under the terms of the GNU Lesser General Public License as published by\n#  the Free Software Foundation; either version 2.1 of the License, or\n#  (at your option) any later version.\n\n# See tmpfiles.d(5) for details\n\nq /var 0755 - - -\n\nL /var/run - - - - ../run\n\nd /var/log 0755 - - -\nf /var/log/wtmp 0664 root utmp -\nf /var/log/btmp 0660 root utmp -\nf /var/log/lastlog 0664 root utmp -\n\nd /var/cache 0755 - - -\n\nd /var/lib 0755 - - -\n\nd /var/spool 0755 - - -\n",
+  "tmpfiles_tmp_conf": "#  This file is part of systemd.\n#\n#  systemd is free software; you can redistribute it and/or modify it\n#  under the terms of the GNU Lesser General Public License as published by\n#  the Free Software Foundation; either version 2.1 of the License, or\n#  (at your option) any later version.\n\n# See tmpfiles.d(5) for details\n\n# Clear tmp directories separately, to make them easier to override\nD /tmp 1777 root root -\n#q /var/tmp 1777 root root 30d\n",
+  "CAN_socket_opens": 0,
+  "CAN_sends": 0,
+  "remote_file_writes": 0
+}

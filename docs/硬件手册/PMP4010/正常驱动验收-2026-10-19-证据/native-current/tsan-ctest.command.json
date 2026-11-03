@@ -1,0 +1,19 @@
+{
+  "name": "tsan-ctest",
+  "argv": [
+    "setarch",
+    "-R",
+    "ctest",
+    "--test-dir",
+    "build-tsan",
+    "--output-on-failure"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T06:07:26.003827+00:00",
+  "duration_seconds": 12.161423527999432,
+  "returncode": 0,
+  "stdout": "tsan-ctest.stdout.log",
+  "stdout_sha256": "55fd0cb817f9efeeb5b5fc395eb4e910c2c0ce60c5726f54e3113720ae3d0797",
+  "stderr": "tsan-ctest.stderr.log",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

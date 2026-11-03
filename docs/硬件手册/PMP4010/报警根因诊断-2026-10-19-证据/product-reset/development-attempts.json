@@ -1,0 +1,18 @@
+[
+  {
+    "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p _test_simple.py",
+    "returncode": 1,
+    "tests": 43,
+    "errors": 15,
+    "observed_failure": "ValueError: 复位完整快照参数超过设备上限",
+    "cause": "Existing ManualNode inherited preload fixture profile_velocity=500000 > max_velocity=10000; reset fixture corrected to profile_velocity=100. Guard retained."
+  },
+  {
+    "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p _test_simple.py",
+    "returncode": 1,
+    "tests": 50,
+    "errors": 1,
+    "observed_failure": "AttributeError: 'Grid' object has no attribute 'cells'",
+    "cause": "New UI assertion used an unsupported Grid attribute; corrected to public to_lines(). Production Grid unchanged."
+  }
+]

@@ -1,0 +1,15 @@
+{"utc": "2026-10-19T01:05:45.360877+00:00", "monotonic": 4227817.423187162, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T01:05:45.717617+00:00", "monotonic": 4227817.779942107, "label": "enter", "text": "\r", "bytes_hex": "0d"}
+{"utc": "2026-10-19T01:05:45.868841+00:00", "monotonic": 4227817.931172651, "label": "typed text", "text": "B", "bytes_hex": "42"}
+{"utc": "2026-10-19T01:05:46.225898+00:00", "monotonic": 4227818.288207653, "label": "typed text", "text": "OD mock-bench 1", "bytes_hex": "4f44206d6f636b2d62656e63682031"}
+{"utc": "2026-10-19T01:05:46.376252+00:00", "monotonic": 4227818.438559265, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T01:05:46.633121+00:00", "monotonic": 4227818.695445524, "label": "typed text", "text": "-1506", "bytes_hex": "2d31353036"}
+{"utc": "2026-10-19T01:05:46.783590+00:00", "monotonic": 4227818.845902372, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T01:05:47.040915+00:00", "monotonic": 4227819.103240473, "label": "typed text", "text": "-1434", "bytes_hex": "2d31343334"}
+{"utc": "2026-10-19T01:05:47.191527+00:00", "monotonic": 4227819.253841659, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T01:05:47.448663+00:00", "monotonic": 4227819.510974681, "label": "typed text", "text": "36", "bytes_hex": "3336"}
+{"utc": "2026-10-19T01:05:47.599817+00:00", "monotonic": 4227819.662146126, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T01:05:47.954488+00:00", "monotonic": 4227820.016794419, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T01:05:48.320746+00:00", "monotonic": 4227820.383058603, "label": "typed text", "text": "PROBE_PP_START mock-bench 1 -1470", "bytes_hex": "50524f42455f50505f5354415254206d6f636b2d62656e63682031202d31343730"}
+{"utc": "2026-10-19T01:05:48.471101+00:00", "monotonic": 4227820.533407711, "label": "f5", "text": "\u001b[15~", "bytes_hex": "1b5b31357e"}
+{"utc": "2026-10-19T01:05:49.936842+00:00", "monotonic": 4227821.999151977, "label": "q ordinary UI exit", "text": "q", "bytes_hex": "71"}

@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pp-preflight-20261017/verify_local.py"
+  ],
+  "utc": "2026-10-17T08:06:14.866380+00:00"
+}

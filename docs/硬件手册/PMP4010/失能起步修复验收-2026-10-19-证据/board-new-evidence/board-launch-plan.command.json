@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pp-disabled-start-20261019-board/board_pty_runner.py",
+    "--output-dir",
+    "/tmp/km3-pp-disabled-start-20261019-board/board-probe-session-1"
+  ],
+  "utc_start": "2026-10-19T01:08:24.295012+00:00",
+  "utc_end": "2026-10-19T01:08:24.327414+00:00",
+  "rc": 0
+}

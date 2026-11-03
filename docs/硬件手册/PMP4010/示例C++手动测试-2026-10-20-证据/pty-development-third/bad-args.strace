@@ -1,0 +1,1 @@
+158362 execve("/tmp/pmp4010-ui-check/pmp4010_manual_test", ["/tmp/pmp4010-ui-check/pmp4010_ma"..., "--rpm", "nan"], 0x7fff991d7860 /* 62 vars */) = 0

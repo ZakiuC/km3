@@ -1,0 +1,94 @@
+{
+  "result": "PASS_READ_ONLY_DIAGNOSTIC",
+  "hardware_motion_acceptance": false,
+  "utc_start": "2026-10-19T00:53:28.161638+00:00",
+  "utc_end": "2026-10-19T00:53:28.646115+00:00",
+  "command_return_codes": {
+    "before-stage": 0,
+    "stage-frozen": 0,
+    "baseline-38": 0,
+    "transfer-diagnostic": 0,
+    "diagnostic-offline": 0,
+    "diagnostic-live": 0
+  },
+  "stage": {
+    "result": "PASS",
+    "base": "/tmp/km3-pp-disabled-start-readonly-20261019-kf4gqufd",
+    "payload_root": "/tmp/km3-pp-disabled-start-readonly-20261019-kf4gqufd/payload",
+    "archive_sha256": "e5e6be59dbed7611f3b4e5f6d5c53e38e2f7e1527afa1831e7b511e4a0fcacb6",
+    "safe_members": 21,
+    "manifest_members_verified": 20,
+    "source_head": "7541b67edad414ef9b12999dd615f5ea228ed101",
+    "CAN_opens": 0,
+    "CAN_sends": 0,
+    "payload_executed": false
+  },
+  "diagnostic_sha256": "5ace653f8ddbdb9dc75434a7e9b822ab1efe9171b553b11f42da2e5170b1108b",
+  "raw_command": "diagnostic-live.command.json",
+  "raw_stdout": "diagnostic-live.stdout",
+  "raw_stderr": "diagnostic-live.stderr",
+  "uploads": 38,
+  "downloads": 0,
+  "nmt": 0,
+  "retries": 0,
+  "tx": 38,
+  "rx": 38,
+  "quarantined": false,
+  "CAN_closed": true,
+  "values": {
+    "1000:00": 131474,
+    "1018:01": 1289,
+    "1018:02": 50331649,
+    "1018:03": 808475175,
+    "1018:04": 226440,
+    "2002:01": 0,
+    "6060:00": 1,
+    "6061:00": 1,
+    "6040:00": 0,
+    "6041:00": 608,
+    "605D:00": 1,
+    "6064:00": -1470,
+    "607A:00": 7800,
+    "6062:00": 7800,
+    "6067:00": 100,
+    "6068:00": 5,
+    "606C:00": 0,
+    "2006:12": 0,
+    "607C:00": 0,
+    "6081:00": 500000
+  },
+  "stable_samples": [
+    {
+      "6040:00": 0,
+      "6041:00": 608,
+      "6064:00": -1470,
+      "607A:00": 7800,
+      "6062:00": 7800,
+      "606C:00": 0
+    },
+    {
+      "6040:00": 0,
+      "6041:00": 608,
+      "6064:00": -1470,
+      "607A:00": 7800,
+      "6062:00": 7800,
+      "606C:00": 0
+    },
+    {
+      "6040:00": 0,
+      "6041:00": 608,
+      "6064:00": -1470,
+      "607A:00": 7800,
+      "6062:00": 7800,
+      "606C:00": 0
+    }
+  ],
+  "passive_changed_keys": [],
+  "staging_only_changed_keys": [
+    "payload_root",
+    "payload_exists",
+    "source_hashes"
+  ],
+  "remaining": "No Halt, enable, movement or cleanup controlword sent. Frozen implementation and PTY rehearsal pending main-session protocol decision.",
+  "cleanup": "CAN closed normally; all local/remote temporary stage and evidence intentionally retained; current/services/config unchanged."
+}

@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "cmake",
+    "--build",
+    "build-asan",
+    "-j4"
+  ],
+  "shell_command": "cmake --build build-asan -j4",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:13:11.153910+00:00"
+}

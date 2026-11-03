@@ -1,0 +1,8 @@
+{
+  "time": "2026-10-20T10:37:28.932442+08:00",
+  "archive_sha256": "62a92542963d6c5ad9d71b16498e7f98e259762ef3a16204c9c7bfaf78d5f04e",
+  "binary_sha256": "758f9107d372622f1104fd2d4972bcb22191f4da6d851913bbcae3ada15a26c2",
+  "source_entries_checked": 92,
+  "safe_archive_members": 7,
+  "archive_member_bytes_match_package": true
+}

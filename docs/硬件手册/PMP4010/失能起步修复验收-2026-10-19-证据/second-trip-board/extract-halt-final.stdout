@@ -1,0 +1,113 @@
+{
+  "result": "HARDWARE_MOTION_ACCEPTANCE_FAILED_SAFE_GUARD_STOP",
+  "first_uploads_after_12F": {
+    "6041": {
+      "source_line": 19704,
+      "utc": "2026-10-19T03:08:33.712627+00:00",
+      "offset_ms": 99.6940039999572,
+      "raw_hex": "3706",
+      "signed": 1591
+    },
+    "6064": {
+      "source_line": 19706,
+      "utc": "2026-10-19T03:08:33.713414+00:00",
+      "offset_ms": 100.47042899986991,
+      "raw_hex": "4ffaffff",
+      "signed": -1457
+    },
+    "606C": {
+      "source_line": 19708,
+      "utc": "2026-10-19T03:08:33.714169+00:00",
+      "offset_ms": 101.22614700003396,
+      "raw_hex": "00000000",
+      "signed": 0
+    },
+    "607A": {
+      "source_line": 19730,
+      "utc": "2026-10-19T03:08:33.722397+00:00",
+      "offset_ms": 109.45328500019968,
+      "raw_hex": "42faffff",
+      "signed": -1470
+    },
+    "6062": {
+      "source_line": 19742,
+      "utc": "2026-10-19T03:08:33.726890+00:00",
+      "offset_ms": 113.9461709999523,
+      "raw_hex": "42faffff",
+      "signed": -1470
+    }
+  },
+  "first_trigger_displacement_users": 13,
+  "first_trigger_displacement_motor_degrees": "585/16384",
+  "motion_observed_6064": {
+    "count": 81,
+    "min": -1470,
+    "max": -1457
+  },
+  "post12F_through_q_observed_6064": {
+    "count": 52,
+    "min": -1470,
+    "max": -1457,
+    "last": -1470,
+    "last_utc": "2026-10-19T03:08:59.917846+00:00"
+  },
+  "sampled_606C_in_motion": [
+    0
+  ],
+  "ack_0_1_0": [
+    {
+      "phase": "current_ack_initial_zero",
+      "utc": "2026-10-19T03:08:30.660290+00:00",
+      "statusword": 563,
+      "statusword_hex": "0x0233",
+      "ack_bit12": false,
+      "actual_position": -1470,
+      "position_demand": 7800
+    },
+    {
+      "phase": "current_setpoint_ack",
+      "utc": "2026-10-19T03:08:31.322274+00:00",
+      "statusword": 4659,
+      "statusword_hex": "0x1233",
+      "ack_bit12": true,
+      "actual_position": -1470,
+      "position_demand": -1470
+    },
+    {
+      "phase": "current_ack_return_zero",
+      "utc": "2026-10-19T03:08:31.656857+00:00",
+      "statusword": 563,
+      "statusword_hex": "0x0233",
+      "ack_bit12": false,
+      "actual_position": -1470,
+      "position_demand": -1470
+    }
+  ],
+  "stable_count_note": "5 initial strictdisabled + 5 pre-enable Halt hold completed; post-12F enable check rejected first position upload, so no post-enable 5-sample proof.",
+  "motion_controlwords": [
+    "0x0106",
+    "0x0107",
+    "0x0127",
+    "0x0137",
+    "0x0127",
+    "0x012F",
+    "0x0002",
+    "0x0000"
+  ],
+  "q_controlword": "0x0006",
+  "elapsed_seconds": {
+    "begin_to_result": 6.919384819999777,
+    "begin_to_bench_result": 6.92339528399998,
+    "halt_enable_to_exception": 0.12044108100008089,
+    "exception_to_first_quick_stop": 0.0011602629997469194
+  },
+  "motion_client_ids": [
+    547961555888
+  ],
+  "execute_call_count": 1,
+  "download_begin": 14,
+  "download_done": 14,
+  "quarantine_observed": false,
+  "CAN_closed_confirmed": true,
+  "postcheck_passive_changed_keys": []
+}

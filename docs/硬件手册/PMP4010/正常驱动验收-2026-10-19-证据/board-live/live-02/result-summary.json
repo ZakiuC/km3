@@ -1,0 +1,229 @@
+{
+  "result": "MOTION_FEEDBACK_CHANGED_BUT_EXACT_TARGET_NOT_REACHED",
+  "rc": 1,
+  "session_id": 75605,
+  "execute_inputs": 1,
+  "start": -1483,
+  "target": -1447,
+  "velocity": 100,
+  "calibration": {
+    "values": [
+      131072,
+      1,
+      1,
+      1
+    ],
+    "resolution": "131072",
+    "gear_ratio": "1",
+    "motor_degrees_per_user_unit": "45/16384",
+    "output_degrees_per_user_unit": "45/16384"
+  },
+  "script_envelope": {
+    "soft_min": -1847,
+    "soft_max": -1119,
+    "max_displacement": 36
+  },
+  "motion_controlword_ACKs": [
+    "0x106",
+    "0x107",
+    "0x127",
+    "0x137",
+    "0x127",
+    "0x12f",
+    "0x2f"
+  ],
+  "full_controlword_sequence_with_confirmed_cleanup": [
+    "0x106",
+    "0x107",
+    "0x127",
+    "0x137",
+    "0x127",
+    "0x12f",
+    "0x2f",
+    "0x2",
+    "0x0",
+    "0x6"
+  ],
+  "transition_snapshots": [
+    {
+      "utc": "2026-10-19T06:28:11.508161+00:00",
+      "cw": "0x0106",
+      "sw": "0x0231",
+      "bit12": false,
+      "position": -1483
+    },
+    {
+      "utc": "2026-10-19T06:28:11.534122+00:00",
+      "cw": "0x0107",
+      "sw": "0x0233",
+      "bit12": false,
+      "position": -1483
+    },
+    {
+      "utc": "2026-10-19T06:28:11.560059+00:00",
+      "cw": "0x0127",
+      "sw": "0x0233",
+      "bit12": false,
+      "position": -1483
+    },
+    {
+      "utc": "2026-10-19T06:28:11.586109+00:00",
+      "cw": "0x0137",
+      "sw": "0x1233",
+      "bit12": true,
+      "position": -1483
+    },
+    {
+      "utc": "2026-10-19T06:28:11.612003+00:00",
+      "cw": "0x0127",
+      "sw": "0x0233",
+      "bit12": false,
+      "position": -1483
+    },
+    {
+      "utc": "2026-10-19T06:28:11.681941+00:00",
+      "cw": "0x012F",
+      "sw": "0x0637",
+      "bit12": false,
+      "position": -1483
+    },
+    {
+      "utc": "2026-10-19T06:28:11.748178+00:00",
+      "cw": "0x002F",
+      "sw": "0x0637",
+      "bit12": false,
+      "position": -1471
+    }
+  ],
+  "post_go_observations": {
+    "count": 95,
+    "first_utc": "2026-10-19T06:28:11.805355+00:00",
+    "last_utc": "2026-10-19T06:28:21.743176+00:00",
+    "positions_histogram": {
+      "-1472": 84,
+      "-1471": 10,
+      "-1470": 1
+    },
+    "min_position": -1472,
+    "max_position": -1470,
+    "actual_velocity_values": [
+      0
+    ],
+    "statusword_values": [
+      "0x0637"
+    ],
+    "fault_values": [
+      0
+    ],
+    "demand_values": [
+      -1447
+    ],
+    "target_values": [
+      -1447
+    ],
+    "exact_target_samples": 0
+  },
+  "all_recorded_actual_position_samples": {
+    "count": 135,
+    "min": -1483,
+    "max": -1470,
+    "maximum_absolute_displacement_from_start": 13,
+    "maximum_observed_motor_degrees": "585/16384",
+    "sampling_limit": "SDO snapshots only; not a bound on unobserved physical excursion"
+  },
+  "first_failure": {
+    "utc": "2026-10-19T06:28:21.793509+00:00",
+    "event": "runner_failure",
+    "data": {
+      "reason": "ValueError: 动作监测超时；没有两份到达目标/零速度/bit10一致快照",
+      "first_failure": {}
+    }
+  },
+  "final": {
+    "utc": "2026-10-19T06:28:21.833057+00:00",
+    "event": "FINAL",
+    "data": {
+      "completed": false,
+      "failure": "ValueError: 动作监测超时；没有两份到达目标/零速度/bit10一致快照",
+      "output_error": null,
+      "hardware_motion_acceptance": false,
+      "mock_only": false,
+      "cleanup": [
+        {
+          "action": "stop",
+          "values": {
+            "statusword": 576,
+            "actual_position": -1472,
+            "actual_velocity": 0,
+            "modes_of_operation_display": 1,
+            "error_code_object": 0,
+            "torque_feedback": 0,
+            "velocity_feedback_unit": 0,
+            "profile_velocity": 100,
+            "profile_acceleration": 5000000,
+            "profile_deceleration": 5000000,
+            "home_offset": 0,
+            "control_mode_select": 0,
+            "modes_of_operation": 1,
+            "target_position": -1447,
+            "profile_end_velocity": 0,
+            "software_position_limit": -2147483628,
+            "software_position_limit_max": 2147483627,
+            "controlword": 2,
+            "halt_option": 1,
+            "position_demand": -1447,
+            "max_velocity": 9000000,
+            "max_motor_speed": 4000,
+            "max_profile_acceleration": 2147483647,
+            "max_deceleration": 2147483647
+          }
+        },
+        {
+          "action": "disable",
+          "values": {
+            "statusword": 576,
+            "actual_position": -1476,
+            "actual_velocity": 0,
+            "modes_of_operation_display": 1,
+            "error_code_object": 0,
+            "torque_feedback": 0,
+            "velocity_feedback_unit": 0,
+            "profile_velocity": 100,
+            "profile_acceleration": 5000000,
+            "profile_deceleration": 5000000,
+            "home_offset": 0,
+            "control_mode_select": 0,
+            "modes_of_operation": 1,
+            "target_position": -1447,
+            "profile_end_velocity": 0,
+            "software_position_limit": -2147483628,
+            "software_position_limit_max": 2147483627,
+            "controlword": 0,
+            "halt_option": 1,
+            "position_demand": -1447,
+            "max_velocity": 9000000,
+            "max_motor_speed": 4000,
+            "max_profile_acceleration": 2147483647,
+            "max_deceleration": 2147483647
+          }
+        }
+      ],
+      "close_results": [
+        {
+          "node": 1,
+          "disabled_confirmed": true
+        }
+      ],
+      "close_lines": [
+        "节点 1 已发失能 6040h=0x0006，6041h=0x0240，operation enabled=0，失能已确认",
+        "总线已关闭（失能确认流程之后）"
+      ],
+      "final_velocity_note": "606C实读在disable0完整快照中；close6后只再读6041并关闭总线",
+      "mechanical_stop_confirmed": false
+    }
+  },
+  "physical_root_cause": "not established; current/torque/in-position settings not probed; actual feedback offset despite bit10 may be consistent with device position tolerance but is not proven",
+  "cleanup": "Same original client stop2 confirmed, disable0 confirmed, public close6 returned raw6041=0240 bit2=0 and closed bus. Original session terminated; no reconnect/retry/extra motion. Last606C=0 sample before close6; no mechanical brake proof.",
+  "hardware_acceptance": false,
+  "old_source_state_sample_defect": "106/107 controlled transition no longer rejects: actual raw0231/0233 accepted, submitted stage completed; this does not prove old hardware failures had the same root cause"
+}

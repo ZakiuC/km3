@@ -1,0 +1,13 @@
+{
+  "name": "04-asan-ctest",
+  "argv": [
+    "ctest",
+    "--test-dir",
+    "build-asan",
+    "--output-on-failure"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 12.117701035924256,
+  "stdout": "/tmp/km3-csv-guard-final-20261017/04-asan-ctest.stdout.log",
+  "stderr": "/tmp/km3-csv-guard-final-20261017/04-asan-ctest.stderr.log"
+}

@@ -1,0 +1,18 @@
+{
+  "name": "host-build",
+  "argv": [
+    "cmake",
+    "--build",
+    "build-host",
+    "--clean-first",
+    "-j4"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T06:06:47.661305+00:00",
+  "duration_seconds": 3.247649574999741,
+  "returncode": 0,
+  "stdout": "host-build.stdout.log",
+  "stdout_sha256": "f2b13786c52d34a37b2e4992980ed8a928ebadee67ca0a62ce1651a2d42cd5ab",
+  "stderr": "host-build.stderr.log",
+  "stderr_sha256": "c41f45a467df70d8be980c5d9ffcb88c92c0c9897846ae059df70c95d315d01f"
+}

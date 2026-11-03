@@ -1,0 +1,19 @@
+{
+  "status": "LOCAL_PROPOSAL_NOT_EXECUTED_ON_BOARD",
+  "source_sha256": "d8c96c340d7c64c2a7380ef2bb96221159248819cd0d1ad7772cb3f2961ff367",
+  "files": {
+    "read-write-schema.json": "98b9675960aa09d10383bbf38cd30d3fdb36cd251bedd2b9bbe0227dd91fbb10",
+    "execute_authorized_once.py": "a975402afb835ca396fb136c108cf813ea9518e55ac8fb09126a1ae110be92c0",
+    "mock.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "reset_observe_once.py": "d8c96c340d7c64c2a7380ef2bb96221159248819cd0d1ad7772cb3f2961ff367",
+    "cold-load.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "passive.remote.py": "754d31f4d7aa83fe62bd6c2d977177fb5202262f9134ffed3717f6fc996bad97",
+    "plan.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "cold-load.stdout": "7ab29128a68db338abaf63ae4fd63e2c7e100a8125e1c68edea8ab72ef609289",
+    "mock-results.json": "c6e327836083d5fef5b0f3eecabf22315011963f409e023730fd7bb821dd2510",
+    "mock.command.json": "eae744a5d81f2b993b058c0fd8f12fccf492e2d57615466b9461bad7384e24b6",
+    "mock.stdout": "b11c3aa75488b6aa12a91b7b9ae16ddf3a95b4283b31e605450596080ef2c326",
+    "verify_reset_observe.py": "98f66ed27a920015905ed046fc90e8b557ca30136168efaf8763cae48af55881",
+    "plan.stdout": "39014d0da0b659bd36fcf1029b5977b2ce45cde4295f0ccfa3152000169650e4"
+  }
+}

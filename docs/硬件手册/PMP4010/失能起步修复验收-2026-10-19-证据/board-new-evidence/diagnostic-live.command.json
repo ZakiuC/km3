@@ -1,0 +1,20 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=8",
+    "root@192.168.0.188",
+    "python3 -I -B -c 'import sys,runpy;sys.path.insert(0,'\"'\"'/tmp/km3-pp-disabled-start-readonly-20261019-kf4gqufd'\"'\"');runpy.run_path('\"'\"'/tmp/km3-pp-disabled-start-readonly-20261019-kf4gqufd/diagnose.py'\"'\"',run_name=\"__main__\")' --source-root /tmp/km3-pp-disabled-start-readonly-20261019-kf4gqufd/payload --baseline /tmp/km3-pp-disabled-start-readonly-20261019-kf4gqufd/baseline-38.json --live-read-only"
+  ],
+  "stdin_sha256": null,
+  "stdin_bytes": 0,
+  "utc_start": "2026-10-19T00:53:27.792274+00:00",
+  "utc_end": "2026-10-19T00:53:28.672969+00:00",
+  "rc": 0
+}

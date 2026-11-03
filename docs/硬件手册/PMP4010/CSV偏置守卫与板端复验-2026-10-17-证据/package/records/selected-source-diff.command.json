@@ -1,0 +1,31 @@
+{
+  "argv": [
+    "git",
+    "diff",
+    "HEAD",
+    "--",
+    "device/cmake/aarch64-linux-gnu.cmake",
+    "device/drivers/pmp4010/driver/od.json",
+    "device/drivers/pmp4010/driver/pmp4010_velocity.cpp",
+    "device/drivers/pmp4010/driver/pmp4010_velocity.hpp",
+    "device/drivers/pmp4010/driver/pmp4010_velocity_c.cpp",
+    "device/drivers/pmp4010/driver/pmp4010_velocity_c.h",
+    "device/drivers/pmp4010/native/CMakeLists.txt",
+    "device/drivers/pmp4010/tests/velocity_vectors.json",
+    "device/drivers/pmp4010/tools/pmp4010.py",
+    "device/drivers/pmp4010/tools/pmp4010_bench.py",
+    "device/drivers/pmp4010/tools/pmp4010_params.py",
+    "device/drivers/pmp4010/tools/pmp4010_position.py",
+    "device/drivers/pmp4010/tools/pmp4010_tui.py",
+    "device/drivers/pmp4010/tools/pmp4010_velocity.py",
+    "tools/deploy_hwtools.sh",
+    "tools/hwtui/canbus.py",
+    "tools/hwtui/canopen.py",
+    "tools/hwtui/canopen_consts.py",
+    "tools/hwtui/canopen_wire.py",
+    "tools/hwtui/discover.py",
+    "tools/hwtui/mockbus.py",
+    "tools/hwtui/tui.py"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

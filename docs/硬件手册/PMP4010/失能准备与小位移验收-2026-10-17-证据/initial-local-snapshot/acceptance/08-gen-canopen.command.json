@@ -1,0 +1,9 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "tools/hwdriver/gen-canopen.py",
+    "--check"
+  ],
+  "cwd": "/home/zakiu/km3"
+}

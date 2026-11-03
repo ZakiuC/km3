@@ -1,0 +1,17 @@
+{
+  "name": "02-mktemp",
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "root@192.168.0.188",
+    "mktemp -d /tmp/km3-pmp4010-reload-20261017-XXXXXXXX"
+  ],
+  "stdin": null,
+  "started_utc": "2026-10-17T08:01:19.405966+00:00",
+  "exitcode": 0,
+  "stdout": "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5\n",
+  "stderr": ""
+}

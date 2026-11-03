@@ -1,0 +1,13 @@
+{
+  "name": "07-arm64-build",
+  "argv": [
+    "cmake",
+    "--build",
+    "build-arm64",
+    "-j4"
+  ],
+  "returncode": 0,
+  "elapsed_seconds": 1.7594858091324568,
+  "stdout": "/tmp/km3-csv-guard-final-20261017/07-arm64-build.stdout.log",
+  "stderr": "/tmp/km3-csv-guard-final-20261017/07-arm64-build.stderr.log"
+}

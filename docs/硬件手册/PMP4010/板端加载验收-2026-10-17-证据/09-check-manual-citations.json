@@ -1,0 +1,12 @@
+{
+  "name": "09-check-manual-citations",
+  "argv": [
+    "bash",
+    "tools/check-manual-citations.sh"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "completed_utc": "2026-10-17T07:51:03.009326+00:00",
+  "exitcode": 0,
+  "stdout": "==> 手册溯源检查\n  (1)(2) od.json：1 个驱动、94 个条目、87 条已核对引用\n  (3) 源码索引字面量：检查 1 处，全部同行带引用\n\n结果：1 个驱动的溯源检查全部通过\n",
+  "stderr": ""
+}

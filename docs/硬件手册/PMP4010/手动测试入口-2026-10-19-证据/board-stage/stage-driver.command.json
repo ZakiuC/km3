@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "python3",
+    "-u",
+    "docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u624b\u52a8\u6d4b\u8bd5\u5165\u53e3-2026-10-19-\u8bc1\u636e/board-stage/stage_manual.py",
+    "--archive",
+    "/home/zakiu/km3/docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u624b\u52a8\u6d4b\u8bd5\u5165\u53e3-2026-10-19-\u8bc1\u636e/package/pmp4010-manual-board-payload.tar.gz",
+    "--sha256",
+    "fd97308d751fbb2ef4ddbc472bdbe1bf8f5eabe81b77d3bad0e9d598f6e1060e",
+    "--stage",
+    "/var/tmp/km3-pmp4010-manual-20261019-fd97308d751f",
+    "--apply"
+  ],
+  "start_utc": "2026-10-19T03:38:19.622537+00:00",
+  "end_utc": "2026-10-19T03:38:21.268465+00:00",
+  "rc": 0
+}

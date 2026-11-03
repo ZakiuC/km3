@@ -1,0 +1,5 @@
+BENCH nonblocking: help key + rendered screen 0.006846s; worker still blocked past SDO timeout; quarantine visible
+PREPARE UI: P -> F5 freeze -> exact token -> F5 background execution; two downloads only
+PREPARE MockBus: 5 stable samples >=0.8s; 607A=start,6081=100 only; bit10=0 retained; exit controls=0
+PREPARE lost ACK: first download attempted once; quarantine sticky; next write/cleanup/exit/retry=0
+PREPARE independent literal SDO peer: complete 265 request frames match MockBus; controlword=0

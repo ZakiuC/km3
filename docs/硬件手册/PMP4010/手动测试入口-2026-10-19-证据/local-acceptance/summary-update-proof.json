@@ -1,0 +1,14 @@
+{
+  "raw_section_sha256_before": "e7a127a5b52671c56115642d3139481e0aa04f0d39deeb7339b4534a632c52a8",
+  "raw_section_sha256_after": "e7a127a5b52671c56115642d3139481e0aa04f0d39deeb7339b4534a632c52a8",
+  "raw_section_unchanged": true,
+  "frozen_archive_modified": false,
+  "source_modified": false,
+  "requested_role": "light_worker",
+  "requested_model": "gpt-6.1-sol",
+  "requested_effort": "medium",
+  "actual_model": "unknown",
+  "actual_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "input_estimate": "below 70K from existing relevant context and follow-up packet; estimate only"
+}

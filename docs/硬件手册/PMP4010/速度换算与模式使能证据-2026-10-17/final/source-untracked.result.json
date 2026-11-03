@@ -1,0 +1,18 @@
+{
+  "command": "git -c core.quotepath=false ls-files --others --exclude-standard -- device/drivers/pmp4010 device/CMakeLists.txt tools/hwdriver docs/硬件手册/PMP4010/速度换算与模式使能验收-2026-10-17.md",
+  "argv": [
+    "bash",
+    "-c",
+    "git -c core.quotepath=false ls-files --others --exclude-standard -- device/drivers/pmp4010 device/CMakeLists.txt tools/hwdriver docs/硬件手册/PMP4010/速度换算与模式使能验收-2026-10-17.md"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "env_overrides": {
+    "TMPDIR": "/tmp/km3-pmp4010-a-20261017-evidence/tmp"
+  },
+  "start_utc": "2026-10-17T07:34:37.640257+00:00",
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "exitcode": 0,
+  "end_utc": "2026-10-17T07:34:37.643014+00:00"
+}

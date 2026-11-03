@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=10",
+    "root@192.168.0.188",
+    "cat /tmp/km3-pp-disabled-start-stage3-recovery-20261019-0213/move-session-1/app-audit.jsonl"
+  ],
+  "rc": 255,
+  "utc": "2026-10-19T02:22:39.464685+00:00"
+}

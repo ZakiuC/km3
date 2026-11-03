@@ -1,0 +1,80 @@
+{
+  "status": "frozen",
+  "frozen_utc": "2026-10-20T03:04:58.345369+00:00",
+  "source_hashes": {
+    "device/drivers/pmp4010/tools/pmp4010_simple.py": "9b1b35c89cf64d3068676c154418affbf793e456a34d4c346797e42c161fff03",
+    "device/drivers/pmp4010/tools/pmp4010.py": "85c5c5b4a3c68c7ef8b86be2c182d68be60c3b3bad8fee11cd379cd04f8d7ced",
+    "device/drivers/pmp4010/tools/_test_simple.py": "dafc514f9f17ad344e6645fbd932184689ec450229d7818929d651a6edf9daad",
+    "device/drivers/pmp4010/tools/_test_simple_pty.py": "7cd8cf03522a176f86cca7f41bb31176402c04e5354e61c577d85b7be6601d6a"
+  },
+  "production_files": [
+    "device/drivers/pmp4010/tools/pmp4010_simple.py",
+    "device/drivers/pmp4010/tools/pmp4010.py"
+  ],
+  "before_hashes": {
+    "docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/implementation/before/pmp4010_simple.py": "d1d277431b014fcc888dc16fa994a8b16f2d7e060f384f55c1db431317a166f5",
+    "docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/implementation/before/_test_simple_pty.py": "d053772efb914accbc855dd96244bcbee82cf0b89bf4ac9f0721063982868668",
+    "docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/implementation/before/_test_simple.py": "4542b0f1c1cd5c8c83792ef5c6c3e4bc859acc33d2a5a8a734d9d3a2021dcdab",
+    "docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/implementation/before/pmp4010.py": "009091e3b1de3f9c9eda51fb22495d9e84296a85819b42adbd5d58825976cc05"
+  },
+  "local_acceptance": {
+    "status": "passed",
+    "evidence": [
+      {
+        "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p '_test_simple.py'",
+        "rc": 0,
+        "tests": 55,
+        "raw_output": "docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/implementation/simple-final-display.log"
+      },
+      {
+        "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p '_test_manual.py'",
+        "rc": 0,
+        "tests": 63,
+        "raw_output": "docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/implementation/manual.log"
+      },
+      {
+        "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p '_test_simple_pty.py'",
+        "rc": 0,
+        "tests": 3,
+        "raw_output": "docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/implementation/simple-pty.log",
+        "note": "Before final no-request display wording; final full suite reran all 3 PTY tests against final source."
+      },
+      {
+        "command": "python3 -I -m unittest discover -s device/drivers/pmp4010/tools -p '_test_*.py'",
+        "rc": 0,
+        "tests": 461,
+        "raw_output": "docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/implementation/all-python-final.log"
+      },
+      {
+        "command": "python3 -I device/drivers/pmp4010/tools/_test_simple_pty.py --run-linear docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/implementation/linear-pty-final",
+        "rc": 0,
+        "checks": 44,
+        "raw_output": "docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/implementation/linear-pty-final.log",
+        "summary": "docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/implementation/linear-pty-final/summary.json"
+      }
+    ],
+    "limits": [
+      "Local mocks/PTY only; no real socket/CAN, no SSH or board activity.",
+      "Not a physical calibration or movement acceptance."
+    ],
+    "initial_failure": {
+      "rc": 1,
+      "tests": 55,
+      "errors": 3,
+      "raw_output": "docs/硬件手册/PMP4010/手动速度mm每秒-2026-10-20-证据/implementation/simple-initial.log",
+      "cause": "New 1mm/s test cases exceeded fixture607F10000; targeted mock limits raised, production checks unchanged."
+    }
+  },
+  "cleanup": {
+    "test_processes": "completed",
+    "evidence": "intentionally retained",
+    "commit_push": false
+  },
+  "route": {
+    "requested_role": "laborer",
+    "requested_model": "gpt-6.1-sol",
+    "requested_effort": "medium",
+    "actual_model_effort": "unavailable; not inferred from configuration",
+    "input_usage": "unknown; concise fresh packet estimated below35K by delegator"
+  }
+}

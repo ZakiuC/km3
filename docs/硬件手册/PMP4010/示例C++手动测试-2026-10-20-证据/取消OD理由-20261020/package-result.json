@@ -1,0 +1,7 @@
+{
+  "archive": "/home/zakiu/km3/build-pmp4010-cpp-no-od-arm64/pmp4010-cpp-no-od-manual-arm64.tar.gz",
+  "archive_sha256": "5987ca9a5e4adee4971a151407f3ab47660864f779007a7dbb564e779cbc0d90",
+  "binary_sha256": "488add26caf31eedfed1dfe0a71868e296eb27c20a06b38f58a04f8aea063b99",
+  "package": "/home/zakiu/km3/docs/硬件手册/PMP4010/示例C++手动测试-2026-10-20-证据/取消OD理由-20261020/package",
+  "source_entries": 92
+}

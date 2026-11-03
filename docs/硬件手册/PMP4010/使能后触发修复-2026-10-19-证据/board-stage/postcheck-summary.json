@@ -1,0 +1,65 @@
+{
+  "result": "PASS",
+  "compared_keys": [
+    "hostname",
+    "model",
+    "boot_id",
+    "device_id",
+    "config_sha",
+    "can_env_sha",
+    "current",
+    "services",
+    "can_rcvlists",
+    "related_processes_excluding_snapshot_pid",
+    "can_link"
+  ],
+  "compared_count": 11,
+  "equal": {
+    "hostname": true,
+    "model": true,
+    "boot_id": true,
+    "device_id": true,
+    "config_sha": true,
+    "can_env_sha": true,
+    "current": true,
+    "services": true,
+    "can_rcvlists": true,
+    "related_processes_excluding_snapshot_pid": true,
+    "can_link": true
+  },
+  "before_utc": "2026-10-19T06:41:45.794244+00:00",
+  "after_utc": "2026-10-19T06:42:07.071332+00:00",
+  "boot_id": "dc67bdcd-fa50-4927-8f9b-7207359c70af",
+  "stage_absent_before_present_after": true,
+  "can_receive_lists_empty": true,
+  "related_processes": [
+    {
+      "pid": 600,
+      "cmdline": "/opt/km3/current/km3-rt-controller --config /etc/km3/device.json --require-config ",
+      "fds": {
+        "0": "/dev/null",
+        "1": "socket:[3640]",
+        "2": "socket:[3640]"
+      }
+    }
+  ],
+  "can_stats": {
+    "rx": {
+      "bytes": 402633,
+      "packets": 50330,
+      "errors": 0,
+      "dropped": 0,
+      "over_errors": 0,
+      "multicast": 0
+    },
+    "tx": {
+      "bytes": 0,
+      "packets": 50325,
+      "errors": 0,
+      "dropped": 0,
+      "carrier_errors": 0,
+      "collisions": 0
+    }
+  },
+  "driver_realtime_state": "unknown: no CAN/SDO reads performed"
+}

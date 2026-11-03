@@ -1,0 +1,34 @@
+[
+  {
+    "command": [
+      "/usr/bin/python3",
+      "-I",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "device/drivers/pmp4010/tools",
+      "-p",
+      "_test_manual.py"
+    ],
+    "returncode": 0,
+    "stdout": "_test_manual.stdout",
+    "stderr": "_test_manual.stderr"
+  },
+  {
+    "command": [
+      "/usr/bin/python3",
+      "-I",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "device/drivers/pmp4010/tools",
+      "-p",
+      "_test_simple.py"
+    ],
+    "returncode": 0,
+    "stdout": "_test_simple.stdout",
+    "stderr": "_test_simple.stderr"
+  }
+]

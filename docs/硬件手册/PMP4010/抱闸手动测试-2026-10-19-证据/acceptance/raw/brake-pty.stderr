@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/抱闸手动测试-2026-10-19-证据/acceptance/verify_brake_pty.py", line 91, in <module>
+    parent()
+  File "/home/zakiu/km3/docs/硬件手册/PMP4010/抱闸手动测试-2026-10-19-证据/acceptance/verify_brake_pty.py", line 77, in parent
+    assert trace['controls'][-1]==0
+AssertionError

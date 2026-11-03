@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B -"
+  ],
+  "start_utc": "2026-10-20T01:33:45.856494+00:00",
+  "end_utc": "2026-10-20T01:33:46.114257+00:00",
+  "rc": 0,
+  "automatic_retries": 0,
+  "timeout_seconds": 40,
+  "stdin_file": "/home/zakiu/km3/docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u5b8c\u6574\u624b\u52a8\u6d4b\u8bd5\u90e8\u7f72-2026-10-20-\u8bc1\u636e/create-stage.stdin.py",
+  "stdin_sha256": "87c866f55e76afd4cd2aac65fa7cbb08fc681a0ffbcdc488fe8c488c1ba6b355"
+}

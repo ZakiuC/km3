@@ -1,0 +1,80 @@
+{
+  "utc": "2026-10-19T05:46:17.448047+00:00",
+  "files": [
+    {
+      "path": "fetch-sessions.command.json",
+      "size": 467,
+      "sha256": "a3b80a0fa6e17987cbc843e063647d6c1a4d7d4fb572f9886af0c453a171fe51"
+    },
+    {
+      "path": "fetch-sessions.rc",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "fetch-sessions.remote.py",
+      "size": 1269,
+      "sha256": "9ef8c30bc5c7f6360f4d2872aadd962fe1cfc2990db9b1e0432498d9ab318867"
+    },
+    {
+      "path": "fetch-sessions.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "fetch-sessions.stdout",
+      "size": 4775,
+      "sha256": "368e21a02d694abe9a74f3014e6a06e09e908568431dc7e41d275fc92c46226e"
+    },
+    {
+      "path": "list-sessions.command.json",
+      "size": 466,
+      "sha256": "481ccc75a2802e8e5e6fca7851e4bb3b7a8ab4cd0809bda719ea20486534c7e2"
+    },
+    {
+      "path": "list-sessions.rc",
+      "size": 2,
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+    },
+    {
+      "path": "list-sessions.remote.py",
+      "size": 1572,
+      "sha256": "1fcb3bbf1d21d282bb2a3f31589d86c15fafac527c5249cb5ee921d0dce2bbf3"
+    },
+    {
+      "path": "list-sessions.stderr",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "list-sessions.stdout",
+      "size": 1642,
+      "sha256": "052537140f5eca725afa773b44030308552b09d7fff97ce6f693096d054fb172"
+    },
+    {
+      "path": "sessions/manual-5BQ8TdzB/motion-absolute-d4b6ca7077e948cba2ae49428eb6f273.jsonl",
+      "size": 897,
+      "sha256": "5193b81a4c2db2f651cd60f1e78cd0fd19b0858b3be896b3eec46849a5c2b49d"
+    },
+    {
+      "path": "sessions/manual-IgxS6Xwl/motion-absolute-27ee2c1af9d7430a9c49730cccbf49c8.jsonl",
+      "size": 888,
+      "sha256": "547cce5ca6b3093d2b7f3da91b57b91e91065fedc5be2bc9f912307f80f3824b"
+    },
+    {
+      "path": "sessions/manual-JpJbKdTb/motion-absolute-fc4866f836a64297bebd203407f99ad1.jsonl",
+      "size": 888,
+      "sha256": "e7897d5485818d73d90c838a654e31a4de45c0350bbaa6e7472de2526381e618"
+    },
+    {
+      "path": "sessions-index.json",
+      "size": 1680,
+      "sha256": "84a81d3ce406e3d556abf7421703b9d25584a4bf183aa580fe808b4dad05f43b"
+    },
+    {
+      "path": "summary.json",
+      "size": 12771,
+      "sha256": "53aef95d8a2ee7d0d1ab4071a92ce8c9a35168710b41ad137ab0a8dddb929926"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "result": "PASS",
+  "archive": "/home/zakiu/km3/docs/硬件手册/PMP4010/简化交互-2026-10-19-证据/package/pmp4010-manual-board-payload.tar.gz",
+  "archive_size": 210145,
+  "archive_sha256": "eaeb23d5844ea15739816f7f547a8fd8d0d526ef01400536090b68827efbbb5f",
+  "manifest_sha256": "2fed972fc6bcf76647cbbbd65bbc8b80ef7edafc8769b7fd9b2c9fd898580aef",
+  "simple_sha256": "e8478bfd4604aaee839d386f49777f7dbb31cb5588f4408ba9f6e7daacf40a2b",
+  "native_library_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+  "launcher_sha256": "3b543add3a9fc64ae72e246e4ce8320722f6b98226eacb4d1ac40ad358eccf56",
+  "archive_members": 24,
+  "regular_files": 22,
+  "symlinks": 2,
+  "manifest_entries": 23,
+  "source_simple_matches_package": true,
+  "local_plan_rc": 0,
+  "stage": "/var/tmp/km3-pmp4010-simple-20261019-eaeb23d5844e",
+  "actual_ssh_calls": 0
+}

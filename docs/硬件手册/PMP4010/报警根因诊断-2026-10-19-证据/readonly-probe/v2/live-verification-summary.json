@@ -1,0 +1,59 @@
+{
+  "result": "PASS_READONLY_DIAGNOSTIC_COMPLETED_NO_CONTROL_WRITES",
+  "script_sha256": "8706cfa703015c589ebaec9f50acb354d20b527ddfb15a090b2affa0fc184891",
+  "ssh_probe_utc": [
+    "2026-10-19T09:21:40.123816+00:00",
+    "2026-10-19T09:21:41.010926+00:00"
+  ],
+  "CAN_TX_RX_utc": [
+    "2026-10-19T09:21:40.472845+00:00",
+    "2026-10-19T09:21:40.983878+00:00"
+  ],
+  "probe_rc": 0,
+  "passive_rc": 0,
+  "TX": 22,
+  "RX": 22,
+  "retries": 0,
+  "control_writes": 0,
+  "interface_delta": {
+    "rx": {
+      "bytes": 176,
+      "packets": 22,
+      "errors": 0,
+      "dropped": 0,
+      "over_errors": 0,
+      "multicast": 0
+    },
+    "tx": {
+      "bytes": 0,
+      "packets": 22,
+      "errors": 0,
+      "dropped": 0,
+      "carrier_errors": 0,
+      "collisions": 0
+    }
+  },
+  "passive_equal": {
+    "hostname": true,
+    "model": true,
+    "boot_id": true,
+    "device_id": true,
+    "config_sha": true,
+    "can_env_sha": true,
+    "current": true,
+    "services": true,
+    "related_processes_excluding_snapshot_pid": true,
+    "can_rcvlists": true
+  },
+  "can_state_equal": true,
+  "final_603F": "0x2312",
+  "final_6041": "0x02C0",
+  "error_register": "0x00",
+  "manual_session_mode": 0,
+  "stall_reaction": "0x03002312",
+  "limitations": [
+    "1003 slot02 read despite count1; retained raw only, no newest/current inference.",
+    "6073 units unresolved; retained raw only.",
+    "No real brake state or mechanical movement confirmation."
+  ]
+}

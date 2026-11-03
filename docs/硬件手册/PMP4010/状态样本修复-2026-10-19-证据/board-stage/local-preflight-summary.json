@@ -1,0 +1,27 @@
+{
+  "result": "PASS",
+  "archive": "/home/zakiu/km3/docs/\u786c\u4ef6\u624b\u518c/PMP4010/\u72b6\u6001\u6837\u672c\u4fee\u590d-2026-10-19-\u8bc1\u636e/package/pmp4010-manual-board-payload.tar.gz",
+  "archive_sha256": "43b0b2355c3be3882ea4fceeada801dd9a4b9d2909e878ede80bf5be2fb1da08",
+  "archive_bytes": 212307,
+  "manifest_sha256": "26c7f2bdcc7e3b79e899ab06b703561e6dca2c377983ab7454908de6d01c3e0d",
+  "archive_members": 24,
+  "regular_members": 22,
+  "symlink_members": 2,
+  "manifest_entries": 23,
+  "source_hashes": {
+    "drivers/pmp4010/pmp4010_manual.py": "bee76eaeed270e6d66d1b2d4791e6c5778305b246136ec4e90cd9788bf8642b9",
+    "drivers/pmp4010/pmp4010_simple.py": "59c9a134b3ee080e73c99a46e2d835c06136132cb7a89bcea3272bdf63bba3a1"
+  },
+  "arm_library": [
+    {
+      "path": "drivers/pmp4010/libpmp4010_velocity.so.1.0.0",
+      "source": "build-arm64/libpmp4010_velocity.so.1.0.0",
+      "size": 18560,
+      "sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404"
+    }
+  ],
+  "AST_checks": 4,
+  "local_plan_rc": 0,
+  "actual_SSH_calls": 0,
+  "stage": "/var/tmp/km3-pmp4010-state-20261019-43b0b2355c3b"
+}

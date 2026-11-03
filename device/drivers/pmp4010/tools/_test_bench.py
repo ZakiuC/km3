@@ -45,6 +45,12 @@ class BenchFixture(unittest.TestCase):
     def review(self, action='absolute', value=-1414):
         return self.ctl.review(action, 1, value, self.out)
 
+    def enabled_pp_start(self):
+        # Exercise the retained ordinary-enabled runner explicitly. Strict
+        # disabled starts now have their own sealed transaction tests.
+        self.node.set_value(0x6041, 0x427)
+        self.ctl.refresh(self.out)
+
 
 
 class BenchTests(BenchFixture):
@@ -156,7 +162,7 @@ class BenchTests(BenchFixture):
 
     def test_relative_rejects_not_target_reached(self):
         self.authorized()
-        self.node.set_value(0x6041, 0x40)
+        self.node.set_value(0x6041, 0x27)
         self.ctl.refresh(self.out)
         with self.assertRaises(ValueError):
             self.review('relative', 50)
@@ -190,6 +196,7 @@ class BenchTests(BenchFixture):
 
     def test_position_transaction_shared_runner_cleanup_and_absolute_wire(self):
         self.authorized()
+        self.enabled_pp_start()
         review = self.review('relative', 50)
         with mock.patch.object(position, 'run', wraps=position.run) as run:
             self.ctl.execute(review, self.out)
@@ -219,6 +226,7 @@ class BenchTests(BenchFixture):
 
     def test_lost_write_ack_does_not_claim_disabled_and_latches_quarantine(self):
         self.authorized()
+        self.enabled_pp_start()
         review = self.review()
         self.node.drop_write_ack.add((0x6040, 0))
         with self.assertRaises(Exception):
@@ -232,6 +240,7 @@ class BenchTests(BenchFixture):
 
     def test_start_drift_during_setup_is_refused_before_607a_download(self):
         self.authorized()
+        self.enabled_pp_start()
         review = self.review('relative', 50)
         original = self.bus.send
         def send(frame):
@@ -249,6 +258,7 @@ class BenchTests(BenchFixture):
 
     def test_cancel_during_transaction_confirms_disabled_with_same_client(self):
         self.authorized()
+        self.enabled_pp_start()
         review = self.review()
         event = self.out.event
         def observe(name, data):
@@ -289,20 +299,81 @@ class BenchTests(BenchFixture):
             self.review()
         self.assertFalse(requests(self.bus, True))
 
-    def test_actions_reject_velocity_modes(self):
+    def test_speed_modes_review_zero_target_and_enable_without_nonzero_action(self):
         self.authorized()
         for mode in (3, 9):
+            self.node.set_value(0x6060, mode)
             self.node.set_value(0x6061, mode)
+            self.node.set_value(0x6041, 0x440)
             self.ctl.refresh(self.out)
-            with self.subTest(mode=mode), self.assertRaises(ValueError):
-                self.review('enable', None)
+            self.bus.sent.clear()
+            with self.subTest(mode=mode):
+                review = self.review('enable', None)
+                self.assertEqual(review['writes'][0]['key'], 'target_velocity')
+                self.assertEqual(review['writes'][0]['value'], 0)
+                self.assertFalse(requests(self.bus, True))
+                self.ctl.execute(review, self.out)
+                writes = requests(self.bus, True)
+                self.assertEqual(writes[0], (0x60ff, 0, 0))
+                self.assertEqual(self.node.value(0x60ff, signed=True), 0)
         for action in ('velocity', 'pv', 'csv'):
             with self.subTest(action=action), self.assertRaises(ValueError):
                 self.review(action, 10)
+
+    def test_csv_zero_target_enable_rejects_residual_offset_without_clearing_it(self):
+        self.authorized()
+        self.node.set_value(0x6060, 9)
+        self.node.set_value(0x6061, 9)
+        self.node.set_value(0x60b1, -1)
+        self.ctl.refresh(self.out)
+        review = self.review('enable', None)
+        self.bus.sent.clear()
+        with self.assertRaisesRegex(tool.MotionError, '60B1h'):
+            self.ctl.execute(review, self.out)
+        self.assertEqual(self.node.value(0x60b1, signed=True), -1)
+        self.assertFalse(requests(self.bus, True))
+
+    def test_csv_offset_read_timeout_stays_quarantined_without_enable_or_retry(self):
+        self.authorized()
+        self.node.set_value(0x6060, 9)
+        self.node.set_value(0x6061, 9)
+        self.ctl.refresh(self.out)
+        review = self.review('enable', None)
+        self.node.drop_reads.add((0x60b1, 0))
+        self.bus.sent.clear()
+        with self.assertRaises(tool.MotionError):
+            self.ctl.execute(review, self.out)
+        self.assertFalse(requests(self.bus, True))
+        before = len(self.bus.sent)
+        self.node.drop_reads.clear()
+        self.ctl.refresh(self.out)
+        with self.assertRaises(ValueError):
+            self.review('enable', None)
+        self.assertEqual(len(self.bus.sent), before)
+
+    def test_speed_enable_review_rejects_mode_drift_and_tampered_target(self):
+        self.authorized()
+        self.node.set_value(0x6060, 3)
+        self.node.set_value(0x6061, 3)
+        self.ctl.refresh(self.out)
+        review = self.review('enable', None)
+        self.node.set_value(0x6061, 9)
+        self.bus.sent.clear()
+        with self.assertRaisesRegex(ValueError, '模式'):
+            self.ctl.execute(review, self.out)
+        self.assertFalse(requests(self.bus, True))
+        self.node.set_value(0x6061, 3)
+        self.ctl.refresh(self.out)
+        review = self.review('enable', None)
+        review['writes'][0]['value'] = 1
+        self.bus.sent.clear()
+        with self.assertRaisesRegex(ValueError, '60FFh=0'):
+            self.ctl.execute(review, self.out)
         self.assertFalse(requests(self.bus, True))
 
     def test_telemetry_and_action_clients_are_separate_on_one_transport(self):
         self.authorized()
+        self.enabled_pp_start()
         telemetry = self.ctl.refresh_clients[1]
         clients = []
         original = tool._canopen.SdoClient
@@ -430,6 +501,31 @@ class BenchInteractionTests(BenchFixture):
     @staticmethod
     def press(app, name):
         return app.dispatch_key(name, ord(name) if len(name) == 1 else {'enter': 10, 'esc': 27}.get(name, 0))
+
+    def test_alarm_meanings_visible_in_80x24_detail_and_four_seat_overview(self):
+        from pmp4010_faults import FAULT_DESCRIPTIONS, format_fault
+        app = self.app()
+        app.rows, app.cols = 24, 80
+        row = self.ctl.row(1)
+        # Exercise every label: longest Flash/STO messages must fit as well.
+        for code in [None, 0, 0xA123, *FAULT_DESCRIPTIONS]:
+            row['values']['error_code_object'] = code
+            self.ctl._put(row)
+            expected = '报警 ' + format_fault(code)
+            app.current_view = 'detail'
+            self.assertIn(expected, '\n'.join(app.build().to_lines()))
+            app.current_view = 'overview'
+            self.assertIn(format_fault(code), '\n'.join(app.build().to_lines()))
+        row['values']['error_code_object'] = 0x2312
+        for node in range(1,5):
+            self.ctl._put(dict(copy.deepcopy(row), node=node))
+        text = '\n'.join(app.build().to_lines())
+        self.assertEqual(text.count('0x2312（电机堵转）'), 4)
+        app.cols = 160
+        row['values'].update(actual_position=-2147483648, actual_velocity=123456789, modes_of_operation_display=8)
+        self.ctl._put(row)
+        text = '\n'.join(app.build().to_lines())
+        self.assertIn('-2147483648U / 123456789 rpm / CSP', text)
 
     def test_delayed_mockbus_sdo_does_not_block_key_help_or_build(self):
         app = self.app()
@@ -631,6 +727,8 @@ class BenchRoundTwoTests(BenchFixture):
         self.authorized()
         for action, value in [('relative', 50), ('zero', None)]:
             with self.subTest(action=action):
+                if action == 'relative':
+                    self.enabled_pp_start()
                 self.ctl.refresh(self.out)
                 self.ctl.execute(self.review(action, value), self.out)
                 self.assertIn(1, self.ctl.enabled_sessions)
@@ -685,6 +783,7 @@ class BenchRoundTwoTests(BenchFixture):
 
     def test_review_raw_integer_is_same_negative_relative_wire_plan(self):
         self.authorized()
+        self.enabled_pp_start()
         review = self.review('relative', 50)
         target = next(w for w in review['writes'] if w['key'] == 'target_position')
         self.assertEqual((target['index'], target['type'], target['value']), (0x607a, 'int32', -1414))

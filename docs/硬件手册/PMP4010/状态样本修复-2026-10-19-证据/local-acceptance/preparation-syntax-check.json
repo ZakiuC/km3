@@ -1,0 +1,9 @@
+{
+  "checked": [
+    "local-acceptance/run_acceptance.py",
+    "package/build_package.py",
+    "local-acceptance/finalize_evidence.py"
+  ],
+  "result": "syntax valid; not executed",
+  "full_tests_run": false
+}

@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "/tmp/km3-pp-preflight-20261017/preflight.py",
+    "--source-root",
+    "/tmp/km3-pmp4010-board-20261017-csvguard-final-package/payload"
+  ],
+  "utc": "2026-10-17T08:04:36.800539+00:00"
+}

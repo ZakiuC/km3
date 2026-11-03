@@ -1,0 +1,3141 @@
+diff --git a/device/drivers/pmp4010/tools/pmp4010_manual.py b/device/drivers/pmp4010/tools/pmp4010_manual.py
+new file mode 100644
+index 0000000..3a75939
+--- /dev/null
++++ b/device/drivers/pmp4010/tools/pmp4010_manual.py
+@@ -0,0 +1,812 @@
++"""Explicit PP-only manual steps. No automatic enable, release, or zero-drift test.
++
++Each reviewed action is consumed once. The submitted target, original start,
++calibration and limits stay bound to one SDO client until stop/disable/exit.
++Actual-position changes inside that original envelope are observations, not a
++reason to silently rebase a target or resume the old automatic transaction.
++"""
++import copy
++import time
++import uuid
++from pathlib import Path
++
++import pmp4010_position as position
++from pmp4010_bench import BenchController, TELEMETRY
++from pmp4010_tui import PmpApp, LogView
++
++MANUAL_ACTIONS = ('absolute', 'relative', 'enable', 'go', 'disable', 'stop')
++FIXED = ('control_mode_select', 'modes_of_operation', 'modes_of_operation_display',
++         'home_offset', 'profile_velocity', 'profile_acceleration',
++         'profile_deceleration', 'profile_end_velocity', 'velocity_feedback_unit',
++         'software_position_limit', 'software_position_limit_max', 'halt_option') + position.LIMITS
++LABELS = dict(absolute='提交绝对目标，不使能', relative='提交相对目标，不使能',
++              enable='保持Halt使能', go='使能后新触发执行已提交目标', disable='失能', stop='软件快停')
++
++
++class ManualController(BenchController):
++    def __init__(self, tool, args):
++        super().__init__(tool, args)
++        velocity = getattr(args, 'manual_velocity', None)
++        self.manual_velocity = 100 if velocity is None else velocity
++        self.manual_sessions = {}
++        self.proofs = {}
++        self._manual_review = None
++        self.failure_diagnostics = {}
++
++    def _configuration(self, out):
++        if self.shutdown_results is not None:
++            raise ValueError('手动会话已退出；禁止重新打开总线')
++        try:
++            return super()._configuration(out)
++        except BaseException as exc:
++            for node in list(self.proofs):
++                self._cleanup_failure(node, self.manual_sessions[node], exc, out)
++            raise
++
++    def scan(self, out):
++        with self.lock:
++            if self.proofs:
++                raise ValueError('已有提交目标；先单独D失能后才能重新扫描，持续保护保持运行')
++            self._configuration(out)
++            lo, hi = self.tool.parse_node_range(self.args.node_range) if self.args.node_range else (1, 127)
++            found = []
++            for node in range(lo, hi + 1):
++                out.check_cancel()
++                if (self.context[0], node) in self.blocked:
++                    continue
++                session = self._session(node, out)
++                try:
++                    session.call(session.deadline(), '扫描SDO身份', session.client.read_device_type)
++                    found.append(node)
++                    row = self.row(node) or self._empty(node)
++                    row.update(online=True, lost=False)
++                    self._put(row)
++                except BaseException as exc:
++                    if isinstance(exc, KeyboardInterrupt):
++                        raise
++                    self._cleanup_failure(node, session, exc, out)
++            out.info('扫描完成：发现{}台；手动入口未发控制写入'.format(len(found)))
++            self._refresh_locked(out)
++            return found
++
++    def discard_prepare(self):
++        super().discard_prepare()
++        self._manual_review = None
++
++    def freeze_prepare(self, review):
++        self.discard_prepare()
++        self._manual_review = (review, copy.deepcopy(review))
++
++    def _session(self, node, out):
++        session = self.manual_sessions.get(node)
++        if session is None:
++            p, transport = self.tool._canopen, self.tool._canbus
++            class ManualClient(p.SdoClient):
++                def _manual_sdo(self, method, *args):
++                    # Scope OSError/decoding ValueError to actual SDO methods.
++                    # Local journal failures never enter this boundary. Mark
++                    # the client itself so cleanup and ExitSession share the
++                    # same uncertainty, including a send that enqueued first.
++                    try:
++                        return method(*args)
++                    except p.SdoAbort:
++                        raise  # Explicit device rejection is a known reply.
++                    except (p.CanopenError, transport.CanBusError, OSError, ValueError):
++                        self.quarantined = True
++                        raise
++                def read(self, index, subindex=0):
++                    return self._manual_sdo(super().read, index, subindex)
++                def write(self, index, subindex, data):
++                    return self._manual_sdo(super().write, index, subindex, data)
++                def _as_int(self, raw, size):
++                    return self._manual_sdo(super()._as_int, raw, size)
++            client = ManualClient(self.bus, node, timeout=self.args.timeout)
++            session = self.tool.MotionSession(client, out, self.args.state_timeout)
++            self.manual_sessions[node] = session
++        session.out = out
++        return session
++
++    def _read(self, client, key, session=None):
++        try:
++            return super()._read(client, key, session)
++        except ValueError:
++            # The shared reader only raises ValueError here for OD-width
++            # mismatch. A malformed response cannot authorize another request.
++            client.quarantined = True
++            raise
++
++    def _snapshot(self, session, envelope=None, states=None, observer=None):
++        proof = self.proofs.get(session.client.node_id)
++        if envelope is None and proof:
++            envelope = (proof['args'], proof['start'])
++        def observed(key):
++            value = self._read(session.client, key, session)
++            if observer is not None:
++                observer(key, value)
++            p = self.tool._canopen
++            if key == 'statusword':
++                if value & (p.CIA402_FAULT | p.CIA402_PP_FOLLOWING_ERROR):
++                    raise ValueError('首个或末个状态样本出现故障/PP跟随误差；6041=0x{:04X}'.format(value))
++                state = (p.CIA402_DISABLED if value & p.CIA402_DISABLED_MASK == p.CIA402_DISABLED
++                         else value & p.CIA402_MASK)
++                if states is not None and state not in states:
++                    raise ValueError('关键状态样本异常，禁止隐含使能；6041=0x{:04X}，允许状态={}'.format(
++                        value, ','.join('0x{:04X}'.format(s) for s in states)))
++            if key == 'error_code_object' and value:
++                raise ValueError('603Fh故障码非零')
++            if key == 'actual_position' and envelope:
++                position.check_envelope(envelope[0], envelope[1], value)
++                if proof and not proof['expected']['software_position_limit'] <= value <= proof['expected']['software_position_limit_max']:
++                    raise ValueError('实际位置越过设备607Dh行程')
++            return value
++        values = {k: observed(k) for k in TELEMETRY}
++        cal = position.calibration([self._read(session.client, k, session) for k in position.CALIBRATION])
++        # Bracket the slower protected-parameter reads with the latest state.
++        for key in ('statusword', 'actual_position', 'actual_velocity'):
++            values[key] = observed(key)
++        return values, cal
++
++    def _validate(self, values, cal, a, start, stationary=False, allow_hold=False):
++        p = self.tool._canopen
++        if values['statusword'] & (p.CIA402_FAULT | p.CIA402_PP_FOLLOWING_ERROR) or values['error_code_object']:
++            raise ValueError('故障或PP跟随误差；禁止自动复位')
++        if values['control_mode_select'] != 0 or values['modes_of_operation'] != 1 or values['modes_of_operation_display'] != 1:
++            raise ValueError('手动入口仅支持CiA402 PP1；模式已变化')
++        if values['home_offset'] != 0:
++            raise ValueError('607Ch非零；拒绝手动动作')
++        if values['halt_option'] not in (1, 2):
++            raise ValueError('605Dh暂停方式必须实读为1或2')
++        if values['profile_end_velocity'] != 0:
++            raise ValueError('6082h末速度非零；拒绝手动动作')
++        position.validate(a, self.specs)
++        position.check_start(a, start, cal, allow_hold=allow_hold)
++        position.check_envelope(a, start, values['actual_position'])
++        low, high = values['software_position_limit'], values['software_position_limit_max']
++        if not low <= start <= high or not low <= a.target <= high or not low <= values['actual_position'] <= high:
++            raise ValueError('起点/目标/实际位置超出设备607Dh行程')
++        if (a.velocity > values['max_velocity'] or position.unit_to_velocity(a.velocity, cal) > values['max_motor_speed']
++                or a.acceleration > values['max_profile_acceleration'] or a.deceleration > values['max_deceleration']):
++            raise ValueError('速度/加减速度超过设备607F/6080/60C5/60C6上限')
++        if stationary and values['actual_velocity'] != 0:
++            raise ValueError('实际速度非零；请先用X/D独立停止')
++
++    def _proof_guard(self, node, values, cal, stationary=False, *, _controlword=None, _ack=False):
++        proof = self.proofs.get(node)
++        if proof is None or proof['session'] is not self.manual_sessions.get(node):
++            raise ValueError('缺少本会话同client已提交目标证明；请先A/R')
++        self._validate(values, cal, proof['args'], proof['start'], stationary,
++                       allow_hold=proof.get('hold', False))
++        if (cal != proof['calibration'] or self.settings != proof['settings']
++                or self.manual_velocity != proof['velocity'] or self.od_reason != proof['od_reason']
++                or self.context != proof['context'] or self.od != proof['od']):
++            raise ValueError('目标证明的标定/设置/OD已变化；拒绝继续')
++        if any(values[k] != proof['expected'][k] for k in FIXED):
++            raise ValueError('目标证明的受保护参数已变化；拒绝继续')
++        if values['target_position'] != proof['target'] or values['position_demand'] != proof['target']:
++            raise ValueError('607A/6062不是本会话人工目标；拒绝释放Halt')
++        p = self.tool._canopen
++        state = (p.CIA402_DISABLED if values['statusword'] & p.CIA402_DISABLED_MASK == p.CIA402_DISABLED
++                 else values['statusword'] & p.CIA402_MASK)
++        expected = {'submitted': (p.CIA402_SWITCHED_ON,), 'enabled': (p.CIA402_ENABLED,),
++                    'running': (p.CIA402_ENABLED,), 'stopped': (p.CIA402_QUICK_STOP, p.CIA402_DISABLED)}[proof['phase']]
++        word = {'submitted': 0x127, 'enabled': 0x12f, 'running': 0x2f, 'stopped': 2}[proof['phase']]
++        # Only the internal enabled Go handshake supplies these overrides;
++        # review/public actions retain the exact stable phase proof by default.
++        if _controlword is not None:
++            word = _controlword
++        if (state not in expected or values['controlword'] != word or
++                _ack is not None and bool(values['statusword'] & p.CIA402_PP_SETPOINT_ACK) != _ack):
++            raise ValueError('目标证明的状态/Halt/ACK已变化；拒绝继续')
++        return proof
++
++    def review(self, action, node, value, out, check_gate=True, *, _hold=False, _start=None):
++        if action not in MANUAL_ACTIONS:
++            raise ValueError('手动PP入口不开放Z/P/B或自动准备/回零')
++        if check_gate:
++            self.discard_prepare()
++        row = self._fresh(node)
++        v, cal = row['values'], row['calibration']
++        if action in ('absolute', 'relative'):
++            if node in self.proofs:
++                raise ValueError('本会话已有提交目标；须先单独D失能再重新提交')
++            start = v['actual_position'] if _start is None else _start
++            target = start + int(value) if action == 'relative' else int(value)
++            a = self._args(row, target)
++            a.velocity = self.manual_velocity
++            if _hold and (action != 'absolute' or target != start):
++                raise ValueError('保持位置仅可提交本次冻结起点')
++            self._validate(v, cal, a, start, stationary=True, allow_hold=_hold)
++            if v['statusword'] & self.tool._canopen.CIA402_DISABLED_MASK != self.tool._canopen.CIA402_DISABLED:
++                raise ValueError('提交目标要求Switch on disabled；请先单独D失能并重新审阅')
++        elif action in ('enable', 'go'):
++            proof = self._proof_guard(node, v, cal, stationary=True)
++            if proof['phase'] != ('submitted' if action == 'enable' else 'enabled'):
++                raise ValueError('阶段不符：须按A/R提交→E保持Halt使能→G解除Halt操作')
++            start, target, a = proof['start'], proof['target'], copy.copy(proof['args'])
++        else:
++            start = target = v['actual_position']
++            a = self._args(row, target)
++        if not self.tool.refuse_motion(out, LABELS[action], a):
++            raise ValueError('OD闸门关闭；须本会话显式确认')
++        controls = {'absolute': [0x106, 0x107, 0x127, 0x137, 0x127],
++                    'relative': [0x106, 0x107, 0x127, 0x137, 0x127],
++                    'enable': [0x12f], 'go': [0x2f, 0x3f, 0x2f], 'stop': [2], 'disable': [0]}[action]
++        lines = ['手动PP：' + LABELS[action],
++                 '接口 {} 节点 {}；原始起点 {} U，人工目标 {} U'.format(self.context[0], node, start, target),
++                 '已取消自动起步与零漂移检查；每阶段停住，等待下一次人工确认。']
++        if action not in ('disable', 'stop'):
++            rpm = position.unit_to_velocity(a.velocity, cal)
++            lines += ['轮廓速度 {} U/s = {:.6f} rpm；加/减速度 {}/{} U/s²'.format(a.velocity, float(rpm), a.acceleration, a.deceleration),
++                      '原始包络 [{},{}] U；单次预算 {} U，另限电机轴1度'.format(a.soft_min, a.soft_max, a.max_displacement)]
++        if action in ('absolute', 'relative'):
++            lines += ['仅607A={}写读回及新ACK 0→1→0、6062=人工目标；保持Halt，不使能。'.format(target)]
++        if action == 'enable':
++            lines += ['仅012F；保持Halt。包络内反馈变化允许，绝不自动解除Halt。']
++        if action == 'go':
++            lines += ['使能后重写冻结607A并读回，再002F→003F→002F；新ACK 0→1→0触发。',
++                      '002F起允许包络内正常移动；持续监测故障/通信/参数，目标不重算。']
++        lines += ['6040h计划：' + ' → '.join('0x{:04X}'.format(w) for w in controls),
++                  '软件X快停不能替代独立急停；q退出执行有界Shutdown。']
++        review = dict(action=action, node=node, target=target, start=start, args=a,
++                      context=self.context, settings=copy.deepcopy(self.settings), velocity=self.manual_velocity,
++                      od=copy.deepcopy(self.od), od_reason=self.od_reason, calibration=copy.deepcopy(cal),
++                      before=copy.deepcopy(v), controls=controls, lines=lines,
++                      token='MANUAL {} {} {} {}'.format(action.upper(), self.context[0], node, target), hold=_hold)
++        if self.args.motion_log and action not in ('disable', 'stop'):
++            path = Path(self.args.motion_log)
++            a.motion_log = str(path.with_name(path.stem + '-' + action + '-' + uuid.uuid4().hex + '.jsonl'))
++        if check_gate:
++            self.freeze_prepare(review)
++        return review
++
++    def _cleanup_failure(self, node, session, exc, out):
++        # A failed/uncertain action permanently blocks this target for this run.
++        # Never create a new client or retry an uncertain request for cleanup.
++        owned = node in self.proofs or node in self.enabled_sessions or session.needs_stop
++        self.proofs.pop(node, None)
++        session.cancel_event = None
++        self._latch(session.client, node, '手动动作', exc, out)
++        confirmed = None
++        if owned and not getattr(session.client, 'quarantined', False):
++            confirmed = session.stop_after_failure()
++        first_failure = self.failure_diagnostics.get(node) or {}
++        raw = first_failure.get('raw_statusword')
++        word = first_failure.get('controlword')
++        detail = ('CW=0x{:04X} 6041=0x{:04X} {}；'.format(word,raw,first_failure.get('decoded_state',''))
++                  if word is not None and raw is not None else '')
++        reason = '手动保护锁定：{}{}；停止确认={}'.format(detail,str(exc) or first_failure.get('reason','动作已中止'),confirmed)
++        if confirmed is not True:
++            reason += '；停止未确认，请使用独立急停'
++        self.blocked[(self.context[0], node)] = reason
++        row = self.row(node)
++        if row:
++            row.update(lost=True, quarantined=True, quarantine_reason=reason,
++                       failure_diagnostic=copy.deepcopy(self.failure_diagnostics.get(node)))
++            self._put(row)
++        out.bad(reason)
++        out.event('bench_result', dict(action='manual_protection', node=node, success=False,
++                  disabled_confirmed=confirmed, state_unknown=confirmed is not True,
++                  mechanical_stop_confirmed=False))
++        return confirmed
++
++    def _refresh_locked(self, out):
++        # Once a manual session exists, all telemetry and protection use its
++        # exact client. No alternate refresh client may mask lost responses.
++        for row in self.rows:
++            node = row['node']
++            if node is None or (self.context[0], node) in self.blocked:
++                continue
++            out.check_cancel()
++            session = self._session(node, out)
++            try:
++                values, cal = self._snapshot(session)
++                if node in self.proofs:
++                    self._proof_guard(node, values, cal)
++                row.update(values=values, calibration=cal, updated=time.monotonic(), online=True, lost=False)
++                if row['name'] == '未分配':
++                    row['name'] = session.call(session.deadline(), '读取名称', session.client.read_manufacturer_name)
++                    row['firmware'] = session.call(session.deadline(), '读取固件版本', session.client.read_software_version)
++                self._put(row)
++            except BaseException as exc:
++                if isinstance(exc, KeyboardInterrupt):
++                    raise
++                self._cleanup_failure(node, session, exc, out)
++
++    def execute(self, review, out):
++        with self.lock:
++            frozen = self._manual_review
++            self.discard_prepare()
++            if frozen is None or frozen[0] is not review or frozen[1] != review:
++                raise ValueError('手动审阅已失效、修改或复用；须重新审阅')
++            node, action = review['node'], review['action']
++            if action not in MANUAL_ACTIONS:
++                raise ValueError('手动入口拒绝自动路径')
++            self._allowed(node)
++            self.failure_diagnostics.pop(node,None)
++            if (self.settings != review['settings'] or self.manual_velocity != review['velocity']
++                    or self.od_reason != review['od_reason']):
++                raise ValueError('手动设置在审阅后已变化')
++            self._configuration(out)
++            if self.context != review['context'] or self.od != review['od']:
++                raise ValueError('接口/OD在审阅后已变化')
++            if not self.tool.refuse_motion(out, LABELS[action], review['args']):
++                raise ValueError('OD闸门拒绝')
++            session = self._session(node, out)
++            session.cancel_event = out.cancel_event
++            p = self.tool._canopen
++            a = review['args']
++            journal = None
++            original_deadline = session.deadline
++            end = time.monotonic() + min(a.move_timeout, 15)
++            transition_end = None
++            session.deadline = lambda: min(end, original_deadline(), transition_end or end)
++            wrote = False
++            last_diagnostic = {}
++
++            def diagnostic(values, phase, word, allowed, state, point, reason):
++                raw = values.get('statusword')
++                decoded = None
++                normalized = None
++                if raw is not None:
++                    normalized = (p.CIA402_DISABLED if raw & p.CIA402_DISABLED_MASK == p.CIA402_DISABLED
++                                  else raw & p.CIA402_MASK)
++                    decoded = {p.CIA402_DISABLED:'Switch on disabled',p.CIA402_READY:'Ready to switch on',
++                        p.CIA402_SWITCHED_ON:'Switched on',p.CIA402_ENABLED:'Operation enabled',
++                        p.CIA402_QUICK_STOP:'Quick stop active'}.get(normalized,'Other')
++                return dict(phase=phase, controlword=word, raw_statusword=raw, decoded_state=decoded,
++                    state=normalized, allowed_states=list(allowed), expected_state=state, point=point,
++                    actual_position=values.get('actual_position'), actual_velocity=values.get('actual_velocity'),
++                    fault_code=values.get('error_code_object'), observed_fields=list(values), reason=reason)
++
++            def remember_failure(exc):
++                # Preserve evidence before attempting any more journal I/O.
++                # Cleanup telemetry must never replace the first failing raw.
++                if node not in self.failure_diagnostics:
++                    failure = copy.deepcopy(last_diagnostic)
++                    failure['reason'] = str(exc) or ('等待期间已取消' if isinstance(exc,KeyboardInterrupt) else type(exc).__name__)
++                    self.failure_diagnostics[node] = failure
++                return self.failure_diagnostics[node]
++
++            def transition_snapshot(phase, word, allowed, state):
++                nonlocal last_diagnostic
++                observed_values = {}
++                status_count = 0
++                def observe(key, value):
++                    nonlocal status_count, last_diagnostic
++                    observed_values[key] = value
++                    if key == 'statusword':
++                        status_count += 1
++                        raw_state = (p.CIA402_DISABLED if value & p.CIA402_DISABLED_MASK == p.CIA402_DISABLED
++                                     else value & p.CIA402_MASK)
++                        reason = ('故障/PP跟随误差' if value & (p.CIA402_FAULT | p.CIA402_PP_FOLLOWING_ERROR) else
++                                  '非预期状态，禁止隐含使能' if raw_state not in allowed else
++                                  '仍在前态，等待目标态' if raw_state != state else '已观察目标态，继续核对完整快照')
++                        last_diagnostic = diagnostic(observed_values,phase,word,allowed,state,
++                                                     'first' if status_count==1 else 'last',reason)
++                        if value & (p.CIA402_FAULT | p.CIA402_PP_FOLLOWING_ERROR) or raw_state not in allowed:
++                            self.failure_diagnostics.setdefault(node,copy.deepcopy(last_diagnostic))
++                        if journal:
++                            journal.event('manual_transition_sample', **last_diagnostic)
++                    else:
++                        # Associate position/velocity/fault reads with this
++                        # snapshot, rather than silently using prior telemetry.
++                        for field in ('actual_position','actual_velocity','error_code_object'):
++                            dest = 'fault_code' if field=='error_code_object' else field
++                            last_diagnostic[dest] = observed_values.get(field)
++                        last_diagnostic['observed_fields'] = list(observed_values)
++                    # The ordinary snapshot brackets velocity twice. During
++                    # this stationary transition, never let its final zero
++                    # sample conceal an earlier nonzero velocity.
++                    if key == 'actual_velocity' and value != 0:
++                        raise ValueError('迁移样本实际速度非零，禁止继续')
++                    if key == 'actual_position' and not expected['software_position_limit'] <= value <= expected['software_position_limit_max']:
++                        raise ValueError('迁移样本实际位置越过设备607Dh行程')
++                return self._snapshot(session,(a,review['start']),allowed,observer=observe)
++            try:
++                if action not in ('disable', 'stop'):
++                    position.require_velocity_library()
++                    journal = position.Journal(a.motion_log, 'manual', dict(node=node, action=action,
++                        start=review['start'], target=review['target'], settings=review['settings'],
++                        velocity=a.velocity, od_gaps_bypass=self.od_reason), observer=out.event)
++                if action not in ('disable', 'stop'):
++                    values, cal = self._snapshot(session,
++                        envelope=(a, review['start']) if action in ('absolute', 'relative') else None)
++                if action in ('absolute', 'relative'):
++                    self._validate(values, cal, a, review['start'], stationary=True, allow_hold=review.get('hold', False))
++                    if cal != review['calibration'] or any(values[k] != review['before'][k] for k in FIXED + ('target_position', 'position_demand', 'controlword')):
++                        raise ValueError('标定/受保护参数在审阅后已变化')
++                    if values['statusword'] & p.CIA402_DISABLED_MASK != p.CIA402_DISABLED:
++                        raise ValueError('提交目标要求Switch on disabled；请先D')
++                    # Seal before the first write: even lost ACKs owe the same
++                    # client's bounded cleanup, never a replacement transaction.
++                    self.enabled_sessions[node] = session
++                    expected = copy.deepcopy(values)
++                    def write(key, val):
++                        nonlocal wrote
++                        current, current_cal = self._snapshot(session, (a, review['start']), (p.CIA402_DISABLED,))
++                        if (current_cal != cal or any(current[k] != expected[k] for k in FIXED)
++                                or current['target_position'] != expected['target_position']
++                                or current['controlword'] != expected['controlword']):
++                            raise ValueError('提交写入前状态/受保护参数已变化')
++                        wrote = True
++                        session.needs_stop = True
++                        spec = self.objects[key]
++                        session.call(session.deadline(), '手动写入 '+key, session.client.write,
++                                     spec['index_value'], spec['sub'], position.encode(spec, val))
++                        actual = self._read(session.client, key, session)
++                        if journal:
++                            journal.event('write_readback', object=key, expected=val, actual=actual)
++                        if actual != val:
++                            raise ValueError(key+'写读回不一致')
++                        expected[key] = val
++                    write('profile_velocity', a.velocity)
++                    write('target_position', a.target)
++                    def guard(previous, state, ack=None, demand=False):
++                        nonlocal last_diagnostic
++                        allowed = tuple(dict.fromkeys((previous,state)))
++                        current, current_cal = transition_snapshot('等待受控迁移',word,allowed,state)
++                        self._validate(current, current_cal, a, review['start'], stationary=True, allow_hold=review.get('hold', False))
++                        if (self.settings != review['settings'] or self.manual_velocity != review['velocity'] or
++                                self.context != review['context'] or self.od != review['od'] or self.od_reason != review['od_reason']):
++                            raise ValueError('受控迁移期间会话设置/OD已变化')
++                        if current_cal != cal or any(current[k] != expected[k] for k in FIXED):
++                            raise ValueError('提交期间标定/受保护参数变化')
++                        if current['target_position'] != a.target:
++                            raise ValueError('607A人工目标已变化')
++                        if current['controlword'] != word:
++                            raise ValueError('6040h/Halt控制字读回不一致')
++                        last_diagnostic = diagnostic(current,'等待受控迁移',word,allowed,state,'complete',
++                            '仍在前态，等待目标态' if current['statusword'] & p.CIA402_MASK != state else '完整快照已核对')
++                        if journal:
++                            journal.event('manual_transition_snapshot',**last_diagnostic)
++                        if current['statusword'] & p.CIA402_MASK != state:
++                            return None
++                        if ack is not None and bool(current['statusword'] & p.CIA402_PP_SETPOINT_ACK) != ack:
++                            return None
++                        if demand and current['position_demand'] != a.target:
++                            raise ValueError('6062不是本次人工目标')
++                        return current
++                    for word, previous, state in ((0x106,p.CIA402_DISABLED,p.CIA402_READY),
++                                        (0x107,p.CIA402_READY,p.CIA402_SWITCHED_ON),
++                                        (0x127,p.CIA402_SWITCHED_ON,p.CIA402_SWITCHED_ON),
++                                        (0x137,p.CIA402_SWITCHED_ON,p.CIA402_SWITCHED_ON),
++                                        (0x127,p.CIA402_SWITCHED_ON,p.CIA402_SWITCHED_ON)):
++                        # Fresh guard before every control transition; bit10 is
++                        # deliberately irrelevant while Halt=1 (E06 table6-9).
++                        current, current_cal = transition_snapshot('控制字写入前',word,(previous,),previous)
++                        self._validate(current, current_cal, a, review['start'], stationary=True, allow_hold=review.get('hold', False))
++                        if (self.settings != review['settings'] or self.manual_velocity != review['velocity'] or
++                                self.context != review['context'] or self.od != review['od'] or self.od_reason != review['od_reason']):
++                            raise ValueError('控制字写入前会话设置/OD已变化')
++                        if current_cal != cal or any(current[k] != expected[k] for k in FIXED) or current['target_position'] != a.target:
++                            raise ValueError('提交控制字前受保护参数已变化')
++                        if word == 0x137 and current['statusword'] & p.CIA402_PP_SETPOINT_ACK:
++                            raise ValueError('新ACK触发前已经为1')
++                        if journal:
++                            journal.event('manual_controlword',**diagnostic(current,'控制字写入',word,
++                                tuple(dict.fromkeys((previous,state))),state,'before_write','即将发送控制字，状态值来自写前采样'))
++                        session.control(word, session.deadline())
++                        if journal:
++                            journal.event('manual_controlword',**diagnostic(current,'控制字写确认',word,
++                                tuple(dict.fromkeys((previous,state))),state,'write_ack','已收到SDO写确认；6041仍须重新采样核对'))
++                        deadline = session.deadline()
++                        transition_end = deadline
++                        while True:
++                            if time.monotonic() >= deadline:
++                                raise ValueError('受控状态迁移或新ACK握手超时')
++                            observed = guard(previous,state, ack=(word == 0x137) if word in (0x127, 0x137) else None,
++                                             demand=word == 0x137 or word == 0x127 and bool(current['statusword'] & p.CIA402_PP_SETPOINT_ACK))
++                            if observed is not None:
++                                break
++                            if time.monotonic() >= deadline:
++                                raise ValueError('受控状态迁移或新ACK握手超时')
++                            session.pause(deadline)
++                        transition_end = None
++                    if observed['position_demand'] != a.target:
++                        raise ValueError('6062不是本次人工目标')
++                    self.proofs[node] = dict(session=session, target=a.target, start=review['start'], args=copy.copy(a),
++                        calibration=copy.deepcopy(cal), expected=expected, phase='submitted',
++                        context=self.context, od=copy.deepcopy(self.od), od_reason=self.od_reason,
++                        velocity=self.manual_velocity, settings=copy.deepcopy(self.settings), hold=review.get('hold', False))
++                    values = observed
++                elif action == 'go':
++                    proof = self._proof_guard(node, values, cal, stationary=True)
++                    if proof['phase'] != 'enabled':
++                        raise ValueError('阶段或单次目标证明失效')
++                    if review['start'] != proof['start'] or review['target'] != proof['target']:
++                        raise ValueError('原始起点/目标证明不符')
++                    # E06 table6-10 updates the position command before the
++                    # bit4 rising edge; §6.3.6 triggers after motor enable.
++                    # Refresh executable data while still enabled with Halt.
++                    # Re-download exactly the sealed absolute target: this is
++                    # a protocol ordering step, never a feedback-based rebase
++                    # or a claim about undocumented firmware invalidation.
++                    spec = self.objects['target_position']
++                    wrote = True  # Register responsibility BEFORE attempting.
++                    session.needs_stop = True
++                    deadline = session.deadline()
++                    transition_end = deadline
++                    if journal:
++                        journal.event('manual_enabled_target',point='before_write',
++                                      target=proof['target'],controlword=0x12f)
++                    session.call(deadline,'使能Halt重写冻结607A',session.client.write,
++                                 spec['index_value'],spec['sub'],position.encode(spec,proof['target']))
++                    if journal:
++                        journal.event('manual_enabled_target',point='write_ack',target=proof['target'])
++                    actual = self._read(session.client,'target_position',session)
++                    if journal:
++                        journal.event('manual_enabled_target',point='readback',target=proof['target'],actual=actual)
++                    if actual != proof['target']:
++                        raise ValueError('使能Halt冻结607A写读回不一致')
++                    values, cal = self._snapshot(session,states=(p.CIA402_ENABLED,))
++                    self._proof_guard(node,values,cal,stationary=True)
++                    transition_end = None
++                    # E06 §6.3.6 says to trigger after enabling the motor;
++                    # table6-10 accepts/executes a new bit4 rising edge. An
++                    # ACK obtained in Switched on is only preload evidence,
++                    # never proof that releasing Halt will start a trajectory.
++                    # Keep the same absolute 607A: do not rebase on feedback.
++                    # Go's initial zero-speed guard ends at its first 002F;
++                    # subsequent ACK snapshots may legitimately show motion.
++                    def go_snapshot(phase, word, ack=None):
++                        nonlocal last_diagnostic
++                        samples, ack_samples = {}, []
++                        def observe(key, value):
++                            nonlocal last_diagnostic
++                            samples[key] = value
++                            if key == 'statusword':
++                                ack_samples.append(bool(value & p.CIA402_PP_SETPOINT_ACK))
++                                last_diagnostic = diagnostic(samples,phase,word,(p.CIA402_ENABLED,),
++                                    p.CIA402_ENABLED,'first' if len(ack_samples)==1 else 'last',
++                                    'Operation enabled内新触发采样，允许正常移动')
++                                if value & (p.CIA402_FAULT | p.CIA402_PP_FOLLOWING_ERROR):
++                                    self.failure_diagnostics.setdefault(node,copy.deepcopy(last_diagnostic))
++                                if journal:
++                                    journal.event('manual_transition_sample',**last_diagnostic)
++                        current, current_cal = self._snapshot(session, states=(p.CIA402_ENABLED,), observer=observe)
++                        self._proof_guard(node,current,current_cal,_controlword=word,_ack=None)
++                        last_diagnostic = diagnostic(current,phase,word,(p.CIA402_ENABLED,),p.CIA402_ENABLED,
++                            'complete','完整快照已核对；等待新ACK' if ack is not None and
++                            not all(v == ack for v in ack_samples) else '完整快照及新ACK已核对')
++                        if journal:
++                            journal.event('manual_transition_snapshot',**last_diagnostic,
++                                          expected_ack=ack,ack_samples=ack_samples)
++                        return current, current_cal, all(v == ack for v in ack_samples)
++
++                    previous_word, previous_ack = 0x12f, False
++                    for word, ack in ((0x2f,False),(0x3f,True),(0x2f,False)):
++                        values, cal, matched = go_snapshot('新触发写入前',previous_word,previous_ack)
++                        if not matched:
++                            raise ValueError('新触发写入前ACK已变化')
++                        # The first release still requires zero speed; after
++                        # it, movement is expected and guarded by the original
++                        # envelope and all protected fields, not exact drift.
++                        if previous_word == 0x12f and values['actual_velocity'] != 0:
++                            raise ValueError('实际速度非零；请先用X/D独立停止')
++                        if journal:
++                            journal.event('manual_controlword',**diagnostic(values,'控制字写入',word,
++                                (p.CIA402_ENABLED,),p.CIA402_ENABLED,'before_write','即将发送使能后新触发控制字'))
++                        wrote = True
++                        # One fixed deadline includes the download ACK and
++                        # all ACK polling; no fresh budget on each sample.
++                        deadline = session.deadline()
++                        transition_end = deadline
++                        session.control(word,deadline)
++                        if journal:
++                            journal.event('manual_controlword',**diagnostic(values,'控制字写确认',word,
++                                (p.CIA402_ENABLED,),p.CIA402_ENABLED,'write_ack','已收到SDO写确认；6041仍须重新采样核对'))
++                        while True:
++                            if time.monotonic() >= deadline:
++                                raise ValueError('Operation enabled新ACK握手超时')
++                            values, cal, matched = go_snapshot('使能后新ACK核对',word,ack)
++                            if matched:
++                                break
++                            session.pause(deadline)
++                        transition_end = None
++                        previous_word, previous_ack = word, ack
++                    proof['phase'] = 'running'
++                    self._proof_guard(node,values,cal)
++                elif action == 'enable':
++                    proof = self._proof_guard(node, values, cal, stationary=True)
++                    if proof['phase'] != 'submitted':
++                        raise ValueError('阶段或单次目标证明失效')
++                    if review['start'] != proof['start'] or review['target'] != proof['target']:
++                        raise ValueError('原始起点/目标证明不符')
++                    wrote = True
++                    word = 0x12f
++                    allowed = (p.CIA402_SWITCHED_ON,p.CIA402_ENABLED)
++                    if journal:
++                        journal.event('manual_controlword',**diagnostic(values,'控制字写入',word,allowed,
++                            p.CIA402_ENABLED,'before_write','即将发送控制字，状态值来自写前采样'))
++                    session.control(word, session.deadline())
++                    if journal:
++                        journal.event('manual_controlword',**diagnostic(values,'控制字写确认',word,allowed,
++                            p.CIA402_ENABLED,'write_ack','已收到SDO写确认；6041仍须重新采样核对'))
++                    proof['phase'] = 'enabled'
++                    samples = {}
++                    sample_count = 0
++                    def observe_proof(key,value):
++                        nonlocal sample_count,last_diagnostic
++                        samples[key] = value
++                        if key == 'statusword':
++                            sample_count += 1
++                            last_diagnostic = diagnostic(samples,'Halt使能核对',
++                                word,allowed,p.CIA402_ENABLED,'first' if sample_count==1 else 'last','新鲜状态采样，按同会话目标证明核对')
++                            if value & (p.CIA402_FAULT | p.CIA402_PP_FOLLOWING_ERROR):
++                                last_diagnostic['reason'] = '故障/PP跟随误差'
++                                self.failure_diagnostics.setdefault(node,copy.deepcopy(last_diagnostic))
++                            if journal:
++                                journal.event('manual_transition_sample',**last_diagnostic)
++                    # Keep the original Halt enable proof policy.
++                    values, cal = self._snapshot(session,observer=observe_proof)
++                    last_diagnostic = diagnostic(values,'Halt使能核对',
++                        word,allowed,p.CIA402_ENABLED,'complete','完整快照按目标证明核对')
++                    if journal:
++                        journal.event('manual_transition_snapshot',**last_diagnostic)
++                    self._proof_guard(node, values, cal)
++                    if values['actual_velocity'] != 0:
++                        raise ValueError('Halt使能后实际速度非零')
++                else:
++                    # X and D remain independent explicit user operations.
++                    wrote = True
++                    self.enabled_sessions[node] = session
++                    getattr(session, 'stop' if action == 'stop' else 'disable')()
++                    if action == 'stop' and node in self.proofs:
++                        # Quick stop may retain torque. Keep the original
++                        # target/envelope protected until explicit D or q;
++                        # this phase can never authorize E/G resumption.
++                        self.proofs[node]['phase'] = 'stopped'
++                    else:
++                        self.proofs.pop(node, None)
++                    values, cal = self._snapshot(session)
++                    if action == 'stop' and node in self.proofs:
++                        self._proof_guard(node, values, cal)
++                self._put(dict(self.row(node), values=values, calibration=cal, updated=time.monotonic(), lost=False))
++                message = {'absolute': '人工目标已提交；保持Halt未使能，等待E',
++                           'relative': '人工目标已提交；保持Halt未使能，等待E',
++                           'enable': '已使能且保持Halt；等待G', 'go': '使能后新ACK 0→1→0已确认；人工目标执行中，请观察反馈',
++                           'stop': '软件快停已确认；机械停止仍未知', 'disable': '失能已确认；机械停止仍未知'}[action]
++                out.info(message)
++                out.event('manual_result', dict(node=node, action=action, success=True, message=message,
++                          position=values['actual_position'], target=review['target']))
++                if journal:
++                    journal.event('manual_stage_complete', message=message, values=values)
++            except BaseException as exc:
++                first_failure = remember_failure(exc)
++                if journal:
++                    try:
++                        journal.event('exception', message=str(exc), write_attempted=wrote, first_failure=first_failure)
++                    except BaseException:
++                        pass  # Recording failure must never skip stop/disable.
++                if wrote or node in self.proofs or getattr(session.client, 'quarantined', False):
++                    session.deadline = original_deadline
++                    confirmed = self._cleanup_failure(node, session, exc, out)
++                    if journal:
++                        try:
++                            journal.event('manual_cleanup',disabled_confirmed=confirmed,
++                                mechanical_stop_confirmed=False,first_failure=first_failure)
++                        except BaseException:
++                            pass
++                raise
++            finally:
++                session.deadline = original_deadline
++                session.cancel_event = None
++                if journal:
++                    try:
++                        journal.close()
++                    except BaseException as exc:
++                        if (self.context[0], node) not in self.blocked and (wrote or node in self.proofs):
++                            self._cleanup_failure(node, session, exc, out)
++                        raise
++            return 0
++
++
++class ManualApp(PmpApp):
++    title = 'PMP4010 PP手动测试：每步由操作者确认'
++
++    def __init__(self, tool, args):
++        super().__init__(tool, args)
++        self.controller = ManualController(tool, args)
++        self.help_log = LogView(max_lines=500)
++        for line in (
++            '手动入口仅支持PP1；已取消自动起步与零漂移检查，所有阶段由人类确认。',
++            'F5启动确认后只扫描/读取；F2输入脚本行程和预算，另受1度硬顶。',
++            '详情A/R：人工目标提交，不使能；新ACK 0→1→0并核6062后保持Halt。',
++            '详情E：仅012F保持Halt使能；G：002F→003F→002F使能后新触发同一冻结目标。',
++            'A/R、E、G均需F5审阅、输入完整确认串、再次F5执行。',
++            'V：设置手动轮廓速度，默认100U/s；审阅显示rpm并核设备上限。',
++            'bit10在Halt=1时仅表示零速；Halt=0才作为目标到达证据之一。',
++            '故障/跟随误差/越界/参数变化有界快停→失能并锁定；通信隔离不重试。',
++            'X软件快停；D失能；q退出Shutdown。停止未确认时使用独立急停。',
++            'Z/P/B及PV/CSV均未开放；没有自动复位、自动重提交或自动释放Halt。'):
++            self.help_log.append(line)
++        self.help_log.scroll(self.help_log.max_lines)
++        self.log.append('手动PP：已取消自动起步与零漂移检查；A/R→E→G逐步确认。')
++
++    def begin_action(self, action):
++        if action not in MANUAL_ACTIONS:
++            self.log.append('手动PP不开放此动作；Z/P/B/批量自动路径禁止', 'err')
++            return
++        super().begin_action(action)
++        if action == 'absolute' and self.current_view == 'action':
++            # Never supply the current position as an implicit manual target.
++            self._field('人工绝对目标 U（必填）', '', 'number')
++
++    def on_key(self, name, key):
++        if self.current_view == 'manual_velocity' and name not in ('esc', 'q', '?', 'f1'):
++            if name == 'f5':
++                try:
++                    speed = int(self.input_field.value)
++                    if not 0 < speed <= 0xffffffff:
++                        raise ValueError('手动速度须为正UInt32')
++                    self.controller.manual_velocity = speed
++                    self.controller.discard_prepare()
++                    self.current_view = 'detail'
++                    self.set_form(None)
++                    self.log.append('手动速度设为{} U/s；须重新提交目标及审阅设备上限'.format(speed))
++                except ValueError as exc:
++                    self.log.append(str(exc), 'err')
++            return False
++        if not self.busy and self.current_view == 'detail':
++            if name.lower() == 'g':
++                self.begin_action('go')
++                return False
++            if name.lower() == 'v':
++                if self.controller.proofs:
++                    self.log.append('已有提交目标；先单独D失能后才能修改速度', 'err')
++                    return False
++                self.current_view = 'manual_velocity'
++                self._field('手动轮廓速度 U/s（默认100；F5保存）', self.controller.manual_velocity, 'number')
++                return False
++        return super().on_key(name, key)
++
++    def _start_settings(self, resume=None):
++        if self.controller.proofs:
++            self.log.append('已有提交目标；先单独D失能后才能修改行程/预算', 'err')
++            return
++        return super()._start_settings(resume)
++
++    def hints(self):
++        if self.current_view == 'detail' and not self.busy:
++            return ['A/R 提交目标', 'E 保持Halt使能', 'G 解除Halt', 'V 速度', 'X 软件快停', 'D 失能', 'F6 刷新', 'F2 设置', 'q 退出']
++        if self.current_view == 'manual_velocity':
++            return ['F5 保存速度', 'Esc 取消']
++        if self.current_view == 'overview':
++            return ['S 扫描', 'Enter 详情', 'R 刷新', 'F2 设置', '? 帮助', 'q 退出']
++        return super().hints()
++
++    def _detail_lines(self, row):
++        lines = super()._detail_lines(row)
++        # Replace the automatic-mode action explanation, preserving telemetry.
++        if row.get('values'):
++            lines = lines[:-2]
++            v = row['values']
++            halt = bool(v['controlword'] & 0x100)
++            arrived = (not halt and bool(v['statusword'] & 0x400)
++                       and v['actual_position'] == v['position_demand'] == v['target_position']
++                       and v['actual_velocity'] == 0)
++            phase = self.controller.proofs.get(row['node'], {}).get('phase')
++            phase = {'submitted': '已提交', 'enabled': '保持Halt使能',
++                     'running': '已解除Halt', 'stopped': '已快停'}.get(phase, '尚无本会话目标')
++            lines += ['手动PP阶段：{}；Halt={}；目标到达={}'.format(phase, int(halt), '是' if arrived else '未确认'),
++                      '人工目标607A={} U；内部目标6062={} U；手动速度{} U/s'.format(v['target_position'], v['position_demand'], self.controller.manual_velocity),
++                      'A/R提交目标→E保持Halt使能→G解除Halt；X软件快停，D失能。',
++                      '已取消自动起步与零漂移检查；Z/P/B禁止；V输入速度。']
++        return lines
++
++    def poll(self):
++        # Let the existing worker/event lifecycle handle I/O; manual messages
++        # deliberately describe a stage, never claim the target was reached.
++        super().poll()
++        blocked = self.controller.row(self.selected_row['node'])
++        if blocked and blocked['quarantined']:
++            self.progress = '手动保护已锁定；后续动作禁止'
++            self.recovery = blocked['quarantine_reason']
++            return
++        if self.action in ('absolute', 'relative', 'enable', 'go') and not self.busy:
++            phase = self.controller.proofs.get(self.selected_row['node'], {}).get('phase')
++            if phase:
++                self.recovery = {'submitted': '人工目标已提交；未使能，等待E',
++                                 'enabled': '保持Halt使能；等待G',
++                                 'running': '已解除Halt；按实际位置/目标反馈观察，X/D停止',
++                                 'stopped': '软件快停已确认；持续原始包络保护，须D失能后重新提交目标'}[phase]
+diff --git a/device/drivers/pmp4010/tools/pmp4010_simple.py b/device/drivers/pmp4010/tools/pmp4010_simple.py
+new file mode 100644
+index 0000000..d8bbdd2
+--- /dev/null
++++ b/device/drivers/pmp4010/tools/pmp4010_simple.py
+@@ -0,0 +1,516 @@
++"""One-screen PP jog UI; every confirmed action uses ManualController's proof.
++
++No connection, approval, target write or enable is implicit in construction.
++The session origin and the reviewed absolute target never follow live feedback.
++"""
++import copy
++from fractions import Fraction
++import queue
++import threading
++import time
++
++import pmp4010_position as position
++from pmp4010_manual import ManualController, FIXED
++from pmp4010_tui import PmpApp, Grid, Rect, LogView, draw_box, draw_hsep, fit
++
++
++def positive(text):
++    try:
++        value = Fraction(str(text))
++    except (ValueError, ZeroDivisionError):
++        raise ValueError('请输入有限正数') from None
++    if value <= 0:
++        raise ValueError('请输入有限正数')
++    return value
++
++
++def number(value):
++    return '{:.6g}'.format(float(value))
++
++
++def angle(value):
++    return '{:.4f}'.format(float(value)).rstrip('0').rstrip('.')
++
++
++class SimpleController(ManualController):
++    def __init__(self, tool, args):
++        super().__init__(tool, args)
++        # Aggregate operations call the same stage methods under one lock.
++        self.lock = threading.RLock()
++        self.node = args.node if args.node is not None else 1
++        if not 1 <= self.node <= 127:
++            raise ValueError('手动节点须为1..127')
++        self.args.node_range = str(self.node)
++        self.origin = None
++        self.session_calibration = None
++        self.range_degrees = Fraction(1)
++        self.step_degrees = Fraction('0.1')
++        self.requested_rpm = None  # Preserve explicit legacy --manual-velocity U/s.
++        self.next_velocity = self.manual_velocity
++        self._simple_review = None
++
++    def cancel_review(self):
++        self._simple_review = None
++        self.discard_prepare()
++
++    def _session(self, node, out):
++        session = super()._session(node, out)
++        # Refresh/scan use the same cancellable client as action stages. A
++        # safety key must not wait for the rest of a multi-object snapshot.
++        session.cancel_event = out.cancel_event
++        return session
++
++    def _state(self, values):
++        p = self.tool._canopen
++        return (p.CIA402_DISABLED if values['statusword'] & p.CIA402_DISABLED_MASK == p.CIA402_DISABLED
++                else values['statusword'] & p.CIA402_MASK)
++
++    def authorize(self):
++        with self.lock:
++            if self.origin is not None:
++                raise ValueError('会话已经授权；原点不可重新冻结')
++            row = self._fresh(self.node)
++            self.origin = row['values']['actual_position']
++            self.session_calibration = copy.deepcopy(row['calibration'])
++            self._set_range(self.range_degrees, row)
++            self.od_reason = '操作者明确确认：本会话小角度人工测试，接受所列OD未核对项及独立停机责任'
++
++    def _set_range(self, degrees, row):
++        degrees = positive(degrees)
++        if degrees > 1:
++            raise ValueError('测试半范围须大于0且不超过1度电机轴角度')
++        units = int(degrees / Fraction(row['calibration']['motor_degrees_per_user_unit']))
++        if units < 1:
++            raise ValueError('范围不足1个用户单位，无法执行')
++        v = row['values']
++        low = max(self.origin-units, v['software_position_limit'], -0x80000000)
++        high = min(self.origin+units, v['software_position_limit_max'], 0x7fffffff)
++        if not low < high or not low <= v['actual_position'] <= high:
++            raise ValueError('当前位置不在新范围与设备607Dh的交集中')
++        self.range_degrees = degrees
++        self.settings.update(soft_min=low, soft_max=high, max_displacement=units)
++
++    def set_value(self, kind, text):
++        with self.lock:
++            row = self._fresh(self.node)
++            if kind == 'range' and (self.proofs or row['values']['statusword'] & self.tool._canopen.CIA402_DISABLED_MASK != self.tool._canopen.CIA402_DISABLED):
++                raise ValueError('请先d失能；设置仅可在失能且无目标证明时修改')
++            value = positive(text)
++            if kind == 'range':
++                self._set_range(value, row)
++            elif kind == 'speed':
++                units = int(position.velocity_to_unit(value, row['calibration']))
++                if not 1 <= units <= 0xffffffff:
++                    raise ValueError('速度量化后不足1 U/s或超过UInt32')
++                if (units > row['values']['max_velocity'] or
++                        position.unit_to_velocity(units, row['calibration']) > row['values']['max_motor_speed']):
++                    raise ValueError('速度超过设备上限')
++                # Draft only: do not mutate an active proof or the drive's
++                # current profile. Apply after the next explicit confirmation
++                # has safely stopped/disabled the old target.
++                self.requested_rpm, self.next_velocity = value, units
++            elif kind == 'step':
++                units = int(value / Fraction(row['calibration']['motor_degrees_per_user_unit']))
++                if units < 1:
++                    raise ValueError('步长不足1个用户单位，无法执行')
++                if value > 1 or units > self.settings['max_displacement']:
++                    raise ValueError('步长超过本会话单动作范围或1度硬顶')
++                self.step_degrees = value
++            else:
++                raise ValueError('未知设置')
++            self.cancel_review()
++
++    def quantities(self, row):
++        cal = row['calibration']
++        degree_unit = Fraction(cal['motor_degrees_per_user_unit'])
++        step = int(self.step_degrees / degree_unit)
++        return step, step*degree_unit, position.unit_to_velocity(self.next_velocity, cal)
++
++    def review_action(self, kind, out):
++        with self.lock:
++            self.cancel_review()
++            if kind not in ('forward', 'backward', 'hold') or self.origin is None or not self.od_reason:
++                raise ValueError('请先确认本会话运动授权')
++            row = self._fresh(self.node)
++            v, cal = row['values'], row['calibration']
++            if cal != self.session_calibration:
++                raise ValueError('标定与授权时不同；请退出重新核对')
++            proof = self.proofs.get(self.node)
++            if proof:
++                self._proof_guard(self.node, v, cal, stationary=True)
++            step, degrees, rpm = self.quantities(row)
++            if step < 1:
++                raise ValueError('步长不足1个用户单位，无法执行')
++            start = v['actual_position']
++            target = start + (step if kind == 'forward' else -step if kind == 'backward' else 0)
++            a = self._args(row, target)
++            a.velocity = self.next_velocity
++            self._validate(v, cal, a, start, stationary=True, allow_hold=kind == 'hold')
++            p = self.tool._canopen
++            state = self._state(v)
++            if state not in (p.CIA402_DISABLED,p.CIA402_READY,p.CIA402_SWITCHED_ON) and proof is None:
++                raise ValueError('设备已在外部使能；请先Space/x停止并d失能')
++            if not self.tool.refuse_motion(out, '人工小角度点动', a):
++                raise ValueError('OD闸门关闭')
++            review = dict(kind=kind, node=self.node, start=start, target=target, args=a,
++                session=self._session(self.node, out), calibration=copy.deepcopy(cal), before=copy.deepcopy(v),
++                settings=copy.deepcopy(self.settings), velocity=self.next_velocity, active_velocity=self.manual_velocity, od=copy.deepcopy(self.od),
++                od_reason=self.od_reason, context=self.context, origin=self.origin,
++                requested_rpm=self.requested_rpm, step_degrees=self.step_degrees,
++                lines=['保持当前位置并使能（Halt保持）' if kind == 'hold' else '正向点动' if kind == 'forward' else '反向点动',
++                    '冻结起点 {} U -> 终点 {} U；位移 {} U = {} 电机轴度'.format(start,target,target-start,angle(abs(target-start)*Fraction(cal['motor_degrees_per_user_unit']))),
++                    '请求步长 {} -> 实际 {} 电机轴度（{} U）'.format(number(self.step_degrees),angle(degrees),step),
++                    '请求速度 {} -> 实际 {} rpm（{} U/s）'.format(number(self.requested_rpm)+' rpm' if self.requested_rpm is not None else str(self.next_velocity)+' U/s',number(rpm),self.next_velocity),
++                    '提交冻结当前位置后012F保持Halt' if kind == 'hold' else
++                    '使能后重写冻结目标并触发002F→003F→002F；核对ACK 0→1→0',
++                    'Enter 确认这一次动作；Esc 取消；Space/x 随时快停'])
++            # Session identity is retained separately; deep-copying it would
++            # clone transport state rather than seal the actual SDO client.
++            seal = copy.deepcopy({k:v for k,v in review.items() if k != 'session'})
++            self._simple_review = (review, seal, review['session'])
++            return review
++
++    def execute_action(self, review, out):
++        with self.lock:
++            frozen, self._simple_review = self._simple_review, None
++            if (frozen is None or frozen[0] is not review or frozen[2] is not review.get('session') or
++                    frozen[1] != {k:v for k,v in review.items() if k != 'session'}):
++                raise ValueError('动作审阅已取消、修改或使用；请重新按方向键')
++            node, session = review['node'], review['session']
++            self._allowed(node)
++            if (session is not self.manual_sessions.get(node) or self.settings != review['settings'] or
++                    self.next_velocity != review['velocity'] or self.manual_velocity != review['active_velocity'] or self.od_reason != review['od_reason'] or
++                    self.origin != review['origin'] or self.requested_rpm != review['requested_rpm'] or
++                    self.step_degrees != review['step_degrees']):
++                raise ValueError('会话/设置已变化；审阅失效')
++            self._configuration(out)
++            if self.context != review['context'] or self.od != review['od']:
++                raise ValueError('接口/OD已变化')
++            session.cancel_event = out.cancel_event
++            try:
++                values, cal = self._snapshot(session, (review['args'], review['start']))
++                self._validate(values, cal, review['args'], review['start'], stationary=True,
++                               allow_hold=review['kind'] == 'hold')
++                if cal != review['calibration'] or any(values[k] != review['before'][k] for k in FIXED + ('target_position','position_demand','controlword')):
++                    raise ValueError('标定/受保护参数/目标在审阅后变化')
++                # The explicit confirmation includes disabling any prior
++                # stopped/Halt proof; no old residual target can be enabled.
++                if node in self.proofs:
++                    self._proof_guard(node, values, cal, stationary=True)
++                    if self.proofs[node]['phase'] == 'running':
++                        self.safety_action('stop', out)
++                        out.check_cancel()
++                    self.safety_action('disable', out)
++                else:
++                    p = self.tool._canopen
++                    state = self._state(values)
++                    if state != self._state(review['before']) or state not in (p.CIA402_DISABLED,p.CIA402_READY,p.CIA402_SWITCHED_ON):
++                        raise ValueError('审阅后使能状态变化；请Space/x停止并重新审阅')
++                    if state != p.CIA402_DISABLED:
++                        self.safety_action('disable',out)
++                out.check_cancel()
++                self.manual_velocity = review['velocity']
++                # Reuse all original submission guards and ACK/6062 checks.
++                # The target AND original start come from the sealed review,
++                # not from the refreshed position after an internal stop.
++                stage = super().review('absolute', node, review['target'], out,
++                    _hold=review['kind']=='hold', _start=review['start'])
++                if stage['calibration'] != review['calibration'] or any(stage['before'][k] != review['before'][k] for k in FIXED):
++                    raise ValueError('内部提交前标定/受保护参数变化')
++                super().execute(stage, out)
++                out.check_cancel()
++                stage = super().review('enable', node, None, out)
++                super().execute(stage, out)
++                if review['kind'] != 'hold':
++                    out.check_cancel()
++                    stage = super().review('go', node, None, out)
++                    super().execute(stage, out)
++                out.info('本次人工动作已执行；不会自动重复')
++            except BaseException as exc:
++                if (self.context[0],node) not in self.blocked and (node in self.proofs or session.needs_stop or getattr(session.client,'quarantined',False)):
++                    self._cleanup_failure(node, session, exc, out)
++                raise
++            finally:
++                session.cancel_event = None
++
++    def safety_action(self, kind, out):
++        """Independent stop/disable, without stale telemetry or motion consent.
++
++        No connection is opened here. Quarantine forbids even cleanup retries.
++        """
++        with self.lock:
++            self.cancel_review()
++            if self.context is None or self.node not in self.manual_sessions:
++                return
++            self._allowed(self.node)
++            session = self._session(self.node, out)
++            session.cancel_event = None
++            try:
++                self.enabled_sessions[self.node] = session
++                getattr(session, 'stop' if kind == 'stop' else 'disable')()
++                if kind == 'stop' and self.node in self.proofs:
++                    self.proofs[self.node]['phase'] = 'stopped'
++                elif kind == 'disable':
++                    self.proofs.pop(self.node, None)
++                values, cal = self._snapshot(session)
++                if self.node in self.proofs:
++                    self._proof_guard(self.node, values, cal)
++                self._put(dict(self.row(self.node), values=values, calibration=cal, updated=time.monotonic(),lost=False))
++                out.info('软件快停已确认；机械停止仍未知' if kind == 'stop' else '失能已确认；机械停止仍未知')
++            except BaseException as exc:
++                self._cleanup_failure(self.node, session, exc, out)
++                raise
++
++
++class SimpleApp(PmpApp):
++    title = 'PMP4010 小角度手动测试'
++
++    def __init__(self, tool, args):
++        super().__init__(tool, args)
++        self.controller = SimpleController(tool, args)
++        self.initial_snapshot = False
++        self.current_view = 'rt'
++        self.edit_kind = None
++        self.draft = ''
++        self.urgent = None
++        self._help_return = 'main'
++        self.log = LogView(max_lines=2000)
++        self.protocol_log = LogView(max_lines=2000)
++        self.progress = '等待连接授权；尚未打开总线'
++
++    def dispatch_key(self, name, key):
++        # Safety keys own every view, including an unfinished numeric draft.
++        return self.on_key(name, key)
++
++    def _clear(self):
++        self.pending = None
++        self.controller.cancel_review()
++        self.draft = ''
++        self.edit_kind = None
++        self.current_view = ('rt' if self.controller.context is None else
++                             'authorize' if self.controller.origin is None else 'main')
++
++    def _safety(self, kind):
++        self._clear()
++        self.cancel.set()
++        self.refresh_cancel.set()
++        if kind == 'quit':
++            self.exit_after = True
++            self.urgent = None
++        else:
++            self.urgent = kind
++        self.progress = '已请求安全退出' if kind == 'quit' else '已请求快停' if kind == 'stop' else '已请求失能'
++        return False
++
++    def on_key(self, name, key):
++        if name in (' ', 'space', 'x') or key == 32:
++            return self._safety('stop')
++        if name == 'q' or key == 3:
++            return self._safety('quit')
++        if self.exit_after or self.urgent or self.busy:
++            return False
++        try:
++            if name == 'esc':
++                self._clear()
++            elif name == '?':
++                if self.current_view == 'help':
++                    self.current_view = self._help_return
++                else:
++                    self._help_return = self.current_view
++                    self.current_view = 'help'
++            elif self.current_view == 'help':
++                if name == 'enter':
++                    self.current_view = self._help_return
++            elif self.current_view == 'rt' and name == 'enter':
++                self.controller.rt_ack = True
++                self.current_view = 'connecting'
++                self._launch('scan', self.controller.scan)
++            elif self.current_view == 'authorize' and name == 'enter':
++                self.controller.authorize()
++                self.current_view = 'main'
++                self.progress = '会话授权完成；可s设速度、a设步长，再f/b预览'
++            elif self.current_view == 'confirm' and name == 'enter':
++                review = self.pending
++                self.pending = None
++                self.current_view = 'main'
++                execute = self.controller.execute if self.action == 'disable' else self.controller.execute_action
++                self._launch('execute', lambda out:execute(review,out))
++            elif self.current_view == 'edit':
++                if name == 'enter':
++                    self.controller.set_value(self.edit_kind,self.draft)
++                    self._clear()
++                elif name in ('backspace','delete') or key in (8,127):
++                    self.draft = self.draft[:-1]
++                elif len(name)==1 and name in '0123456789./+-':
++                    self.draft += name
++            elif self.current_view == 'main':
++                if name in ('s','a','r'):
++                    self.edit_kind = {'s':'speed','a':'step','r':'range'}[name]
++                    self.draft = ''
++                    self.current_view = 'edit'
++                elif name in ('f','b','e'):
++                    kind = {'f':'forward','b':'backward','e':'hold'}[name]
++                    self.action = kind
++                    self._launch('review',lambda out:self.controller.review_action(kind,out))
++                elif name == 'd':
++                    self.action = 'disable'
++                    self._launch('review',lambda out:self.controller.review('disable',self.controller.node,None,out))
++        except (ValueError,RuntimeError) as exc:
++            self.progress = str(exc)
++            self.log.append(str(exc),'err')
++        return False
++
++    def poll(self):
++        for _ in range(256):
++            try:
++                event = self.events.get_nowait()
++            except queue.Empty:
++                break
++            if event[0] == 'done':
++                _,slot,label,result,error = event
++                worker = getattr(self,slot)
++                if worker:
++                    worker.join(0)
++                setattr(self,slot,None)
++                if error:
++                    self.progress = '事务已取消；请核对停止状态' if isinstance(error,KeyboardInterrupt) else str(error)
++                    self.log.append(self.progress,'err')
++                elif label == 'scan':
++                    self.current_view = 'authorize'
++                    self.progress = '只读连接完成；等待会话授权'
++                elif label == 'review' and not self.urgent and not self.exit_after:
++                    self.pending = result
++                    self.current_view = 'confirm'
++                    self.progress = '请核对本次动作；Enter确认，Esc取消'
++                elif label == 'review':
++                    self.controller.cancel_review()
++                elif label == 'shutdown':
++                    self._shutdown_recovery()
++                elif label != 'refresh':
++                    self.progress = '本次指令已提交；请观察实时反馈'
++            elif event[0] == 'event' and event[1] in ('manual_result','bench_result'):
++                self.log.append(event[2].get('message','动作保护已触发；请核对停止状态'))
++        for _ in range(128):
++            try:
++                _,level,line = self.logs.get_nowait()
++                self.protocol_log.append(line,level)
++                if not line.startswith(('已放行 OD 闸门：','放行条目：','其中 assumed','放行理由：',
++                                        '本次放行**','现场停机由独立安全设计负责')):
++                    self.log.append(line,level)
++            except queue.Empty:
++                break
++        if self.exit_after:
++            if self.worker is None and self.refresh_worker is None:
++                if self.controller.enabled_sessions and self.controller.shutdown_results is None and not self._finalizing:
++                    self._launch('shutdown',self.controller.close)
++                else:
++                    self.controller.close()
++                    self._running = False
++            return
++        if self.worker is None and self.refresh_worker is None and self.urgent:
++            kind,self.urgent = self.urgent,None
++            self._launch(kind,lambda out:self.controller.safety_action(kind,out))
++            return
++        row = self.controller.row(self.controller.node)
++        if row and row['quarantined']:
++            self.pending = None
++            self.controller.cancel_review()
++            self.current_view = 'main'
++            self.progress = row['quarantine_reason']
++        if (self.controller.context is not None and not self.busy and self.refresh_worker is None and
++                time.monotonic() >= self.next_refresh and not self.controller.blocked):
++            self.next_refresh = time.monotonic()+.5
++            self._start_refresh()
++
++    def hints(self):
++        return ['s 速度','a 步长','r 范围','e 使能保持','f/b 点动','Space/x 快停','d 失能','q 退出','? 帮助']
++
++    def build(self):
++        grid = Grid(self.rows,self.cols,strict=(self.box!='ascii'))
++        draw_box(grid,Rect(0,0,self.rows,self.cols),self.title,self.box)
++        c = self.controller
++        row = c.row(c.node)
++        v = row['values'] if row else {}
++        speed = '未知'
++        if v.get('velocity_feedback_unit') == 0:
++            speed = '{} rpm'.format(v['actual_velocity'])
++        elif v.get('velocity_feedback_unit') == 1 and row.get('calibration'):
++            try:
++                speed = '{} rpm'.format(number(position.unit_to_velocity(v['actual_velocity'],row['calibration'])))
++            except ValueError:
++                speed = '换算不可用'
++        online = '已隔离' if row and row['quarantined'] else '在线' if row and row['online'] and not row['lost'] else '未连接'
++        state = '未知'
++        if v and row and not row['lost'] and not row['quarantined']:
++            p = c.tool._canopen
++            state = {p.CIA402_DISABLED:'未使能',p.CIA402_READY:'就绪，未使能',
++                p.CIA402_SWITCHED_ON:'上电，未使能',p.CIA402_QUICK_STOP:'快停状态',
++                p.CIA402_ENABLED:'使能，Halt保持' if v['controlword'] & 0x100 else
++                '使能，运动中' if v['actual_velocity'] else '使能，零速'}.get(c._state(v),'未知')
++            if v['statusword'] & p.CIA402_FAULT or v['error_code_object']:
++                state = '故障'
++        historical = bool(row and (row['lost'] or row['quarantined']))
++        lines = (['节点 {}  {}  当前实读状态未知'.format(c.node,online),
++            '最后有效采样：位置 {} U  速度 {}  故障 {}'.format(v.get('actual_position','-'),speed,
++                '0x{:04X}'.format(v['error_code_object']) if v else '未知')] if historical else
++            ['节点 {}  {}  位置 {} U  实读：{}'.format(c.node,online,v.get('actual_position','-'),state),
++             '实际速度 {}  故障 {}'.format(speed,'0x{:04X}'.format(v['error_code_object']) if v else '未知')])
++        if row and row['calibration']:
++            try:
++                step,degrees,rpm = c.quantities(row)
++                lines += ['下次步长 请求 {} -> 实际 {} 电机轴度（{} U）'.format(number(c.step_degrees),angle(degrees),step),
++                    '下次速度 请求 {} -> 实际 {} rpm（{} U/s）'.format(number(c.requested_rpm)+' rpm' if c.requested_rpm is not None else str(c.next_velocity)+' U/s',number(rpm),c.next_velocity)]
++            except ValueError as exc:
++                lines += [str(exc)]
++        if c.origin is not None:
++            lines += ['会话原点 {} U；固定范围 [{}，{}] U（请求+/-{}度，与设备行程取交）'.format(c.origin,c.settings['soft_min'],c.settings['soft_max'],number(c.range_degrees))]
++        lines += ['提示：'+self.progress]
++        failure = (row or {}).get('failure_diagnostic')
++        if historical and failure and failure.get('raw_statusword') is not None:
++            lines += ['诊断样本（历史）：CW=0x{:04X} 6041=0x{:04X} {}'.format(
++                failure['controlword'],failure['raw_statusword'],failure.get('decoded_state',''))]
++        if self.current_view == 'rt':
++            lines += ['', '连接授权：现场人工小角度测试；RT控制器可能占用总线。',
++                '请先协调总线占用与现场安全。Enter 同意本会话连接；q 退出。',
++                '连接仅扫描节点并读取，不会自动使能或发送运动。']
++        elif self.current_view == 'authorize':
++            gaps = [e['key'] for e in (c.od or {}).get('entries',[]) if e['status']!='verified']
++            lines += ['', '运动会话授权：接受以下OD未核对项及独立停机责任：']
++            # Wrap by item, retaining identifiers and making every gap visible.
++            lines += ['  '+', '.join(gaps[i:i+2]) for i in range(0,len(gaps),2)]
++            if v:
++                units = int(Fraction(1)/Fraction(row['calibration']['motor_degrees_per_user_unit']))
++                lines += ['Enter 冻结当前原点 {} U；测试范围 [{}，{}] U（+/-1度与607Dh取交）。'.format(v['actual_position'],max(v['actual_position']-units,v['software_position_limit']),min(v['actual_position']+units,v['software_position_limit_max'])),
++                    '确认仅限本会话人工点动；不修改OD可信度。q 退出。']
++        elif self.current_view == 'confirm' and self.pending:
++            lines += ['']+(['失能：确认后撤销当前使能/目标证明；机械停止仍未知。',
++                'Enter 确认失能；Esc 取消；Space/x 随时快停'] if self.action == 'disable' else self.pending['lines'])
++        elif self.current_view == 'edit':
++            label = {'speed':'速度 rpm','step':'步长 电机轴度','range':'原点两侧测试半范围 电机轴度（<=1）'}[self.edit_kind]
++            lines += ['',label+'：'+self.draft+'_','Enter 提交；Esc 取消；量化向零取整，实际值将在同屏与动作预览显示。']
++        elif self.current_view == 'help':
++            lines += ['', 's：设置电机轴rpm；a：点动步长（默认0.1度）；r：修改固定原点两侧范围（<=1度）。',
++                's/a仅改下次动作草稿；确认后先安全停止/失能再应用。',
++                'r仅在d失能且无目标证明时生效，原点不会重置。',
++                'e：冻结当前位置，确认后提交保持目标并使能，Halt保持。',
++                'f/b：冻结正/反向终点，Enter只执行这一次；Esc取消。非零速先Space。',
++                '方向动作：提交→012F保持Halt使能→002F/003F/002F使能后新ACK触发。',
++                'Space/x：任何页面立即请求快停；d失能；q安全退出。',
++                '忙时停止会取消事务并有界收尾，取消的动作不会排队重放。',
++                '故障/跟随误差/越界立即锁定；通信隔离后不重试。',
++                '软件停止不能替代独立急停；机械停止/抱闸仍须现场确认。',
++                'Enter/? 返回；Space/x/q始终可用。']
++        elif self.current_view == 'main':
++            proof = c.proofs.get(c.node)
++            lines += ['','可操作：'+('保护已锁定，请退出并外部恢复' if c.blocked else
++                '实际速度非零；请先Space/x停止' if v.get('actual_velocity') else
++                '先按f/b/e审阅，再Enter确认；到边界请反向点动' if c.origin is not None else '等待连接/会话授权')]
++        bottom = max(1,self.rows-7)
++        for i,line in enumerate(lines[:max(0,bottom-1)]):
++            grid.put(i+1,2,fit(line,max(0,self.cols-4)))
++        if self.rows>=9:
++            draw_hsep(grid,bottom,1,max(0,self.cols-2),self.box,'日志')
++            self.log.render(grid,Rect(bottom+1,2,2,max(0,self.cols-4)),self.box)
++            grid.put(self.rows-3,2,fit('f/b 点动  s 速度  a 步长  e 使能保持  d 失能',max(0,self.cols-4)))
++            grid.put(self.rows-2,2,fit('Space/x 快停  q 安全退出  ? 帮助  r 范围',max(0,self.cols-4)))
++        return grid
+diff --git a/device/drivers/pmp4010/tools/_test_manual.py b/device/drivers/pmp4010/tools/_test_manual.py
+new file mode 100644
+index 0000000..a4ffeee
+--- /dev/null
++++ b/device/drivers/pmp4010/tools/_test_manual.py
+@@ -0,0 +1,1005 @@
++"""Independent manual PP steps against standard MockBus; no CAN socket or SSH."""
++import copy
++import json
++from pathlib import Path
++import queue
++import threading
++import time
++from unittest import mock
++
++from _test_bench import BenchFixture
++import _test_bench as bench_tests
++from _test_bench_support import DelayedBus, mockbus, requests, tool
++from _test_disabled_move import DisabledMoveNode
++from _test_position import Clock
++from pmp4010_manual import ManualController, ManualApp
++
++
++class ManualNode(DisabledMoveNode):
++    def __init__(self):
++        super().__init__()
++        self.enable_drift = 13
++
++    def handle(self, frame, now):
++        if frame.data[:4] == bytes.fromhex('2b406000') and int.from_bytes(frame.data[4:6], 'little') == 6:
++            mockbus.MockNode.handle(self, frame, now)
++            self.set_value(0x6041, 0x21)
++            return
++        super().handle(frame, now)
++        if frame.data[:4] == bytes.fromhex('2b406000') and int.from_bytes(frame.data[4:6], 'little') == 0x12f:
++            self.set_value(0x6064, self.value(0x6064, signed=True) + self.enable_drift)
++
++
++class DelayedManualNode(ManualNode):
++    """SDO write ACK precedes 6041 state progress, as a real drive may do.
++
++    Two old samples exercise both ends of a full guarded snapshot. States
++    change only when an actual status SDO upload is serviced, never by a
++    controller/test mock of the transaction itself.
++    """
++    def __init__(self):
++        super().__init__()
++        self.transition_sequences = {0x106:[0x260,0x260,0x231],0x107:[0x231,0x231,0x233]}
++        self.pending_states = []
++        self.status_reads = []
++        self.last_word = None
++
++    def handle(self, frame, now):
++        data = frame.data
++        if data[:4] == bytes.fromhex('40416000'):
++            if self.pending_states:
++                self.set_value(0x6041,self.pending_states.pop(0))
++            self.status_reads.append((self.last_word,self.value(0x6041)))
++        super().handle(frame,now)
++        if data[:4] == bytes.fromhex('2b406000'):
++            self.last_word = int.from_bytes(data[4:6],'little')
++            self.pending_states = list(self.transition_sequences.get(self.last_word,[]))
++
++
++class EnabledEdgeNode(DelayedManualNode):
++    """A disabled set-point ACK does not start an enabled PP trajectory.
++
++    This device model advances feedback on position uploads only after a new
++    bit4 rising edge in Operation enabled. Lowering bit4 or releasing Halt
++    alone cannot synthesize a move. SDO frames/replies use standard MockBus.
++    """
++    def __init__(self):
++        super().__init__()
++        self.trajectory_target = None
++        self.enabled_edges = []
++        self.movement_samples = []
++        self.ack_samples = []
++        self.missing_enabled_ack = False
++        self.stuck_enabled_ack = False
++        # Optional controlled protocol hypothesis, not a firmware claim:
++        # enabling invalidates executable data until 607A is downloaded while
++        # enabled with Halt. ACK/6062 alone can still look correct otherwise.
++        self.require_enabled_target = False
++        self.enabled_target_valid = False
++        self.enabled_target_writes = []
++
++    def handle(self, frame, now):
++        data = frame.data
++        word = int.from_bytes(data[4:6], 'little') if data[:4] == bytes.fromhex('2b406000') else None
++        if data[:4] == bytes.fromhex('40646000') and self.trajectory_target is not None:
++            current = self.value(0x6064, signed=True)
++            delta = self.trajectory_target-current
++            current += min(2, abs(delta)) * (1 if delta > 0 else -1)
++            self.set_value(0x6064,current)
++            self.set_value(0x606c,0 if current == self.trajectory_target else 100)
++            self.movement_samples.append((current,self.value(0x606c,signed=True)))
++        if word in (0x12f,0x2f,0x3f):
++            old_word, old_state = self.value(0x6040), self.value(0x6041) & 0x6f
++            mockbus.MockNode.handle(self,frame,now)
++            self.last_word = word
++            self.pending_states = list(self.transition_sequences.get(word,[]))
++            rising = not old_word & 0x10 and bool(word & 0x10)
++            if old_state == 0x27 and rising:
++                target = self.value(0x607a,signed=True)
++                self.enabled_edges.append((old_word,word,target))
++                if not self.require_enabled_target or self.enabled_target_valid:
++                    self.trajectory_target = target
++            ack = word == 0x3f and not self.missing_enabled_ack
++            ack = ack or word == 0x2f and self.trajectory_target is not None and self.stuck_enabled_ack
++            self.set_value(0x6041,0x27 | (0x1000 if ack else 0))
++            if word == 0x12f:
++                self.enabled_target_valid = False
++                self.set_value(0x6064,self.value(0x6064,signed=True)+self.enable_drift)
++            if (0x6040,0) in self.drop_write_ack:
++                self._outbox.clear()
++            return
++        super().handle(frame,now)
++        if data[:4] == bytes.fromhex('237a6000') and self.value(0x6040)==0x12f and self.value(0x6041)&0x6f==0x27:
++            self.enabled_target_valid = True
++            self.enabled_target_writes.append(self.value(0x607a,signed=True))
++        if data[:4] == bytes.fromhex('40416000'):
++            self.ack_samples.append((self.last_word,bool(self.value(0x6041) & 0x1000)))
++        if word in (0,2,6):
++            self.trajectory_target = None
++            self.set_value(0x606c,0)
++
++
++class ManualTests(BenchFixture):
++    def setUp(self):
++        super().setUp()
++        self.node = ManualNode()
++        self.bus = DelayedBus([self.node])
++        tool._std_open_active.return_value = self.bus
++        self.args.node_range = '1'
++        self.ctl = ManualController(tool, self.args)
++        self.addCleanup(self.ctl.close)
++
++    def controls(self):
++        return [v for i, _, v in requests(self.bus, True) if i == 0x6040]
++
++    def ready(self):
++        self.authorized()
++        self.bus.sent.clear()
++
++    def submit(self, value=50):
++        if self.ctl.context is None:
++            self.ready()
++        review = self.ctl.review('relative', 1, value, self.out)
++        self.ctl.execute(review, self.out)
++        return review
++
++    def step(self, action):
++        review = self.ctl.review(action, 1, None, self.out)
++        self.ctl.execute(review, self.out)
++        return review
++
++    def delayed(self):
++        self.node=DelayedManualNode()
++        self.bus=DelayedBus([self.node])
++        tool._std_open_active.return_value=self.bus
++        self.ctl=ManualController(tool,self.args)
++        self.addCleanup(self.ctl.close)
++        self.ready()
++
++    def enabled_edge_node(self):
++        self.node=EnabledEdgeNode()
++        self.bus=DelayedBus([self.node])
++        tool._std_open_active.return_value=self.bus
++        self.ctl=ManualController(tool,self.args)
++        self.addCleanup(self.ctl.close)
++        self.ready()
++
++    def test_enabled_edge_behavior_moves_frozen_target_not_disabled_ack(self):
++        self.enabled_edge_node()
++        review=self.submit(50)
++        self.step('enable')
++        before=self.node.value(0x6064,signed=True)
++        self.assertEqual(self.node.enabled_edges,[])
++        self.assertEqual(before,review['start']+13)
++        self.step('go')
++        # A successful ACK while Switched on is insufficient. Feedback must
++        # move because of a fresh enabled edge, not a fixture write counter.
++        after=self.node.value(0x6064,signed=True)
++        print('ENABLED EDGE behavior: before={}, after={}, target={}, edges={}, CW={}'.format(
++            before,after,review['target'],self.node.enabled_edges,[hex(w) for w in self.controls()]))
++        self.assertGreater(after,before,'no enabled bit4 edge: PP trajectory never started')
++        self.assertEqual(self.node.enabled_edges,[(0x2f,0x3f,review['target'])])
++
++        events=[r for r in self.diagnostic_records() if r['event']=='manual_enabled_target']
++        self.assertEqual([r['point'] for r in events],['before_write','write_ack','readback'])
++        self.assertTrue(all(r['target']==review['target'] for r in events))
++        self.assertEqual(events[-1]['actual'],review['target'])
++        self.assertTrue(any(velocity for _,velocity in self.node.movement_samples))
++        self.assertEqual((self.ctl.proofs[1]['start'],self.ctl.proofs[1]['target']),
++                         (review['start'],review['target']))
++        self.assertEqual([v for i,_,v in requests(self.bus,True) if i==0x607a],
++                         [review['target'] & 0xffffffff]*2)
++        self.assertEqual(self.controls()[-3:],[0x2f,0x3f,0x2f])
++        self.assertEqual(self.ctl.proofs[1]['phase'],'running')
++        go_samples=[r for r in self.diagnostic_records() if r['event']=='manual_transition_snapshot'
++                    and r['phase']=='使能后新ACK核对']
++        self.assertEqual([(r['controlword'],r['ack_samples']) for r in go_samples],
++                         [(0x2f,[False,False]),(0x3f,[True,True]),(0x2f,[False,False])])
++        self.assertTrue(all(r['actual_velocity'] != 0 for r in go_samples[1:]))
++        # Advance actual SDO feedback to the frozen target, never teleport on
++        # a controlword or assert motion solely from the written word chain.
++        for _ in range(30):
++            self.ctl.refresh(self.out)
++            if self.node.value(0x6064,signed=True) == review['target']:
++                break
++        self.assertEqual(self.node.value(0x6064,signed=True),review['target'])
++        self.assertEqual(len(self.node.enabled_edges),1)
++        print('ENABLED EDGE actual SDO: ACK samples 0/0→1/1→0/0; moving during high/low handshake; fixed target reached, one edge only')
++
++    def test_enabled_target_rewrite_hypothesis_moves_same_frozen_target(self):
++        self.enabled_edge_node()
++        self.node.require_enabled_target=True
++        review=self.submit(50)
++        self.step('enable')
++        before=self.node.value(0x6064,signed=True)
++        self.assertFalse(self.node.enabled_target_valid)
++        self.step('go')
++        after=self.node.value(0x6064,signed=True)
++        print('ENABLED TARGET hypothesis (not firmware fact): before={}, after={}, frozen={}, enabled writes={}, edges={}'.format(
++            before,after,review['target'],self.node.enabled_target_writes,self.node.enabled_edges))
++        self.assertGreater(after,before,'enabled ACK alone did not establish executable target data')
++        self.assertEqual(self.node.enabled_target_writes,[review['target']])
++        self.assertEqual([v for i,_,v in requests(self.bus,True) if i==0x607a],
++                         [review['target'] & 0xffffffff]*2)
++        self.assertEqual((self.ctl.proofs[1]['start'],self.ctl.proofs[1]['target']),
++                         (review['start'],review['target']))
++        self.assertEqual(self.node.enabled_edges,[(0x2f,0x3f,review['target'])])
++
++    def test_enabled_target_lost_download_ack_quarantines_without_retry(self):
++        self.enabled_edge_node()
++        self.submit()
++        self.step('enable')
++        self.node.drop_write_ack.add((0x607a,0))
++        with self.assertRaises(Exception):self.step('go')
++        self.assertEqual(len(self.node.enabled_target_writes),1)
++        self.assertEqual(self.node.enabled_edges,[])
++        self.assertEqual(self.controls()[-1],0x12f)
++        self.assert_locked_no_requests()
++        print('ENABLED TARGET lost download ACK: one attempted target download; same-client quarantine, zero subsequent requests/edges')
++
++    def test_enabled_target_readback_mismatch_cleanup_without_edge(self):
++        self.enabled_edge_node()
++        self.submit()
++        self.step('enable')
++        original=self.node.handle
++        def corrupt(frame,now):
++            original(frame,now)
++            if frame.data[:4]==bytes.fromhex('237a6000'):
++                self.node.set_value(0x607a,-1419)
++        self.node.handle=corrupt
++        with self.assertRaisesRegex(ValueError,'写读回不一致'):self.step('go')
++        self.assertEqual(self.controls()[-2:],[2,0])
++        self.assertEqual(self.node.enabled_edges,[])
++        self.assertFalse(self.ctl.proofs)
++        self.assertTrue(self.ctl.row(1)['quarantined'])
++        print('ENABLED TARGET readback mismatch: same-client bounded2/0; no new edge')
++
++    def test_enabled_target_bad_readback_width_quarantines_without_cleanup_retry(self):
++        self.enabled_edge_node()
++        self.submit()
++        self.step('enable')
++        original=self.node.handle
++        def corrupt(frame,now):
++            original(frame,now)
++            if frame.data[:4]==bytes.fromhex('237a6000'):
++                self.node.od[0x607a,0].data=b'\0\0'
++        self.node.handle=corrupt
++        with self.assertRaises(ValueError):self.step('go')
++        self.assertEqual(self.node.enabled_edges,[])
++        self.assertEqual(self.controls()[-1],0x12f)
++        self.assert_locked_no_requests()
++        print('ENABLED TARGET malformed readback width: same-client quarantine and zero following requests')
++
++    def test_enabled_edge_delayed_ack_samples_wait_for_fresh_generation(self):
++        self.enabled_edge_node()
++        self.submit(50)
++        self.step('enable')
++        self.node.transition_sequences[0x3f]=[0x27,0x27,0x1027]
++        self.step('go')
++        samples=[r for r in self.diagnostic_records() if r['event']=='manual_transition_snapshot'
++                 and r['phase']=='使能后新ACK核对' and r['controlword']==0x3f]
++        self.assertEqual([r['ack_samples'] for r in samples],[[False,False],[True,True]])
++        self.assertTrue(all(r['actual_velocity'] for r in samples))
++        self.assertEqual(len(self.node.enabled_edges),1)
++
++    def test_enabled_edge_missing_or_stuck_ack_fixed_deadline_same_client_cleanup(self):
++        for flag,tail in (('missing_enabled_ack',[0x2f,0x3f,2,0]),
++                          ('stuck_enabled_ack',[0x2f,0x3f,0x2f,2,0])):
++            with self.subTest(flag=flag):
++                self.enabled_edge_node()
++                self.submit()
++                self.step('enable')
++                self.ctl.manual_sessions[1].state_timeout=.04
++                setattr(self.node,flag,True)
++                client=self.ctl.manual_sessions[1].client
++                begin=time.monotonic()
++                with self.assertRaises(Exception):self.step('go')
++                self.assertLess(time.monotonic()-begin,.4)
++                self.assertEqual(self.controls()[-len(tail):],tail)
++                self.assertIs(self.ctl.manual_sessions[1].client,client)
++                self.assertFalse(self.ctl.proofs)
++                self.assertTrue(self.ctl.row(1)['quarantined'])
++        print('ENABLED EDGE missing high/stuck low ACK: fixed deadline; same-client bounded2/0; proof consumed and node blocked')
++
++    def test_enabled_edge_moving_handshake_all_protected_guards_cleanup(self):
++        cases=[(0x6060,3,0),(0x6061,3,0),(0x2002,1,1),(0x607c,1,0),
++               (0x607a,-1419,0),(0x6062,-1419,0),(0x6040,0x2f,0),
++               (0x608f,131073,1),(0x6081,101,0),(0x607d,-1460,2),
++               (0x603f,1,0),(0x6041,0x2027,0),(0x6064,-1000,0)]
++        for index,value,sub in cases:
++            with self.subTest(index=hex(index)):
++                self.enabled_edge_node()
++                self.submit()
++                self.step('enable')
++                original=self.out.event
++                def inject(name,data):
++                    original(name,data)
++                    if name=='manual_controlword' and data['point']=='write_ack' and data['controlword']==0x3f:
++                        self.node.set_value(index,value,sub)
++                        if index==0x6064:self.node.trajectory_target=None
++                self.out.event=inject
++                client=self.ctl.manual_sessions[1].client
++                with self.assertRaises(ValueError):self.step('go')
++                self.out.event=original
++                if index == 0x2002:
++                    # The shared stop guard refuses CiA402 writes after the
++                    # selector changes; do not pretend this proves a stop.
++                    self.assertEqual(self.controls()[-2:],[0x2f,0x3f])
++                    self.assertIn('停止未确认',self.ctl.row(1)['quarantine_reason'])
++                else:
++                    self.assertEqual(self.controls()[-4:],[0x2f,0x3f,2,0])
++                self.assertIs(self.ctl.manual_sessions[1].client,client)
++                self.assertFalse(self.ctl.proofs)
++        print('ENABLED EDGE moving phase: mode/CW/607A/6062/calibration/profile/607C/607D/fault/envelope changes stop2/disable0 before final release')
++
++    def test_enabled_edge_go_initial_nonzero_speed_still_refused(self):
++        self.enabled_edge_node()
++        self.submit()
++        self.step('enable')
++        self.node.set_value(0x606c,1)
++        self.ctl.refresh(self.out)
++        before=list(self.controls())
++        with self.assertRaisesRegex(ValueError,'非零'):
++            self.ctl.review('go',1,None,self.out)
++        self.assertEqual(self.controls(),before)
++        self.node.set_value(0x606c,0)
++        self.ctl.refresh(self.out)
++        review=self.ctl.review('go',1,None,self.out)
++        self.node.set_value(0x606c,1)
++        with self.assertRaisesRegex(ValueError,'非零'):
++            self.ctl.execute(review,self.out)
++        self.assertEqual(self.controls()[-2:],[2,0])
++        self.assertNotIn(0x2f,self.controls())
++
++    def test_enabled_edge_ack_read_timeout_quarantines_zero_retry(self):
++        self.enabled_edge_node()
++        self.submit()
++        self.step('enable')
++        original=self.out.event
++        def inject(name,data):
++            original(name,data)
++            if name=='manual_controlword' and data['point']=='write_ack' and data['controlword']==0x3f:
++                self.node.drop_reads.add((0x6041,0))
++        self.out.event=inject
++        with self.assertRaises(Exception):self.step('go')
++        self.assertEqual(self.controls()[-2:],[0x2f,0x3f])
++        self.node.drop_reads.clear()
++        self.assert_locked_no_requests()
++        print('ENABLED EDGE ACK read timeout after003F: original client quarantined; no cleanup/refresh/scan/exit requests')
++
++    def test_controlled_106_107_accept_delayed_previous_first_and_last_samples(self):
++        self.delayed()
++        self.submit(36)
++        self.assertEqual(self.controls(),[0x106,0x107,0x127,0x137,0x127])
++        self.assertEqual([raw for word,raw in self.node.status_reads if word==0x106][:3],[0x260,0x260,0x231])
++        self.assertEqual([raw for word,raw in self.node.status_reads if word==0x107][:3],[0x231,0x231,0x233])
++        self.assertEqual(self.ctl.proofs[1]['target'],-1434)
++        print('DELAYED actual SDO: 0106 ACK then0260/0260/0231; 0107 ACK then0231/0231/0233; fixed607A=-1434; submit completes')
++
++    def diagnostic_records(self):
++        return [json.loads(line) for path in Path(self.tmp.name).glob('*.jsonl') for line in path.read_text().splitlines()]
++
++    def test_controlled_previous_state_timeout_bounded_and_cleanup_logged(self):
++        self.delayed()
++        self.ctl.args.state_timeout=.04
++        self.ctl.manual_sessions[1].state_timeout=.04
++        self.node.transition_sequences[0x106]=[0x260]*10000
++        begin=time.monotonic()
++        with self.assertRaises(Exception):self.submit(36)
++        self.assertLess(time.monotonic()-begin,.4)
++        self.assertEqual(self.controls(),[0x106,2,0])
++        records=self.diagnostic_records()
++        failure=next(r['first_failure'] for r in records if r['event']=='exception')
++        cleanup=next(r for r in records if r['event']=='manual_cleanup')
++        self.assertEqual(failure['raw_statusword'],0x260)
++        self.assertEqual(failure['controlword'],0x106)
++        self.assertIn('超时',failure['reason'])
++        self.assertEqual(cleanup['first_failure'],failure)
++        self.assertTrue(cleanup['disabled_confirmed'])
++        print('DELAYED persistent0260: state_timeout bounded; no0107/enable/release; first_failure and cleanup2/0 retained')
++
++    def test_controlled_first_unexpected_enabled_then_normal_is_not_hidden(self):
++        self.delayed()
++        self.node.transition_sequences[0x106]=[0x237,0x231]
++        with self.assertRaisesRegex(ValueError,'6041=0x0237'):self.submit(36)
++        self.assertEqual([raw for word,raw in self.node.status_reads if word==0x106],[0x237])
++        self.assertEqual(self.controls(),[0x106,2,0])
++        failure=self.ctl.failure_diagnostics[1]
++        self.assertEqual(failure['raw_statusword'],0x237)
++        self.assertEqual(failure['decoded_state'],'Operation enabled')
++        self.assertEqual(self.ctl.row(1)['failure_diagnostic'],failure)
++        self.assertIn('CW=0x0106 6041=0x0237',self.ctl.row(1)['quarantine_reason'])
++        cleanup=next(r for r in self.diagnostic_records() if r['event']=='manual_cleanup')
++        self.assertEqual(cleanup['first_failure']['raw_statusword'],0x237)
++        print('DELAYED unexpected0237 then0231: first raw immediately rejected, no read of later normal, cleanup cannot replace root sample')
++
++    def test_controlled_quickstop_is_never_ready(self):
++        self.delayed()
++        self.node.transition_sequences[0x106]=[0x207,0x231]
++        with self.assertRaisesRegex(ValueError,'6041=0x0207'):self.submit(36)
++        self.assertEqual(self.controls(),[0x106,2,0])
++        self.assertEqual(self.ctl.failure_diagnostics[1]['decoded_state'],'Quick stop active')
++
++    def test_controlled_following_fault_in_first_or_last_sample_refuses(self):
++        for sequence in ([0x2260,0x231],[0x260,0x2260,0x231]):
++            with self.subTest(sequence=sequence):
++                self.delayed()
++                self.node.transition_sequences[0x106]=sequence
++                with self.assertRaisesRegex(ValueError,'故障/PP跟随误差'):self.submit(36)
++                self.assertEqual(self.controls(),[0x106,2,0])
++                self.assertEqual(self.ctl.failure_diagnostics[1]['raw_statusword'],0x2260)
++
++    def test_controlled_wait_cancel_cleanup_no_later_controlword(self):
++        self.delayed()
++        self.node.transition_sequences[0x106]=[0x260]*1000
++        original=self.out.event
++        def event(name,data):
++            original(name,data)
++            if name=='manual_transition_snapshot' and data['phase']=='等待受控迁移':
++                self.out.cancel_event.set()
++        self.out.event=event
++        with self.assertRaises(KeyboardInterrupt):self.submit(36)
++        self.out.cancel_event.clear()
++        self.assertEqual(self.controls(),[0x106,2,0])
++        self.assertEqual(self.ctl.failure_diagnostics[1]['reason'],'等待期间已取消')
++        print('DELAYED waiting cancel: immediate cancellation at pending snapshot, same-client bounded2/0, no later CW')
++
++    def test_controlled_wait_timeout_quarantine_zero_subsequent_requests(self):
++        self.delayed()
++        original=self.node.handle
++        def handle(frame,now):
++            original(frame,now)
++            if frame.data[:6]==bytes.fromhex('2b4060000601'):
++                self.node.drop_reads.add((0x6041,0))
++        self.node.handle=handle
++        with self.assertRaises(Exception):self.submit(36)
++        count=len(self.bus.sent)
++        self.assertTrue(self.ctl.manual_sessions[1].client.quarantined)
++        self.ctl.refresh(self.out)
++        self.ctl.close()
++        self.assertEqual(len(self.bus.sent),count)
++        self.assertEqual(self.controls(),[0x106])
++
++    def test_controlled_invalid_raw_survives_diagnostic_journal_failure(self):
++        self.delayed()
++        self.node.transition_sequences[0x106]=[0x237,0x231]
++        from pmp4010_position import Journal
++        original=Journal.event
++        def event(journal,name,**data):
++            if name=='manual_transition_sample' and data['raw_statusword']==0x237:
++                raise OSError('diagnostic disk failure')
++            return original(journal,name,**data)
++        with mock.patch.object(Journal,'event',event),self.assertRaises(OSError):self.submit(36)
++        self.assertEqual(self.controls(),[0x106,2,0])
++        self.assertEqual(self.ctl.failure_diagnostics[1]['raw_statusword'],0x237)
++        self.assertIn('非预期状态',self.ctl.failure_diagnostics[1]['reason'])
++
++    def test_controlled_pending_fresh_velocity_position_calibration_and_settings_guards(self):
++        cases = [('velocity',lambda:self.node.set_value(0x606c,1)),
++                 ('position',lambda:self.node.set_value(0x6064,-1100)),
++                 ('calibration',lambda:self.node.set_value(0x608f,131073,1)),
++                 ('profile',lambda:self.node.set_value(0x6081,101)),
++                 ('offset',lambda:self.node.set_value(0x607c,1)),
++                 ('settings',lambda:self.ctl.settings.update(max_displacement=363))]
++        for name,inject in cases:
++            with self.subTest(name=name):
++                self.delayed()
++                original=self.node.handle
++                injected=False
++                def handle(frame,now):
++                    nonlocal injected
++                    original(frame,now)
++                    if frame.data[:4]==bytes.fromhex('40416000') and self.node.last_word==0x106 and not injected:
++                        injected=True
++                        inject()
++                self.node.handle=handle
++                with self.assertRaises(ValueError):self.submit(36)
++                self.assertEqual(self.controls(),[0x106,2,0])
++                if name=='velocity':
++                    self.assertEqual(self.ctl.failure_diagnostics[1]['actual_velocity'],1)
++                    self.assertEqual([raw for word,raw in self.node.status_reads if word==0x106],[0x260])
++        print('DELAYED pending guard injections: first velocity/position/calibration/profile/607C/settings each prevents next CW and cleans2/0')
++
++    def test_startup_scan_and_refresh_zero_downloads(self):
++        self.online()
++        self.ctl.scan(self.out)
++        self.assertFalse(requests(self.bus, True))
++        self.assertEqual(len(self.ctl.manual_sessions), 1)
++        self.assertFalse(self.ctl.enabled_sessions)
++
++    def test_read_failure_before_actions_never_sends_cleanup_writes(self):
++        self.node.drop_reads.add((0x6041, 0))
++        self.online()
++        self.assertFalse(requests(self.bus, True))
++        self.assertTrue(self.ctl.row(1)['quarantined'])
++
++    def test_bit10_zero_submit_only_artificial_target_fresh_ack_no_enable(self):
++        self.ready()
++        self.assertFalse(self.node.value(0x6041) & 0x400)
++        review = self.submit()
++        self.assertEqual(review['start'], -1470)
++        self.assertEqual(review['target'], -1420)
++        self.assertEqual(self.controls(), [0x106, 0x107, 0x127, 0x137, 0x127])
++        self.assertEqual(self.node.value(0x6062, signed=True), -1420)
++        self.assertEqual([v for i,_,v in requests(self.bus, True) if i == 0x607a], [(-1420)&0xffffffff])
++        self.assertFalse(self.node.value(0x6041) & 4)
++        self.assertEqual(self.ctl.proofs[1]['phase'], 'submitted')
++        print('MANUAL submit: bit10=0, final human target -1420 only, fresh ACK0/1/0, CW106/107/127/137/127, no enable/release')
++
++    def test_enable_plus13_feedback_allowed_original_envelope_no_auto_disable(self):
++        self.submit()
++        self.step('enable')
++        self.assertEqual(self.controls(), [0x106,0x107,0x127,0x137,0x127,0x12f])
++        self.ctl.refresh(self.out)
++        proof = self.ctl.proofs[1]
++        self.assertEqual((proof['start'], proof['target']), (-1470,-1420))
++        self.assertEqual(self.node.value(0x6064,signed=True),-1457)
++        self.assertEqual(proof['phase'], 'enabled')
++        self.assertNotIn(0,self.controls())
++        print('MANUAL E: CW12F only, +13U accepted inside original start/budget; no zero-drift cleanup, waits for G')
++
++    def test_explicit_sequence_submit_E_G_X_D_exit_exact_controls(self):
++        self.submit()
++        self.step('enable')
++        self.step('go')
++        self.assertEqual(self.ctl.proofs[1]['phase'], 'running')
++        self.step('stop')
++        self.assertEqual(self.ctl.proofs[1]['phase'], 'stopped')
++        for action in ('enable','go'):
++            with self.assertRaisesRegex(ValueError,'阶段'):
++                self.ctl.review(action,1,None,self.out)
++        self.step('disable')
++        self.ctl.close()
++        self.assertEqual(self.controls(),[0x106,0x107,0x127,0x137,0x127,0x12f,0x2f,0x3f,0x2f,2,0,6])
++        print('MANUAL user sequence CW: 0106 0107 0127 0137 0127 | 012F | 002F 003F 002F | 0002 | 0000 | exit0006')
++
++    def test_E_G_require_this_session_single_use_proof(self):
++        self.ready()
++        for action in ('enable','go'):
++            with self.assertRaisesRegex(ValueError,'证明'):
++                self.ctl.review(action,1,None,self.out)
++        review=self.submit()
++        count=len(self.bus.sent)
++        with self.assertRaises(ValueError):
++            self.ctl.execute(review,self.out)
++        self.assertEqual(len(self.bus.sent),count)
++        with self.assertRaisesRegex(ValueError,'阶段'):
++            self.ctl.review('go',1,None,self.out)
++        self.step('enable')
++        with self.assertRaisesRegex(ValueError,'阶段'):
++            self.ctl.review('enable',1,None,self.out)
++
++    def test_submitted_target_and_start_never_rebased_for_position_change(self):
++        self.ready()
++        review=self.ctl.review('relative',1,50,self.out)
++        self.node.set_value(0x6064,-1467)
++        self.ctl.execute(review,self.out)
++        self.assertEqual(self.ctl.proofs[1]['start'],-1470)
++        self.assertEqual(self.ctl.proofs[1]['target'],-1420)
++
++    def test_modified_review_rejected_before_io(self):
++        self.ready()
++        review=self.ctl.review('relative',1,50,self.out)
++        review['target']=-1419
++        self.bus.sent.clear()
++        with self.assertRaisesRegex(ValueError,'修改'):
++            self.ctl.execute(review,self.out)
++        self.assertEqual(self.bus.sent,[])
++
++    def test_missing_ack_or_wrong_demand_never_enable_or_G(self):
++        for flag in ('ignore_setpoint','keep_old_demand','stuck_ack'):
++            self.node=ManualNode()
++            self.bus.nodes[0]=self.node
++            setattr(self.node,flag,True)
++            self.ctl=ManualController(tool,self.args)
++            self.ready()
++            review=self.ctl.review('relative',1,50,self.out)
++            # Exercise the logical ACK deadline independently of host load.
++            # Actual missing-reply/quarantine has its own real-time tests.
++            clock=Clock()
++            with self.subTest(flag=flag),mock.patch('time.monotonic',clock.monotonic), \
++                    mock.patch('time.sleep',clock.sleep),self.assertRaises(Exception) as failure:
++                self.ctl.execute(review,self.out)
++            self.assertNotIn(0x12f,self.controls())
++            self.assertNotIn(0x2f,self.controls())
++            self.assertFalse(self.ctl.proofs)
++            self.assertEqual(self.controls()[-2:],[2,0],(flag,str(failure.exception),self.ctl.row(1)['quarantine_reason']))
++
++    def test_stale_target_after_E_refuses_G_and_cleanup_same_client(self):
++        self.submit()
++        self.step('enable')
++        review=self.ctl.review('go',1,None,self.out)
++        session=self.ctl.manual_sessions[1]
++        self.node.set_value(0x6062,7800)
++        with self.assertRaisesRegex(ValueError,'607A/6062'):
++            self.ctl.execute(review,self.out)
++        self.assertNotIn(0x2f,self.controls())
++        self.assertEqual(self.controls()[-2:],[2,0])
++        self.assertIs(self.ctl.manual_sessions[1],session)
++
++    def test_following_fault_and_envelope_background_same_client_cleanup(self):
++        for key,value in ((0x6041,0x2027),(0x6041,0x2f),(0x6064,-1000),(0x6061,3),(0x6081,101),(0x607c,1)):
++            self.node=ManualNode()
++            self.bus.nodes[0]=self.node
++            self.ctl=ManualController(tool,self.args)
++            self.submit()
++            self.step('enable')
++            client=self.ctl.manual_sessions[1].client
++            self.node.set_value(key,value)
++            self.ctl.refresh(self.out)
++            with self.subTest(key=hex(key),value=value):
++                self.assertEqual(self.controls()[-2:],[2,0])
++                self.assertIs(self.ctl.manual_sessions[1].client,client)
++                self.assertTrue(self.ctl.row(1)['quarantined'])
++                self.assertFalse(self.ctl.proofs)
++
++    def test_timeout_isolation_zero_retry_scan_refresh_action_and_exit(self):
++        self.submit()
++        self.step('enable')
++        self.node.drop_reads.add((0x6041,0))
++        self.ctl.refresh(self.out)
++        count=len(self.bus.sent)
++        self.node.drop_reads.clear()
++        self.ctl.scan(self.out)
++        self.ctl.refresh(self.out)
++        with self.assertRaises(ValueError):
++            self.ctl.review('go',1,None,self.out)
++        self.ctl.close()
++        self.assertEqual(len(self.bus.sent),count)
++        self.assertTrue(self.ctl.row(1)['quarantined'])
++        print('MANUAL timeout: same client quarantined; scan/refresh/G/exit zero subsequent requests; independent emergency stop required')
++
++    def test_download_ack_loss_never_retries_cleanup_or_G(self):
++        self.ready()
++        self.node.drop_write_ack.add((0x607a,0))
++        review=self.ctl.review('relative',1,50,self.out)
++        with self.assertRaises(Exception):
++            self.ctl.execute(review,self.out)
++        self.assertEqual(self.controls(),[])
++        count=len(self.bus.sent)
++        self.ctl.close()
++        self.assertEqual(count,len(self.bus.sent))
++
++    def test_guards_OD_607C_budget_one_degree_device_limits(self):
++        self.ready()
++        self.ctl.od_reason=None
++        with self.assertRaises(ValueError):
++            self.ctl.review('relative',1,50,self.out)
++        self.ctl.od_reason='explicit mock'
++        for setting,val in (('max_displacement',None),('max_displacement',365),('soft_max',-1450)):
++            saved=self.ctl.settings.copy()
++            self.ctl.settings[setting]=val
++            with self.subTest(setting=setting,val=val),self.assertRaises(ValueError):
++                self.ctl.review('relative',1,50,self.out)
++            self.ctl.settings=saved
++        for index,val in ((0x607c,1),(0x607d,-1460),(0x6080,0),(0x607f,99)):
++            sub=1 if index==0x607d else 0
++            saved=self.node.od[index,sub].data
++            self.node.set_value(index,val,sub)
++            self.ctl.refresh(self.out)
++            with self.subTest(index=hex(index)),self.assertRaises(ValueError):
++                self.ctl.review('relative',1,50,self.out)
++            self.node.od[index,sub].data=saved
++        self.assertFalse(requests(self.bus,True))
++
++    def test_manual_speed_default100_can_adjust_above100_under_limits(self):
++        self.ready()
++        self.assertEqual(self.ctl.manual_velocity,100)
++        self.ctl.manual_velocity=250
++        review=self.submit()
++        self.assertEqual(review['args'].velocity,250)
++        self.assertIn('250 U/s', '\n'.join(review['lines']))
++        self.assertIn('rpm','\n'.join(review['lines']))
++
++    def test_rescan_and_refresh_reuse_one_original_client(self):
++        self.submit()
++        self.step('enable')
++        original=self.ctl.manual_sessions[1].client
++        with mock.patch.object(tool._canopen,'SdoClient',side_effect=AssertionError('replacement client forbidden')):
++            with self.assertRaisesRegex(ValueError,'先单独D'):
++                self.ctl.scan(self.out)
++            self.ctl.refresh(self.out)
++            self.step('go')
++        self.assertIs(self.ctl.manual_sessions[1].client,original)
++
++    def test_ui_normal_Form_target_E_G_two_stage_and_no_hidden_actions(self):
++        self.ready()
++        app=ManualApp(tool,self.args)
++        app.controller=self.ctl
++        app.initial_snapshot=False
++        app.next_refresh=float('inf')
++        app.current_view='detail'
++        press=bench_tests.BenchInteractionTests.press
++        for key in ('z','p','b'):
++            press(app,key)
++            self.assertEqual(app.current_view,'detail')
++        press(app,'a')
++        self.assertEqual(app.input_field.text,'')
++        # Exercise actual Form text input, commit and both F5 boundaries.
++        for ch in '-1420':
++            press(app,ch)
++        press(app,'f5')
++        self.assertEqual(app.current_view,'confirm')
++        self.assertFalse(requests(self.bus,True))
++        for ch in app.pending['token']:
++            press(app,ch)
++        press(app,'f5')
++        app.worker.join(3)
++        app.poll()
++        self.assertEqual(self.controls(),[0x106,0x107,0x127,0x137,0x127])
++        for key,expected in (('e',0x12f),('g',0x2f)):
++            press(app,key)
++            press(app,'f5')
++            self.assertEqual(app.current_view,'confirm')
++            for ch in app.pending['token']:
++                press(app,ch)
++            press(app,'f5')
++            app.worker.join(3)
++            app.poll()
++            self.assertEqual(self.controls()[-1],expected)
++        self.assertIn('目标到达=是','\n'.join(app._detail_lines(self.ctl.row(1))))
++
++    def test_ui_V_F2_refused_while_proof_exists(self):
++        self.submit()
++        app=ManualApp(tool,self.args)
++        app.controller=self.ctl
++        app.current_view='detail'
++        app.on_key('v',ord('v'))
++        self.assertEqual(app.current_view,'detail')
++        app.on_key('f2',0)
++        self.assertEqual(app.current_view,'detail')
++
++    def test_default_backend_cannot_call_manual_go(self):
++        from pmp4010_bench import BenchController
++        ctl=BenchController(tool,self.args)
++        with self.assertRaises(ValueError):
++            ctl.review('go',1,0,self.out)
++
++    def test_CLI_mutual_exclusion_and_manual_modifier_guards_before_IO(self):
++        cases=[['--manual','--motion','enable'],['--manual','--position'],['--manual','--params','backup'],
++               ['--manual','--nmt'],['--manual','--apply'],['--manual','--target','1'],['--manual-velocity','100']]
++        for argv in cases:
++            with self.subTest(argv=argv),mock.patch('sys.stderr'),self.assertRaises(SystemExit) as exc:
++                tool.main(argv)
++            self.assertEqual(exc.exception.code,2)
++        self.assertEqual(self.bus.sent,[])
++
++    def test_logging_write_or_close_failure_cannot_skip_same_client_cleanup(self):
++        import pmp4010_position as position
++        for failing in ('event', 'close'):
++            self.node=ManualNode()
++            self.bus.nodes[0]=self.node
++            self.ctl=ManualController(tool,self.args)
++            self.submit()
++            review=self.ctl.review('enable',1,None,self.out)
++            original=getattr(position.Journal,failing)
++            def fail(journal,*args,**kwargs):
++                # E has already been requested when stage completion is logged.
++                if failing=='close':
++                    original(journal,*args,**kwargs)
++                    raise OSError('injected disk failure')
++                if args and args[0] in ('manual_stage_complete','exception'):
++                    raise OSError('injected disk failure')
++                return original(journal,*args,**kwargs)
++            with self.subTest(failing=failing),mock.patch.object(position.Journal,failing,fail),self.assertRaises(OSError):
++                self.ctl.execute(review,self.out)
++            self.assertEqual(self.controls()[-2:],[2,0])
++            self.assertFalse(self.ctl.proofs)
++            self.assertTrue(self.ctl.row(1)['quarantined'])
++            self.assertFalse(self.ctl.manual_sessions[1].client.quarantined)
++
++    def test_first_fault_or_out_of_envelope_sample_cannot_be_hidden(self):
++        for key,value in ((0x6041,0x2f),(0x6064,-1000)):
++            self.node=ManualNode()
++            self.bus.nodes[0]=self.node
++            self.ctl=ManualController(tool,self.args)
++            self.submit()
++            self.step('enable')
++            original=self.bus.send
++            seen=[False]
++            saved=self.node.od[key,0].data
++            def send(frame):
++                is_first=(not seen[0] and frame.data[:4]==bytes([0x40,key&255,key>>8,0]))
++                if is_first:
++                    seen[0]=True
++                    self.node.set_value(key,value)
++                result=original(frame)
++                if is_first:
++                    self.node.od[key,0].data=saved
++                return result
++            with self.subTest(key=hex(key)),mock.patch.object(self.bus,'send',side_effect=send):
++                self.ctl.refresh(self.out)
++            self.assertEqual(self.controls()[-2:],[2,0])
++            self.assertTrue(self.ctl.row(1)['quarantined'])
++
++    def test_scan_with_active_proof_refuses_before_any_request(self):
++        self.submit()
++        self.step('enable')
++        count=len(self.bus.sent)
++        self.ctl.args.node_range='1-127'
++        with self.assertRaisesRegex(ValueError,'先单独D'):
++            self.ctl.scan(self.out)
++        self.assertEqual(count,len(self.bus.sent))
++        self.assertEqual(self.ctl.proofs[1]['phase'],'enabled')
++
++    def test_fault_ui_shows_locked_and_unknown_stop_without_G(self):
++        self.submit()
++        self.step('enable')
++        self.node.drop_reads.add((0x6041,0))
++        self.ctl.refresh(self.out)
++        app=ManualApp(tool,self.args)
++        app.controller=self.ctl
++        app.initial_snapshot=False
++        app.next_refresh=float('inf')
++        app.poll()
++        self.assertIn('锁定',app.progress)
++        self.assertIn('停止未确认',app.recovery)
++
++    def test_external_enable_between_profile_and_target_never_writes_target(self):
++        self.ready()
++        review=self.ctl.review('relative',1,50,self.out)
++        event=self.out.event
++        def changed(name,data):
++            event(name,data)
++            if name=='write_readback' and data['object']=='profile_velocity':
++                self.node.set_value(0x6041,0x27)
++        self.out.event=changed
++        with self.assertRaisesRegex(ValueError,'关键状态'):
++            self.ctl.execute(review,self.out)
++        self.assertFalse(any(i==0x607a for i,_,_ in requests(self.bus,True)))
++        self.assertEqual(self.controls(),[2,0])
++
++    def test_X_retains_original_proof_and_protection_until_D(self):
++        self.submit()
++        self.step('enable')
++        self.step('go')
++        self.step('stop')
++        proof=self.ctl.proofs[1]
++        self.assertEqual((proof['start'],proof['target'],proof['phase']),(-1470,-1420,'stopped'))
++        self.ctl.refresh(self.out)
++        self.assertEqual(self.ctl.proofs[1]['phase'],'stopped')
++        for action,value in (('enable',None),('go',None),('relative',-50)):
++            with self.assertRaises(ValueError):
++                self.ctl.review(action,1,value,self.out)
++        self.step('disable')
++        self.assertFalse(self.ctl.proofs)
++        self.submit(-50)
++        self.assertEqual(self.ctl.proofs[1]['phase'],'submitted')
++
++    def test_X_following_fault_envelope_and_parameters_still_cleanup_same_client(self):
++        for key,value in ((0x6041,0x2007),(0x6041,0x0f),(0x6064,-1000),(0x6081,101)):
++            self.node=ManualNode()
++            self.bus.nodes[0]=self.node
++            self.ctl=ManualController(tool,self.args)
++            self.submit()
++            self.step('enable')
++            self.step('go')
++            self.step('stop')
++            client=self.ctl.manual_sessions[1].client
++            self.node.set_value(key,value)
++            with mock.patch.object(tool._canopen,'SdoClient',side_effect=AssertionError('replacement client forbidden')):
++                self.ctl.refresh(self.out)
++            with self.subTest(key=hex(key),value=value):
++                self.assertEqual(self.controls()[-3:],[2,2,0])
++                self.assertIs(self.ctl.manual_sessions[1].client,client)
++                self.assertTrue(self.ctl.row(1)['quarantined'])
++                self.assertFalse(self.ctl.proofs)
++
++    def test_X_communication_timeout_no_cleanup_retries_or_client_replacement(self):
++        self.submit()
++        self.step('enable')
++        self.step('go')
++        self.step('stop')
++        client=self.ctl.manual_sessions[1].client
++        self.node.drop_reads.add((0x6041,0))
++        self.ctl.refresh(self.out)
++        count=len(self.bus.sent)
++        self.node.drop_reads.clear()
++        with mock.patch.object(tool._canopen,'SdoClient',side_effect=AssertionError('replacement client forbidden')):
++            self.ctl.scan(self.out)
++            self.ctl.refresh(self.out)
++            self.ctl.close()
++        self.assertEqual(len(self.bus.sent),count)
++        self.assertIs(self.ctl.manual_sessions[1].client,client)
++        self.assertTrue(self.ctl.row(1)['quarantined'])
++
++    def assert_locked_no_requests(self):
++        count=len(self.bus.sent)
++        client=self.ctl.manual_sessions[1].client
++        self.assertTrue(client.quarantined)
++        with mock.patch.object(tool._canopen,'SdoClient',side_effect=AssertionError('replacement client forbidden')):
++            self.ctl.scan(self.out)
++            self.ctl.refresh(self.out)
++            for action in ('enable','go','disable'):
++                with self.assertRaises(ValueError):
++                    self.ctl.review(action,1,None,self.out)
++            self.ctl.close()
++        self.assertEqual(count,len(self.bus.sent))
++        self.assertIs(self.ctl.manual_sessions[1].client,client)
++
++    def test_send_enqueued_G_then_CanBusError_quarantines_without_cleanup_writes(self):
++        self.submit()
++        self.step('enable')
++        review=self.ctl.review('go',1,None,self.out)
++        original=self.bus.send
++        def failed(frame):
++            result=original(frame)
++            if frame.data[:6]==bytes.fromhex('2b4060002f00'):
++                raise tool._canbus.CanBusError('injected send failed after enqueue')
++            return result
++        with mock.patch.object(self.bus,'send',side_effect=failed),self.assertRaises(tool.MotionError):
++            self.ctl.execute(review,self.out)
++        self.assertEqual(self.controls(),[0x106,0x107,0x127,0x137,0x127,0x12f,0x2f])
++        self.assert_locked_no_requests()
++
++    def test_X_receive_failure_and_raw_protocol_mismatch_quarantine_without_cleanup(self):
++        for failure in ('receive','protocol'):
++            self.node=ManualNode()
++            self.bus=DelayedBus([self.node])
++            tool._std_open_active.return_value=self.bus
++            self.ctl=ManualController(tool,self.args)
++            self.submit()
++            self.step('enable')
++            self.step('stop')
++            original=self.bus.recv
++            def failed(*args,**kwargs):
++                if failure=='receive':
++                    raise tool._canbus.CanBusError('injected receive failure')
++                frame=original(*args,**kwargs)
++                if frame is None:
++                    return None
++                data=bytearray(frame.data)
++                data[1]^=1  # A real malformed multiplexor in the received reply.
++                return type(frame)(frame.arbitration_id,bytes(data))
++            before=list(self.controls())
++            with self.subTest(failure=failure),mock.patch.object(self.bus,'recv',side_effect=failed):
++                self.ctl.refresh(self.out)
++            self.assertEqual(self.controls(),before)
++            self.assert_locked_no_requests()
++
++    def test_cleanup_send_enqueued_then_error_never_sends_following_disable(self):
++        self.submit()
++        self.step('enable')
++        self.node.set_value(0x6041,0x2f)
++        original=self.bus.send
++        def failed(frame):
++            result=original(frame)
++            if frame.data[:6]==bytes.fromhex('2b4060000200'):
++                raise tool._canbus.CanBusError('injected cleanup send failed after enqueue')
++            return result
++        with mock.patch.object(self.bus,'send',side_effect=failed):
++            self.ctl.refresh(self.out)
++        self.assertEqual(self.controls(),[0x106,0x107,0x127,0x137,0x127,0x12f,2])
++        self.assertIn('停止未确认',self.ctl.row(1)['quarantine_reason'])
++        self.assert_locked_no_requests()
++
++    def test_explicit_SDO_abort_is_known_reply_and_keeps_bounded_cleanup(self):
++        self.submit()
++        self.step('enable')
++        del self.node.od[0x6077,0]
++        client=self.ctl.manual_sessions[1].client
++        self.ctl.refresh(self.out)
++        self.assertEqual(self.controls()[-2:],[2,0])
++        self.assertFalse(client.quarantined)
++        self.assertIn('SDO abort',self.ctl.row(1)['quarantine_reason'])
++
++    def test_exit_send_enqueued_then_error_marks_original_client_uncertain(self):
++        self.submit()
++        self.step('enable')
++        original=self.bus.send
++        def failed(frame):
++            result=original(frame)
++            if frame.data[:6]==bytes.fromhex('2b4060000600'):
++                raise tool._canbus.CanBusError('injected exit send failed after enqueue')
++            return result
++        with mock.patch.object(self.bus,'send',side_effect=failed):
++            self.ctl.close(self.out)
++        self.assertEqual(self.controls()[-1],6)
++        self.assertTrue(self.ctl.manual_sessions[1].client.quarantined)
++        count=len(self.bus.sent)
++        self.ctl.close()
++        with self.assertRaises(ValueError):
++            self.ctl.refresh(self.out)
++        with self.assertRaises(ValueError):
++            self.ctl.scan(self.out)
++        self.assertEqual(count,len(self.bus.sent))
+diff --git a/device/drivers/pmp4010/tools/_test_simple.py b/device/drivers/pmp4010/tools/_test_simple.py
+new file mode 100644
+index 0000000..86d1875
+--- /dev/null
++++ b/device/drivers/pmp4010/tools/_test_simple.py
+@@ -0,0 +1,366 @@
++"""Single-confirmation jog transactions against actual standard MockBus SDO."""
++import copy
++import queue
++import threading
++import time
++from unittest import mock
++
++from _test_bench import BenchFixture
++from _test_manual import ManualNode, DelayedManualNode, EnabledEdgeNode
++from _test_bench_support import DelayedBus, requests, tool
++from pmp4010_simple import SimpleController, SimpleApp
++
++
++class SimpleTests(BenchFixture):
++    def setUp(self):
++        super().setUp()
++        self.node = ManualNode()
++        self.bus = DelayedBus([self.node])
++        tool._std_open_active.return_value = self.bus
++        self.ctl = SimpleController(tool,self.args)
++        self.addCleanup(self.ctl.close)
++
++    def ready(self):
++        self.online()
++        self.ctl.authorize()
++        self.bus.sent.clear()
++
++    def controls(self):
++        return [v for i,_,v in requests(self.bus,True) if i == 0x6040]
++
++    def action(self,kind):
++        review = self.ctl.review_action(kind,self.out)
++        self.ctl.execute_action(review,self.out)
++        return review
++
++    def test_constructor_startup_and_authorization_are_read_only(self):
++        self.assertEqual(self.ctl.node,1)
++        self.assertFalse(self.bus.sent)
++        self.online()
++        self.ctl.authorize()
++        self.assertFalse(requests(self.bus,True))
++        self.assertEqual(self.ctl.origin,-1470)
++        self.assertEqual(self.ctl.settings,dict(soft_min=-1834,soft_max=-1106,max_displacement=364))
++        with self.assertRaises(ValueError):
++            self.ctl.authorize()
++
++    def test_one_forward_confirmation_uses_original_handshake_and_plus13(self):
++        self.ready()
++        review = self.ctl.review_action('forward',self.out)
++        self.assertFalse(requests(self.bus,True))
++        self.node.set_value(0x6064,-1467)
++        self.ctl.execute_action(review,self.out)
++        self.assertEqual((review['start'],review['target']),(-1470,-1434))
++        self.assertEqual((self.ctl.proofs[1]['start'],self.ctl.proofs[1]['target']),(-1470,-1434))
++        self.assertEqual(self.controls(),[0x106,0x107,0x127,0x137,0x127,0x12f,0x2f,0x3f,0x2f])
++        self.assertEqual(self.ctl.proofs[1]['phase'],'running')
++        count=len(self.bus.sent)
++        with self.assertRaises(ValueError):
++            self.ctl.execute_action(review,self.out)
++        self.assertEqual(len(self.bus.sent),count)
++        print('SIMPLE forward: one immutable confirmation; CW106/107/127/137/127/12F/2F/3F/2F; +13U allowed; fixed start/target')
++
++    def test_delayed_states_full_simple_action_has_actual_CW_diagnostics(self):
++        import json
++        from pathlib import Path
++        self.node=DelayedManualNode()
++        self.bus=DelayedBus([self.node])
++        tool._std_open_active.return_value=self.bus
++        self.ctl=SimpleController(tool,self.args)
++        self.addCleanup(self.ctl.close)
++        self.ready()
++        review=self.action('forward')
++        self.assertEqual(self.ctl.proofs[1]['target'],review['target'])
++        self.assertEqual(self.ctl.proofs[1]['start'],review['start'])
++        self.assertEqual(self.controls(),[0x106,0x107,0x127,0x137,0x127,0x12f,0x2f,0x3f,0x2f])
++        records=[json.loads(line) for path in Path(self.tmp.name).glob('*.jsonl') for line in path.read_text().splitlines()]
++        ack_words=[r['controlword'] for r in sorted(records,key=lambda r:r['timestamp_utc'])
++                   if r['event']=='manual_controlword' and r['point']=='write_ack']
++        self.assertEqual(ack_words,self.controls())
++        for word,count in ((0x12f,1),(0x2f,2),(0x3f,1)):
++            samples=[r for r in records if r['event']=='manual_transition_snapshot' and r['controlword']==word
++                     and r['phase'] in ('Halt使能核对','使能后新ACK核对')]
++            self.assertEqual(len(samples),count)
++            for sample in samples:
++                self.assertIsNotNone(sample['raw_statusword'])
++                self.assertIsNotNone(sample['actual_position'])
++                self.assertIsNotNone(sample['actual_velocity'])
++                self.assertEqual(sample['fault_code'],0)
++        print('SIMPLE delayed SDO full f action: fixed start/target; write ACK/raw snapshots identify actual0106..012F..002F/003F/002F phases')
++
++    def test_one_confirm_enabled_edge_executes_motion_once_with_frozen_target(self):
++        self.node=EnabledEdgeNode()
++        self.node.require_enabled_target=True
++        self.bus=DelayedBus([self.node])
++        tool._std_open_active.return_value=self.bus
++        self.ctl=SimpleController(tool,self.args)
++        self.addCleanup(self.ctl.close)
++        self.ready()
++        review=self.ctl.review_action('forward',self.out)
++        self.assertIn('使能后重写冻结目标并触发002F→003F→002F','\n'.join(review['lines']))
++        self.node.set_value(0x6064,review['start']+3)
++        self.ctl.execute_action(review,self.out)
++        self.assertEqual(self.node.enabled_edges,[(0x2f,0x3f,review['target'])])
++        self.assertEqual(self.node.enabled_target_writes,[review['target']])
++        for _ in range(30):
++            self.ctl.refresh(self.out)
++            if self.node.value(0x6064,signed=True)==review['target']:break
++        self.assertEqual(self.node.value(0x6064,signed=True),review['target'])
++        self.assertEqual((self.ctl.proofs[1]['start'],self.ctl.proofs[1]['target']),
++                         (review['start'],review['target']))
++        self.assertEqual(self.controls(),[0x106,0x107,0x127,0x137,0x127,0x12f,0x2f,0x3f,0x2f])
++        count=len(self.bus.sent)
++        with self.assertRaises(ValueError):self.ctl.execute_action(review,self.out)
++        self.assertEqual(len(self.bus.sent),count)
++        print('SIMPLE one confirmation: only Operation enabled new edge starts trajectory; original target reached; consumed review never replays')
++
++    def test_locked_UI_marks_values_historical_and_first_bad_raw(self):
++        self.node=DelayedManualNode()
++        self.node.transition_sequences[0x106]=[0x237,0x231]
++        self.bus=DelayedBus([self.node])
++        tool._std_open_active.return_value=self.bus
++        self.ctl=SimpleController(tool,self.args)
++        self.addCleanup(self.ctl.close)
++        self.ready()
++        with self.assertRaises(ValueError):self.action('forward')
++        app=SimpleApp(tool,self.args)
++        app.controller=self.ctl
++        app.rows,app.cols=24,80
++        app.current_view='main'
++        app.poll()
++        text='\n'.join(app.build().to_lines())
++        self.assertIn('当前实读状态未知',text)
++        self.assertIn('最后有效采样',text)
++        self.assertIn('6041=0x0237',text)
++        self.assertIn('Space/x 快停',text)
++        self.assertNotIn('实际速度 0 rpm  故障 0x0000',text)
++        print('SIMPLE locked80x24: last-valid telemetry explicitly historical; current state unknown; firstCW0106/raw0237 remains visible')
++
++    def test_known_ready_and_switched_on_prepare_internally_external_enable_refused(self):
++        self.ready()
++        self.node.set_value(0x6040,6)
++        self.node.set_value(0x6041,0x231)
++        self.ctl.refresh(self.out)
++        review=self.ctl.review_action('forward',self.out)
++        self.ctl.execute_action(review,self.out)
++        self.assertEqual(self.controls(),[0,0x106,0x107,0x127,0x137,0x127,0x12f,0x2f,0x3f,0x2f])
++        self.assertEqual((self.ctl.proofs[1]['start'],self.ctl.proofs[1]['target']),(review['start'],review['target']))
++        self.ctl.safety_action('disable',self.out)
++        self.bus.sent.clear()
++        self.node.set_value(0x6040,7)
++        self.node.set_value(0x6041,0x233)
++        self.ctl.refresh(self.out)
++        self.action('hold')
++        self.assertEqual(self.controls()[:2],[0,0x106])
++        self.ctl.safety_action('disable',self.out)
++        self.node.set_value(0x6040,0x2f)
++        self.node.set_value(0x6041,0x237)
++        self.ctl.refresh(self.out)
++        before=len(self.bus.sent)
++        with self.assertRaisesRegex(ValueError,'外部使能'):
++            self.ctl.review_action('forward',self.out)
++        self.assertEqual(len(self.bus.sent),before)
++        print('SIMPLE Ready0231/SwitchedOn0233: confirmed internal disable0 then sealed submission; externalEnabled0237 rejected')
++
++    def test_hold_submits_frozen_current_not_residual_target_never_releases(self):
++        self.ready()
++        old=self.node.value(0x6062,signed=True)
++        review=self.action('hold')
++        self.assertNotEqual(old,review['target'])
++        self.assertEqual(review['start'],review['target'])
++        self.assertEqual(self.node.value(0x6062,signed=True),review['target'])
++        self.assertEqual(self.controls(),[0x106,0x107,0x127,0x137,0x127,0x12f])
++        self.assertEqual(self.ctl.proofs[1]['phase'],'enabled')
++        self.ctl.refresh(self.out)
++        print('SIMPLE e: frozen current607A/new ACK/6062 then12F Halt, never2F; +13U inside original range accepted')
++
++    def test_stop_then_reverse_internal_disable_without_rebase(self):
++        self.ready()
++        self.action('forward')
++        self.node.set_value(0x606c,1)
++        self.ctl.refresh(self.out)
++        with self.assertRaisesRegex(ValueError,'非零'):
++            self.ctl.review_action('backward',self.out)
++        self.node.set_value(0x606c,0)
++        self.ctl.refresh(self.out)
++        self.ctl.safety_action('stop',self.out)
++        self.assertEqual(self.ctl.proofs[1]['phase'],'stopped')
++        review=self.ctl.review_action('backward',self.out)
++        target,start=review['target'],review['start']
++        self.ctl.execute_action(review,self.out)
++        self.assertEqual(self.ctl.origin,-1470)
++        self.assertEqual((self.ctl.proofs[1]['start'],self.ctl.proofs[1]['target']),(start,target))
++        self.assertEqual(self.controls(),[0x106,0x107,0x127,0x137,0x127,0x12f,0x2f,0x3f,0x2f,2,0,0x106,0x107,0x127,0x137,0x127,0x12f,0x2f,0x3f,0x2f])
++
++    def test_zero_speed_next_direction_and_settings_draft_need_no_manual_disable(self):
++        self.ready()
++        self.action('forward')
++        old_proof=copy.deepcopy({k:v for k,v in self.ctl.proofs[1].items() if k!='session'})
++        self.ctl.set_value('speed','1.001')
++        self.ctl.set_value('step','0.2')
++        self.assertEqual(self.ctl.manual_velocity,100)
++        self.assertEqual({k:v for k,v in self.ctl.proofs[1].items() if k!='session'},old_proof)
++        self.ctl.refresh(self.out)
++        before=len(requests(self.bus,True))
++        review=self.ctl.review_action('backward',self.out)
++        self.assertEqual(review['args'].velocity,2186)
++        self.ctl.execute_action(review,self.out)
++        writes=requests(self.bus,True)[before:]
++        self.assertEqual(writes[:2],[(0x6040,0,2),(0x6040,0,0)])
++        self.assertEqual(writes[2],(0x6081,0,2186))
++        self.assertEqual(self.ctl.proofs[1]['start'],review['start'])
++        self.assertEqual(self.ctl.proofs[1]['target'],review['target'])
++        self.assertEqual(self.ctl.proofs[1]['velocity'],2186)
++        self.assertEqual(self.ctl.origin,-1470)
++        print('SIMPLE continuous f/b: zero speed permits next direction; draft s/a keep old proof; confirmed2/0 precede new6081/607A')
++
++    def test_rpm_step_quantization_and_under_one_unit_rejection(self):
++        self.ready()
++        self.ctl.set_value('speed','1.001')
++        self.ctl.set_value('step','0.1001')
++        step,degree,rpm=self.ctl.quantities(self.ctl.row(1))
++        self.assertEqual(step,36)
++        self.assertNotEqual(str(rpm),'1.001')
++        review=self.ctl.review_action('forward',self.out)
++        self.assertIn('1.001',' '.join(review['lines']))
++        for kind in ('speed','step','range'):
++            with self.assertRaises(ValueError):
++                self.ctl.set_value(kind,'0.00000001')
++        self.ctl.cancel_review()
++        self.assertFalse(requests(self.bus,True))
++
++    def test_range_keeps_authorized_origin_and_device_intersection(self):
++        self.ready()
++        self.node.set_value(0x6064,-1460)
++        self.ctl.refresh(self.out)
++        self.ctl.set_value('range','0.5')
++        self.assertEqual(self.ctl.origin,-1470)
++        self.assertEqual((self.ctl.settings['soft_min'],self.ctl.settings['soft_max']),(-1652,-1288))
++        self.node.set_value(0x6064,-1288)
++        self.ctl.refresh(self.out)
++        with self.assertRaisesRegex(ValueError,'行程'):
++            self.ctl.review_action('forward',self.out)
++        self.ctl.review_action('backward',self.out)
++
++    def test_modified_and_cancelled_review_never_write(self):
++        self.ready()
++        review=self.ctl.review_action('forward',self.out)
++        review['target']+=1
++        with self.assertRaises(ValueError):self.ctl.execute_action(review,self.out)
++        review=self.ctl.review_action('forward',self.out)
++        self.ctl.cancel_review()
++        with self.assertRaises(ValueError):self.ctl.execute_action(review,self.out)
++        self.assertFalse(requests(self.bus,True))
++
++    def test_calibration_or_parameter_change_prevents_enable(self):
++        for index,sub,value in ((0x608f,1,131073),(0x6081,0,101),(0x607d,1,-1600)):
++            with self.subTest(index=index):
++                self.setUp()
++                self.ready()
++                review=self.ctl.review_action('forward',self.out)
++                self.node.set_value(index,value,sub)
++                with self.assertRaises(ValueError):self.ctl.execute_action(review,self.out)
++                self.assertNotIn(0x12f,self.controls())
++                self.assertNotIn(0x2f,self.controls())
++
++    def test_ack_failure_stops_before_enable(self):
++        self.ready()
++        self.node.ignore_setpoint=True
++        with self.assertRaises(ValueError):self.action('forward')
++        self.assertNotIn(0x12f,self.controls())
++        self.assertNotIn(0x2f,self.controls())
++
++    def test_communication_quarantine_all_subsequent_operations_zero_requests(self):
++        self.ready()
++        review=self.ctl.review_action('forward',self.out)
++        self.node.drop_reads.add((0x6041,0))
++        with self.assertRaises(BaseException):self.ctl.execute_action(review,self.out)
++        count=len(self.bus.sent)
++        for operation in (lambda:self.ctl.safety_action('stop',self.out),lambda:self.ctl.review_action('hold',self.out),lambda:self.ctl.refresh(self.out)):
++            try:operation()
++            except ValueError:pass
++        self.ctl.close()
++        self.assertEqual(len(self.bus.sent),count)
++
++    def test_ui_cancel_and_stop_from_edit_confirm_help_and_busy(self):
++        self.ready()
++        app=SimpleApp(tool,self.args)
++        app.controller=self.ctl
++        app.current_view='main'
++        for view in ('edit','confirm','help'):
++            review=self.ctl.review_action('forward',self.out)
++            app.pending=review
++            app.current_view=view
++            app.edit_kind='speed'
++            app.draft='1'
++            app.dispatch_key('x',ord('x'))
++            self.assertIsNone(app.pending)
++            self.assertIsNone(self.ctl._simple_review)
++            self.assertEqual(app.draft,'')
++            self.assertEqual(app.urgent,'stop')
++            app.dispatch_key('enter',10)
++            self.assertFalse(requests(self.bus,True))
++            app.urgent=None
++        app.worker=mock.Mock()
++        app.current_view='confirm'
++        app.dispatch_key('space',32)
++        self.assertTrue(app.cancel.is_set())
++        self.assertTrue(app.refresh_cancel.is_set())
++        app.worker=None
++        app.current_view='main'
++        app.dispatch_key('s',ord('s'))
++        app.dispatch_key('1',49)
++        app.dispatch_key('esc',27)
++        self.assertEqual(app.current_view,'main')
++        self.assertFalse(requests(self.bus,True))
++
++    def test_busy_stop_cancels_actual_worker_no_queued_motion(self):
++        self.ready()
++        app=SimpleApp(tool,self.args)
++        app.controller=self.ctl
++        app.current_view='main'
++        review=self.ctl.review_action('forward',self.out)
++        self.bus.delay_key=(0x6081,0)
++        app._launch('execute',lambda out:self.ctl.execute_action(review,out))
++        self.assertTrue(self.bus.entered.wait(1))
++        app.dispatch_key('x',ord('x'))
++        self.assertTrue(app.cancel.is_set())
++        self.bus.delay_key=None
++        self.bus.release.set()
++        end=time.monotonic()+2
++        while time.monotonic()<end:
++            app.poll()
++            if app.worker is None and app.urgent is None and self.controls():break
++            time.sleep(.005)
++        self.assertEqual(self.controls(),[2])
++        self.assertIsNone(app.pending)
++        self.assertIsNone(self.ctl._simple_review)
++        self.assertNotIn(0x12f,self.controls())
++        self.assertNotIn(0x2f,self.controls())
++        if app.refresh_worker:app.refresh_worker.join(1)
++        print('SIMPLE busy x: real delayed SDO worker cancelled; pending cleared; one quickstop2, no target/enable/release replay')
++
++    def test_stop_interrupts_background_snapshot_before_remaining_uploads(self):
++        self.ready()
++        app=SimpleApp(tool,self.args)
++        app.controller=self.ctl
++        app.current_view='help'
++        self.bus.delay_key=(0x6041,0)
++        app._start_refresh()
++        self.assertTrue(self.bus.entered.wait(1))
++        app.dispatch_key('space',32)
++        self.assertTrue(app.refresh_cancel.is_set())
++        self.bus.delay_key=None
++        self.bus.release.set()
++        end=time.monotonic()+2
++        while time.monotonic()<end:
++            app.poll()
++            if app.worker is None and app.urgent is None and self.controls():break
++            time.sleep(.005)
++        requests_before_stop=requests(self.bus)
++        stop_index=next(i for i,r in enumerate(requests_before_stop) if r==(0x6040,0,2))
++        self.assertEqual([r[:2] for r in requests_before_stop[:stop_index]],[(0x6041,0),(0x2002,1)],
++            'cancelled refresh must stop after the blocked status upload, before remaining snapshot reads')
++        self.assertEqual(self.controls(),[2])
++        if app.refresh_worker:app.refresh_worker.join(1)
++        print('SIMPLE refresh Space: control/status uploads only then cancellation; no remaining snapshot reads before quickstop2')
+diff --git a/device/drivers/pmp4010/tools/_test_simple_pty.py b/device/drivers/pmp4010/tools/_test_simple_pty.py
+new file mode 100644
+index 0000000..4928013
+--- /dev/null
++++ b/device/drivers/pmp4010/tools/_test_simple_pty.py
+@@ -0,0 +1,210 @@
++"""Actual production --manual curses entry, real keys, standard MockBus only.
++
++python3 -I device/drivers/pmp4010/tools/_test_simple_pty.py --run /tmp/pmp4010-simple-pty
++No action/controller method is mocked. socket.socket is hard forbidden.
++"""
++import json
++import os
++from pathlib import Path
++import sys
++import tempfile
++import time
++import unittest
++
++HERE = Path(__file__).resolve().parent
++sys.path.insert(0,str(HERE))
++
++
++def child(output):
++    from contextlib import ExitStack
++    from unittest import mock
++    from _test_bench_support import DelayedBus, environment, requests, tool
++    from _test_manual import EnabledEdgeNode
++    import pmp4010_simple as simple
++    output=Path(output)
++    node=EnabledEdgeNode()
++    node.require_enabled_target=True  # Explicit test hypothesis, not firmware fact.
++    bus=DelayedBus([node])
++    original=simple.SimpleApp
++    class ObservedApp(original):
++        def poll(self):
++            super().poll()
++            values=requests(bus,True)
++            data=dict(view=self.current_view,busy=self.busy,refresh_busy=self.refresh_worker is not None,
++                draft=self.draft,edit=self.edit_kind,action=self.action,
++                rt_ack=self.controller.rt_ack,od_ack=bool(self.controller.od_reason),
++                phases={str(k):v['phase'] for k,v in self.controller.proofs.items()},
++                target=self.pending.get('target') if self.pending else None,
++                position=node.value(0x6064,signed=True),origin=self.controller.origin,
++                settings=self.controller.settings,blocked=bool(self.controller.blocked),
++                controls=[v for i,_,v in values if i==0x6040],
++                requests=len(bus.sent),writes=len(values),progress=self.progress)
++            tmp=output/'state.tmp'
++            tmp.write_text(json.dumps(data,ensure_ascii=False))
++            tmp.replace(output/'state.json')
++            if self.current_view in ('main','confirm','authorize','help'):
++                grid=self.build()
++                (output/(self.current_view+'-80x24.txt')).write_text('\n'.join(grid.to_lines()))
++    with ExitStack() as stack:
++        for patch in environment(bus):stack.enter_context(patch)
++        stack.enter_context(mock.patch.object(simple,'SimpleApp',ObservedApp))
++        rc=tool.main(['--manual','--timeout','.03','--state-timeout','.3','--move-timeout','2',
++            '--rows','24','--cols','80','--motion-log',str(output/'motion.jsonl')])
++        (output/'trace.json').write_text(json.dumps(dict(rc=rc,requests=requests(bus),writes=requests(bus,True),
++            controls=[v for i,_,v in requests(bus,True) if i==0x6040],
++            status_reads=node.status_reads,enabled_target_writes=node.enabled_target_writes,
++            enabled_edges=node.enabled_edges),ensure_ascii=False,indent=2))
++        return rc
++
++
++def run_pty(output):
++    import fcntl
++    import pty
++    import select
++    import struct
++    import subprocess
++    import termios
++    output=Path(output)
++    output.mkdir(parents=True,exist_ok=True)
++    master,slave=pty.openpty()
++    fcntl.ioctl(slave,termios.TIOCSWINSZ,struct.pack('HHHH',24,80,0,0))
++    env=dict(os.environ,TERM='xterm-256color',LANG='C.UTF-8',LC_ALL='C.UTF-8')
++    process=subprocess.Popen([sys.executable,'-I',str(Path(__file__).resolve()),'--child',str(output)],
++        stdin=slave,stdout=slave,stderr=slave,env=env,start_new_session=True)
++    os.close(slave)
++    transcript=bytearray()
++    checks=[]
++    last={}
++    def drain(delay=.02):
++        if select.select([master],[],[],delay)[0]:
++            try:transcript.extend(os.read(master,65536))
++            except OSError:pass
++    def wait(predicate,label,timeout=10):
++        nonlocal last
++        end=time.monotonic()+timeout
++        while time.monotonic()<end:
++            drain()
++            try:last=json.loads((output/'state.json').read_text())
++            except (FileNotFoundError,json.JSONDecodeError):pass
++            if predicate(last):
++                checks.append(label)
++                return last
++            if process.poll() is not None:
++                raise AssertionError('PTY exit {} waiting {}: {}'.format(process.returncode,label,last))
++        raise AssertionError('PTY timeout {}: {}'.format(label,last))
++    def send(data):os.write(master,data.encode() if isinstance(data,str) else data)
++    def view(name):return wait(lambda s:s.get('view')==name and not s.get('busy'),name)
++    def confirm(key,phase):
++        before=list(last['controls'])
++        send(key)
++        state=view('confirm')
++        assert state['controls']==before,'review wrote controlword'
++        target=state['target']
++        send('\r')
++        state=wait(lambda s:s.get('phases',{}).get('1')==phase and not s.get('busy') and s.get('view')=='main',key+' confirmed')
++        if phase=='running':
++            state=wait(lambda s:s.get('position')==target and not s.get('busy'),key+' actual feedback reached frozen target')
++        return state,target
++    def stop(key=' '):
++        count=len(last['controls'])
++        send(key)
++        return wait(lambda s:len(s.get('controls',[]))>count and s.get('controls',[])[-1:]==[2] and not s.get('busy'),'instant stop '+repr(key))
++    try:
++        state=view('rt')
++        assert not state['rt_ack'] and state['requests']==0
++        send('\r')
++        state=view('authorize')
++        assert state['writes']==0 and not state['od_ack']
++        checks.append('connection/RT consent/scan upload only, default node1')
++        send('\r')
++        state=view('main')
++        assert state['origin']==-1470 and state['writes']==0
++        for key,kind,value in (('s','speed','1.001'),('a','step','0.1')):
++            send(key)
++            view('edit')
++            send(value+'\r')
++            wait(lambda s:s.get('view')=='main' and not s.get('draft'),kind+' normal numeric Enter commit')
++        state,target=confirm('f','running')
++        assert state['position']==target and state['controls']==[0x106,0x107,0x127,0x137,0x127,0x12f,0x2f,0x3f,0x2f]
++        (output/'main-80x24.txt').replace(output/'connected-main-80x24.txt')
++        (output/'confirm-80x24.txt').replace(output/'jog-confirm-80x24.txt')
++        checks.append('f Enter real SDO enabled bit4 edge/newACK0/1/0 and progressive feedback reached target, no token/F5')
++        # A completed zero-speed jog permits a new direction immediately.
++        # The confirmed reverse itself must send stop2/disable0 first.
++        state,target=confirm('b','running')
++        assert state['position']==target and state['origin']==-1470
++        assert state['controls'][9:11]==[2,0]
++        stop('x')
++        checks.append('continuous f then b without manual Space/d; internal2/0 before resubmission')
++        before=list(last['controls'])
++        send('f')
++        view('confirm')
++        stop('x')
++        send('\r')
++        drain(.2)
++        assert last['controls']==before+[2]
++        checks.append('x in confirmation discards action; Enter cannot revive')
++        send('d')
++        view('confirm')
++        send('\r')
++        wait(lambda s:s.get('phases')=={} and s.get('controls',[])[-1:]==[0] and not s.get('busy'),'d Enter disables')
++        # An unfinished draft must never swallow a safety key.
++        send('s')
++        view('edit')
++        send('1')
++        wait(lambda s:s.get('draft')=='1','draft entered')
++        stop()
++        assert last['draft']==''
++        send('?')
++        view('help')
++        stop('x')
++        checks.append('Space in edit and x in help reach actual quick-stop writes')
++        send('d')
++        view('confirm')
++        send('\r')
++        wait(lambda s:s.get('controls',[])[-1:]==[0] and not s.get('busy'),'second d')
++        state,target=confirm('e','enabled')
++        assert state['controls'][-6:]==[0x106,0x107,0x127,0x137,0x127,0x12f]
++        assert 0x2f not in state['controls'][-6:]
++        checks.append('e explicit frozen current target, fresh ACK, Halt12F no release')
++        send('q')
++        end=time.monotonic()+10
++        while process.poll() is None and time.monotonic()<end:drain(.03)
++        assert process.poll()==0,'PTY child did not exit normally'
++        drain(.01)
++        trace=json.loads((output/'trace.json').read_text())
++        assert len(trace['enabled_target_writes'])==2
++        assert trace['enabled_target_writes']==[edge[2] for edge in trace['enabled_edges']]
++        assert trace['controls'][-1]==6
++        assert [raw for word,raw in trace['status_reads'] if word==0x106][:3]==[0x260,0x260,0x231]
++        assert [raw for word,raw in trace['status_reads'] if word==0x107][:3]==[0x231,0x231,0x233]
++        checks.append('actual SDO delays:0106 ACK then0260/0260/0231;0107 ACK then0231/0231/0233; full f Enter succeeds')
++        summary=dict(passed=len(checks),checks=checks,controls=trace['controls'],rc=process.returncode,
++            terminal='80x24',transport='standard MockBus only; real socket creation forbidden')
++        (output/'summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2))
++        print(json.dumps(summary,ensure_ascii=False))
++        return summary
++    finally:
++        if process.poll() is None:
++            process.terminate()
++            try:process.wait(3)
++            except subprocess.TimeoutExpired:
++                process.kill()
++                process.wait(3)
++        drain(.01)
++        os.close(master)
++        (output/'terminal.ansi').write_bytes(transcript)
++
++
++class SimplePtyTests(unittest.TestCase):
++    def test_real_curses_production_manual_entry(self):
++        with tempfile.TemporaryDirectory(prefix='pmp4010-simple-pty-') as output:
++            result=run_pty(output)
++            self.assertEqual(result['rc'],0)
++            self.assertGreaterEqual(result['passed'],12)
++
++
++if __name__=='__main__':
++    if len(sys.argv)==3 and sys.argv[1]=='--child':raise SystemExit(child(sys.argv[2]))
++    if len(sys.argv)==3 and sys.argv[1]=='--run':run_pty(sys.argv[2])
++    else:unittest.main()
+diff --git a/device/drivers/pmp4010/tools/_test_manual_pty.py b/device/drivers/pmp4010/tools/_test_manual_pty.py
+new file mode 100644
+index 0000000..68de943
+--- /dev/null
++++ b/device/drivers/pmp4010/tools/_test_manual_pty.py
+@@ -0,0 +1,196 @@
++"""Real local curses PTY, standard MockBus only; drives normal Form keystrokes.
++
++Reproduce with retained trace/screens:
++  python3 -I device/drivers/pmp4010/tools/_test_manual_pty.py --run /tmp/pmp4010-manual-pty
++No consent/review is injected. All RT/OD/settings/target/action confirmations are
++entered through the PTY. The child forbids real socket creation via the standard
++fixture and never runs an SSH command.
++"""
++import json
++import os
++from pathlib import Path
++import sys
++import tempfile
++import time
++import unittest
++
++HERE = Path(__file__).resolve().parent
++sys.path.insert(0, str(HERE))
++
++
++def child(output):
++    from contextlib import ExitStack
++    from unittest import mock
++    from _test_bench_support import DelayedBus, environment, requests, tool
++    from _test_manual import ManualNode
++    import pmp4010_manual as manual
++    import pmp4010_simple as simple
++    output = Path(output)
++    node = ManualNode()
++    bus = DelayedBus([node])
++    original = manual.ManualApp
++    class ObservedApp(original):
++        def poll(self):
++            super().poll()
++            data = dict(view=self.current_view, action=self.action, busy=self.busy,
++                        rt_ack=self.controller.rt_ack, od_ack=bool(self.controller.od_reason),
++                        phases={str(k):v['phase'] for k,v in self.controller.proofs.items()},
++                        token=self.pending['token'] if self.pending else None,
++                        settings=self.controller.settings, controls=[v for i,_,v in requests(bus,True) if i==0x6040],
++                        position=node.value(0x6064,signed=True),
++                        recovery=self.recovery, progress=self.progress,
++                        blocked=bool(self.controller.blocked))
++            tmp = output / 'state.tmp'
++            tmp.write_text(json.dumps(data,ensure_ascii=False))
++            tmp.replace(output / 'state.json')
++    with ExitStack() as stack:
++        for patch in environment(bus):
++            stack.enter_context(patch)
++        # Explicit legacy internal UI test. Production --manual uses SimpleApp;
++        # this preserves the old protocol-stage keyboard regression coverage.
++        stack.enter_context(mock.patch.object(simple,'SimpleApp',ObservedApp))
++        rc = tool.main(['--manual','--node-range','1','--timeout','.03','--state-timeout','.3',
++                        '--move-timeout','2','--rows','40','--cols','150',
++                        '--motion-log',str(output/'motion.jsonl')])
++        (output/'trace.json').write_text(json.dumps(dict(rc=rc,requests=requests(bus),
++            writes=requests(bus,True),controls=[v for i,_,v in requests(bus,True) if i==0x6040]),ensure_ascii=False,indent=2))
++        return rc
++
++
++def run_pty(output):
++    import fcntl
++    import pty
++    import select
++    import struct
++    import subprocess
++    import termios
++    output = Path(output)
++    output.mkdir(parents=True,exist_ok=True)
++    master, slave = pty.openpty()
++    fcntl.ioctl(slave,termios.TIOCSWINSZ,struct.pack('HHHH',40,150,0,0))
++    env = dict(os.environ,TERM='xterm-256color',LANG='C.UTF-8',LC_ALL='C.UTF-8')
++    process = subprocess.Popen([sys.executable,'-I',str(Path(__file__).resolve()),'--child',str(output)],
++                               stdin=slave,stdout=slave,stderr=slave,env=env,start_new_session=True)
++    os.close(slave)
++    transcript = bytearray()
++    checks = []
++    last = {}
++    def drain(delay=.02):
++        if select.select([master],[],[],delay)[0]:
++            try:
++                transcript.extend(os.read(master,65536))
++            except OSError:
++                pass
++    def wait(predicate,label,timeout=8):
++        nonlocal last
++        end = time.monotonic()+timeout
++        while time.monotonic()<end:
++            drain()
++            try:
++                last=json.loads((output/'state.json').read_text())
++            except (FileNotFoundError,json.JSONDecodeError):
++                pass
++            if predicate(last):
++                checks.append(label)
++                return last
++            if process.poll() is not None:
++                raise AssertionError('PTY child exited {} waiting {}: {}'.format(process.returncode,label,last))
++        raise AssertionError('PTY timeout {}: {}'.format(label,last))
++    def send(data):
++        os.write(master,data.encode() if isinstance(data,str) else data)
++    f5=b'\x1b[15~'
++    def view(name):
++        return wait(lambda s:s.get('view')==name and not s.get('busy'),name)
++    def confirmed_action(key, action, controls):
++        send(key)
++        view('action')
++        before=list(last['controls'])
++        send(f5)
++        state=view('confirm')
++        assert state['controls']==before, 'review secretly wrote controlword'
++        send(state['token'])
++        send(f5)
++        state=wait(lambda s:s.get('view')=='detail' and not s.get('busy') and s.get('controls')==controls,action)
++        return state
++    try:
++        state=view('rt')
++        assert state['controls']==[] and not state['rt_ack']
++        send(f5)
++        state=view('overview')
++        assert state['controls']==[]
++        checks.append('startup/RT confirmation/scan have zero controlword writes')
++        send('\r')
++        view('detail')
++        send(b'\x1bOQ')  # xterm F2, normal shared Form path
++        for value in ('-2000','500','364'):
++            view('setting')
++            send(value)
++            send(f5)
++            # Give the ordinary key loop one turn before the next field.
++            drain(.1)
++        wait(lambda s:s.get('view')=='detail' and s.get('settings',{}).get('max_displacement')==364,'three settings submitted by Form')
++        send('a')
++        view('od')
++        send('OD mock-bench 1')
++        send(f5)
++        view('action')
++        send('-1420')
++        send(f5)
++        state=view('confirm')
++        assert state['controls']==[]
++        send(state['token'])
++        send(f5)
++        expected=[0x106,0x107,0x127,0x137,0x127]
++        state=wait(lambda s:s.get('phases',{}).get('1')=='submitted' and not s.get('busy'),'A submits final target only')
++        assert state['controls']==expected
++        checks.append('A stops at submitted, no enable or release')
++        state=confirmed_action('e','E holds Halt, +13U allowed',expected+[0x12f])
++        assert state['position']==-1457 and state['phases']['1']=='enabled'
++        drain(.65)
++        state=wait(lambda s:s.get('phases',{}).get('1')=='enabled' and not s.get('blocked'),'background monitor preserves +13U envelope')
++        state=confirmed_action('g','G triggers fresh enabled ACK0/1/0',expected+[0x12f,0x2f,0x3f,0x2f])
++        assert state['phases']['1']=='running'
++        state=confirmed_action('x','X explicitly software quick stops',expected+[0x12f,0x2f,0x3f,0x2f,2])
++        state=confirmed_action('d','D explicitly disables',expected+[0x12f,0x2f,0x3f,0x2f,2,0])
++        send('q')
++        end=time.monotonic()+8
++        while process.poll() is None and time.monotonic()<end:
++            drain(.03)
++        assert process.poll()==0, 'PTY child did not exit normally'
++        drain(.01)
++        trace=json.loads((output/'trace.json').read_text())
++        assert trace['controls']==expected+[0x12f,0x2f,0x3f,0x2f,2,0,6],trace
++        checks.append('exit Shutdown0006 after operator D, exact final controlword sequence')
++        summary=dict(passed=len(checks),checks=checks,controls=trace['controls'],rc=process.returncode,
++                     transport='standard MockBus only; real socket creation forbidden')
++        (output/'summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2))
++        print(json.dumps(summary,ensure_ascii=False))
++        return summary
++    finally:
++        if process.poll() is None:
++            process.terminate()
++            try:
++                process.wait(3)
++            except subprocess.TimeoutExpired:
++                process.kill()
++                process.wait(3)
++        drain(.01)
++        os.close(master)
++        (output/'terminal.ansi').write_bytes(transcript)
++
++
++class ManualPtyTests(unittest.TestCase):
++    def test_real_curses_normal_operator_keys_standard_mockbus(self):
++        with tempfile.TemporaryDirectory(prefix='pmp4010-manual-pty-') as output:
++            result=run_pty(output)
++            self.assertEqual(result['rc'],0)
++            self.assertGreaterEqual(result['passed'],10)
++
++
++if __name__=='__main__':
++    if len(sys.argv)==3 and sys.argv[1]=='--child':
++        raise SystemExit(child(sys.argv[2]))
++    if len(sys.argv)==3 and sys.argv[1]=='--run':
++        run_pty(sys.argv[2])
++    else:
++        unittest.main()

@@ -1,0 +1,11 @@
+{
+  "argv": [
+    "bash",
+    "tools/check-manual-citations.sh"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-20T00:57:02.612260+00:00",
+  "returncode": 1,
+  "elapsed_seconds": 0.11405924599966966,
+  "finished_utc": "2026-10-20T00:57:02.726431+00:00"
+}

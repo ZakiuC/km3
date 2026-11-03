@@ -1,0 +1,27 @@
+{
+  "scope": "stored render snapshots from actual running curses app; raw PTY retained separately as terminal.ansi",
+  "dimensions_and_visible_units": {
+    "connected-main-80x24.txt": {
+      "rows": 24,
+      "max_columns": 80,
+      "sha256": "9dc49dd393a201dc574bfcfb82138c462e550174954a0242873fc88a1f9b1e4b"
+    },
+    "jog-confirm-80x24.txt": {
+      "rows": 24,
+      "max_columns": 80,
+      "sha256": "36d3acb0fe11833da698e222457d8486c4b427034a31da9a871c1a842e7a0bab"
+    },
+    "authorize-80x24.txt": {
+      "rows": 24,
+      "max_columns": 80,
+      "sha256": "1a83474d77ee5909e418930cfc33729ac7feb6ce945275e5332d397eb867194c"
+    },
+    "help-80x24.txt": {
+      "rows": 24,
+      "max_columns": 80,
+      "sha256": "d1a982ad4863613f23d55de3c3d70a227a65891f9c458878f1a4c3d3ae4ebf47"
+    }
+  },
+  "main_units_and_action_hint": true,
+  "confirm_start_target_cancel_visible": true
+}

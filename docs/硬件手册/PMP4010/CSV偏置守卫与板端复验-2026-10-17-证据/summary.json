@@ -1,0 +1,62 @@
+{
+  "load": {
+    "result": "PASS",
+    "native_vectors": 33,
+    "python_vectors": 33,
+    "native_int32_vectors": 14,
+    "forbidden_io_attempts": 0,
+    "hardware_acceptance": false
+  },
+  "imports": 16,
+  "existing_files_compared": 35,
+  "before_after_identical": true,
+  "remote_payload": "/tmp/km3-pmp4010-reload-20261017-gVa5HIb5/payload",
+  "repair_manifest_revision": 3,
+  "repair_files": 13,
+  "repair_source_hash_mismatches": [],
+  "actual_counts": {
+    "model_python": 216,
+    "hwtui": 217,
+    "tools_tests": 8,
+    "host_ctest": 17,
+    "asan_ctest": 17,
+    "tsan_ctest": 17
+  },
+  "od_status": {
+    "old_entries": 94,
+    "new_entries": 95,
+    "existing_status_changes": {},
+    "added": {
+      "velocity_offset": "verified"
+    },
+    "old_counts": {
+      "verified": 87,
+      "unverified": 5,
+      "assumed": 2
+    },
+    "new_counts": {
+      "verified": 88,
+      "unverified": 5,
+      "assumed": 2
+    }
+  },
+  "hardware_acceptance": false,
+  "remote_cleanup": "retained for review and separately coordinated preflight",
+  "local_cleanup": "original and copied evidence retained; no commit",
+  "documentation_gates": [
+    {
+      "argv": [
+        "bash",
+        "tools/check-docs.sh"
+      ],
+      "exitcode": 0
+    },
+    {
+      "argv": [
+        "bash",
+        "tools/check-manual-citations.sh"
+      ],
+      "exitcode": 0
+    }
+  ]
+}

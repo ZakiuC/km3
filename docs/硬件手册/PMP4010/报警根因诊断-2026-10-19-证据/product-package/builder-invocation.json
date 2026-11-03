@@ -1,0 +1,14 @@
+{
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/product-package/build_package.py",
+    "--freeze-input",
+    "docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/product-package/freeze-input.json"
+  ],
+  "returncode": 0,
+  "stdout": "builder-run.stdout.log",
+  "stderr": "builder-run.stderr.log",
+  "capture_note": "Builder execution tool returned rc0 with JSON stdout identical to summary.json; retained here after invocation without rebuilding."
+}

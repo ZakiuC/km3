@@ -1,0 +1,370 @@
+{
+  "scope": "stage2 final new or changed root records and real session raw only; initial PTY/load snapshot retained",
+  "files": [
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/after-real-tui.command.json",
+      "destination": "stage2-board-final/after-real-tui.command.json",
+      "sha256": "2a88f73c9887f06a43d79dbd1c0f09259a43969890bce508b3235e5d0b734238"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/after-real-tui.stderr",
+      "destination": "stage2-board-final/after-real-tui.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/after-real-tui.stdout",
+      "destination": "stage2-board-final/after-real-tui.stdout",
+      "sha256": "7452586684d4274d66571cc9488487ca5620f3251f8e0f64da6e62d492a08ffb"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/before-real-tui.command.json",
+      "destination": "stage2-board-final/before-real-tui.command.json",
+      "sha256": "362d83d5fb1a05610239f59667a92a461150af29d46b355a6c86872132ae9466"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/before-real-tui.stderr",
+      "destination": "stage2-board-final/before-real-tui.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/before-real-tui.stdout",
+      "destination": "stage2-board-final/before-real-tui.stdout",
+      "sha256": "370ec4953b1bd46fd0e740c77ff066e7fda53641a0f0475a225aa199c732df68"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-B-frozen-evidence/app-audit.jsonl",
+      "destination": "stage2-board-final/board-B-frozen-evidence/app-audit.jsonl",
+      "sha256": "79fb402c24e4999e3e3bf2e5fef522a1d07cd7271290b4dd443f2a2f96de0db5"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-B-frozen-fetch.command.json",
+      "destination": "stage2-board-final/board-B-frozen-fetch.command.json",
+      "sha256": "2e64cada6ca5dd863bfa59053982fb7ac0a8f098f73effb818f6daf9ac6a40c2"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-B-frozen-fetch.stderr",
+      "destination": "stage2-board-final/board-B-frozen-fetch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-B-frozen-fetch.stdout",
+      "destination": "stage2-board-final/board-B-frozen-fetch.stdout",
+      "sha256": "77dc510fed482ce5e9c1767115ec1aba332ced70d5159ac852ae30ac1211aafd"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-B-frozen-review-summary.json",
+      "destination": "stage2-board-final/board-B-frozen-review-summary.json",
+      "sha256": "62970e18fea0bbffb536dd897626bb06a38a5cc29dd8ef8592891769a743250d"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-B-result-evidence/app-audit.jsonl",
+      "destination": "stage2-board-final/board-B-result-evidence/app-audit.jsonl",
+      "sha256": "528589b950ec8cb9c9df57c0693b88c85d44f1a8a026fce9cec174382e217538"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-B-result-evidence/pmp4010-motion-3c6ea8b929c24464a8083cc9319d528e.jsonl",
+      "destination": "stage2-board-final/board-B-result-evidence/pmp4010-motion-3c6ea8b929c24464a8083cc9319d528e.jsonl",
+      "sha256": "0c6747c8ed234e6730c8ad6a695b44cbbd96a866e59ab63e86e15dcb3e0fb035"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-B-result-fetch.command.json",
+      "destination": "stage2-board-final/board-B-result-fetch.command.json",
+      "sha256": "335c821909dd2174d6c3ccdda5058862cd3d2fcbaa1c45e38b1f6476e1f5d845"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-B-result-fetch.stderr",
+      "destination": "stage2-board-final/board-B-result-fetch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-B-result-fetch.stdout",
+      "destination": "stage2-board-final/board-B-result-fetch.stdout",
+      "sha256": "0accc113e7b44ffd4ca34ca56fe368206b1fc1ce4ce9161bd4fcfe3badbaab21"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-D-completed-evidence/app-audit.jsonl",
+      "destination": "stage2-board-final/board-D-completed-evidence/app-audit.jsonl",
+      "sha256": "70a2a753f674aab593515c8dd4d55c0c486a0d804aaf1bd26ee1cb99ce7972ff"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-D-completed-fetch.command.json",
+      "destination": "stage2-board-final/board-D-completed-fetch.command.json",
+      "sha256": "53d164bed5d56528326e489670633227129cc38e6921acf61bc8345b44beebde"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-D-completed-fetch.stderr",
+      "destination": "stage2-board-final/board-D-completed-fetch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-D-completed-fetch.stdout",
+      "destination": "stage2-board-final/board-D-completed-fetch.stdout",
+      "sha256": "0a964e39a4f0cb8e4068388725b7775434b031be99372f2205c6c7446cdfe93f"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-D-frozen-evidence/app-audit.jsonl",
+      "destination": "stage2-board-final/board-D-frozen-evidence/app-audit.jsonl",
+      "sha256": "a6735d54b5850d4c78ec48790cc384cc7aead3cb2b44ddb8ac832b0870a38f02"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-D-frozen-fetch.command.json",
+      "destination": "stage2-board-final/board-D-frozen-fetch.command.json",
+      "sha256": "1fc8fc4252d23769f4cb4feaa93f7fe39bc0a4f6e3624eae0ec1f8222e5e41a7"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-D-frozen-fetch.stderr",
+      "destination": "stage2-board-final/board-D-frozen-fetch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-D-frozen-fetch.stdout",
+      "destination": "stage2-board-final/board-D-frozen-fetch.stdout",
+      "sha256": "cf76e01c83634b2a55e5b11446e76ffe6a2258ed5dee17e24a52040ff29df881"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-D-frozen-review-summary.json",
+      "destination": "stage2-board-final/board-D-frozen-review-summary.json",
+      "sha256": "74f9eb13e11fdbf537f6b8eb2c7cc7061ae53ad35feeba83314cb41bf2b37624"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-final-evidence/app-audit.jsonl",
+      "destination": "stage2-board-final/board-final-evidence/app-audit.jsonl",
+      "sha256": "4255db9fd384304fea1d7e9ea2239aa4e89f04f18282e4c0e809349a8c863b27"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-final-evidence/pmp4010-motion-3c6ea8b929c24464a8083cc9319d528e.jsonl",
+      "destination": "stage2-board-final/board-final-evidence/pmp4010-motion-3c6ea8b929c24464a8083cc9319d528e.jsonl",
+      "sha256": "0c6747c8ed234e6730c8ad6a695b44cbbd96a866e59ab63e86e15dcb3e0fb035"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-final-fetch.command.json",
+      "destination": "stage2-board-final/board-final-fetch.command.json",
+      "sha256": "5845fba030ab229d259d90f835f8f10f0edb982401ad6e225e58bdea7fe8d1b0"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-final-fetch.stderr",
+      "destination": "stage2-board-final/board-final-fetch.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-final-fetch.stdout",
+      "destination": "stage2-board-final/board-final-fetch.stdout",
+      "sha256": "575607b13e50962be659664f1e012d258170c4acca8b538f3db1c61c79dfa519"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-final-summary.json",
+      "destination": "stage2-board-final/board-final-summary.json",
+      "sha256": "cfb523d7032174c74062430f675fb278055e4777ea2e01dc63e51e39c6993791"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-final-verify.command.json",
+      "destination": "stage2-board-final/board-final-verify.command.json",
+      "sha256": "2b8e18352ed3906dd2199f8d862d1199ad4ac0476acd6866838fdd9442e1fce6"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-final-verify.stderr",
+      "destination": "stage2-board-final/board-final-verify.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-final-verify.stdout",
+      "destination": "stage2-board-final/board-final-verify.stdout",
+      "sha256": "d998830ca3cc498306fc9e2ea17740d472d6bf87c06c5b082da18a6c2f6525ab"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/B-completed-strictdisabled.screen.json",
+      "destination": "stage2-board-final/board-probe-session-1/B-completed-strictdisabled.screen.json",
+      "sha256": "eb96d95341c59ca76d2ce30b97e1774d85fcd5754bc4bcef10bb801ab1e5e251"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/B-completed-strictdisabled.screen.txt",
+      "destination": "stage2-board-final/board-probe-session-1/B-completed-strictdisabled.screen.txt",
+      "sha256": "d8592076c606e60b72d47f2a733831649b724f382988404a56dee4f3e1bc4523"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/B-final-result-before-exit.screen.json",
+      "destination": "stage2-board-final/board-probe-session-1/B-final-result-before-exit.screen.json",
+      "sha256": "9179d3d47817d5246d502b3b156dccf1e3cbe74357d0276d6a27237fa6badd93"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/B-final-result-before-exit.screen.txt",
+      "destination": "stage2-board-final/board-probe-session-1/B-final-result-before-exit.screen.txt",
+      "sha256": "d45361e9ee1e455bca5562ea48725fe68ade6851884bbad45b9ecd8c07467ddf"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/B-frozen-before-token.screen.json",
+      "destination": "stage2-board-final/board-probe-session-1/B-frozen-before-token.screen.json",
+      "sha256": "70f7830044ef5201595b31b387128712607b0af40d9c4c1ce125876732735cf2"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/B-frozen-before-token.screen.txt",
+      "destination": "stage2-board-final/board-probe-session-1/B-frozen-before-token.screen.txt",
+      "sha256": "95fc2343cd36dcdcc7761eab6413fdff7cf67978bc2fd9e65dce5797eaff0501"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/B-preview.screen.json",
+      "destination": "stage2-board-final/board-probe-session-1/B-preview.screen.json",
+      "sha256": "e0860e9d241f9706d7271ab3981533943eecada705fe68acf43604f2301cdc30"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/B-preview.screen.txt",
+      "destination": "stage2-board-final/board-probe-session-1/B-preview.screen.txt",
+      "sha256": "050f7be269ba186b1c296935dfea9d3c350a8ea4d52ecb4991f915270e8feb67"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/D-OD-session-token.screen.json",
+      "destination": "stage2-board-final/board-probe-session-1/D-OD-session-token.screen.json",
+      "sha256": "c574f01a72e924a92dfbfccdac9d07ffcc83858e631b7017041b0dd64a264a94"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/D-OD-session-token.screen.txt",
+      "destination": "stage2-board-final/board-probe-session-1/D-OD-session-token.screen.txt",
+      "sha256": "e8ebffed4b0affb05ec0634949c22c95a6cd51774bc3cd4a231c3af85a57b1e1"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/D-frozen-before-token.screen.json",
+      "destination": "stage2-board-final/board-probe-session-1/D-frozen-before-token.screen.json",
+      "sha256": "dffc117998ed2c89fc776076dce229b240b9e714fa7a1e2bb85024a78a0fccf7"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/D-frozen-before-token.screen.txt",
+      "destination": "stage2-board-final/board-probe-session-1/D-frozen-before-token.screen.txt",
+      "sha256": "b139779aba3ecd940d0cda53fe04a68bdee77b779f0cef59c417bd0c08f55454"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/D-preview.screen.json",
+      "destination": "stage2-board-final/board-probe-session-1/D-preview.screen.json",
+      "sha256": "e55efd0bb230e2ba9c606d43e4b80b0b220763f626ef2ec1d6b8a6a488c90b2c"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/D-preview.screen.txt",
+      "destination": "stage2-board-final/board-probe-session-1/D-preview.screen.txt",
+      "sha256": "f3ffe7b90066c95b01082ce8d4d9ce0d252bd0b2f98a7992c065f2dc79244130"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/after-D-result.screen.json",
+      "destination": "stage2-board-final/board-probe-session-1/after-D-result.screen.json",
+      "sha256": "22931aff67c04c28a6434e2d4cbcaaad0821a74f2b8626afa34b201120b07e6a"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/after-D-result.screen.txt",
+      "destination": "stage2-board-final/board-probe-session-1/after-D-result.screen.txt",
+      "sha256": "95318f9bc0b03fc1a7f114471da72356593c5b657e6495edb169cef234f3eed6"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/command.json",
+      "destination": "stage2-board-final/board-probe-session-1/command.json",
+      "sha256": "6ffef31877bbdd9d05ca0c04c91450e24defbf9155f81941d48ea46603ff7fe5"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/exit.json",
+      "destination": "stage2-board-final/board-probe-session-1/exit.json",
+      "sha256": "53aa1cff597fb47a8d795d4bc141e2b5f425f8e80ec91d1182a82db159fe1ab5"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/initial-rt-risk.screen.json",
+      "destination": "stage2-board-final/board-probe-session-1/initial-rt-risk.screen.json",
+      "sha256": "7711062d31dfa235fa886d104b7397e6a62376a7d7da5fe9a09cd977bd77454f"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/initial-rt-risk.screen.txt",
+      "destination": "stage2-board-final/board-probe-session-1/initial-rt-risk.screen.txt",
+      "sha256": "22fd141c6ab51539294b0d51c013a5256fcdd70856db81e28d9ebd92705e62f9"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/keys.jsonl",
+      "destination": "stage2-board-final/board-probe-session-1/keys.jsonl",
+      "sha256": "68abe6d56e8eef19c6d05046615f96fca2eab1d6cf04acd5e08738c6d00d2a01"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board-probe-session-1/terminal.raw",
+      "destination": "stage2-board-final/board-probe-session-1/terminal.raw",
+      "sha256": "67272aeedc569976fcd25116cfd2fa4de9f670dcd116954260117d5a45f0211a"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board_app.py",
+      "destination": "stage2-board-final/board_app.py",
+      "sha256": "9c16dc48706ec16a62841c2e59080bf4f18c7198a80baef0a4e72e6f2a17072e"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board_app.py.diff",
+      "destination": "stage2-board-final/board_app.py.diff",
+      "sha256": "a964709bb970d8a001a7a3544035362a7c049d5b5d1212ace33786d7f1edccb7"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board_pty_runner.py",
+      "destination": "stage2-board-final/board_pty_runner.py",
+      "sha256": "406bfd2a68cea4c5cfd2963d462b5851d11ebaaee43831d087bad732559aa5f5"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/board_pty_runner.py.diff",
+      "destination": "stage2-board-final/board_pty_runner.py.diff",
+      "sha256": "d6ee6bb3b4e81e47a4dd82f196da200913dfc29d68ddac9b5dc68d2495122116"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/evidence-sha256.json",
+      "destination": "stage2-board-final/evidence-sha256.json",
+      "sha256": "199867c99944033268b2805690331e868b890b002396ae019ade85e9c5f1f23f"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/fetch_board_evidence.py",
+      "destination": "stage2-board-final/fetch_board_evidence.py",
+      "sha256": "d05d331cacb5680c5476f330ad58067aa9bd5cc8c7da7593d80c81048662b9d6"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/upload-wrapper.command.json",
+      "destination": "stage2-board-final/upload-wrapper.command.json",
+      "sha256": "a729ab7936ba800540aedcd3ec5a83e4d2515156d4aca6a2394a4e297267d64d"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/upload-wrapper.stderr",
+      "destination": "stage2-board-final/upload-wrapper.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/upload-wrapper.stdout",
+      "destination": "stage2-board-final/upload-wrapper.stdout",
+      "sha256": "2d8800e7735d79c59745cd77a5f100e0e5cbc5b7a1451f0ddfdd935668cb266c"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/verify_board_probe.py",
+      "destination": "stage2-board-final/verify_board_probe.py",
+      "sha256": "7fa77cc9ca583a63bfb3763e478fa3b39a247f9ee05f46183124fc38c745b9f1"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/wrapper-default.command.json",
+      "destination": "stage2-board-final/wrapper-default.command.json",
+      "sha256": "623fcebcf9ffb016e0c65afbdf1b13efc35513b5410692af945325b476041a18"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/wrapper-default.stderr",
+      "destination": "stage2-board-final/wrapper-default.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/wrapper-default.stdout",
+      "destination": "stage2-board-final/wrapper-default.stdout",
+      "sha256": "a8eb2d3f7634faf245cfa7d6ca7567734b1dc4e90205995ecaa87aacdffe0805"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/wrapper-offline.command.json",
+      "destination": "stage2-board-final/wrapper-offline.command.json",
+      "sha256": "3b10e99ab3b39321a630e80c76a3f04057525a662284fb07de2bbd1436b0ab62"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/wrapper-offline.stderr",
+      "destination": "stage2-board-final/wrapper-offline.stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/wrapper-offline.stdout",
+      "destination": "stage2-board-final/wrapper-offline.stdout",
+      "sha256": "79e34c90424cf59da78d0b58235a2b69ef0b2a6dd4ff2f78bf74edeb882a18cf"
+    },
+    {
+      "source": "/tmp/km3-pp-disabled-start-20261019-board/stage2/wrapper-summary.json",
+      "destination": "stage2-board-final/wrapper-summary.json",
+      "sha256": "4e241e82b754b004be6561dce156373c725f0ebe6802817c36ef17a2ecaa431e"
+    }
+  ]
+}

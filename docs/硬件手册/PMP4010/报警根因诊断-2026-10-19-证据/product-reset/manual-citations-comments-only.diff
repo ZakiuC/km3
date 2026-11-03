@@ -1,0 +1,38 @@
+--- accepted-freeze/pmp4010_manual.py
++++ citation-final/pmp4010_manual.py
+@@ -163,9 +163,11 @@
+                 if states is not None and state not in states:
+                     raise ValueError('关键状态样本异常，禁止隐含使能；6041=0x{:04X}，允许状态={}'.format(
+                         value, ','.join('0x{:04X}'.format(s) for s in states)))
++            # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1：电机堵转的603Fh错误码；非一般OD索引。
+             if key == 'error_code_object' and value and not (allow_alarm and value == 0x2312):
+                 exc = ValueError('603Fh故障码非零：{}（最后错误低16bit，不能据此判断当前Fault或根因）'.format(format_fault(value)))
+                 sw = samples.get('statusword', 0)
++                # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1；Warning/Fault状态位见4.1.3。
+                 exc.manual_alarm_2312 = (value == 0x2312 and bool(sw & 0x80)
+                     and not sw & (p.CIA402_FAULT | p.CIA402_PP_FOLLOWING_ERROR))
+                 raise exc
+@@ -469,7 +471,7 @@
+     def _reset_health(self, session, *, initial=False):
+         p = self.tool._canopen
+         v = {k: self._read(session.client, k, session) for k in ('statusword', 'error_code_object')}
+-        # These two verified read-only objects need no new OD policy or writes.
++        # This reset only reads these objects; no configuration/history writes.
+         def raw(index, sub, size):
+             data = session.call(session.deadline(), '复位健康采样', session.client.read, index, sub)
+             if len(data) != size:
+@@ -480,11 +482,14 @@
+         sw = v['statusword']
+         if (sw & p.CIA402_DISABLED_MASK != p.CIA402_DISABLED
+                 or sw & (p.CIA402_FAULT | p.CIA402_PP_FOLLOWING_ERROR) or v['error_register']
++                # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1：堵转错误码；0表示无当前错误。
+                 or v['error_code_object'] not in (0, 0x2312)):
+             raise ValueError('复位采样出现新故障、跟随误差、非失能状态或1001h非零')
+         if initial:
++            # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.2 表10-6：200Eh:02h为int32电机堵转配置；仅上传。
+             v['reaction'] = raw(0x200e, 2, 4)
+             v['control_mode_select'] = self._read(session.client, 'control_mode_select', session)
++            # docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:9.1 表9-1、9.2：反应码3/不自复位/错误码2312；200E:02位置见10.2表10-6。
+             if not sw & 0x80 or v['error_code_object'] != 0x2312 or v['reaction'] != 0x03002312 or v['control_mode_select'] != 0:
+                 raise ValueError('仅允许已核对的Warning 2312、200E:02=03002312、CiA402失能报警复位')
+         return v

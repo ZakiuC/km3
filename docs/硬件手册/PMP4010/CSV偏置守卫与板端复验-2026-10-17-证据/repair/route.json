@@ -1,0 +1,31 @@
+{
+  "requested_role": "laborer",
+  "requested_model": "GPT-6.1 Sol",
+  "requested_effort": "high",
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage.input_tokens": "unknown",
+  "estimate": "<25K initial Short, parent estimate; not actual billing evidence",
+  "followups": [
+    {
+      "purpose": "Correct evidence-only manifest omission",
+      "requested_role": "laborer",
+      "requested_model": "GPT-6.1 Sol",
+      "requested_effort": "high",
+      "runtime_model": "unknown",
+      "runtime_effort": "unknown",
+      "last_token_usage.input_tokens": "unknown",
+      "estimate": "<95K Short; parent conservative estimate, not actual billing evidence"
+    },
+    {
+      "purpose": "Add four exact manual citation comments only",
+      "requested_role": "laborer",
+      "requested_model": "GPT-6.1 Sol",
+      "requested_effort": "high",
+      "runtime_model": "unknown",
+      "runtime_effort": "unknown",
+      "last_token_usage.input_tokens": "unknown",
+      "estimate": "<105K Short; parent conservative estimate, not actual billing evidence"
+    }
+  ]
+}

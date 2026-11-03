@@ -2,7 +2,7 @@
 //
 // 型号：pmp4010（驱动代号 pmp4010，命名空间 km3::pmp4010）
 // 来源：device/drivers/pmp4010/driver/od.json
-// 来源 sha256：61efa0185e09d467388c1aefa6cb81e4768e963eb38afde4da258a61143ed2ce
+// 来源 sha256：1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e
 //
 // 手改本文件会在 `python3 tools/hwdriver/gen-od.py --model pmp4010 --check`
 // 下失败，进而让 CI 变红。要改常量请改 od.json 再重新生成。
@@ -71,7 +71,7 @@ struct OdEntry {
 // 拿 0 当「未填」会让一条漏填的条目看起来像一条指向 0x0000 的真实条目。
 inline constexpr std::uint16_t kIndexUnset = 0xFFFF;
 
-inline constexpr std::uint32_t kEntryCount = 94;
+inline constexpr std::uint32_t kEntryCount = 97;
 
 inline constexpr OdEntry kEntries[kEntryCount] = {
     // 控制字
@@ -269,6 +269,12 @@ inline constexpr OdEntry kEntries[kEntryCount] = {
     {"software_version", 0x100Au, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.1 表10-5", true},
     // 软件绝对位置最大限制
     {"software_position_limit_max", 0x607Du, 2u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7", true},
+    // 速度偏置（周期同步用）
+    {"velocity_offset", 0x60B1u, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7", true},
+    // 暂停方式选择
+    {"halt_option", 0x605Du, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:4.1.4 表4-7；10.3 表10-7", true},
+    // 内部当前生效目标位置指令
+    {"position_demand", 0x6062u, 0u, OdStatus::Verified, "docs/硬件手册/PMP4010/协议/一体化低压伺服电机CANopen通信用户手册-E06.md:10.3 表10-7", true},
 };
 
 // 未核对条目数。工具打印的「N 项对象字典未核对」用这个 N，

@@ -1,0 +1,89 @@
+{
+  "utc": "2026-10-19T01:24:14.785635+00:00",
+  "hostname": "RK3588-Tronlong",
+  "model": "TL3588-EVM",
+  "device_id": "km3-test-001",
+  "config_sha": "96a15d8d28f760ab9c5b8f43f6b5ddccc667c77f89413fcd9c3201aa9ddbb205",
+  "can_env_sha": "9253d719d847eed56ea7ef768985c0215faf0f78dfc98838152c734a0feff407",
+  "current": "/opt/km3/hwtools/releases/0.1.5+zh-5e31e29",
+  "services": {
+    "km3-core": {
+      "argv": [
+        "systemctl",
+        "show",
+        "km3-core",
+        "--property=MainPID,ActiveState,SubState,ExecMainStartTimestampMonotonic,ActiveEnterTimestampMonotonic"
+      ],
+      "rc": 0,
+      "stdout": "MainPID=2123\nExecMainStartTimestampMonotonic=10797947\nActiveState=active\nSubState=running\nActiveEnterTimestampMonotonic=10798192\n",
+      "stderr": ""
+    },
+    "km3-rt-controller": {
+      "argv": [
+        "systemctl",
+        "show",
+        "km3-rt-controller",
+        "--property=MainPID,ActiveState,SubState,ExecMainStartTimestampMonotonic,ActiveEnterTimestampMonotonic"
+      ],
+      "rc": 0,
+      "stdout": "MainPID=609\nExecMainStartTimestampMonotonic=3518296\nActiveState=active\nSubState=running\nActiveEnterTimestampMonotonic=3518366\n",
+      "stderr": ""
+    },
+    "km3-video": {
+      "argv": [
+        "systemctl",
+        "show",
+        "km3-video",
+        "--property=MainPID,ActiveState,SubState,ExecMainStartTimestampMonotonic,ActiveEnterTimestampMonotonic"
+      ],
+      "rc": 0,
+      "stdout": "MainPID=2124\nExecMainStartTimestampMonotonic=10799891\nActiveState=active\nSubState=running\nActiveEnterTimestampMonotonic=10800129\n",
+      "stderr": ""
+    }
+  },
+  "rt_cmdline": "/opt/km3/current/km3-rt-controller --config /etc/km3/device.json --require-config ",
+  "rt_fds": {
+    "0": "/dev/null",
+    "1": "socket:[19117]",
+    "2": "socket:[19117]"
+  },
+  "can_rcvlists": {
+    "rcvlist_all": "\nreceive list 'rx_all':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_eff": "\nreceive list 'rx_eff':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_err": "\nreceive list 'rx_err':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_fil": "\nreceive list 'rx_fil':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_inv": "\nreceive list 'rx_inv':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n",
+    "rcvlist_sff": "\nreceive list 'rx_sff':\n  (any: no entry)\n  (can0: no entry)\n  (can1: no entry)\n\n"
+  },
+  "can_link": {
+    "argv": [
+      "ip",
+      "-details",
+      "-json",
+      "link",
+      "show",
+      "can1"
+    ],
+    "rc": 0,
+    "stdout": "[{\"ifindex\":3,\"ifname\":\"can1\",\"flags\":[\"NOARP\",\"UP\",\"LOWER_UP\",\"ECHO\"],\"mtu\":16,\"qdisc\":\"pfifo_fast\",\"operstate\":\"UP\",\"linkmode\":\"DEFAULT\",\"group\":\"default\",\"txqlen\":10,\"link_type\":\"can\",\"promiscuity\":0,\"min_mtu\":0,\"max_mtu\":0,\"linkinfo\":{\"info_kind\":\"can\",\"info_data\":{\"state\":\"ERROR-ACTIVE\",\"restart_ms\":0,\"bittiming\":{\"bitrate\":1000000,\"sample_point\":0.750,\"tq\":125,\"prop_seg\":2,\"phase_seg1\":3,\"phase_seg2\":2,\"sjw\":1},\"bittiming_const\":{\"name\":\"mcp251x\",\"tseg1\":{\"min\":3,\"max\":16},\"tseg2\":{\"min\":2,\"max\":8},\"sjw\":{\"min\":1,\"max\":4},\"brp\":{\"min\":1,\"max\":64},\"brp_inc\":1},\"clock\":8000000}},\"num_tx_queues\":1,\"num_rx_queues\":1,\"gso_max_size\":65536,\"gso_max_segs\":65535,\"parentbus\":\"spi\",\"parentdev\":\"spi0.1\"}]\n",
+    "stderr": ""
+  },
+  "payload_root": "/tmp/km3-pp-disabled-start-probe-20261019-rsyhxhdk/payload",
+  "payload_exists": true,
+  "source_hashes": {
+    "drivers/pmp4010/pmp4010.py": "2fca0b103544c29f78a79b9e349ec841db0e39abf8f39d9d910e57e47b1e0a1a",
+    "drivers/pmp4010/pmp4010_bench.py": "193a1f1281765933524995ee2548d0d3dda62946245b2c7ff7a7a3c0c1549bc5",
+    "drivers/pmp4010/pmp4010_position.py": "ecca73a35494bb5bbb36222b0e5dda8b1d08110ddfb2035f4aa8a737f551b7ac",
+    "drivers/pmp4010/pmp4010_tui.py": "54083e18f01a5d114aa1ae98725b6f05ca0cdda34537a517e6c2e0a67317cb78",
+    "drivers/pmp4010/pmp4010_params.py": "033c655e45b9c6910c585bd976eecdfe223f53f6d4006785d825c0da028f22ec",
+    "drivers/pmp4010/pmp4010_velocity.py": "54798a4a46e30d0eb355e3bbf46ba035f164e93fe04830b0d27969991bd72e96",
+    "drivers/pmp4010/od.json": "1cc28b19cf94349d83497af7c252a5fa68702af433df7fd7afd431b6cdfa6a6e",
+    "drivers/pmp4010/libpmp4010_velocity.so.1.0.0": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+    "hwtui/canopen.py": "92ffe5a9bd5f3a87612ca55175fc1f6f7df2ea266133e5d63ea6b91aff347faf",
+    "hwtui/canbus.py": "655c180b7da706093545ad9b562e2c1cd3fc621f29407f6b1463c8d3a037c300",
+    "hwtui/canopen_wire.py": "9d2610cf4ab50ce78656971d1cb810e7cf872bce98e979bccff7d3f8ffbd1885",
+    "hwtui/canopen_consts.py": "eb3adc47855b03f1b3afc701c0619c30622532814869a1c3abf1adffa108fe8c",
+    "hwtui/mockbus.py": "8fe9da8ea4e4d6f37e65820d54256432bc2ddc01649997e217c51428d284e044",
+    "hwtui/tui.py": "3eb639121dc2e2eac643db952f164e808cc8f8409ede2bc0045d7cd25bc807cb"
+  }
+}

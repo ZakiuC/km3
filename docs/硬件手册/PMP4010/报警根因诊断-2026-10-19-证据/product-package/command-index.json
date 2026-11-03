@@ -1,0 +1,89 @@
+[
+  {
+    "name": "source-head",
+    "argv": [
+      "git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0
+  },
+  {
+    "name": "launcher-shell-syntax",
+    "argv": [
+      "sh",
+      "-n",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/product-package/payload/run-manual.sh"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0
+  },
+  {
+    "name": "launcher-help",
+    "argv": [
+      "sh",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/product-package/payload/run-manual.sh",
+      "--help"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0
+  },
+  {
+    "name": "host-load-smoke",
+    "argv": [
+      "/usr/bin/python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/product-package/payload/load_smoke.py",
+      "--library",
+      "/home/zakiu/km3/build-host/libpmp4010_velocity.so",
+      "--check-missing-library"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0
+  },
+  {
+    "name": "arm-file",
+    "argv": [
+      "file",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/product-package/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0
+  },
+  {
+    "name": "arm-elf-header",
+    "argv": [
+      "readelf",
+      "-h",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/product-package/payload/drivers/pmp4010/libpmp4010_velocity.so.1.0.0"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0
+  },
+  {
+    "name": "roundtrip-smoke",
+    "argv": [
+      "/usr/bin/python3",
+      "-I",
+      "-B",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/product-package/roundtrip/load_smoke.py",
+      "--library",
+      "/home/zakiu/km3/build-host/libpmp4010_velocity.so",
+      "--check-missing-library"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0
+  },
+  {
+    "name": "archive-list",
+    "argv": [
+      "tar",
+      "-tzf",
+      "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/product-package/pmp4010-manual-reset-offline-payload.tar.gz"
+    ],
+    "cwd": "/home/zakiu/km3",
+    "returncode": 0
+  }
+]

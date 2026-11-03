@@ -1,0 +1,18 @@
+{
+  "name": "asan-build",
+  "argv": [
+    "cmake",
+    "--build",
+    "build-asan",
+    "--clean-first",
+    "-j4"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T06:07:02.523249+00:00",
+  "duration_seconds": 5.567492910999135,
+  "returncode": 0,
+  "stdout": "asan-build.stdout.log",
+  "stdout_sha256": "39f54993f3df253f83be30958cd5b10890ace8f49452d468735d031f856e262d",
+  "stderr": "asan-build.stderr.log",
+  "stderr_sha256": "6ee8b83df798a0e9b6994ba32539e5afa36d207c8937ad0f1e35dd0b052ddefc"
+}

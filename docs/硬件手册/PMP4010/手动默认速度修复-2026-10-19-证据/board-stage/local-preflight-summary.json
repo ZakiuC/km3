@@ -1,0 +1,20 @@
+{
+  "result": "PASS",
+  "archive": "/home/zakiu/km3/docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/package/pmp4010-manual-board-payload.tar.gz",
+  "archive_sha256": "2bc25c83eb06a9f039099ece02d815a263a8dc7d0012e74869b9c9c73e8aab6e",
+  "archive_bytes": 214380,
+  "manifest_sha256": "e72ee2eb6df57cb67452f1c2915bec5229c7fd0edfb437e57c42c751a13d33ce",
+  "archive_members": 24,
+  "manifest_entries": 23,
+  "hashes": {
+    "drivers/pmp4010/pmp4010.py": "921908456e2de9f6ef9326fdf79d2c4e05344393f04672445fdfbcbf53aa00f2",
+    "drivers/pmp4010/libpmp4010_velocity.so.1.0.0": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+    "drivers/pmp4010/pmp4010_manual.py": "8e4a797b1a9934dbdffed25fd531de2536d3d6d5e60b5bf994b49386e31a4778",
+    "drivers/pmp4010/pmp4010_simple.py": "de0c4d4b5895e5f10c3b123c416b178d7e357117f6586060ad2069dba1aa3308"
+  },
+  "AST_checks": 5,
+  "local_plan_rc": 0,
+  "stage": "/var/tmp/km3-pmp4010-manual-final-20261019-2bc25c83eb06",
+  "actual_SSH_calls": 0,
+  "constructor_review": "Bench/Manual/Simple init and _empty only; no device config/scan/bus methods invoked; default check trace restricts controller methods"
+}

@@ -1,0 +1,26 @@
+{
+  "argv": [
+    "cmake",
+    "-S",
+    "docs/硬件手册/PMP4010/示例",
+    "-B",
+    "build-pmp4010-cpp-example-arm64",
+    "-DCMAKE_BUILD_TYPE=Release",
+    "-DCMAKE_TOOLCHAIN_FILE=/home/zakiu/km3/device/cmake/aarch64-linux-gnu.cmake"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "source_sha256_before": {
+    "docs/硬件手册/PMP4010/示例/CMakeLists.txt": "32d621a516822319502045fe1340bf531de2c7eedcd7bdf6b80aace482421dbd",
+    "docs/硬件手册/PMP4010/示例/README_中文.md": "30a19cd3943c3c556bafe3aa5ea8e030279104ecf342e95a190ac1db706899fc",
+    "docs/硬件手册/PMP4010/示例/canopen_servo.hpp": "c4dd6635179fbb622aacb3484cb8dfae6759124d737d00ef1737ba62e152943e",
+    "docs/硬件手册/PMP4010/示例/pmm_canopen.cpp": "fe380edda22c1462b0c374717790a16d16885b322313199f2f1e18633993c886",
+    "docs/硬件手册/PMP4010/示例/protocol_tests.cpp": "d4ba0d917d9fbde501c906594d6b90759a0fd974a4a41b9526cc95d777da6cab",
+    "docs/硬件手册/PMP4010/示例/socketcan.hpp": "f56eda64f75c837d5ce44282b7d4c1b46c3343ea72849a26da455abe379fed85",
+    "device/cmake/aarch64-linux-gnu.cmake": "14214184d3518b85b432ad6684bfc6a122a1f9355fd8b5a5fb74c2b2e267af46",
+    "device/drivers/pmp4010/driver/pmp4010_velocity.cpp": "dd922c91bfd04c55a2a3ef5dfd72424f0ef9faee30c4f9225a38640f82b2546c",
+    "device/drivers/pmp4010/driver/pmp4010_velocity.hpp": "6e4f08e0f3c381fbedc016f456c860dfdb631971cb1a2462c493187ce0b769bc"
+  },
+  "started_utc": "2026-10-20T01:56:03.022017+00:00",
+  "returncode": 0,
+  "finished_utc": "2026-10-20T01:56:03.270989+00:00"
+}

@@ -1,0 +1,11 @@
+--- docs/硬件手册/PMP4010/使能后目标重写-2026-10-19-证据/board-stage/snapshot.py
++++ /home/zakiu/km3/docs/硬件手册/PMP4010/手动默认速度修复-2026-10-19-证据/board-stage/snapshot.py
+@@ -5,7 +5,7 @@
+ label=sys.argv[1]
+ assert label in ('before-passive','after-passive')
+ stage=sys.argv[2]
+-assert Path(stage).parent==Path('/var/tmp') and Path(stage).name.startswith('km3-pmp4010-rewrite-20261019-')
++assert Path(stage).parent==Path('/var/tmp') and Path(stage).name.startswith('km3-pmp4010-manual-final-20261019-')
+ source=B/'passive.remote.py'
+ raw=source.read_bytes()
+ argv=['ssh','-o','BatchMode=yes','-o','StrictHostKeyChecking=yes','-o','ConnectionAttempts=1','-o','ConnectTimeout=5','root@192.168.0.188',shlex.join(['python3','-I','-B','-',stage])]

@@ -1,0 +1,16 @@
+{
+  "status": "waiting_for_source_ready",
+  "expected_model_baseline": 348,
+  "expected_hwtui_baseline": 217,
+  "expected_tools_tests_baseline": 8,
+  "hardware_actions": false,
+  "writable_scope": [
+    "简化交互-2026-10-19.md",
+    "简化交互-2026-10-19-证据/local-acceptance",
+    "简化交互-2026-10-19-证据/package"
+  ],
+  "runtime_model": "unknown",
+  "runtime_effort": "unknown",
+  "last_token_usage_input_tokens": "unknown",
+  "input_estimate": "below 30K, conservative estimate from bounded packet and outputs; not measured"
+}

@@ -1,0 +1,38 @@
+{
+  "phase": "complete report for achieved scope; true small displacement not performed because original bit10 guard refused",
+  "code_complete": true,
+  "local_acceptance_complete": true,
+  "temporary_board_load_complete": true,
+  "prepare_hardware_success": true,
+  "hardware_motion_executed": false,
+  "production_deployed": false,
+  "reason": "original target-reached guard rejected bit10=0",
+  "field_summary": "/home/zakiu/km3/docs/硬件手册/PMP4010/失能准备与小位移验收-2026-10-17-证据/field-final-snapshot/board-session-1/final-summary.json",
+  "board_mutex": "returned; report worker no SSH/CAN after load window",
+  "retained_parameters": {
+    "607A": -1465,
+    "6081": 100
+  },
+  "cleanup": "normal q rc0; no exit writes; evidence/temp retained; no commit",
+  "documentation_gates": [
+    {
+      "argv": [
+        "bash",
+        "tools/check-docs.sh"
+      ],
+      "exitcode": 0
+    },
+    {
+      "argv": [
+        "bash",
+        "tools/check-manual-citations.sh"
+      ],
+      "exitcode": 0
+    }
+  ],
+  "closeout_source_hashes": {
+    "matches": 70,
+    "mismatches": 0
+  },
+  "sealed_field_files_verified": 205
+}

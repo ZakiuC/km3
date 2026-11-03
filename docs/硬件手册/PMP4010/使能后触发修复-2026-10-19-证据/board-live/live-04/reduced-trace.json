@@ -1,0 +1,6021 @@
+[
+  {
+    "utc": "2026-10-19T06:51:30.690564+00:00",
+    "event": "manual_controlword",
+    "phase": "控制字写入",
+    "CW": 262,
+    "SW": 608,
+    "P": -1481,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:30.704085+00:00",
+    "event": "manual_transition_snapshot",
+    "phase": "等待受控迁移",
+    "CW": 262,
+    "SW": 561,
+    "P": -1481,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:30.716678+00:00",
+    "event": "manual_controlword",
+    "phase": "控制字写入",
+    "CW": 263,
+    "SW": 561,
+    "P": -1481,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:30.730036+00:00",
+    "event": "manual_transition_snapshot",
+    "phase": "等待受控迁移",
+    "CW": 263,
+    "SW": 563,
+    "P": -1481,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:30.742682+00:00",
+    "event": "manual_controlword",
+    "phase": "控制字写入",
+    "CW": 295,
+    "SW": 563,
+    "P": -1481,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:30.756038+00:00",
+    "event": "manual_transition_snapshot",
+    "phase": "等待受控迁移",
+    "CW": 295,
+    "SW": 563,
+    "P": -1481,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:30.768675+00:00",
+    "event": "manual_controlword",
+    "phase": "控制字写入",
+    "CW": 311,
+    "SW": 563,
+    "P": -1481,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:30.782147+00:00",
+    "event": "manual_transition_snapshot",
+    "phase": "等待受控迁移",
+    "CW": 311,
+    "SW": 4659,
+    "P": -1481,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:30.794738+00:00",
+    "event": "manual_controlword",
+    "phase": "控制字写入",
+    "CW": 295,
+    "SW": 4659,
+    "P": -1481,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:30.808270+00:00",
+    "event": "manual_transition_snapshot",
+    "phase": "等待受控迁移",
+    "CW": 295,
+    "SW": 563,
+    "P": -1481,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:30.811107+00:00",
+    "event": "manual_stage_complete",
+    "phase": "人工目标已提交；保持Halt未使能，等待E",
+    "CW": 295,
+    "SW": 563,
+    "P": -1481,
+    "V": 0,
+    "torque": -3,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:30.871273+00:00",
+    "event": "manual_controlword",
+    "phase": "控制字写入",
+    "CW": 303,
+    "SW": 563,
+    "P": -1481,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:30.884869+00:00",
+    "event": "manual_transition_snapshot",
+    "phase": "Halt使能核对",
+    "CW": 303,
+    "SW": 1591,
+    "P": -1481,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:30.885675+00:00",
+    "event": "manual_stage_complete",
+    "phase": "已使能且保持Halt；等待G",
+    "CW": 303,
+    "SW": 1591,
+    "P": -1481,
+    "V": 0,
+    "torque": -2,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:30.960955+00:00",
+    "event": "manual_transition_snapshot",
+    "phase": "新触发写入前",
+    "CW": 303,
+    "SW": 1591,
+    "P": -1472,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": [
+      false,
+      false
+    ]
+  },
+  {
+    "utc": "2026-10-19T06:51:30.961074+00:00",
+    "event": "manual_controlword",
+    "phase": "控制字写入",
+    "CW": 47,
+    "SW": 1591,
+    "P": -1472,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:30.974868+00:00",
+    "event": "manual_transition_snapshot",
+    "phase": "使能后新ACK核对",
+    "CW": 47,
+    "SW": 1591,
+    "P": -1472,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": [
+      false,
+      false
+    ]
+  },
+  {
+    "utc": "2026-10-19T06:51:30.987412+00:00",
+    "event": "manual_transition_snapshot",
+    "phase": "新触发写入前",
+    "CW": 47,
+    "SW": 1591,
+    "P": -1472,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": [
+      false,
+      false
+    ]
+  },
+  {
+    "utc": "2026-10-19T06:51:30.987526+00:00",
+    "event": "manual_controlword",
+    "phase": "控制字写入",
+    "CW": 63,
+    "SW": 1591,
+    "P": -1472,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:31.001350+00:00",
+    "event": "manual_transition_snapshot",
+    "phase": "使能后新ACK核对",
+    "CW": 63,
+    "SW": 4663,
+    "P": -1472,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": [
+      false,
+      true
+    ]
+  },
+  {
+    "utc": "2026-10-19T06:51:31.034090+00:00",
+    "event": "manual_transition_snapshot",
+    "phase": "使能后新ACK核对",
+    "CW": 63,
+    "SW": 4663,
+    "P": -1472,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": [
+      true,
+      true
+    ]
+  },
+  {
+    "utc": "2026-10-19T06:51:31.046496+00:00",
+    "event": "manual_transition_snapshot",
+    "phase": "新触发写入前",
+    "CW": 63,
+    "SW": 4663,
+    "P": -1472,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": [
+      true,
+      true
+    ]
+  },
+  {
+    "utc": "2026-10-19T06:51:31.046609+00:00",
+    "event": "manual_controlword",
+    "phase": "控制字写入",
+    "CW": 47,
+    "SW": 4663,
+    "P": -1472,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:31.060237+00:00",
+    "event": "manual_transition_snapshot",
+    "phase": "使能后新ACK核对",
+    "CW": 47,
+    "SW": 567,
+    "P": -1472,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": [
+      true,
+      false
+    ]
+  },
+  {
+    "utc": "2026-10-19T06:51:31.092992+00:00",
+    "event": "manual_transition_snapshot",
+    "phase": "使能后新ACK核对",
+    "CW": 47,
+    "SW": 567,
+    "P": -1472,
+    "V": 0,
+    "torque": null,
+    "fault": 0,
+    "ack_samples": [
+      false,
+      false
+    ]
+  },
+  {
+    "utc": "2026-10-19T06:51:31.093736+00:00",
+    "event": "manual_stage_complete",
+    "phase": "使能后新ACK 0→1→0已确认；人工目标执行中，请观察反馈",
+    "CW": 47,
+    "SW": 567,
+    "P": -1472,
+    "V": 0,
+    "torque": -4,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:31.150997+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1473,
+    "V": 0,
+    "torque": -8,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:31.151540+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.151123+00:00",
+      "raw_hex": "f0fbffff",
+      "width": 4,
+      "value": -1040
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.151996+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.151591+00:00",
+      "raw_hex": "ffffffff",
+      "width": 4,
+      "value": -1
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.152461+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.152043+00:00",
+      "raw_hex": "3ffaffff",
+      "width": 4,
+      "value": -1473
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.152907+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.152502+00:00",
+      "raw_hex": "f8ffffff",
+      "width": 4,
+      "value": -8
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.246351+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1473,
+    "V": 0,
+    "torque": -10,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:31.246909+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.246475+00:00",
+      "raw_hex": "f0fbffff",
+      "width": 4,
+      "value": -1040
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.247397+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.246980+00:00",
+      "raw_hex": "f9ffffff",
+      "width": 4,
+      "value": -7
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.247857+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.247448+00:00",
+      "raw_hex": "3ffaffff",
+      "width": 4,
+      "value": -1473
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.248346+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.247901+00:00",
+      "raw_hex": "f8ffffff",
+      "width": 4,
+      "value": -8
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.351343+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1474,
+    "V": 0,
+    "torque": -10,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:31.351898+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.351466+00:00",
+      "raw_hex": "72fcffff",
+      "width": 4,
+      "value": -910
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.352347+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.351952+00:00",
+      "raw_hex": "f8ffffff",
+      "width": 4,
+      "value": -8
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.352795+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.352396+00:00",
+      "raw_hex": "3efaffff",
+      "width": 4,
+      "value": -1474
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.353244+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.352841+00:00",
+      "raw_hex": "f9ffffff",
+      "width": 4,
+      "value": -7
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.452949+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1475,
+    "V": 0,
+    "torque": -15,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:31.453489+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.453074+00:00",
+      "raw_hex": "f4fcffff",
+      "width": 4,
+      "value": -780
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.454030+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.453539+00:00",
+      "raw_hex": "faffffff",
+      "width": 4,
+      "value": -6
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.454480+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.454075+00:00",
+      "raw_hex": "3dfaffff",
+      "width": 4,
+      "value": -1475
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.454929+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.454522+00:00",
+      "raw_hex": "faffffff",
+      "width": 4,
+      "value": -6
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.558113+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1476,
+    "V": 0,
+    "torque": -17,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:31.558696+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.558228+00:00",
+      "raw_hex": "76fdffff",
+      "width": 4,
+      "value": -650
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.559159+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.558749+00:00",
+      "raw_hex": "fbffffff",
+      "width": 4,
+      "value": -5
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.559626+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.559200+00:00",
+      "raw_hex": "3cfaffff",
+      "width": 4,
+      "value": -1476
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.560076+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.559676+00:00",
+      "raw_hex": "fbffffff",
+      "width": 4,
+      "value": -5
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.665947+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1476,
+    "V": 0,
+    "torque": -20,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:31.666458+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.666052+00:00",
+      "raw_hex": "76fdffff",
+      "width": 4,
+      "value": -650
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.666963+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.666515+00:00",
+      "raw_hex": "fcffffff",
+      "width": 4,
+      "value": -4
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.667451+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.667009+00:00",
+      "raw_hex": "3cfaffff",
+      "width": 4,
+      "value": -1476
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.667949+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.667492+00:00",
+      "raw_hex": "fbffffff",
+      "width": 4,
+      "value": -5
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.773336+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1477,
+    "V": 0,
+    "torque": -21,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:31.773872+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.773451+00:00",
+      "raw_hex": "f8fdffff",
+      "width": 4,
+      "value": -520
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.774405+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.773949+00:00",
+      "raw_hex": "faffffff",
+      "width": 4,
+      "value": -6
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.774837+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.774453+00:00",
+      "raw_hex": "3bfaffff",
+      "width": 4,
+      "value": -1477
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.775291+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.774884+00:00",
+      "raw_hex": "fcffffff",
+      "width": 4,
+      "value": -4
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.860776+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1477,
+    "V": 0,
+    "torque": -19,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:31.861341+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.860901+00:00",
+      "raw_hex": "f8fdffff",
+      "width": 4,
+      "value": -520
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.861795+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.861399+00:00",
+      "raw_hex": "fbffffff",
+      "width": 4,
+      "value": -5
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.862270+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.861843+00:00",
+      "raw_hex": "3bfaffff",
+      "width": 4,
+      "value": -1477
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.862710+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.862315+00:00",
+      "raw_hex": "fcffffff",
+      "width": 4,
+      "value": -4
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.972550+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1478,
+    "V": 0,
+    "torque": -25,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:31.973116+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.972680+00:00",
+      "raw_hex": "7afeffff",
+      "width": 4,
+      "value": -390
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.973628+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.973175+00:00",
+      "raw_hex": "fcffffff",
+      "width": 4,
+      "value": -4
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.974074+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.973684+00:00",
+      "raw_hex": "3afaffff",
+      "width": 4,
+      "value": -1478
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:31.974521+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:31.974117+00:00",
+      "raw_hex": "fdffffff",
+      "width": 4,
+      "value": -3
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.073479+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1478,
+    "V": 0,
+    "torque": -27,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:32.074019+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.073595+00:00",
+      "raw_hex": "7afeffff",
+      "width": 4,
+      "value": -390
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.074539+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.074076+00:00",
+      "raw_hex": "fcffffff",
+      "width": 4,
+      "value": -4
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.075014+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.074584+00:00",
+      "raw_hex": "3afaffff",
+      "width": 4,
+      "value": -1478
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.075460+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.075064+00:00",
+      "raw_hex": "fdffffff",
+      "width": 4,
+      "value": -3
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.178005+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1478,
+    "V": 0,
+    "torque": -26,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:32.178610+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.178120+00:00",
+      "raw_hex": "7afeffff",
+      "width": 4,
+      "value": -390
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.179191+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.178678+00:00",
+      "raw_hex": "fcffffff",
+      "width": 4,
+      "value": -4
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.179645+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.179244+00:00",
+      "raw_hex": "3afaffff",
+      "width": 4,
+      "value": -1478
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.180100+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.179697+00:00",
+      "raw_hex": "fdffffff",
+      "width": 4,
+      "value": -3
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.275858+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1479,
+    "V": 0,
+    "torque": -26,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:32.276388+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.275978+00:00",
+      "raw_hex": "fcfeffff",
+      "width": 4,
+      "value": -260
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.276932+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.276460+00:00",
+      "raw_hex": "fcffffff",
+      "width": 4,
+      "value": -4
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.277379+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.276982+00:00",
+      "raw_hex": "39faffff",
+      "width": 4,
+      "value": -1479
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.277831+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.277423+00:00",
+      "raw_hex": "feffffff",
+      "width": 4,
+      "value": -2
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.380721+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1479,
+    "V": 0,
+    "torque": -25,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:32.381236+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.380829+00:00",
+      "raw_hex": "fcfeffff",
+      "width": 4,
+      "value": -260
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.381687+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.381290+00:00",
+      "raw_hex": "fcffffff",
+      "width": 4,
+      "value": -4
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.382116+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.381734+00:00",
+      "raw_hex": "39faffff",
+      "width": 4,
+      "value": -1479
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.382587+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.382158+00:00",
+      "raw_hex": "feffffff",
+      "width": 4,
+      "value": -2
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.485456+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1479,
+    "V": 0,
+    "torque": -28,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:32.486016+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.485580+00:00",
+      "raw_hex": "fcfeffff",
+      "width": 4,
+      "value": -260
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.486571+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.486080+00:00",
+      "raw_hex": "fcffffff",
+      "width": 4,
+      "value": -4
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.487026+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.486624+00:00",
+      "raw_hex": "39faffff",
+      "width": 4,
+      "value": -1479
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.487472+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.487072+00:00",
+      "raw_hex": "feffffff",
+      "width": 4,
+      "value": -2
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.593281+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1480,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:32.593898+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.593462+00:00",
+      "raw_hex": "7effffff",
+      "width": 4,
+      "value": -130
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.594397+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.593953+00:00",
+      "raw_hex": "fcffffff",
+      "width": 4,
+      "value": -4
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.594842+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.594444+00:00",
+      "raw_hex": "38faffff",
+      "width": 4,
+      "value": -1480
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.595291+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.594886+00:00",
+      "raw_hex": "ffffffff",
+      "width": 4,
+      "value": -1
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.700672+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1480,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:32.701211+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.700787+00:00",
+      "raw_hex": "7effffff",
+      "width": 4,
+      "value": -130
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.701764+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.701269+00:00",
+      "raw_hex": "fcffffff",
+      "width": 4,
+      "value": -4
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.702225+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.701818+00:00",
+      "raw_hex": "38faffff",
+      "width": 4,
+      "value": -1480
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.702739+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.702270+00:00",
+      "raw_hex": "ffffffff",
+      "width": 4,
+      "value": -1
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.811891+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1480,
+    "V": 0,
+    "torque": -32,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:32.812426+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.812018+00:00",
+      "raw_hex": "7effffff",
+      "width": 4,
+      "value": -130
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.812933+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.812478+00:00",
+      "raw_hex": "ffffffff",
+      "width": 4,
+      "value": -1
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.813379+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.812979+00:00",
+      "raw_hex": "38faffff",
+      "width": 4,
+      "value": -1480
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.813866+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.813421+00:00",
+      "raw_hex": "ffffffff",
+      "width": 4,
+      "value": -1
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.919266+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1480,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:32.920134+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.919535+00:00",
+      "raw_hex": "7effffff",
+      "width": 4,
+      "value": -130
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.920850+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.920295+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.921678+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.921001+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:32.922407+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:32.921827+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.024795+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:33.025697+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.025093+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.026429+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.025872+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.027176+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.026578+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.027920+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.027326+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.126374+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:33.127263+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.126671+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.127963+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.127415+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.128674+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.128110+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.129372+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.128820+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.224442+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:33.224992+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.224578+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.225477+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.225056+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.225916+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.225525+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.226413+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.225961+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.321311+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -27,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:33.322229+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.321634+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.322934+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.322383+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.323630+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.323078+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.324332+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.323784+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.435278+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -32,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:33.436144+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.435567+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.436882+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.436301+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.437604+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.437028+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.438349+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.437760+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.535652+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -31,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:33.536528+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.535941+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.537256+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.536685+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.537952+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.537400+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.538667+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.538098+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.634718+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -31,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:33.635276+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.634844+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.635810+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.635339+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.636318+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.635861+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.636795+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.636361+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.738732+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:33.739585+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.739012+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.740332+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.739745+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.741103+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.740473+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.741798+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.741249+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.824809+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:33.825426+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.824934+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.825902+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.825507+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.826408+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.825956+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.826851+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.826452+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.938730+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:33.939570+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.939004+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.940308+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.939742+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.941002+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.940449+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:33.941730+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:33.941148+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.035336+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:34.035900+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.035465+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.036502+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.035970+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.036941+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.036552+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.037396+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.036988+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.145094+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -31,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:34.145931+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.145349+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.146630+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.146081+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.147331+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.146785+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.148036+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.147471+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.245666+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:34.246528+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.245955+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.247232+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.246685+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.247958+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.247376+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.248677+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.248103+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.348179+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:34.348749+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.348304+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.349243+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.348829+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.349729+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.349292+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.350228+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.349775+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.451812+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:34.452658+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.452071+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.453411+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.452808+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.454136+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.453551+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.454866+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.454281+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.550222+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:34.551091+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.550510+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.551805+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.551245+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.552500+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.551951+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.553232+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.552661+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.660144+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:34.661001+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.660432+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.661727+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.661152+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.662421+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.661872+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.663124+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.662561+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.759529+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:34.760416+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.759826+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.761116+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.760563+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.761809+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.761262+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.762512+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.761955+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.870819+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:34.871716+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.871110+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.872527+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.871926+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.873244+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.872689+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.873949+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.873397+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.986267+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:34.987141+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.986556+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.987882+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.987314+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.988593+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.988040+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:34.989355+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:34.988756+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.095199+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:35.096077+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.095485+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.096788+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.096228+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.097481+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.096935+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.098213+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.097622+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.203817+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -34,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:35.204708+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.204104+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.205413+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.204862+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.206126+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.205555+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.206825+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.206272+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.312689+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -27,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:35.313551+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.312971+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.314309+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.313711+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.314994+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.314450+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.315723+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.315140+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.428215+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:35.429087+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.428507+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.429831+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.429279+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.430531+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.429977+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.431296+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.430681+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.536196+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -31,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:35.537074+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.536482+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.537782+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.537227+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.538475+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.537928+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.539198+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.538614+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.650706+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:35.651578+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.651007+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.652320+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.651757+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.653005+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.652461+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.653713+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.653150+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.766175+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:35.767045+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.766459+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.767800+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.767197+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.768489+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.767945+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.769287+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.768630+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.874635+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -32,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:35.875494+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.874927+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.876243+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.875648+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.876933+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.876388+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.877664+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.877079+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.985664+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:35.986517+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.985952+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.987271+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.986723+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.987961+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.987416+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:35.988672+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:35.988107+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.100805+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -28,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:36.101679+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.101091+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.102398+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.101832+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.103101+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.102539+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.103802+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.103247+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.209608+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:36.210492+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.209904+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.211200+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.210644+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.211896+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.211345+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.212593+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.212041+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.320922+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:36.321788+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.321209+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.322488+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.321939+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.323186+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.322629+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.323883+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.323331+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.436261+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:36.437181+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.436546+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.437902+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.437331+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.438622+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.438050+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.439329+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.438777+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.544732+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -28,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:36.545602+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.545016+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.546396+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.545822+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.547158+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.546537+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.547857+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.547303+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.656222+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -32,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:36.657147+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.656506+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.657852+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.657300+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.658546+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.657998+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.659252+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.658699+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.764648+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -32,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:36.765524+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.764933+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.766261+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.765679+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.766968+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.766406+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.767680+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.767113+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.876131+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:36.877009+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.876416+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.877716+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.877160+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.878453+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.877862+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.879156+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.878593+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.991669+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:36.992541+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.991952+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.993252+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.992701+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.993939+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.993392+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:36.994652+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:36.994085+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.100192+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:37.101106+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.100482+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.101847+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.101295+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.102534+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.101992+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.103248+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.102697+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.208288+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -28,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:37.209173+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.208575+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.209874+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.209325+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.210569+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.210020+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.211305+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.210724+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.323854+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:37.324727+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.324140+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.325449+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.324880+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.326190+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.325591+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.326908+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.326335+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.439300+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:37.440198+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.439621+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.440908+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.440350+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.441599+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.441054+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.442332+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.441754+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.547746+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -31,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:37.548630+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.548035+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.549374+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.548810+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.550073+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.549514+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.550876+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.550218+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.666124+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -27,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:37.667035+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.666409+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.667787+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.667225+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.668529+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.667933+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.669280+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.668704+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.774237+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:37.775104+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.774514+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.775844+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.775255+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.776577+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.775989+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.777311+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.776744+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.890214+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:37.891091+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.890495+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.891796+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.891243+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.892521+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.891942+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.893271+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.892673+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:37.998733+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -31,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:37.999630+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.999060+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.000411+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:37.999803+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.001125+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.000552+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.001866+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.001270+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.107398+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:38.108266+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.107692+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.109007+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.108442+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.109714+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.109153+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.110417+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.109860+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.215508+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -28,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:38.216396+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.215809+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.217180+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.216581+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.217927+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.217326+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.218691+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.218073+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.324163+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:38.325055+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.324479+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.325783+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.325207+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.326508+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.325927+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.327262+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.326658+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.432389+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:38.433275+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.432697+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.433976+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.433426+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.434673+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.434122+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.435368+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.434818+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.540363+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:38.541268+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.540695+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.541969+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.541418+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.542667+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.542114+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.543363+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.542813+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.648674+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:38.649545+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.648958+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.650270+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.649702+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.650953+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.650410+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.651653+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.651098+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.756306+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:38.757188+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.756590+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.757934+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.757376+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.758702+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.758079+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.759396+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.758847+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.866452+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:38.867323+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.866752+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.868022+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.867472+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.868765+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.868168+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.869499+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.868912+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.974318+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -31,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:38.975182+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.974603+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.975906+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.975335+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.976603+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.976051+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:38.977311+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:38.976759+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.081944+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -28,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:39.082865+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.082265+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.083589+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.083018+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.084301+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.083757+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.084995+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.084442+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.190373+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -32,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:39.191241+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.190674+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.191938+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.191391+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.192627+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.192085+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.193392+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.192795+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.305246+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:39.306124+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.305536+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.306867+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.306315+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.307563+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.307013+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.308315+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.307730+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.408957+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:39.409551+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.409082+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.409998+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.409604+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.410431+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.410045+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.410920+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.410475+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.526163+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:39.526998+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.526430+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.527716+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.527149+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.528407+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.527861+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.529103+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.528548+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.636525+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:39.637103+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.636670+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.637559+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.637158+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.638005+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.637609+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.638458+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.638050+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.734004+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -28,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:39.734570+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.734126+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.735043+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.734631+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.735487+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.735091+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.735944+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.735533+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.841608+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:39.842186+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.841755+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.842710+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.842264+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.843170+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.842764+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.843620+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.843214+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.953319+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -28,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:39.953878+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.953438+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.954382+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.953939+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.954821+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.954429+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:39.955268+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:39.954868+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.068016+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -31,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:40.068558+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.068127+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.069085+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.068614+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.069515+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.069133+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.069994+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.069558+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.172797+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:40.173344+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.172927+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.173789+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.173397+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.174333+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.173837+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.174793+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.174379+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.277482+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -31,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:40.278034+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.277608+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.278590+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.278090+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.279027+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.278643+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.279514+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.279071+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.382338+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:40.382890+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.382474+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.383376+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.382961+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.383812+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.383420+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.384264+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.383856+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.487211+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:40.487761+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.487331+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.488204+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.487815+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.488651+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.488249+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.489097+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.488693+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.585505+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -31,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:40.586055+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.585629+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.586614+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.586108+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.587060+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.586667+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.587493+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.587102+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.700433+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:40.700993+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.700571+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.701544+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.701051+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.701980+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.701588+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.702425+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.702023+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.812298+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -31,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:40.812837+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.812422+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.813314+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.812891+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.813759+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.813358+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.814214+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.813804+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.914328+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:40.914857+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.914437+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.915317+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.914924+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.915760+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.915360+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:40.916201+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:40.915806+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:41.018811+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -29,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:41.019345+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x606b",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:41.018927+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:41.019791+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6069",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:41.019398+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:41.020234+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x6063",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:41.019839+00:00",
+      "raw_hex": "37faffff",
+      "width": 4,
+      "value": -1481
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:41.020688+00:00",
+    "event": "动作后细速与偏差",
+    "data": {
+      "index": "0x60f4",
+      "subindex": 0,
+      "started_utc": "2026-10-19T06:51:41.020278+00:00",
+      "raw_hex": "00000000",
+      "width": 4,
+      "value": 0
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:41.123491+00:00",
+    "event": "动作后实读",
+    "phase": null,
+    "CW": 47,
+    "SW": 567,
+    "P": -1481,
+    "V": 0,
+    "torque": -30,
+    "fault": 0,
+    "ack_samples": null
+  },
+  {
+    "utc": "2026-10-19T06:51:41.123658+00:00",
+    "event": "runner_failure",
+    "data": {
+      "reason": "MotionError: 监测只读 606B:00：超时",
+      "first_failure": {}
+    }
+  },
+  {
+    "utc": "2026-10-19T06:51:41.172295+00:00",
+    "event": "FINAL",
+    "data": {
+      "completed": false,
+      "failure": "MotionError: 监测只读 606B:00：超时",
+      "output_error": null,
+      "hardware_motion_acceptance": false,
+      "mock_only": false,
+      "cleanup": [
+        {
+          "action": "stop",
+          "values": {
+            "statusword": 576,
+            "actual_position": -1479,
+            "actual_velocity": 0,
+            "modes_of_operation_display": 1,
+            "error_code_object": 0,
+            "torque_feedback": 0,
+            "velocity_feedback_unit": 0,
+            "profile_velocity": 100,
+            "profile_acceleration": 5000000,
+            "profile_deceleration": 5000000,
+            "home_offset": 0,
+            "control_mode_select": 0,
+            "modes_of_operation": 1,
+            "target_position": -1190,
+            "profile_end_velocity": 0,
+            "software_position_limit": -2147483628,
+            "software_position_limit_max": 2147483627,
+            "controlword": 2,
+            "halt_option": 1,
+            "position_demand": -1190,
+            "max_velocity": 9000000,
+            "max_motor_speed": 4000,
+            "max_profile_acceleration": 2147483647,
+            "max_deceleration": 2147483647
+          }
+        },
+        {
+          "action": "disable",
+          "values": {
+            "statusword": 576,
+            "actual_position": -1479,
+            "actual_velocity": 0,
+            "modes_of_operation_display": 1,
+            "error_code_object": 0,
+            "torque_feedback": 1,
+            "velocity_feedback_unit": 0,
+            "profile_velocity": 100,
+            "profile_acceleration": 5000000,
+            "profile_deceleration": 5000000,
+            "home_offset": 0,
+            "control_mode_select": 0,
+            "modes_of_operation": 1,
+            "target_position": -1190,
+            "profile_end_velocity": 0,
+            "software_position_limit": -2147483628,
+            "software_position_limit_max": 2147483627,
+            "controlword": 0,
+            "halt_option": 1,
+            "position_demand": -1190,
+            "max_velocity": 9000000,
+            "max_motor_speed": 4000,
+            "max_profile_acceleration": 2147483647,
+            "max_deceleration": 2147483647
+          }
+        }
+      ],
+      "close_results": [
+        {
+          "node": 1,
+          "disabled_confirmed": true
+        }
+      ],
+      "close_lines": [
+        "节点 1 已发失能 6040h=0x0006，6041h=0x0240，operation enabled=0，失能已确认",
+        "总线已关闭（失能确认流程之后）"
+      ],
+      "final_velocity_note": "606C实读在disable0完整快照中；close6后只再读6041并关闭总线",
+      "mechanical_stop_confirmed": false
+    }
+  }
+]

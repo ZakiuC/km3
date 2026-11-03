@@ -1,0 +1,69 @@
+{
+  "snapshot": {
+    "review_nonce": "fe26a2643664496481cbc96ecca535bc",
+    "node": 1,
+    "interface": "can1",
+    "mode": "PP1",
+    "start": -1470,
+    "target": -1434,
+    "displacement": 36,
+    "motor_degrees": "405/4096",
+    "velocity_units_per_s": 100,
+    "velocity_rpm": "375/8192",
+    "origin": -1470,
+    "settings": {
+      "soft_min": -1834,
+      "soft_max": -1106,
+      "max_displacement": 364
+    },
+    "calibration": {
+      "values": [
+        131072,
+        1,
+        1,
+        1
+      ],
+      "resolution": "131072",
+      "gear_ratio": "1",
+      "motor_degrees_per_user_unit": "45/16384",
+      "output_degrees_per_user_unit": "45/16384"
+    },
+    "values": {
+      "statusword": 608,
+      "actual_position": -1470,
+      "actual_velocity": 0,
+      "modes_of_operation_display": 1,
+      "error_code_object": 0,
+      "torque_feedback": 0,
+      "velocity_feedback_unit": 0,
+      "profile_velocity": 500000,
+      "profile_acceleration": 100,
+      "profile_deceleration": 100,
+      "home_offset": 0,
+      "control_mode_select": 0,
+      "modes_of_operation": 1,
+      "target_position": 7800,
+      "profile_end_velocity": 0,
+      "software_position_limit": -2147483627,
+      "software_position_limit_max": 2147483627,
+      "controlword": 0,
+      "halt_option": 1,
+      "position_demand": 7800,
+      "max_velocity": 10000,
+      "max_motor_speed": 1000,
+      "max_profile_acceleration": 10000,
+      "max_deceleration": 10000
+    },
+    "lines": [
+      "正向点动",
+      "冻结起点 -1470 U -> 终点 -1434 U；位移 36 U = 0.0989 电机轴度",
+      "请求步长 0.1 -> 实际 0.0989 电机轴度（36 U）",
+      "请求速度 100 U/s -> 实际 0.0457764 rpm（100 U/s）",
+      "使能后新触发002F→003F→002F，核对ACK 0→1→0；目标不重算",
+      "Enter 确认这一次动作；Esc 取消；Space/x 随时快停"
+    ],
+    "RT_reason": "离线MockBus单次完整流程，无硬件操作",
+    "OD_reason": "离线MockBus新包固定PP1正向0.1度100U/s"
+  },
+  "digest": "4dc1371f6955d3d3ccc74b31bb7814614015feb6921f28776d6c5f062cbd736c"
+}

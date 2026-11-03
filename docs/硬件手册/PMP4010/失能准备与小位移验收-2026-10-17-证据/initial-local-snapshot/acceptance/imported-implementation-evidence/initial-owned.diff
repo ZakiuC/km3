@@ -1,0 +1,105 @@
+diff --git a/device/drivers/pmp4010/tools/pmp4010_bench.py b/device/drivers/pmp4010/tools/pmp4010_bench.py
+index 0244a73..9131996 100644
+--- a/device/drivers/pmp4010/tools/pmp4010_bench.py
++++ b/device/drivers/pmp4010/tools/pmp4010_bench.py
+@@ -33,7 +33,7 @@ ACTIONS = {key: policy['label'] for key, policy in ACTION_POLICY.items() if poli
+ 
+ def action_policy(action):
+     if action not in ACTION_POLICY:
+-        raise ValueError('不支持的动作；速度模式未开放')
++        raise ValueError('不支持的动作；非零速度运动未开放')
+     return ACTION_POLICY[action]
+ 
+ 
+@@ -296,7 +296,7 @@ class BenchController:
+ 
+     def review(self, action, node, value, out, check_gate=True):
+         if action not in ACTIONS or action_policy(action)['batch']:
+-            raise ValueError('不支持的动作；速度模式未开放')
++            raise ValueError('不支持的动作；非零速度运动未开放')
+         row = self._fresh(node)
+         start = row['values']['actual_position']
+         target = start + int(value) if action == 'relative' else int(value) if action == 'absolute' else 0 if action == 'zero' else start
+@@ -315,8 +315,12 @@ class BenchController:
+             self._stationary(row['values'], reached=action in ('relative', 'absolute', 'zero'))
+             if action in ('absolute', 'relative'):
+                 position.check_start(a, start, row['calibration'])
+-            if action == 'enable' and row['values']['modes_of_operation_display'] != self.specs['pp_protocol']['mode']:
+-                raise ValueError('位置测试台只允许 PP 模式使能；其它模式须独立验收')
++            if action == 'enable':
++                mode = row['values']['modes_of_operation_display']
++                if mode not in (self.specs['pp_protocol']['mode'], 3, 9):
++                    raise ValueError('测试台只允许 PP 或预写零速度后的 PV/CSV 模式使能')
++                if mode in (3, 9):
++                    position.require_velocity_library()
+             if action == 'zero' and row['values']['home_offset'] != 0:
+                 raise ValueError('607Ch 非零；设零点拒绝，须人工核对原点偏移')
+         writes = []
+@@ -330,6 +334,8 @@ class BenchController:
+                                ('target_position', a.target)]:
+                 planned(key, value, '用户单位' if key == 'target_position' else '')
+         else:
++            if action == 'enable' and row['values']['modes_of_operation_display'] in (3, 9):
++                planned('target_velocity', 0, '先预写零速度并读回，再执行使能序列')
+             planned('controlword', {'zero': self.tool._canopen.CIA402_START_HOMING,
+                 'enable': self.tool._canopen.CIA402_ENABLE, 'disable': self.tool._canopen.CIA402_DISABLE,
+                 'stop': self.tool._canopen.CIA402_QUICK_STOP_COMMAND}[action], '触发回零' if action == 'zero' else '')
+@@ -346,11 +352,14 @@ class BenchController:
+                       '归零是坐标重置；完成后必须重新输入脚本行程与位移预算。']
+         if action in ('absolute', 'relative'):
+             lines.append('PP速度/加减速度取设备实读：{}/{}/{}；日志 {}'.format(a.velocity, a.acceleration, a.deceleration, a.motion_log))
++        if action == 'enable' and row['values']['modes_of_operation_display'] in (3, 9):
++            lines.append('PV/CSV 仅按本次审阅显式准备 60FFh=0；不执行非零速度运动。')
+         lines += [write_text(item) for item in writes]
+         token = '{} {} {} {}'.format(action.upper(), self.context[0], node, target)
+         return dict(action=action, node=node, target=target, start=start,
+                     context=self.context, args=a, lines=lines, token=token,
+-                    od=copy.deepcopy(self.od), calibration=row['calibration'], writes=writes)
++                    od=copy.deepcopy(self.od), calibration=row['calibration'], writes=writes,
++                    mode=row['values']['modes_of_operation_display'])
+ 
+     def execute(self, review, out):
+         with self.lock:
+@@ -423,8 +432,17 @@ class BenchController:
+                     out.info('方法35完成：新bit10+bit12；6064=0；bit15仅为手册散见说法，未作判据')
+                 else:
+                     if action == 'enable':
+-                        if self._read(client, 'modes_of_operation_display', session) != self.specs['pp_protocol']['mode']:
+-                            raise ValueError('只允许 PP 模式使能')
++                        mode = self._read(client, 'modes_of_operation_display', session)
++                        if mode != review['mode'] or mode not in (self.specs['pp_protocol']['mode'], 3, 9):
++                            raise ValueError('使能模式在审阅后已变化；请重新审阅')
++                        if mode in (3, 9):
++                            targets = [item for item in review['writes'] if item['key'] == 'target_velocity']
++                            if len(targets) != 1 or targets[0]['value'] != 0:
++                                raise ValueError('速度模式使能必须审阅并预写 60FFh=0')
++                            session.set_target_velocity(0)
++                            cal_now = position.calibration([self._read(client, k, session) for k in position.CALIBRATION])
++                            if cal_now != review['calibration']:
++                                raise ValueError('速度准备后标定与审阅不符；请重新审阅')
+                         session.needs_stop = True
+                     # An interrupted stop/disable also owes bounded cleanup.
+                     session.needs_stop = True
+diff --git a/device/drivers/pmp4010/tools/pmp4010_tui.py b/device/drivers/pmp4010/tools/pmp4010_tui.py
+index 85a0a65..cbc0f40 100644
+--- a/device/drivers/pmp4010/tools/pmp4010_tui.py
++++ b/device/drivers/pmp4010/tools/pmp4010_tui.py
+@@ -91,7 +91,8 @@ HELP = (
+     '设零点只用方法35，不写607Ch/DI；DI配置需求未验证，607Ch非零则拒绝。',
+     '设零点须新 bit10+bit12 完成与6064=0读回；bit15不作通用状态或成功判据。',
+     '设零点后，旧坐标的脚本行程和预算失效，必须重新输入。',
+-    '速度模式未开放（换算链未实现）；转矩显示额定转矩百分比，非N·m。',
++    'PV/CSV 使能须审阅并预写零速度；非零速度操作未开放。',
++    '转矩显示额定转矩百分比，非N·m。',
+     '实时对象含6064用户单位、606C实际单位选择；刷新约2Hz，失败保留旧值。',
+     'SDO超时即隔离该接口/节点；需外部恢复，本工具不自动重连、不重试绕过隔离。',
+     'Esc 中止动作并等待快停/失能确认；q/Ctrl-C 等待清理后退出。',
+@@ -510,7 +511,7 @@ class PmpApp(TuiApp):
+                   '转矩 {:.1f}% 额定转矩'.format(v['torque_feedback'] * .1),
+                   '模式 {} ({})  报警 {}'.format(mode_text(v['modes_of_operation_display']), v['modes_of_operation_display'], '无' if not v['error_code_object'] else '0x{:04X}'.format(v['error_code_object'])),
+                   '控制 [E]使能 [D]失能 [X]快停  [A]绝对 [R]相对 [Z]设零点',
+-                  '设零点：回零方式35；DI配置需求未验证。速度模式未开放。']
++                  '设零点：回零方式35；DI配置需求未验证。PV/CSV仅允许预写零速度后使能。']
+         return lines
+ 
+     def build(self):

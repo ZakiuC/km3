@@ -1,0 +1,148 @@
+{
+  "result": "EVIDENCE_VERIFIED_REAL_PROBE_FAILED_POSITION_DRIFT",
+  "hardware_probe_success": false,
+  "hardware_travel_acceptance": false,
+  "application_exit_rc": 0,
+  "review_count": 1,
+  "execute_count": 1,
+  "token": "PROBE_PP_START can1 1 -1469",
+  "reviewed_start": -1469,
+  "soft_limits": [
+    -1505,
+    -1433
+  ],
+  "max_displacement": 36,
+  "planned_probe_travel": 0,
+  "controlwords": [
+    "0106",
+    "0107",
+    "010F",
+    "0002",
+    "0000",
+    "0006"
+  ],
+  "parameter_downloads": [
+    {
+      "index": "607A",
+      "sub": 0,
+      "value": -1469
+    },
+    {
+      "index": "6082",
+      "sub": 0,
+      "value": 0
+    },
+    {
+      "index": "6081",
+      "sub": 0,
+      "value": 100
+    },
+    {
+      "index": "6083",
+      "sub": 0,
+      "value": 5000000
+    },
+    {
+      "index": "6084",
+      "sub": 0,
+      "value": 5000000
+    }
+  ],
+  "total_downloads": 11,
+  "probe_downloads": 10,
+  "exit_downloads": 1,
+  "same_client_for_action_cleanup_exit": true,
+  "Halt_control_readbacks": [
+    {
+      "utc": "2026-10-19T01:10:29.815558+00:00",
+      "monotonic": 1955.330117183,
+      "event": "job_event",
+      "name": "probe_control_readback",
+      "data": {
+        "expected": 262,
+        "actual": 262,
+        "phase": "Halt使能0106"
+      }
+    },
+    {
+      "utc": "2026-10-19T01:10:30.069722+00:00",
+      "monotonic": 1955.584281193,
+      "event": "job_event",
+      "name": "probe_control_readback",
+      "data": {
+        "expected": 263,
+        "actual": 263,
+        "phase": "Halt使能0107"
+      }
+    },
+    {
+      "utc": "2026-10-19T01:10:30.387729+00:00",
+      "monotonic": 1955.902288374,
+      "event": "job_event",
+      "name": "probe_control_readback",
+      "data": {
+        "expected": 271,
+        "actual": 271,
+        "phase": "Halt使能010F"
+      }
+    }
+  ],
+  "first_drift": {
+    "utc": "2026-10-19T01:10:30.486403+00:00",
+    "monotonic": 1956.00096676,
+    "value": -1457
+  },
+  "observed_position_min": -1470,
+  "observed_position_max": -1457,
+  "first_drift_delta": 12,
+  "first_drift_motor_degrees": "135/4096",
+  "cleanup_position_at_joint_check": -1466,
+  "cleanup_protocol_switch_on_disabled_observed": true,
+  "joint_start_zero_speed_disabled_check_passed": false,
+  "result_event": {
+    "action": "probe_pp_start",
+    "completed": false,
+    "disabled_confirmed": false,
+    "mechanical_stop_confirmed": false,
+    "halt_released": false,
+    "travel_executed": false,
+    "independent_estop_required": true
+  },
+  "bench_result_event": {
+    "node": 1,
+    "success": false,
+    "readback": null,
+    "disabled_confirmed": true,
+    "mechanical_stop_confirmed": false,
+    "state_unknown": true
+  },
+  "current_setpoint_trigger_sent": false,
+  "current_new_ACK_obtained": false,
+  "internal_demand_after_failure": 7800,
+  "SDO_exceptions": 0,
+  "quarantined": false,
+  "retries": 0,
+  "exit_last_statusword": "0231",
+  "exit_operation_enabled": false,
+  "exit_strict_disabled": false,
+  "exit_status_source": "last original same-client upload before CAN close",
+  "normal_q_exit": true,
+  "CAN_closed": true,
+  "postexit_CAN_open": false,
+  "passive_before_after_changed_keys": [],
+  "mechanical_stop_confirmed": false,
+  "limitations": [
+    "Position readings establish observed drift, not its cause or unobserved peak physical travel.",
+    "Implementation travel_executed=false denotes no PP travel trigger; observed +12U drift still occurred during Halt enable.",
+    "No independent raw CAN sniffer was opened; SDO audit is from original standard client calls."
+  ],
+  "cleanup": "Live runner/SSH/UI exited0 normally; no retries, second probe or motion; all stage/evidence retained; current/config/services unchanged.",
+  "new_payload_postexit_sources_verified": {
+    "result": "PASS",
+    "rc": 0,
+    "new_payload_source_hashes_verified": 14,
+    "new_payload_unchanged": true,
+    "identity_config_services_CANlink_rcvlists_changed": [],
+    "CAN_opened": false
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "command": [
+    "python3",
+    "-I",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "device/drivers/pmp4010/tools",
+    "-p",
+    "_test_brake.py",
+    "-v"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "returncode": 0
+}

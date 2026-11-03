@@ -1,0 +1,50 @@
+{
+  "mock.command.json": {
+    "size": 252,
+    "sha256": "792637488491369e10daf00d0a2e113b2b8e2ea30b145082e48170903dc14bce"
+  },
+  "mock.rc": {
+    "size": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  "mock.stderr": {
+    "size": 1199,
+    "sha256": "e205a6a47d4de610918ea0fd87deecd8d41724acc4313b111f32a65cd209774a"
+  },
+  "mock.stdout": {
+    "size": 7969,
+    "sha256": "3588f893089ad1bd249d26ff0f30aa3864677d97584bd3801bb71457e2f71adf"
+  },
+  "plan.command.json": {
+    "size": 247,
+    "sha256": "583f6b9c89bf54a650c92b1b0e0ce9a8d374e7a0faedd80cce490a2e46d75250"
+  },
+  "plan.rc": {
+    "size": 2,
+    "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  "plan.stderr": {
+    "size": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "plan.stdout": {
+    "size": 521,
+    "sha256": "099530eddc850b3377a84b91b123bd15cf710a496fb85fe0b228fe0b4cb7254f"
+  },
+  "probe.py": {
+    "size": 10685,
+    "sha256": "5f95ddd9532cc34f9d60b61a0e070e991b83e676e4f9368d2c45f1ba16801c47"
+  },
+  "proposed-execution.json": {
+    "size": 1181,
+    "sha256": "bb8987f9cfaf6220f6a251d3829f694b134e3bebeab9692a5eb32e59da1bb70a"
+  },
+  "summary.json": {
+    "size": 667,
+    "sha256": "6aa3ba2b0a3287b6bc5bb918f80f06f950bb010a52f5dae74703e2654b87d864"
+  },
+  "test_probe.py": {
+    "size": 7691,
+    "sha256": "d1a996dec522fcd12416ec1ba81cd8328e05671227ab19a140d18ae43270595c"
+  }
+}

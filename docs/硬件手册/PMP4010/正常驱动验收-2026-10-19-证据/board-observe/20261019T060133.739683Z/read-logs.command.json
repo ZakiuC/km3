@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3",
+    "-I",
+    "-B",
+    "-"
+  ],
+  "stdin_file": "read-logs.remote.py",
+  "stdin_sha256": "07d00b70b06245504c1204399a47460b283eb1f3ae681436f6db9710b197fda9",
+  "started_utc": "2026-10-19T06:02:02.066149+00:00",
+  "finished_utc": "2026-10-19T06:02:02.339142+00:00",
+  "rc": 0
+}

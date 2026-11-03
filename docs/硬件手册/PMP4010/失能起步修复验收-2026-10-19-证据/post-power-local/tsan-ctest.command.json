@@ -1,0 +1,13 @@
+{
+  "argv": [
+    "setarch",
+    "-R",
+    "ctest",
+    "--test-dir",
+    "build-tsan",
+    "--output-on-failure"
+  ],
+  "shell_command": "setarch -R ctest --test-dir build-tsan --output-on-failure",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:13:23.784507+00:00"
+}

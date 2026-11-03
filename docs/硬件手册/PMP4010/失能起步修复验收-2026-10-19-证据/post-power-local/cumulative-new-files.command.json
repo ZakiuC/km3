@@ -1,0 +1,15 @@
+{
+  "argv": [
+    "git",
+    "ls-files",
+    "--others",
+    "--exclude-standard",
+    "--",
+    "device/drivers/pmp4010",
+    "tools/hwtui",
+    "tools/hwdriver"
+  ],
+  "shell_command": "git ls-files --others --exclude-standard -- device/drivers/pmp4010 tools/hwtui tools/hwdriver",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:17:15.041033+00:00"
+}

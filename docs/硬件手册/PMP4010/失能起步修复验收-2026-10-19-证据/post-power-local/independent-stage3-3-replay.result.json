@@ -1,0 +1,18 @@
+{
+  "name": "independent-stage3-3-replay",
+  "argv": [
+    "python3",
+    "-B",
+    "-I",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/post-power-local/review-recovery/replay_stage3_3.py"
+  ],
+  "shell_command": "python3 -B -I '/home/zakiu/km3/docs/硬件手册/PMP4010/失能起步修复验收-2026-10-19-证据/post-power-local/review-recovery/replay_stage3_3.py'",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T02:17:31.130741+00:00",
+  "duration_seconds": 0.22094211400008135,
+  "returncode": 0,
+  "stdout": "independent-stage3-3-replay.stdout.log",
+  "stderr": "independent-stage3-3-replay.stderr.log",
+  "stdout_sha256": "925c2b8cb07d182c03e1dad0ceede7b54d9e569db1f87323451691e37e424ce8",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,38 @@
+--- baseline/pmp4010_simple.py
++++ current/pmp4010_simple.py
+@@ -626,7 +626,7 @@
+                 p.CIA402_SWITCHED_ON:'上电，未使能',p.CIA402_QUICK_STOP:'快停状态',
+                 p.CIA402_ENABLED:'使能，Halt保持' if v['controlword'] & 0x100 else
+                 '使能，运动中' if v['actual_velocity'] else '使能，零速'}.get(c._state(v),'未知')
+-            if v['statusword'] & p.CIA402_FAULT or v['error_code_object']:
++            if v['statusword'] & p.CIA402_FAULT:
+                 state = '故障'
+         historical = bool(row and (row['lost'] or row['quarantined']))
+         lines = (['节点 {}  {}  当前实读状态未知'.format(c.node,online),
+@@ -653,11 +653,22 @@
+                     '允许软件坐标 [{}，{}] {}'.format(number((c.settings['soft_min']-c.software_zero)*scale),number((c.settings['soft_max']-c.software_zero)*scale),c.unit)]
+             except ValueError:
+                 lines += ['直线换算未设置；软件零点 {} U；c设置mm/电机轴转'.format(c.software_zero)]
++        failure = (row or {}).get('failure_diagnostic')
++        if historical and failure:
++            def hex_word(value):
++                return '未知' if value is None else '0x{:04X}'.format(value)
++            lines += ['诊断样本（历史，{}）：603F={} 6041={}'.format(
++                '非完整快照' if failure.get('snapshot_complete') is False else '阶段采样',
++                hex_word(failure.get('fault_code')),hex_word(failure.get('raw_statusword'))),
++                'CW={}（{}） {}'.format(hex_word(failure.get('controlword')),
++                    failure.get('controlword_source','来源未知'),failure.get('decoded_state') or '状态未知')]
++            cleanup = row.get('cleanup_diagnostic')
++            if cleanup:
++                lines += ['停止：'+('已确认失能；机械停止未知' if cleanup['disabled_confirmed'] is True else
++                    '已执行但失能未确认；请使用独立急停' if cleanup['stop_attempted'] else
++                    '未执行（{}）；机械停止未知，请使用独立急停'.format(
++                        {'client_quarantined':'通信已隔离','no_control_responsibility':'本会话尚未控制电机'}.get(cleanup['skip_reason'],'原因未知')))]
+         lines += ['提示：'+self.progress]
+-        failure = (row or {}).get('failure_diagnostic')
+-        if historical and failure and failure.get('raw_statusword') is not None:
+-            lines += ['诊断样本（历史）：CW=0x{:04X} 6041=0x{:04X} {}'.format(
+-                failure['controlword'],failure['raw_statusword'],failure.get('decoded_state',''))]
+         if self.current_view == 'rt':
+             lines += ['', '连接授权：现场人工直线机械测程；RT控制器可能占用总线。' if c.linear else
+                 '连接授权：现场人工小角度测试；RT控制器可能占用总线。',

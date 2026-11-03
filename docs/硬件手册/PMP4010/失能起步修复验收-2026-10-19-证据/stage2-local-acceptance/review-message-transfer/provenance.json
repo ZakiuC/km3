@@ -1,0 +1,20 @@
+{
+  "source": "review子线程消息转存，子线程未落盘",
+  "sender": "/root/pp_disabled_start_review",
+  "stage": "stage2",
+  "reviewer_reported_argv": [
+    "python3",
+    "-B",
+    "-"
+  ],
+  "stdin_script": "replay.py",
+  "cwd": "/home/zakiu/km3",
+  "reviewer_reported_exit_code": 0,
+  "reviewer_reported_wall_time_seconds": 0.600971204,
+  "reviewer_reported_chunk": "237f3a",
+  "case_count": 25,
+  "original_stdout": "reviewer-original.stdout.json",
+  "acceptance_independent_replay": "../independent-review-replay.command.json",
+  "acceptance_replay_json_equals_original": true,
+  "history": "Stage1 naming mistake and correction retained in both stages; 25 unique stage2 cases, not 14+25 new cases."
+}

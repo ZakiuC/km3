@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B -c 'import json,pathlib,subprocess,sys\np=pathlib.Path(sys.argv[1]);assert p.is_file()\nx=subprocess.run(['\"'\"'sh'\"'\"','\"'\"'-n'\"'\"',str(p)],capture_output=True,text=True,timeout=5)\nprint(json.dumps(dict(argv=['\"'\"'sh'\"'\"','\"'\"'-n'\"'\"',str(p)],rc=x.returncode,stdout=x.stdout,stderr=x.stderr,launcher_executed=False,CAN_opens=0,CAN_sends=0)))\nsys.exit(x.returncode)\n' /var/tmp/km3-pmp4010-state-20261019-43b0b2355c3b/payload/run-manual.sh"
+  ],
+  "start_utc": "2026-10-19T05:57:35.232369+00:00",
+  "end_utc": "2026-10-19T05:57:35.526244+00:00",
+  "rc": 0,
+  "stdin_size": 0,
+  "stdin_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "script_sha256": "2fc8ae300752ff54a2db392cf4612cb6f9ecb01f2306c036ae76bd7ec7c76e53"
+}

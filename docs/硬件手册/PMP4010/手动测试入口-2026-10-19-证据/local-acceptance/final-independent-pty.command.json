@@ -1,0 +1,19 @@
+{
+  "name": "final-independent-pty",
+  "argv": [
+    "python3",
+    "-I",
+    "-B",
+    "device/drivers/pmp4010/tools/_test_manual_pty.py",
+    "--run",
+    "/home/zakiu/km3/docs/硬件手册/PMP4010/手动测试入口-2026-10-19-证据/local-acceptance/final-independent-pty"
+  ],
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T03:36:46.336483+00:00",
+  "duration_seconds": 3.4918963500003883,
+  "returncode": 0,
+  "stdout": "final-independent-pty.stdout.log",
+  "stdout_sha256": "5ca68258c7c9d4db43b71197f1e6fc72937fbe5fe7acaaf8d18ca893dc1408a0",
+  "stderr": "final-independent-pty.stderr.log",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

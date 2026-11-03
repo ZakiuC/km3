@@ -1,0 +1,1 @@
+159094 execve("/home/zakiu/km3/build-pmp4010-cpp-host/pmp4010_manual_test", ["/home/zakiu/km3/build-pmp4010-cp"..., "--mock", "--log", "/home/zakiu/km3/docs/\347\241\254\344\273\266\346\211\213\345\206"..., "--mock-trace", "/home/zakiu/km3/docs/\347\241\254\344\273\266\346\211\213\345\206"...], 0x7ffdd78f69c8 /* 62 vars */) = 0

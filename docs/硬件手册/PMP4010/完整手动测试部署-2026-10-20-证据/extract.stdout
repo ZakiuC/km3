@@ -1,0 +1,1 @@
+{"result": "PASS", "destination": "/opt/km3/hwtools/manual-test-20261020-e137c603", "archive_sha256": "e137c603d57c584134f14f006bcae482d3b999ce1d2dda8dd25b19005a80b237", "manifest_sha256": "8cf6fa0d6efdfb3831ff7e5397fd67314aa3ea433969e07d51478296634caa51", "regular_files": 26, "symlinks": 2, "atomic_rename": true, "CAN_opens": 0}

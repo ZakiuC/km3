@@ -1,0 +1,98 @@
+BENCH nonblocking: help key + rendered screen 0.005753s; worker still blocked past SDO timeout; quarantine visible
+BENCH cancellation: disabled_confirmed=true; completed=false; cleanup ignores transaction cancellation
+BENCH enable postflight: out-of-envelope readback causes same-client quick-stop + disable
+BENCH enable postflight timeout: disabled_confirmed=false; state_unknown=true; replacement clients=0
+BENCH lost write ACK: same quarantined client; disabled_confirmed=false; independent_estop_required=true
+BENCH quarantine: timeout latched; rescan/refresh/action cannot recreate client or send another request
+BENCH relative: -1464 + 50 = absolute -1414; nonzero actual velocity rejected before write
+BENCH scan: four slots; node 1 online; three unassigned slots offline; SDO uploads only; NMT=0
+BENCH setup race: start drift after mode write; target 607A never downloaded; cleanup confirmed
+BENCH zero: 6098:00=35; controlword edge 0x000F -> 0x001F; 607C writes=0; cleanup [0x0002,0x0000]
+BRAKE 80x24 screens: startup/OD/main/help/confirm/enabled/disabled; request state is not mechanical feedback
+BRAKE hold: old607A=90000 -> fresh6064=-1452 -> 607A readback; CW=0106/0107/0127/0137/0127/012F; no Go
+BRAKE enable ACK loss: last CW012F once; same-client quarantine; refresh/d/reset/close zero extra frames
+BRAKE startup/authorization/cancel/unused close: uploads only, zero enable
+DISABLED MOVE Mock: current fresh ACK then 12F/Halt stable5, release2F, final607A freshACK/bit10/actual/demand/zero, cleanup2/0
+HALT probe Mock: initial -1470/607A=6062=7800; align once; 106/107/127/137/127 (bit3=0,Halt=1); fresh ACK and demand; 5+5 samples; 2/0 cleanup; no travel
+DIAGNOSTIC running603F=3456: exact5 uploads then mode/CW2/status/mode/CW0/status; no extra deviceIO; original historical values preserved
+MANUAL submit: bit10=0, final human target -1420 only, fresh ACK0/1/0, CW106/107/127/137/127, no enable/release
+DELAYED actual SDO: 0106 ACK then0260/0260/0231; 0107 ACK then0231/0231/0233; fixed607A=-1434; submit completes
+DELAYED unexpected0237 then0231: first raw immediately rejected, no read of later normal, cleanup cannot replace root sample
+DELAYED pending guard injections: first velocity/position/calibration/profile/607C/settings each prevents next CW and cleans2/0
+DELAYED persistent0260: state_timeout bounded; no0107/enable/release; first_failure and cleanup2/0 retained
+DELAYED waiting cancel: immediate cancellation at pending snapshot, same-client bounded2/0, no later CW
+MANUAL E: CW12F only, +13U accepted inside original start/budget; no zero-drift cleanup, waits for G
+ENABLED EDGE ACK read timeout after003F: original client quarantined; no cleanup/refresh/scan/exit requests
+ENABLED EDGE behavior: before=-1457, after=-1445, target=-1420, edges=[(47, 63, -1420)], CW=['0x106', '0x107', '0x127', '0x137', '0x127', '0x12f', '0x2f', '0x3f', '0x2f']
+ENABLED EDGE actual SDO: ACK samples 0/0→1/1→0/0; moving during high/low handshake; fixed target reached, one edge only
+ENABLED EDGE missing high/stuck low ACK: fixed deadline; same-client bounded2/0; proof consumed and node blocked
+ENABLED EDGE moving phase: mode/CW/607A/6062/calibration/profile/607C/607D/fault/envelope changes stop2/disable0 before final release
+ENABLED TARGET malformed readback width: same-client quarantine and zero following requests
+ENABLED TARGET lost download ACK: one attempted target download; same-client quarantine, zero subsequent requests/edges
+ENABLED TARGET readback mismatch: same-client bounded2/0; no new edge
+ENABLED TARGET hypothesis (not firmware fact): before=-1457, after=-1445, frozen=-1420, enabled writes=[-1420], edges=[(47, 63, -1420)]
+MANUAL user sequence CW: 0106 0107 0127 0137 0127 | 012F | 002F 003F 002F | 0002 | 0000 | exit0006
+DIAGNOSTIC initial603F=ABCD: exact identity+5 uploads; CW unknown; partial persisted before enable; target lock retained, client communication healthy
+DIAGNOSTIC previous complete snapshot then next first6041 timeout: all current raw fields unknown; previous CW kept only as expected context
+MANUAL timeout: same client quarantined; scan/refresh/G/exit zero subsequent requests; independent emergency stop required
+{"passed": 27, "checks": ["rt", "overview", "startup/RT confirmation/scan have zero controlword writes", "detail", "setting", "setting", "setting", "three settings submitted by Form", "od", "action", "confirm", "A submits final target only", "A stops at submitted, no enable or release", "action", "confirm", "E holds Halt, +13U allowed", "background monitor preserves +13U envelope", "action", "confirm", "G triggers fresh enabled ACK0/1/0", "action", "confirm", "X explicitly software quick stops", "action", "confirm", "D explicitly disables", "exit Shutdown0006 after operator D, exact final controlword sequence"], "controls": [262, 263, 295, 311, 295, 303, 47, 63, 47, 2, 0, 6], "rc": 0, "transport": "standard MockBus only; real socket creation forbidden"}
+B explicit backup mock frames=16 SDO uploads; downloads=0; objects=12 identity=4
+B out-of-range/late-invalid-plan mock frame_count=0
+B dry-run mock frame_count=0; bus_open_count=0; link_query_count=0
+C invalid parameter/soft travel/small displacement checks: zero real frames
+C fast move: fresh ACK 0->1->0 + target actual position; all sampled target-reached bits=1 accepted
+C lost enable ACK: SDO quarantined; stop and disable attempted, unconfirmed; independent E-stop required
+C offline default/explicit dry-run: real_frame_count=0 real_bus_open_count=0
+C preview matches independent SDO peer: 67/67 complete nominal request frames
+PREPARE UI: P -> F5 freeze -> exact token -> F5 background execution; two downloads only
+PREPARE MockBus: 5 stable samples >=0.8s; 607A=start,6081=100 only; bit10=0 retained; exit controls=0
+PREPARE lost ACK: first download attempted once; quarantine sticky; next write/cleanup/exit/retry=0
+PREPARE independent literal SDO peer: complete 319 request frames match MockBus; controlword=0
+RESET mutation matrix: 92 SDO boundaries x lost/malformed/cancel; no next request/new client/cleanup
+SIMPLE busy x: real delayed SDO worker cancelled; pending cleared; one quickstop2, no target/enable/release replay
+SIMPLE delayed SDO full f action: fixed start/target; write ACK/raw snapshots identify actual0106..012F..002F/003F/002F phases
+SIMPLE e: frozen current607A/new ACK/6062 then12F Halt, never2F; +13U inside original range accepted
+SIMPLE Ready0231/SwitchedOn0233: confirmed internal disable0 then sealed submission; externalEnabled0237 rejected
+SIMPLE locked80x24: last-valid telemetry explicitly historical; current state unknown; firstCW0106/raw0237 remains visible
+SIMPLE one confirmation: only Operation enabled new edge starts trajectory; original target reached; consumed review never replays
+SIMPLE forward: one immutable confirmation; CW106/107/127/137/127/12F/2F/3F/2F; +13U allowed; fixed start/target
+MANUAL production default: 1000U/s -> live608F/6091 0.457763671875rpm; explicit100 kept; step0.1deg unchanged
+SIMPLE refresh Space: control/status uploads only then cancellation; no remaining snapshot reads before quickstop2
+SIMPLE continuous f/b: zero speed permits next direction; draft s/a keep old proof; confirmed2/0 precede new6081/607A
+{"passed": 34, "checks": ["rt", "authorize", "connection/RT consent/scan upload only, default node1", "main", "edit", "speed normal numeric Enter commit", "edit", "step normal numeric Enter commit", "confirm", "f confirmed", "f actual feedback reached frozen target", "f Enter real SDO enabled bit4 edge/newACK0/1/0 and progressive feedback reached target, no token/F5", "confirm", "b confirmed", "b actual feedback reached frozen target", "instant stop 'x'", "continuous f then b without manual Space/d; internal2/0 before resubmission", "confirm", "instant stop 'x'", "x in confirmation discards action; Enter cannot revive", "confirm", "d Enter disables", "edit", "draft entered", "instant stop ' '", "help", "instant stop 'x'", "Space in edit and x in help reach actual quick-stop writes", "confirm", "second d", "confirm", "e confirmed", "e explicit frozen current target, fresh ACK, Halt12F no release", "actual SDO delays:0106 ACK then0260/0260/0231;0107 ACK then0231/0231/0233; full f Enter succeeds"], "controls": [262, 263, 295, 311, 295, 303, 47, 63, 47, 2, 0, 262, 263, 295, 311, 295, 303, 47, 63, 47, 2, 2, 0, 2, 2, 0, 262, 263, 295, 311, 295, 303, 6], "rc": 0, "terminal": "80x24", "transport": "standard MockBus only; real socket creation forbidden"}
+{"passed": 41, "checks": ["rt", "authorize", "connection/RT consent/scan upload only, default node1", "main", "unset coefficient refuses f", "unset coefficient software zero capture", "edit", "c positive exact mm/rev conversion", "edit", "confirm", "r +1.2 frozen607A reached", "r +1.2 confirms exactly quantified raw target -1034", "z under running reached proof", "z fresh reached sample: zero downloads, same raw physical proof and drive envelope", "edit", "confirm", "j -.2 frozen607A reached", "j -.2 confirms exactly quantified raw target -1106", "edit", "confirm", "p +.1 frozen607A reached", "p +.1 confirms exactly quantified raw target -998", "edit", "confirm", "p -.1 frozen607A reached", "p -.1 confirms exactly quantified raw target -1070", "edit", "confirm", "p 0 frozen607A reached", "p 0 confirms exactly quantified raw target -1034", "edit", "drive boundary refuses numeric review", "instant stop ' '", "out-of-range relative zero motion downloads; Space stops during numeric entry", "edit", "confirm", "instant stop 'x'", "x during position review discards target; Enter cannot replay", "help", "instant stop 'x'", "all five moves preserve enabled target rewrite/new ACK0/1/0; no home/offset/save; exit cleanup6"], "controls": [262, 263, 295, 311, 295, 303, 47, 63, 47, 2, 0, 262, 263, 295, 311, 295, 303, 47, 63, 47, 2, 0, 262, 263, 295, 311, 295, 303, 47, 63, 47, 2, 0, 262, 263, 295, 311, 295, 303, 47, 63, 47, 2, 0, 262, 263, 295, 311, 295, 303, 47, 63, 47, 2, 2, 2, 6], "rc": 0, "terminal": "80x24", "transport": "standard MockBus only; real socket creation forbidden", "mode": "--manual --manual-linear", "coefficient": "360 mock mm/motor revolution; not machine calibration"}
+Python inverse samples: 36 signed Int32 write roundtrips + 16 rational rpm roundtrips
+Python shared vector manual_default_300rpm: 50000 -> 300 exact
+Python shared vector manual_default_inverse: 300 -> 50000 exact
+Python shared vector measured_exact_46875_over_2048rpm: 50000 -> 46875/2048 exact
+Python shared vector measured_fraction_inverse: 46875/2048 -> 50000 exact
+Python shared vector measured_rated_3000rpm: 6553600 -> 3000 exact
+Python shared vector measured_rated_inverse: 3000 -> 6553600 exact
+Python shared vector zero_direction_0: 0 -> 0 exact
+Python shared vector zero_direction_1: 0 -> 0 exact
+Python shared vector gear3_forward: 50000 -> 900 exact
+Python shared vector gear3_inverse: 900 -> 50000 exact
+Python shared vector signed_forward: -50000 -> -900 exact
+Python shared vector signed_inverse: -900 -> -50000 exact
+Python shared vector negative_denominator_normalized: -50000 -> -300 exact
+Python shared vector fractional_write_rejected: 1 -> 500/3 exact
+Python shared vector positive_int32_overflow: 2147483648 -> 2147483648 exact
+Python shared vector negative_int32_overflow: -2147483649 -> -2147483649 exact
+Python shared vector int32_minimum_inverse: -2147483648 -> -2147483648 exact
+Python shared vector int32_maximum_inverse: 2147483647 -> 2147483647 exact
+Python shared vector wide_numerator: -2147483648 -> -2376844874321125483512594432000 exact
+Python shared vector wide_numerator_inverse: -2376844874321125483512594432000 -> -2147483648 exact
+Python shared vector wide_denominator: -2147483648 -> -8589934592/1229782937674641135 exact
+Python shared vector wide_denominator_inverse: -8589934592/1229782937674641135 -> -2147483648 exact
+Python shared vector all_maximum: -2147483648 -> -128849018880 exact
+Python shared vector all_maximum_inverse: -128849018880 -> -2147483648 exact
+Python shared vector maximum128_cross_cancel: 1 -> 1 exact
+Python shared vector maximum128_identity: 340282366920938463463374607431768211455 -> 340282366920938463463374607431768211455 exact
+Python shared vector maximum128_negative: -340282366920938463463374607431768211455 -> -340282366920938463463374607431768211455 exact
+Python shared vector parse128_overflow: rejected (expected error=6)
+Python shared vector output128_overflow: rejected (expected error=6)
+Python shared vector zero_calibration_0: rejected (expected error=2)
+Python shared vector zero_calibration_1: rejected (expected error=2)
+Python shared vector zero_calibration_2: rejected (expected error=2)
+Python shared vector zero_calibration_3: rejected (expected error=2)
+Python PV/CSV: explicit 60FFh=0 write/readback precedes 6/7/0F; credential consumed once

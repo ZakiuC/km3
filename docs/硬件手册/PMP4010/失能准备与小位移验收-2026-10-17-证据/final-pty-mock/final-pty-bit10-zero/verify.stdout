@@ -1,0 +1,23 @@
+{
+  "result": "PASS",
+  "mode": "real_curses_pty_with_standard_mockbus",
+  "hardware_acceptance": false,
+  "child_rc": 0,
+  "prepare_success": true,
+  "prepare_stationary_samples": 5,
+  "target_reached_after_prepare": false,
+  "prepare_downloads": 2,
+  "all_controlword_downloads": 0,
+  "all_NMT_frames": 0,
+  "PP_review_rejected": "target reached 未置位",
+  "PP_execute_calls": 0,
+  "all_enabled_sessions_empty": true,
+  "original_UI_Form_token_verified": true,
+  "transport_closed": true,
+  "raw_terminal_bytes": 19774,
+  "mock_request_frames": 2538,
+  "source_hashes": {
+    "pmp4010_bench.py": "fbe69ec63e58fb30f49866f48f93d01e14c15a8b129866c9fba6f292fa7c974f",
+    "pmp4010_tui.py": "6ef77e2edbbfea5f579fa5db0996472a9932c9a1ddc3bd0118abd1a5ab7654b8"
+  }
+}

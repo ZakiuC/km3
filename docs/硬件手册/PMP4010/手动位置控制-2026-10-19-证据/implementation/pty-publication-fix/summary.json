@@ -1,0 +1,10 @@
+{
+  "changed_source_files": [
+    "device/drivers/pmp4010/tools/_test_simple_pty.py"
+  ],
+  "source_unchanged_during_checks": true,
+  "all_new_checks_rc0": true,
+  "commands": 5,
+  "original_acceptance_failure": "../../local-acceptance/attempt-1-failed/model.stderr.log",
+  "reproduced_old_order_rc": 1
+}

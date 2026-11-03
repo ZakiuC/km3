@@ -1,0 +1,15 @@
+{
+  "local_plan_only": true,
+  "SSH_invocations": 0,
+  "CAN_sends": 0,
+  "frozen_input_sha256": "a1b2c28d919ec8f893df74b5218cd4ba78eb36fec75bb2b20cb784437873b8f0",
+  "runner_sha256": "7fa11d2bee89e3242cf052e1cf315d49ffe6e745a82134b2d9417293bafb54ec",
+  "remote_stage": "/var/tmp/km3-pmp4010-alarm-20261019-735538978204/motion-compare-proposal",
+  "frozen_argv": [
+    "--execute-once",
+    "--od-session-ack",
+    "接受本会话OD缺口和独立停机责任",
+    "--motion-confirm",
+    "确认仅一次相对-10mm_100rpm_低加速度对照"
+  ]
+}

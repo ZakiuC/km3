@@ -1,0 +1,8 @@
+{
+  "target": "/opt/km3/hwtools/manual-test-20261020-mmps-76f8db43",
+  "archive_sha256": "76f8db436ae8bc7201d2a015d896f3d864f40ebfd0fabea638c77dcced140bd8",
+  "manifest_sha256": "2903b456b07412c3cc4a69a2f018f786fa0bbebfc931862dfc407571ea4526b6",
+  "stable_entry": "/opt/km3/hwtools/pmp4010-manual-test",
+  "compatibility_entry": "/opt/km3/hwtools/pmp4010-cpp-test",
+  "hardware_acceptance": false
+}

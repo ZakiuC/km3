@@ -1,0 +1,21 @@
+{
+  "argv": [
+    "ssh",
+    "-o",
+    "BatchMode=yes",
+    "-o",
+    "StrictHostKeyChecking=yes",
+    "-o",
+    "ConnectionAttempts=1",
+    "-o",
+    "ConnectTimeout=5",
+    "root@192.168.0.188",
+    "python3 -I -B - --execute-reset-observe-once"
+  ],
+  "stdin_script": "/home/zakiu/km3/docs/硬件手册/PMP4010/报警根因诊断-2026-10-19-证据/reset-observe-proposal/reset_observe_once.py",
+  "stdin_sha256": "d8c96c340d7c64c2a7380ef2bb96221159248819cd0d1ad7772cb3f2961ff367",
+  "start_utc": "2026-10-19T09:32:52.931616+00:00",
+  "automatic_retries": 0,
+  "end_utc": "2026-10-19T09:32:54.895184+00:00",
+  "rc": 0
+}

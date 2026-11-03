@@ -1,0 +1,18 @@
+{
+  "archive": "/home/zakiu/km3/docs/硬件手册/PMP4010/抱闸手动测试-2026-10-19-证据/package/pmp4010-brake-offline-payload.tar.gz",
+  "archive_sha256": "e137c603d57c584134f14f006bcae482d3b999ce1d2dda8dd25b19005a80b237",
+  "archive_bytes": 235068,
+  "manifest_sha256": "8cf6fa0d6efdfb3831ff7e5397fd67314aa3ea433969e07d51478296634caa51",
+  "regular_files": 26,
+  "symlinks": 2,
+  "imports": 20,
+  "native_vectors": 33,
+  "python_vectors": 33,
+  "int32_vectors": 14,
+  "forbidden_io_attempts": 0,
+  "arm_library_sha256": "59ab5e0554b12cc21d47ea8b8113387bd4c02c0766ada28def0051986b726404",
+  "arm_execution": false,
+  "hardware_acceptance": false,
+  "arm_board_loading": "pending human operation",
+  "mechanical_brake_effect": "pending human listening"
+}

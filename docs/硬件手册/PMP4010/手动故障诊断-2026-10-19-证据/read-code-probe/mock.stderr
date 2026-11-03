@@ -1,0 +1,21 @@
+test_abort_response_stops_without_retry (__main__.ProbeTests) ... ok
+test_disallowed_or_write_requests_rejected_before_transport (__main__.ProbeTests) ... ok
+test_duplicate_send_and_terminal_reuse_rejected (__main__.ProbeTests) ... ok
+test_extended_remote_and_fd_responses_rejected (__main__.ProbeTests) ... ok
+test_first_timeout_has_zero_later_requests (__main__.ProbeTests) ... ok
+test_interrupt_closes_only (__main__.ProbeTests) ... ok
+test_normal_exact_two_uploads (__main__.ProbeTests) ... ok
+test_request_deadline_prevents_send (__main__.ProbeTests) ... ok
+test_second_timeout_has_two_total_requests (__main__.ProbeTests) ... ok
+test_send_failure_has_no_receive_or_later_request (__main__.ProbeTests) ... ok
+test_third_request_blocked_after_success (__main__.ProbeTests) ... ok
+test_total_deadline_prevents_send (__main__.ProbeTests) ... ok
+test_wrong_index_response_rejected (__main__.ProbeTests) ... ok
+test_wrong_node_response_rejected (__main__.ProbeTests) ... ok
+test_wrong_sub_response_rejected (__main__.ProbeTests) ... ok
+test_wrong_width_response_rejected (__main__.ProbeTests) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.004s
+
+OK

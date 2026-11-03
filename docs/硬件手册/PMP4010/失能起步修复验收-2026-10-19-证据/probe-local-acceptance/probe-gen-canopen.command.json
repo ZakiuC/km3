@@ -1,0 +1,18 @@
+{
+  "name": "probe-gen-canopen",
+  "argv": [
+    "python3",
+    "-I",
+    "tools/hwdriver/gen-canopen.py",
+    "--check"
+  ],
+  "shell_command": "python3 -I tools/hwdriver/gen-canopen.py --check",
+  "cwd": "/home/zakiu/km3",
+  "started_utc": "2026-10-19T01:05:15.195211+00:00",
+  "duration_seconds": 0.01717429794371128,
+  "returncode": 0,
+  "stdout": "probe-gen-canopen.stdout.log",
+  "stderr": "probe-gen-canopen.stderr.log",
+  "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

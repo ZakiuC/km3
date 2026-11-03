@@ -1,0 +1,65 @@
+{
+  "result": "PASS",
+  "compared_keys": [
+    "hostname",
+    "model",
+    "boot_id",
+    "device_id",
+    "config_sha",
+    "can_env_sha",
+    "current",
+    "services",
+    "can_rcvlists",
+    "related_processes_excluding_snapshot_pid",
+    "can_link"
+  ],
+  "changed_keys": [],
+  "payload": {
+    "root": "/var/tmp/km3-pmp4010-manual-20261019-fd97308d751f/payload",
+    "manifest_sha256": "c2e3f5b6b551b2ebbb487e6db966ab81bbefe3caae897844438676476366edf0",
+    "verified_manifest_entries": 22,
+    "manual_sha256": "d43c8950aaa8052e7c1a17aefa8aec1b12e0a0f8fd5198555eafff489fb7f460",
+    "launcher_sha256": "ed269d7704493702988b89581e5b320cbd1cce04406e49363738300580a512d5",
+    "launcher_mode": "0o100755",
+    "launcher_executable": true,
+    "archive_sha256": "fd97308d751fbb2ef4ddbc472bdbe1bf8f5eabe81b77d3bad0e9d598f6e1060e",
+    "manual_log_directory_exists": false
+  },
+  "before_CAN_stats": {
+    "rx": {
+      "bytes": 86993,
+      "packets": 10875,
+      "errors": 0,
+      "dropped": 0,
+      "over_errors": 0,
+      "multicast": 0
+    },
+    "tx": {
+      "bytes": 0,
+      "packets": 10870,
+      "errors": 0,
+      "dropped": 0,
+      "carrier_errors": 0,
+      "collisions": 0
+    }
+  },
+  "after_CAN_stats": {
+    "rx": {
+      "bytes": 86993,
+      "packets": 10875,
+      "errors": 0,
+      "dropped": 0,
+      "over_errors": 0,
+      "multicast": 0
+    },
+    "tx": {
+      "bytes": 0,
+      "packets": 10870,
+      "errors": 0,
+      "dropped": 0,
+      "carrier_errors": 0,
+      "collisions": 0
+    }
+  },
+  "boot": "dc67bdcd-fa50-4927-8f9b-7207359c70af"
+}

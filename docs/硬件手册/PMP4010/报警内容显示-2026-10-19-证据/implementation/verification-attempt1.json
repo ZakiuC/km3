@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "python3",
+    "-m",
+    "unittest",
+    "-v",
+    "_test_faults",
+    "_test_bench",
+    "_test_manual",
+    "_test_simple",
+    "_test_tui"
+  ],
+  "cwd": "/home/zakiu/km3/device/drivers/pmp4010/tools",
+  "rc": 1,
+  "elapsed_seconds": 5.59650993347168,
+  "output": "affected-tests.log"
+}
